@@ -87,9 +87,10 @@ div[class*="col1-"] {
             input.form-control, input[type=text], input[type=password]{
                 background: transparent !important; 
                 color:#fff !important;
-                border: #fff solid 2px !important;
                 height: 46px !important;
+                border: #fff solid 2px !important;
                 border-radius: 0px 6px 6px 0px !important;
+                border-left: none !important;
             }
 
 span.hr:after,

@@ -216,7 +216,6 @@ Framework7.prototype.plugins.main = function (app, params) {
             }
         }
     }
-
 };
 
 var k12_app = new Framework7({
