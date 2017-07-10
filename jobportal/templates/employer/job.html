@@ -1,0 +1,45 @@
+<div class="row wrapper border-bottom white-bg page-heading">
+    <div class="col-lg-10">
+        <h2>Job</h2>
+        <ol class="breadcrumb">
+            <li>
+                <a href="#cmd=index">Home</a>
+            </li>
+            <li>
+                <a href="#cmd=index;content=jobs">Job Postings</a>
+            </li>
+            <li class="active">
+                <strong>Job</strong>
+            </li>
+        </ol>
+    </div>
+</div>
+<div class='row animated fadeInRight'>
+    <div class="wrapper wrapper-content">
+            <div class="col-md-12" id='job-post'>
+                <div class='ibox'>
+                    <div class='ibox-content'>
+                        <dl class='dl-horizontal'>
+                            <dt></dt><dd><h2 id='txt_jobtitle'></h2></dd>
+                            <dt>Status:</dt> <dd id='txt_jobstatus'></dd>
+                            <dt>Application Expiry:</dt><dd id='txt_jobexpiry' class='prettydate'></dd>
+                            <dt>Created:</dt><dd id='txt_jobdate' class='prettydate'></dd>
+                            <dt>Description:</dt><dd id='txt_jobdescription'></dd>
+                            <dt>Applicant:</dt><dd id='txt_jobapplicant'></dd>
+                        </dl>
+                    </div>
+                    <div class="ibox-footer">
+                        <div class='row col-md-offset-2 col-md-8' style="float: none;">
+                            <div id='data_info'>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+    </div>
+</div>
+<script type="text/javascript">
+var data = window.location.hash.split(';');
+
+employer.job(data[2].split('='));
+</script>

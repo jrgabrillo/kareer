@@ -1,0 +1,57 @@
+<div id="wrapper">
+    <nav class="navbar-default navbar-static-side" role="navigation">
+        <div class="sidebar-collapse">
+            <ul class="nav metismenu" id="side-menu">
+                <li class="nav-header">
+                    <div class="dropdown profile-element">
+                        <span>
+                            <img alt="image" class="img-circle" src="assets/img/profile_small.jpg" style="width: 50px;"/>
+                        </span>
+                        <a data-toggle="dropdown" class="dropdown-toggle" href="#">
+                            <span class="clear">
+                                <span class="block m-t-xs">
+                                    <strong class="font-bold"></strong>
+                                </span>
+                                <span class="text-muted text-xs block">Applicant<b class="caret"></b></span>
+                            </span>
+                        </a>
+                        <ul class="dropdown-menu animated fadeInRight m-t-xs">
+                            <li><a href="#cmd=index;content=profile">Profile</a></li>
+                            <li class="divider"></li>
+                            <li><a data-cmd='log-out'>Logout</a></li>
+                        </ul>
+                    </div>
+                    <div class="logo-element"></div>
+                </li>
+                <li>
+                    <a href="#cmd=index;content=jobs" data-cmd='jobs'><i class="fa fa-th-large"></i> <span class="nav-label">Jobs</span></a>
+                </li>
+                <li>
+                    <a href="#cmd=index;content=applications" data-cmd='applications'><i class="fa fa-th-large"></i> <span class="nav-label">Application</span></a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+    <div id="page-wrapper" class="gray-bg dashbard-1">
+    </div>
+</div>
+
+<div class="modal inmodal fade" id="modalLarge" tabindex="-1" role="dialog" aria-hidden="true" style="display: none;">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
+                <h4 class="modal-title"</h4>
+                <small class="font-bold"></small>
+            </div>
+            <div class="modal-body">
+            </div>
+            <div class="modal-footer">
+                <a type="button" class="btn btn-white" data-dismiss="modal">Close</a>
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+mainProcess.student_ini();
+</script>

@@ -1,0 +1,193 @@
+<div class="row wrapper border-bottom white-bg page-heading">
+    <div class="col-lg-10">
+        <h2>Applicants</h2>
+        <ol class="breadcrumb">
+            <li>
+                <a href="#cmd=index">Home</a>
+            </li>
+            <li>
+                <a href="#cmd=index;content=applicants">Applicants</a>
+            </li>
+            <li class="active">
+                <strong>Adding Applicant</strong>
+            </li>
+        </ol>
+    </div>
+</div>
+<div class='row col-lg-12' style='float: none;'>
+    <div class="wrapper wrapper-content">
+        <div class="row animated fadeInRight">
+            <div class="col-md-12">
+                <div class="ibox float-e-margins" id='list_applicant'>
+                    <div class="ibox-title"> 
+                        <h5>Adding Applicants</h5>
+                    </div>
+                    <div class="ibox-content">
+                        <form class="form-horizontal" id="form_registerStudent" role='form' action='' method='post' enctype='multipart/form-data'>
+                            <div>
+                                <div class="form-group">
+                                    <div class="col-lg-4">
+                                        <label>Family Name: </label>
+                                        <input data-inputtype='required' type="text" placeholder="Family Name" name="field_fname" class="form-control">
+                                    </div>
+
+                                    <div class="col-lg-4">
+                                        <label>Given Name: </label>
+                                        <input data-inputtype='required' type="text" placeholder="Given Name" name="field_gname" class="form-control">
+                                    </div>
+
+                                    <div class="col-lg-4">
+                                        <label>Middle Name: </label>
+                                        <input data-inputtype='required' type="text" placeholder="Middle Name" name="field_mname" class="form-control">
+                                    </div>
+                                </div>
+                            </div>
+                            <div>
+                                <div class="form-group">
+                                    <div class="col-lg-8">
+                                        <label>Date of Birth: </label>
+                                        <div id="year_Birth">
+                                            <div class="input-group date">
+                                                <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                                                <input data-inputtype='required' type="text" placeholder="Date of Birth" name="field_dob" class="form-control">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-4">
+                                        <label>Age: </label>
+                                        <input data-inputtype='required' type="text" placeholder="Age" name="field_age" data-mask="99" class="form-control">
+                                    </div>
+                                </div>
+                            </div>
+                            <div>
+                                <div class="form-group">
+                                    <div class="col-lg-12">
+                                        <label>Place of Birth: </label>
+                                        <input data-inputtype='required' type="text" placeholder="Place of Birth" name="field_pob" class="form-control">
+                                    </div>
+                                </div>
+                            </div>
+                            <div>
+                                <div class="form-group">
+                                    <div class="col-lg-12">
+                                        <label>Permanent Address: </label>
+                                        <input data-inputtype='required' type="text" placeholder="Permanent Address" name="field_permanentAddress" class="form-control">
+                                    </div>
+                                </div>
+                            </div>
+                            <div>
+                                <div class="form-group">
+                                    <div class="col-lg-3">
+                                        <label>Gender: </label>
+                                        <select class="form-control m-b" name="field_gender">
+                                            <option>Male</option>
+                                            <option>Female</option>
+                                        </select>
+                                    </div>
+
+                                    <div class="col-lg-3">
+                                        <label>Citizenship: </label>
+                                        <input data-inputtype='required' type="text" placeholder="Citizenship" name="field_citizenship" class="form-control">
+                                    </div>
+                                </div>
+                            </div>
+                            <div>
+                                <div class="hr-line-dashed"></div>
+                                <div class="form-group">
+                                    <div class="col-lg-6">
+                                        <label>Guardian's Name: </label>
+                                        <input data-inputtype='required' type="text" placeholder="Guardian's Name" name="field_guardianName" class="form-control">
+                                    </div>
+
+                                    <div class="col-lg-6">
+                                        <label>Relationship: </label>
+                                        <input data-inputtype='required' type="text" placeholder="Relationship" name="field_relationshipName" class="form-control">
+                                    </div>
+                                </div>
+                            </div>
+                            <div>
+                                <div class="hr-line-dashed"></div>
+                                <div class="form-group">
+                                    <div class="col-lg-9">
+                                        <label>Elementary School Graduated: </label>
+                                        <input data-inputtype='required' type="text" placeholder="Elementary School Graduated" name="field_elemGraduated" class="form-control">
+                                    </div>
+                                    <div class="col-lg-3">
+                                        <label>Year Graduated: </label>
+                                        <div class="year_Graduated">
+                                            <div class="input-group date">
+                                                <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                                                <input data-inputtype='required' type="text" placeholder="Year Graduated" name="field_yearElemGraduated" class="form-control">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="col-lg-12">
+                                        <label>Address of Elementary School Graduated: </label>
+                                        <input data-inputtype='required' type="text" placeholder="Address of Elementary School Graduated" name="field_elemAddress" class="form-control">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="col-lg-9">
+                                        <label>High School Graduated: </label>
+                                        <input data-inputtype='required' type="text" placeholder="High School Graduated" name="field_HSGraduated" class="form-control">
+                                    </div>
+                                    <div class="col-lg-3">
+                                        <label>Year Graduated: </label>
+                                        <div class="year_Graduated">
+                                            <div class="input-group date">
+                                                <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                                                <input data-inputtype='required' type="text" placeholder="Year Graduated" name="field_yearHSGraduated" class="form-control">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="col-lg-12">
+                                        <label>Address of High School Graduated: </label>
+                                        <input data-inputtype='required' type="text" placeholder="Address of High School Graduated" name="field_HSAddress" class="form-control">
+                                    </div>
+                                </div>
+                            </div>
+                            <div>
+                                <div class="hr-line-dashed"></div>
+                                <div class="form-group">
+                                    <div class="col-lg-3">             
+                                        <div>
+                                            <label>Email Address: </label>
+                                            <input data-inputtype='required' type="text" placeholder="Email Address" name="field_email" class="form-control">
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-3">             
+                                        <div>
+                                            <label>Student ID: </label>
+                                            <input data-inputtype='required' type="text" placeholder="Student ID" name="field_studentID" class="form-control">
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-3">             
+                                        <div>
+                                            <label>Auto-Generated Password: </label>
+                                            <input data-inputtype='required' type="text" placeholder="Password" name="field_password" class="form-control" disabled>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <div class="col-lg-12">
+                                    <a class="btn btn-outline btn-success pull-right" id='btn_registerStudent'>Register</a>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+administrator.register();
+mainProcess.admin_ini();
+</script>
+

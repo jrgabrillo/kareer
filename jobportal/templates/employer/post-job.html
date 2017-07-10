@@ -1,0 +1,85 @@
+<div class="row wrapper border-bottom white-bg page-heading">
+    <div class="col-lg-10">
+        <h2>Job Postings</h2>
+        <ol class="breadcrumb">
+            <li>
+                <a href="#cmd=index">Home</a>
+            </li>
+            <li class="active">
+                <strong>Job Postings</strong>
+            </li>
+        </ol>
+    </div>
+</div>
+<div class='row col-md-12' style='float:none;'>
+    <div class="wrapper wrapper-content">
+        <div class="row animated fadeInRight">
+            <div class="col-md-12" style='float:none;'>
+                <div class="ibox float-e-margins">
+                    <div class="ibox-content">
+                        <form class='form-horizontal' id='form_addVacancy' role='form' action='' method='post' enctype='multipart/form-data'>
+                            <div>
+                                <div class='form-group'>
+                                    <div class='col-lg-6'>
+                                        <label>Job Title: </label>
+                                        <input data-inputtype='required' type='text' placeholder='Job Title' name='field_jobTitle' class='form-control'>
+                                    </div>
+                                    <div class='col-lg-6' id='date'>
+                                        <label>Hiring Cut-off Date: <small><i>[Also job expiration date.]</i></small></label>
+                                        <div class="input-group date">
+                                            <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                                            <input data-inputtype='required' placeholder="Date" type="text" class="form-control" name='field_date'>
+                                        </div>
+                                    </div><br/>
+                                    <div class='col-lg-12'>
+                                        <label>Skills Needed: <small><i>You can add up-to 5 skills</i></small></label>
+                                        <ul id='field_skills' class=''></ul>
+                                    </div><br/>
+                                    <div class='col-lg-12'>
+                                        <label>Job Description: </label>
+                                        <textarea data-inputtype='required' placeholder='Job Description' class='form-control' name='field_description' style="resize: none;"></textarea>
+                                    </div><br/>
+                                </div>
+                            </div>
+                            <div>
+                                <div class='form-group'>
+                                    <div class='col-lg-12'>
+                                        <a class='btn btn-sm btn-block btn-success' data-cmd='register_applicant'>Sign Up</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+$("#field_skills").tagit({
+    fieldName: "field_requiredSkills",
+    allowSpaces:true,
+    tagLimit: 5,
+    onTagLimitExceeded:function(e,ui){
+        $("#field_skills input.ui-widget-content").val("");
+        system.errorNotification("Notice!","You can only add up to five(5) skills.");
+    }
+});
+
+var dateToday = new Date();
+$('#date .input-group.date').datepicker({
+    startView: 1,
+    todayBtn: "linked",
+    keyboardNavigation: false,
+    forceParse: false,
+    autoclose: true,
+    minDate: 1,
+    defaultDate: "+1w",
+    changeMonth: true,
+    numberOfMonths: 3,
+    format: "mm/dd/yyyy"
+});
+
+employer.add_vacancies();
+
+</script>

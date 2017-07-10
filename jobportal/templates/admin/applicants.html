@@ -1,0 +1,34 @@
+<div class="row wrapper border-bottom white-bg page-heading">
+    <div class="col-lg-10">
+        <h2>Applicants</h2>
+        <ol class="breadcrumb">
+            <li>
+                <a href="#cmd=index">Home</a>
+            </li>
+            <li class="active">
+                <strong>Applicants</strong>
+            </li>
+        </ol>
+    </div>
+</div>
+<div class='row col-lg-12' style='float: none;'>
+    <div class="wrapper wrapper-content">
+        <div class="row animated fadeInRight">
+            <div class="col-md-12">
+                <div class="ibox float-e-margins" id='list_applicant'>
+                    <div class="ibox-title">
+                        <h5>Applicants</h5>
+                        <a href="#cmd=index;content=add-applicant" class='btn btn-xs btn-warning pull-right'>Add Applicant</a>
+                    </div>
+                    <div class="ibox-content text-center">
+                        <h2>:(</h2><h4>No applicant</h4>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+mainProcess.admin_ini();
+administrator.list_student();
+</script>

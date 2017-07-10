@@ -1,0 +1,94 @@
+<div class="row wrapper border-bottom white-bg page-heading">
+    <div class="col-lg-10">
+        <h2>Profile</h2>
+        <ol class="breadcrumb">
+            <li>
+                <a href="#cmd=index">Home</a>
+            </li>
+            <li class="active">
+                <strong>Profile</strong>
+            </li>
+        </ol>
+    </div>
+</div>
+<div class='row' id="ajax-content">
+    <div class="wrapper wrapper-content">
+        <div class="row animated fadeInRight">
+            <div class="col-md-3">
+                <div class="ibox float-e-margins">
+                    <div id='profile_picture1' class="ibox-content no-padding border-left-right">
+                        <div class='' style='float:none; position: absolute; padding-top: 10px;'>
+                            <a data-cmd='update_picture' class="btn btn-xs btn-white " style="opacity: 0.5;"><i class='fa fa-camera-retro'></i> Update Picture</a>
+                        </div>
+                        <img alt="image" class="img-responsive" src="" style="width: 100%;">
+                    </div>
+                    <div id='profile_picture2' class="ibox-content no-padding border-left-right hidden">
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-9">
+                <div class="ibox float-e-margins">
+                    <div class="ibox-content" id='account'>
+                        <div class='feed-activity-list'>
+                            <div class='feed-element'>
+                                <div class='media-body'>
+                                    <strong>Resume: </strong>
+                                    <span id="text_resume">
+                                        <span></span>
+                                        <a data-cmd='update_profile' data-field='resume' class='pull-right text-navy'>Update</a>
+                                    </span>
+                                    <div id='field_resume' class='field hidden'>
+                                        <form role="form" id='form_resume' class="form-inline">
+                                            <div id='uploads' class='uploads'></div>
+                                            <div class='fileinput fileinput-exists input-group' data-provides='fileinput'>
+                                                <div class='bar ImageLoader'>
+                                                    <span class='bar-fill-text' id='pt'></span>
+                                                </div>
+                                                <div class="form-control FileInput" data-trigger="fileinput">
+                                                    <i class="glyphicon glyphicon-file fileinput-exists"></i>
+                                                    <span class="fileinput-filename"></span>
+                                                </div>
+                                                <span class='input-group-addon btn btn-default btn-file'>
+                                                    <span class='fileinput-new'>Get new file</span>
+                                                    <span class='fileinput-exists'>Get new file</span>
+                                                    <input type='file' name='file' id='file'>
+                                                </span>
+                                                <a id='button_resume' class="input-group-addon btn btn-danger hidden">Upload</a>
+                                                <a href="#" class="input-group-addon btn btn-default fileinput-exists" data-dismiss="fileinput">Cancel</a>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class='feed-element' style='border-bottom: 0px solid #e7eaec;'>
+                                <div class='media-body '>
+                                    <strong>Password</strong>
+                                    <span id="text_password">
+                                        <a data-cmd='update_profile' data-field='password' class='pull-right text-navy'>Update</a>
+                                    </span>
+                                    <div id='field_password' class='field hidden'>
+                                        <form role="form" class="form-inline">
+                                            <div class='input-group'>
+                                                <input type='password' placeholder="New Password" class="form-control input-sm">
+                                                <span class='input-group-btn'>
+                                                    <a class='btn btn-sm btn-info show-password'><i class='fa fa-eye'></i></a>
+                                                    <a class='btn btn-sm btn-success'>Save</a>
+                                                    <a class='btn btn-sm btn-default cancel'>Cancel</a>
+                                                </span>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+mainProcess.student_ini();
+student.update_picture();
+student.update_data();
+</script>

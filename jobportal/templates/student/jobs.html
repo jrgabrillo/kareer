@@ -1,0 +1,75 @@
+<div class="row wrapper border-bottom white-bg page-heading">
+    <div class="col-lg-10">
+        <h2>Profile</h2>
+        <ol class="breadcrumb">
+            <li>
+                <a href="#cmd=index">Home</a>
+            </li>
+            <li class="active">
+                <strong>Jobs List</strong>
+            </li>
+        </ol>
+    </div>
+</div>
+<div class='row' id="ajax-content">
+    <div class="wrapper wrapper-content">
+        <div class='col-md-4'><br/>
+            <div class="ibox float-e-margins">
+                <div class="ibox-content">
+                    <form role="form" id='jobsearch'>
+                        <div class="form-group">
+                            <label>Job</label>
+                            <input type="text" name="field_job" placeholder="Enter desired job" class="form-control">
+                        </div>
+                        <div class="form-group">
+                            <label>Skills you have (atleast 5)</label>
+                            <ul id='field_skills' class=''></ul>
+                        </div>
+                        <div>
+                            <a class="btn btn-sm btn-primary btn-block" id='btn_jobsearch'>Search</a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <div class='col-md-8'>
+            <div id='job-posts'>
+                <div class="ibox float-e-margins">
+                    <div class="ibox-content">
+                        <div class='col-md-offset-5 col-md-2 text-center' style='margin-top: 150px;'>
+                            <div class="sk-spinner sk-spinner-double-bounce">
+                                <div class="sk-double-bounce1"></div>
+                                <div class="sk-double-bounce2"></div>
+                            </div>
+                            <h2>Loading...</h2>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div id='job-search' class='hidden'>
+                <div class='col-md-offset-5 col-md-2 text-center' style='margin-top: 150px;'>
+                    <div class="sk-spinner sk-spinner-double-bounce">
+                        <div class="sk-double-bounce1"></div>
+                        <div class="sk-double-bounce2"></div>
+                    </div>
+                    <h2>Loading...</h2>
+                </div>
+            </div>            
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+$("#field_skills").tagit({
+    fieldName: "field_requiredSkills",
+    allowSpaces:true,
+    tagLimit: 5,
+    onTagLimitExceeded:function(e,ui){
+        $("#field_skills input.ui-widget-content").val("");
+        system.errorNotification("Notice!","You can only add up to five(5) skills.");
+    }
+});
+
+mainProcess.student_ini();
+student.jobposting();
+student.jobsearch();
+</script>

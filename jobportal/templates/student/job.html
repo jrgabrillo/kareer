@@ -1,0 +1,56 @@
+<div class="row wrapper border-bottom white-bg page-heading">
+    <div class="col-lg-10">
+        <h2>Job Postings</h2>
+        <ol class="breadcrumb">
+            <li>
+                <a href="#cmd=index">Home</a>
+            </li>
+            <li>
+                <a href="#cmd=index;content=jobs">Jobs List</a>
+            </li>
+            <li class="active">
+                <strong>Job</strong>
+            </li>
+        </ol>
+    </div>
+</div>
+<div class='row animated fadeInRight'>
+    <div class="wrapper wrapper-content ">
+        <div class='col-md-12' stlye='float:none;'>
+            <div class="col-md-8" id='job-post'>
+                <div class='ibox'>
+                    <div class='ibox-content'>
+                        <dl class='dl-horizontal'>
+                            <dt></dt><dd><h2 id='txt_jobtitle'></h2></dd>
+                            <dt>Status:</dt> <dd id='txt_jobstatus'></dd>
+                            <dt>Application Expiry:</dt><dd id='txt_jobexpiry' class='prettydate'></dd>
+                            <dt>Created:</dt><dd id='txt_jobdate' class='prettydate'></dd>
+                            <dt>Description:</dt><dd id='txt_jobdescription'></dd>
+                            <dt>Applicant:</dt><dd id='txt_jobapplicant'></dd>
+                        </dl>
+                    </div>
+                    <div class="ibox-footer">
+                        <div class='row col-md-offset-2 col-md-8' style="float: none;">
+                            <div id='data_form'>
+                                <h3>Applicantion</h3>
+                                <textarea id='employer_description' placeholder="Say something about your application" row='3' style="width:100%;max-width:100%;" class="form-control input-sm"></textarea>
+                                <span class='pull-right' id='desc_stringCounter'></span>
+                                <form role="form" class="form-inline">
+                                    <input name='field_application' id='field_application' type='text' placeholder="Description" class="form-control input-sm hidden"><br/>
+                                    <a id='btn_submitApplication' class='btn btn-sm btn-success'>Submit</a>
+                                </form>
+                            </div>
+                            <div id='data_info'>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4" id='job-employer'></div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+var data = window.location.hash.split(';');
+student.job(data[2].split('='));
+</script>

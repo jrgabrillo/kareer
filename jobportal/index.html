@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>Job Portal</title>
+
+    <link media="screen" href="assets/css/bootstrap.min.css" rel="stylesheet"/>
+    <link media="screen" href="assets/css/animate.css" rel="stylesheet"/>
+    <link media="screen" href="assets/font-awesome/css/font-awesome.min.css" rel="stylesheet"/>
+    <link media="screen" href="assets/css/style.css" rel="stylesheet"/>
+    <link media="screen" href="assets/css/plugins/toastr/toastr.min.css" rel="stylesheet"/>
+    <link media="screen" href="assets/js/plugins/gritter/jquery.gritter.css" rel="stylesheet"/>
+    <link media="screen" href="assets/css/plugins/jasny/jasny-bootstrap.min.css" rel="stylesheet"/>
+    <link media="screen" href="assets/css/plugins/iCheck/custom.css" rel="stylesheet"/>
+    <link media="screen" href="assets/css/plugins/datapicker/datepicker3.css" rel="stylesheet"/>
+    <link media="screen" href="assets/css/plugins/dataTables/dataTables.bootstrap.css" rel="stylesheet"/>
+    <link media="screen" href="assets/css/plugins/dataTables/dataTables.responsive.css" rel="stylesheet"/>
+    <link media="screen" href="assets/css/plugins/dataTables/dataTables.tableTools.min.css" rel="stylesheet"/>
+    <link media="screen" href="assets/css/plugins/sweetalert/sweetalert.css" rel="stylesheet"/>
+
+</head>
+<body id="page-top" class="landing-page boxed-layout">
+<div class="navbar-wrapper">
+    <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
+        <div class="container">
+            <div id="navbar" class="navbar-collapse collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li><a class="page-scroll" href="#page-top">Home</a></li>
+                    <li><a class="page-scroll" href="#jobs">Jobs</a></li>
+                    <li class='hidden'><a class="page-scroll" href="#register">Register</a></li>
+                    <li><a href="login.html">Log In</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+</div>
+<div class='carousel slide' id='carousel1'>
+    <div class="">
+    </div>
+    <div class='carousel-inner'>
+        <div class='item active'>
+            <img alt='image' class='img-responsive' src='assets/img/landing/human-resources.jpg'>
+        </div>
+        <div class='item'>
+            <img alt='image' class='img-responsive' src='assets/img/landing/a.jpg'>
+        </div>
+        <div class='item'>
+            <img alt='image' class='img-responsive' src='assets/img/landing/b.jpg'>
+        </div>
+        <div class='item'>
+            <img alt='image' class='img-responsive' src='assets/img/landing/c.jpg'>
+        </div>
+        <div class='item'>
+            <img alt='image' class='img-responsive' src='assets/img/landing/d.jpg'>
+        </div>
+        <div class='item'>
+            <img alt='image' class='img-responsive' src='assets/img/landing/f.jpg'>
+        </div>
+        <div class='item'>
+            <img alt='image' class='img-responsive' src='assets/img/landing/e.jpg'>
+        </div>
+    </div>
+    <a data-slide='prev' href='#carousel1' class='left carousel-control'>
+        <span class='icon-prev'></span>
+    </a>
+    <a data-slide='next' href='#carousel1' class='right carousel-control'>
+        <span class='icon-next'></span>
+    </a>
+</div>
+<section id="jobs" class="container services">
+    <div class="row">
+        <div class="row m-b-lg">
+            <div class="col-lg-12 text-center">
+                <div class="navy-line"></div>
+                <h1>Job Posts.</h1>
+                <p>Jobs recently added.</p>
+            </div>
+        </div>
+        <div class="col-sm-12">
+            <div class='wrapper wrapper-content animated fadeInRight'>
+                <div id='job-posts'>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section id="register" class='hidden'>
+    <div class="container">
+        <div class="row m-b-lg">
+            <div class="col-lg-12 text-center">
+                <div class="navy-line"></div>
+                <h1>Register Now.</h1>
+                <p>It is free. No payment required.</p>
+            </div>
+        </div>
+        <div class="row">
+            <div class="middle-box loginColumns animated fadeInDown">
+                <div class='col-md-6'>
+                    <h2>Great work starts with <br/>great talent</h2>
+
+                    Get amazing results working with the best people. Hire with confidence, always knowing their work experience. <br/><br/><br/>
+                    <img src="assets/img/landing/xxx.png" alt="Find the perfect match fast">
+                </div>
+                <div class='col-md-6 text-center'>
+                    <p>Create account to see it in action.</p>
+                    <form class="m-t" role="form" action="login.html" id='form_registerEmployer'>
+                        <div class="form-group">
+                            <input data-inputtype='required' type="text" placeholder="Company Name" name="field_cname" class="form-control">
+                        </div>
+                        <div class="form-group">
+                            <input data-inputtype='required' type="text" placeholder="Email" name="field_email" class="form-control">
+                        </div>
+                        <div class="form-group">
+                            <input data-inputtype='required' type="password" placeholder="Password" name="field_password" class="form-control">
+                        </div>
+                        <a class='btn btn-sm btn-block btn-warning' data-cmd="register_employer">Sign Up</a>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <div class="row m-t-lg">
+            <div class="col-lg-8 col-lg-offset-2 text-center m-t-lg">
+                Job Portal. Copyright @ 2016
+            </div>
+        </div>
+    </div>
+</section>
+
+<script src="assets/js/jquery-2.1.1.js"></script>
+<script src="assets/js/bootstrap.min.js"></script>
+<script src="assets/js/plugins/metisMenu/jquery.metisMenu.js"></script>
+<script src="assets/js/plugins/slimscroll/jquery.slimscroll.min.js"></script>
+<script src="assets/js/inspinia.js"></script>
+<script src="assets/js/plugins/pace/pace.min.js"></script>
+<script src="assets/js/plugins/wow/wow.min.js"></script>
+<script src="assets/js/process.js"></script>
+<script src="assets/js/plugins/jquery-hashchange/jquery.hashchange.min.js"></script>
+<script src="assets/js/plugins/jasny/jasny-bootstrap.min.js"></script>
+<script src="assets/js/plugins/iCheck/icheck.min.js"></script>
+<script src="assets/js/plugins/jquery-ui/jquery-ui.min.js"></script>
+<script src="assets/js/plugins/datapicker/bootstrap-datepicker.js"></script>
+<script src="assets/js/plugins/gritter/jquery.gritter.min.js"></script>
+<script src="assets/js/plugins/toastr/toastr.min.js"></script>
+<script src="assets/js/plugins/dataTables/jquery.dataTables.js"></script>
+<script src="assets/js/plugins/dataTables/dataTables.bootstrap.js"></script>
+<script src="assets/js/plugins/dataTables/dataTables.responsive.js"></script>
+<script src="assets/js/plugins/dataTables/dataTables.tableTools.min.js"></script>
+<script src="assets/js/plugins/sweetalert/sweetalert.min.js"></script>
+<script src="assets/js/plugins/pretty-date/pretty-date.js"></script>
+
+<script type="text/javascript">
+
+    //mainProcess.register_applicant();
+    mainProcess.register_employer();
+    mainProcess.jobposting();
+
+    $(document).ready(function(){
+        $('body').scrollspy({
+            target: '.navbar-fixed-top',
+            offset: 80
+        });
+        // Page scrolling feature
+        $('a.page-scroll').bind('click', function(event) {
+            var link = $(this);
+            $('html, body').stop().animate({
+                scrollTop: $(link.attr('href')).offset().top - 50
+            }, 500);
+            event.preventDefault();
+        });
+    });
+
+    var cbpAnimatedHeader = (function() {
+        var docElem = document.documentElement,
+                header = document.querySelector( '.navbar-default' ),
+                didScroll = false,
+                changeHeaderOn = 100;
+        function init() {
+            window.addEventListener( 'scroll', function( event ) {
+                if( !didScroll ) {
+                    didScroll = true;
+                    setTimeout( scrollPage, 250 );
+                }
+            }, false );
+        }
+        function scrollPage() {
+            var sy = scrollY();
+            if ( sy >= changeHeaderOn ) {
+                $(header).addClass('navbar-scroll')
+            }
+            else {
+                $(header).removeClass('navbar-scroll')
+            }
+            didScroll = false;
+        }
+        function scrollY() {
+            return window.pageYOffset || docElem.scrollTop;
+        }
+        init();
+    })();
+
+    new WOW().init();
+
+
+</script>
+
+</body>
+</html>

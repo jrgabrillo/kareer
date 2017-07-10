@@ -1,0 +1,61 @@
+<div class="row wrapper border-bottom white-bg page-heading">
+    <div class="col-lg-10">
+        <h2>Profile</h2>
+        <ol class="breadcrumb">
+            <li>
+                <a href="#cmd=index">Home</a>
+            </li>
+            <li class="active">
+                <strong>Profile</strong>
+            </li>
+        </ol>
+    </div>
+</div>
+<div class='row' id="ajax-content">
+    <div class="wrapper wrapper-content">
+        <div class="row animated fadeInRight">
+            <div class="col-md-4">
+                <div class="ibox float-e-margins">
+                    <div class="ibox-title">
+                        <h5>Profile Detail</h5>
+                    </div>
+                    <div>
+                        <div class="ibox-content no-padding border-left-right">
+                            <div class='col-md-12' style='float:none; position: absolute;'>
+                                <a data-cmd='update_picture' class="btn btn-xs btn-white " style="opacity: 0.5;"><i class='fa fa-camera-retro'></i> Update Picture</a>
+                            </div>
+                            <img alt="image" class="img-responsive" src="" style="width: 100%;">
+                        </div>
+                        <div class="ibox-content profile-content">
+                            <h4><strong></strong></h4>
+                            <p><i class="fa fa-map-marker"></i> <span class='_address'></span></p>
+                            <h5>
+                                About me
+                            </h5>
+                            <p class="_description"></p>
+                            <div class="user-button">
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <button type="button" class="btn btn-primary btn-sm btn-block">Update Profile</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                </div>
+            </div>
+                </div>
+            <div class="col-md-8">
+                <div class="ibox float-e-margins">
+                    <div class="ibox-content text-center" id='account'>
+                        <h2>:(</h2><h4>No activity.</h4>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+mainProcess.applicant_ini();
+applicant.update_picture();
+</script>
