@@ -7,7 +7,7 @@ Framework7.prototype.plugins.main = function (app, params) {
     var self = this;
     var app = new Framework7({material: true});          
     var $$ = Dom7;
-    var processor = '../jobportal/assets/harmony/Process.php?';
+    var processor = '/assets/harmony/Process.php';
     var directory = '/';
 
     var swiper = app.swiper('.swiper-container', {
@@ -210,22 +210,13 @@ Framework7.prototype.plugins.main = function (app, params) {
 
 
         var signUp = function(){
+            console.log('xx');
             $$("a[data-cmd='button_signUp']").on('click',function(){
                 var form = $("#form_signUp").serializeArray();
                 console.log(form);
-                var signUp = ajax(processor+'get-login',form);
-                console.log(signUp.responseText);
             });
         }
 
-<<<<<<< HEAD
-        // var logIn = function(){
-        //     $$("a[data-cmd='button_signUp']").on('click',function(){
-        //         var form = $("#form_signUp").serializeArray();
-        //         console.log(form);
-        //     });
-        // }
-=======
         var logIn = function(){
             console.log('xx');
             $$("a[data-cmd='button_logIn']").on('click',function(){
@@ -233,7 +224,6 @@ Framework7.prototype.plugins.main = function (app, params) {
                 console.log(form);
             });
         }
->>>>>>> f6fcfc92c1f5e40bbfa047e503b845b1e6a48bf1
 
 
     return {
@@ -242,6 +232,7 @@ Framework7.prototype.plugins.main = function (app, params) {
                 var deviceSize = getDeviceSize();
                 console.log(deviceSize);
                 signUp();
+                logIn()
             }
         }
     }
