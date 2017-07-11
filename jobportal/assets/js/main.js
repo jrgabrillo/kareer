@@ -14,7 +14,7 @@ Framework7.prototype.plugins.main = function (app, params) {
         speed: 400,
         spaceBetween: 100,
         direction: 'vertical'
-    }); 
+    });
 
     // System functions - general usage
         var notification = function(title,message,button,timeout,loader,_functionOpen,_functionClose){
@@ -208,11 +208,31 @@ Framework7.prototype.plugins.main = function (app, params) {
         };
     // end main processes
 
+
+        var signUp = function(){
+            console.log('xx');
+            $$("a[data-cmd='button_signUp']").on('click',function(){
+                var form = $("#form_signUp").serializeArray();
+                console.log(form);
+            });
+        }
+
+        var logIn = function(){
+            console.log('xx');
+            $$("a[data-cmd='button_signUp']").on('click',function(){
+                var form = $("#form_signUp").serializeArray();
+                console.log(form);
+            });
+        }
+
+
     return {
         hooks: {
             appInit: function () {
                 var deviceSize = getDeviceSize();
                 console.log(deviceSize);
+                signUp();
+                logIn()
             }
         }
     }

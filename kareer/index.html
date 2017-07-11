@@ -72,7 +72,7 @@
                                     </div>
                                 </li>
                                 <li style="margin-bottom: 10px;">
-                                    <a href="#" class="button button-fill button-big bg-white ripple-cyan" style="color: #333;">Sign In</a>
+                                    <a href="#" class="button button-fill button-big bg-white ripple-cyan" style="color: #333;">Log In</a>
                                 </li>
                             </ul>
                         </div>
@@ -99,8 +99,8 @@
         <div class="popup popup-sign-up" style="margin-top: 70%;">
             <div class="page-content login-screen-content infinite-scroll" style="background: transparent;">
                 <div class="login-screen-title close-popup" style="color: white">Sign Up<i class="icon f7-icons" style="width: 25px; position: absolute;right: 5%;">close_round</i></div>
-                <div class="content-block">
-                    <form>
+                <div class="content-block" style=" max-height: 40%; overflow: scroll;">
+                    <form action="" method="POST" id='form_signUp'>
                         <div class="list-block">
                             <ul>
                                 <li style="margin-bottom: 10px;">
@@ -110,7 +110,7 @@
                                                 <i class="icon f7-icons">person</i>
                                             </button>
                                         </div>
-                                        <input type='text' class="form-control color-white" placeholder="Name" aria-label="Text input with multiple buttons">
+                                        <input type='text' name="field_name" class="form-control color-white" placeholder="Name" aria-label="Text input with multiple buttons">
                                     </div>
                                 </li>
                                 <li style="margin-bottom: 10px;">
@@ -120,7 +120,7 @@
                                                 <i class="icon f7-icons" style="width: 25px;">at</i>
                                             </button>
                                         </div>
-                                        <input type='email' class="form-control color-white" placeholder="Email" aria-label="Text input with multiple buttons">
+                                        <input type='email' name="field_email" class="form-control color-white" placeholder="Email" aria-label="Text input with multiple buttons">
                                     </div>
                                 </li>
                                 <li style="margin-bottom: 10px;">
@@ -130,11 +130,11 @@
                                                 <i class="icon f7-icons" style="width: 25px;">lock</i>
                                             </button>
                                         </div>
-                                        <input type='password' class="form-control color-white" placeholder="Password" aria-label="Text input with multiple buttons">
+                                        <input type='password' name="field_password" class="form-control color-white" placeholder="Password" aria-label="Text input with multiple buttons">
                                     </div>
                                 </li>
                                 <li style="margin-bottom: 10px;">
-                                    <a href="#" class="button button-fill button-big bg-white ripple-deeppruple" style="color: #333;">Next</a>
+                                    <a href="#" data-cmd='button_signUp' class="button button-fill button-big bg-white ripple-deeppurple" style="color: #333;">Sign up</a>
                                 </li>
                             </ul>
                         </div>
