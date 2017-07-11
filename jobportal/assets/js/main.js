@@ -219,8 +219,8 @@ Framework7.prototype.plugins.main = function (app, params) {
 
         var logIn = function(){
             console.log('xx');
-            $$("a[data-cmd='button_signUp']").on('click',function(){
-                var form = $("#form_signUp").serializeArray();
+            $$("a[data-cmd='button_logIn']").on('click',function(){
+                var form = $("#form_logIn").serializeArray();
                 console.log(form);
             });
         }
