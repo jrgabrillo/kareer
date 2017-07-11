@@ -48,7 +48,7 @@
             <div class="page-content login-screen-content" style="background: transparent;">
                 <div class="login-screen-title close-popup" style="color: white">Log In<i class="icon f7-icons" style="width: 25px; position: absolute;right: 5%;">close_round</i></div>
                 <div class="content-block">
-                    <form>
+                    <form action="" method="POST" id='form_logIn'>
                         <div class="list-block">
                             <ul>
                                 <li style="margin-bottom: 10px;">
@@ -58,7 +58,7 @@
                                                 <i class="icon f7-icons">at</i>
                                             </button>
                                         </div>
-                                        <input type="text" class="form-control color-white" placeholder="Email" aria-label="Text input with multiple buttons">
+                                        <input type="text" class="form-control color-white" name="field_Email" placeholder="Email" aria-label="Text input with multiple buttons">
                                     </div>
                                 </li>
                                 <li style="margin-bottom: 10px;">
@@ -68,11 +68,11 @@
                                                 <i class="icon f7-icons" style="width: 25px;">lock</i>
                                             </button>
                                         </div>
-                                        <input type="password" class="form-control color-white" placeholder="Password" aria-label="Text input with multiple buttons">
+                                        <input type="password" class="form-control color-white" name="field_Password" placeholder="Password" aria-label="Text input with multiple buttons">
                                     </div>
                                 </li>
                                 <li style="margin-bottom: 10px;">
-                                    <a href="#" class="button button-fill button-big bg-white ripple-cyan" style="color: #333;">Log In</a>
+                                    <a href="#"  data-cmd='button_logIn' class="button button-fill button-big bg-white ripple-cyan" style="color: #333;">Log In</a>
                                 </li>
                             </ul>
                         </div>
@@ -167,13 +167,11 @@
         }).on('popup:close',function(){
             $$("#displayLogo").attr({"style":"position:relative; top:0px;"});
         });
-
         $$('.popup-sign-up').on('popup:open',function(){
             $$("#displayLogo").attr({"style":"position:relative; top:-200px;"});
         }).on('popup:close',function(){
             $$("#displayLogo").attr({"style":"position:relative; top:0px;"});
         });
-
         $$("a").on('click',function(){
             setTimeout(function(){
                 $$("a").find('.ripple-wave').attr({"class":"ripple-wave animated fadeOut"}).remove();
