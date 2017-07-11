@@ -210,11 +210,27 @@ Framework7.prototype.plugins.main = function (app, params) {
 
 
         var signUp = function(){
-            console.log('xx');
-            $$("a[data-cmd='button_signUp']").on('click',function(){
-                var form = $("#form_signUp").serializeArray();
-                console.log(form);
-            });
+            $("#form_signUp").validate({
+                rules: {
+                    field_name: {required: true, maxlength:50},
+                    field_email: {required: true, maxlength: 50,checkEmail:true},
+                    field_password: {required: true, maxlength: 50,checkPassword:true},
+                },
+                errorElement : 'div',
+                errorPlacement: function(error, element) {
+                    var placement = $(element).data('error');
+                    if(placement){
+                        $(placement).append(error)
+                    } 
+                    else{
+                        error.insertAfter(element);
+                    }
+                },
+                submitHandler: function (form) {
+                    var _form = $(form).serializeArray();
+                    console.log(_form);
+                }
+            }); 
         }
 
         var logIn = function(){
@@ -224,6 +240,7 @@ Framework7.prototype.plugins.main = function (app, params) {
                 console.log(form);
             });
         }
+
 
 
     return {

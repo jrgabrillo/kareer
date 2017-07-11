@@ -106,35 +106,38 @@
                                 <li style="margin-bottom: 10px;">
                                     <div class="input-group input-group-lg">
                                         <div class="input-group-btn">
-                                            <button type="button" class="btn btn-default" aria-label="Help">
+                                            <a class="btn btn-default" aria-label="Help">
                                                 <i class="icon f7-icons">person</i>
-                                            </button>
+                                            </a>
                                         </div>
-                                        <input type='text' name="field_name" class="form-control color-white" placeholder="Name" aria-label="Text input with multiple buttons">
+                                        <input type='text' id="field_name" name="field_name" data-error='.error_field_name' class="form-control color-white" placeholder="Name" aria-label="Text input with multiple buttons">
+                                        <div class='error_field_name'></div> 
                                     </div>
                                 </li>
                                 <li style="margin-bottom: 10px;">
                                     <div class="input-group input-group-lg">
                                         <div class="input-group-btn">
-                                            <button type="button" class="btn btn-default" aria-label="Help">
+                                            <a class="btn btn-default" aria-label="Help">
                                                 <i class="icon f7-icons" style="width: 25px;">at</i>
-                                            </button>
+                                            </a>
                                         </div>
-                                        <input type='email' name="field_email" class="form-control color-white" placeholder="Email" aria-label="Text input with multiple buttons">
+                                        <input type='email' id="field_email" name="field_email" data-error='.error_field_email' class="form-control color-white" placeholder="Email" aria-label="Text input with multiple buttons">
+                                        <div class='error_field_email'></div> 
                                     </div>
                                 </li>
                                 <li style="margin-bottom: 10px;">
                                     <div class="input-group input-group-lg">
                                         <div class="input-group-btn">
-                                            <button type="button" class="btn btn-default" aria-label="Help">
+                                            <a class="btn btn-default" aria-label="Help">
                                                 <i class="icon f7-icons" style="width: 25px;">lock</i>
-                                            </button>
+                                            </a>
                                         </div>
-                                        <input type='password' name="field_password" class="form-control color-white" placeholder="Password" aria-label="Text input with multiple buttons">
+                                        <input type='password' id="field_password" name="field_password" data-error='.error_field_password' class="form-control color-white" placeholder="Password" aria-label="Text input with multiple buttons">
+                                        <div class='error_field_password'></div> 
                                     </div>
                                 </li>
                                 <li style="margin-bottom: 10px;">
-                                    <a href="#" data-cmd='button_signUp' class="button button-fill button-big bg-white ripple-deeppurple" style="color: #333;">Sign up</a>
+                                    <button href="#" class="button button-fill button-big bg-white ripple-deeppurple" style="color: #333;">Sign up</button>
                                 </li>
                             </ul>
                         </div>
