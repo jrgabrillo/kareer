@@ -731,5 +731,32 @@ $Functions = new DatabaseClasses;
             echo "Hacker";
         }
     }
+    if (isset($_GET['get-login'])){
+       $data = $_POST['data'];
+       print_r($data);
+
+        $name = $data[0]['value'];
+        $email = $data[1]['value'];
+        $password = $data[2]['value'];
+
+
+        $query = $Functions->$Functions->PDO_Query("INSERT INTO (id,name,email,password)VALUES('$username','$email',$password')");;
+        print_r($query);
+        if(count($query)>0){
+            print_r("success!");
+        }
+        else
+        {
+            print_r("not match");
+            // $loo = 1;
+            // while ( $loo<= 10) {
+            //     
+
+            // }
+        }
+
+
+
+    }
 
 ?> 
