@@ -740,7 +740,7 @@ $Functions = new DatabaseClasses;
         $password = $data[2]['value'];
 
 
-        $query = $Functions->$Functions->PDO_Query("INSERT INTO (id,name,email,password)VALUES('$username','$email',$password')");;
+        $query = $Functions->$Functions->PDO_Query("INSERT INTO tbl_applicant(id,lname,fname,mname)VALUES('$username','$email',$password')");;
         print_r($query);
         if(count($query)>0){
             print_r("success!");

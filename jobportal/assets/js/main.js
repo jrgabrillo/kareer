@@ -218,12 +218,22 @@ Framework7.prototype.plugins.main = function (app, params) {
             });
         }
 
+<<<<<<< HEAD
         // var logIn = function(){
         //     $$("a[data-cmd='button_signUp']").on('click',function(){
         //         var form = $("#form_signUp").serializeArray();
         //         console.log(form);
         //     });
         // }
+=======
+        var logIn = function(){
+            console.log('xx');
+            $$("a[data-cmd='button_logIn']").on('click',function(){
+                var form = $("#form_logIn").serializeArray();
+                console.log(form);
+            });
+        }
+>>>>>>> f6fcfc92c1f5e40bbfa047e503b845b1e6a48bf1
 
 
     return {
