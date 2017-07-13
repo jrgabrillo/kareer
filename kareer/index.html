@@ -49,6 +49,7 @@
                 <div class="pages" style="background-image: url(assets/img/kareer_bg.png);>
                     <div data-page="index" class="page">
                         <div class="page-content">
+<<<<<<< HEAD
                             <div class='mdl-grid' style=" padding: 0px;">
                                 <div class='mdl-cell mdl-cell--1-offset-tablet mdl-cell--6-col-desktop mdl-cell--6-col-tablet mdl-cell--12-col-phone' id='display_left'>
                                     <div style="min-height:409px;box-sizing: border-box; padding: 20px;">
@@ -129,6 +130,115 @@
                                            <a href="https://www.instagram.com/kareer.ph/"> <img src="assets/img/ig.png" width="80px" /> </a>
                                            <a href="https://twitter.com/kareer_ph"> <img src="assets/img/tw.png" width="80px" /> </a>
                                         </div>
+=======
+                            <div class="button-row" id="splashScreen">
+                                <img id='displayLogo' src="img/kareer_logo.png" class="animated fadeInUp" style="position:relative; top:0px;">
+                            </div>                            
+                        </div>
+                        <div class="toolbar" style="background: transparent; height: 100px;">
+                            <div class="toolbar-inner">
+                                <div class="list-block" style="width: 100%;">
+                                    <ul>
+                                        <li style="text-align: center;">
+                                            <a href="#" data-popup=".popup-login" class="open-popup list-button item-link bg-cyan" style='opacity: 0.8;'>Log in</a>
+                                        </li>
+                                        <li style="text-align: center;">
+                                            <a href="#"  data-popup=".popup-sign-up" class="open-popup list-button item-link bg-deeppurple" style='opacity: 0.8;'>Sign In</a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>                         
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="popup popup-login" style="margin-top: 70%; overflow: scroll;">
+            <div class="page-content login-screen-content" style="background: transparent;">
+                <div class="login-screen-title close-popup" style="color: white">Log In<i class="icon f7-icons" style="width: 25px; position: absolute;right: 5%;">close_round</i></div>
+                <div class="content-block">
+                    <form action="" method="POST" id='form_logIn'>
+                        <div class="list-block">
+                            <ul>
+                                <li style="margin-bottom: 10px;">
+                                    <div class="input-group input-group-lg">
+                                        <div class="input-group-btn">
+                                            <button type="button" class="btn btn-default" aria-label="Help">
+                                              <i class="icon f7-icons" style="">at</i>
+                                            </button>
+                                        </div>
+                                        <input type='email' id="field_email" name="field_email" data-error='.error_field_email' class="form-control color-white" placeholder="Email">
+                                         <div class='error_field_email log-error-icon'></div> 
+                                    </div>
+                                </li>
+                                <li style="margin-bottom: 10px;">
+                                    <div class="input-group input-group-lg">
+                                        <div class="input-group-btn">
+                                            <button type="button" class="btn btn-default" aria-label="Help">
+                                                <i class="icon f7-icons" style="width: 25px;">lock</i>
+                                            </button>
+                                        </div>
+                                      <input type='password' id="field_password" name="field_password" data-error='.error_field_password' class="form-control color-white" placeholder="Password">
+                                       <div class='error_field_password log-error-icon'></div> 
+                                    </div>
+                                </li>
+                                <li style="margin-bottom: 10px;">
+                                    <a href="#"  data-cmd='button_logIn' class="button button-fill button-big bg-white ripple-cyan" style="color: #333;">Log In</a>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="list-block">
+                            <div class="list-block-label">
+                                <p>
+                                    <span class="hr color-white"> or Login using </span>                                    
+                                </p>
+                                <div class="row" style='margin-top:50px;'>
+                                    <div class="col-50" style='background: transparent; color: #fff; line-height: 2;'>
+                                        Forget password?
+                                    </div>
+                                    <div class="col-50" style='background: transparent;'>
+                                        <img src="img/fb.png" width="30px" />
+                                        <img src="img/gp.png" width="30px" />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <div class="popup popup-sign-up" style="margin-top: 70%;">
+            <div class="page-content login-screen-content infinite-scroll" style="background: transparent;">
+                <div class="login-screen-title close-popup" style="color: white">Sign Up<i class="icon f7-icons" style="width: 25px; position: absolute;right: 5%;">close_round</i></div>
+                <div class="content-block" style=" max-height: 40%; overflow: scroll;">
+                    <form action="" method="POST" id='form_signUp'>
+                        <div class="list-block">
+                            <ul>
+                                <li style="margin-bottom: 10px;">
+                                    <div class="input-group input-group-lg">
+                                        <div class="input-group-btn">
+                                            <a class="btn btn-default" aria-label="Help">
+                                                <i class="icon f7-icons">person</i>
+                                            </a>
+                                        </div>
+                                        <input type='text' id="field_name" name="field_name" data-error='.error_field_name' class="form-control color-white" placeholder="Name">
+                                        <!-- [CED] custom css for icon,'error-icon' -->
+                                        <!-- error message for sign up forms -->
+                                        <div class='error_field_name error-icon'></div> 
+                                    </div>
+                                </li>
+                                <li style="margin-bottom: 10px;">
+                                    <div class="input-group input-group-lg">
+                                        <div class="input-group-btn">
+                                            <a class="btn btn-default" aria-label="Help">
+                                                <i class="icon f7-icons" style="">at</i>
+                                            </a>
+                                        </div>
+                                        <input type='email' id="field_email" name="field_email" data-error='.error_field_email' class="form-control color-white" placeholder="Email">
+                                         <!-- [CED] custom css for icon,'error-icon' -->
+                                        <!-- error message for sign up forms -->
+                                         <div class='error_field_email error-icon'></div> 
+>>>>>>> a22b3c0837f7899ff00751b523a99f7b7eadde0f
                                     </div>
                                 </div>
                                 <div class='mdl-cell mdl-cell--1-offset-tablet mdl-cell--6-col-desktop mdl-cell--6-col-tablet mdl-cell--12-col-phone mdl-cell--hide-tablet mdl-cell--hide-phone' id='display_right'>
@@ -173,6 +283,29 @@
                                                 </div>
                                             </form>
                                         </div>
+<<<<<<< HEAD
+=======
+                                        <input type='password' id="field_password" name="field_password" data-error='.error_field_password' class="form-control color-white" placeholder="Password">
+                                        <!-- [CED] custom css for icon,'error-icon' -->
+                                        <!-- error message for sign up forms -->
+                                        <div class='error_field_password error-icon'></div> 
+                                    </div>
+                                </li>
+                                <li  style="">
+                                    <button href="#" data-cmd='button_signUp' class="button button-fill button-big bg-white ripple-deeppurple" style="color: #333;">Sign up</button>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="list-block">
+                            <div class="list-block-label">
+                                <p>
+                                    <span class="hr color-white"> or Sign up using </span>                                    
+                                </p>
+                                <div class="row" style='margin-top:50px;'>
+                                    <div class="col-50" style='background: transparent;'>
+                                        <img src="img/fb.png" width="30px" />
+                                        <img src="img/gp.png" width="30px" />
+>>>>>>> a22b3c0837f7899ff00751b523a99f7b7eadde0f
                                     </div>
                                 </div>                            
                             </div>
