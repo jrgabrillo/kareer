@@ -7,7 +7,7 @@ Framework7.prototype.plugins.main = function (app, params) {
     var self = this;
     var app = new Framework7({material: true});          
     var $$ = Dom7;
-    var processor = '/assets/harmony/Process.php';
+    var processor = '../jobportal/assets/harmony/Process.php?';
     var directory = '/';
 
     var swiper = app.swiper('.swiper-container', {
@@ -210,10 +210,11 @@ Framework7.prototype.plugins.main = function (app, params) {
 
 
         var signUp = function(){
+            //[CED] validation
             $("#form_signUp").validate({
                 rules: {
                     field_name: {required: true, maxlength:50},
-                    field_email: {required: true, maxlength: 50,checkEmail:true},
+                    field_email: {required: true, maxlength: 50,email:true},
                     field_password: {required: true, maxlength: 50,checkPassword:true},
                 },
                 errorElement : 'div',
@@ -226,20 +227,40 @@ Framework7.prototype.plugins.main = function (app, params) {
                         error.insertAfter(element);
                     }
                 },
+                //[CED] error messages for filling up the fields
+                messages: {
+                    field_name: {
+                        required: "<i data-error ='Field is required' class='icon f7-icons color red' style='margin:5px;'>info</i>",
+                        maxlength: "<i data-error ='Name is too long' class='icon f7-icons color red' style='margin:5px;'>info</i>",
+                    },
+                    field_email: {
+                        required: "<i data-error ='Field is required' class='icon f7-icons  color red' style='margin:5px;'>info</i>",
+                        maxlength: "<i data-error ='Name is too long' class='icon f7-icons color red' style='margin:5px;'>info</i>",
+                        email: "<i data-error ='Email is invalid' class='icon f7-icons color red' style='margin:5px;'>info</i>",
+                    },
+                    field_password: {
+                        required: "<i data-error ='Field is required' class='icon f7-icons color red' style='margin:5px;'>info</i>",
+                        maxlength: "<i data-error ='Name is too long' class='icon f7-icons color red' style='margin:5px;'>info</i>",
+                        checkPassword: "<i data-error ='Password is weak' class='icon f7-icons color red' style='margin:5px;'>info</i>",
+                    },
+                },
                 submitHandler: function (form) {
                     var _form = $(form).serializeArray();
-                    console.log(_form);
+                    var signUp = ajax(processor+'get-login',_form);
+                    console.log(signUp.responseText);
+
                 }
             }); 
         }
 
-        var logIn = function(){
-            console.log('xx');
-            $$("a[data-cmd='button_logIn']").on('click',function(){
-                var form = $("#form_logIn").serializeArray();
-                console.log(form);
-            });
-        }
+
+        // var logIn = function(){
+        //     console.log('xx');
+        //     $$("a[data-cmd='button_logIn']").on('click',function(){
+        //         var form = $("#form_logIn").serializeArray();
+        //         console.log(form);
+        //     });
+        // }
 
 
 
@@ -249,7 +270,7 @@ Framework7.prototype.plugins.main = function (app, params) {
                 var deviceSize = getDeviceSize();
                 console.log(deviceSize);
                 signUp();
-                logIn()
+                // logIn()
             }
         }
     }

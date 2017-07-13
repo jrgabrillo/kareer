@@ -98,3 +98,10 @@ span.hr:before{
     content:"  \00a0\00a0\00a0\00a0\00a0 \00a0\00a0\00a0\00a0\00a0 \00a0\00a0\00a0\00a0\00a0 \00a0\00a0\00a0\00a0\00a0 ";
     text-decoration:line-through;
 }
+/*error message*/
+.error-icon{
+  position: absolute;
+  color: white;
+  left: 87.5%;
+  margin-top: 1.5%;
+}
