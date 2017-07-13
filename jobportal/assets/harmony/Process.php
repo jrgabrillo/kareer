@@ -750,5 +750,28 @@ $Functions = new DatabaseClasses;
                 print_r($Data);
             }
     }
+     if (isset($_GET['do-logIn'])){
+       $data = $_POST['data'];
+        print_r($data);
+ 
+        
+         $email = $data[1]['value'];
+         $password = $data[2]['value'];
+ 
+ 
+        $query = $Functions->PDO_SQL("SELECT * FROM tbl_applicant  WHERE email = '{$email}' AND password = '{$password}'");
+         print_r($query);
+         if(count($query)>0){
+             print_r("success!");
+         }
+         else
+         {
+             print_r("not match");
+          
+         }
+ 
+ 
+ 
+     }
 
 ?> 

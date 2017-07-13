@@ -55,10 +55,11 @@
                                     <div class="input-group input-group-lg">
                                         <div class="input-group-btn">
                                             <button type="button" class="btn btn-default" aria-label="Help">
-                                                <i class="icon f7-icons">at</i>
+                                              <i class="icon f7-icons" style="">at</i>
                                             </button>
                                         </div>
-                                        <input type="text" class="form-control color-white" name="field_Email" placeholder="Email" aria-label="Text input with multiple buttons">
+                                         <input type='text' id="field_email" name="field_email" data-error='.error_field_email' class="form-control color-white" placeholder="Email">
+                                         <div class='error_field_email error-icon'></div> 
                                     </div>
                                 </li>
                                 <li style="margin-bottom: 10px;">
@@ -68,7 +69,8 @@
                                                 <i class="icon f7-icons" style="width: 25px;">lock</i>
                                             </button>
                                         </div>
-                                        <input type="password" class="form-control color-white" name="field_Password" placeholder="Password" aria-label="Text input with multiple buttons">
+                                       <input type='password' id="field_password" name="field_password" data-error='.error_field_password' class="form-control color-white" placeholder="Password">
+                                       <div class='error_field_password error-icon'></div> 
                                     </div>
                                 </li>
                                 <li style="margin-bottom: 10px;">
