@@ -212,7 +212,6 @@ Framework7.prototype.plugins.main = function (app, params) {
 
         var signUp = function(){
             //[CED] validation
-           
             $("#form_signUp").validate({
                 rules: {
                     field_name: {required: true, maxlength:50},
@@ -251,8 +250,9 @@ Framework7.prototype.plugins.main = function (app, params) {
 
                 submitHandler: function (form) {
                     var _form = $(form).serializeArray();
-                    var signUp = ajax(processor+'get-login',_form);
-                     notification("k12","Field is req.",false,3000,true,function(){
+                    var signUp = ajax(processor+'do-signUp',_form);
+                    console.log(signUp.responseText);
+                     notification("k12","Succes",false,3000,true,function(){
                        
                     },false);
                 }
@@ -268,39 +268,42 @@ Framework7.prototype.plugins.main = function (app, params) {
         }
         var logIn = function(){
             // logIn validation
-            $("#form_logIn").validate({
-                rules: {
-                    field_email: {required: true,email:true},
-                    field_password: {required: true,checkPassword:true},
-                },
-                errorElement : 'div',
-                errorPlacement: function(error, element) {
-                    var placement = $(element).data('error');
-                    if(placement){
-                        $(placement).append(error)
-                    } 
-                    else{
-                        error.insertAfter(element);
-                    }
-                },
+            $$("a.button").on('click',function(){
+                var _form = $('#form_logIn').serializeArray();
+                var logIn = ajax(processor+'do-logIn',_form);
+                console.log(logIn.responseText);
+            });
+            // $("#form_logIn").validate({
+            //     rules: {
+            //         field_email: {required: true,email:true},
+            //         field_password: {required: true,checkPassword:true},
+            //     },
+            //     errorElement : 'div',
+            //     errorPlacement: function(error, element) {
+            //         var placement = $(element).data('error');
+            //         if(placement){
+            //             $(placement).append(error)
+            //         } 
+            //         else{
+            //             error.insertAfter(element);
+            //         }
+            //     },
                 
-                messages: {
+            //     messages: {
                    
-                    field_email: {
-                        required: "<i data-error ='Field is required' class='icon f7-icons  color red' style='margin:5px;'>info</i>",
-                        email: "<i data-error ='Email is invalid' class='icon f7-icons color red' style='margin:5px;'>info</i>",
-                    },
-                    field_password: {
-                        required: "<i data-error ='Field is required' class='icon f7-icons color red' style='margin:5px;'>info</i>",
-                        checkPassword: "<i data-error ='Incorrect password' class='icon f7-icons color red' style='margin:5px;'>info</i>",
-                    },
-                },
-                submitHandler: function (form) {
-                    var _form = $(form).serializeArray();
-                    var logIn = ajax(processor+'do-logIn',_form);
-                    console.log(logIn.responseText);
-                }
-            }); 
+            //         field_email: {
+            //             required: "<i data-error ='Field is required' class='icon f7-icons  color red' style='margin:5px;'>info</i>",
+            //             email: "<i data-error ='Email is invalid' class='icon f7-icons color red' style='margin:5px;'>info</i>",
+            //         },
+            //         field_password: {
+            //             required: "<i data-error ='Field is required' class='icon f7-icons color red' style='margin:5px;'>info</i>",
+            //             checkPassword: "<i data-error ='Incorrect password' class='icon f7-icons color red' style='margin:5px;'>info</i>",
+            //         },
+            //     },
+            //     submitHandler: function (form) {
+            //         
+            //     }
+            // }); 
         }
 
 
@@ -321,7 +324,7 @@ Framework7.prototype.plugins.main = function (app, params) {
                 var deviceSize = getDeviceSize();
                 console.log(deviceSize);
                 signUp();
-                logIn()
+                logIn();
             }
         }
     }

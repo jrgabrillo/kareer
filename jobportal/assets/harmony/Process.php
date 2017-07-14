@@ -732,13 +732,13 @@ $Functions = new DatabaseClasses;
         }
     }
     //[CED] signup,saving data to database
-    if (isset($_GET['get-login'])){
+    if (isset($_GET['do-signUp'])){
        $data = $_POST['data'];
        print_r($data);
         $id = $Functions->PDO_IDGenerator('tbl_applicant','id');
         $name = $data[0]['value'];
         $email = $data[1]['value'];
-        $password = $data[2]['value'];
+        $password = $Functions->PDO_IDGenerator('tbl_applicant','password');
 
 
         $query = $Functions->PDO_SQLQuery("INSERT INTO tbl_applicant(id,lname,fname,mname,address,contactno,image,description,resume,email,password,gender)VALUES('{$id}','{$name}','','','','','','','','{$email}','{$password}','')");;
@@ -751,27 +751,26 @@ $Functions = new DatabaseClasses;
             }
     }
 
-
-    
+    //RELKINS
      if (isset($_GET['do-logIn'])){
        $data = $_POST['data'];
         print_r($data);
  
         
-        //  $email = $data[1]['value'];
-        //  $password = $data[2]['value'];
+         $email = $data[0]['value'];
+         $password = $data[1]['value'];
  
  
-        // $query = $Functions->PDO_SQL("SELECT * FROM tbl_applicant  WHERE email = '{$email}' AND password = '{$password}'");
-        //  print_r($query);
-        //  if(count($query)>0){
-        //      print_r("success!");
-        //  }
-        //  else
-        //  {
-        //      print_r("not match");
+        $query = $Functions->PDO_SQL("SELECT * FROM tbl_applicant  WHERE email = '{$email}' AND password = '{$password}'");
+         print_r($query);
+         if(count($query)>0){
+             echo("success!");
+         }
+         else
+         {
+             echo("not match");
           
-        //  }
+         }
  
  
  
