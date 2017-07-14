@@ -273,38 +273,45 @@ Framework7.prototype.plugins.main = function (app, params) {
                 var logIn = ajax(processor+'do-logIn',_form);
                 console.log(logIn.responseText);
             });
-            // $("#form_logIn").validate({
-            //     rules: {
-            //         field_email: {required: true,email:true},
-            //         field_password: {required: true,checkPassword:true},
-            //     },
-            //     errorElement : 'div',
-            //     errorPlacement: function(error, element) {
-            //         var placement = $(element).data('error');
-            //         if(placement){
-            //             $(placement).append(error)
-            //         } 
-            //         else{
-            //             error.insertAfter(element);
-            //         }
-            //     },
+
+
+            $("#form_logIn").validate({
+                rules: {
+                    field_email: {required: true,email:true},
+                    field_password: {required: true,checkPassword:true},
+                },
+                errorElement : 'div',
+                errorPlacement: function(error, element) {
+                    var placement = $(element).data('error');
+                    if(placement){
+                        $(placement).append(error)
+                    } 
+                    else{
+                        error.insertAfter(element);
+                    }
+                },
                 
-            //     messages: {
+                messages: {
                    
-            //         field_email: {
-            //             required: "<i data-error ='Field is required' class='icon f7-icons  color red' style='margin:5px;'>info</i>",
-            //             email: "<i data-error ='Email is invalid' class='icon f7-icons color red' style='margin:5px;'>info</i>",
-            //         },
-            //         field_password: {
-            //             required: "<i data-error ='Field is required' class='icon f7-icons color red' style='margin:5px;'>info</i>",
-            //             checkPassword: "<i data-error ='Incorrect password' class='icon f7-icons color red' style='margin:5px;'>info</i>",
-            //         },
-            //     },
-            //     submitHandler: function (form) {
-            //         
-            //     }
-            // }); 
-        }
+                    field_email: {
+                        required: "<i data-error ='Field is required' class='icon f7-icons  color red' style='margin:5px;'>info</i>",
+                        email: "<i data-error ='Email is invalid' class='icon f7-icons color red' style='margin:5px;'>info</i>",
+                    },
+                    field_password: {
+                        required: "<i data-error ='Field is required' class='icon f7-icons color red' style='margin:5px;'>info</i>",
+                        checkPassword: "<i data-error ='Incorrect password' class='icon f7-icons color red' style='margin:5px;'>info</i>",
+                    },
+                },
+                submitHandler: function (form) {
+                    
+                }
+            }); 
+            $$(".log-error-icon").on('click',function(){
+                var data= $(this).find('i');
+                notification("k12",data[0].dataset.error,false,3000,true,function(){
+                },false);
+            });
+            }
 
 
 
