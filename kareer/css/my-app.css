@@ -104,4 +104,5 @@ span.hr:before{
   color: white;
   left: 87.5%;
   margin-top: 1.5%;
+  z-index: 10000; /*CED para mauna yung icon kaysa sa input*/
 }

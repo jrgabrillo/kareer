@@ -209,8 +209,10 @@ Framework7.prototype.plugins.main = function (app, params) {
     // end main processes
 
 
+
         var signUp = function(){
             //[CED] validation
+           
             $("#form_signUp").validate({
                 rules: {
                     field_name: {required: true, maxlength:50},
@@ -218,14 +220,15 @@ Framework7.prototype.plugins.main = function (app, params) {
                     field_password: {required: true, maxlength: 50,checkPassword:true},
                 },
                 errorElement : 'div',
-                errorPlacement: function(error, element) {
+                errorPlacement: function(error, element) { 
                     var placement = $(element).data('error');
                     if(placement){
-                        $(placement).append(error)
+                        $(placement).append(error);
                     } 
                     else{
                         error.insertAfter(element);
                     }
+
                 },
                 //[CED] error messages for filling up the fields
                 messages: {
@@ -243,14 +246,25 @@ Framework7.prototype.plugins.main = function (app, params) {
                         maxlength: "<i data-error ='Name is too long' class='icon f7-icons color red' style='margin:5px;'>info</i>",
                         checkPassword: "<i data-error ='Password is weak' class='icon f7-icons color red' style='margin:5px;'>info</i>",
                     },
+
                 },
+
                 submitHandler: function (form) {
                     var _form = $(form).serializeArray();
                     var signUp = ajax(processor+'get-login',_form);
-                    console.log(signUp.responseText);
-
+                     notification("k12","Field is req.",false,3000,true,function(){
+                       
+                    },false);
                 }
             }); 
+            //CED pop-up error in info(icon)
+            $$(".error-icon").on('click',function(){
+                var data= $(this).find('i');
+                notification("k12",data[0].dataset.error,false,3000,true,function(){
+                },false);
+            });
+
+
         }
         var logIn = function(){
             // logIn validation
@@ -285,7 +299,6 @@ Framework7.prototype.plugins.main = function (app, params) {
                     var _form = $(form).serializeArray();
                     var logIn = ajax(processor+'do-logIn',_form);
                     console.log(logIn.responseText);
-
                 }
             }); 
         }
