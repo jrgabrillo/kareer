@@ -55,7 +55,7 @@ $Functions = new DatabaseClasses;
     }
     if (isset($_GET['get-login'])){
         if(isset($_POST['data'])){
-            $data = $_POST['data']; $flag = 0;
+            $data = $_POTS['data']; $flag = 0;
 
             $email = $data[0]['value'];
             $password = sha1($data[1]['value']);
@@ -738,7 +738,7 @@ $Functions = new DatabaseClasses;
         $id = $Functions->PDO_IDGenerator('tbl_applicant','id');
         $name = $data[0]['value'];
         $email = $data[1]['value'];
-        $password = $Functions->PDO_IDGenerator('tbl_applicant','password');
+        $password = sha1($data[2]['value'] );
 
 
         $query = $Functions->PDO_SQLQuery("INSERT INTO tbl_applicant(id,lname,fname,mname,address,contactno,image,description,resume,email,password,gender)VALUES('{$id}','{$name}','','','','','','','','{$email}','{$password}','')");;
@@ -753,17 +753,18 @@ $Functions = new DatabaseClasses;
 
     //RELKINS
      if (isset($_GET['do-logIn'])){
-       $data = $_POST['data'];
-        print_r($data);
+       $data = $_POST["data"];
+  
+
  
         
-         $email = $data[0]['value'];
-         $password = $data[1]['value'];
+        $email = $data[0]['value'];
+        $password = sha1($data[1]['value'] );
  
  
         $query = $Functions->PDO_SQL("SELECT * FROM tbl_applicant  WHERE email = '{$email}' AND password = '{$password}'");
-         print_r($query);
-         if(count($query)>0){
+        
+         if(count($query)==1){
              echo("success!");
          }
          else

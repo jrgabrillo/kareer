@@ -252,7 +252,7 @@ Framework7.prototype.plugins.main = function (app, params) {
                     var _form = $(form).serializeArray();
                     var signUp = ajax(processor+'do-signUp',_form);
                     console.log(signUp.responseText);
-                     notification("k12","Succes",false,3000,true,function(){
+                     notification("k12","Success",false,3000,true,function(){
                        
                     },false);
                 }
@@ -269,8 +269,8 @@ Framework7.prototype.plugins.main = function (app, params) {
         var logIn = function(){
             // logIn validation
             $$("a.button").on('click',function(){
-                var _form = $('#form_logIn').serializeArray();
-                var logIn = ajax(processor+'do-logIn',_form);
+                var _form1 = $('#form_logIn').serializeArray();
+                var logIn = ajax(processor+'do-logIn',_form1);
                 console.log(logIn.responseText);
             });
 
@@ -302,8 +302,13 @@ Framework7.prototype.plugins.main = function (app, params) {
                         checkPassword: "<i data-error ='Incorrect password' class='icon f7-icons color red' style='margin:5px;'>info</i>",
                     },
                 },
-                submitHandler: function (form) {
-                    
+                 submitHandler: function (form) {
+                    var _form = $(form).serializeArray();
+                    var logIn = ajax(processor+'do-logIn',_form);
+                    console.log(logIn.responseText);
+                     notification("k12","Successsss",false,3000,true,function(){
+                       
+                    },false);
                 }
             }); 
             $$(".log-error-icon").on('click',function(){
