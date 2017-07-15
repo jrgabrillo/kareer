@@ -268,10 +268,10 @@ Framework7.prototype.plugins.main = function (app, params) {
         }
         var logIn = function(){
             // logIn validation
-            $$("a.button").on('click',function(){
+            $$("button").on('click',function(){
                 var _form1 = $('#form_logIn').serializeArray();
                 var logIn = ajax(processor+'do-logIn',_form1);
-                console.log(logIn.responseText);
+              
             });
 
 
@@ -306,7 +306,7 @@ Framework7.prototype.plugins.main = function (app, params) {
                     var _form = $(form).serializeArray();
                     var logIn = ajax(processor+'do-logIn',_form);
                     console.log(logIn.responseText);
-                     notification("k12","Successsss",false,3000,true,function(){
+                     notification("k12","Login Success",false,3000,true,function(){
                        
                     },false);
                 }
@@ -316,7 +316,9 @@ Framework7.prototype.plugins.main = function (app, params) {
                 notification("k12",data[0].dataset.error,false,3000,true,function(){
                 },false);
             });
-            }
+            
+        }
+
 
 
 
