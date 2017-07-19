@@ -55,7 +55,7 @@ $Functions = new DatabaseClasses;
     }
     if (isset($_GET['get-login'])){
         if(isset($_POST['data'])){
-            $data = $_POTS['data']; $flag = 0;
+            $data = $_POST['data']; $flag = 0;
 
             $email = $data[0]['value'];
             $password = sha1($data[1]['value']);
@@ -751,12 +751,38 @@ $Functions = new DatabaseClasses;
             }
     }
 
+    if (isset($_GET['do-personal-info'])){
+       $data = $_POST['data'];
+       print_r($data);
+        $id = $Functions->PDO_IDGenerator('tbl_applicant','id');
+        $lname = $data[0]['value'];
+        $gname = $data[1]['value'];
+        $mname = $data[2]['value'];
+        $gender = $data[3]['value'];
+        $dob = $data[4]['value'];
+        $pob = $data[5]['value'];
+        $paddress = $data[6]['value'];
+        $citizenship = $data[7]['value'];
+        $height = $data[8]['value'];
+        $weight = $data[9]['value'];
+        $mother = $data[10]['value'];
+        $father = $data[11]['value'];
+       
+
+        $query = $Functions->PDO_SQLQuery("INSERT INTO tbl_applicant(id,lname,fname,mname,address,contactno,image,description,resume,email,password,gender,date_of_birth,place_of_birth,citizenship,height,weight,mother_name,father_name)VALUES('{$id}','{$lname}','{$gname}','{$mname}','{$paddress}','','','','','','','{$gender}','{$dob}','{$pob}','{$citizenship}','{$height}','{$weight}','{$mother}','{$father}')");;
+            if($query->execute()){
+                echo 1;
+            }
+            else{
+                $Data = $query->errorInfo();
+                print_r($Data);
+            }
+      
+    }
+
     //RELKINS
      if (isset($_GET['do-logIn'])){
        $data = $_POST["data"];
-  
-
- 
         
         $email = $data[0]['value'];
         $password = sha1($data[1]['value'] );

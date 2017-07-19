@@ -266,6 +266,102 @@ Framework7.prototype.plugins.main = function (app, params) {
 
 
         }
+
+        var personalInfo = function(){
+            //[CED] validation
+            $("#form_personal_info").validate({
+                rules: {
+                    field_last_name: {required: true, maxlength:50},
+                    field_given_name: {required: true, maxlength:50},
+                    field_middle_name: {required: true, maxlength:50},
+                    field_gender: {required: true, maxlength:50},
+                    field_date_of_birth: {required: true, maxlength:50},
+                    field_place_of_birth: {required: true, maxlength:50},
+                    field_permanent_address: {required: true, maxlength:50},
+                    field_citizenship: {required: true, maxlength:50},
+                    field_height: {required: true, maxlength:50},
+                    field_weight: {required: true, maxlength:50},
+                    field_mother_name: {required: true, maxlength:50},
+                    field_father_name: {required: true, maxlength:50},
+                },
+                errorElement : 'div',
+                errorPlacement: function(error, element) { 
+                    var placement = $(element).data('error');
+                    if(placement){
+                        $(placement).append(error);
+                    } 
+                    else{
+                        error.insertAfter(element);
+                    }
+
+                },
+                //[CED] error messages for filling up the fields
+                messages: {
+                    field_last_name: {
+                        required: "<i data-error ='Field is required' class='icon f7-icons color red' style='margin:5px;'>info</i>",
+                        maxlength: "<i data-error ='Name is too long' class='icon f7-icons color red' style='margin:5px;'>info</i>",
+                    },
+                    field_given_name: {
+                        required: "<i data-error ='Field is required' class='icon f7-icons color red' style='margin:5px;'>info</i>",
+                        maxlength: "<i data-error ='Name is too long' class='icon f7-icons color red' style='margin:5px;'>info</i>",
+                    },
+                    field_middle_name: {
+                        required: "<i data-error ='Field is required' class='icon f7-icons color red' style='margin:5px;'>info</i>",
+                        maxlength: "<i data-error ='Name is too long' class='icon f7-icons color red' style='margin:5px;'>info</i>",
+                    },
+                    field_gender: {
+                        required: "<i data-error ='Field is required' class='icon f7-icons color red' style='margin:5px;'>info</i>",
+                        maxlength: "<i data-error ='Name is too long' class='icon f7-icons color red' style='margin:5px;'>info</i>",
+                    },
+                    field_date_of_birth: {
+                        required: "<i data-error ='Field is required' class='icon f7-icons color red' style='margin:5px;'>info</i>",
+                        maxlength: "<i data-error ='Name is too long' class='icon f7-icons color red' style='margin:5px;'>info</i>",
+                    },
+                    field_permanent_address: {
+                        required: "<i data-error ='Field is required' class='icon f7-icons color red' style='margin:5px;'>info</i>",
+                        maxlength: "<i data-error ='Name is too long' class='icon f7-icons color red' style='margin:5px;'>info</i>",
+                    },
+                    field_citizenship: {
+                        required: "<i data-error ='Field is required' class='icon f7-icons color red' style='margin:5px;'>info</i>",
+                        maxlength: "<i data-error ='Name is too long' class='icon f7-icons color red' style='margin:5px;'>info</i>",
+                    },
+                    field_height: {
+                        required: "<i data-error ='Field is required' class='icon f7-icons color red' style='margin:5px;'>info</i>",
+                        maxlength: "<i data-error ='Name is too long' class='icon f7-icons color red' style='margin:5px;'>info</i>",
+                    },
+                    field_weight: {
+                        required: "<i data-error ='Field is required' class='icon f7-icons color red' style='margin:5px;'>info</i>",
+                        maxlength: "<i data-error ='Name is too long' class='icon f7-icons color red' style='margin:5px;'>info</i>",
+                    },
+                    field_mother_name: {
+                        required: "<i data-error ='Field is required' class='icon f7-icons color red' style='margin:5px;'>info</i>",
+                        maxlength: "<i data-error ='Name is too long' class='icon f7-icons color red' style='margin:5px;'>info</i>",
+                    },
+                    field_father_name: {
+                        required: "<i data-error ='Field is required' class='icon f7-icons color red' style='margin:5px;'>info</i>",
+                        maxlength: "<i data-error ='Name is too long' class='icon f7-icons color red' style='margin:5px;'>info</i>",
+                    },
+                   
+
+                },
+
+                submitHandler: function (form) {
+                    var _form = $(form).serializeArray();
+                    var signUp = ajax(processor+'do-personal-info',_form);
+                    console.log(signUp.responseText);
+                    notification("k12","Success",false,3000,true,function(){
+                    },false);
+                }
+            }); 
+            //CED pop-up error in info(icon)
+            $$(".error-icon").on('click',function(){
+                var data= $(this).find('i');
+                notification("k12",data[0].dataset.error,false,3000,true,function(){
+                },false);
+            });
+
+        }
+
         var logIn = function(){
             // logIn validation
             $$("button").on('click',function(){
@@ -319,26 +415,15 @@ Framework7.prototype.plugins.main = function (app, params) {
             
         }
 
-
-
-
-        // var logIn = function(){
-        //     console.log('xx');
-        //     $$("a[data-cmd='button_logIn']").on('click',function(){
-        //         var form = $("#form_logIn").serializeArray();
-        //         console.log(form);
-        //     });
-        // }
-
-
-
     return {
         hooks: {
             appInit: function () {
                 var deviceSize = getDeviceSize();
                 console.log(deviceSize);
                 signUp();
+                personalInfo();
                 logIn();
+                
             }
         }
     }
