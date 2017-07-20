@@ -266,6 +266,60 @@ Framework7.prototype.plugins.main = function (app, params) {
 
 
         }
+        
+
+        var logIn = function(){
+            // logIn validation
+            $$("button").on('click',function(){
+                var _form1 = $('#form_logIn').serializeArray();
+                var logIn = ajax(processor+'do-logIn',_form1);
+              
+            });
+
+
+            $("#form_logIn").validate({
+                rules: {
+                    field_email: {required: true,email:true},
+                    field_password: {required: true,checkPassword:true},
+                },
+                errorElement : 'div',
+                errorPlacement: function(error, element) {
+                    var placement = $(element).data('error');
+                    if(placement){
+                        $(placement).append(error)
+                    } 
+                    else{
+                        error.insertAfter(element);
+                    }
+                },
+                
+                messages: {
+                   
+                    field_email: {
+                        required: "<i data-error ='Field is required' class='icon f7-icons  color red' style='margin:5px;'>info</i>",
+                        email: "<i data-error ='Email is invalid' class='icon f7-icons color red' style='margin:5px;'>info</i>",
+                    },
+                    field_password: {
+                        required: "<i data-error ='Field is required' class='icon f7-icons color red' style='margin:5px;'>info</i>",
+                        checkPassword: "<i data-error ='Incorrect password' class='icon f7-icons color red' style='margin:5px;'>info</i>",
+                    },
+                },
+                 submitHandler: function (form) {
+                    var _form = $(form).serializeArray();
+                    var logIn = ajax(processor+'do-logIn',_form);
+                    console.log(logIn.responseText);
+                     notification("k12","Login Success",false,3000,true,function(){
+                       
+                    },false);
+                }
+            }); 
+            $$(".log-error-icon").on('click',function(){
+                var data= $(this).find('i');
+                notification("k12",data[0].dataset.error,false,3000,true,function(){
+                },false);
+            });
+            
+        }
 
         var personalInfo = function(){
             //[CED] validation
@@ -362,57 +416,68 @@ Framework7.prototype.plugins.main = function (app, params) {
 
         }
 
-        var logIn = function(){
-            // logIn validation
-            $$("button").on('click',function(){
-                var _form1 = $('#form_logIn').serializeArray();
-                var logIn = ajax(processor+'do-logIn',_form1);
-              
-            });
-
-
-            $("#form_logIn").validate({
+        var academicInfo = function(){
+            //[CED] validation
+            $("#form_academic_info").validate({
                 rules: {
-                    field_email: {required: true,email:true},
-                    field_password: {required: true,checkPassword:true},
+                    field_level: {required: true, maxlength:50},
+                    field_school_attended: {required: true, maxlength:50},
+                    field_degree: {required: true, maxlength:50},
+                    field_period_attended: {required: true, maxlength:50},
                 },
                 errorElement : 'div',
-                errorPlacement: function(error, element) {
+                errorPlacement: function(error, element) { 
                     var placement = $(element).data('error');
                     if(placement){
-                        $(placement).append(error)
+                        $(placement).append(error);
+                        console.log('cedsss');
                     } 
                     else{
                         error.insertAfter(element);
                     }
+
                 },
-                
+                //[CED] error messages for filling up the fields
                 messages: {
-                   
-                    field_email: {
-                        required: "<i data-error ='Field is required' class='icon f7-icons  color red' style='margin:5px;'>info</i>",
-                        email: "<i data-error ='Email is invalid' class='icon f7-icons color red' style='margin:5px;'>info</i>",
-                    },
-                    field_password: {
+                    field_level: {
                         required: "<i data-error ='Field is required' class='icon f7-icons color red' style='margin:5px;'>info</i>",
-                        checkPassword: "<i data-error ='Incorrect password' class='icon f7-icons color red' style='margin:5px;'>info</i>",
+                        maxlength: "<i data-error ='Name is too long' class='icon f7-icons color red' style='margin:5px;'>info</i>",
                     },
+                    field_school_attended: {
+                        required: "<i data-error ='Field is required' class='icon f7-icons color red' style='margin:5px;'>info</i>",
+                        maxlength: "<i data-error ='Name is too long' class='icon f7-icons color red' style='margin:5px;'>info</i>",
+                    },
+                    field_degree: {
+                        required: "<i data-error ='Field is required' class='icon f7-icons color red' style='margin:5px;'>info</i>",
+                        maxlength: "<i data-error ='Name is too long' class='icon f7-icons color red' style='margin:5px;'>info</i>",
+                    },
+                    field_period_attended: {
+                        required: "<i data-error ='Field is required' class='icon f7-icons color red' style='margin:5px;'>info</i>",
+                        maxlength: "<i data-error ='Name is too long' class='icon f7-icons color red' style='margin:5px;'>info</i>",
+                    },             
                 },
-                 submitHandler: function (form) {
+
+                submitHandler: function (form) {
                     var _form = $(form).serializeArray();
-                    var logIn = ajax(processor+'do-logIn',_form);
-                    console.log(logIn.responseText);
-                     notification("k12","Login Success",false,3000,true,function(){
-                       
+                    var academic = ajax(processor+'do-academic-info',_form);
+                    console.log(academic.responseText);
+                    notification("k12","Success",false,3000,true,function(){
                     },false);
+                    console.log('ced');
                 }
             }); 
-            $$(".log-error-icon").on('click',function(){
+            //CED pop-up error in info(icon)
+            $$(".error-icon").on('click',function(){
                 var data= $(this).find('i');
                 notification("k12",data[0].dataset.error,false,3000,true,function(){
                 },false);
             });
-            
+
+             $$("button[data-cmd='yeah']").on('click',function(){
+                var _form = $('#form_academic_info').serializeArray();
+                var signUp = ajax(processor+'do-academic-info',_form);
+                console.log(signUp.responseText);
+            });
         }
 
     return {
@@ -421,9 +486,9 @@ Framework7.prototype.plugins.main = function (app, params) {
                 var deviceSize = getDeviceSize();
                 console.log(deviceSize);
                 signUp();
-                personalInfo();
                 logIn();
-                
+                personalInfo();
+                academicInfo();
             }
         }
     }

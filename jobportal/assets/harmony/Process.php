@@ -751,35 +751,6 @@ $Functions = new DatabaseClasses;
             }
     }
 
-    if (isset($_GET['do-personal-info'])){
-       $data = $_POST['data'];
-       print_r($data);
-        $id = $Functions->PDO_IDGenerator('tbl_applicant','id');
-        $lname = $data[0]['value'];
-        $gname = $data[1]['value'];
-        $mname = $data[2]['value'];
-        $gender = $data[3]['value'];
-        $dob = $data[4]['value'];
-        $pob = $data[5]['value'];
-        $paddress = $data[6]['value'];
-        $citizenship = $data[7]['value'];
-        $height = $data[8]['value'];
-        $weight = $data[9]['value'];
-        $mother = $data[10]['value'];
-        $father = $data[11]['value'];
-       
-
-        $query = $Functions->PDO_SQLQuery("INSERT INTO tbl_applicant(id,lname,fname,mname,address,contactno,image,description,resume,email,password,gender,date_of_birth,place_of_birth,citizenship,height,weight,mother_name,father_name)VALUES('{$id}','{$lname}','{$gname}','{$mname}','{$paddress}','','','','','','','{$gender}','{$dob}','{$pob}','{$citizenship}','{$height}','{$weight}','{$mother}','{$father}')");;
-            if($query->execute()){
-                echo 1;
-            }
-            else{
-                $Data = $query->errorInfo();
-                print_r($Data);
-            }
-      
-    }
-
     //RELKINS
      if (isset($_GET['do-logIn'])){
        $data = $_POST["data"];
@@ -798,9 +769,31 @@ $Functions = new DatabaseClasses;
              echo("not match");
           
          }
- 
- 
- 
      }
+
+     if (isset($_GET['do-academic-info'])){
+       $data = $_POST['data'];
+       print_r($data);
+        $id = $Functions->PDO_IDGenerator('tbl_acadinfo','id');
+        $level = $data[0]['value'];
+        $sattended = $data[1]['value'];
+        $degree = $data[2]['value'];
+        $pattended = $data[3]['value'];
+        $hlevel = $data[4]['value'];
+        $ygraduated = $data[5]['value'];
+        $aid = $data[6]['value'];
+       
+       
+
+        $query = $Functions->PDO_SQLQuery("INSERT INTO tbl_acadinfo(id,level,schoolattended,degree,periodofattendance,highestlevel,yeargraduated,applicant_id)VALUES('{$id}','{$level}','{$sattended}','{$degree}','{$pattended}','{$hlevel}','{$ygraduated}','{$aid}')");;
+            if($query->execute()){
+                echo 1;
+            }
+            else{
+                $Data = $query->errorInfo();
+                print_r($Data);
+            }
+      
+    }
 
 ?> 
