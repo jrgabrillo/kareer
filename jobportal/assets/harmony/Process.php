@@ -796,4 +796,31 @@ $Functions = new DatabaseClasses;
       
     }
 
+
+     if (isset($_GET['do-career-info'])){
+       $data = $_POST['data'];
+       print_r($data);
+        $id = $Functions->PDO_IDGenerator('tbl_career','id');
+        $aid = $data[0]['value'];
+        $idates = $data[1]['value'];
+        $ptitle = $data[2]['value'];
+        $agency = $data[3]['value'];
+        $msalary = $data[4]['value'];
+        $astatus = $data[5]['value'];
+        $gservice = $data[6]['value'];
+        $date = $data[6]['value'];
+       
+       
+
+        $query = $Functions->PDO_SQLQuery("INSERT INTO tbl_career(id,applicant_id,inclusive_dates,position_title,agency,monthly_salary,appointment_status,govt_service,date)VALUES('{$id}','{$aid}','{$idates}','{$ptitle}','{$agency}','{$msalary}','{$astatus}','{$gservice}','$date')");;
+            if($query->execute()){
+                echo 1;
+            }
+            else{
+                $Data = $query->errorInfo();
+                print_r($Data);
+            }
+      
+    }
+
 ?> 
