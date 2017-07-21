@@ -22,8 +22,11 @@ var main = function () {
 					console.log(_form);
 					var data = system.ajax('assets/harmony/Process.php?login',_form);
 					data.done(function(data){
-						console.log(data);
+                        var access = main.check_access();
 						if(data == 1){
+                            access = JSON.parse(access);
+                            console.log();
+                            localStorage.setItem("hash",access[2]);
 							Materialize.toast('Success.',1000,'',function(){
 						    	$(location).attr('href','account/');
 							});
@@ -72,13 +75,17 @@ var main = function () {
 			$("#display_jobposts").append(content);
         },
         check_access:function(){
-            var ajax = system.html('../assets/harmony/Process.php?get-session');
+            var result = "";
+            var ajax = system.html('assets/harmony/Process.php?get-session');
             ajax.done(function(data){
                 if(data == 0){
                     $(location).attr('href','../');                     
-                    console.log("access denied.");
+                }
+                else{
+                    result = data;
                 }
             })
+            return result;
         },
     };
 }();

@@ -32,7 +32,7 @@ var App = function () {
                 $('#content').html(data);
                 $('#content').addClass('animated zoomIn');
                 var navigation = system.ajax('../pages/'+node+'/nav.html',"");
-                $("#navigation").html(navigation.responseText);                    
+                $("nav").html(navigation.responseText);                    
                 $(".collapsible").collapsible({accordion:!1});
 
                 if(newhash.length>1){
