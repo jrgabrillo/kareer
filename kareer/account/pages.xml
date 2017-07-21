@@ -1,0 +1,484 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<content>
+	<loader2>
+		<div class='preloader-wrapper small active'>
+			<div class='spinner-layer spinner-blue'>
+				<div class='circle-clipper left'>
+					<div class='circle'></div>
+				</div>
+				<div class='gap-patch'>
+					<div class='circle'></div>
+				</div>
+				<div class='circle-clipper right'>
+					<div class='circle'></div>
+				</div>
+			</div>
+			<div class='spinner-layer spinner-red'>
+				<div class='circle-clipper left'>
+					<div class='circle'></div>
+				</div>
+				<div class='gap-patch'>
+					<div class='circle'></div>
+				</div>
+				<div class='circle-clipper right'>
+					<div class='circle'></div>
+				</div>
+			</div>
+			<div class='spinner-layer spinner-yellow'>
+				<div class='circle-clipper left'>
+					<div class='circle'></div>
+				</div>
+				<div class='gap-patch'>
+					<div class='circle'></div>
+				</div>
+				<div class='circle-clipper right'>
+					<div class='circle'></div>
+				</div>
+			</div>
+			<div class='spinner-layer spinner-green'>
+				<div class='circle-clipper left'>
+					<div class='circle'></div>
+				</div>
+				<div class='gap-patch'>
+					<div class='circle'></div>
+				</div>
+				<div class='circle-clipper right'>
+					<div class='circle'></div>
+				</div>
+			</div>
+		</div>
+	</loader2>
+
+	<loader>
+		<div class='col s12 center'>
+			<div class='preloader-wrapper small active'>
+				<div class='spinner-layer spinner-blue'>
+					<div class='circle-clipper left'>
+						<div class='circle'></div>
+					</div>
+					<div class='gap-patch'>
+						<div class='circle'></div>
+					</div>
+					<div class='circle-clipper right'>
+						<div class='circle'></div>
+					</div>
+				</div>
+				<div class='spinner-layer spinner-red'>
+					<div class='circle-clipper left'>
+						<div class='circle'></div>
+					</div>
+					<div class='gap-patch'>
+						<div class='circle'></div>
+					</div>
+					<div class='circle-clipper right'>
+						<div class='circle'></div>
+					</div>
+				</div>
+				<div class='spinner-layer spinner-yellow'>
+					<div class='circle-clipper left'>
+						<div class='circle'></div>
+					</div>
+					<div class='gap-patch'>
+						<div class='circle'></div>
+					</div>
+					<div class='circle-clipper right'>
+						<div class='circle'></div>
+					</div>
+				</div>
+				<div class='spinner-layer spinner-green'>
+					<div class='circle-clipper left'>
+						<div class='circle'></div>
+					</div>
+					<div class='gap-patch'>
+						<div class='circle'></div>
+					</div>
+					<div class='circle-clipper right'>
+						<div class='circle'></div>
+					</div>
+				</div>
+			</div>
+			<br/><span>Loading...</span>
+		</div>
+	</loader>
+
+	<addAccount>
+		<form id='form_registerAdmin' class='formValidate' method='get' action='' novalidate='novalidate'>
+			<div class='row'>
+				<div class='col offset-m1 offset-l1 s12 m10 l10'>
+					<div class='input-field col s12'>
+						<div class='input-field col s12 m6 l6'>
+							<label for='field_name'>Name: </label>
+				            <input id='field_name' type='text' name='field_name' data-error='.error_name'>
+							<div class='error_name'></div>	
+						</div>
+						<div class='input-field col s12 m6 l6'>
+							<label for='field_email'>Email: </label>
+				            <input id='field_email' type='text' name='field_email' data-error='.error_email'>
+							<div class='error_email'></div>	
+						</div>
+						<div class='input-field col s12 m6 l6'>
+							<label for='field_username'>Username: </label>
+				            <input id='field_username' type='text' name='field_username' data-error='.error_username'>
+							<div class='error_username'></div>	
+						</div>
+						<div class='input-field col s12 m6 l6'>
+							<label for='field_password'>Password: </label>
+				            <input id='field_password' type='password' name='field_password' data-error='.error_password'>
+							<div class='error_password'></div>	
+						</div>
+						<div class='row'>
+							<div class='input-field col s12'>
+								<button class='btn blue waves-effect waves-light right' type='submit'>Save</button>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</form>
+	</addAccount>
+
+	<addProduct>
+		<form id='form_addProduct' class='formValidate' method='get' action='' novalidate='novalidate'>
+			<div class='row'>
+				<div class='col offset-m3 offset-l3 s12 m6 l6'>
+					<h4 class="">Add Product</h4>
+					<div class='row'>
+						<div class='input-field col s12'>
+							<label for='field_productName'>Product Name: </label>
+				            <input id='field_productName' type='text' name='field_productName' data-error='.error_productName'>
+							<div class='error_productName'></div>	
+						</div>
+						<div class='input-field col s6'>
+							<label for='field_qty'>SKU: </label>
+				            <input id='field_qty' type='text' name='field_qty' data-error='.error_qty'>
+							<div class='error_qty'></div>	
+						</div>
+						<div class='input-field col s6'>
+							<label for='field_price'>Price: </label>
+				            <input id='field_price' type='text' name='field_price' data-error='.error_price'>
+							<div class='error_price'></div>	
+						</div>
+						<div class='input-field col s12 hidden'>
+							<label for='field_description'>Discription: </label>
+				            <textarea class='materialize-textarea' id='field_description' type='text' name='field_description' data-error='.error_description'></textarea>
+							<div class='error_description'></div>	
+						</div>
+						<div class='input-field col s12'>
+							<label for='field_category'>Category: </label>
+				            <input id='field_category' type='text' name='field_category' data-error='.error_category'>
+							<div class='error_category'></div>	
+						</div>
+					</div>
+					<div class='row'>
+						<div class='input-field col s12'>
+							<button class='btn blue waves-effect waves-light right' type='submit'>Save</button>
+						</div>
+					</div>
+				</div>
+			</div>
+		</form>
+	</addProduct>
+
+	<addClient>
+		<form id='form_addClient' class='formValidate' method='get' action='' novalidate='novalidate'>
+			<div class='row'>
+				<div class='col offset-m1 offset-l1 s12 m10 l10'>
+					<h4 class="">Add Business Clients</h4>
+					<div class='row'>
+						<div class='input-field col s12'>
+							<p>Business Information</p>
+							<div class='divider'></div><br/>
+						</div>
+						<div class='input-field col s12'>
+							<label for='field_name'>Company Name: </label>
+				            <input id='field_name' type='text' name='field_name' data-error='.error_name'>
+							<div class='error_name'></div>	
+						</div>
+						<div class='input-field col s6'>
+							<label for='field_phone'>Contact Number: </label>
+				            <input id='field_phone' type='text' name='field_phone' data-error='.error_phone'>
+							<div class='error_phone'></div>	
+						</div>
+						<div class='input-field col s6'>
+							<label for='field_email'>Email Address: </label>
+				            <input id='field_email' type='text' name='field_email' data-error='.error_email'>
+							<div class='error_email'></div>	
+						</div>
+						<div class='input-field col s12'>
+							<label for='field_address'>Business Address: </label>
+				            <input id='field_address' type='text' name='field_address' data-error='.error_address'>
+							<div class='error_address'></div>	
+						</div>
+						<div class='input-field col s12'>
+							<p>Account Information</p>
+							<div class='divider'></div><br/>
+						</div>
+						<div class='input-field col s12'>
+							<label for='field_accountName'>Account Name: </label>
+				            <input id='field_accountName' type='text' name='field_accountName' data-error='.error_accountName'>
+							<div class='error_accountName'></div>	
+						</div>
+						<div class='input-field col s6'>
+							<label for='field_accountPhone'>Contact Number: </label>
+				            <input id='field_accountPhone' type='text' name='field_accountPhone' data-error='.error_accountPhone'>
+							<div class='error_accountPhone'></div>	
+						</div>
+						<div class='input-field col s6'>
+							<label for='field_accountEmail'>Email Address: </label>
+				            <input id='field_accountEmail' type='text' name='field_accountEmail' data-error='.error_accountEmail'>
+							<div class='error_accountEmail'></div>	
+						</div>
+						<div class='input-field col s12'>
+							<label for='field_username'>Username: </label>
+				            <input id='field_username' type='text' name='field_username' data-error='.error_username'>
+							<div class='error_username'></div>	
+						</div>
+						<div class='input-field col s12'>
+							<label for='field_password'>Password: </label>
+				            <input id='field_password' type='password' name='field_password' data-error='.error_password'>
+							<div class='error_password'></div>	
+							<div id='note_password' class='hidden animated zoomOut'>
+								Password must contain atleast 1 number, 1 uppercase letter, 1 lowercare letter, 1 special character* and 6 character length. <br/>
+								<u>Special characters are ! @ $ % *</u>
+							</div>
+						</div>
+					</div>
+					<div class='row'>
+						<div class='input-field col s12'>
+							<button class='btn blue waves-effect waves-light right' type='submit'>Save</button>
+						</div>
+					</div>
+				</div>
+			</div>
+		</form>
+	</addClient>
+
+	<addEmployee>
+		<form id='form_addEmployee' class='formValidate' method='get' action='' novalidate='novalidate'>
+			<div class='row'>
+				<div class='col offset-m1 offset-l1 s12 m10 l10'>
+					<h4 class="">Add Business Clients</h4>
+					<div class='row'>
+						<div class='input-field col s12'>
+							<p>Personal Information</p>
+							<div class='divider'></div><br/>
+						</div>
+						<div class='row'>
+							<div class='input-field col s4'>
+								<label for='field_gname'>Given Name: </label>
+					            <input id='field_gname' type='text' name='field_gname' data-error='.error_gname'>
+								<div class='error_gname'></div>	
+							</div>
+							<div class='input-field col s4'>
+								<label for='field_mname'>Middle Name: </label>
+					            <input id='field_mname' type='text' name='field_mname' data-error='.error_mname'>
+								<div class='error_mname'></div>	
+							</div>
+							<div class='input-field col s4'>
+								<label for='field_fname'>Family Name: </label>
+					            <input id='field_fname' type='text' name='field_fname' data-error='.error_fname'>
+								<div class='error_fname'></div>	
+							</div>
+						</div>
+						<div class='row'>
+							<div class='input-field col s4'>
+								<label for='field_nickname'>Nickname: </label>
+					            <input id='field_nickname' type='text' name='field_nickname' data-error='.error_nickname'>
+								<div class='error_nickname'></div>	
+							</div>
+							<div class='input-field col s4'>
+								<label for='field_dob'>Date of Birth: (mm/dd/yyyy) </label>
+					            <input id='field_dob' type='text' name='field_dob' data-error='.error_dob'>
+								<div class='error_dob'></div>	
+							</div>
+							<div class='input-field col s4'>
+								<label for='field_gender' class='active'>Gender: </label>
+								<select name='field_gender'>
+									<option selected>Male</option>
+									<option>Female</option>
+								</select>
+							</div>
+						</div>
+						<div class='input-field col s12'>
+							<label for='field_address'>Address: </label>
+				            <input id='field_address' type='text' name='field_address' data-error='.error_address'>
+							<div class='error_address'></div>	
+						</div>
+						<div class='input-field col s6'>
+							<label for='field_phone'>Contact Number: </label>
+				            <input id='field_phone' type='text' name='field_phone' data-error='.error_phone'>
+							<div class='error_phone'></div>	
+						</div>
+						<div class='input-field col s6'>
+							<label for='field_email'>Email Address: </label>
+				            <input id='field_email' type='text' name='field_email' data-error='.error_email'>
+							<div class='error_email'></div>	
+						</div>
+						<div class='input-field col s12'>
+							<p>Account Information</p>
+							<div class='divider'></div><br/>
+						</div>
+						<div class='input-field col s12'>
+							<label for='field_position'>Position: </label>
+				            <input id='field_position' type='text' name='field_position' data-error='.error_position'>
+							<div class='error_position'></div>	
+						</div>
+						<div class='input-field col s6'>
+							<label for='field_employeeID'>Employee ID: </label>
+				            <input id='field_employeeID' type='text' name='field_employeeID' data-error='.error_employeeID'>
+							<div class='error_employeeID'></div>	
+						</div>
+						<div class='input-field col s6'>
+							<label for='field_password'>Password: </label>
+				            <input id='field_password' type='password' name='field_password' data-error='.error_password'>
+							<div class='error_password'></div>	
+							<div id='note_password' class='hidden animated zoomOut'>
+								Password must contain atleast 1 number, 1 uppercase letter, 1 lowercare letter, 1 special character* and 6 character length. <br/>
+								<u>Special characters are ! @ $ % *</u>
+							</div>
+						</div>
+					</div>
+					<div class='row'>
+						<div class='input-field col s12'>
+							<button class='btn blue waves-effect waves-light right' type='submit'>Save</button>
+						</div>
+					</div>
+				</div>
+			</div>
+		</form>
+	</addEmployee>
+
+	<addPoint>
+		<form id='form_addPoints' class='formValidate' method='get' action='' novalidate='novalidate'>
+			<div class='row'>
+				<div class='col s12 m12 l12'>
+					<div class="file-field input-field">
+						<div class="btn">
+							<span>File</span>
+							<input type="file">
+						</div>
+						<div class="file-path-wrapper">
+							<input class="file-path validate valid" type="text">
+						</div>
+					</div>
+				</div>
+			</div>
+		</form>
+	</addPoint>
+
+	<product>
+		<div class="product col s12 m3 l3" style="margin-bottom:30px;">
+		    <div class="card">
+		        <div class="card-image waves-effect waves-block waves-light">
+		            <!-- <a href="#" class="btn-floating btn-large btn-price waves-effect waves-light  pink accent-2">$189</a> -->
+		            <!-- <img class='activator' draggable='false' src="assets/images/img2.jpg" alt="product-img"> -->
+		        </div>
+		        <ul class="card-action-buttons">
+		            <li><a data-position="left" data-delay="50" data-tooltip="Add to cart" class="tooltipped btn-floating waves-effect black-text blue"><i class="mdi-action-shopping-cart"></i></a></li>
+		        </ul>
+		        <div class="card-content">
+		            <div class="row">
+		                <div class="col s8">
+		                    <p class="card-title grey-text text-darken-4"><a href="#" class="grey-text text-darken-4">Apple MacBook Pro A1278 13"</a></p>
+		                </div>
+		                <div class="col s4">
+		                    <p style="font-size: 24px;line-height: 32px;">$189</p>
+		                </div>
+		            </div>
+		        </div>
+		        <div class="card-reveal">
+		            <span class="card-title grey-text text-darken-4"><i class="mdi-navigation-close right"></i> Apple MacBook Pro A1278 13"</span>
+		            <p>Here is some more information about this product that is only revealed once clicked on.</p>
+		        </div>
+		    </div>
+		</div>
+	</product>
+
+	<tableEmployeePreview>
+        <table class='display dataTable bordered' width="100%">
+            <thead>
+                <tr>
+                    <td width='1%'>#</td>
+                    <td>Employee ID</td>
+                    <td>Last Name</td>
+                    <td>First Name</td>
+                    <td>Date of Birth</td>
+                    <td>Gender</td>
+                    <td>Email</td>
+                </tr>
+            </thead>
+            <tbody></tbody>
+        </table>
+	</tableEmployeePreview>
+
+	<tablePointsPreview>
+        <table class='display dataTable bordered' width="100%">
+            <thead>
+                <tr>
+                    <td width='1%'>#</td>
+                    <td>Employee ID</td>
+                    <td>Name</td>
+                    <td>Email</td>
+                    <td>Points</td>
+                </tr>
+            </thead>
+            <tbody></tbody>
+        </table>
+	</tablePointsPreview>
+
+	<errorPage>
+		<div class='middle-box text-center animated fadeInDown'>
+			<div class='col s12 m4 l4'>
+				<h1>404</h1>
+				<h3 class='font-bold'>Page Not Found</h3>
+				<div class='error-desc'>
+					Sorry, but the page you are looking for has not been found. <br/>Try checking the URL for error, then hit the refresh button on your browser or try something else in our app.
+				</div>
+			</div>
+		</div>
+	</errorPage>
+
+	<errorContent>
+		<div class='middle-box center animated fadeInDown'>
+			<div class='col offset-m4 offset-l4 s12 m4 l4'>
+				<h1>Oops!</h1>
+				<h3 class='font-bold'>Sorry, I cannot load the content.</h3>
+				<div class='error-desc'>
+					Sorry, but the you do not have permission to access some of the content.
+				</div>
+			</div>
+		</div>
+	</errorContent>	
+
+	<addPoints>
+		<form id='form_addPoints' class='formValidate' method='get' action='' novalidate='novalidate'>
+			<div class='row'>
+				<div class='col s12'>
+					<h4 class="">Add Points</h4>
+					<div class='input-field col s12'>
+						<div class='input-field col s12'>
+							<label for='field_points'>Points: </label>
+				            <input id='field_points' type='number' name='field_points' data-error='.error_points'>
+							<div class='error_points'></div>	
+						</div>
+						<div class='input-field col s12'>
+							<label for='field_remarks'>Remarks: </label>
+	                          <textarea id="field_remarks" name='field_remarks' class="materialize-textarea"  data-error='.error_remarks'></textarea>
+							<div class='error_remarks'></div>	
+						</div>
+						<div class='row'>
+							<div class='input-field col s12'>
+								<button class='btn blue waves-effect waves-light right' type='submit'>Save</button>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</form>
+	</addPoints>
+
+	<wysiwyg>
+		<textarea></textarea>
+	</wysiwyg>
+
+</content>

@@ -1,0 +1,141 @@
+
+<div class="page-topbar">
+    <div class="navbar-fixed">
+        <nav class="navbar-color blue darken-3">
+            <div class="nav-wrapper row">
+                <ul class="left">
+                    <li>
+                        <a id='showMenu' class="waves-effect white-text no-shadow right hide-on-large-only">
+                            <i class="mdi-navigation-menu"></i>
+                        </a>
+                    <li>
+                </ul>
+                <a class=" waves-effect white-text no-shadow left" href="" style="margin-left:10px;">Kaboom Rewards | Administrator</a>
+                <div class="progress hide">
+                    <div class="indeterminate white"></div>
+                </div>
+            </div>
+        </nav>
+    </div>
+</div>
+<div id="main">
+    <div class="wrapper">
+        <aside id="left-sidebar-nav text-red">
+            <ul id="slide-out" class="side-nav fixed leftside-navigation ps-container ps-active-y animated" style="width: 240px; ">
+                <li class="blue darken-1" id='user-account' style='padding-top: 10px;padding-bottom: 10px;'>
+                    <div class="row" style='margin-bottom: 0px !important;'>
+                        <div class="col col s4 m4 l4">
+                            <img src="../assets/images/avatar.jpg" alt="" class="circle responsive-img valign profile-image">
+                        </div>
+                        <div class="col col s8 m8 l8">
+                            <a class='btn-flat dropdown-button waves-effect waves-light white-text profile-btn'  data-activates='account'>
+                                <span>Administrator</span>
+                                <i class='mdi-navigation-arrow-drop-down right'></i>
+                            </a>
+                            <ul id='account' class='dropdown-content'>
+                                <li><a id='log-out' style="line-height: 42px;"><i class="mdi-hardware-keyboard-tab"></i> Logout</a></li>
+                            </ul>
+                            <p class="user-roal">Administrator</p>
+                        </div>
+                    </div>
+                </li>
+                <li class="no-padding" id='navigation'>
+                </li>
+            </ul>
+            
+        </aside>
+        <section id="subcontent" class='row'></section>
+    </div>
+</div>
+<script type="text/javascript" src="../assets/js/admin.js"></script>
+<script>
+    login.ini();
+    var count = 0;
+    $("#showMenu").on("click",function(){
+        count++;
+        $("#slide-out").attr({"style":"width: 240px; left: 0px;top: 64px !important;"});
+        if((count%2)==1){
+            $("#slide-out").removeClass('slideOutLeft').addClass('slideInLeft');
+        }
+        else{
+            $("#slide-out").removeClass('slideInLeft').addClass('slideOutLeft');
+        }
+    });
+
+    $("#log-out").on("click",function(){
+        login.kill();
+    })
+            
+    var documentHeight = $(window).height();
+    $("#subcontent").attr({"style":"min-height:"+documentHeight+"px;"});
+    $(".dropdown-button").dropdown();
+</script>
+
+<div id="wrapper">
+    <nav class="navbar-default navbar-static-side" role="navigation">
+        <div class="sidebar-collapse">
+            <ul class="nav metismenu" id="side-menu">
+                <li class="nav-header">
+                    <div class="dropdown profile-element">
+                        <span>
+                            <img alt="image" class="img-circle" src="assets/img/profile_small.jpg" style="width: 50px;"/>
+                        </span>
+                        <a data-toggle="dropdown" class="dropdown-toggle" href="#">
+                            <span class="clear">
+                                <span class="block m-t-xs">
+                                    <strong class="font-bold"></strong>
+                                </span>
+                                <span class="text-muted text-xs block">Administrator<b class="caret"></b></span>
+                            </span>
+                        </a>
+                        <ul class="dropdown-menu animated fadeInRight m-t-xs">
+                            <li><a href="#cmd=index;content=profile">Profile</a></li>
+                            <li class="divider"></li>
+                            <li><a data-cmd='log-out'>Logout</a></li>
+                        </ul>
+                    </div>
+                    <div class="logo-element">
+                        
+                    </div>
+                </li>
+                <li>
+                    <a href="#cmd=index;content=jobs" data-cmd='jobs'><span class="nav-label">Job Vacancies</span></a>
+                </li>
+                <li>
+                    <a href="#cmd=index;content=employers" data-cmd='employers'><span class="nav-label">Employers</span></a>
+                </li>
+                <li>
+                    <a href="#cmd=index;content=applicants" data-cmd='applicants'><span class="nav-label">Applicants</span></a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+    <div id="page-wrapper" class="gray-bg dashbard-1">
+        <div class='col-md-offset-5 col-md-2 text-center' style='margin-top: 150px;'>
+            <div class="sk-spinner sk-spinner-double-bounce">
+                <div class="sk-double-bounce1"></div>
+                <div class="sk-double-bounce2"></div>
+            </div>
+            <h2>Loading...</h2>
+        </div>
+    </div>
+</div>
+
+<div class="modal inmodal fade" id="modalLarge" tabindex="-1" role="dialog" aria-hidden="true" style="display: none;">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
+                <h4 class="modal-title"</h4>
+                <small class="font-bold"></small>
+            </div>
+            <div class="modal-body">
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+mainProcess.admin_ini();
+</script>
