@@ -43,12 +43,10 @@ $Functions = new DatabaseClasses;
 
     /*getters*/
     if(isset($_GET['get-session'])){
-        print_r($_SESSION);
-        echo "xxx";
         if(isset($_SESSION['kareer7836']))
-            print_r($_SESSION['kareer7836']);
+            print_r(json_encode($_SESSION['kareer7836']));
         else
-            print_r("0");
+            print_r(0);
     }
 
     if(isset($_GET['get-jobsPosts'])){
