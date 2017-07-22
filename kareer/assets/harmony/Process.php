@@ -13,30 +13,22 @@ $Functions = new DatabaseClasses;
 
     /*login*/
     if (isset($_GET['login'])){
-        // session_destroy();
         $data = $_POST['data']; $flag = 0;
         $password = sha1($data[1]['value']);
 
-        $query = $Functions->PDO("SELECT COUNT(*) FROM tbl_applicant WHERE email = '{$data[0]['value']}' AND password = '{$password}'");
+        $query = $Functions->PDO("SELECT COUNT(*) FROM tbl_employer  WHERE email = '{$data[0]['value']}' AND password = '{$password}'");
         if($query[0][0]==0){
-            $query = $Functions->PDO("SELECT COUNT(*) FROM tbl_employer  WHERE email = '{$data[0]['value']}' AND password = '{$password}'");
+            $query = $Functions->PDO("SELECT COUNT(*) FROM tbl_admin  WHERE username = '{$data[0]['value']}' AND password = '{$password}'");
             if($query[0][0]==0){
-                $query = $Functions->PDO("SELECT COUNT(*) FROM tbl_admin  WHERE username = '{$data[0]['value']}' AND password = '{$password}'");
-                if($query[0][0]==0){
-                    echo 0;
-                }
-                else if($query[0][0]==1){
-                    $_SESSION["kareer7836"] = [$data[0]['value'],$password,'admin'];
-                    echo 1;
-                }
+                echo 0;
             }
             else if($query[0][0]==1){
-                $_SESSION["kareer7836"] = [$data[0]['value'],$password,'employer'];
+                $_SESSION["kareer7836"] = [$data[0]['value'],$password,'admin'];
                 echo 1;
             }
         }
         else if($query[0][0]==1){
-            $_SESSION["kareer7836"] = [$data[0]['value'],$password,'applicant'];
+            $_SESSION["kareer7836"] = [$data[0]['value'],$password,'employer'];
             echo 1;
         }
     }
