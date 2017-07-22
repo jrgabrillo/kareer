@@ -60,4 +60,19 @@ $Functions = new DatabaseClasses;
         }
     }
 
+    if(isset($_GET['get-jobsPosts'])){
+        if(isset($_POST["data"])){
+            $data = $_POST['data'];
+            $result = [];
+            $Query = $Functions->PDO("SELECT * FROM tbl_vacancies ORDER BY date DESC");
+            foreach ($Query as $key => $value) {
+                $Query2 = $Functions->PDO("SELECT * FROM tbl_application WHERE vacany_id = '{$value[0]}'");
+                $result[] = [$value,$Query2];
+            }
+            print_r(json_encode($result));
+        }
+        else{
+            echo "Hacker";
+        }
+    }
 ?> 

@@ -1,63 +1,36 @@
-<div id="wrapper">
-    <nav class="navbar-default navbar-static-side" role="navigation">
-        <div class="sidebar-collapse">
-            <ul class="nav metismenu" id="side-menu">
-                <li class="nav-header">
-                    <div class="dropdown profile-element">
-                        <span>
-                            <img alt="image" class="img-circle" src="assets/img/profile_small.jpg" style="width: 50px;"/>
-                        </span>
-                        <a data-toggle="dropdown" class="dropdown-toggle" href="#">
-                            <span class="clear">
-                                <span class="block m-t-xs">
-                                    <strong class="font-bold"></strong>
-                                </span>
-                                <span class="text-muted text-xs block">Employer<b class="caret"></b></span>
-                            </span>
-                        </a>
-                        <ul class="dropdown-menu animated fadeInRight m-t-xs">
-                            <li><a href="#cmd=index;content=profile">Profile</a></li>
-                            <li class="divider"></li>
-                            <li><a data-cmd='log-out'>Logout</a></li>
-                        </ul>
-                    </div>
-                </li>
-                <li>
-                    <a href="#cmd=index;content=post-job" data-cmd='jobs'><span class="nav-label">Post Vacancy</span></a>
-                </li>
-                <li>
-                    <a href="#cmd=index;content=jobs" data-cmd='jobs-posting'><span class="nav-label">Job Postings</span></a>
-                </li>
+<div class="demo-layout mdl-layout mdl-js-layout mdl-layout--fixed-drawer mdl-layout--fixed-header">
+    <header class="demo-header mdl-layout__header cyan white-text">
+        <div class="mdl-layout__header-row">
+            <span class="mdl-layout-title">Kareer | Employer</span>
+            <div class="mdl-layout-spacer"></div>
+            <button class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon" id="hdrbtn">
+                <i class="material-icons">more_vert</i>
+            </button>
+            <ul class="mdl-menu mdl-js-menu mdl-js-ripple-effect mdl-menu--bottom-right" for="hdrbtn">
+                <li class="mdl-menu__item">About</li>
+                <li class="mdl-menu__item">Contact</li>
+                <li class="mdl-menu__item">Legal information</li>
             </ul>
         </div>
-    </nav>
-    <div id="page-wrapper" class="gray-bg dashbard-1">
-        <div class='col-md-offset-5 col-md-2 text-center' style='margin-top: 150px;'>
-            <div class="sk-spinner sk-spinner-double-bounce">
-                <div class="sk-double-bounce1"></div>
-                <div class="sk-double-bounce2"></div>
+    </header>
+    <div class="demo-drawer mdl-layout__drawer">
+        <header class="demo-drawer-header">
+            <img src="../assets/img/profile/profile_avatar.jpg" class="demo-avatar">
+            <div class="demo-avatar-dropdown">
+                <span>Kareer Profile</span>
+                <div class="mdl-layout-spacer"></div>
+                <button id="accbtn" class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon">
+                    <i class="material-icons" role="presentation">arrow_drop_down</i>
+                    <span class="visuallyhidden">Accounts</span>
+                </button>
+                <ul class="mdl-menu mdl-menu--bottom-right mdl-js-menu mdl-js-ripple-effect" for="accbtn">
+                    <li class="mdl-menu__item">Log out</li>
+                    <li class="mdl-menu__item">Settings</li>
+                    <li class="mdl-menu__item">Report an issue</li>
+                </ul>
             </div>
-            <h2>Loading...</h2>
-        </div>
+        </header>
+        <nav class="demo-navigation mdl-navigation mdl-color--blue-grey-800"></nav>
     </div>
+    <main class="mdl-layout__content mdl-color--grey-100"></main>
 </div>
-
-<div class="modal inmodal fade" id="modalLarge" tabindex="-1" role="dialog" aria-hidden="true" style="display: none;">
-    <div class="modal-dialog modal-lg">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
-                <h4 class="modal-title"</h4>
-                <small class="font-bold"></small>
-            </div>
-            <div class="modal-body">
-            </div>
-            <div class="modal-footer">
-                <a type="button" class="btn btn-white" data-dismiss="modal">Close</a>
-            </div>
-        </div>
-    </div>
-</div>
-<script type="text/javascript">
-mainProcess.employer_ini();
-</script>

@@ -10,7 +10,8 @@ var App = function () {
         handleHashChange: function(){
             var func = this;
             $(window).on('hashchange',function() {
-                if (window.location.hash) {
+                if(window.location.hash) {
+                    console.log("x");
                     func.handleLoadPage(window.location.hash);
                 }
             });
@@ -24,16 +25,11 @@ var App = function () {
             }
 
             var targetUrl = newhash[0].replace('#cmd=','../pages/'+node+'/')+".html";
-
-            $('.jvectormap-label, .jvector-label, .AutoFill_border ,#gritter-notice-wrapper, .ui-autocomplete, .colorpicker, .FixedHeader_Header, .FixedHeader_Cloned .lightboxOverlay, .lightbox').remove();
-
             var content = system.html(targetUrl);
             content.done(function(data){
-                $('#content').html(data);
-                $('#content').addClass('animated zoomIn');
+                $('#content').html(data);                    
                 var navigation = system.ajax('../pages/'+node+'/nav.html',"");
                 $("nav").html(navigation.responseText);                    
-                $(".collapsible").collapsible({accordion:!1});
 
                 if(newhash.length>1){
                     targetUrl = newhash[1].replace('content=','../pages/'+node+'/')+".html";
@@ -44,10 +40,10 @@ var App = function () {
                 }
 
                 var subcontent = system.html(targetUrl);
+
                 subcontent.done(function(data){
+                    console.log(targetUrl);
                     $('#subcontent').html(data);
-                    $("a").parent('li').removeClass("active");
-                    $("a[href='"+hash+"']").parent('li').addClass("active");
                 });
 
                 subcontent.fail(function(data){
@@ -56,7 +52,6 @@ var App = function () {
                         $('#subcontent').html(error);
                     });
                 })
-
 
                 $('html, body').animate({
                     scrollTop: $("body").offset().top
@@ -74,7 +69,7 @@ var App = function () {
         },
         init: function(){
             this.initAjaxFunction();
-            $("#page-top").removeClass('boxed-layout');
+            // $("#page-top").removeClass('boxed-layout');
         },
         initAjaxFunction: function(){
             this.handleCheckPageLoadUrl(window.location.hash);
