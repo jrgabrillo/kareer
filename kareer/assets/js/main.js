@@ -25,7 +25,6 @@ var main = function () {
                         var access = main.check_access();
 						if(data == 1){
                             access = JSON.parse(access);
-                            console.log();
                             localStorage.setItem("hash",access[2]);
 							Materialize.toast('Success.',1000,'',function(){
 						    	$(location).attr('href','account/');
@@ -57,19 +56,19 @@ var main = function () {
         },
         postJobs:function(data){
         	var content = "";
-        	if(data[5] != "null"){      		
-	        	var skills = JSON.parse(data[5]);
-	        	if(skills.length>0){
-	        		$.each(skills,function(i,v){
-	        			content += "<div class='chip'>"+v+"</div>";
-	        		})
-	        	}
+        	if(data[5] != "null"){     
+	        	// var skills = JSON.parse(data[5]);
+	        	// if(skills.length>0){
+	        	// 	$.each(skills,function(i,v){
+	        	// 		content += "<div class='chip'>"+v+"</div>";
+	        	// 	})
+	        	// }
         	}
         	var content = "<li class='collection-item avatar animated fadeInUp'>"+
 							"    <i class='material-icons circle purple'>grade</i>"+
 							"    <span class='title'>"+data[4]+"</span>"+
 							"    <p>"+data[2]+"</p>"+
-							content+
+							data[5]+
 							"    <a href='#!' class='secondary-content'>Apply</a>"+
 							"</li>";
 			$("#display_jobposts").append(content);
