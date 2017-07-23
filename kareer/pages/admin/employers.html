@@ -1,25 +1,20 @@
-<div class="row wrapper border-bottom white-bg page-heading">
-    <div class="col-lg-10">
-        <h2>Employers</h2>
-        <ol class="breadcrumb">
-            <li>
-                <a href="#cmd=index">Home</a>
-            </li>
-            <li class="active">
-                <strong>Employers</strong>
-            </li>
-        </ol>
+<nav>
+    <div class="nav-wrapper" style="margin-left:15px">
+        <div class="col s12">
+            <a href="#cmd=index" class="breadcrumb">Home</a>
+            <a href="#!" class="breadcrumb">Employers</a>
+        </div>
     </div>
-</div>
-<div class='row col-md-12' style='float: none;'>
-    <div class="wrapper wrapper-content">
+</nav>
+<div class='row' style='float: none;'>
+    <div class="col s12 wrapper wrapper-content">
         <div class="row animated fadeInRight">
-            <div class="col-md-5">
-                <div class="ibox float-e-margins">
-                    <div class="ibox-title">
-                        <h5>Adding Employer</h5>
-                    </div>
-                    <div class="ibox-content">
+            <div class="col s12 m5 l5">
+                <div class="card float-e-margins">
+                    <div class="card-content">
+                        <div class="card-title">
+                            <h5>Adding Employer</h5>
+                        </div>
                         <form class="m-t" role="form" action="login.html" id='form_registerEmployer'>
                             <div class="form-group">
                                 Company Name:                            
@@ -37,21 +32,22 @@
                         </form>
                     </div>
                 </div>
-                <div class="ibox float-e-margins hidden" id='pending_employers'>
-                    <div class="ibox-title">
+                <div class="card float-e-margins hidden" id='pending_employers'>
+                    <div class="card-title">
                         <h5>Employers pending application</h5>
                     </div>
-                    <div class="ibox-content text-center">
+                    <div class="card-content text-center">
                         <h2>All caught up. </h2><h4>No pending request for employer's account approval</h4>
                     </div>
                 </div>
             </div>
-            <div class="col-md-7">
-                <div class="ibox float-e-margins" id='approved_employers'>
-                    <div class="ibox-title">
+            <div class="col s12 m7 l7">
+                <div class="card float-e-margins" id='approved_employers'>
+                    <div class="card-content text-center">                    
+                    <div class="card-title">
                         <h5>Employers</h5>
                     </div>
-                    <div class="ibox-content text-center">
+
                         <h2>:(</h2><h4>No approved employers</h4>
                     </div>
                 </div>
