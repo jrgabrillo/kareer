@@ -7,8 +7,8 @@ $Functions = new DatabaseClasses;
         print_r(session_destroy());
     }
 
-    if(isset($_GET['chkConnection'])){
-        print_r($function->chkConnection());
+    if(isset($_GET['check-login'])){
+        print_r(json_encode($_SESSION['kareer7836']));
     }
 
     /*login*/
@@ -42,68 +42,47 @@ $Functions = new DatabaseClasses;
     }
 
     if(isset($_GET['get-jobsPosts'])){
-        if(isset($_POST["data"])){
-            $data = $_POST['data'];
-            $query = $Functions->PDO("SELECT * FROM tbl_vacancies ORDER BY date DESC LIMIT 0,6");
-            print_r(json_encode($query));
-        }
-        else{
-            echo "Hacker";
-        }
+        $data = $_POST['data'];
+        $query = $Functions->PDO("SELECT * FROM tbl_vacancies ORDER BY date DESC LIMIT 0,6");
+        print_r(json_encode($query));
     }
 
     if(isset($_GET['get-employerJobsPosts'])){
-        if(isset($_POST["data"])){
-            $data = $_POST['data'];
-            $result = [];
-            $Query = $Functions->PDO_SQL("SELECT * FROM tbl_vacancies WHERE employer_id = '{$data}' ORDER BY date DESC");
-            foreach ($Query as $key => $value) {
-                $Query2 = $Functions->PDO_SQL("SELECT * FROM tbl_application WHERE vacany_id = '{$value[0]}'");
-                $result[] = [$value,$Query2];
-            }
-            print_r(json_encode($result));
+        $data = $_POST['data'];
+        $result = [];
+        $Query = $Functions->PDO_SQL("SELECT * FROM tbl_vacancies WHERE employer_id = '{$data}' ORDER BY date DESC");
+        foreach ($Query as $key => $value) {
+            $Query2 = $Functions->PDO_SQL("SELECT * FROM tbl_application WHERE vacany_id = '{$value[0]}'");
+            $result[] = [$value,$Query2];
         }
-        else{
-            echo "Hacker";
-        }
+        print_r(json_encode($result));
     }
 
     if (isset($_GET['get-account'])){
-       if(isset($_POST["data"])){
-            $session = [$_SESSION['u7836'],$_SESSION['p7836']];
-
-            $query = $Functions->PDO("SELECT * FROM tbl_employer  WHERE email = '{$session[0]}' AND password = '{$session[1]}'");
-            if($query[0][0]==0){
-                $query = $Functions->PDO("SELECT * FROM tbl_admin  WHERE username = '{$session[0]}' AND password = '{$session[1]}'");
-                if($query[0][0]==0){
-                    echo 0;
-                }
-                else if($query[0][0]==1){
-                    print_r(json_encode($query));
-                }
+        $session = $_SESSION['kareer7836'];
+        $query = $Functions->PDO("SELECT * FROM tbl_employer  WHERE email = '{$session[0]}' AND password = '{$session[1]}'");
+        if(count($query)==0){
+            $query = $Functions->PDO("SELECT * FROM tbl_admin  WHERE username = '{$session[0]}' AND password = '{$session[1]}'");
+            if(count($query)==0){
+                echo 0;
             }
-            else if($query[0][0]==1){
+            else if(count($query)==1){
                 print_r(json_encode($query));
             }
         }
-        else{
-            echo "Hacker";
+        else if(count($query)==1){
+            print_r(json_encode($query));
         }
     }
 
     if(isset($_GET['get-jobByID'])){
-        if(isset($_POST["data"])){
-            $data = $_POST['data'];
-            $result = [];
-            $Query = $Functions->PDO_SQL("SELECT * FROM tbl_vacancies WHERE id = '{$data}'");
-            $Query2 = $Functions->PDO_SQL("SELECT * FROM tbl_application WHERE vacany_id = '{$Query[0][0]}'");
-            $Query3 = $Functions->PDO_SQL("SELECT * FROM tbl_employer WHERE id = '{$Query[0][1]}'");
-            $result[] = [$Query[0],$Query2,$Query3[0]];
-            print_r(json_encode($result));
-        }
-        else{
-            echo "Hacker";
-        }
+        $data = $_POST['data'];
+        $result = [];
+        $Query = $Functions->PDO_SQL("SELECT * FROM tbl_vacancies WHERE id = '{$data}'");
+        $Query2 = $Functions->PDO_SQL("SELECT * FROM tbl_application WHERE vacany_id = '{$Query[0][0]}'");
+        $Query3 = $Functions->PDO_SQL("SELECT * FROM tbl_employer WHERE id = '{$Query[0][1]}'");
+        $result[] = [$Query[0],$Query2,$Query3[0]];
+        print_r(json_encode($result));
     }
 
     /* setters*/
