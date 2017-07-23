@@ -52,6 +52,83 @@ $Functions = new DatabaseClasses;
         }
     }
 
+    if(isset($_GET['get-employerJobsPosts'])){
+        if(isset($_POST["data"])){
+            $data = $_POST['data'];
+            $result = [];
+            $Query = $Functions->PDO_SQL("SELECT * FROM tbl_vacancies WHERE employer_id = '{$data}' ORDER BY date DESC");
+            foreach ($Query as $key => $value) {
+                $Query2 = $Functions->PDO_SQL("SELECT * FROM tbl_application WHERE vacany_id = '{$value[0]}'");
+                $result[] = [$value,$Query2];
+            }
+            print_r(json_encode($result));
+        }
+        else{
+            echo "Hacker";
+        }
+    }
+
+    if (isset($_GET['get-account'])){
+       if(isset($_POST["data"])){
+            $session = [$_SESSION['u7836'],$_SESSION['p7836']];
+
+            $query = $Functions->PDO("SELECT * FROM tbl_employer  WHERE email = '{$session[0]}' AND password = '{$session[1]}'");
+            if($query[0][0]==0){
+                $query = $Functions->PDO("SELECT * FROM tbl_admin  WHERE username = '{$session[0]}' AND password = '{$session[1]}'");
+                if($query[0][0]==0){
+                    echo 0;
+                }
+                else if($query[0][0]==1){
+                    print_r(json_encode($query));
+                }
+            }
+            else if($query[0][0]==1){
+                print_r(json_encode($query));
+            }
+        }
+        else{
+            echo "Hacker";
+        }
+    }
+
+    if(isset($_GET['get-jobByID'])){
+        if(isset($_POST["data"])){
+            $data = $_POST['data'];
+            $result = [];
+            $Query = $Functions->PDO_SQL("SELECT * FROM tbl_vacancies WHERE id = '{$data}'");
+            $Query2 = $Functions->PDO_SQL("SELECT * FROM tbl_application WHERE vacany_id = '{$Query[0][0]}'");
+            $Query3 = $Functions->PDO_SQL("SELECT * FROM tbl_employer WHERE id = '{$Query[0][1]}'");
+            $result[] = [$Query[0],$Query2,$Query3[0]];
+            print_r(json_encode($result));
+        }
+        else{
+            echo "Hacker";
+        }
+    }
+
+    /* setters*/
+    if (isset($_GET['set-postJob'])) {
+        $data = $_POST['data'];
+        $id = $Functions->PDO_IDGenerator('tbl_vacancies','id');
+        $date = $Functions->PDO_DateAndTime();
+        $data = $_POST['data'];
+
+        $employer_id = $data[0];
+        $job_title = $Functions->escape($data[1][0]['value']);
+        $vacancy_date = $Functions->escape($data[1][1]['value']);
+        $skills = $Functions->escape($data[1][2]['value']);
+        $description = $Functions->escape($data[1][3]['value']);
+
+        $query = $Functions->PDO("INSERT INTO tbl_vacancies(id,employer_id,description,vacancy_date,job_title,skills,date,status) VALUES('{$id}',{$employer_id},{$description},{$vacancy_date},{$job_title},{$skills},'{$date}',1)");
+        if($query->execute())
+            echo 1;
+        else{
+            $Data = $query->errorInfo();
+            print_r($Data);
+        }
+    }
+
+/*
     if(isset($_GET['get-jobsPosts'])){
         if(isset($_POST["data"])){
             $data = $_POST['data'];
@@ -67,4 +144,5 @@ $Functions = new DatabaseClasses;
             echo "Hacker";
         }
     }
+*/
 ?> 

@@ -1,6 +1,16 @@
 var App = function () {
     "use strict";
     return {
+        init: function(){
+            this.initAjaxFunction();
+        },
+        initAjaxFunction: function(){
+            this.handleCheckPageLoadUrl(window.location.hash);
+            this.handleHashChange();
+            $.ajax({
+                cache: false
+            });
+        },
         handleCheckPageLoadUrl: function(hash){
             var func = this;
             hash = (hash) ? hash : '#cmd=index';
@@ -67,16 +77,8 @@ var App = function () {
 
             $('.material-tooltip').hide();
         },
-        init: function(){
-            this.initAjaxFunction();
-            // $("#page-top").removeClass('boxed-layout');
-        },
-        initAjaxFunction: function(){
-            this.handleCheckPageLoadUrl(window.location.hash);
-            this.handleHashChange();
-            $.ajax({
-                cache: false
-            });
+        hashchange:function(){
+
         },
     };
 }();
