@@ -85,6 +85,16 @@ $Functions = new DatabaseClasses;
         print_r(json_encode($result));
     }
 
+    if (isset($_GET['get-allEmployer'])){
+        if(isset($_POST["data"])){
+            $QueryEmployer = $Functions->PDO("SELECT * FROM tbl_employer ORDER BY status DESC");
+            print_r(json_encode($QueryEmployer));
+        }
+        else{
+            echo "Hacker";
+        }
+    }
+
     /* setters*/
     if (isset($_GET['set-postJob'])) {
         $data = $_POST['data'];

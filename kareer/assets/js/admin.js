@@ -117,7 +117,6 @@ var jobs = function(){
 			var ajax = system.html('../assets/harmony/Process.php?get-jobsPosts');
 			ajax.done(function(data){
 				data = JSON.parse(data);
-				console.log(data);
 				if(data.length>0){
 					var content = "<div class='card'><div class='card-content'><table class='table table-striped' id='table_jobs'>"+
 									"	<thead>"+
@@ -134,7 +133,6 @@ var jobs = function(){
 
 					content = "";
 					$.each(data,function(i,v){
-						console.log(v);
 						var status = "<span class='label label-primary'>Active</span>";
 						var expiry = new Date(v[3]), now = new Date();
 
@@ -167,7 +165,7 @@ var employer = function(){
 				var arrPending = [], arrApproved = [], arrDeclined = [];
 				if(data != ""){
 					var data = JSON.parse(data);
-					sys.sortResults(data,12,false);
+					system.sortResults(data,12,false);
 					$.each(data,function(i,v){
 						if(v[12] == 0)
 				            arrPending.push(v);					
@@ -325,7 +323,7 @@ var employer = function(){
 	    },
 	    registerEmployer: function(){
 	    	var date = new Date;
-	    	$("input[name='field_password']").val($.md5(date.toString()).substring(0,8));
+	    	$("input[name='field_password']").val("");
 
             $("#field_autosid").click(function(){
             	if($(this).prop('checked')){

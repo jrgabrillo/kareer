@@ -83,6 +83,13 @@ var system = function(){
 				},
 				idle: 300000
 			});
-		}
+		},
+        sortResults : function (data,prop, asc) {
+            data = data.sort(function(a, b) {
+                if (asc) return (a[prop] > b[prop]) ? 1 : ((a[prop] < b[prop]) ? -1 : 0);
+                else return (b[prop] > a[prop]) ? 1 : ((b[prop] < a[prop]) ? -1 : 0);
+            });
+            return data;
+        },
 	}
 }();
