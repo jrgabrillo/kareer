@@ -2,20 +2,24 @@
 session_start();
 include("Functions.php");
 $Functions = new DatabaseClasses;
+    if(isset($_GET['validateEmail'])){
+        $data = $_POST['data'];
+        $query = $function->PDO(true,"SELECT count(*) FROM tbl_applicant WHERE email = '{$data}'");
+        print_r($query[0][0]);
+    }
     
     if (isset($_GET['do-logIn'])){
-       $data = $_POST["data"];
-        
+        $data = $_POST["data"];
         $email = $data[0]['value'];
         $password = sha1($data[1]['value'] );
 
         $query = $Functions->PDO("SELECT COUNT(*) FROM tbl_applicant  WHERE email = '{$email}' AND password = '{$password}'");
-        if($query[0][0]==0){
-            echo 0;
-        }
-        else if($query[0][0]==1){
+        if($query[0][0]==1){
             $_SESSION["kareer7836"] = [$data[0]['value'],$password,'applicant'];
             echo 1;
+        }
+        else{
+            echo 0;
         }
     }
 

@@ -13,8 +13,8 @@
         <link rel="stylesheet" href="css/framework7-icons.css">
         <link rel="stylesheet" href="css/bootstrap.min.css">
         <link rel="stylesheet" href="fonts/Framework7Icons-Regular.woff2">
-        <link rel="stylesheet" href="iconfont/material-icons.css">
-        <link rel="stylesheet" href="iconfont/MaterialIcons-Regular.woff2">
+        <link rel="stylesheet" href="fonts/material-icons.css">
+        <link rel="stylesheet" href="fonts/MaterialIcons-Regular.woff2">
     </head>
     <body style="background-image: url(img/kareer_bg.png); max-height: 100%;">
         <div class="views">
@@ -24,7 +24,7 @@
                         <div class="page-content">
                             <div class="button-row" id="splashScreen">
                                 <img id='displayLogo' src="img/kareer_logo.png" class="animated fadeInUp" style="position:relative; top:0px;">
-                            </div>                            
+                            </div>
                         </div>
                         <div class="toolbar" style="background: transparent; height: 100px;">
                             <div class="toolbar-inner">
@@ -48,7 +48,7 @@
             <div class="page-content login-screen-content" style="background: transparent;">
                 <div class="login-screen-title close-popup" style="color: white">Log In<i class="icon f7-icons" style="width: 25px; position: absolute;right: 5%;">close_round</i></div>
                 <div class="content-block">
-                    <form action="" method="POST" id='form_logIn'>
+                    <form action="" method="POST" id='form_logIn' autocomplete="off">
                         <div class="list-block">
                             <ul>
                                 <li style="margin-bottom: 10px;">
@@ -59,7 +59,6 @@
                                             </button>
                                         </div>
                                         <input type='email' id="field_email" name="field_email" data-error='.error_field_email' class="form-control color-white" placeholder="Email">
-                                         <div class='error_field_email log-error-icon'></div> 
                                     </div>
                                 </li>
                                 <li style="margin-bottom: 10px;">
@@ -70,13 +69,10 @@
                                             </button>
                                         </div>
                                       <input type='password' id="field_password" name="field_password" data-error='.error_field_password' class="form-control color-white" placeholder="Password">
-                                       <div class='error_field_password log-error-icon'></div> 
                                     </div>
                                 </li>
                                 <li style="margin-bottom: 10px;">
-                                   
                                     <button  class="btn btn-primary btn-lg btn-block" data-cmd='button_logIn' style="background-color: #fff;color: #03a9f4;">Login</button>
-
                                 </li>
                             </ul>
                         </div>
@@ -177,8 +173,12 @@
     <script type="text/javascript" src="js/validation/additional-methods.min.js "></script>
     <script type="text/javascript" src="http://localhost/kareer/kareer/assets/js/mobile.js "></script>
     <script type="text/javascript">
+
+        $(document).ready(function(){
+            $$("input").val("");
+        });
+
         $$('.popup-login').on('popup:open',function(){
-            console.log('About Popup opened')
             $$("#displayLogo").attr({"style":"position:relative; top:-200px;"});
         }).on('popup:close',function(){
             $$("#displayLogo").attr({"style":"position:relative; top:0px;"});

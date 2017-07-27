@@ -28,11 +28,6 @@ Framework7.prototype.plugins.main = function (app, params) {
 
     var system = {
         notification:function(title,message,button,timeout,loader,_functionOpen,_functionClose){
-            // if(loader == true){
-            //     preloader(true);
-            //     block(true);
-            // }
-
             var timeout = (timeout == "")?false:timeout;
             app.addNotification({
                 title: title,
@@ -47,10 +42,6 @@ Framework7.prototype.plugins.main = function (app, params) {
 
             if(timeout != false){
                 setTimeout(function(){
-                    if(loader == true){
-                        // preloader(false);
-                        // block(false);
-                    }
                     app.closeNotification(".notification-item");
                 },timeout);
             }
@@ -72,11 +63,10 @@ Framework7.prototype.plugins.main = function (app, params) {
         }
     };
 
-
     var logIn = function(){
         $("#form_logIn").validate({
             rules: {
-                field_email: {required: true,email:true},
+                field_email: {required: true},
                 field_password: {required: true},
             },
             errorElement : 'div',
@@ -89,22 +79,13 @@ Framework7.prototype.plugins.main = function (app, params) {
                     error.insertAfter(element);
                 }
             },
-            messages: {
-                field_email: {
-                    required: "<i data-error ='Field is required' class='icon f7-icons  color red' style='margin:5px;'>info</i>",
-                    email: "<i data-error ='Email is invalid' class='icon f7-icons color red' style='margin:5px;'>info</i>",
-                },
-                field_password: {
-                    required: "<i data-error ='Field is required' class='icon f7-icons color red' style='margin:5px;'>info</i>",
-                },
-            },
             submitHandler: function (form) {
                 var _form = $(form).serializeArray();
                 var data = system.ajax(processor+'do-logIn',_form);
                 data.done(function(data){
-                    // console.log(data);
                     if(data == 1){
                         system.notification("k12","Success",false,3000,true,function(){},false);
+                        $(location).attr('href','account/')
                     }
                     else{
                         system.notification("k12","Failed.",false,3000,true,function(){},false);
@@ -123,7 +104,7 @@ Framework7.prototype.plugins.main = function (app, params) {
         $("#form_signUp").validate({
             rules: {
                 field_name: {required: true, maxlength:50},
-                field_email: {required: true, maxlength: 50,email:true},
+                field_email: {required: true, maxlength: 50,email:true,validateEmail:true},
                 field_password: {required: true, maxlength: 50,checkPassword:true},
             },
             errorElement : 'div',
@@ -145,6 +126,7 @@ Framework7.prototype.plugins.main = function (app, params) {
                     required: "<i data-error ='Field is required' class='icon f7-icons  color red' style='margin:5px;'>info</i>",
                     maxlength: "<i data-error ='Name is too long' class='icon f7-icons color red' style='margin:5px;'>info</i>",
                     email: "<i data-error ='Email is invalid' class='icon f7-icons color red' style='margin:5px;'>info</i>",
+                    validateEmail: "<i data-error ='Email already in use.' class='icon f7-icons color red' style='margin:5px;'>info</i>",
                 },
                 field_password: {
                     required: "<i data-error ='Field is required' class='icon f7-icons color red' style='margin:5px;'>info</i>",
@@ -439,6 +421,8 @@ Framework7.prototype.plugins.main = function (app, params) {
     }
 };
 
-var k12_app = new Framework7({
+var kareer_app = new Framework7({
+    material:true,
     main:true
 });
+

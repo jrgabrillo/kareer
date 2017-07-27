@@ -11,6 +11,12 @@ $Functions = new DatabaseClasses;
         print_r(json_encode($_SESSION['kareer7836']));
     }
 
+    if(isset($_GET['validateEmail'])){
+        $data = $_POST['data'];
+        $query = $function->PDO(true,"SELECT count(*) FROM tbl_applicant WHERE email = '{$data}'");
+        print_r($query[0][0]);
+    }    
+
     /*login*/
     if (isset($_GET['login'])){
         $data = $_POST['data']; $flag = 0;
