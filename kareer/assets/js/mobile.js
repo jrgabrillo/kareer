@@ -7,7 +7,7 @@ Framework7.prototype.plugins.main = function (app, params) {
     var self = this;
     var app = new Framework7({material: true});          
     var $$ = Dom7;
-    var processor = '../kareer/assets/harmony/mobile.php?';
+    var processor = '/kareer/kareer/assets/harmony/mobile.php?';
     var directory = '/';
 
     var swiper = app.swiper('.swiper-container', {
@@ -202,6 +202,10 @@ Framework7.prototype.plugins.main = function (app, params) {
                     required: "<i data-error ='Field is required' class='icon f7-icons color red' style='margin:5px;'>info</i>",
                     maxlength: "<i data-error ='Name is too long' class='icon f7-icons color red' style='margin:5px;'>info</i>",
                 },
+                 field_place_of_birth: {
+                    required: "<i data-error ='Field is required' class='icon f7-icons color red' style='margin:5px;'>info</i>",
+                    maxlength: "<i data-error ='Name is too long' class='icon f7-icons color red' style='margin:5px;'>info</i>",
+                },
                 field_permanent_address: {
                     required: "<i data-error ='Field is required' class='icon f7-icons color red' style='margin:5px;'>info</i>",
                     maxlength: "<i data-error ='Name is too long' class='icon f7-icons color red' style='margin:5px;'>info</i>",
@@ -232,184 +236,170 @@ Framework7.prototype.plugins.main = function (app, params) {
                 var data = system.ajax(processor+'do-personal-info',_form);
                 data.done(function(data){
                     if(data == 1){
-                        notification("k12","Success",false,3000,true,function(){},false);
+                        system.notification("k12","Success",false,3000,true,function(){},false);
                     }
                     else{
-                        notification("k12","Failed.",false,3000,true,function(){},false);
+                        system.notification("k12","Failed.",false,3000,true,function(){},false);
                     }
                 })
             }
         });  //CED pop-up error in info(icon)
         $$(".error-icon").on('click',function(){
             var data= $(this).find('i');
-            notification("k12",data[0].dataset.error,false,3000,true,function(){
+            system.notification("k12",data[0].dataset.error,false,3000,true,function(){
             },false);
         });
     }
 
     var academicInfo = function(){
         //[CED] validation
-        // $("#form_academic_info").validate({
-        //     rules: {
-        //         field_level: {required: true, maxlength:50},
-        //         field_school_attended: {required: true, maxlength:50},
-        //         field_degree: {required: true, maxlength:50},
-        //         field_period_attended: {required: true, maxlength:50},
-        //     },
-        //     errorElement : 'div',
-        //     errorPlacement: function(error, element) { 
-        //         var placement = $(element).data('error');
-        //         if(placement){
-        //             $(placement).append(error);
-        //             console.log('cedsss');
-        //         } 
-        //         else{
-        //             error.insertAfter(element);
-        //         }
-
-        //     },
-        //     //[CED] error messages for filling up the fields
-        //     messages: {
-        //         field_level: {
-        //             required: "<i data-error ='Field is required' class='icon f7-icons color red' style='margin:5px;'>info</i>",
-        //             maxlength: "<i data-error ='Name is too long' class='icon f7-icons color red' style='margin:5px;'>info</i>",
-        //         },
-        //         field_school_attended: {
-        //             required: "<i data-error ='Field is required' class='icon f7-icons color red' style='margin:5px;'>info</i>",
-        //             maxlength: "<i data-error ='Name is too long' class='icon f7-icons color red' style='margin:5px;'>info</i>",
-        //         },
-        //         field_degree: {
-        //             required: "<i data-error ='Field is required' class='icon f7-icons color red' style='margin:5px;'>info</i>",
-        //             maxlength: "<i data-error ='Name is too long' class='icon f7-icons color red' style='margin:5px;'>info</i>",
-        //         },
-        //         field_period_attended: {
-        //             required: "<i data-error ='Field is required' class='icon f7-icons color red' style='margin:5px;'>info</i>",
-        //             maxlength: "<i data-error ='Name is too long' class='icon f7-icons color red' style='margin:5px;'>info</i>",
-        //         },             
-        //     },
-
-        //     submitHandler: function (form) {
-        //         var _form = $(form).serializeArray();
-        //         var academic = ajax(processor+'do-academic-info',_form);
-        //         console.log(academic.responseText);
-        //         notification("k12","Success",false,3000,true,function(){
-        //         },false);
-        //         console.log('ced');
-        //     }
-        // }); 
-        // //CED pop-up error in info(icon)
-        // $$(".error-icon").on('click',function(){
-        //     var data= $(this).find('i');
-        //     notification("k12",data[0].dataset.error,false,3000,true,function(){
-        //     },false);
-        // });
-
-         $$("button[data-cmd='button_academic']").on('click',function(){
-            var _form = $('#form_academic_info').serializeArray();
-            var data = system.ajax(processor+'do-academic-info',_form);
-            data.done(function(data){
-                if(data == 1){
-                    notification("k12","Success",false,3000,true,function(){},false);
-                }
+        $("#form_academic_info").validate({
+            rules: {
+                field_school_attended: {required: true, maxlength:50},
+                field_degree: {required: true, maxlength:50},
+                field_period_attended: {required: true, maxlength:50},
+            },
+            errorElement : 'div',
+            errorPlacement: function(error, element) { 
+                var placement = $(element).data('error');
+                if(placement){
+                    $(placement).append(error);
+                } 
                 else{
-                    notification("k12","Failed.",false,3000,true,function(){},false);
+                    error.insertAfter(element);
                 }
-            })
+
+            },
+            //[CED] error messages for filling up the fields
+            messages: {
+                field_school_attended: {
+                    required: "<i data-error ='Field is required' class='icon f7-icons color red' style='margin:5px;'>info</i>",
+                    maxlength: "<i data-error ='Name is too long' class='icon f7-icons color red' style='margin:5px;'>info</i>",
+                },
+                field_degree: {
+                    required: "<i data-error ='Field is required' class='icon f7-icons color red' style='margin:5px;'>info</i>",
+                    maxlength: "<i data-error ='Name is too long' class='icon f7-icons color red' style='margin:5px;'>info</i>",
+                },
+                field_period_attended: {
+                    required: "<i data-error ='Field is required' class='icon f7-icons color red' style='margin:5px;'>info</i>",
+                    maxlength: "<i data-error ='Name is too long' class='icon f7-icons color red' style='margin:5px;'>info</i>",
+                },             
+            },
+
+            submitHandler: function (form) {
+                var _form = $('#form_academic_info').serializeArray();
+                var data = system.ajax(processor+'do-academic-info',_form);
+                conosole.log(data.responseText);
+                data.done(function(data){
+                    if(data == 1){
+                        system.notification("k12","Success",false,3000,true,function(){},false);
+                    }
+                    else{
+                        system.notification("k12","Failed.",false,3000,true,function(){},false);
+                    }
+                })
+            }
+        }); 
+        //CED pop-up error in info(icon)
+        $$(".error-icon").on('click',function(){
+            var data= $(this).find('i');
+            system.notification("k12",data[0].dataset.error,false,3000,true,function(){
+            },false);
         });
     }
 
     var careerInfo = function(){
         // [CED] validation
-        // $("#form_career_info").validate({
-        //     rules: {
-        //         field_id: {required: true, maxlength:50},
-        //         field_applicant_id: {required: true, maxlength:50},
-        //         field_inclusive_dates: {required: true, maxlength:50},
-        //         field_position_title: {required: true, maxlength:50},
-        //         field_agency:  {required: true, maxlength:50},
-        //         field_monthly_salary:  {required: true, maxlength:50},
-        //         field_appointment_status:  {required: true, maxlength:50},
-        //         field_govt_service:  {required: true, maxlength:50},
-        //         field_date:  {required: true, maxlength:50},
-        //     },
-        //     errorElement : 'div',
-        //     errorPlacement: function(error, element) { 
-        //         var placement = $(element).data('error');
-        //         if(placement){
-        //             $(placement).append(error);
-        //             console.log('cedsss');
-        //         } 
-        //         else{
-        //             error.insertAfter(element);
-        //         }
-
-        //     },
-        //     //[CED] error messages for filling up the fields
-        //     messages: {
-        //         field_id: {
-        //             required: "<i data-error ='Field is required' class='icon f7-icons color red' style='margin:5px;'>info</i>",
-        //             maxlength: "<i data-error ='Name is too long' class='icon f7-icons color red' style='margin:5px;'>info</i>",
-        //         },
-        //         field_applicant_id: {
-        //             required: "<i data-error ='Field is required' class='icon f7-icons color red' style='margin:5px;'>info</i>",
-        //             maxlength: "<i data-error ='Name is too long' class='icon f7-icons color red' style='margin:5px;'>info</i>",
-        //         },
-        //         field_inclusive_dates: {
-        //             required: "<i data-error ='Field is required' class='icon f7-icons color red' style='margin:5px;'>info</i>",
-        //             maxlength: "<i data-error ='Name is too long' class='icon f7-icons color red' style='margin:5px;'>info</i>",
-        //         },
-        //         field_position_title: {
-        //             required: "<i data-error ='Field is required' class='icon f7-icons color red' style='margin:5px;'>info</i>",
-        //             maxlength: "<i data-error ='Name is too long' class='icon f7-icons color red' style='margin:5px;'>info</i>",
-        //         },
-        //         field_agency: {
-        //             required: "<i data-error ='Field is required' class='icon f7-icons color red' style='margin:5px;'>info</i>",
-        //             maxlength: "<i data-error ='Name is too long' class='icon f7-icons color red' style='margin:5px;'>info</i>",
-        //         },
-        //         field_monthly_salary: {
-        //             required: "<i data-error ='Field is required' class='icon f7-icons color red' style='margin:5px;'>info</i>",
-        //             maxlength: "<i data-error ='Name is too long' class='icon f7-icons color red' style='margin:5px;'>info</i>",
-        //         },
-        //         field_appointment_status: {
-        //             required: "<i data-error ='Field is required' class='icon f7-icons color red' style='margin:5px;'>info</i>",
-        //             maxlength: "<i data-error ='Name is too long' class='icon f7-icons color red' style='margin:5px;'>info</i>",
-        //         },
-        //         field_govt_service: {
-        //             required: "<i data-error ='Field is required' class='icon f7-icons color red' style='margin:5px;'>info</i>",
-        //             maxlength: "<i data-error ='Name is too long' class='icon f7-icons color red' style='margin:5px;'>info</i>",
-        //         },
-        //         field_date: {
-        //             required: "<i data-error ='Field is required' class='icon f7-icons color red' style='margin:5px;'>info</i>",
-        //             maxlength: "<i data-error ='Name is too long' class='icon f7-icons color red' style='margin:5px;'>info</i>",
-        //         },             
-        //     },
-
-        //     submitHandler: function (form) {
-        //         var _form = $(form).serializeArray();
-        //         var career = ajax(processor+'do-career-info',_form);
-        //         console.log(career.responseText);
-        //         notification("k12","Success",false,3000,true,function(){
-        //         },false);
-        //     }
-        // }); 
-        // //CED pop-up error in info(icon)
-        // $$(".error-icon").on('click',function(){
-        //     var data= $(this).find('i');
-        //     notification("k12",data[0].dataset.error,false,3000,true,function(){
-        //     },false);
-        // });
-         $$("button[data-cmd='button_career']").on('click',function(){
-            var _form = $('#form_career_info').serializeArray();
-            var data = system.ajax(processor+'do-career-info',_form);
-            data.done(function(data){
-                if(data == 1){
-                    notification("k12","Success",false,3000,true,function(){},false);
-                }
+        $("#form_career_info").validate({
+            rules: {
+                field_id: {required: true, maxlength:50},
+                field_applicant_id: {required: true, maxlength:50},
+                field_inclusive_dates: {required: true, maxlength:50},
+                field_position_title: {required: true, maxlength:50},
+                field_agency:  {required: true, maxlength:50},
+                field_monthly_salary:  {required: true, maxlength:50},
+                field_appointment_status:  {required: true, maxlength:50},
+                field_govt_service:  {required: true, maxlength:50},
+                field_date:  {required: true, maxlength:50},
+            },
+            errorElement : 'div',
+            errorPlacement: function(error, element) { 
+                var placement = $(element).data('error');
+                if(placement){
+                    $(placement).append(error);
+                } 
                 else{
-                    notification("k12","Failed.",false,3000,true,function(){},false);
+                    error.insertAfter(element);
                 }
-            })
+
+            },
+            //[CED] error messages for filling up the fields
+            messages: {
+                field_id: {
+                    required: "<i data-error ='Field is required' class='icon f7-icons color red' style='margin:5px;'>info</i>",
+                    maxlength: "<i data-error ='Name is too long' class='icon f7-icons color red' style='margin:5px;'>info</i>",
+                },
+                field_applicant_id: {
+                    required: "<i data-error ='Field is required' class='icon f7-icons color red' style='margin:5px;'>info</i>",
+                    maxlength: "<i data-error ='Name is too long' class='icon f7-icons color red' style='margin:5px;'>info</i>",
+                },
+                field_inclusive_dates: {
+                    required: "<i data-error ='Field is required' class='icon f7-icons color red' style='margin:5px;'>info</i>",
+                    maxlength: "<i data-error ='Name is too long' class='icon f7-icons color red' style='margin:5px;'>info</i>",
+                },
+                field_position_title: {
+                    required: "<i data-error ='Field is required' class='icon f7-icons color red' style='margin:5px;'>info</i>",
+                    maxlength: "<i data-error ='Name is too long' class='icon f7-icons color red' style='margin:5px;'>info</i>",
+                },
+                field_agency: {
+                    required: "<i data-error ='Field is required' class='icon f7-icons color red' style='margin:5px;'>info</i>",
+                    maxlength: "<i data-error ='Name is too long' class='icon f7-icons color red' style='margin:5px;'>info</i>",
+                },
+                field_monthly_salary: {
+                    required: "<i data-error ='Field is required' class='icon f7-icons color red' style='margin:5px;'>info</i>",
+                    maxlength: "<i data-error ='Name is too long' class='icon f7-icons color red' style='margin:5px;'>info</i>",
+                },
+                field_appointment_status: {
+                    required: "<i data-error ='Field is required' class='icon f7-icons color red' style='margin:5px;'>info</i>",
+                    maxlength: "<i data-error ='Name is too long' class='icon f7-icons color red' style='margin:5px;'>info</i>",
+                },
+                field_govt_service: {
+                    required: "<i data-error ='Field is required' class='icon f7-icons color red' style='margin:5px;'>info</i>",
+                    maxlength: "<i data-error ='Name is too long' class='icon f7-icons color red' style='margin:5px;'>info</i>",
+                },
+                field_date: {
+                    required: "<i data-error ='Field is required' class='icon f7-icons color red' style='margin:5px;'>info</i>",
+                    maxlength: "<i data-error ='Name is too long' class='icon f7-icons color red' style='margin:5px;'>info</i>",
+                },             
+            },
+
+            submitHandler: function (form) {
+                var _form = $(form).serializeArray();
+                var career = ajax(processor+'do-career-info',_form);
+                console.log(career.responseText);
+                system.notification("k12","Success",false,3000,true,function(){
+                },false);
+            }
+        }); 
+        //CED pop-up error in info(icon)
+        $$(".error-icon").on('click',function(){
+            var data= $(this).find('i');
+            system.notification("k12",data[0].dataset.error,false,3000,true,function(){
+            },false);
         });
+
+        //  $$("button[data-cmd='button_career']").on('click',function(){
+        //     var _form = $('#form_career_info').serializeArray();
+        //     var data = system.ajax(processor+'do-career-info',_form);
+        //     data.done(function(data){
+        //         if(data == 1){
+        //             sysnotification("k12","Success",false,3000,true,function(){},false);
+        //         }
+        //         else{
+        //             sysnotification("k12","Failed.",false,3000,true,function(){},false);
+        //         }
+        //     })
+        // });
     }
 
     return {

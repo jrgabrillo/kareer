@@ -10,7 +10,7 @@ class DatabaseClasses{
 	function DBCon(){
 		$host = "localhost";
 		$dataBase = "db_kareer";
-		$user = "user_kareer";
+		$user = "user_kareer1";
 		$password = "user_kareer7836";
 		try{
 			$PDO = new PDO('mysql:host='.$host.';dbname='.$dataBase, $user, $password);

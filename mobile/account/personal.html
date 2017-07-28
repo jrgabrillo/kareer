@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui">
+        <meta name="apple-mobile-web-app-capable" content="yes">
+        <meta name="apple-mobile-web-app-status-bar-style" content="black">
+        <title>Kareer</title>
+        <link rel="stylesheet" href="/kareer/mobile/css/framework7.material.min.css">
+        <link rel="stylesheet" href="/kareer/mobile/css/framework7.material.colors.min.css">
+        <link rel="stylesheet" href="/kareer/mobile/css/my-app.css">
+        <link rel="stylesheet" href="/kareer/mobile/css/animate.css">
+        <link rel="stylesheet" href="/kareer/mobile/css/framework7-icons.css">
+        <link rel="stylesheet" href="/kareer/mobile/css/bootstrap.min.css">
+        <link rel="stylesheet" href="/kareer/mobile/fonts/Framework7Icons-Regular.woff2">
+        <link rel="stylesheet" href="/kareer/mobile/fonts/material-icons.css">
+        <link rel="stylesheet" href="/kareer/mobile/fonts/MaterialIcons-Regular.woff2">
+    </head>
+    <body style="background-image: url(/kareer/mobile/img/kareer_logo.png); max-height: 100%;">
+         <div class="statusbar-overlay"></div>
+    <div class="views">
+        <div class="view view-main">
+            <div class="page-content" style="background-image: url(/kareer/mobile/img/kareer_bg.png); max-height: 100%">
+                <div class="content-block-title"><img src="/kareer/mobile/img/kareer_logo.png" style="width: 50%;     margin-left: 90px;">
+                    <form action="" method="POST" id='form_personal_info'>    
+                         <div class='error_field_level error-icon'></div>
+                        <div class="item-content " style="margin-top: 5px ">
+                            <div class="item-inner ">
+                                <div class="item-title label" style="color: white; margin-left: 20px">Last Name</div>
+                                <div class="item-input ">
+                                    <input type="text " name="field_last_name" id="field_last_name" data-error='.error_field_last_name' style="width: 300px;margin-left: 20px; height: 30px; border-radius: 5px; "">
+
+                                </div>
+                            </div>
+                        </div>
+                         <div class='error_field_last_name error-icon'></div>
+
+                        <div class="item-content " style="margin-top: 5px ">
+                            <div class="item-inner ">
+                                <div class="item-title label" style="color: white; margin-left: 20px">Given Name</div>
+                                <div class="item-input ">
+                                    <input type="text " id="field_given_name" name="field_given_name" data-error='.error_field_given_name' style="width: 300px;margin-left: 20px; height: 30px; border-radius: 5px; "">
+
+                                </div>
+                            </div>
+                        </div>
+                         <div class='error_field_given_name error-icon'></div>
+
+                        <div class="item-content " style="margin-top: 5px ">
+                            <div class="item-inner ">
+                                <div class="item-title label" style="color: white; margin-left: 20px">Period Attended</div>
+                                <div class="item-input ">
+                                    <input type="text " name="field_middle_name" id="field_middle_name" data-error='.error_field_middle_name' style="width: 300px;margin-left: 20px; height: 30px; border-radius: 5px; "">
+
+                                </div>
+                            </div>
+                        </div>
+                         <div class='error_field_middle_name error-icon'></div>
+
+                        <div class="item-content " style="margin-top: 5px ">
+                            <div class="item-inner ">
+                                <div class="item-title label" style="color: white; margin-left: 20px">Gender</div>
+                                <div class="item-input ">
+                                    <input type="text " name="field_gender" id="field_gender" data-error='.error_field_gender' style="width: 300px;margin-left: 20px; height: 30px; border-radius: 5px; "">
+
+                                </div>
+                            </div>
+                        </div>
+                         <div class='error_field_gender error-icon'></div>
+
+                        <div class="item-content " style="margin-top: 5px ">
+                            <div class="item-inner ">
+                                <div class="item-title label" style="color: white; margin-left: 20px">Date Of Birth</div>
+                                <div class="item-input ">
+                                    <input type="text " name="field_date_of_birth" id="field_date_of_birth" data-error='.error_field_date_of_birth' style="width: 300px;margin-left: 20px; height: 30px; border-radius: 5px; "">
+
+                                </div>
+                            </div>
+                        </div>
+                         <div class='error_field_date_of_birth error-icon'></div>
+
+                        <div class="item-content " style="margin-top: 5px ">
+                            <div class="item-inner ">
+                                <div class="item-title label" style="color: white; margin-left: 20px">Place Of Birth</div>
+                                <div class="item-input ">
+                                    <input type="text " name="field_place_of_birth" id="field_place_of_birth" data-error='.error_field_place_of_birth' style="width: 300px;margin-left: 20px; height: 30px; border-radius: 5px; "">
+
+                                </div>
+                            </div>
+                        </div>
+                         <div class='error_field_place_of_birth error-icon'></div>
+
+                          <div class="item-content " style="margin-top: 5px ">
+                            <div class="item-inner ">
+                                <div class="item-title label" style="color: white; margin-left: 20px">Permanent Address</div>
+                                <div class="item-input ">
+                                    <input type="text " name="field_permanent_address" id="field_permanent_address" data-error='.error_field_permanent_address' style="width: 300px;margin-left: 20px; height: 30px; border-radius: 5px; "">
+
+                                </div>
+                            </div>
+                        </div>
+                         <div class='error_field_permanent_address error-icon'></div>
+
+                         <div class="item-content " style="margin-top: 5px ">
+                            <div class="item-inner ">
+                                <div class="item-title label" style="color: white; margin-left: 20px">Citizenship</div>
+                                <div class="item-input ">
+                                    <input type="text " name="field_citizenship" id="field_citizenship" data-error='.error_field_citizenship' style="width: 300px;margin-left: 20px; height: 30px; border-radius: 5px; "">
+
+                                </div>
+                            </div>
+                        </div>
+                         <div class='error_field_citizenship error-icon'></div>
+
+                         <div class="item-content " style="margin-top: 5px ">
+                            <div class="item-inner ">
+                                <div class="item-title label" style="color: white; margin-left: 20px">Height</div>
+                                <div class="item-input ">
+                                    <input type="text " name="field_height" id="field_height" data-error='.error_field_height' style="width: 300px;margin-left: 20px; height: 30px; border-radius: 5px; "">
+
+                                </div>
+                            </div>
+                        </div>
+                         <div class='error_field_height error-icon'></div>
+
+                         <div class="item-content " style="margin-top: 5px ">
+                            <div class="item-inner ">
+                                <div class="item-title label" style="color: white; margin-left: 20px">Mother's Name</div>
+                                <div class="item-input ">
+                                    <input type="text " name="field_mother_name" id="field_mother_name" data-error='.error_field_mother_name' style="width: 300px;margin-left: 20px; height: 30px; border-radius: 5px; "">
+
+                                </div>
+                            </div>
+                        </div>
+                         <div class='error_field_mother_name error-icon'></div>
+
+                          <div class="item-content " style="margin-top: 5px ">
+                            <div class="item-inner ">
+                                <div class="item-title label" style="color: white; margin-left: 20px">Father's Name</div>
+                                <div class="item-input ">
+                                    <input type="text " name="field_father_name" id="field_father_name" data-error='.error_field_father_name' style="width: 300px;margin-left: 20px; height: 30px; border-radius: 5px; "">
+
+                                </div>
+                            </div>
+                        </div>
+                         <div class='error_field_father_name error-icon'></div>
+                                      
+                        <button href="#" class="button  button-fill button-big color-blue" data-cmd='button_academic' style="margin-top: 20%; width: 300px; margin-left: 20px; ">Next</button>
+                    </div>
+                </form>
+
+            </div>
+        </div>
+    </div>
+    </body>
+    <script type="text/javascript " src="/kareer/mobile/js/framework7.min.js "></script>
+    <script type="text/javascript " src="/kareer/mobile/js/jquery.js "></script>
+    <script type="text/javascript " src="/kareer/mobile/js/my-app.js "></script>
+    <script type="text/javascript " src="/kareer/mobile/js/validation/jquery.validate.min.js "></script>
+    <script type="text/javascript " src="/kareer/mobile/js/validation/additional-methods.min.js "></script>
+    <script type="text/javascript " src="http://localhost/kareer/kareer/assets/js/mobile.js "></script>
+    <script type="text/javascript">
+        $$('.popup-login').on('popup:open',function(){
+            console.log('About Popup opened')
+            $$("#displayLogo").attr({"style":"position:relative; top:-200px;"});
+        }).on('popup:close',function(){
+            $$("#displayLogo").attr({"style":"position:relative; top:0px;"});
+        });
+        $$('.popup-sign-up').on('popup:open',function(){
+            $$("#displayLogo").attr({"style":"position:relative; top:-200px;"});
+        }).on('popup:close',function(){
+            $$("#displayLogo").attr({"style":"position:relative; top:0px;"});
+        });
+        $$("a").on('click',function(){
+            setTimeout(function(){
+                $$("a").find('.ripple-wave').attr({"class":"ripple-wave animated fadeOut"}).remove();
+               
+            },2500);
+        })
+    </script>
+</html>
