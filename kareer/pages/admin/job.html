@@ -9,29 +9,29 @@
 </nav>
 <div class='row animated fadeInRight'>
     <div class="wrapper wrapper-content">
-            <div class="col s12" id='job-post'>
-                <div class='card'>
-                    <div class='card-content'>
-                        <dl class='dl-horizontal'>
-                            <dt></dt><dd><h2 id='txt_jobtitle'></h2></dd>
-                            <dt>Status:</dt> <dd id='txt_jobstatus'></dd>
-                            <dt>Application Expiry:</dt><dd id='txt_jobexpiry' class='prettydate'></dd>
-                            <dt>Created:</dt><dd id='txt_jobdate' class='prettydate'></dd>
-                            <dt>Description:</dt><dd id='txt_jobdescription'></dd>
-                            <dt>Applicant:</dt><dd id='txt_jobapplicant'></dd>
-                        </dl>
-                    </div>
-                    <div class="card-footer">
-                        <div class='row col-md-offset-2 col m8' style="float: none;">
-                            <div id='data_info'>
-                            </div>
+        <div class="col s12" id='job-post'>
+            <div class='card'>
+                <div class='card-content'>
+                    <dl class='dl-horizontal'>
+                        <dt></dt><dd><h2 id='txt_jobtitle'></h2></dd>
+                        <dt>Status:</dt> <dd id='txt_jobstatus'></dd>
+                        <dt>Application Expiry:</dt><dd id='txt_jobexpiry' class='prettydate'></dd>
+                        <dt>Created:</dt><dd id='txt_jobdate' class='prettydate'></dd>
+                        <dt>Description:</dt><dd id='txt_jobdescription'></dd>
+                        <dt>Applicant:</dt><dd id='txt_jobapplicant'></dd>
+                    </dl>
+                </div>
+                <div class="card-footer">
+                    <div class='row col-md-offset-2 col m8' style="float: none;">
+                        <div id='data_info'>
                         </div>
                     </div>
                 </div>
             </div>
+        </div>
     </div>
 </div>
 <script type="text/javascript">
 var data = window.location.hash.split(';');
-administrator.job(data[2].split('='));
+admin.job(data[2].split('='));
 </script>

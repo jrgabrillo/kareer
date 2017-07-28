@@ -101,6 +101,21 @@ $Functions = new DatabaseClasses;
         }
     }
 
+    if(isset($_GET['get-job'])){
+        if(isset($_POST["data"])){
+            $data = $_POST['data'];
+            $result = [];
+            $Query = $Functions->PDO("SELECT * FROM tbl_vacancies WHERE id = '{$data}'");
+            $Query2 = $Functions->PDO("SELECT * FROM tbl_application WHERE vacany_id = '{$Query[0][0]}'");
+            $Query3 = $Functions->PDO("SELECT * FROM tbl_employer WHERE id = '{$Query[0][1]}'");
+            $result[] = [$Query[0],$Query2,$Query3[0]];
+            print_r(json_encode($result));
+        }
+        else{
+            echo "Hacker";
+        }
+    }
+
     /* setters*/
     if (isset($_GET['set-postJob'])) {
         $data = $_POST['data'];

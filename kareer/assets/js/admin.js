@@ -106,6 +106,134 @@ var admin = function () {
             })
             return result;
         },
+        job:function(id){
+			var ajax = system.ajax('../assets/harmony/Process.php?get-job',id[1]);
+			ajax.done(function(data){
+				data = JSON.parse(data);
+				var applicant = "No Applicant.", vacancy_id = data[0][0][0];
+				var applicationexpiry = new Date(data[0][0][3]), now = new Date();
+				var status = "<span class='label label-primary'>Active</span>";
+				var application_content = "";
+
+				if(applicationexpiry<now){
+					status = "<span class='label label-danger'>Inactive</span>";
+				}
+
+				if(data[0][1].length > 0){
+					$.each(data[0][1],function(i,v){
+						var data_applicants = JSON.parse(v[2]);
+						var actions = "";
+
+						if(v[5] != ""){
+							if(v[5] != "0"){
+								var applicationstatus = JSON.parse(v[5]);
+								actions = "<div class='alert alert-info' style='padding: 5px;'>"+applicationstatus[1]+"<br/><small class='prettydate'>"+applicationstatus[0]+"</small></div>";
+							}
+							else{
+								actions = "<div class='alert alert-danger' style='padding: 5px;'>Declined</div>";
+							}
+						}
+
+						application_content += "<div class='feed-element'>"+
+												"    <a href='#' class='pull-left'>"+
+												"        <img alt='image' class='img-circle' src='"+mainProcess.get_apr(data_applicants[2])+"'>"+
+												"    </a>"+
+												"    <div class='media-body'>"+
+												"       <small class='pull-right prettydate'>"+v[4]+"</small>"+
+												"       <strong>"+data_applicants[3][0]+", "+data_applicants[3][1]+" "+data_applicants[3][2]+"</strong><br>"+
+												"       <small class='text-muted'>"+v[4]+"</small>"+
+												"       <div class='well'>"+v[3]+"</div>"+
+												"		<div class='actions'>"+actions+"</div><br/>"+
+												"		<div id='"+v[0]+"' class='panel-collapse collapse' aria-expanded='false' style='height: 0px;'>"+
+												"		    <textarea class='form-control input-sm employer_interview' placeholder='Say something about your invitation for interview' row='3' style='width:100%;max-width:100%;'></textarea>"+
+												"		    <span class='pull-right desc_stringCounter'></span>"+
+												"		    <form role='form' class='form-inline form_interview'>"+
+												"		        <input name='field_interview' type='text' placeholder='Description' class='form-control input-sm hidden'><br/>"+
+												"		        <a data-id='"+v[0]+"' data-cmd='interview' class='btn btn-sm btn-success btn-xs disabled'>Submit</a>"+
+												"		    </form>"+
+												"		</div>"+
+												"		</div>"+											
+												"    </div>"+
+												"</div>";
+					});
+					applicant = data[0][1].length;
+				}
+				application_content = "<div class='feed-activity-list'>"+application_content+"</div>";
+				$('#data_info').removeClass('hidden').html(application_content);
+
+				$('#job-post #txt_jobtitle').html(data[0][0][4]);
+				$('#job-post #txt_jobstatus').html(status);
+				$('#job-post #txt_jobexpiry').html(data[0][0][3]);
+				$('#job-post #txt_jobdate').html(data[0][0][6]);
+				$('#job-post #txt_jobdescription').html(data[0][0][2]);
+				$('#job-post #txt_jobapplicant').html(applicant);
+
+				$(".prettydate").prettydate({
+				    dateFormat: "YYYY-MM-DD hh:mm:ss"
+				});
+
+	        	$("a[data-cmd='toggle-interview']").click(function(){
+	        		var data = $(this).data('id');
+		        	$("#"+data+" textarea").keyup(function(){
+		                system.StringCounter($(this).val(),$("#"+data+" span.desc_stringCounter"),800);
+		                if($(this).val().length > 800){
+		                	$("#"+data+" a[data-cmd='interview']").addClass('disabled');
+		        			system.errorNotification('Notice','Description must only contain 800 characters.');
+		                }
+		                else{
+		                	$("#"+data+" a[data-cmd='interview']").removeClass('disabled');
+		                }
+		        		$("#"+data+" input[name='field_interview']").val($(this).val());  
+		        	});
+
+					$("#"+data+" a[data-cmd='interview']").click(function(){
+						var content = [$(this).data('id'),$("#"+data+" input[name='field_interview']").val()];
+						var ajax = system.do_ajax('../assets/harmony/Process.php?do-inviteInterview',content);
+						var data = JSON.parse(ajax.responseText);
+						ajax.success(function(data){
+							if(data == 1){
+								swal("Successful!", "", "success");
+								system.close_modalLarge();
+								App.handleLoadPage(window.location.hash);
+							}
+							else{
+								swal("Fatal Error!", "There was an Unexpected Error during the process.", "error");
+								console.log(data);
+							}
+						});
+						});
+	        	});
+
+				$("a[data-cmd]").click(function(){
+					var data = [$(this).data('cmd'),$(this).data('id')];
+					if(data[0] == 'decline'){
+					    swal({
+					        title: "Are you sure you want to decline this applicant?",
+					        text: "",
+					        type: "warning",
+					        showCancelButton: true,
+					        confirmButtonColor: "#DD6B55",
+					        confirmButtonText: "Confirm",
+					        closeOnConfirm: false
+					    }, function () {
+							var ajax = system.do_ajax('../assets/harmony/Process.php?do-decline',data[1]);
+							var data = JSON.parse(ajax.responseText);
+							ajax.success(function(data){
+								if(data == 1){
+									swal("Successful!", "", "success");
+									system.close_modalLarge();
+									App.handleLoadPage(window.location.hash);
+								}
+								else{
+									swal("Fatal Error!", "There was an Unexpected Error during the process.", "error");
+									console.log(data);
+								}
+							});
+					    });
+					}
+				});
+			})
+        }      
     };
 }();
 
