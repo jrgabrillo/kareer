@@ -137,6 +137,39 @@ $Functions = new DatabaseClasses;
             print_r($Data);
         }
     }
+    if (isset($_GET['set-registerEmployer'])) {
+        if(isset($_POST['data'])){
+            $id = $Functions->PDO_IDGenerator('tbl_employer','id');
+            $date = $Functions->PDO_DateAndTime();
+            $data = $_POST['data'];
+
+            $cname = $data[0][0]['value'];
+            $email = $data[0][1]['value'];
+            $password = $data[1];
+            // $password = sha1($data[1]);
+
+            $Query2 = $Functions->PDO("SELECT * FROM tbl_employer WHERE email = '{$email}'");
+            $Query1 = $Functions->PDO("SELECT * FROM tbl_applicant WHERE email = '{$email}'");
+            if((count($Query1)>0) || (count($Query2)>0)){
+                echo 0;
+            }
+            else{
+                $QueryString = "INSERT INTO tbl_employer(id,company_name,email,password,image,status) VALUES('{$id}','{$cname}','{$email}','{$password}','profile avatar.jpg','1')";
+                $Query = $Functions->PDO_SQLQuery($QueryString);
+                if($Query->execute())
+                    echo 1;
+                else{
+                    $Data = $Query->errorInfo();
+                    print_r($Data);
+                }
+            }
+        }
+        else{
+            echo "Hacker";
+        }
+    }
+
+
 
 /*
     if(isset($_GET['get-jobsPosts'])){

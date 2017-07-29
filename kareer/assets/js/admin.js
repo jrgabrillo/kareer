@@ -484,7 +484,7 @@ var employer = function(){
 					/*
 				    system.send_mail($("input[name='field_email']").val(),$("input[name='field_password']").val());
 					*/
-					var ajax = system.do_ajax('../assets/harmony/Process.php?do-registerEmployer',[data,$("input[name='field_password']").val()]);
+					var ajax = system.html('../assets/harmony/Process.php?do-registerEmployer',[data,$("input[name='field_password']").val()]);
 					ajax.success(function(data){
 						console.log(data);
 						if(data == 1){

@@ -86,6 +86,107 @@ var main = function () {
             })
             return result;
         },
+        register_employer:function(){
+			var sys = system, validate = validation;
+			$("a[data-cmd='register_employer']").click(function(){
+				var data = $("#form_registerEmployer").serializeArray();
+				var validated = validate.validate_form(data);
+				if(validated[0]>0){
+					var message = "";
+					$.each(validated[1],function(i,v){
+						message += (i+1)+". "+v+"<br/>";
+					})
+					sys.errorNotification('The following fields has an error',message);
+				}
+				else{
+					var ajax = system.html('assets/harmony/Process.php?do-registerEmployer',data);
+					ajax.success(function(data){
+						if(data == 0){
+							sys.errorNotification('Notice','Email is already registered to an active account');
+						}
+						else if(data == 1){
+							sys.successNotification('Success','You have successfully registered. <br/>You will be redirected in 3 seconds.');
+							setTimeout(function(){$(location).attr('href','login.html');},3000);	
+						}
+						else{
+							sys.errorNotification('Fatal Error','There was an error during the process.');
+							console.log(data);							
+						}
+					})
+				}
+			});
+		},
+
     };
 }();
+var validation = function () {
+	"use strict";
+	return {
+		email: function(email){
+			var filter = /^([\w-\.]+)@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([\w-]+\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\]?)$/;
+		    if (filter.test(email)) {
+		        return true;
+		    }
+		    else {
+		        return false;
+		    }
+	    },
+		validate_form:function(form){
+			var _this = this;
+        	var fields = [];
+			var flag = 0;
+			$.each(form,function(i,v){
+				var inputtype = $("input[name='"+v['name']+"']").data('inputtype');
+				if(typeof inputtype != 'undefined'){
+					if(inputtype == 'required'){
+						if((v['value'] == "") || (v['value'] == null)){
+							flag = 1;
+							$("input[name='"+v['name']+"']").parent().addClass("has-error");
+							fields.push($("input[name='"+v['name']+"']").attr('placeholder'));
+						}
+						else{
+							$("input[name='"+v['name']+"']").parent().removeClass("has-error");
+						}							
+					}
+				}
+			});
+			return [flag,fields];
+		},
+		validate:function(form){
+			var _this = this;
+        	var fields = [];
+			var flag = 0;
+			$.each(form,function(i,v){
+				if(typeof $("input[name='"+v['name']+"']").data('inputtype') != 'undefined'){
+					if($("input[name='"+v['name']+"']").data('inputtype') == 'required'){
+						if((v['value'] == "") || (v['value'] == null)){
+							flag = 1;
+							$("input[name='"+v['name']+"']").parent().addClass("has-error");
+							fields.push($("input[name='"+v['name']+"']").attr('placeholder'));
+						}
+						else{
+							$("input[name='"+v['name']+"']").parent().removeClass("has-error");
+						}
+					}
+				}
+				else if(typeof $("textarea[name='"+v['name']+"']").data('inputtype') != 'undefined'){
+					if($("textarea[name='"+v['name']+"']").data('inputtype') == 'required'){
+						if((v['value'] == "") || (v['value'] == null)){
+							flag = 1;
+							$("textarea[name='"+v['name']+"']").parent().addClass("has-error");
+							fields.push($("textarea[name='"+v['name']+"']").attr('placeholder'));
+						}
+						else{
+							$("textarea[name='"+v['name']+"']").parent().removeClass("has-error");
+						}
+					}
+				}
+				else{
+					//console.log('x');
+				}
+			});
+			return [flag,fields];
+		}
+    };
+}();3
 
