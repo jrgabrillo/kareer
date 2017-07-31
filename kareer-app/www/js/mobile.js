@@ -21,6 +21,7 @@ Framework7.prototype.plugins.main = function (app, params) {
         signUp.persnal();
         signUp.academic();
         signUp.career();     
+        jobs.show();
     }
 
     var logIn = function(){
@@ -476,18 +477,24 @@ Framework7.prototype.plugins.main = function (app, params) {
                 $("#content").html(content);
   
                 var swiper = app.swiper(".swiper-container",{
-                    loop:true,
+                    loop:false,
                     speed: 400,
                     grabCursor:true,
+                    effect:'coverflow',
+coverflow: {
+  rotate: 50,
+  stretch: 0,
+  depth: 100,
+  modifier: 1,
+  slideShadows : true
+},
                     shortSwipes:true,
                     mousewheelControl: true
                 });
 
                 var documentHeight = $(window).height();
                 $("#content .card-content").attr({"style":"height:"+(documentHeight-310)+"px; overflow:hidden; text-overflow: ellipsis;"});
-
             });
-
         }
     }
 
