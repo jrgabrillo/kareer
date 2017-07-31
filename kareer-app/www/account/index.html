@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui">
+        <meta name="apple-mobile-web-app-capable" content="yes">
+        <meta name="apple-mobile-web-app-status-bar-style" content="black">
+        <title>Kareer</title>
+        <link rel="stylesheet" href="../css/framework7.material.min.css">
+        <link rel="stylesheet" href="../css/framework7.material.colors.min.css">
+        <link rel="stylesheet" href="../css/framework7.material.min.css">
+        <link rel="stylesheet" href="../css/framework7.3dpanels.min.css">
+        <link rel="stylesheet" href="../css/framework7-icons.css">
+        <link rel="stylesheet" href="../css/my-app.css">
+        <link rel="stylesheet" href="../css/animate.css">
+        <link rel="stylesheet" href="../fonts/Framework7Icons-Regular.woff2">
+        <link rel="stylesheet" href="../fonts/material-icons.css">
+        <link rel="stylesheet" href="../fonts/MaterialIcons-Regular.woff2">
+    </head>
+    <body>
+        <div class="statusbar-overlay"></div>
+        <div class="panel-overlay"></div>
+        <div class="panel panel-left panel-cover">
+            <div class="panel-bg">
+                <div class='action'>
+                    <a class="link icon-only no-ripple close-panel color-white">
+                        <i class="icon f7-icons">right</i>
+                    </a>
+                </div>
+                <div class='primary'>
+                    <img class='' src='../img/profile/profile_avatar.jpg'/>
+                </div>
+                <div class="accordion-list">
+                    <div valign="bottom" class="card-header no-border color-white" style="height: 50px;" data-node="display-name">
+                        Rufo N. Gabrillo Jr. <!-- -<br> It seems that your app isnt loaded well. -->
+                    </div>
+                </div>
+            </div>
+            <div class="list-block">
+                <ul>
+                    <li>
+                        <a data-cmd="display-home" class="close-panel">
+                            <div class="item-content">
+                                <div class="item-media"><i class="icon f7-icons">home</i></div>
+                                <div class="item-inner"><div class="item-title">Home</div></div>
+                            </div>
+                        </a>
+                    </li>
+                    <li>
+                        <div class="accordion-item">
+                            <div class="accordion-item-toggle">
+                                <div class="item-content">
+                                    <div class="item-media"><i class="icon f7-icons">settings</i></div>
+                                    <div class="item-inner"><div class="item-title">Settings</div></div>
+                                </div>
+                            </div>
+                            <div class="accordion-item-content">
+                                <div class="list-block">
+                                    <ul>
+                                        <li>
+                                            <a data-cmd="WelcomeScreen" class="close-panel">
+                                                <div class="item-content">
+                                                    <div class="item-media"><i class="icon f7-icons">close_round</i></div>
+                                                    <div class="item-inner"><div class="item-title">Account</div></div>
+                                                </div>
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a data-cmd="account-logout" class="close-panel">
+                                                <div class="item-content">
+                                                    <div class="item-media"><i class="icon f7-icons">logout</i></div>
+                                                    <div class="item-inner"><div class="item-title">Log out</div></div>
+                                                </div>
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </div>                                
+                            </div>  
+                        </div>
+                    </li>
+                </ul>
+            </div>
+            <div class="content-block">
+                <p>Kareer@2017 - All rights reserved</p>
+            </div>
+        </div>
+        <div class="panel panel-right panel-cover">
+            <div class="content-block">
+                <p>Search here</p>
+            </div>
+        </div>
+        <div class="views">
+            <div class="view view-main" data-page="index">
+                <div class="navbar">
+                    <div class="navbar-inner bg-purple">
+                        <div class="left">
+                            <a data-panel="left" class="open-panel link icon-only ripple" href="#"><i class="icon f7-icons">bars</i></a>
+                        </div>
+                        <div class="right">
+                            <a data-panel="right" class="open-panel link icon-only ripple" href="#"><i class="icon f7-icons">search</i></a>
+                        </div>
+                    </div>
+                </div>
+                <div class="pages navbar-through toolbar-through">
+                    <div class="page" data-page="index">
+                        <div class="page-content">
+                            <div id='content'></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="popup popup-about">
+            <div class="content-block">
+                <p>About</p>
+                <p><a href="#" class="close-popup">Close popup</a></p>
+                <p>Lorem ipsum dolor ...</p>
+            </div>
+        </div>
+    </body>
+    <script type="text/javascript" src="../js/framework7.min.js"></script>
+    <script type="text/javascript" src="../js/framework7.3dpanels.min.js"></script>
+    <script type="text/javascript" src="../js/jquery.js "></script>
+    <script type="text/javascript" src="../js/my-app.js "></script>
+    <script type="text/javascript" src="../js/validation/jquery.validate.min.js "></script>
+    <script type="text/javascript" src="../js/validation/additional-methods.min.js "></script>
+    <script type="text/javascript" src="../js/mobile.js "></script>
+</html>

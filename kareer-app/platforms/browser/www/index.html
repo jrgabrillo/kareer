@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui">
+        <meta name="apple-mobile-web-app-capable" content="yes">
+        <meta name="apple-mobile-web-app-status-bar-style" content="black">
+        <title>Kareer</title>
+        <link rel="stylesheet" href="css/framework7.material.min.css">
+        <link rel="stylesheet" href="css/framework7.material.colors.min.css">
+        <link rel="stylesheet" href="css/my-app.css">
+        <link rel="stylesheet" href="css/animate.css">
+        <link rel="stylesheet" href="css/framework7-icons.css">
+        <link rel="stylesheet" href="css/bootstrap.min.css">
+        <link rel="stylesheet" href="fonts/Framework7Icons-Regular.woff2">
+        <link rel="stylesheet" href="fonts/material-icons.css">
+        <link rel="stylesheet" href="fonts/MaterialIcons-Regular.woff2">
+    </head>
+    <body style="background-image: url(img/kareer_bg.png); max-height: 100%;">
+        <div class="views">
+            <div class="view view-main">
+                <div class="pages toolbar-fixed">
+                    <div class="page" data-page='index' style="background-image: url(img/kareer_bg.png);">
+                        <div class="page-content">
+                            <div class="button-row" id="splashScreen">
+                                <img id='displayLogo' src="img/kareer_logo.png" class="animated fadeInUp" style="position:relative; top:0px;">
+                            </div>
+                        </div>
+                        <div class="toolbar" style="background: transparent; height: 100px;">
+                            <div class="toolbar-inner">
+                                <div class="list-block" style="width: 100%;">
+                                    <ul>
+                                        <li style="text-align: center;">
+                                            <a href="#" data-popup=".popup-login" class="open-popup list-button item-link bg-cyan ripple" style='opacity: 0.8;'>Log in</a>
+                                        </li>
+                                        <li style="text-align: center;">
+                                            <a href="#"  data-popup=".popup-sign-up" class="open-popup list-button item-link bg-deeppurple ripple" style='opacity: 0.8;'>Sign In</a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>                         
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="popup popup-login" style="margin-top: 70%; overflow: scroll;">
+            <div class="page-content login-screen-content" style="background: transparent;">
+                <div class="login-screen-title close-popup" style="color: white">Log In<i class="icon f7-icons" style="width: 25px; position: absolute;right: 5%;">close_round</i></div>
+                <div class="content-block">
+                    <form action="" method="POST" id='form_logIn' autocomplete="off">
+                        <div class="list-block">
+                            <ul>
+                                <li style="margin-bottom: 10px;">
+                                    <div class="input-group input-group-lg">
+                                        <div class="input-group-btn">
+                                            <button type="button" class="btn btn-default" aria-label="Help">
+                                              <i class="icon f7-icons" style="">at</i>
+                                            </button>
+                                        </div>
+                                        <input type='email' id="field_email" name="field_email" data-error='.error_field_email' class="form-control color-white" placeholder="Email">
+                                    </div>
+                                </li>
+                                <li style="margin-bottom: 10px;">
+                                    <div class="input-group input-group-lg">
+                                        <div class="input-group-btn">
+                                            <button type="button" class="btn btn-default" aria-label="Help">
+                                                <i class="icon f7-icons" style="width: 25px;">lock</i>
+                                            </button>
+                                        </div>
+                                      <input type='password' id="field_password" name="field_password" data-error='.error_field_password' class="form-control color-white" placeholder="Password">
+                                    </div>
+                                </li>
+                                <li style="margin-bottom: 10px;">
+                                    <button  class="btn btn-primary btn-lg btn-block ripple ripple-red" data-cmd='button_logIn' style="background-color: #fff;color: #03a9f4;">Login</button>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="list-block">
+                            <div class="list-block-label">
+                                <p>
+                                    <span class="hr color-white"> or Login using </span>                                    
+                                </p>
+                                <div class="row" style='margin-top:50px;'>
+                                    <div class="col-50" style='background: transparent; color: #fff; line-height: 2;'>
+                                        Forget password?
+                                    </div>
+                                    <div class="col-50" style='background: transparent;'>
+                                        <img src="img/fb.png" width="30px" />
+                                        <img src="img/gp.png" width="30px" />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <div class="popup popup-sign-up" style="margin-top: 70%;">
+            <div class="page-content login-screen-content infinite-scroll" style="background: transparent;">
+                <div class="login-screen-title close-popup" style="color: white">Sign Up<i class="icon f7-icons" style="width: 25px; position: absolute;right: 5%;">close_round</i></div>
+                <div class="content-block" style=" max-height: 40%; overflow: scroll;">
+                    <form action="" method="POST" id='form_signUp'>
+                        <div class="list-block">
+                            <ul>
+                                <li style="margin-bottom: 10px;">
+                                    <div class="input-group input-group-lg">
+                                        <div class="input-group-btn">
+                                            <a class="btn btn-default" aria-label="Help">
+                                                <i class="icon f7-icons">person</i>
+                                            </a>
+                                        </div>
+                                        <input type='text' id="field_name" name="field_name" data-error='.error_field_name' class="form-control color-white" placeholder="Name">
+                                        <!-- [CED] custom css for icon,'error-icon' -->
+                                        <!-- error message for sign up forms -->
+                                        <div class='error_field_name error-icon'></div> 
+                                    </div>
+                                </li>
+                                <li style="margin-bottom: 10px;">
+                                    <div class="input-group input-group-lg">
+                                        <div class="input-group-btn">
+                                            <a class="btn btn-default" aria-label="Help">
+                                                <i class="icon f7-icons" style="">at</i>
+                                            </a>
+                                        </div>
+                                        <input type='email' id="field_email" name="field_email" data-error='.error_field_email' class="form-control color-white" placeholder="Email">
+                                         <!-- [CED] custom css for icon,'error-icon' -->
+                                        <!-- error message for sign up forms -->
+                                         <div class='error_field_email error-icon'></div> 
+                                    </div>
+                                </li>
+                                <li style="margin-bottom: 10px;">
+                                    <div class="input-group input-group-lg">
+                                        <div class="input-group-btn">
+                                            <a class="btn btn-default" aria-label="Help">
+                                                <i class="icon f7-icons" style="width: 25px;">lock</i>
+                                            </a>
+                                        </div>
+                                        <input type='password' id="field_password" name="field_password" data-error='.error_field_password' class="form-control color-white" placeholder="Password">
+                                        <!-- [CED] custom css for icon,'error-icon' -->
+                                        <!-- error message for sign up forms -->
+                                        <div class='error_field_password error-icon'></div> 
+                                    </div>
+                                </li>
+                                <li  style="">
+                                    <button  class="btn btn-primary btn-lg btn-block" data-cmd='button_signUp' style="background-color: #fff;color: #463b5d;">Sign Up</button>
+
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="list-block">
+                            <div class="list-block-label">
+                                <p>
+                                    <span class="hr color-white"> or Sign up using </span>                                    
+                                </p>
+                                <div class="row" style='margin-top:50px;'>
+                                    <div class="col-50" style='background: transparent;'>
+                                        <img src="img/fb.png" width="30px" />
+                                        <img src="img/gp.png" width="30px" />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </body>
+    <script type="text/javascript" src="js/framework7.min.js "></script>
+    <script type="text/javascript" src="js/jquery.js "></script>
+    <script type="text/javascript" src="js/my-app.js "></script>
+    <script type="text/javascript" src="js/validation/jquery.validate.min.js "></script>
+    <script type="text/javascript" src="js/validation/additional-methods.min.js "></script>
+    <script type="text/javascript" src="js/mobile.js "></script>
+    <script type="text/javascript">
+
+        $(document).ready(function(){
+            $$("input").val("");
+        });
+
+        $$('.popup-login').on('popup:open',function(){
+            $$("#displayLogo").attr({"style":"position:relative; top:-200px;"});
+        }).on('popup:close',function(){
+            $$("#displayLogo").attr({"style":"position:relative; top:0px;"});
+        });
+        $$('.popup-sign-up').on('popup:open',function(){
+            $$("#displayLogo").attr({"style":"position:relative; top:-200px;"});
+        }).on('popup:close',function(){
+            $$("#displayLogo").attr({"style":"position:relative; top:0px;"});
+        });
+    </script>
+</html>
