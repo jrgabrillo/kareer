@@ -21,7 +21,6 @@ Framework7.prototype.plugins.main = function (app, params) {
         signUp.persnal();
         signUp.academic();
         signUp.career();     
-        jobs.show();
     }
 
     var logIn = function(){
@@ -49,9 +48,6 @@ Framework7.prototype.plugins.main = function (app, params) {
                     if(data == 1){
                         system.notification("k12","Success",false,3000,true,function(){},false);
                         jobs.show();
-                        var documentHeight = $(window).height();
-                        $("#jobs .card-content").attr({"style":"height:"+(documentHeight-310)+"px; overflow:hidden; text-overflow: ellipsis;"});
-
                         // $(location).attr('href','account/');
                     }
                     else{
@@ -499,8 +495,7 @@ Framework7.prototype.plugins.main = function (app, params) {
         hooks: {
             appInit: function () {
                 init();
-                jobs.show();
-               $$(".ripple").on('click',function(){
+                $$(".ripple").on('click',function(){
                     var data = $(this).contents('.ripple-wave');
                     $.each(data, function(i,v){
                         setTimeout(function(){
