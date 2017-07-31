@@ -132,20 +132,7 @@
     </div>
 </div>
 <script type="text/javascript">
-	$$(".ripple").on('click',function(){
-		setTimeout(function(){
-		    var data = $(".ripple").contents('.ripple-wave');
-		    console.log(data);
-		    // $.each(data, function(i,v){
-		    //     setTimeout(function(){
-		    //         $(v).remove();
-		    //     },1000);
-		    // });
-		},1000);
-	});
-
     var documentHeight = $(window).height();
-    console.log(documentHeight);
     $("#jobs .card-content").attr({"style":"height:"+(documentHeight-220)+"px; overflow:hidden; text-overflow: ellipsis;"});
 
 </script>

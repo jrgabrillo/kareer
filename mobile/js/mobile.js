@@ -1,6 +1,5 @@
 // do not delete
 console.log('%cDeveloped By: RNR DIGITAL CONSULTANCY (2017)', 'background:#000;color:#ccc;');
-
 Framework7.prototype.plugins.main = function (app, params) {
     'use strict';
     if (!params) return;
@@ -22,7 +21,6 @@ Framework7.prototype.plugins.main = function (app, params) {
         signUp.persnal();
         signUp.academic();
         signUp.career();     
-
         jobs.show();
     }
 
@@ -418,9 +416,7 @@ Framework7.prototype.plugins.main = function (app, params) {
         hooks: {
             appInit: function () {
                 init();
-                console.log("xx");
                 $$(".ripple").on('click',function(){
-                    console.log("s");
                     var data = $(this).contents('.ripple-wave');
                     $.each(data, function(i,v){
                         setTimeout(function(){
