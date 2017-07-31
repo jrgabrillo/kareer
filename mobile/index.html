@@ -31,10 +31,10 @@
                                 <div class="list-block" style="width: 100%;">
                                     <ul>
                                         <li style="text-align: center;">
-                                            <a href="#" data-popup=".popup-login" class="open-popup list-button item-link bg-cyan" style='opacity: 0.8;'>Log in</a>
+                                            <a href="#" data-popup=".popup-login" class="open-popup list-button item-link bg-cyan ripple" style='opacity: 0.8;'>Log in</a>
                                         </li>
                                         <li style="text-align: center;">
-                                            <a href="#"  data-popup=".popup-sign-up" class="open-popup list-button item-link bg-deeppurple" style='opacity: 0.8;'>Sign In</a>
+                                            <a href="#"  data-popup=".popup-sign-up" class="open-popup list-button item-link bg-deeppurple ripple" style='opacity: 0.8;'>Sign In</a>
                                         </li>
                                     </ul>
                                 </div>
@@ -72,7 +72,7 @@
                                     </div>
                                 </li>
                                 <li style="margin-bottom: 10px;">
-                                    <button  class="btn btn-primary btn-lg btn-block" data-cmd='button_logIn' style="background-color: #fff;color: #03a9f4;">Login</button>
+                                    <button  class="btn btn-primary btn-lg btn-block ripple ripple-red" data-cmd='button_logIn' style="background-color: #fff;color: #03a9f4;">Login</button>
                                 </li>
                             </ul>
                         </div>
@@ -188,11 +188,5 @@
         }).on('popup:close',function(){
             $$("#displayLogo").attr({"style":"position:relative; top:0px;"});
         });
-        $$("a").on('click',function(){
-            setTimeout(function(){
-                $$("a").find('.ripple-wave').attr({"class":"ripple-wave animated fadeOut"}).remove();
-               
-            },2500);
-        })
     </script>
 </html>

@@ -21,7 +21,6 @@ var App = function () {
             var func = this;
             $(window).on('hashchange',function() {
                 if(window.location.hash) {
-                    console.log("x");
                     func.handleLoadPage(window.location.hash);
                 }
             });
@@ -39,7 +38,7 @@ var App = function () {
             content.done(function(data){
                 $('#content').html(data);                    
                 var navigation = system.ajax('../pages/'+node+'/nav.html',"");
-                $("nav").html(navigation.responseText);                    
+                $("#navigation").html(navigation.responseText);                    
 
                 if(newhash.length>1){
                     targetUrl = newhash[1].replace('content=','../pages/'+node+'/')+".html";
@@ -52,7 +51,6 @@ var App = function () {
                 var subcontent = system.html(targetUrl);
 
                 subcontent.done(function(data){
-                    console.log(targetUrl);
                     $('#subcontent').html(data);
                 });
 

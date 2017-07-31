@@ -19,9 +19,11 @@ Framework7.prototype.plugins.main = function (app, params) {
     var init = function(){
         logIn();
         signUp.initial();
-        signUp.personalInfo();
-        signUp.academicInfo();
-        signUp.careerInfo();     
+        signUp.persnal();
+        signUp.academic();
+        signUp.career();     
+
+        jobs.show();
     }
 
     var logIn = function(){
@@ -397,7 +399,18 @@ Framework7.prototype.plugins.main = function (app, params) {
 
     var jobs = {
         show:function(){
-            var template = system.html("");
+            var template = system.html("../view/jobs.html");
+            template.done(function(data){
+                $("#content").html(data);
+            });
+
+            var swiper = app.swiper(".swiper-container",{
+                loop:true,
+                speed: 400,
+                grabCursor:true,
+                shortSwipes:true,
+                mousewheelControl: true
+            });
         }
     }
 
@@ -405,6 +418,7 @@ Framework7.prototype.plugins.main = function (app, params) {
         hooks: {
             appInit: function () {
                 init();
+                console.log("xx");
                 $$(".ripple").on('click',function(){
                     console.log("s");
                     var data = $(this).contents('.ripple-wave');
