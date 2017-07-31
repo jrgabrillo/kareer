@@ -89,7 +89,7 @@ input.form-control::placeholder, input[type=text]::placeholder, input[type=passw
 }
 input.form-control, input[type=text], input[type=password] {
     background: transparent !important;
-    color: #fff !important;
+    /*color: #fff !important;*/
     height: 46px !important;
     border: #fff solid 2px !important;
     border-radius: 0px 6px 6px 0px !important;
@@ -115,14 +115,14 @@ span.hr:after, span.hr:before {
     z-index: 10000;
 }
 .panel .card-header {
-    /*background-image: url('../img/img-bg.jpg');
+    /*background-image: url('../assets/img/bvs.jpg');*/
     background: linear-gradient(rgba(255, 255, 255, 0.1), rgba(0, 0, 0, 0.2));
     height: 40vw;
     background-size: cover;
-    background-position: center;*/
+    background-position: center;
 }
 .panel .panel-bg {
-    background-image: url('../img/img-bg.jpg');
+    /*background-image: url('../assets/img/bvs.jpg');*/
     background-size: cover;
 }
 .panel .list-block {
@@ -150,6 +150,7 @@ span.hr:after, span.hr:before {
 .item-inner {
     margin-left: 0px !important;
 }
+/*
 
 body {
     background: #074d55;
@@ -159,7 +160,7 @@ body {
     background: radial-gradient(ellipse at right bottom, #6967a5 0%, #2075a1 50%, #074d55 100%);
 }
 .panel .page, .panel .pages, .panel {
-    /*background: none;*/
+   background: none;
 }
 .panel .list-block ul {
     background: none;
@@ -177,3 +178,4 @@ body {
 .panel .content-block, .panel .content-block-title {
     color: #fff;
 }
+*/

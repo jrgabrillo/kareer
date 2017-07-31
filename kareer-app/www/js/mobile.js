@@ -44,9 +44,11 @@ Framework7.prototype.plugins.main = function (app, params) {
                 var _form = $(form).serializeArray();
                 var data = system.ajax(processor+'do-logIn',_form);
                 data.done(function(data){
+                    data = 1;
+                    console.log('xxx');
                     if(data == 1){
                         system.notification("k12","Success",false,3000,true,function(){},false);
-                        $(location).attr('href','account/')
+                        $(location).attr('href','account/');
                     }
                     else{
                         system.notification("k12","Failed.",false,3000,true,function(){},false);

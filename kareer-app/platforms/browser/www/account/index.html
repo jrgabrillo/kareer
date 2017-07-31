@@ -11,6 +11,7 @@
         <link rel="stylesheet" href="../css/framework7.material.min.css">
         <link rel="stylesheet" href="../css/framework7.3dpanels.min.css">
         <link rel="stylesheet" href="../css/framework7-icons.css">
+        <link rel="stylesheet" href="../css/material.purple-teal.min.css">
         <link rel="stylesheet" href="../css/my-app.css">
         <link rel="stylesheet" href="../css/animate.css">
         <link rel="stylesheet" href="../fonts/Framework7Icons-Regular.woff2">
@@ -21,28 +22,87 @@
         <div class="statusbar-overlay"></div>
         <div class="panel-overlay"></div>
         <div class="panel panel-left panel-cover">
-            <div class="panel-bg">
+            <div class="panel-bg" style="background-image: url(../img/bvs.jpg); min-height:150px;">
                 <div class='action'>
                     <a class="link icon-only no-ripple close-panel color-white">
-                        <i class="icon f7-icons">right</i>
+                        <i class="icon f7-icons color-black">outline_close</i>
                     </a>
-                </div>
-                <div class='primary'>
-                    <img class='' src='../img/profile/profile_avatar.jpg'/>
-                </div>
-                <div class="accordion-list">
-                    <div valign="bottom" class="card-header no-border color-white" style="height: 50px;" data-node="display-name">
-                        Rufo N. Gabrillo Jr. <!-- -<br> It seems that your app isnt loaded well. -->
-                    </div>
                 </div>
             </div>
             <div class="list-block">
                 <ul>
                     <li>
+                        <div class='primary'>
+                            <img class='' src='../img/profile/profile_avatar.jpg' style="margin-top: -30px;" />
+                        </div>
+                        <div class="item-content">
+                            <div valign="bottom" class="no-border color-black" data-node="display-name">
+                                <div style="font-size: 20px; margin-top: -20px;">Rufo N. Gabrillo Jr.</div> <!-- -<br> It seems that your app isnt loaded well. -->
+                                <small>rufo.gabrillo@rnrdigitalconsultancy.com</small>
+                            </div>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="accordion-item">
+                            <div class="accordion-item-toggle">
+                                <div class="item-content">
+                                    <div class="item-media"><i class="icon f7-icons color-purple">person_fill</i></div>
+                                    <div class="item-inner"><div class="item-title">Account</div></div>
+                                </div>
+                            </div>
+                            <div class="accordion-item-content">
+                                <div class="list-block">
+                                    <ul>
+                                        <li>
+                                            <a data-cmd="WelcomeScreen" class="close-panel">
+                                                <div class="item-content">
+                                                    <div class="item-media" style="margin-left: 20px;min-width: 20px !important;"><i class="icon f7-icons color-teal" style="font-size: 10px;">circle_fill</i></div>
+                                                    <div class="item-inner"><div class="item-title color-black">Personal Information</div></div>
+                                                </div>
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a data-cmd="account-logout" class="close-panel">
+                                                <div class="item-content">
+                                                    <div class="item-media" style="margin-left: 20px;min-width: 20px !important;"><i class="icon f7-icons color-teal" style="font-size: 10px;">circle_fill</i></div>
+                                                    <div class="item-inner"><div class="item-title color-black">Academic</div></div>
+                                                </div>
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a data-cmd="account-logout" class="close-panel">
+                                                <div class="item-content">
+                                                    <div class="item-media" style="margin-left: 20px;min-width: 20px !important;"><i class="icon f7-icons color-teal" style="font-size: 10px;">circle_fill</i></div>
+                                                    <div class="item-inner"><div class="item-title color-black">Career</div></div>
+                                                </div>
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </div>                                
+                            </div>  
+                        </div>
+                    </li>
+                    <li>
                         <a data-cmd="display-home" class="close-panel">
                             <div class="item-content">
-                                <div class="item-media"><i class="icon f7-icons">home</i></div>
-                                <div class="item-inner"><div class="item-title">Home</div></div>
+                                    <div class="item-media"><i class="icon f7-icons color-purple">document_fill</i></div>
+                                <div class="item-inner"><div class="item-title color-black">Job Applications</div></div>
+                            </div>
+                        </a>
+                    </li>
+                    <li>
+                        <a data-cmd="display-home" class="close-panel">
+                            <div class="item-content">
+                                    <div class="item-media"><i class="icon f7-icons color-purple">bell_fill</i></div>
+                                <div class="item-inner"><div class="item-title color-black">Notifications</div></div>
+                            </div>
+                        </a>
+                    </li>
+                    <li>
+                        <a data-cmd="display-home" class="close-panel">
+                            <div class="item-content">
+                                    <div class="item-media"><i class="icon f7-icons color-purple">bookmark</i></div>
+                                <div class="item-inner"><div class="item-title color-black">Bookmarks</div></div>
                             </div>
                         </a>
                     </li>
@@ -50,7 +110,7 @@
                         <div class="accordion-item">
                             <div class="accordion-item-toggle">
                                 <div class="item-content">
-                                    <div class="item-media"><i class="icon f7-icons">settings</i></div>
+                                    <div class="item-media"><i class="icon f7-icons color-purple">settings</i></div>
                                     <div class="item-inner"><div class="item-title">Settings</div></div>
                                 </div>
                             </div>
@@ -60,16 +120,16 @@
                                         <li>
                                             <a data-cmd="WelcomeScreen" class="close-panel">
                                                 <div class="item-content">
-                                                    <div class="item-media"><i class="icon f7-icons">close_round</i></div>
-                                                    <div class="item-inner"><div class="item-title">Account</div></div>
+                                                    <div class="item-media" style="margin-left: 20px;min-width: 20px !important;"><i class="icon f7-icons color-teal" style="font-size: 10px;">circle_fill</i></div>
+                                                    <div class="item-inner"><div class="item-title color-black">Account</div></div>
                                                 </div>
                                             </a>
                                         </li>
                                         <li>
                                             <a data-cmd="account-logout" class="close-panel">
                                                 <div class="item-content">
-                                                    <div class="item-media"><i class="icon f7-icons">logout</i></div>
-                                                    <div class="item-inner"><div class="item-title">Log out</div></div>
+                                                    <div class="item-media" style="margin-left: 20px;min-width: 20px !important;"><i class="icon f7-icons color-teal" style="font-size: 10px;">circle_fill</i></div>
+                                                    <div class="item-inner"><div class="item-title color-black">Log out</div></div>
                                                 </div>
                                             </a>
                                         </li>
@@ -85,8 +145,53 @@
             </div>
         </div>
         <div class="panel panel-right panel-cover">
+            <div class="panel-bg">
+                <div class='action'>
+                    <a class="link icon-only no-ripple close-panel">
+                        <i class="icon f7-icons color-black">outline_close</i>
+                    </a>
+                </div>
+            </div>
+            <div class="list-block">
+                <ul>
+                    <li>
+                        <div class="item-content">
+                            <div valign="bottom" class="no-border color-black" data-node="display-name">
+                                <div style="font-size: 20px;">Search</div>
+                            </div>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="item-content">
+                            <div class="item-inner">
+                                <div class="item-title label">
+                                    Location
+                                </div>
+                                <div class="item-input">
+                                    <input placeholder="Location" type="text">
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="item-content">
+                            <div class="item-inner">
+                                <div class="item-title label">
+                                    Skills
+                                </div>
+                                <div class="item-input">
+                                    <input placeholder="Skills" type="text">
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                    <li>
+                        <a href="#" class="list-button item-link ripple" style="text-align: center;">Search</a>
+                    </li>
+                </ul>
+            </div>
             <div class="content-block">
-                <p>Search here</p>
+                <p>Kareer@2017 - All rights reserved</p>
             </div>
         </div>
         <div class="views">
@@ -118,9 +223,10 @@
             </div>
         </div>
     </body>
+    <script type="text/javascript" src="../js/jquery.js "></script>
+    <script type="text/javascript" src="../js/material.min.js "></script>
     <script type="text/javascript" src="../js/framework7.min.js"></script>
     <script type="text/javascript" src="../js/framework7.3dpanels.min.js"></script>
-    <script type="text/javascript" src="../js/jquery.js "></script>
     <script type="text/javascript" src="../js/my-app.js "></script>
     <script type="text/javascript" src="../js/validation/jquery.validate.min.js "></script>
     <script type="text/javascript" src="../js/validation/additional-methods.min.js "></script>
