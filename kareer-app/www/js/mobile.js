@@ -21,7 +21,7 @@ Framework7.prototype.plugins.main = function (app, params) {
         signUp.persnal();
         signUp.academic();
         signUp.career();     
-        jobs.show();
+        // jobs.show();
     }
 
     var logIn = function(){
@@ -481,13 +481,13 @@ Framework7.prototype.plugins.main = function (app, params) {
                     speed: 400,
                     grabCursor:true,
                     effect:'coverflow',
-coverflow: {
-  rotate: 50,
-  stretch: 0,
-  depth: 100,
-  modifier: 1,
-  slideShadows : true
-},
+                    coverflow: {
+                      rotate: 50,
+                      stretch: 0,
+                      depth: 100,
+                      modifier: 1,
+                      slideShadows : true
+                    },
                     shortSwipes:true,
                     mousewheelControl: true
                 });
