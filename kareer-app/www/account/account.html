@@ -1,27 +1,7 @@
-<!DOCTYPE html>
-<html>
-    <head>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui">
-        <meta name="apple-mobile-web-app-capable" content="yes">
-        <meta name="apple-mobile-web-app-status-bar-style" content="black">
-        <title>Kareer</title>
-        <link rel="stylesheet" href="../css/framework7.material.min.css">
-        <link rel="stylesheet" href="../css/framework7.material.colors.min.css">
-        <link rel="stylesheet" href="../css/framework7.3dpanels.min.css">
-        <link rel="stylesheet" href="../css/framework7-icons.css">
-        <link rel="stylesheet" href="../css/material.purple-teal.min.css">
-        <link rel="stylesheet" href="../css/my-app.css">
-        <link rel="stylesheet" href="../css/animate.css">
-        <link rel="stylesheet" href="../fonts/Framework7Icons-Regular.woff2">
-        <link rel="stylesheet" href="../fonts/material-icons.css">
-        <link rel="stylesheet" href="../fonts/MaterialIcons-Regular.woff2">
-    </head>
-    <body>
         <div class="statusbar-overlay"></div>
         <div class="panel-overlay"></div>
         <div class="panel panel-left panel-cover">
-            <div class="panel-bg" style="background-image: url(../img/bvs.jpg); min-height:150px;">
+            <div class="panel-bg" style="background-image: url(img/bvs.jpg); min-height:150px;">
                 <div class='action'>
                     <a class="link icon-only no-ripple close-panel color-white">
                         <i class="icon f7-icons color-black">outline_close</i>
@@ -32,7 +12,7 @@
                 <ul>
                     <li>
                         <div class='primary'>
-                            <img class='' src='../img/profile/profile_avatar.jpg' style="margin-top: -30px;" />
+                            <img class='' src='img/profile/profile_avatar.jpg' style="margin-top: -30px;" />
                         </div>
                         <div class="item-content">
                             <div valign="bottom" class="no-border color-black" data-node="display-name">
@@ -208,7 +188,12 @@
                 <div class="pages navbar-through toolbar-through">
                     <div class="page" data-page="index">
                         <div class="page-content">
-                            <div id='content'></div>
+                            <div class="swiper-custom">
+                                <span class="right" style="padding: 10px;">5 results</span>
+                                <div class="swiper-container swiper-container-horizontal">
+                                    <div class="swiper-wrapper" id='content'></div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -221,13 +206,3 @@
                 <p>Lorem ipsum dolor ...</p>
             </div>
         </div>
-    </body>
-    <script type="text/javascript" src="../js/jquery.js "></script>
-    <script type="text/javascript" src="../js/material.min.js "></script>
-    <script type="text/javascript" src="../js/framework7.min.js"></script>
-    <script type="text/javascript" src="../js/framework7.3dpanels.min.js"></script>
-    <script type="text/javascript" src="../js/my-app.js "></script>
-    <script type="text/javascript" src="../js/validation/jquery.validate.min.js "></script>
-    <script type="text/javascript" src="../js/validation/additional-methods.min.js "></script>
-    <script type="text/javascript" src="../js/mobile.js "></script>
-</html>
