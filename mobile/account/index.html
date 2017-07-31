@@ -9,6 +9,7 @@
         <link rel="stylesheet" href="../css/framework7.material.min.css">
         <link rel="stylesheet" href="../css/framework7.material.colors.min.css">
         <link rel="stylesheet" href="../css/framework7.material.min.css">
+        <link rel="stylesheet" href="../css/framework7.3dpanels.min.css">
         <link rel="stylesheet" href="../css/framework7-icons.css">
         <link rel="stylesheet" href="../css/my-app.css">
         <link rel="stylesheet" href="../css/animate.css">
@@ -16,14 +17,14 @@
         <link rel="stylesheet" href="../fonts/material-icons.css">
         <link rel="stylesheet" href="../fonts/MaterialIcons-Regular.woff2">
     </head>
-    <body style="background-image: url(img/kareer_bg.png); max-height: 100%;">
+    <body>
         <div class="statusbar-overlay"></div>
         <div class="panel-overlay"></div>
-        <div class="panel panel-left panel-cover">
-            <div class="panel-bg" style="background: url(../img/user-bg.jpg);">
+        <div class="panel panel-left panel-reveal">
+            <div class="panel-bg">
                 <div class='action'>
                     <a class="link icon-only no-ripple close-panel color-white">
-                        <i class="icon f7-icons">close_round</i>
+                        <i class="icon f7-icons">right</i>
                     </a>
                 </div>
                 <div class='primary'>
@@ -31,7 +32,7 @@
                 </div>
                 <div class="accordion-list">
                     <div valign="bottom" class="card-header no-border color-white" style="height: 50px;" data-node="display-name">
-                        Rufo N. Gabrillo Jr. -<br> It seems that your app isnt loaded well.
+                        Rufo N. Gabrillo Jr. <!-- -<br> It seems that your app isnt loaded well. -->
                     </div>
 
                 </div>
@@ -54,8 +55,8 @@
                                     <div class="item-inner"><div class="item-title">Settings</div></div>
                                 </div>                                    
                             </div>
-                            <div class="accordion-item-content bg-gray">
-                                <div class="list-block bg-white">
+                            <div class="accordion-item-content">
+                                <div class="list-block">
                                     <ul>
                                         <li>
                                             <a data-cmd="WelcomeScreen" class="close-panel">
@@ -84,12 +85,20 @@
                 <p>Kareer@2017 - All rights reserved</p>
             </div>
         </div>
+        <div class="panel panel-right panel-reveal">
+            <div class="content-block">
+                <p>Search here</p>
+            </div>
+        </div>
         <div class="views">
             <div class="view view-main" data-page="index">
                 <div class="navbar">
                     <div class="navbar-inner bg-purple">
                         <div class="left">
-                            <a class="open-panel link icon-only ripple" href="#"><i class="icon f7-icons">bars</i></a>
+                            <a data-panel="left" class="open-panel link icon-only ripple" href="#"><i class="icon f7-icons">bars</i></a>
+                        </div>
+                        <div class="right">
+                            <a data-panel="right" class="open-panel link icon-only ripple" href="#"><i class="icon f7-icons">search</i></a>
                         </div>
                     </div>
                 </div>
@@ -110,7 +119,8 @@
             </div>
         </div>        
     </body>
-    <script type="text/javascript" src="../js/framework7.min.js "></script>
+    <script type="text/javascript" src="../js/framework7.min.js"></script>
+    <script type="text/javascript" src="../js/framework7.3dpanels.min.js"></script>
     <script type="text/javascript" src="../js/jquery.js "></script>
     <script type="text/javascript" src="../js/my-app.js "></script>
     <script type="text/javascript" src="../js/validation/jquery.validate.min.js "></script>
