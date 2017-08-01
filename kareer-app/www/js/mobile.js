@@ -21,7 +21,7 @@ Framework7.prototype.plugins.main = function (app, params) {
         signUp.persnal();
         signUp.academic();
         signUp.career();     
-        // jobs.show();
+        jobs.show();
     }
 
     var logIn = function(){

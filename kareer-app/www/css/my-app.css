@@ -114,15 +114,17 @@ span.hr:after, span.hr:before {
     margin-top: 1.5%;
     z-index: 10000;
 }
-.panel .card-header {
-    /*background-image: url('../assets/img/bvs.jpg');*/
+
+/* this is for panel cover*/
+/*.panel .card-header {
+    background-image: url('../assets/img/bvs.jpg');
     background: linear-gradient(rgba(255, 255, 255, 0.1), rgba(0, 0, 0, 0.2));
     height: 40vw;
     background-size: cover;
     background-position: center;
 }
 .panel .panel-bg {
-    /*background-image: url('../assets/img/bvs.jpg');*/
+    background-image: url('../assets/img/bvs.jpg');
     background-size: cover;
 }
 .panel .list-block {
@@ -150,7 +152,9 @@ span.hr:after, span.hr:before {
 .item-inner {
     margin-left: 0px !important;
 }
-/*
+*/
+/*this is for panel reveal*/
+
 
 body {
     background: #074d55;
@@ -178,4 +182,3 @@ body {
 .panel .content-block, .panel .content-block-title {
     color: #fff;
 }
-*/
