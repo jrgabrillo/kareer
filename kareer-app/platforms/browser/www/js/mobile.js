@@ -21,7 +21,7 @@ Framework7.prototype.plugins.main = function (app, params) {
         signUp.persnal();
         signUp.academic();
         signUp.career();     
-        // jobs.show();
+        jobs.show();
     }
 
     var logIn = function(){
@@ -446,11 +446,15 @@ Framework7.prototype.plugins.main = function (app, params) {
                     content += "<div class='swiper-slide'>"+
                                 "   <div class='card demo-card-header-pic red'>"+
                                 "       <div class='card-header color-white no-border' valign='bottom' style='background-image:url(img/kareer_bg.png); height: 150px;'>"+
-                                "           <h4>"+v.company+"<br/><small>"+v.address+"</small>"+
-                                "           </h4>"+
-                                "           <button class='mdl-button mdl-js-button mdl-button--fab mdl-button--colored' style='background: rgb(156,39,176); top: 70px;'>"+
-                                "               <i class='icon f7-icons color-white'>bookmark</i>"+
-                                "           </button>"+
+                                "           <div class='col s8 m8 l8'>"+
+                                "               <h4>"+v.company+"<br/><small>"+v.address+"</small>"+
+                                "               </h4>"+
+                                "           </div>"+
+                                "           <div class='col s4 m4 l4'>"+
+                                "               <button class='mdl-button mdl-js-button mdl-button--fab mdl-button--colored' style='background: rgb(156,39,176); top: 70px;'>"+
+                                "                   <i class='icon f7-icons color-white'>bookmark</i>"+
+                                "               </button>"+
+                                "           </div>"+
                                 "       </div>"+
                                 "       <div class='card-content'>"+
                                 "           <div class='card-content-inner'>"+

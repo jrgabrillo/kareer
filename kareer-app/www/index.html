@@ -18,7 +18,7 @@
         <link rel="stylesheet" href="fonts/material-icons.css">
         <link rel="stylesheet" href="fonts/MaterialIcons-Regular.woff2">
     </head>
-    <body style="background-image: url(img/kareer_bg.png); max-height: 100%;">
+    <body style="background-image: url(img/bg.png); max-height: 100%;">
         <div class="views">
             <div class="view view-main" id="jobs">
                 <div class="pages toolbar-fixed">
@@ -180,11 +180,9 @@
     <script type="text/javascript" src="js/validation/additional-methods.min.js "></script>
     <script type="text/javascript" src="js/mobile.js "></script>
     <script type="text/javascript">
-
         $(document).ready(function(){
             $$("input").val("");
         });
-
         $$('.popup-login').on('popup:open',function(){
             $$("#displayLogo").attr({"style":"position:relative; top:-200px;"});
         }).on('popup:close',function(){

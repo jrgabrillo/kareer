@@ -8,6 +8,7 @@
         <title>Kareer</title>
         <link rel="stylesheet" href="css/framework7.material.min.css">
         <link rel="stylesheet" href="css/framework7.material.colors.min.css">
+        <link rel="stylesheet" href="css/framework7.3dpanels.min.css">
         <link rel="stylesheet" href="css/my-app.css">
         <link rel="stylesheet" href="css/animate.css">
         <link rel="stylesheet" href="css/framework7-icons.css">
@@ -17,7 +18,7 @@
         <link rel="stylesheet" href="fonts/material-icons.css">
         <link rel="stylesheet" href="fonts/MaterialIcons-Regular.woff2">
     </head>
-    <body style="background-image: url(img/kareer_bg.png); max-height: 100%;">
+    <body style="background-image: url(img/bg.png); max-height: 100%;">
         <div class="views">
             <div class="view view-main" id="jobs">
                 <div class="pages toolbar-fixed">
@@ -47,7 +48,10 @@
         </div>
         <div class="popup popup-login" style="margin-top: 70%; overflow: scroll;">
             <div class="page-content login-screen-content" style="background: transparent;">
-                <div class="login-screen-title close-popup" style="color: white">Log In<i class="icon f7-icons" style="width: 25px; position: absolute;right: 5%;">close_round</i></div>
+                <div class="login-screen-title color-white">
+                    Log In 
+                    <a class="close-popup"><i class="icon f7-icons color-white" style="width: 25px; position: absolute;right: 5%;">close_round</i></a>
+                </div>
                 <div class="content-block">
                     <form action="" method="POST" id='form_logIn' autocomplete="off">
                         <div class="list-block">
@@ -168,6 +172,7 @@
         </div>
     </body>
     <script type="text/javascript" src="js/framework7.min.js "></script>
+    <script type="text/javascript" src="js/framework7.3dpanels.min.js"></script>
     <script type="text/javascript" src="js/jquery.js "></script>
     <script type="text/javascript" src="js/material.min.js "></script>
     <script type="text/javascript" src="js/my-app.js "></script>
@@ -175,11 +180,9 @@
     <script type="text/javascript" src="js/validation/additional-methods.min.js "></script>
     <script type="text/javascript" src="js/mobile.js "></script>
     <script type="text/javascript">
-
         $(document).ready(function(){
             $$("input").val("");
         });
-
         $$('.popup-login').on('popup:open',function(){
             $$("#displayLogo").attr({"style":"position:relative; top:-200px;"});
         }).on('popup:close',function(){

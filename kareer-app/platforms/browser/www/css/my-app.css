@@ -114,15 +114,18 @@ span.hr:after, span.hr:before {
     margin-top: 1.5%;
     z-index: 10000;
 }
+
+/* this is for panel cover*/
+/**/
 .panel .card-header {
-    /*background-image: url('../assets/img/bvs.jpg');*/
+    background-image: url('../assets/img/bvs.jpg');
     background: linear-gradient(rgba(255, 255, 255, 0.1), rgba(0, 0, 0, 0.2));
     height: 40vw;
     background-size: cover;
     background-position: center;
 }
 .panel .panel-bg {
-    /*background-image: url('../assets/img/bvs.jpg');*/
+    background-image: url('../assets/img/bvs.jpg');
     background-size: cover;
 }
 .panel .list-block {
@@ -150,8 +153,8 @@ span.hr:after, span.hr:before {
 .item-inner {
     margin-left: 0px !important;
 }
-/*
 
+/*this is for panel reveal*/
 body {
     background: #074d55;
     background: -moz-radial-gradient(center, ellipse cover, #a7cfdf 0%, #23538a 100%);
@@ -178,4 +181,14 @@ body {
 .panel .content-block, .panel .content-block-title {
     color: #fff;
 }
-*/
+
+.navbar, .subnavbar, .toolbar {
+    background: transparent !important;
+}
+
+.card, .swiper-slide{
+    background: transparent !important;
+}
+.card-content, .card-footer{
+    background: #fff !important;
+}
