@@ -215,7 +215,7 @@ $Functions = new DatabaseClasses;
                 $Query = $Functions->PDO_SQLQuery("UPDATE tbl_employer SET image = '{$file}' WHERE id = '{$data[0]}'");
             }
             else if($data[1] == 'administrator'){
-                $Query = $Functions->PDO_SQLQuery("UPDATE tbl_admin SET picture = '{$file}' WHERE id = '{$data[0]}'");
+                $Query = $Functions->PDO_SQLQuery("UPDATE tbl_admin SET image = '{$file}' WHERE id = '{$data[0]}'");
             }
             else{
                 $Query = $Functions->PDO_SQLQuery("UPDATE tbl_user SET image = '{$file}' WHERE id = '{$data[0]}'");

@@ -616,7 +616,7 @@ var applicant = function(){
 	return {
 		list_applicant: function(){
 			var sys = system, validate = validation, _this = this, _apps = App;
-			var ajax = system.html('../assets/harmony/Process.php?get-allApplicant');
+			var ajax = sys.html('../assets/harmony/Process.php?get-allApplicant');
 			ajax.success(function(data){
 				if(data != ""){
 					var data = JSON.parse(data);
@@ -640,37 +640,37 @@ var applicant = function(){
 								{ className: "client-avatar", "targets": [ 0 ] },
 								{ className: "text-left", "targets": [ 1 ] }
 							],
-						    // columns: [
-						    //     {data: "",
-						    //         render: function ( data, type, full ){
-										// var picture = "../assets/img/profile/profile_avatar.jpg";
-										// if(full[9] != ""){
-										// 	var imageData = full[9].split('.');
-										// 	if(imageData[imageData.length-1]!='apr'){
-										// 		picture = "../assets/img/profile/"+full[9];					
-										// 	}
-										// 	else{
-										// 		// picture = mainProcess.get_apr(full[9]);					
-										// 	}
-										// }
+						    columns: [
+						        {data: "",
+						            render: function ( data, type, full ){
+										var picture = "../assets/img/profile/profile_avatar.jpg";
+										if(full[6] != ""){
+											var imageData = full[6].split('.');
+											if(imageData[imageData.length-1]!='apr'){
+												picture = "../assets/img/profile/"+full[6];					
+											}
+											else{
+												picture = sys.get_apr(full[6]);					
+											}
+										}
 
-						    //         	var details = '<img alt="image" src="'+picture+'">';
-						    //             return details;
-						    //         }
-						    //     },
-						    //     {data: "",
-						    //         render: function ( data, type, full ){
-						    //         	var details = full[5]+"<br/><i>"+(full[9],100)+"</i>";
-						    //             return details;
-						    //         }
-						    //     },
-						    //     {data: "",
-						    //         render: function ( data, type, full ){
-						    //         	var details = "<a data-id='"+full[0]+"' data-cmd='info_applicant' class='btn btn-success btn-xs btn-block'>Details</a>";
-						    //             return details;
-						    //         }
-						    //     },
-						    // ]
+						            	var details = '<img alt="image" src="'+picture+'">';
+						                return details;
+						            }
+						        },
+						        {data: "",
+						            render: function ( data, type, full ){
+						            	var details = full[5]+"<br/><i>"+(full[6],100)+"</i>";
+						                return details;
+						            }
+						        },
+						        {data: "",
+						            render: function ( data, type, full ){
+						            	var details = "<a data-id='"+full[0]+"' data-cmd='info_applicant' class='btn btn-success btn-xs btn-block'>Details</a>";
+						                return details;
+						            }
+						        },
+						    ]
 						});
 					    
 					// $("a[data-cmd='info_applicant']").click(function(){
