@@ -145,19 +145,19 @@ var system = function(){
             });
             return data;
         },
-        confirm:function(title, callback) {
-			swal({
-		        title: title,
-		        type: "warning",
-		        showCancelButton: true,
-		        confirmButtonColor: "#DD6B55",
-		        confirmButtonText: "Confirm",
-		        animation:false,
-		        closeOnConfirm: false
-		    }, 
-		    function () {
-				callback();
-		    });		
-		},
+  //       confirm:function(title, callback) {
+		// 	swal({
+		//         title: title,
+		//         type: "warning",
+		//         showCancelButton: true,
+		//         confirmButtonColor: "#DD6B55",
+		//         confirmButtonText: "Confirm",
+		//         animation:false,
+		//         closeOnConfirm: false
+		//     }, 
+		//     function () {
+		// 		callback();
+		//     });		
+		// },
 	}
 }();
