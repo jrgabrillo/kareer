@@ -11,12 +11,15 @@
         <div class="row animated fadeInUp">
             <div class="col s12">
                 <div class="card float-e-margins" id='list_applicant'>
-                    <div class="card-content">
+                    
                     <div class="card-title">
                         <h5>Applicants</h5>
                         <a href="#cmd=index;content=add-applicant" class='btn btn-xs btn-warning pull-right'>Add Applicant</a>
-                        <h2>:(</h2><h4>No applicant</h4>
+
+                        
                     </div>
+                    <div class="card-content text-center">
+                    <h2>:(</h2><h4>No applicant</h4>
                     </div>
                 </div>
             </div>
@@ -24,6 +27,6 @@
     </div>
 </div>
 <script type="text/javascript">
-    // mainProcess.admin_ini();
-    // administrator.list_student();
+   admin.display();
+   applicant.list_applicant();
 </script>

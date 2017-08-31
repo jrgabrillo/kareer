@@ -25,6 +25,50 @@ var system = function(){
 		        }
 		    });
 		},
+		erroNotif:function(title,message){
+			toastr.options = {
+			  "progressBar": true,
+			  "positionClass": "toast-top-left",
+			  "preventDuplicates": true,
+			  "onclick": null,
+			  "showDuration": "100",
+			  "hideDuration": "100",
+			  "timeOut": "3000",
+			  "extendedTimeOut": "3000",
+			  "showEasing": "swing",
+			  "hideEasing": "linear",
+			  "showMethod": "fadeIn",
+			  "hideMethod": "fadeOut"
+			}					
+            toastr.error(message,title)
+		},	
+		successNotif:function(title,message){
+			toastr.options = {
+			  "progressBar": true,
+			  "positionClass": "toast-top-left",
+			  "preventDuplicates": true,
+			  "onclick": null,
+			  "showDuration": "100",
+			  "hideDuration": "100",
+			  "timeOut": "3000",
+			  "extendedTimeOut": "3000",
+			  "showEasing": "swing",
+			  "hideEasing": "linear",
+			  "showMethod": "fadeIn",
+			  "hideMethod": "fadeOut"
+			}					
+            toastr.success(message,title)
+		},
+		modalLarge:function(title, subtitle, body){
+        	$("#modalLarge").modal('show');
+        	$("#modalLarge .modal-title").html(title);
+        	$("#modalLarge .font-bold").html(subtitle);
+        	$("#modalLarge .modal-body").html(body);
+        },
+        close_modalLarge:function(){ 
+        	$("#modalLarge").modal('hide');
+        	$(".modal-backdrop").addClass('hidden');
+        },
 		html:function(url){
 	        return $.ajax({
 		        type: "POST",
@@ -46,6 +90,14 @@ var system = function(){
 		        async: !1,
 		        cache:false
 		    });
+		},
+		get_account: function(){
+			var ajax = system.ajax('../assets/harmony/Process.php?get-account',"");
+			return ajax.responseText;
+		},
+		get_apr:function(image){
+			var ajax = system.ajax('../assets/img/profile/'+image,'');
+			return ajax.responseText;
 		},
 		send_mail:function(email,subject,message,callback){
 			return system.ajax('../assets/harmony/Process.php?send-mail',[email,subject,message]);
@@ -93,5 +145,19 @@ var system = function(){
             });
             return data;
         },
+        confirm:function(title, callback) {
+			swal({
+		        title: title,
+		        type: "warning",
+		        showCancelButton: true,
+		        confirmButtonColor: "#DD6B55",
+		        confirmButtonText: "Confirm",
+		        animation:false,
+		        closeOnConfirm: false
+		    }, 
+		    function () {
+				callback();
+		    });		
+		},
 	}
 }();

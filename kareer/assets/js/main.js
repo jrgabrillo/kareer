@@ -96,20 +96,20 @@ var main = function () {
 					$.each(validated[1],function(i,v){
 						message += (i+1)+". "+v+"<br/>";
 					})
-					sys.errorNotification('The following fields has an error',message);
+					sys.errorNotif('The following fields has an error',message);
 				}
 				else{
 					var ajax = system.html('assets/harmony/Process.php?do-registerEmployer',data);
 					ajax.success(function(data){
 						if(data == 0){
-							sys.errorNotification('Notice','Email is already registered to an active account');
+							sys.errorNotif('Notice','Email is already registered to an active account');
 						}
 						else if(data == 1){
-							sys.successNotification('Success','You have successfully registered. <br/>You will be redirected in 3 seconds.');
+							sys.successNotif('Success','You have successfully registered. <br/>You will be redirected in 3 seconds.');
 							setTimeout(function(){$(location).attr('href','login.html');},3000);	
 						}
 						else{
-							sys.errorNotification('Fatal Error','There was an error during the process.');
+							sys.errorNotif('Fatal Error','There was an error during the process.');
 							console.log(data);							
 						}
 					})
