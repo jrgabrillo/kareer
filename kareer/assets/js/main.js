@@ -86,6 +86,18 @@ var main = function () {
             })
             return result;
         },
+        accounts_ini: function(){
+			var sys = system, validate = validation, _this = this;
+			var ajax = sys.ajax('../assets/harmony/Process.php?get-session',"");
+			var data = ajax.responseText;
+			if(data != ""){
+				var data = JSON.parse(data);
+				var ajax_accessLevel = sys.ajax('../assets/harmony/Process.php?get-accessLevel',data);
+				var access = ajax_accessLevel.responseText.split(' ')
+
+				return access[0];
+			}
+		},
         register_employer:function(){
 			var sys = system, validate = validation;
 			$("a[data-cmd='register_employer']").click(function(){

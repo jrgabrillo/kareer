@@ -66,6 +66,20 @@ var admin = function () {
 				}
 			});
 		},
+		confim: function(title, callback) {
+			swal({
+		        title: title,
+		        type: "warning",
+		        showCancelButton: true,
+		        confirmButtonColor: "#DD6B55",
+		        confirmButtonText: "Confirm",
+		        animation:false,
+		        closeOnConfirm: false
+		    }, 
+		    function () {
+				callback();
+		    });		
+		},
 		update_picture:function(){
     		var data = system.get_account();
     		data = JSON.parse(data);
@@ -209,7 +223,74 @@ var admin = function () {
             })
             return result;
         },
-      
+      	update_data:function(){
+    		var data = system.get_account();
+    		var admindata = JSON.parse(data);
+
+        	$("a[data-field='given-name']").click(function(){
+        		$('input').val('');
+        		$('span').removeClass('hidden');
+        		$('div.field').addClass('hidden');
+        		$("#text_givenName").addClass('hidden');
+        		$("#field_givenName").removeClass('hidden');
+        	});
+        	$("a[data-field='family-name']").click(function(){
+        		$('input').val('');
+        		$('span').removeClass('hidden');
+        		$('div.field').addClass('hidden');
+        		$("#text_familyName").addClass('hidden');
+        		$("#field_familyName").removeClass('hidden');
+        	});
+        	$("a[data-field='user-name']").click(function(){
+        		$('input').val('');
+        		$('span').removeClass('hidden');
+        		$('div.field').addClass('hidden');
+        		$("#text_userName").addClass('hidden');
+        		$("#field_userName").removeClass('hidden');
+        	});
+        	$("a[data-field='password']").click(function(){
+        		$('input').val('');
+        		$('span').removeClass('hidden');
+        		$('div.field').addClass('hidden');
+        		$("#text_password").addClass('hidden');
+        		$("#field_password").removeClass('hidden');
+        	});
+
+        	$(".cancel").click(function(){
+        		$('span').removeClass('hidden');
+        		$('div.field').addClass('hidden');
+        		$('input').val('');
+        	});
+
+        	$(".show-password").mouseup(function() {
+        		$(this).parent('span').parent('div').find('input').prop({"type":"password"})
+			})
+			.mousedown(function() {
+        		$(this).parent('span').parent('div').find('input').prop({"type":"text"})
+			});
+
+        	$(".save-profile").click(function(){
+        		var name = $(this).parent('span').parent('div').find('input').attr('placeholder');
+        		var value = $(this).parent('span').parent('div').find('input').val();
+        		if(value != ""){
+	        		var data = ['admin',admindata[0][0],name,value];
+					var ajax = system.ajax('../assets/harmony/Process.php?do-updateData',data);
+					ajax.success(function(data){
+						if(data == 1){
+							swal("Successful!", "", "success");
+							App.handleLoadPage(window.location.hash);
+						}
+						else{
+							swal("Fatal Error!", "There was an Unexpected Error during the process.", "error");
+							console.log(data);
+						}
+					});
+        		}
+        		else{
+        			system.errorNotif('Notice',name+' can\'t be empty.');
+        		}
+        	});
+        },
         job:function(id){
 			var ajax = system.ajax('../assets/harmony/Process.php?get-job',id[1]);
 			ajax.done(function(data){
@@ -393,7 +474,7 @@ var employer = function(){
 	return {
 		list:function(){
 			var sys = system;
-			var ajax = system.html('../assets/harmony/Process.php?get-allEmployer');
+			var ajax = sys.html('../assets/harmony/Process.php?get-allEmployer');
 			ajax.success(function(data){
 				var arrPending = [], arrApproved = [], arrDeclined = [];
 				if(data != ""){
@@ -438,7 +519,7 @@ var employer = function(){
 												picture = "../assets/img/profile/"+full[9];					
 											}
 											else{
-												// picture = mainProcess.get_apr(full[9]);					
+												// picture = sys.get_apr(full[9]);					
 											}
 										}
 
@@ -640,37 +721,37 @@ var applicant = function(){
 								{ className: "client-avatar", "targets": [ 0 ] },
 								{ className: "text-left", "targets": [ 1 ] }
 							],
-						    columns: [
-						        {data: "",
-						            render: function ( data, type, full ){
-										var picture = "../assets/img/profile/profile_avatar.jpg";
-										if(full[6] != ""){
-											var imageData = full[6].split('.');
-											if(imageData[imageData.length-1]!='apr'){
-												picture = "../assets/img/profile/"+full[6];					
-											}
-											else{
-												picture = sys.get_apr(full[6]);					
-											}
-										}
+						    // columns: [
+						    //     {data: "",
+						    //         render: function ( data, type, full ){
+										// var picture = "../assets/img/profile/profile_avatar.jpg";
+										// if(full[6] != ""){
+										// 	var imageData = full[6].split('.');
+										// 	if(imageData[imageData.length-1]!='apr'){
+										// 		picture = "../assets/img/profile/"+full[6];					
+										// 	}
+										// 	else{
+										// 		picture = sys.get_apr(full[6]);					
+										// 	}
+										// }
 
-						            	var details = '<img alt="image" src="'+picture+'">';
-						                return details;
-						            }
-						        },
-						        {data: "",
-						            render: function ( data, type, full ){
-						            	var details = full[5]+"<br/><i>"+(full[6],100)+"</i>";
-						                return details;
-						            }
-						        },
-						        {data: "",
-						            render: function ( data, type, full ){
-						            	var details = "<a data-id='"+full[0]+"' data-cmd='info_applicant' class='btn btn-success btn-xs btn-block'>Details</a>";
-						                return details;
-						            }
-						        },
-						    ]
+						    //         	var details = '<img alt="image" src="'+picture+'">';
+						    //             return details;
+						    //         }
+						    //     },
+						    //     {data: "",
+						    //         render: function ( data, type, full ){
+						    //         	var details = full[5]+"<br/><i>"+(full[6],100)+"</i>";
+						    //             return details;
+						    //         }
+						    //     },
+						    //     {data: "",
+						    //         render: function ( data, type, full ){
+						    //         	var details = "<a data-id='"+full[0]+"' data-cmd='info_applicant' class='btn btn-success btn-xs btn-block'>Details</a>";
+						    //             return details;
+						    //         }
+						    //     },
+						    // ]
 						});
 					    
 					// $("a[data-cmd='info_applicant']").click(function(){

@@ -311,6 +311,116 @@ $Functions = new DatabaseClasses;
             echo "Hacker";
         }
     }
+    if(isset($_GET['do-updateData'])){
+        if(isset($_POST['data'])){
+            $date = $Functions->PDO_DateAndTime();
+            $data = $_POST['data'];
+            if($data[0] == 'admin'){
+                if($data[2] == 'Given Name'){
+                    $field = 'fname';
+                    $val = $data[3];
+                }
+                else if($data[2] == 'Family Name'){
+                    $field = 'lname';
+                    $val = $data[3];
+                }
+                else if($data[2] == 'Username'){
+                    $field = 'username';
+                    $val = $data[3];
+                    $_SESSION['u7836'] = $val;
+                }
+                else{
+                    $field = 'password';
+                    $val = sha1($data[3]);
+                    $_SESSION['p7836'] = $val;
+                }
+                $Query = $Functions->PDO_SQLQuery("UPDATE tbl_user SET {$field} = '{$val}' WHERE id = '{$data[1]}'");
+                if($Query->execute()){
+                    echo 1;
+                }
+                else{
+                    $Data = $Query->errorInfo();
+                    print_r($Data);
+                }
+            }
+            else if($data[0] == 'employer'){
+                if($data[2] == 'Company'){
+                    $field = 'company_name';
+                    $val = $data[3];
+                }
+                else if($data[2] == 'Description'){
+                    $field = 'description';
+                    $val = $data[3];
+                }
+                else if($data[2] == 'DTI'){
+                    $field = 'dti';
+                    $val = $data[3];
+                }
+                else if($data[2] == 'BIR'){
+                    $field = 'bir';
+                    $val = $data[3];
+                }
+                else if($data[2] == 'Given Name'){
+                    $field = 'fname';
+                    $val = $data[3];
+                }
+                else if($data[2] == 'Family Name'){
+                    $field = 'lname';
+                    $val = $data[3];
+                }
+                else if($data[2] == 'Address'){
+                    $field = 'address';
+                    $val = $data[3];
+                }
+                else if($data[2] == 'Contact number'){
+                    $field = 'contactno';
+                    $val = $data[3];
+                }
+                else if($data[2] == 'email'){
+                    $field = 'username';
+                    $val = $data[3];
+                    $_SESSION['u7836'] = $val;
+                }
+                else{
+                    $field = 'password';
+                    $val = sha1($data[3]);
+                    $_SESSION['p7836'] = $val;
+                }
+
+                $Query = $Functions->PDO_SQLQuery("UPDATE tbl_employer SET {$field} = '{$val}' WHERE id = '{$data[1]}'");
+                if($Query->execute()){
+                    echo 1;
+                }
+                else{
+                    $Data = $Query->errorInfo();
+                    print_r($Data);
+                }
+            }
+            else if($data[0] == 'student'){
+                if($data[2] == 'resume'){
+                    $field = 'resume';
+                    $val = json_encode([$date,$data[3]]);
+                }
+                else if($data[2] == 'New Password'){
+                    $field = 'password';
+                    $val = $data[3];
+                    $_SESSION['p7836'] = $val;
+                }
+
+                $Query = $Functions->PDO_SQLQuery("UPDATE tbl_student SET {$field} = '{$val}' WHERE id = '{$data[1]}'");
+                if($Query->execute()){
+                    echo 1;
+                }
+                else{
+                    $Data = $Query->errorInfo();
+                    print_r($Data);
+                }
+            }
+        }
+        else{
+            echo "Hacker";
+        }
+    }
     if (isset($_GET['set-declinePendingEmployer'])){
         if(isset($_POST["data"])){
             $data = $_POST['data'];
