@@ -215,7 +215,11 @@ $Functions = new DatabaseClasses;
                 $Query = $Functions->PDO("UPDATE tbl_employer SET image = '{$file}' WHERE id = '{$data[0]}'");
             }
             else if($data[1] == 'administrator'){
+<<<<<<< HEAD
                 $Query = $Functions->PDO("UPDATE tbl_admin SET image = '{$file}' WHERE id = '{$data[0]}'");
+=======
+                $Query = $Functions->PDO_SQLQuery("UPDATE tbl_admin SET image = '{$file}' WHERE id = '{$data[0]}'");
+>>>>>>> af503001ee3d02c42e7f85e90ae91aeb3942c85b
             }
             else{
                 $Query = $Functions->PDO("UPDATE tbl_user SET image = '{$file}' WHERE id = '{$data[0]}'");
@@ -320,7 +324,11 @@ $Functions = new DatabaseClasses;
                     $field = 'fname';
                     $val = $data[3];
                 }
+<<<<<<< HEAD
                 else if($data[2] == 'Family Name'){ 
+=======
+                else if($data[2] == 'Family Name'){
+>>>>>>> af503001ee3d02c42e7f85e90ae91aeb3942c85b
                     $field = 'lname';
                     $val = $data[3];
                 }
@@ -328,13 +336,22 @@ $Functions = new DatabaseClasses;
                     $field = 'username';
                     $val = $data[3];
                     $_SESSION['u7836'] = $val;
+<<<<<<< HEAD
                     }
                     else{
+=======
+                }
+                else{
+>>>>>>> af503001ee3d02c42e7f85e90ae91aeb3942c85b
                     $field = 'password';
                     $val = sha1($data[3]);
                     $_SESSION['p7836'] = $val;
                 }
+<<<<<<< HEAD
                 $Query = $Functions->PDO("UPDATE tbl_user SET {$field} = '{$val}' WHERE id = '{$data[1]}'");
+=======
+                $Query = $Functions->PDO_SQLQuery("UPDATE tbl_user SET {$field} = '{$val}' WHERE id = '{$data[1]}'");
+>>>>>>> af503001ee3d02c42e7f85e90ae91aeb3942c85b
                 if($Query->execute()){
                     echo 1;
                 }
@@ -387,7 +404,11 @@ $Functions = new DatabaseClasses;
                     $_SESSION['p7836'] = $val;
                 }
 
+<<<<<<< HEAD
                 $Query = $Functions->PDO("UPDATE tbl_employer SET {$field} = '{$val}' WHERE id = '{$data[1]}'");
+=======
+                $Query = $Functions->PDO_SQLQuery("UPDATE tbl_employer SET {$field} = '{$val}' WHERE id = '{$data[1]}'");
+>>>>>>> af503001ee3d02c42e7f85e90ae91aeb3942c85b
                 if($Query->execute()){
                     echo 1;
                 }
@@ -407,7 +428,11 @@ $Functions = new DatabaseClasses;
                     $_SESSION['p7836'] = $val;
                 }
 
+<<<<<<< HEAD
                 $Query = $Functions->PDO("UPDATE tbl_student SET {$field} = '{$val}' WHERE id = '{$data[1]}'");
+=======
+                $Query = $Functions->PDO_SQLQuery("UPDATE tbl_student SET {$field} = '{$val}' WHERE id = '{$data[1]}'");
+>>>>>>> af503001ee3d02c42e7f85e90ae91aeb3942c85b
                 if($Query->execute()){
                     echo 1;
                 }
