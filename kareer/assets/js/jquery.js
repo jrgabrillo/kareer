@@ -1,4 +1,6 @@
-/*! jQuery v3.1.0 | (c) jQuery Foundation | jquery.org/license */ ! function( a, b ) {
+/*! jQuery v3.1.0 | (c) jQuery Foundation | jquery.org/license */
+
+! function( a, b ) {
 	"use strict";
 	"object" == typeof module && "object" == typeof module.exports ? module.exports = a.document ? b( a, !0 ) : function( a ) {
 		if ( !a.document ) throw new Error( "jQuery requires a window with a document" );
@@ -1194,11 +1196,7 @@
 	}
 	r.extend( {
 		Deferred: function( b ) {
-			var c = [
-					[ "notify", "progress", r.Callbacks( "memory" ), r.Callbacks( "memory" ), 2 ],
-					[ "resolve", "done", r.Callbacks( "once memory" ), r.Callbacks( "once memory" ), 0, "resolved" ],
-					[ "reject", "fail", r.Callbacks( "once memory" ), r.Callbacks( "once memory" ), 1, "rejected" ]
-				],
+			var c = [ [ "notify", "progress", r.Callbacks( "memory" ), r.Callbacks( "memory" ), 2 ], [ "resolve", "done", r.Callbacks( "once memory" ), r.Callbacks( "once memory" ), 0, "resolved" ], [ "reject", "fail", r.Callbacks( "once memory" ), r.Callbacks( "once memory" ), 1, "rejected" ] ],
 				d = "pending",
 				e = {
 					state: function() {
@@ -1323,9 +1321,10 @@
 			if ( "object" === r.type( c ) ) {
 				e = !0;
 				for ( h in c ) S( a, b, h, c[ h ], !0, f, g )
-			} else if ( void 0 !== d && ( e = !0, r.isFunction( d ) || ( g = !0 ), j && ( g ? ( b.call( a, d ), b = null ) : ( j = b, b = function( a, b, c ) {
-					return j.call( r( a ), c )
-				} ) ), b ) )
+			} else if ( void 0 !== d && ( e = !0,
+					r.isFunction( d ) || ( g = !0 ), j && ( g ? ( b.call( a, d ), b = null ) : ( j = b, b = function( a, b, c ) {
+						return j.call( r( a ), c )
+					} ) ), b ) )
 				for ( ; h < i; h++ ) b( a[ h ], c, g ? d : d.call( a[ h ], h, b( a[ h ], c ) ) );
 			return e ? a : j ? b.call( a ) : i ? b( a[ 0 ], c ) : f
 		},
@@ -3359,6 +3358,7 @@
 		return a.$ === r && ( a.$ = Ub ), b && a.jQuery === r && ( a.jQuery = Tb ), r
 	}, b || ( a.jQuery = a.$ = r ), r
 } );
+
 /*! jQuery v1.11.2 | (c) 2005, 2014 jQuery Foundation, Inc. | jquery.org/license */
 ! function( a, b ) {
 	"object" == typeof module && "object" == typeof module.exports ? module.exports = a.document ? b( a, !0 ) : function( a ) {
@@ -4541,11 +4541,7 @@
 		return k
 	}, m.extend( {
 		Deferred: function( a ) {
-			var b = [
-					[ "resolve", "done", m.Callbacks( "once memory" ), "resolved" ],
-					[ "reject", "fail", m.Callbacks( "once memory" ), "rejected" ],
-					[ "notify", "progress", m.Callbacks( "memory" ) ]
-				],
+			var b = [ [ "resolve", "done", m.Callbacks( "once memory" ), "resolved" ], [ "reject", "fail", m.Callbacks( "once memory" ), "rejected" ], [ "notify", "progress", m.Callbacks( "memory" ) ] ],
 				c = "pending",
 				d = {
 					state: function() {

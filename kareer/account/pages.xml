@@ -450,6 +450,17 @@
 		</div>
 	</errorContent>	
 
+	<showdetails>
+		<div class='middle-box center animated fadeInDown'>
+			<div class='col offset-m4 offset-l4 s12 m4 l4'>
+				<div id="modal" class="modal bottom-sheet">
+    				<div class="modal-content"></div>
+    				<div class="modal-footer"></div>
+				</div>
+			</div>
+		</div>
+	</showdetails>	
+
 	<addPoints>
 		<form id='form_addPoints' class='formValidate' method='get' action='' novalidate='novalidate'>
 			<div class='row'>

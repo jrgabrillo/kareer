@@ -25,7 +25,7 @@ var system = function(){
 		        }
 		    });
 		},
-		erroNotif:function(title,message){
+		errorNotification:function(title,message){
 			toastr.options = {
 			  "progressBar": true,
 			  "positionClass": "toast-top-left",
@@ -42,7 +42,7 @@ var system = function(){
 			}					
             toastr.error(message,title)
 		},	
-		successNotif:function(title,message){
+		successNotification:function(title,message){
 			toastr.options = {
 			  "progressBar": true,
 			  "positionClass": "toast-top-left",
@@ -59,16 +59,29 @@ var system = function(){
 			}					
             toastr.success(message,title)
 		},
-		modalLarge:function(title, subtitle, body){
-        	$("#modalLarge").modal('show');
-        	$("#modalLarge .modal-title").html(title);
-        	$("#modalLarge .font-bold").html(subtitle);
-        	$("#modalLarge .modal-body").html(body);
+		modal:function(title, body){
+        	$("#modal").modal('open');
+        	$("#modal .modal-title").html(title);
+        	$("#modal .modal-body").html(body);
         },
-        close_modalLarge:function(){ 
-        	$("#modalLarge").modal('hide');
+        close_modal: function(){ 
+        	$("#modal").modal('close');
         	$(".modal-backdrop").addClass('hidden');
         },
+        confim: function(title, callback) {
+			swal({
+		        title: title,
+		        type: "warning",
+		        showCancelButton: true,
+		        confirmButtonColor: "#DD6B55",
+		        confirmButtonText: "Confirm",
+		        animation:false,
+		        closeOnConfirm: false
+		    }, 
+		    function () {
+				callback();
+		    });		
+		},
 		html:function(url){
 	        return $.ajax({
 		        type: "POST",
@@ -145,19 +158,106 @@ var system = function(){
             });
             return data;
         },
-  //       confirm:function(title, callback) {
-		// 	swal({
-		//         title: title,
-		//         type: "warning",
-		//         showCancelButton: true,
-		//         confirmButtonColor: "#DD6B55",
-		//         confirmButtonText: "Confirm",
-		//         animation:false,
-		//         closeOnConfirm: false
-		//     }, 
-		//     function () {
-		// 		callback();
-		//     });		
-		// },
+        deactivate:function(){
+			$("a[data-cmd='deactivateEmployer']").on('click',function(){
+			var id = $(this).data('node');
+			var content = "Are you sure DEACTIVATE "+$(this).data('name')+"'s account?<br/>"+
+						  "<label for='field_description'>Remarks: </label>"+
+						  "<textarea class='materialize-textarea' data-field='field_description' name='field_description'></textarea>";
+			$("#modal_confirm .modal-content").html(content);
+			$("#modal_confirm .modal-footer").html("<a class='waves-effect waves-red red white-text btn-flat modal-action modal-close'>Cancel</a>"+
+												   "<a data-cmd='button_proceed' class='waves-effect waves-grey btn-flat modal-action'>Proceed</a>");
+			$('#modal_confirm').openModal('show');			
+
+			$("a[data-cmd='button_proceed']").on("click",function(){
+				var remarks = $("textarea[data-field='field_description']").val();
+				if(remarks.length == 0){
+						Materialize.toast('Remarks is required.',4000);
+				}
+				else if(remarks.length > 800){
+						Materialize.toast('Statement is too long.',4000);
+				}
+				else{
+					var data = system.ajax('../assets/harmony/Process.php?deactivate-employer',[id,remarks]);
+					data.done(function(data){
+						// console.log(data);
+						if(data == 1){
+							Materialize.toast('Account deactivaded.',4000);
+							system.clearForm();
+							App.handleLoadPage("#cmd=index;content=employers");
+							$('#modal_confirm').closeModal();	
+						}
+						else{
+							Materialize.toast('Cannot process request.',4000);
+						}
+					});
+				}
+			});
+		})
+		},
+		activate:function(){
+			$("a[data-cmd='activateEmployer']").on('click',function(){
+			var id = $(this).data('node');
+			$("#modal_confirm .modal-content").html("Arey you sure ACTIVATE "+$(this).data('name')+"'s account?");
+			$("#modal_confirm .modal-footer").html("<a class='waves-effect waves-red red white-text btn-flat modal-action modal-close'>Cancel</a>"+
+												   "<a data-cmd='button_proceed' class='waves-effect waves-grey btn-flat modal-action modal-close'>Proceed</a>");
+			$('#modal_confirm').openModal('show');			
+
+			$("a[data-cmd='button_proceed']").on("click",function(){
+				var data = system.ajax('../assets/harmony/Process.php?activate-employer',id);
+				data.done(function(data){
+					console.log(data);
+					if(data == 1){
+						Materialize.toast('Account activaded.',4000);
+						system.clearForm();
+						App.handleLoadPage("#cmd=index;content=employers");
+						$('#modal_confirm').closeModal();	
+					}
+					else{
+						Materialize.toast('Cannot process request.',4000);
+					}
+					});
+				});
+			})
+		},
+        materialize: function(title, callback) {
+			toast({
+		        title: title,
+		        type: "warning",
+		        showCancelButton: true,
+		        confirmButtonColor: "#DD6B55",
+		        confirmButtonText: "Confirm",
+		        animation:false,
+		        closeOnConfirm: false
+		    }, 
+		    function () {
+				callback();
+		    });		
+		},
+
+		accept:function(){
+			
+			$("#modal_confirm .modal-content").html("Arey you sure Accept "+$(this).data('company_name')+"'s account?");
+			$("#modal_confirm .modal-footer").html("<a class='waves-effect waves-red red white-text btn-flat modal-action modal-close'>Cancel</a>"+
+												   "<a data-cmd='button_proceed' class='waves-effect waves-grey btn-flat modal-action modal-close'>Proceed</a>");
+			$('#modal_confirm').openModal('show');			
+
+			$("a[data-cmd='button_proceed']").on("click",function(){
+				var data = system.ajax('../assets/harmony/Process.php?set-acceptPendingEmployer',id);
+				data.done(function(data){
+					console.log(data);
+					if(data == 1){
+						Materialize.toast('Account activaded.',4000);
+						system.clearForm();
+						App.handleLoadPage("#cmd=index;content=employers");
+						$('#modal_confirm').closeModal();	
+					}
+					else{
+						Materialize.toast('Cannot process request.',4000);
+					}
+					});
+				});
+			
+		},
 	}
 }();

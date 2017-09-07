@@ -113,11 +113,8 @@ $Functions = new DatabaseClasses;
             else if($data[1] == 'applicant'){
                 $Query = $Functions->PDO_SQLQuery("UPDATE tbl_employer SET image = '{$file}' WHERE id = '{$data[0]}'");
             }
-            else if($data[1] == 'student'){
-                $Query = $Functions->PDO_SQLQuery("UPDATE tbl_student SET picture = '{$file}' WHERE id = '{$data[0]}'");
-            }
             else{
-                $Query = $Functions->PDO_SQLQuery("UPDATE tbl_user SET image = '{$file}' WHERE id = '{$data[0]}'");
+                $Query = $Functions->PDO_SQLQuery("UPDATE tbl_admin SET image = '{$file}' WHERE id = '{$data[0]}'");
             }
 
             if($Query->execute())
@@ -196,40 +193,6 @@ $Functions = new DatabaseClasses;
         else{
             $Data = $query->errorInfo();
             print_r($Data);
-        }
-    }
-    if(isset($_GET['update-image'])){
-        if(isset($_POST['data'])){
-            $data = $_POST['data'];
-            $file = $data[0].'-'.time().'.apr';
-
-            $handle = fopen('../img/'.$file, 'w+');
-
-            fwrite($handle, $data[2]);
-            fclose($handle);
-
-            if($data[1] == 'employer'){
-                $Query = $Functions->PDO_SQLQuery("UPDATE tbl_employer SET image = '{$file}' WHERE id = '{$data[0]}'");
-            }
-            else if($data[1] == 'applicant'){
-                $Query = $Functions->PDO_SQLQuery("UPDATE tbl_employer SET image = '{$file}' WHERE id = '{$data[0]}'");
-            }
-            else if($data[1] == 'administrator'){
-                $Query = $Functions->PDO_SQLQuery("UPDATE tbl_admin SET image = '{$file}' WHERE id = '{$data[0]}'");
-            }
-            else{
-                $Query = $Functions->PDO_SQLQuery("UPDATE tbl_user SET image = '{$file}' WHERE id = '{$data[0]}'");
-            }
-
-            if($Query->execute())
-                echo 1;
-            else{
-                $Data = $Query->errorInfo();
-                print_r($Data);
-            }
-        }
-        else{
-            echo "Hacker";
         }
     }
     if (isset($_GET['set-registerEmployer'])) {
@@ -334,7 +297,7 @@ $Functions = new DatabaseClasses;
                     $val = sha1($data[3]);
                     $_SESSION['p7836'] = $val;
                 }
-                $Query = $Functions->PDO_SQLQuery("UPDATE tbl_user SET {$field} = '{$val}' WHERE id = '{$data[1]}'");
+                $Query = $Functions->PDO_SQLQuery("UPDATE tbl_admin SET {$field} = '{$val}' WHERE id = '{$data[1]}'");
                 if($Query->execute()){
                     echo 1;
                 }
@@ -421,6 +384,61 @@ $Functions = new DatabaseClasses;
             echo "Hacker";
         }
     }
+    if(isset($_GET['update-employer'])){
+            $data = $_POST['data'];
+            // $user = $function->getAdmin();
+            // $session = $_SESSION['kaboom'];
+            if($data[0]['company_name'] == "field_company"){
+                $name = $data[0]['value'];
+                $query = $function->PDO(false,"UPDATE tbl_employer SET company_name = '{$name}' WHERE id = '{$user}';");
+                if($query->execute()){
+                    $log = $function->log2($user,"Company Name is updated to {$name}.","Update");
+                    echo 1;
+                }
+                else{
+                    $Data = $query->errorInfo();
+                    print_r($Data);
+                }
+            }
+            else if($data[0]['name'] == "field_Email"){
+                $email = $data[0]['value'];
+                $query = $function->PDO(false,"UPDATE tbl_employer SET email = '{$email}' WHERE id = '{$user}';");
+                if($query->execute()){
+                    $log = $function->log2($user,"Email Updated","Update");
+                    echo 1;
+                }
+                else{
+                    $Data = $query->errorInfo();
+                    print_r($Data);
+                }
+            }
+            else if($data[0]['name'] == "field_Username"){
+                $username = $data[0]['value'];
+                $query = $function->PDO(false,"UPDATE tbl_employer SET username = '{$username}' WHERE id = '{$user}';");
+                if($query->execute()){
+                    $_SESSION["kaboom"] = [$username,$session[1],$session[2]];
+                    $log = $function->log2($user,"Username Updated","Update");
+                    echo 1;
+                }
+                else{
+                    $Data = $query->errorInfo();
+                    print_r($Data);
+                }
+            }
+            else if($data[0]['name'] == "field_Password"){
+                $password = sha1($data[0]['value']);
+                $query = $function->PDO(false,"UPDATE tbl_employer SET password = '{$password}' WHERE id = '{$user}';");
+                if($query->execute()){
+                    $_SESSION["kaboom"] = [$session[0],$password,$session[2]];
+                    $log = $function->log2($user,"Password updated","Update");
+                    echo 1;
+                }
+                else{
+                    $Data = $query->errorInfo();
+                    print_r($Data);
+                }
+            }
+        }
     if (isset($_GET['set-declinePendingEmployer'])){
         if(isset($_POST["data"])){
             $data = $_POST['data'];
@@ -453,7 +471,38 @@ $Functions = new DatabaseClasses;
             echo "Hacker";
         }
     } 
+    if (isset($_GET['set-deactivateApplicant'])){
+        if(isset($_POST["data"])){
+            $data = $_POST['data'];
 
+            $Query = $Functions->PDO_SQLQuery("UPDATE tbl_applicant SET status = '0' WHERE id = '{$data}'");
+            if($Query->execute())
+                echo 1;
+            else{
+                $Data = $Query->errorInfo();
+                print_r($Data);
+            }
+        }
+        else{
+            echo "Hacker";
+        }
+    }
+    if (isset($_GET['set-activateApplicant'])){
+        if(isset($_POST["data"])){
+            $data = $_POST['data'];
+
+            $Query = $Functions->PDO_SQLQuery("UPDATE tbl_applicant SET status = '1' WHERE id = '{$data}'");
+            if($Query->execute())
+                echo 1;
+            else{
+                $Data = $Query->errorInfo();
+                print_r($Data);
+            }
+        }
+        else{
+            echo "Hacker";
+        }
+    } 
 
 
 /*
@@ -473,4 +522,30 @@ $Functions = new DatabaseClasses;
         }
     }
 */
+    if(isset($_GET['deactivate-employer'])){
+                // $user = $function->getUser();
+                $data = $_POST['data'];
+                $query = $function->PDO(false,"UPDATE tbl_employer SET status = '0' WHERE id = '{$data[0]}';");
+                if($query->execute()){
+                    $log = $function->log2($user,$data[1],"Deactivate");
+                    echo 1;
+                }
+                else{
+                    $Data = $query->errorInfo();
+                    print_r($Data);
+                }
+    }
+     if(isset($_GET['activate-employer'])){
+                // $user = $function->getUser();
+                $data = $_POST['data'];
+                $query = $function->PDO(false,"UPDATE tbl_employer SET status = '1' WHERE id = '{$data}';");
+                if($query->execute()){
+                    $log = $function->log2($user,"Activating employer account","Active");
+                    echo 1;
+                }
+                else{
+                    $Data = $query->errorInfo();
+                    print_r($Data);
+                }
+    }
 ?> 

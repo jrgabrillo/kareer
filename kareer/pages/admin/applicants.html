@@ -6,25 +6,43 @@
         </div>
     </div>
 </nav>
-<div class='row'>
+<div class='row col-lg-12' style='float: none;'>
     <div class="wrapper wrapper-content">
         <div class="row animated fadeInUp">
-            <div class="col s12">
-                <div class="card float-e-margins" id='list_applicant'>
-                    <div class="col s12">
+            
+            <div class="col s12 m7 17">
+                
+                    <ul class="tabs z-depth-0 grey lighten-2" style="width: 100%;height: 48px;">
+                                <li class="tab col s6"><a class="waves-effect waves-light black-text" href="list_activeApplicant"><i class="mdi-action-perm-identity"></i>Active Applicants</a></li>
+                                <li class="tab col s6"><a class="waves-effect waves-light black-text" href="list_inactiveApplicant"><i class="mdi-action-settings-display"></i>Inactive Applicants</a></li>
+                    </ul>
+
+                <div class="card float-e-margins" id='list_activeApplicant'>
+                           <div class="card-title">
+                                <h5 class = "col s2">Applicants</h5>
+                           </div>
+                                <div class="card-content text-center"></div>
+                      </div>
+                      <div class="card float-e-margins" id='list_inactiveApplicant'>
+                           <div class="card-title">
+                                <h5 class = "col s2">Applicants</h5>
+                           </div>
+                               <div class="card-content text-center"></div>
+                      </div>
+
+            </div>
+
+
+
+            <div class="col s12 m5 l5">
+                <div class="card float-e-margins" id='applicant'>
                         <div class="card-title">
-                            <div class="col s3">
-                                <h5>Applicants</h5>
-                            </div>
-                            <div class="col s9 right-align" >
-                                <a href="#cmd=index; content=add-applicant" class='btn btn-xs btn-warning pull-right'>Add Applicant</a>
-                            </div>
+                            <h5 class = "col s2">Applicant</h5>
                         </div>
-                    </div>
-                    <div class="card-content text-center">
-                    <h2>:(</h2><h4>No applicant</h4>
+                        <div class="card-content text-center"> 
                     </div>
                 </div>
+                
             </div>
         </div>
     </div>
