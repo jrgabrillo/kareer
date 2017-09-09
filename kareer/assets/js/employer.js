@@ -208,7 +208,7 @@ var employer = function () {
 				if(imageData[imageData.length-1]!='apr')
 					picture = "../assets/img/"+data[0][9];					
 				else
-					picture = "" //mainProcess.get_apr(data[0][9]);					
+					picture =       system.get_apr(data[0][9]);					
 			}
 
 	    	$("a[data-cmd='update_picture']").click(function(){
@@ -263,12 +263,12 @@ var employer = function () {
 					    					var ajax = system.ajax('../assets/harmony/Process.php?update-image',[data[0][0],'employer',$image.cropper("getDataURL")]);
 											ajax.success(function(data){
 												if(data == 1){
-													toast("Successful!", "Employer's picture has been updated.", "success");
-													system.close_modalLarge();
+													Materialize.toast("Successful!", "Employer's picture has been updated.", "success");
+													system.close_modal();
 													App.handleLoadPage(window.location.hash);
 												}
 												else{
-													toast("Fatal Error!", "There was an Unexpected Error during the process.", "error");
+													Materialize.toast("Fatal Error!", "There was an Unexpected Error during the process.", "error");
 													console.log(data);
 												}
 											});
@@ -489,11 +489,11 @@ var jobs = function(){
 				    columns: [
 				        {data: "",
 				            render: function ( data, type, full ){
-								var status = "<span class='label label-primary'>Active</span>";
+								var status = "<span class='label new badge blue'>Active</span>";
 								var applicationexpiry = new Date(full[0][3]), now = new Date();
 
 								if(applicationexpiry<now){
-									status = "<span class='label label-danger'>Inactive</span>";
+									status = "<span class='new badge label new badge red'>Inactive</span>";
 								}
 				                return status;
 				            }
@@ -576,11 +576,11 @@ var jobs = function(){
 				    columns: [
 				        {data: "",
 				            render: function ( data, type, full ){
-								var status = "<span class='label label-primary'>Active</span>";
+								var status = "<span class='label new badge blue'>Active</span>";
 								var applicationexpiry = new Date(full[0][3]), now = new Date();
 
 								if(applicationexpiry<now){
-									status = "<span class='label label-danger'>Inactive</span>";
+									status = "<span class='label new badge red'>Inactive</span>";
 								}
 				                return status;
 				            }
@@ -639,11 +639,11 @@ var jobs = function(){
 			var ajaxData = JSON.parse(ajax.responseText);
 			var applicant = "No Applicant.", vacancy_id = ajaxData[0][0][0];
 			var applicationexpiry = new Date(ajaxData[0][0][3]), now = new Date();
-			var status = "<span class='label label-primary'>Active</span>";
+			var status = "<span class='label new badge blue'>Active</span>";
 			var application_content = "";
 
 			if(applicationexpiry<now){
-				status = "<span class='label label-danger'>Inactive</span>";
+				status = "<span class='label new badge red'>Inactive</span>";
 			}
 
 			if(ajaxData[0][1].length > 0){
@@ -722,7 +722,7 @@ var jobs = function(){
 					ajax.success(function(data){
 						if(data == 1){
 							Materialize.toast("Successful!", "", "success");
-							system.close_modalLarge();
+							system.close_modal();
 							App.handleLoadPage(window.location.hash);
 						}
 						else{
@@ -750,7 +750,7 @@ var jobs = function(){
 						ajax.success(function(data){
 							if(data == 1){
 								Materialize.toast("Successful!", "", "success");
-								system.close_modalLarge();
+								system.close_modal();
 								App.handleLoadPage(window.location.hash);
 							}
 							else{
@@ -825,11 +825,11 @@ var jobs = function(){
 					var ajax = system.do_ajax('../assets/harmony/Process.php?do-postJob',data);
 					ajax.success(function(data){
 						if(data == 1){
-							toast("Successful!", "Employer has been accepted.", "success");
+							Materialize.toast("Successful!", "Employer has been accepted.", "success");
 							App.handleLoadPage(window.location.hash);
 						}
 						else{
-							toast("Fatal Error!", "There was an Unexpected Error during the process.", "error");
+							Materialize.toast("Fatal Error!", "There was an Unexpected Error during the process.", "error");
 							console.log(data);
 						}
 					});

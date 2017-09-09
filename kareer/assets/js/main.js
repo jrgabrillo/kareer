@@ -202,3 +202,198 @@ var validation = function () {
     };
 }();3
 
+var system = function () {
+	"use strict";
+	return {
+		errorNotification: function(title,message){
+			toastr.options = {
+			  "progressBar": true,
+			  "positionClass": "toast-top-left",
+			  "preventDuplicates": true,
+			  "onclick": null,
+			  "showDuration": "100",
+			  "hideDuration": "100",
+			  "timeOut": "3000",
+			  "extendedTimeOut": "3000",
+			  "showEasing": "swing",
+			  "hideEasing": "linear",
+			  "showMethod": "fadeIn",
+			  "hideMethod": "fadeOut"
+			}					
+            toastr.error(message,title)
+		},	
+		successNotification: function(title,message){
+			toastr.options = {
+			  "progressBar": true,
+			  "positionClass": "toast-top-left",
+			  "preventDuplicates": true,
+			  "onclick": null,
+			  "showDuration": "100",
+			  "hideDuration": "100",
+			  "timeOut": "3000",
+			  "extendedTimeOut": "3000",
+			  "showEasing": "swing",
+			  "hideEasing": "linear",
+			  "showMethod": "fadeIn",
+			  "hideMethod": "fadeOut"
+			}					
+            toastr.success(message,title)
+		},
+        modalLarge: function(title, subtitle, body){
+        	$("#modalLarge").modal('show');
+        	$("#modalLarge .modal-title").html(title);
+        	$("#modalLarge .font-bold").html(subtitle);
+        	$("#modalLarge .modal-body").html(body);
+        },
+        close_modalLarge: function(){ 
+        	$("#modalLarge").modal('hide');
+        	$(".modal-backdrop").addClass('hidden');
+        },
+        modalSmall: function(title, subtitle, body){
+        	$("#modalSmall").modal('show');
+        	$("#modalSmall .modal-title").html(title);
+        	$("#modalSmall .font-bold").html(subtitle);
+        	$("#modalSmall .modal-body").html(body);
+        },
+        close_modalSmall: function(){ 
+        	$("#modalSmall").modal('hide');
+        	$(".modal-backdrop").addClass('hidden');
+        },
+        confim: function(title, callback) {
+			swal({
+		        title: title,
+		        type: "warning",
+		        showCancelButton: true,
+		        confirmButtonColor: "#DD6B55",
+		        confirmButtonText: "Confirm",
+		        animation:false,
+		        closeOnConfirm: false
+		    }, 
+		    function () {
+				callback();
+		    });		
+		},
+        searchJSON: function(obj, key, val) {
+		    var objects = [];
+		    for (var i in obj) {
+		        if (!obj.hasOwnProperty(i)) continue;
+		        if (typeof obj[i] == 'object') {
+		            objects = objects.concat(this.searchJSON(obj[i], key, val));
+		        } else if (i == key && obj[key] == val) {
+		            objects.push(obj);
+		        }
+		    }
+		    return objects;
+		},
+        sortResults : function (data,prop, asc) {
+            data = data.sort(function(a, b) {
+                if (asc) return (a[prop] > b[prop]) ? 1 : ((a[prop] < b[prop]) ? -1 : 0);
+                else return (b[prop] > a[prop]) ? 1 : ((b[prop] < a[prop]) ? -1 : 0);
+            });
+            return data;
+        },
+		do_ajax: function(url,data){
+	        return $.ajax({
+		        type: "POST",
+		        url: url,
+		        data: {data: data},
+		        async: !1,
+		        cache:false,
+		        error: function() {
+		            console.log("Error occured")
+		        }
+		    });
+		},
+		computeAccount:function(data){
+			var a = [], b = [], report, completion = 0;
+			$.each(data[0],function(i,v){
+				if(v != ""){
+					a.push(v);
+				}
+				else{
+					b.push(i);
+				}
+			});
+			completion = Math.floor((a.length / data[0].length) * 100);
+			report = [completion,a,b];
+			return report;
+		},
+		send_mail:function(email,message){
+			var ajax = this.do_ajax('../assets/harmony/Process.php?send-mail',[email,message]);
+			ajax.success(function(data){
+			});
+		},
+		StringCounter:function(input,id,allowed){
+		    var a = allowed-input.length;
+		    if(a >= 0 && a <= 1){
+		        id.html(a+" character remaining");
+		    }
+		    else if(a == -1){
+		        id.html(-1*a+" character exceeded");
+		    }
+		    else if(a <= -2){
+		        id.html(-1*a+" characters exceeded");
+		    }
+		    else{
+		        id.html(a+" characters remaining");
+		    }
+		},
+		date:function(){
+			$(".prettydate").prettydate({
+			    dateFormat: "YYYY-MM-DD hh:mm:ss",
+			    autoUpdate: true,
+			    messages:{
+				    second: "Just now",
+				    seconds: "%s seconds %s",
+				    minute: "A minute %s",
+				    minutes: "%s minutes %s",
+				    hour: "A hour %s",
+				    hours: "%s hours %s",
+				    day: "A day %s",
+				    days: "%s days %s",
+				    week: "A week %s",
+				    weeks: "%s weeks %s",
+				    month: "A month %s",
+				    months: "%s months %s",
+				    year: "A year %s",
+				    years: "%s years %s",
+				    yesterday: "Yesterday",
+				    beforeYesterday: "2 days ago",
+				    tomorrow: "Tomorrow",
+				    afterTomorrow: "The next day"
+				}
+			});
+		},
+		do_upload:function(url,fallback_success,fallback_error){
+            var f = document.getElementById('file'),
+                pb = document.getElementById('pb'),
+                pt = document.getElementById('pt');
+            app.uploader({
+                files: f,
+                progressBar: pb,
+                progressText: pt,
+                processor: url,
+                finished: function(data){
+                    var uploads = document.getElementById('uploads'),
+                        succeeded = document.createElement('div'),
+                        failed = document.createElement('div'),
+                        anchor,
+                        span,
+                        x,string;
+                        uploads.innerText = '';
+                        
+                        if(data.succeeded.length > 0){
+                            fallback_success(data.succeeded);                        	
+                        }
+                        if(data.failed.length > 0){
+                            fallback_error(data.failed);
+                        }
+                },
+            });
+		},
+		truncate: function(string, length, delimiter) {
+		   delimiter = delimiter || "&hellip;";
+		   return string.length > length ? string.substr(0, length) + delimiter : string;
+		}
+    };
+}();
