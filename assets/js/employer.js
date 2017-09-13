@@ -25,12 +25,12 @@ var employer = function () {
 
 				if(data[0][9] != ""){
 					var imageData = data[0][9].split('.');
-					if(imageData[imageData.length-1]!='apr'){
+					if(imageData[imageData.length-1]!= '_apr'){
 						console.log(imageData.length);
 						picture = "../assets/img/"+data[0][9];					
 					}
 					else{
-						picture = "" // mainProcess.get_apr(data[0][9]);					
+						picture = "" mainProcess.get_apr(data[0][9]);					
 					}
 				}
 				if(data[0][5] != "")
@@ -143,11 +143,11 @@ var employer = function () {
 				// 			var ajax = system.do_ajax('../assets/harmony/Process.php?do-completeData',newdata);
 				// 			ajax.success(function(data){
 				// 				if(data == 1){
-				// 					toast("Successful!", "Employer's information has been saved.", "success");
+				// 					Materialize.toast("Successful!", "Employer's information has been saved.", "success");
 				// 					App.handleLoadPage(window.location.hash);
 				// 				}
 				// 				else{
-				// 					toast("Fatal Error!", "There was an Unexpected Error during the process.", "error");
+				// 					Materialize.toast("Fatal Error!", "There was an Unexpected Error during the process.", "error");
 				// 					console.log(data);
 				// 				}
 				// 			});
@@ -202,13 +202,13 @@ var employer = function () {
 	    update_picture:function(){
     		var data = JSON.parse(employer.account());
 
-			var picture = "../assets/img/profile avatar.jpg";
+			var picture = '';
 			if(data[0][9] != ""){
 				var imageData = data[0][9].split('.');
 				if(imageData[imageData.length-1]!='apr')
-					picture = "../assets/img/"+data[0][9];					
+					picture = ''+data[0][9];					
 				else
-					picture = "" //mainProcess.get_apr(data[0][9]);					
+					picture = "" system.get_apr(data[0][9]);					
 			}
 
 	    	$("a[data-cmd='update_picture']").click(function(){
@@ -263,12 +263,12 @@ var employer = function () {
 					    					var ajax = system.ajax('../assets/harmony/Process.php?update-image',[data[0][0],'employer',$image.cropper("getDataURL")]);
 											ajax.success(function(data){
 												if(data == 1){
-													toast("Successful!", "Employer's picture has been updated.", "success");
-													system.close_modalLarge();
+													Materialize.toast("Successful!", "Employer's picture has been updated.", "success");
+													system.close_modal();
 													App.handleLoadPage(window.location.hash);
 												}
 												else{
-													toast("Fatal Error!", "There was an Unexpected Error during the process.", "error");
+													Materialize.toast("Fatal Error!", "There was an Unexpected Error during the process.", "error");
 													console.log(data);
 												}
 											});
@@ -464,7 +464,7 @@ var jobs = function(){
 			console.log(ajaxData);
 
 			if(ajaxData.length>0){
-				var content = "<div class='ibox'><div class='ibox-content'><table class='table table-striped' id='table_jobs'>"+
+				var content = "<div class='card'><div class='card-content'><table class='table table-striped' id='table_jobs'>"+
 								"	<thead>"+
 								"		<tr>"+
 								"			<th width='5%'>Status</th>"+
@@ -550,6 +550,8 @@ var jobs = function(){
 			var ajax = system.ajax('../assets/harmony/Process.php?get-employerJobsPosts',data[0][0]);
 			var ajaxData = JSON.parse(ajax.responseText);
 			var content = "";
+			console.log(ajaxData);
+
 			if(ajaxData.length>0){
 				var content = "<div class='card'><div class='card-content'><table class='table table-striped' id='table_jobs'>"+
 								"	<thead>"+
@@ -722,7 +724,7 @@ var jobs = function(){
 					ajax.success(function(data){
 						if(data == 1){
 							Materialize.toast("Successful!", "", "success");
-							system.close_modalLarge();
+							system.close_modal();
 							App.handleLoadPage(window.location.hash);
 						}
 						else{
@@ -736,7 +738,7 @@ var jobs = function(){
 			$("a[data-cmd]").click(function(){
 				var data = [$(this).data('cmd'),$(this).data('id')];
 				if(data[0] == 'decline'){
-				    Materialize.toast({
+				   		Materialize.toast({
 				        title: "Are you sure you want to decline this applicant?",
 				        text: "",
 				        type: "warning",
@@ -750,7 +752,7 @@ var jobs = function(){
 						ajax.success(function(data){
 							if(data == 1){
 								Materialize.toast("Successful!", "", "success");
-								system.close_modalLarge();
+								system.close_modal();
 								App.handleLoadPage(window.location.hash);
 							}
 							else{
@@ -825,11 +827,11 @@ var jobs = function(){
 					var ajax = system.do_ajax('../assets/harmony/Process.php?do-postJob',data);
 					ajax.success(function(data){
 						if(data == 1){
-							toast("Successful!", "Employer has been accepted.", "success");
+							Materialize.toast("Successful!", "Employer has been accepted.", "success");
 							App.handleLoadPage(window.location.hash);
 						}
 						else{
-							toast("Fatal Error!", "There was an Unexpected Error during the process.", "error");
+							Materialize.toast("Fatal Error!", "There was an Unexpected Error during the process.", "error");
 							console.log(data);
 						}
 					});

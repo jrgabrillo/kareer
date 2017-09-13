@@ -5,7 +5,7 @@
     <div class="nav-wrapper" style="margin-left:15px">
         <div class="col s12">
             <a href="#cmd=index" class="breadcrumb">Home</a>
-            <a href="#cmd=index;content=post-job" class="breadcrumb">Job Postings</a>
+            <a href="#cmd=index;content=post-job" class="breadcrumb">Post Vacancy</a>
         </div>
     </div>
 </nav>
@@ -20,29 +20,35 @@
                                 <div class='form-group'>
                                     <div class='col s6'>
                                         <label>Job Title: </label>
-                                        <input name='field_jobTitle' type='text' placeholder='Job Title' class='form-control'>
+                                        <input data-inputtype='required' name='field_jobTitle' type='text' placeholder='Job Title' class='form-control'>
                                     </div>
-                                    <div class='col s6' id='date'>
+                                    <div class='col s6-' id='prettydate'>
                                         <label>Hiring Cut-off Date: <small><i>[Also job expiration date.]</i></small></label>
-                                        <div class="input-group date">
+                                        <div class="input-group datepicker">
                                             <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
-                                            <input name='field_date' placeholder="Date" type="text" class="form-control">
+                                            <input data-inputtype='required' name='field_date' placeholder="Date" type="text" class="prettydate">
                                         </div>
                                     </div><br/>
                                     <div class='col s12'>
                                         <label>Skills Needed: <small><i>You can add up-to 5 skills</i></small></label>
-                                        <input name='field_skills' placeholder="Date" type="text" class="form-control">
+                                        <input data-inputtype='required' name='field_skills' placeholder="skills" type="text" class="form-control">
                                     </div><br/>
                                     <div class='col s12'>
                                         <label>Job Description: </label>
-                                        <textarea name='field_description' placeholder='Job Description' class='form-control'></textarea>
-                                    </div><br/>
+                                        <textarea data-inputtype='required' name='field_description' placeholder='Job Description' class='form-control'></textarea>
+                                    </div>
+
+<!--                                     <div data-inputtype='required' class="input-field col s12">
+                                        <textarea id="description" class="materialize-textarea" data-length="120"></textarea>
+                                        <label for="description">Description</label>
+                                    </div> -->
+                                    <br/>
                                 </div>
                             </div>
                             <div>
-                                <div class='form-group'>
+                                <div class='form-group'>  
                                     <div class='col s12'>
-                                        <button class='btn btn-sm btn-block btn-success' data-cmd='register_applicant'>Sign Up</button>
+                                        <button class='btn btn-sm btn-block button_success' data-cmd='validate_form' >Sign Up</button>
                                     </div>
                                 </div>
                             </div>
@@ -53,9 +59,32 @@
         </div>
     </div>
 </div>
-<script src="../assets/js/froala_editor.pkgd.min.js"></script>
-<script type="text/javascript">
+<!-- <script src="../assets/js/froala_editor.pkgd.min.js"></script>
+ --><script type="text/javascript">
+// ("#field_skills").tagit({
+//     fieldName: "field_requiredSkills",
+//     allowSpaces:true,
+//     tagLimit: 5,
+//     onTagLimitExceeded:function(e,ui){
+//         $("#field_skills input.ui-widget-content").val("");
+//         system.errorNotification("Notice!","You can only add up to five(5) skills.");
+//     }
+// });
+
+// var dateToday = new Date();
+// $('#date .input-group.date').datepicker({
+//     startView: 1,
+//     todayBtn: "linked",
+//     keyboardNavigation: false,
+//     forceParse: false,
+//     autoclose: true,
+//     minDate: 1,
+//     defaultDate: "+1w",
+//     changeMonth: true,
+//     numberOfMonths: 3,
+//     format: "mm/dd/yyyy"
+// });
+    jobs.posting();
     jobs.add();
-    system.froala("textarea");
-    employer.post();
+    // system.froala("textarea");
 </script>
