@@ -1,0 +1,61 @@
+<link media="screen" href="../assets/css/froala/froala_style.min.css" rel="stylesheet">
+<link media="screen" href="../assets/css/froala/froala_editor.pkgd.min.css" rel="stylesheet">
+<link media="screen" href="../assets/css/froala/font-awesome.min.css" rel="stylesheet">
+<nav class="purple lighten-2">
+    <div class="nav-wrapper" style="margin-left:15px">
+        <div class="col s12">
+            <a href="#cmd=index" class="breadcrumb">Home</a>
+            <a href="#cmd=index;content=post-job" class="breadcrumb">Job Postings</a>
+        </div>
+    </div>
+</nav>
+<div class='row' style='float:none;'>
+        <div class="wrapper wrapper-content">
+            <div class="row animated fadeInUp">
+                <div class="card float-e-margins">
+                    <div class="col s12">
+                     <div class="card-content">
+                        <form class='form-horizontal' id='form_postJob' role='form' action='' method='post' enctype='multipart/form-data'>
+                            <div>
+                                <div class='form-group'>
+                                    <div class='col s6'>
+                                        <label>Job Title: </label>
+                                        <input name='field_jobTitle' type='text' placeholder='Job Title' class='form-control'>
+                                    </div>
+                                    <div class='col s6' id='date'>
+                                        <label>Hiring Cut-off Date: <small><i>[Also job expiration date.]</i></small></label>
+                                        <div class="input-group date">
+                                            <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                                            <input name='field_date' placeholder="Date" type="text" class="form-control">
+                                        </div>
+                                    </div><br/>
+                                    <div class='col s12'>
+                                        <label>Skills Needed: <small><i>You can add up-to 5 skills</i></small></label>
+                                        <input name='field_skills' placeholder="Date" type="text" class="form-control">
+                                    </div><br/>
+                                    <div class='col s12'>
+                                        <label>Job Description: </label>
+                                        <textarea name='field_description' placeholder='Job Description' class='form-control'></textarea>
+                                    </div><br/>
+                                </div>
+                            </div>
+                            <div>
+                                <div class='form-group'>
+                                    <div class='col s12'>
+                                        <a class='btn btn-sm btn-block btn-success' data-cmd='register_applicant'>Sign Up</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="../assets/js/froala_editor.pkgd.min.js"></script>
+<script type="text/javascript">
+    jobs.add();
+    system.froala("textarea");
+    employer.post();
+</script>
