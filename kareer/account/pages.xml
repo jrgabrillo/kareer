@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <content>
-	<loader2>
+	<!-- <loader2>
 		<div class='preloader-wrapper small active'>
 			<div class='spinner-layer spinner-blue'>
 				<div class='circle-clipper left'>
@@ -99,9 +99,9 @@
 			</div>
 			<br/><span>Loading...</span>
 		</div>
-	</loader>
+	</loader> -->
 
-	<addAccount>
+	<!-- <addAccount>
 		<form id='form_registerAdmin' class='formValidate' method='get' action='' novalidate='novalidate'>
 			<div class='row'>
 				<div class='col offset-m1 offset-l1 s12 m10 l10'>
@@ -178,9 +178,9 @@
 			</div>
 		</form>
 	</addProduct>
-
-	<addClient>
-		<form id='form_addClient' class='formValidate' method='get' action='' novalidate='novalidate'>
+ -->
+	<addemployer>
+		<form id='form_addEmployer' class='formValidate' method='get' action='' novalidate='novalidate'>
 			<div class='row'>
 				<div class='col offset-m1 offset-l1 s12 m10 l10'>
 					<h4 class="">Add Business Clients</h4>
@@ -194,15 +194,20 @@
 				            <input id='field_name' type='text' name='field_name' data-error='.error_name'>
 							<div class='error_name'></div>	
 						</div>
-						<div class='input-field col s6'>
-							<label for='field_phone'>Contact Number: </label>
-				            <input id='field_phone' type='text' name='field_phone' data-error='.error_phone'>
-							<div class='error_phone'></div>	
+						<div class='input-field col s12'>
+							<label for='field_description'>Business Description: </label>
+				            <input id='field_description' type='text' name='field_description' data-error='.error_description'>
+							<div class='error_description'></div>	
 						</div>
 						<div class='input-field col s6'>
-							<label for='field_email'>Email Address: </label>
-				            <input id='field_email' type='text' name='field_email' data-error='.error_email'>
-							<div class='error_email'></div>	
+							<label for='field_bir'>BIR Number: </label>
+				            <input id='field_bir' type='text' name='field_bir' data-error='.error_bir'>
+							<div class='error_bir'></div>	
+						</div>
+						<div class='input-field col s6'>
+							<label for='field_dti'>DTI Number: </label>
+				            <input id='field_dti' type='text' name='field_dti' data-error='.error_dti'>
+							<div class='error_dti'></div>	
 						</div>
 						<div class='input-field col s12'>
 							<label for='field_address'>Business Address: </label>
@@ -213,96 +218,15 @@
 							<p>Account Information</p>
 							<div class='divider'></div><br/>
 						</div>
-						<div class='input-field col s12'>
-							<label for='field_accountName'>Account Name: </label>
-				            <input id='field_accountName' type='text' name='field_accountName' data-error='.error_accountName'>
-							<div class='error_accountName'></div>	
+						<div class='input-field col s6'>
+							<label for='field_fname'>First Name: </label>
+				            <input id='field_fname' type='text' name='field_fname' data-error='.error_fname'>
+							<div class='error_fname'></div>	
 						</div>
 						<div class='input-field col s6'>
-							<label for='field_accountPhone'>Contact Number: </label>
-				            <input id='field_accountPhone' type='text' name='field_accountPhone' data-error='.error_accountPhone'>
-							<div class='error_accountPhone'></div>	
-						</div>
-						<div class='input-field col s6'>
-							<label for='field_accountEmail'>Email Address: </label>
-				            <input id='field_accountEmail' type='text' name='field_accountEmail' data-error='.error_accountEmail'>
-							<div class='error_accountEmail'></div>	
-						</div>
-						<div class='input-field col s12'>
-							<label for='field_username'>Username: </label>
-				            <input id='field_username' type='text' name='field_username' data-error='.error_username'>
-							<div class='error_username'></div>	
-						</div>
-						<div class='input-field col s12'>
-							<label for='field_password'>Password: </label>
-				            <input id='field_password' type='password' name='field_password' data-error='.error_password'>
-							<div class='error_password'></div>	
-							<div id='note_password' class='hidden animated zoomOut'>
-								Password must contain atleast 1 number, 1 uppercase letter, 1 lowercare letter, 1 special character* and 6 character length. <br/>
-								<u>Special characters are ! @ $ % *</u>
-							</div>
-						</div>
-					</div>
-					<div class='row'>
-						<div class='input-field col s12'>
-							<button class='btn blue waves-effect waves-light right' type='submit'>Save</button>
-						</div>
-					</div>
-				</div>
-			</div>
-		</form>
-	</addClient>
-
-	<addEmployee>
-		<form id='form_addEmployee' class='formValidate' method='get' action='' novalidate='novalidate'>
-			<div class='row'>
-				<div class='col offset-m1 offset-l1 s12 m10 l10'>
-					<h4 class="">Add Business Clients</h4>
-					<div class='row'>
-						<div class='input-field col s12'>
-							<p>Personal Information</p>
-							<div class='divider'></div><br/>
-						</div>
-						<div class='row'>
-							<div class='input-field col s4'>
-								<label for='field_gname'>Given Name: </label>
-					            <input id='field_gname' type='text' name='field_gname' data-error='.error_gname'>
-								<div class='error_gname'></div>	
-							</div>
-							<div class='input-field col s4'>
-								<label for='field_mname'>Middle Name: </label>
-					            <input id='field_mname' type='text' name='field_mname' data-error='.error_mname'>
-								<div class='error_mname'></div>	
-							</div>
-							<div class='input-field col s4'>
-								<label for='field_fname'>Family Name: </label>
-					            <input id='field_fname' type='text' name='field_fname' data-error='.error_fname'>
-								<div class='error_fname'></div>	
-							</div>
-						</div>
-						<div class='row'>
-							<div class='input-field col s4'>
-								<label for='field_nickname'>Nickname: </label>
-					            <input id='field_nickname' type='text' name='field_nickname' data-error='.error_nickname'>
-								<div class='error_nickname'></div>	
-							</div>
-							<div class='input-field col s4'>
-								<label for='field_dob'>Date of Birth: (mm/dd/yyyy) </label>
-					            <input id='field_dob' type='text' name='field_dob' data-error='.error_dob'>
-								<div class='error_dob'></div>	
-							</div>
-							<div class='input-field col s4'>
-								<label for='field_gender' class='active'>Gender: </label>
-								<select name='field_gender'>
-									<option selected>Male</option>
-									<option>Female</option>
-								</select>
-							</div>
-						</div>
-						<div class='input-field col s12'>
-							<label for='field_address'>Address: </label>
-				            <input id='field_address' type='text' name='field_address' data-error='.error_address'>
-							<div class='error_address'></div>	
+							<label for='field_lname'>Last Name: </label>
+				            <input id='field_lname' type='text' name='field_lname' data-error='.error_lname'>
+							<div class='error_lname'></div>	
 						</div>
 						<div class='input-field col s6'>
 							<label for='field_phone'>Contact Number: </label>
@@ -315,18 +239,76 @@
 							<div class='error_email'></div>	
 						</div>
 						<div class='input-field col s12'>
-							<p>Account Information</p>
+							<label for='field_password'>Password: </label>
+				            <input id='field_password' type='password' name='field_password' data-error='.error_password'>
+							<div class='error_password'></div>	
+							<div id='note_password' class='hidden animated zoomOut'>
+								Password must contain atleast 1 number, 1 uppercase letter, 1 lowercare letter, 1 special character* and 6 character length. <br/>
+								<u>Special characters are ! @ $ % *</u>
+							</div>
+						</div>
+					</div>
+					<div class='row'>
+						<div class='input-field col s12'>
+							<button class='btn blue waves-effect waves-light right' type='submit'>Save</button>
+						</div>
+					</div>
+				</div>
+			</div>
+		</form>
+	</addemployer>
+
+	<addApplicant>
+		<form id='form_addApplicant' class='formValidate' method='get' action='' novalidate='novalidate'>
+			<div class='row'>
+				<div class='col offset-m1 offset-l1 s12 m10 l10'>
+					<h4 class="">Add Applicant</h4>
+					<div class='row'>
+						<div class='input-field col s12'>
+							<p>Applicant Information</p>
 							<div class='divider'></div><br/>
 						</div>
+						<div class='row'>
+							<div class='input-field col s4'>
+								<label for='field_fname'>First Name: </label>
+					            <input id='field_fname' type='text' name='field_fname' data-error='.error_fname'>
+								<div class='error_fname'></div>	
+							</div>
+							<div class='input-field col s4'>
+								<label for='field_mname'>Middle Name: </label>
+					            <input id='field_mname' type='text' name='field_mname' data-error='.error_mname'>
+								<div class='error_mname'></div>	
+							</div>
+							<div class='input-field col s4'>
+								<label for='field_lname'>Last Name: </label>
+					            <input id='field_lname' type='text' name='field_lname' data-error='.error_lname'>
+								<div class='error_lname'></div>	
+							</div>
+						</div>
+							<div class='input-field col s12'>
+								<label for='field_description'>Description: </label>
+					            <input id='field_description' type='text' name='field_description' data-error='.error_description'>
+								<div class='error_description'></div>	
+							</div>
+							<div class='input-field col s4'>
+								<label for='field_gender'>Gender: </label>
+					            <input id='field_gender' type='text' name='field_gender' data-error='.error_gender'>
+								<div class='error_gender'></div>	
+							</div>
+						<div class='input-field col s8'>
+							<label for='field_phone'>Contact Number: </label>
+				            <input id='field_phone' type='text' name='field_phone' data-error='.error_phone'>
+							<div class='error_phone'></div>	
+						</div>
 						<div class='input-field col s12'>
-							<label for='field_position'>Position: </label>
-				            <input id='field_position' type='text' name='field_position' data-error='.error_position'>
-							<div class='error_position'></div>	
+							<label for='field_address'>Address: </label>
+				            <input id='field_address' type='text' name='field_address' data-error='.error_address'>
+							<div class='error_address'></div>	
 						</div>
 						<div class='input-field col s6'>
-							<label for='field_employeeID'>Employee ID: </label>
-				            <input id='field_employeeID' type='text' name='field_employeeID' data-error='.error_employeeID'>
-							<div class='error_employeeID'></div>	
+							<label for='field_email'>Email Address: </label>
+				            <input id='field_email' type='text' name='field_email' data-error='.error_email'>
+							<div class='error_email'></div>	
 						</div>
 						<div class='input-field col s6'>
 							<label for='field_password'>Password: </label>
@@ -346,7 +328,7 @@
 				</div>
 			</div>
 		</form>
-	</addEmployee>
+	</addApplicant>
 
 	<addPoint>
 		<form id='form_addPoints' class='formValidate' method='get' action='' novalidate='novalidate'>
@@ -449,17 +431,6 @@
 			</div>
 		</div>
 	</errorContent>	
-
-	<showdetails>
-		<div class='middle-box center animated fadeInDown'>
-			<div class='col offset-m4 offset-l4 s12 m4 l4'>
-				<div id="modal" class="modal bottom-sheet">
-    				<div class="modal-content"></div>
-    				<div class="modal-footer"></div>
-				</div>
-			</div>
-		</div>
-	</showdetails>	
 
 	<addPoints>
 		<form id='form_addPoints' class='formValidate' method='get' action='' novalidate='novalidate'>

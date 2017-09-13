@@ -61,8 +61,8 @@ var system = function(){
 		},
 		modal:function(title, body){
         	$("#modal").modal('open');
-        	$("#modal .modal-title").html(title);
-        	$("#modal .modal-body").html(body);
+        	$("#modal.modal-title").html(title);
+        	$("#modal.modal-body").html(body);
         },
         close_modal: function(){ 
         	$("#modal").modal('close');
@@ -109,7 +109,7 @@ var system = function(){
 			return ajax.responseText;
 		},
 		get_apr:function(image){
-			var ajax = system.ajax('../assets/img/profile/'+image,'');
+			var ajax = system.ajax('../assets/img/'+image,'');
 			return ajax.responseText;
 		},
 		send_mail:function(email,subject,message,callback){

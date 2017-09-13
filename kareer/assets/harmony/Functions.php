@@ -21,7 +21,8 @@ class DatabaseClasses{
 			echo 'Error:'.$e->getMessage();
 		}
 	}
-
+	
+	
 	function dropDB($db){
 		$host = "localhost";
 		$dataBase = "test";
@@ -145,7 +146,7 @@ class DatabaseClasses{
 		return $Query->rowCount();
 	}
 
-	function PDO_IDGenerator($Table,$ID){
+	function PDO_IDGenerate($Table,$ID){
 		$Status = true;
 		for($x=0;$Status == true;$x++){
 			$TempID = sha1(DatabaseClasses::PDO_TableCounter($Table)+$x);
@@ -160,6 +161,18 @@ class DatabaseClasses{
 	function CheckUserLog($Username,$Password){
 		if(!isset($Username) && !isset($Password))
 			return true;
+	}
+	function log2($_id,$_remarks,$_header){
+		$date = DatabaseClasses::PDO_DateAndTime();
+		$id = DatabaseClasses::PDO_IDGenerator('tbl_logs','id');
+		$Query = DatabaseClasses::PDO(false,"INSERT INTO tbl_logs(id,account,remarks,`date`,header) VALUES ('{$id}','{$_id}','{$_remarks}','{$date}','{$_header}')");
+		if($Query->execute()){
+			return 1;	
+		}
+		else{
+			$Data = $Query->errorInfo();
+			return $Data;
+		}			
 	}
 
 	function PDO_StudentIDNumberGenerator($Table,$ID){
