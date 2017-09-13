@@ -1,0 +1,425 @@
+{
+	"auto_complete":
+	{
+		"selected_items":
+		[
+			[
+				"margin",
+				"margin-bottom"
+			],
+			[
+				"res",
+				"responseText"
+			],
+			[
+				"st",
+				"strict"
+			],
+			[
+				"hi",
+				"height\tAttr"
+			],
+			[
+				"back",
+				"background-color"
+			],
+			[
+				"top",
+				"padding-top"
+			],
+			[
+				"conte",
+				"content-1"
+			],
+			[
+				"alig",
+				"text-align"
+			],
+			[
+				"paddi",
+				"padding-top"
+			],
+			[
+				"mar",
+				"margin-bottom"
+			],
+			[
+				"w",
+				"width"
+			],
+			[
+				"a",
+				"space-around"
+			],
+			[
+				"conten",
+				"justify-content"
+			],
+			[
+				"cont",
+				"align-content"
+			],
+			[
+				"bor",
+				"border-radius"
+			],
+			[
+				"box",
+				"box-sizing"
+			],
+			[
+				"backgrou",
+				"background-image"
+			],
+			[
+				"text",
+				"text-align"
+			]
+		]
+	},
+	"buffers":
+	[
+		{
+			"file": "pages/admin/index.html",
+			"settings":
+			{
+				"buffer_size": 2065,
+				"encoding": "UTF-8",
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "extra.html",
+			"settings":
+			{
+				"buffer_size": 53503,
+				"line_ending": "Windows"
+			}
+		}
+	],
+	"build_system": "",
+	"build_system_choices":
+	[
+	],
+	"build_varint": "",
+	"command_palette":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"console":
+	{
+		"height": 0.0,
+		"history":
+		[
+		]
+	},
+	"distraction_free":
+	{
+		"menu_visible": true,
+		"show_minimap": false,
+		"show_open_files": false,
+		"show_tabs": false,
+		"side_bar_visible": false,
+		"status_bar_visible": false
+	},
+	"expanded_folders":
+	[
+		"/C/wamp64/www/kareer",
+		"/C/wamp64/www/kareer/kareer",
+		"/C/wamp64/www/kareer/kareer/pages",
+		"/C/wamp64/www/kareer/kareer/pages/admin",
+		"/C/wamp64/www/kareer/kareer/pages/employer"
+	],
+	"file_history":
+	[
+		"/C/wamp64/www/kareer/kareer/pages/admin/employers.html",
+		"/C/wamp64/www/kareer/kareer/pages/admin/applicants.html",
+		"/C/wamp64/www/kareer/kareer/index.html",
+		"/C/wamp64/www/kareer/kareer/pages/admin/profile.html",
+		"/C/wamp64/www/kareer/kareer/pages/admin/jobs.html",
+		"/C/wamp64/www/kareer/kareer/pages/admin/job.html",
+		"/C/wamp64/www/page/portfolio.html",
+		"/C/wamp64/www/page/about.html",
+		"/C/wamp64/www/page/slider.html",
+		"/C/wamp64/www/jobportal/assets/css/style.css",
+		"/C/wamp64/www/kareer/kareer/pages/admin/add-applicant.html",
+		"/C/wamp64/www/jobportal/templates/admin/employers.html",
+		"/C/wamp64/www/kareer/kareer/pages/admin/index.html",
+		"/C/wamp64/www/jobportal/assets/css/bootstrap.css",
+		"/C/wamp64/www/jobportal/assets/css/style.min.css",
+		"/C/wamp64/www/kareer/mobile/css/bootstrap.css",
+		"/C/wamp64/www/kareer/kareer/assets/css/style.css",
+		"/C/wamp64/www/kareer/kareer/pages/admin/add-applicant3.html",
+		"/C/wamp64/www/kareer/kareer/login.html",
+		"/C/wamp64/www/kareer/kareer/pages/admin/account.html",
+		"/C/wamp64/www/kareer/kareer/extra.html",
+		"/C/wamp64/www/kareer/kareer/assets/js/admin.js",
+		"/C/wamp64/www/kareer/kareer/assets/harmony/Process.php",
+		"/C/wamp64/www/kareer/kareer/assets/harmony/Functions.php",
+		"/C/wamp64/www/jobportal/assets/harmony/Process.php",
+		"/C/wamp64/www/jobportal/assets/harmony/Functions.php",
+		"/C/wamp64/www/jobportal/assets/harmony/upload.php",
+		"/C/wamp64/www/kareer/kareer/assets/harmony/upload.php",
+		"/C/wamp64/www/kareer/kareer/assets/harmony/mobile.php",
+		"/C/wamp64/www/kareer/index.html",
+		"/C/wamp64/www/page/assets/lib/info/info.xml",
+		"/C/wamp64/www/page/assets/js/process.js",
+		"/C/wamp64/www/page/index.html",
+		"/C/Users/My PC/Desktop/New folder (2)/ZoomSlider/js/modernizr.custom.js",
+		"/C/Users/My PC/Desktop/New folder (2)/ZoomSlider/js/main.js",
+		"/C/Users/My PC/Desktop/New folder (2)/ZoomSlider/js/dynamics.min.js",
+		"/C/Users/My PC/Desktop/New folder (2)/ZoomSlider/index.html",
+		"/C/wamp64/www/rnrpage/DraggableDualViewSlideshow/index.html",
+		"/C/wamp64/www/page/assets/css/index.css",
+		"/C/wamp64/www/page/assets/css/component.css",
+		"/C/wamp64/www/rnrpage/DraggableDualViewSlideshow/css/demo.css",
+		"/C/wamp64/www/page/assets/js/index.js",
+		"/C/Users/My PC/Desktop/New folder (2)/ZoomSlider/css/demo.css",
+		"/C/Users/My PC/Desktop/New folder (2)/ZoomSlider/css/component.css",
+		"/C/Users/My PC/Desktop/DraggableDualViewSlideshow/index.html",
+		"/C/Users/My PC/Desktop/rnrpage/DraggableDualViewSlideshow/index.html",
+		"/C/Users/My PC/Desktop/New folder (3)/index.html",
+		"/C/wamp64/www/rnrpage/DraggableDualViewSlideshow/css/style.css",
+		"/C/Users/My PC/Desktop/New folder (2)/StackEffects/css/demo.css",
+		"/C/Users/My PC/Desktop/New folder (2)/StackEffects/css/component.css",
+		"/C/Users/My PC/Desktop/New folder (2)/StackEffects/css/normalize.css",
+		"/C/Users/My PC/Desktop/New folder (2)/StackEffects/index.html",
+		"/C/wamp64/www/rnrpage/DraggableDualViewSlideshow/css/component.css",
+		"/C/wamp64/www/rnrpage/DraggableDualViewSlideshow/assets/css/index.css",
+		"/C/wamp64/www/page/assets/css/animate.css",
+		"/C/wamp64/www/page/aboutnew.html",
+		"/C/wamp64/www/sample game/TheAviator/index.html",
+		"/C/wamp64/www/sample game/TheAviator/js/main_step1.js",
+		"/C/Users/My PC/Desktop/New folder (2)/index.html",
+		"/C/wamp64/www/sample game/TheAviator/js/game.js",
+		"/C/wamp64/www/New folder (2)/index.html",
+		"/C/wamp64/www/samsam/about.html",
+		"/C/wamp64/www/page/assets/lib/framework7/css/framework7.ios.colors.css",
+		"/C/wamp64/www/page/assets/css/about.css",
+		"/C/wamp64/www/New folder/rnrpage/assets/harmony/Process.php",
+		"/C/wamp64/www/New folder/rnrpage/about.html",
+		"/C/wamp64/www/New folder/rnrpage/portfolio.html",
+		"/C/wamp64/www/New folder/rnrpage/index-city.html",
+		"/C/wamp64/www/New folder/rnrpage/assets/css/index.css",
+		"//RUFO/www/rnrpage/index.html",
+		"//RUFO/www/rnrpage/portfolio.html",
+		"//RUFO/www/rnrpage/about.html",
+		"//RUFO/kareer/index.html"
+	],
+	"find":
+	{
+		"height": 34.0
+	},
+	"find_in_files":
+	{
+		"height": 0.0,
+		"where_history":
+		[
+		]
+	},
+	"find_state":
+	{
+		"case_sensitive": false,
+		"find_history":
+		[
+			"ibox",
+			"class",
+			"ibox",
+			"md-5",
+			".ibox-title",
+			"images",
+			"3",
+			"html",
+			"*/\n",
+			"content",
+			"red",
+			"90px",
+			"content",
+			"class=img"
+		],
+		"highlight": true,
+		"in_selection": false,
+		"preserve_case": false,
+		"regex": false,
+		"replace_history":
+		[
+		],
+		"reverse": false,
+		"show_context": true,
+		"use_buffer2": true,
+		"whole_word": false,
+		"wrap": true
+	},
+	"groups":
+	[
+		{
+			"selected": 1,
+			"sheets":
+			[
+				{
+					"buffer": 0,
+					"file": "pages/admin/index.html",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 2065,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								0,
+								2065
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/HTML/HTML.sublime-syntax",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 1,
+					"type": "text"
+				},
+				{
+					"buffer": 1,
+					"file": "extra.html",
+					"semi_transient": true,
+					"settings":
+					{
+						"buffer_size": 53503,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								1127,
+								1127
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/HTML/HTML.sublime-syntax",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 45.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 0,
+					"type": "text"
+				}
+			]
+		},
+		{
+			"sheets":
+			[
+			]
+		}
+	],
+	"incremental_find":
+	{
+		"height": 22.0
+	},
+	"input":
+	{
+		"height": 35.0
+	},
+	"layout":
+	{
+		"cells":
+		[
+			[
+				0,
+				0,
+				1,
+				1
+			],
+			[
+				1,
+				0,
+				2,
+				1
+			]
+		],
+		"cols":
+		[
+			0.0,
+			0.62745079849,
+			1.0
+		],
+		"rows":
+		[
+			0.0,
+			1.0
+		]
+	},
+	"menu_visible": true,
+	"output.find_results":
+	{
+		"height": 0.0
+	},
+	"pinned_build_system": "",
+	"project": "kareer.sublime-project",
+	"replace":
+	{
+		"height": 40.0
+	},
+	"save_all_on_build": true,
+	"select_file":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+			[
+				"po",
+				"portfolio.html"
+			]
+		],
+		"width": 0.0
+	},
+	"select_project":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"select_symbol":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"selected_group": 0,
+	"settings":
+	{
+	},
+	"show_minimap": true,
+	"show_open_files": false,
+	"show_tabs": true,
+	"side_bar_visible": true,
+	"side_bar_width": 223.0,
+	"status_bar_visible": true,
+	"template_settings":
+	{
+	}
+}

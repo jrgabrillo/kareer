@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Job Portal</title>
+    <link href="assets/css/bootstrap.min.css" rel="stylesheet">
+    <link href="assets/font-awesome/css/font-awesome.css" rel="stylesheet">
+    <link href="assets/css/animate.css" rel="stylesheet">
+    <link href="assets/css/style.css" rel="stylesheet">
+</head>
+<body class="gray-bg">
+    <div class="middle-box text-center loginColumns animated fadeInDown">
+        <div>
+            <div>
+                <a href="../jobportal/"><h3 class="logo-name">PSU Jobs</h3></a>
+            </div>
+            <h3>Welcome to Job Portal</h3>
+            <div class='col-md-12'>
+                <br/><br/><br/>
+            </div>
+            <div class="col-md-6">
+                <div class='ibox-content'>
+                    <h3>Employer</h3>
+                    <i class='login_message' style='display:none;'>Log In failed. Please try again.</i>
+                    <form class="m-t" role="form" id='form_loginEmployer'>
+                        <div class="form-group">
+                            <input type="text" class="form-control" placeholder="Email" name='field_email'>
+                        </div>
+                        <div class="form-group">
+                            <input type="password" class="form-control" placeholder="Password" name='field_password'>
+                        </div>
+                        <a class="btn btn-primary block full-width m-b" data-cmd='btn_login' data-node='employer'>Login</a>
+                        <p class="text-muted text-center hidden"><small>Do not have an account?</small></p>
+                        <a class="btn btn-sm btn-white btn-block hidden" href="../jobportal/#register">Create an account</a>
+                    </form>
+                </div>
+            </div>
+            <div class="col-md-6 "><br/>
+                <h3>Student</h3>
+                <i class='login_message' style='display:none;'>Log In failed. Please try again.</i>
+                <form class="m-t" role="form" id='form_loginStudent'>
+                    <div class="form-group">
+                        <input type="text" class="form-control" placeholder="Student ID" name='field_email'>
+                    </div>
+                    <div class="form-group">
+                        <input type="password" class="form-control" placeholder="Password" name='field_password'>
+                    </div>
+                    <a class="btn btn-warning block full-width m-b" data-cmd='btn_login' data-node='student'>Login</a>
+                </form>
+            </div>
+            <div class='col-md-12'>
+                <br/><br/><br/>
+                <p class="m-t"> <small>Job Portal &copy; 2016</small> </p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Mainly scripts -->
+    <script src="assets/js/jquery-2.1.1.js"></script>
+    <script src="assets/js/bootstrap.min.js"></script>
+    <script src="assets/js/process.js"></script>
+</body>
+</html>
+<script type="text/javascript">
+    mainProcess.handle_logIn();
+    setTimeout( function(){$("#login_message").fadeOut();}, 5000 );
+</script>
+
