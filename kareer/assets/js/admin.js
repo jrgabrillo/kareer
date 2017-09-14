@@ -6,8 +6,7 @@ var admin = function () {
 			if(data != 0){
 				admin.display();
 				employer.list();
-				// employer.register_employer();
-				// applicant.list_applicant();
+				applicant.list_applicant();
 			}
 		},
 		display:function(){
@@ -708,9 +707,8 @@ var employer = function(){
 						        
 						    ]
 						});
-
 						
-							}
+					}
 					
 
 					if(arrPending.length>0){
@@ -726,10 +724,10 @@ var employer = function(){
 						content = "<table class='table table-bordered' id='table_pendingEmployers'>"+content+"</table>";
 
 						$("#pending_employers .card-content").html(content);
-							}
-							else{
-								$("#pending_employers .card-content").html("<h2>All caught up. </h2><h4>No pending request for employer's account approval</h4>");
-							}
+					}
+					else{
+						$("#pending_employers .card-content").html("<h2>All caught up. </h2><h4>No pending request for employer's account approval</h4>");
+					}
 					if(arrDeclined.length>0){
 						var content = "";
 
@@ -743,12 +741,12 @@ var employer = function(){
 						content = "<table class='table table-bordered' id='table_declinedEmployers'>"+content+"</table>";
 
 						$("#declined_employers .card-content").html(content);
-							}
-							else{
-								$("#declined_employers .card-content").html("<h2>All caught up. </h2><h4>No declined request for employer's account approval</h4>");
-							}
+					}
+					else{
+						$("#declined_employers .card-content").html("<h2>All caught up. </h2><h4>No declined request for employer's account approval</h4>");
+					}
 					
-							$("a").click(function(){
+					$("a").click(function(){
 						var cmd = $(this).data('cmd');
 						var id = $(this).data('id');
 						if(cmd == 'options_pendingEmployer'){
@@ -851,17 +849,44 @@ var employer = function(){
 						else if(cmd == 'options_approvedEmployer'){
 							var data = sys.searchJSON(arrApproved,0,id);
 							var content = "<div class='col-md-12' style='float:none !important;'><table class='table table-bordered card-content'>"+
+										    "	<tr><td><strong>Business</strong></td></tr>"+
 										    "	<tr><td width='20%'>Company: </td><td width='80%'>"+data[0][5]+"</td>"+
 										    "   <td><a data-cmd='updateEmployer' data-value='"+data[0][5]+"' data-name='"+data[0][5]+"' data-node='"+data[0][0]+"' data-prop='CompanyName' class='tooltipped btn-floating waves-effect black-text no-shadow white right material-icons' data-position='left' data-delay='50' data-tooltip='Update Company'>"+
 											"	<i class='material-icons'></i></a>"+
 											"	</td></tr>"+
-										    "	<tr><td>Description: </td><td>"+data[0][6]+"</td></tr>"+
-										    "	<tr><td>BIR: </td><td>"+data[0][7]+"</td></tr>"+
-										    "	<tr><td>DTI: </td><td>"+data[0][8]+"</td></tr>"+
-										    "	<tr><td>Owner: </td><td>"+data[0][2]+" "+data[0][1]+"</td></tr>"+
-										    "	<tr><td>Contact Number: </td><td>"+data[0][4]+"</td></tr>"+
-										    "	<tr><td>Office Address: </td><td>"+data[0][3]+"</td></tr>"+
-										    "	<tr><td>Email Address: </td><td>"+data[0][10]+"</td></tr>"+
+										    "	<tr><td>Description: </td><td>"+data[0][6]+"</td>"+
+										    "	<td><a data-cmd='updateEmployer' data-value='"+data[0][6]+"' data-name='"+data[0][6]+"' data-node='"+data[0][0]+"' data-prop='Description' class='tooltipped btn-floating waves-effect black-text no-shadow white right material-icons' data-position='left' data-delay='50' data-tooltip='Update Description'>"+
+											"	<i class='material-icons'></i></a>"+
+											"	</td></tr>"+
+										    "	<tr><td>BIR: </td><td>"+data[0][7]+"</td>"+
+										    "	<td><a data-cmd='updateEmployer' data-value='"+data[0][7]+"' data-name='"+data[0][7]+"' data-node='"+data[0][0]+"' data-prop='BIR' class='tooltipped btn-floating waves-effect black-text no-shadow white right material-icons' data-position='left' data-delay='50' data-tooltip='Update BIR'>"+
+											"	<i class='material-icons'></i></a>"+
+											"	</td></tr>"+
+										    "	<tr><td>DTI: </td><td>"+data[0][8]+"</td>"+
+										    "	<td><a data-cmd='updateEmployer' data-value='"+data[0][8]+"' data-name='"+data[0][8]+"' data-node='"+data[0][0]+"' data-prop='DTI' class='tooltipped btn-floating waves-effect black-text no-shadow white right material-icons' data-position='left' data-delay='50' data-tooltip='Update DTI'>"+
+											"	<i class='material-icons'></i></a>"+
+											"	</td></tr>"+
+											"	<tr><td><strong>Owner</strong></td></tr>"+
+										    "	<tr><td>First Name: </td><td>"+data[0][2]+"</td>"+
+										    "	<td><a data-cmd='updateEmployer' data-value='"+data[0][2]+"' data-name='"+data[0][2]+"' data-node='"+data[0][0]+"' data-prop='FirstName' class='tooltipped btn-floating waves-effect black-text no-shadow white right material-icons' data-position='left' data-delay='50' data-tooltip='Update FirstName'>"+
+											"	<i class='material-icons'></i></a>"+
+											"	</td></tr>"+
+											 "	<tr><td>Last Name: </td><td>"+data[0][1]+"</td>"+
+										    "	<td><a data-cmd='updateEmployer' data-value='"+data[0][1]+"' data-name='"+data[0][1]+"' data-node='"+data[0][0]+"' data-prop='LastName' class='tooltipped btn-floating waves-effect black-text no-shadow white right material-icons' data-position='left' data-delay='50' data-tooltip='Update LastName'>"+
+											"	<i class='material-icons'></i></a>"+
+											"	</td></tr>"+
+										    "	<tr><td>Contact Number: </td><td>"+data[0][4]+"</td>"+
+										    "	<td><a data-cmd='updateEmployer' data-value='"+data[0][4]+"' data-name='"+data[0][4]+"' data-node='"+data[0][0]+"' data-prop='ContactNo' class='tooltipped btn-floating waves-effect black-text no-shadow white right material-icons' data-position='left' data-delay='50' data-tooltip='Update ContactNo'>"+
+											"	<i class='material-icons'></i></a>"+
+											"	</td></tr>"+
+										    "	<tr><td>Office Address: </td><td>"+data[0][3]+"</td>"+
+										    "	<td><a data-cmd='updateEmployer' data-value='"+data[0][3]+"' data-name='"+data[0][3]+"' data-node='"+data[0][0]+"' data-prop='Address' class='tooltipped btn-floating waves-effect black-text no-shadow white right material-icons' data-position='left' data-delay='50' data-tooltip='Update Address'>"+
+											"	<i class='material-icons'></i></a>"+
+											"	</td></tr>"+
+										    "	<tr><td>Email Address: </td><td>"+data[0][10]+"</td>"+
+										    "	<td><a data-cmd='updateEmployer' data-value='"+data[0][10]+"' data-name='"+data[0][10]+"' data-node='"+data[0][0]+"' data-prop='Email' class='tooltipped btn-floating waves-effect black-text no-shadow white right material-icons' data-position='left' data-delay='50' data-tooltip='Update Email'>"+
+											"	<i class='material-icons'></i></a>"+
+											"	</td></tr>"+
 										    "	<tr><td>Status: </td><td>"+data[0][12]+"</td></tr>"+
 										  	"</table>"+
 
@@ -895,11 +920,13 @@ var employer = function(){
 							employer.update();
 					});
 				}
-			});				
+			});	
+
 	    },
  		update:function(){
 			$("a[data-cmd='updateEmployer']").on('click',function(){
 				var data = $(this).data();
+				var id = data.node;
 				console.log(data);	
 				var content = "<h5>Change "+data.prop+"</h5>"+
 						  "<form id='form_update' class='formValidate' method='get' action='' novalidate='novalidate'>"+
@@ -911,6 +938,7 @@ var employer = function(){
 						  "</form>";
 						  console.log(data.prop);
 						  console.log(data.value);
+						  console.log(data.node);
 				$("#modal .modal-content").html(content);
 				$('#modal .modal-footer').html("");		
 
@@ -936,13 +964,52 @@ var employer = function(){
 								Materialize.toast('You did not even change the value.',4000);
 							}
 							else{
-								var ajax = system.ajax('../assets/harmony/Process.php?update-employer',_form);
+								var ajax = system.ajax('../assets/harmony/Process.php?update-employer',[id,_form]);
 								ajax.done(function(ajax){
 									console.log(ajax)
 									if(ajax == 1){
 										system.clearForm();
 										Materialize.toast('Name updated.',4000);
-										$('#modal').close_modal();	
+										system.close_modal();	
+										App.handleLoadPage("#cmd=index;content=employers");
+									}
+									else{
+										Materialize.toast('Cannot process request.',4000);
+									}
+								});
+							}
+					    }
+					}); 
+				}
+				else if(data.prop == "Description"){
+					$('#modal').modal('open');			
+					$("#form_update").validate({
+					    rules: {
+					        field_Description: {required: true,maxlength: 500},
+					    },
+					    errorElement : 'div',
+					    errorPlacement: function(error, element) {
+							var placement = $(element).data('error');
+							if(placement){
+								$(placement).append(error)
+							} 
+							else{
+								error.insertAfter(element);
+							}
+						},
+						submitHandler: function (form) {
+							var _form = $(form).serializeArray();
+							if(data.value == _form[0]['value']){
+								Materialize.toast('You did not even change the value.',4000);
+							}
+							else{
+								var ajax = system.ajax('../assets/harmony/Process.php?update-employer',[id,_form]);
+								ajax.done(function(ajax){
+									console.log(ajax)
+									if(ajax == 1){
+										system.clearForm();
+										Materialize.toast('Description updated.',4000);
+										system.close_modal();	
 										App.handleLoadPage("#cmd=index;content=employers");
 									}
 									else{
@@ -953,82 +1020,279 @@ var employer = function(){
 					    }
 					}); 
 				}			
-				// else if(data.prop == "Email"){
-				// 	$('#modal').modal('show');			
-				// 	$("#form_update").validate({
-				// 	    rules: {
-				// 	        field_Email: {required: true,maxlength: 50,checkEmail:true},
-				// 	    },
-				// 	    errorElement : 'div',
-				// 	    errorPlacement: function(error, element) {
-				// 			var placement = $(element).data('error');
-				// 			if(placement){
-				// 				$(placement).append(error)
-				// 			} 
-				// 			else{
-				// 				error.insertAfter(element);
-				// 			}
-				// 		},
-				// 		submitHandler: function (form) {
-				// 			var _form = $(form).serializeArray();
-				// 			if(data.value == _form[0]['value']){
-				// 				Materialize.toast('You did not even change the value.',4000);
-				// 			}
-				// 			else{
-				// 				var ajax = system.ajax('../assets/harmony/Process.php?update-admin',_form);
-				// 				ajax.done(function(ajax){
-				// 					if(ajax == 1){
-				// 						system.clearForm();
-				// 						Materialize.toast('Email updated.',4000);
-				// 						$('#modal').close_modal();	
-				// 						App.handleLoadPage("#cmd=index;content=account");
-				// 					}
-				// 					else{
-				// 						Materialize.toast('Cannot process request.',4000);
-				// 					}
-				// 				});
-				// 			}
-				// 	    }
-				// 	}); 
-				// }
-				// else if(data.prop == "Username"){
-				// 	$('#modal').modal('show');			
-				// 	$("#form_update").validate({
-				// 	    rules: {
-				// 	        field_Username: {required: true,maxlength: 50,checkUsername:true,validateUsername:true},
-				// 	    },
-				// 	    errorElement : 'div',
-				// 	    errorPlacement: function(error, element) {
-				// 			var placement = $(element).data('error');
-				// 			if(placement){
-				// 				$(placement).append(error)
-				// 			} 
-				// 			else{
-				// 				error.insertAfter(element);
-				// 			}
-				// 		},
-				// 		submitHandler: function (form) {
-				// 			var _form = $(form).serializeArray();
-				// 			if(data.value == _form[0]['value']){
-				// 				Materialize.toast('You did not even change the value.',4000);
-				// 			}
-				// 			else{
-				// 				var ajax = system.ajax('../assets/harmony/Process.php?update-admin',_form);
-				// 				ajax.done(function(ajax){
-				// 					if(ajax == 1){
-				// 						system.clearForm();
-				// 						Materialize.toast('Username updated.',4000);
-				// 						$('#modal').close_modal();	
-				// 						App.handleLoadPage("#cmd=index;content=account");
-				// 					}
-				// 					else{
-				// 						Materialize.toast('Cannot process request.',4000);
-				// 					}
-				// 				});
-				// 			}
-				// 	    }
-				// 	}); 
-				// }
+				else if(data.prop == "BIR"){
+					$('#modal').modal('open');			
+					$("#form_update").validate({
+					    rules: {
+					        field_BIR: {required: true,maxlength: 500},
+					    },
+					    errorElement : 'div',
+					    errorPlacement: function(error, element) {
+							var placement = $(element).data('error');
+							if(placement){
+								$(placement).append(error)
+							} 
+							else{
+								error.insertAfter(element);
+							}
+						},
+						submitHandler: function (form) {
+							var _form = $(form).serializeArray();
+							if(data.value == _form[0]['value']){
+								Materialize.toast('You did not even change the value.',4000);
+							}
+							else{
+								var ajax = system.ajax('../assets/harmony/Process.php?update-employer',[id,_form]);
+								ajax.done(function(ajax){
+									console.log(ajax)
+									if(ajax == 1){
+										system.clearForm();
+										Materialize.toast('BIR updated.',4000);
+										system.close_modal();	
+										App.handleLoadPage("#cmd=index;content=employers");
+									}
+									else{
+										Materialize.toast('Cannot process request.',4000);
+									}
+								});
+							}
+					    }
+					}); 
+				}
+				else if(data.prop == "DTI"){
+					$('#modal').modal('open');			
+					$("#form_update").validate({
+					    rules: {
+					        field_DTI: {required: true,maxlength: 500},
+					    },
+					    errorElement : 'div',
+					    errorPlacement: function(error, element) {
+							var placement = $(element).data('error');
+							if(placement){
+								$(placement).append(error)
+							} 
+							else{
+								error.insertAfter(element);
+							}
+						},
+						submitHandler: function (form) {
+							var _form = $(form).serializeArray();
+							if(data.value == _form[0]['value']){
+								Materialize.toast('You did not even change the value.',4000);
+							}
+							else{
+								var ajax = system.ajax('../assets/harmony/Process.php?update-employer',[id,_form]);
+								ajax.done(function(ajax){
+									console.log(ajax)
+									if(ajax == 1){
+										system.clearForm();
+										Materialize.toast('DTI updated.',4000);
+										system.close_modal();	
+										App.handleLoadPage("#cmd=index;content=employers");
+									}
+									else{
+										Materialize.toast('Cannot process request.',4000);
+									}
+								});
+							}
+					    }
+					}); 
+				}
+				else if(data.prop == "FirstName"){
+					$('#modal').modal('open');			
+					$("#form_update").validate({
+					    rules: {
+					        field_FirstName: {required: true,maxlength: 500},
+					    },
+					    errorElement : 'div',
+					    errorPlacement: function(error, element) {
+							var placement = $(element).data('error');
+							if(placement){
+								$(placement).append(error)
+							} 
+							else{
+								error.insertAfter(element);
+							}
+						},
+						submitHandler: function (form) {
+							var _form = $(form).serializeArray();
+							if(data.value == _form[0]['value']){
+								Materialize.toast('You did not even change the value.',4000);
+							}
+							else{
+								var ajax = system.ajax('../assets/harmony/Process.php?update-employer',[id,_form]);
+								ajax.done(function(ajax){
+									console.log(ajax)
+									if(ajax == 1){
+										system.clearForm();
+										Materialize.toast('FirstName updated.',4000);
+										system.close_modal();	
+										App.handleLoadPage("#cmd=index;content=employers");
+									}
+									else{
+										Materialize.toast('Cannot process request.',4000);
+									}
+								});
+							}
+					    }
+					}); 
+				}
+				else if(data.prop == "LastName"){
+					$('#modal').modal('open');			
+					$("#form_update").validate({
+					    rules: {
+					        field_LastName: {required: true,maxlength: 500},
+					    },
+					    errorElement : 'div',
+					    errorPlacement: function(error, element) {
+							var placement = $(element).data('error');
+							if(placement){
+								$(placement).append(error)
+							} 
+							else{
+								error.insertAfter(element);
+							}
+						},
+						submitHandler: function (form) {
+							var _form = $(form).serializeArray();
+							if(data.value == _form[0]['value']){
+								Materialize.toast('You did not even change the value.',4000);
+							}
+							else{
+								var ajax = system.ajax('../assets/harmony/Process.php?update-employer',[id,_form]);
+								ajax.done(function(ajax){
+									console.log(ajax)
+									if(ajax == 1){
+										system.clearForm();
+										Materialize.toast('LastName updated.',4000);
+										system.close_modal();	
+										App.handleLoadPage("#cmd=index;content=employers");
+									}
+									else{
+										Materialize.toast('Cannot process request.',4000);
+									}
+								});
+							}
+					    }
+					}); 
+				}
+				else if(data.prop == "ContactNo"){
+					$('#modal').modal('open');			
+					$("#form_update").validate({
+					    rules: {
+					        field_ContactNo: {required: true,maxlength: 500},
+					    },
+					    errorElement : 'div',
+					    errorPlacement: function(error, element) {
+							var placement = $(element).data('error');
+							if(placement){
+								$(placement).append(error)
+							} 
+							else{
+								error.insertAfter(element);
+							}
+						},
+						submitHandler: function (form) {
+							var _form = $(form).serializeArray();
+							if(data.value == _form[0]['value']){
+								Materialize.toast('You did not even change the value.',4000);
+							}
+							else{
+								var ajax = system.ajax('../assets/harmony/Process.php?update-employer',[id,_form]);
+								ajax.done(function(ajax){
+									console.log(ajax)
+									if(ajax == 1){
+										system.clearForm();
+										Materialize.toast('Contact Number updated.',4000);
+										system.close_modal();	
+										App.handleLoadPage("#cmd=index;content=employers");
+									}
+									else{
+										Materialize.toast('Cannot process request.',4000);
+									}
+								});
+							}
+					    }
+					}); 
+				}
+				else if(data.prop == "Address"){
+					$('#modal').modal('open');			
+					$("#form_update").validate({
+					    rules: {
+					        field_Address: {required: true,maxlength: 500},
+					    },
+					    errorElement : 'div',
+					    errorPlacement: function(error, element) {
+							var placement = $(element).data('error');
+							if(placement){
+								$(placement).append(error)
+							} 
+							else{
+								error.insertAfter(element);
+							}
+						},
+						submitHandler: function (form) {
+							var _form = $(form).serializeArray();
+							if(data.value == _form[0]['value']){
+								Materialize.toast('You did not even change the value.',4000);
+							}
+							else{
+								var ajax = system.ajax('../assets/harmony/Process.php?update-employer',[id,_form]);
+								ajax.done(function(ajax){
+									console.log(ajax)
+									if(ajax == 1){
+										system.clearForm();
+										Materialize.toast('Address updated.',4000);
+										system.close_modal();	
+										App.handleLoadPage("#cmd=index;content=employers");
+									}
+									else{
+										Materialize.toast('Cannot process request.',4000);
+									}
+								});
+							}
+					    }
+					}); 
+				}
+				else if(data.prop == "Email"){
+					$('#modal').modal('open');			
+					$("#form_update").validate({
+					    rules: {
+					        field_Email: {required: true,maxlength: 50},
+					    },
+					    errorElement : 'div',
+					    errorPlacement: function(error, element) {
+							var placement = $(element).data('error');
+							if(placement){
+								$(placement).append(error)
+							} 
+							else{
+								error.insertAfter(element);
+							}
+						},
+						submitHandler: function (form) {
+							var _form = $(form).serializeArray();
+							if(data.value == _form[0]['value']){
+								Materialize.toast('You did not even change the value.',4000);
+							}
+							else{
+								var ajax = system.ajax('../assets/harmony/Process.php?update-employer',[id,_form]);
+								ajax.done(function(ajax){
+									console.log(ajax)
+									if(ajax == 1){
+										system.clearForm();
+										Materialize.toast('Email updated.',4000);
+										system.close_modal();	
+										App.handleLoadPage("#cmd=index;content=employers");
+									}
+									else{
+										Materialize.toast('Cannot process request.',4000);
+									}
+								});
+							}
+					    }
+					}); 
+				}
 				// else if(data.prop == "Password"){
 				// 	$('#modal').modal('show');			
 				// 	$("#field_Password").val("");
@@ -1058,14 +1322,14 @@ var employer = function(){
 				// 		},
 				// 		submitHandler: function (form) {
 				// 			var _form = $(form).serializeArray();
-				// 			var data = system.ajax('../assets/harmony/Process.php?update-admin',_form);
+				// 			var data = system.ajax('../assets/harmony/Process.php?update-employer',[id,_form]);
 				// 			data.done(function(data){
 				// 				console.log(data);
 				// 				if(data == 1){
 				// 					system.clearForm();
 				// 					Materialize.toast('Password updated.',4000);
-				// 					$('#modal').close_modal();	
-				// 					App.handleLoadPage("#cmd=index;content=account");
+				// 					system.close_modal();	
+				// 					App.handleLoadPage("#cmd=index;content=employers");
 				// 				}
 				// 				else{
 				// 					Materialize.toast('Cannot process request.',4000);
@@ -1293,6 +1557,7 @@ var applicant = function(){
 											swal("Successful!", "Applicant has been deactivated.", "success");
 											sys.clearForm();
 											_this.list_applicant();
+											console.log(id);
 										}
 										else{
 											swal("Fatal Error!", "There was an Unexpected Error during the process.", "error");

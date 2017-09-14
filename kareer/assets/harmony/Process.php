@@ -198,40 +198,6 @@ $Functions = new DatabaseClasses;
             print_r($Data);
         }
     }
-    // if(isset($_GET['update-image'])){
-    //     if(isset($_POST['data'])){
-    //         $data = $_POST['data'];
-    //         $file = $data[0].'-'.time().'.apr';
-
-    //         $handle = fopen('../img/'.$file, 'w+');
-
-    //         fwrite($handle, $data[2]);
-    //         fclose($handle);
-
-    //         if($data[0] == 'employer'){
-    //             $Query = $Functions->PDO_SQLQuery("UPDATE tbl_employer SET image = '{$file}' WHERE id = '{$data[0]}'");
-    //         }
-    //         else if($data[1] == 'applicant'){
-    //             $Query = $Functions->PDO_SQLQuery("UPDATE tbl_applicant SET image = '{$file}' WHERE id = '{$data[0]}'");
-    //         }
-    //         else if($data[2] == 'admin'){
-    //             $Query = $Functions->PDO_SQLQuery("UPDATE tbl_admin SET image = '{$file}' WHERE id = '{$data[0]}'");
-    //         }
-    //         else{
-                
-    //         }
-
-    //         if($Query->execute())
-    //             echo 1;
-    //         else{
-    //             $Data = $Query->errorInfo();
-    //             print_r($Data);
-    //         }
-    //     }
-    //     else{
-    //         echo "Hacker";
-    //     }
-    // }
     if(isset($_GET['update-adminPicture'])){
             $data = $_POST['data'];
             // $user = $function->getAdmin();
@@ -438,14 +404,15 @@ $Functions = new DatabaseClasses;
         }
     }
     if(isset($_GET['update-employer'])){
-            $data = $_POST["data"];
+            $data = $_POST['data'];
             $user = $data[0];
-            print_r($user);
+            // print_r($data);
 
-            if($data[0]['name'] == "field_CompanyName"){
-                $name = $data[0]['value'];
-                $query = $Functions->PDO("UPDATE tbl_employer SET company_name = '{$name}' WHERE id = '{$user}'");
+            if($data[1][0]['name'] == "field_CompanyName"){
+                $name = $data[1][0]['value'];
+                $query = $Functions->PDO("UPDATE tbl_employer SET company_name = '{$name}' WHERE id = '{$user}';");
                 if($query->execute()){
+                    // $log = $Functions->log2($user,"Name is updated to {$name}.","Update");
                     echo 1;
                 }
                 else{
@@ -453,43 +420,111 @@ $Functions = new DatabaseClasses;
                     print_r($Data);
                 }
             }
-            // else if($data[0]['name'] == "field_Email"){
-            //     $email = $data[1][0]['value'];
-            //     $query = $function->PDO(false,"UPDATE tbl_employer SET email = '{$email}' WHERE id = '{$user}';");
-            //     if($query->execute()){
-            //         $log = $function->log2($user,"Email is updated to {$email}.","Update");
-            //         echo 1;
-            //     }
-            //     else{
-            //         $Data = $query->errorInfo();
-            //         print_r($Data);
-            //     }
-            // }
-            // else if($data[0]['name'] == "field_Username"){
-            //     $username = $data[1][0]['value'];
-            //     $query = $function->PDO(false,"UPDATE tbl_employer SET username = '{$username}' WHERE id = '{$user}';");
-            //     if($query->execute()){
-            //         $log = $function->log2($user,"Username is updated to {$username}.","Update");
-            //         echo 1;
-            //     }
-            //     else{
-            //         $Data = $query->errorInfo();
-            //         print_r($Data);
-            //     }
-            // }
-            // else if($data[0]['name'] == "field_Phone"){
-            //     $phone = $data[1][0]['value'];
-            //     $query = $function->PDO(false,"UPDATE tbl_employer SET constact_number = '{$phone}' WHERE id = '{$user}';");
-            //     if($query->execute()){
-            //         $log = $function->log2($user,"Phone is updated to {$phone}.","Update");
-            //         echo 1;
-            //     }
-            //     else{
-            //         $Data = $query->errorInfo();
-            //         print_r($Data);
-            //     }
-            // }
-        }
+            else if($data[1][0]['name'] == "field_Description"){
+                $description = $data[1][0]['value'];
+                $query = $Functions->PDO("UPDATE tbl_employer SET description = '{$description}' WHERE id = '{$user}';");
+
+                if($query->execute()){
+                    // $log = $Functions->log2($user,"Name is updated to {$name}.","Update");
+                    echo 1;
+                }
+                else{
+                    $Data = $query->errorInfo();
+                    print_r($Data);
+                }
+            }
+            else if($data[1][0]['name'] == "field_BIR"){
+                $bir = $data[1][0]['value'];
+                $query = $Functions->PDO("UPDATE tbl_employer SET bir = '{$bir}' WHERE id = '{$user}';");
+
+                if($query->execute()){
+                    // $log = $Functions->log2($user,"Name is updated to {$name}.","Update");
+                    echo 1;
+                }
+                else{
+                    $Data = $query->errorInfo();
+                    print_r($Data);
+                }
+            }
+            else if($data[1][0]['name'] == "field_DTI"){
+                $dti = $data[1][0]['value'];
+                $query = $Functions->PDO("UPDATE tbl_employer SET dti = '{$dti}' WHERE id = '{$user}';");
+
+                if($query->execute()){
+                    // $log = $Functions->log2($user,"Name is updated to {$name}.","Update");
+                    echo 1;
+                }
+                else{
+                    $Data = $query->errorInfo();
+                    print_r($Data);
+                }
+            }
+            else if($data[1][0]['name'] == "field_FirstName"){
+                $fname = $data[1][0]['value'];
+                $query = $Functions->PDO("UPDATE tbl_employer SET fname = '{$fname}' WHERE id = '{$user}';");
+
+                if($query->execute()){
+                    // $log = $Functions->log2($user,"Name is updated to {$name}.","Update");
+                    echo 1;
+                }
+                else{
+                    $Data = $query->errorInfo();
+                    print_r($Data);
+                }
+            }
+            else if($data[1][0]['name'] == "field_LastName"){
+                $lname = $data[1][0]['value'];
+                $query = $Functions->PDO("UPDATE tbl_employer SET lname = '{$lname}' WHERE id = '{$user}';");
+
+                if($query->execute()){
+                    // $log = $Functions->log2($user,"Name is updated to {$name}.","Update");
+                    echo 1;
+                }
+                else{
+                    $Data = $query->errorInfo();
+                    print_r($Data);
+                }
+            }
+            else if($data[1][0]['name'] == "field_ContactNo"){
+                $contactno = $data[1][0]['value'];
+                $query = $Functions->PDO("UPDATE tbl_employer SET contactno = '{$contactno}' WHERE id = '{$user}';");
+
+                if($query->execute()){
+                    // $log = $Functions->log2($user,"Name is updated to {$name}.","Update");
+                    echo 1;
+                }
+                else{
+                    $Data = $query->errorInfo();
+                    print_r($Data);
+                }
+            }
+              else if($data[1][0]['name'] == "field_Address"){
+                $address = $data[1][0]['value'];
+                $query = $Functions->PDO("UPDATE tbl_employer SET address = '{$address}' WHERE id = '{$user}';");
+
+                if($query->execute()){
+                    // $log = $Functions->log2($user,"Name is updated to {$name}.","Update");
+                    echo 1;
+                }
+                else{
+                    $Data = $query->errorInfo();
+                    print_r($Data);
+                }
+            }
+            else if($data[1][0]['name'] == "field_Email"){
+                $email = $data[1][0]['value'];
+                $query = $Functions->PDO("UPDATE tbl_employer SET email = '{$email}' WHERE id = '{$user}';");
+                if($query->execute()){
+                    // $log = $function->log2($user,"Email is updated to {$email}.","Update");
+                    echo 1;
+                }
+                else{
+                    $Data = $query->errorInfo();
+                    print_r($Data);
+                }
+            }
+            
+    }
     if (isset($_GET['set-declinePendingEmployer'])){
         if(isset($_POST["data"])){
             $data = $_POST['data'];
@@ -522,14 +557,14 @@ $Functions = new DatabaseClasses;
             echo "Hacker";
         }
     } 
-    if (isset($_GET['set-activateApplicant'])){
+   if (isset($_GET['set-activateApplicant'])){
         if(isset($_POST["data"])){
             $data = $_POST['data'];
-
-            $Query = $Functions->PDO_SQLQuery("UPDATE tbl_applicant SET status = 1 WHERE id = '{$data}'");
-            if($Query->execute()){
+            $user = $data[0];
+            $status = '1';
+            $Query = $Functions->PDO_SQLQuery("UPDATE tbl_applicant SET status = '{$status}' WHERE id = '{$user}'");
+            if($Query->execute())
                 echo 1;
-            }
             else{
                 $Data = $Query->errorInfo();
                 print_r($Data);
@@ -543,10 +578,10 @@ $Functions = new DatabaseClasses;
         if(isset($_POST["data"])){
             $data = $_POST['data'];
 
-            $Query = $Functions->PDO_SQLQuery("UPDATE tbl_applicant SET status = 0 WHERE id = '{$data}'");
-            if($Query->execute()){
+
+            $Query = $Functions->PDO_SQLQuery("UPDATE tbl_applicant SET status = '0' WHERE id = '{$data}'");
+            if($Query->execute())
                 echo 1;
-            }
             else{
                 $Data = $Query->errorInfo();
                 print_r($Data);
@@ -555,7 +590,7 @@ $Functions = new DatabaseClasses;
         else{
             echo "Hacker";
         }
-    }
+    } 
     if (isset($_GET['do-registerApplicant'])) {
         if(isset($_POST['data'])){
             $id = $Functions->PDO_IDGenerator('tbl_applicant','id');
@@ -638,29 +673,6 @@ $Functions = new DatabaseClasses;
                 print_r($Data);
             }
     } 
-    // if(isset($_GET['set-newApplicant'])){
-    //         $data = $_POST['data'];
-    //         $date = $Functions->PDO_DateAndTime();
-    //         $user = $data[1];
-    //         $numEmployees = $function->PDO(true,"SELECT COUNT(*) FROM tbl_applicant WHERE id = '{$user}';");
-    //         $count = $numEmployees[0][0];
-    //         $id = $user.'-'.($count++);
-    //         $password = sha1($data[0][11]['value']);
-            
-    //         $query = $function->PDO(false,"INSERT INTO tbl_applicant(id,lname,fname,mname,address,contactno,image,gender,description,resume,password,email,status) VALUES ('{$id}','{$data[0][10]['value']}','{$user}','{$data[0][2]['value']}','{$data[0][0]['value']}','{$data[0][1]['value']}','{$data[0][3]['value']}','{$data[0][5]['value']}','{$data[0][4]['value']}','{$data[0][7]['value']}','{$data[0][8]['value']}','{$data[0][6]['value']}','avatar.png','{$data[0][9]['value']}','{$password}','1','{$date}')");
-            
-    //         if($query2->execute()){
-    //                 // $function->log("add","Admin","Added employee with an id of \'".$id."\' in tbl_applicant.");
-    //                 echo 1;
-    //         }
-    //         else{
-    //                 $query3 = $function->PDO(false,"DELETE tbl_applicant WHERE id = '{$id}';");
-    //                 echo 0;
-    //                 $Data = $query2->errorInfo();
-    //                 print_r($Data);
-    //         }        
-    // }
-
 
 /*
     if(isset($_GET['get-jobsPosts'])){
