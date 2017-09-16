@@ -774,6 +774,7 @@ var employer = function(){
 								sys.confim("Accept this Employer?",function(){
 									var ajax = sys.ajax('../assets/harmony/Process.php?set-acceptPendingEmployer',id);
 									ajax.success(function(data){
+										console.log(data);
 										if(data == 1){
 								        	
 											swal("Successful!", "Employer has been declined.", "success");
@@ -792,6 +793,7 @@ var employer = function(){
 								sys.confim("Decline this Employer?",function(){
 									var ajax = sys.ajax('../assets/harmony/Process.php?set-declinePendingEmployer',id);
 									ajax.success(function(data){
+										console.log(data);
 										if(data == 1){
 								        	
 											swal("Successful!", "Employer has been declined.", "success");
@@ -831,11 +833,13 @@ var employer = function(){
 								sys.confim("Accept this Employer?",function(){
 									var ajax = sys.ajax('../assets/harmony/Process.php?set-acceptPendingEmployer',id);
 									ajax.success(function(data){
+										console.log(data);
 										if(data == 1){
 								        	
 											swal("Successful!", "Employer has been declined.", "success");
 											sys.clearForm();
 											_this.list();
+											console.log(id);
 										}
 										else{
 											swal("Fatal Error!", "There was an Unexpected Error during the process.", "error");
@@ -900,11 +904,12 @@ var employer = function(){
 								sys.confim("Decline this Employer?",function(){
 									var ajax = sys.ajax('../assets/harmony/Process.php?set-declinePendingEmployer',id);
 									ajax.success(function(data){
+										console.log(data);
 										if(data == 1){
-								        	
 											swal("Successful!", "Employer has been declined.", "success");
 											sys.clearForm();
 											_this.list();
+											console.log(id);
 										}
 										else{
 											swal("Fatal Error!", "There was an Unexpected Error during the process.", "error");
@@ -1426,8 +1431,9 @@ var applicant = function(){
 									"	<thead>"+
 									"		<tr>"+
 									"			<th width='5%'></th>"+
-									"			<th width='80%'>Name</th>"+
-									"			<th width='15%'></th>"+
+									"			<th width='85%'>Name</th>"+
+									"			<th width='5%'></th>"+
+									"			<th width='5%'></th>"+
 									"		</tr>"+
 									"	</thead>"+
 									"</table>";
@@ -1466,6 +1472,12 @@ var applicant = function(){
 					        	{data: "",
 					            	render: function ( data, type, full ){
 					            		var details = "<a data-id='"+full[0]+"' data-cmd='info_ActiveApplicant' class='btn btn-success btn-xs btn-block'>Details</a>";
+					                	return details;
+					            	}
+					        	},
+					        	{data: "",
+					            	render: function ( data, type, full ){
+					            		var details = "<a class='btn btn-success btn-xs btn-block'><i class='large material-icons'>moriz_horin</i></a>";
 					                	return details;
 					            	}
 					        	},
@@ -1516,31 +1528,31 @@ var applicant = function(){
 							var id = $(this).data('id');
 
 						if(cmd == 'info_ActiveApplicant'){
-							var newdata = sys.searchJSON(arrActive,0,id);
+							var data = sys.searchJSON(arrActive,0,id);
 							var picture = "../assets/img/profile_avatar.jpg", description = "No description yet.", resume = "No resume uploaded yet.";
 
-							if(newdata[0][6] != ""){
-								var imageData = newdata[0][6].split('.');
+							if(data[0][6] != ""){
+								var imageData = data[0][6].split('.');
 								if(imageData[imageData.length-1]!='apr')
-									picture = "../assets/img/"+newdata[0][6];					
+									picture = "../assets/img/"+data[0][6];					
 								else
-									picture = sys.get_apr(newdata[0][6]);
+									picture = sys.get_apr(data[0][6]);
 							}
 
 
-							if(newdata[0][8] != "")
-								description = newdata[0][8];    			
-							if(newdata[0][9] != "")
-								var resume = "<a href='../assets/files/"+newdata[0][9]+"' class='btn btn-xs btn-white'>Download and Read</a>";    			
+							if(data[0][8] != "")
+								description = data[0][8];    			
+							if(data[0][9] != "")
+								var resume = "<a href='../assets/files/"+data[0][9]+"' class='btn btn-xs btn-white'>Download and Read</a>";    			
 
 							var content = "<div class='col-md-12' style='float:none !important;'><table class='table table-bordered card-content'>"+
-										    "	<tr><td width='20%'>Name: </td><td width='80%'>"+newdata[0][1]+", "+newdata[0][2]+" "+newdata[0][3]+"</td><td></tr>"+
-										    "	<tr><td>Description: </td><td>"+newdata[0][8]+"</td></tr>"+
-										    "	<tr><td>Gender: </td><td>"+newdata[0][7]+"</td></tr>"+
-										    "	<tr><td>Contact Number: </td><td>"+newdata[0][5]+"</td></tr>"+
-										    "	<tr><td>Address: </td><td>"+newdata[0][4]+"</td></tr>"+
-										    "	<tr><td>Email Address: </td><td>"+newdata[0][10]+"</td></tr>"+
-										    "	<tr><td>Status: </td><td>"+newdata[0][12]+"</td></tr>"+
+										    "	<tr><td width='20%'>Name: </td><td width='80%'>"+data[0][1]+", "+data[0][2]+" "+data[0][3]+"</td><td></tr>"+
+										    "	<tr><td>Description: </td><td>"+data[0][8]+"</td></tr>"+
+										    "	<tr><td>Gender: </td><td>"+data[0][7]+"</td></tr>"+
+										    "	<tr><td>Contact Number: </td><td>"+data[0][5]+"</td></tr>"+
+										    "	<tr><td>Address: </td><td>"+data[0][4]+"</td></tr>"+
+										    "	<tr><td>Email Address: </td><td>"+data[0][10]+"</td></tr>"+
+										    "	<tr><td>Status: </td><td>"+data[0][12]+"</td></tr>"+
 										    "	<tr><td>Resume: </td><td>"+resume+"</td></tr>"+
 										  	"</table>"+
 										  	"	<div class='col-md-6'><a class='btn btn-white btn-xs btn-block' data-cmd='action_inactivateApplicant' data-id='"+data[0][0]+"'>Deactivate</a></div>"+
@@ -1568,31 +1580,31 @@ var applicant = function(){
 							});			
 						}
 						if(cmd == 'info_InactiveApplicant'){
-							var newdata = sys.searchJSON(arrInactive,0,id);
+							var data = sys.searchJSON(arrInactive,0,id);
 							var picture = "../assets/img/profile_avatar.jpg", description = "No description yet.", resume = "No resume uploaded yet.";
 
-							if(newdata[0][6] != ""){
-								var imageData = newdata[0][6].split('.');
+							if(data[0][6] != ""){
+								var imageData = data[0][6].split('.');
 								if(imageData[imageData.length-1]!='apr')
-									picture = "../assets/img/"+newdata[0][6];					
+									picture = "../assets/img/"+data[0][6];					
 								else
-									picture = sys.get_apr(newdata[0][6]);
+									picture = sys.get_apr(data[0][6]);
 							}
 
 
-							if(newdata[0][8] != "")
-								description = newdata[0][8];    			
-							if(newdata[0][9] != "")
-								var resume = "<a href='../assets/files/"+newdata[0][9]+"' class='btn btn-xs btn-white'>Download and Read</a>";    			
+							if(data[0][8] != "")
+								description = data[0][8];    			
+							if(data[0][9] != "")
+								var resume = "<a href='../assets/files/"+data[0][9]+"' class='btn btn-xs btn-white'>Download and Read</a>";    			
 
 							var content = "<div class='col-md-12' style='float:none !important;'><table class='table table-bordered card-content'>"+
-										    "	<tr><td width='20%'>Name: </td><td width='80%'>"+newdata[0][1]+", "+newdata[0][2]+" "+newdata[0][3]+"</td><td></tr>"+
-										    "	<tr><td>Description: </td><td>"+newdata[0][8]+"</td></tr>"+
-										    "	<tr><td>Gender: </td><td>"+newdata[0][7]+"</td></tr>"+
-										    "	<tr><td>Contact Number: </td><td>"+newdata[0][5]+"</td></tr>"+
-										    "	<tr><td>Address: </td><td>"+newdata[0][4]+"</td></tr>"+
-										    "	<tr><td>Email Address: </td><td>"+newdata[0][10]+"</td></tr>"+
-										    "	<tr><td>Status: </td><td>"+newdata[0][12]+"</td></tr>"+
+										    "	<tr><td width='20%'>Name: </td><td width='80%'>"+data[0][1]+", "+data[0][2]+" "+data[0][3]+"</td><td></tr>"+
+										    "	<tr><td>Description: </td><td>"+data[0][8]+"</td></tr>"+
+										    "	<tr><td>Gender: </td><td>"+data[0][7]+"</td></tr>"+
+										    "	<tr><td>Contact Number: </td><td>"+data[0][5]+"</td></tr>"+
+										    "	<tr><td>Address: </td><td>"+data[0][4]+"</td></tr>"+
+										    "	<tr><td>Email Address: </td><td>"+data[0][10]+"</td></tr>"+
+										    "	<tr><td>Status: </td><td>"+data[0][12]+"</td></tr>"+
 										    "	<tr><td>Resume: </td><td>"+resume+"</td></tr>"+
 										  	"</table>"+
 										  	"	<div class='col-md-6'><a class='btn btn-white btn-xs btn-block' data-cmd='action_activateApplicant' data-id='"+data[0][0]+"'>Activate</a></div>"+
@@ -1685,100 +1697,7 @@ var applicant = function(){
 				});
 			})
 		},
-		register: function(){
-	    	var date = new Date;
-	    	$("input[name='field_password']").val($.md5(date.toString()).substring(0,8));
-
-            $('#year_Birth .input-group.date').datepicker({
-                startView: 2,
-                todayBtn: "linked",
-                keyboardNavigation: false,
-                forceParse: false,
-                autoclose: true,
-                format: "mm/dd/yyyy"
-            });
-
-            $('.year_Graduated .input-group.date').datepicker({
-				minViewMode: 2,
-                startView: 2,
-                forceParse: false,
-                autoclose: true,
-                format: "yyyy"
-            });
-
-            $("input[name='field_nob']").keyup(function(){
-            	if($(this).val() != NaN){
-	            	var x = Number($(this).val()),y = Number($("input[name='field_nos']").val());
-	            	$("input[name='field_total']").val(x+y);
-            	}
-            });
-
-            $("input[name='field_nos']").keyup(function(){
-            	if($(this).val() != NaN){
-	            	var x = Number($(this).val()),y = Number($("input[name='field_nob']").val());
-	            	$("input[name='field_total']").val(x+y);
-            	}
-            });
-
-            $("input[name='field_dob']").change(function(){
-            	var dob = $(this).val();
-
-				var today = new Date();
-				var format = dob.split("/");
-				var dob = new Date(format[2], format[0], format[1]);
-				var diff = (today - dob);
-				var age = Math.floor(diff / 31536000000);
-				$("input[name='field_age']").val(age);
-            })
-
-            $("#field_autosid").click(function(){
-            	if($(this).prop('checked')){
-            		$("#div_studentID").addClass('hidden');
-            		$("input[name='field_studentID']").data({'inputtype':'optional'});
-            	}
-            	else{
-            		$("#div_studentID").removeClass('hidden');
-            		$("input[name='field_studentID']").data({'inputtype':'required'});
-            	}
-            });
-
-            $("#btn_registerStudent").click(function(){
-            	console.log(data);
-            	var fields = [];
-				var data = $("#form_registerStudent").serializeArray();
-				var validated = validation.validate_form(data);
-				var email = validation.email($("input[name='field_email']").val());
-
-			    system.send_mail($("input[name='field_email']").val(),$("input[name='field_password']").val());
-
-				if(validated[0]>0){
-					var message = "";
-					$.each(validated[1],function(i,v){
-						message += (i+1)+". "+v+"<br/>";
-					})
-					system.errorNotification('The following fields has an error',message);
-				}
-				else if(!email){
-					system.errorNotification('Error',"Invalid email address.");
-				}
-				else{
-					var ajax = system.do_ajax('../assets/harmony/Process.php?do-registerApplicant',[data,$("input[name='field_password']").val()]);
-					ajax.success(function(data){
-						if(data == 1){
-						    system.send_mail($("input[name='field_email']").val(),$("input[name='field_password']").val());
-
-							swal("Successful!", "Employer has been accepted.", "success");
-							system.successNotification('Success',"Email has been sent.");
-							App.handleLoadPage(window.location.hash);
-						}
-						else{
-							swal("Fatal Error!", "There was an Unexpected Error during the process.", "error");
-							console.log(data);
-						}
-					});
-				}
-            });
-        },
+		
 	}
 
 }();

@@ -560,9 +560,8 @@ $Functions = new DatabaseClasses;
    if (isset($_GET['set-activateApplicant'])){
         if(isset($_POST["data"])){
             $data = $_POST['data'];
-            $user = $data[0];
-            $status = '1';
-            $Query = $Functions->PDO_SQLQuery("UPDATE tbl_applicant SET status = '{$status}' WHERE id = '{$user}'");
+
+            $Query = $Functions->PDO_SQLQuery("UPDATE tbl_applicant SET status = '1' WHERE id = '{$data}'");
             if($Query->execute())
                 echo 1;
             else{
