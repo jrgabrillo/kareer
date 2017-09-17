@@ -164,7 +164,7 @@ class DatabaseClasses{
 	}
 	function log2($_id,$_remarks,$_header){
 		$date = DatabaseClasses::PDO_DateAndTime();
-		$id = DatabaseClasses::PDO_IDGenerator('tbl_logs','id');
+		$id = DatabaseClasses::PDO_IDGenerate('tbl_logs','id');
 		$Query = DatabaseClasses::PDO(false,"INSERT INTO tbl_logs(id,account,remarks,`date`,header) VALUES ('{$id}','{$_id}','{$_remarks}','{$date}','{$_header}')");
 		if($Query->execute()){
 			return 1;	

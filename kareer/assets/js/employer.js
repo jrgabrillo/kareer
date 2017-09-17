@@ -8,7 +8,6 @@ var employer = function () {
 				employer.logout();				
 			}
 		},
-
 		display:function(){
 			var sys = system, validate = validation, _this = this;
 			var ajax = system.html('../assets/harmony/Process.php?get-account');
@@ -142,7 +141,7 @@ var employer = function () {
 				// 		}
 				// 		else{
 				//     		var newdata = [completiondata,data[0][0]];
-				// 			var ajax = system.ajax('../assets/harmony/Process.php?do-completeData',newdata);
+				// 			var ajax = system.do_ajax('../assets/harmony/Process.php?do-completeData',newdata);
 				// 			ajax.success(function(data){
 				// 				if(data == 1){
 				// 					toast("Successful!", "Employer's information has been saved.", "success");
@@ -256,7 +255,7 @@ var employer = function () {
 					            $($image).cropper({
 					            	aspectRatio: 1/1,
 								    autoCropArea: 0.80,
-								    preview: 'img.html',
+								    preview: ".avatar-preview",
 								    built: function () {
 								    	$("button[data-cmd='rotate']").removeClass('hidden');
 								    	$("button[data-cmd='save']").removeClass('hidden');
@@ -265,12 +264,12 @@ var employer = function () {
 					    					var ajax = system.ajax('../assets/harmony/Process.php?update-image',[data[0][0],'employer',$image.cropper("getDataURL")]);
 											ajax.success(function(data){
 												if(data == 1){
-													Materialize.toast("Successful!", "Employer's picture has been updated.", "success");
-													system.close_modal();
+													toast("Successful!", "Employer's picture has been updated.", "success");
+													system.close_modalLarge();
 													App.handleLoadPage(window.location.hash);
 												}
 												else{
-													Materialize.toast("Fatal Error!", "There was an Unexpected Error during the process.", "error");
+													toast("Fatal Error!", "There was an Unexpected Error during the process.", "error");
 													console.log(data);
 												}
 											});
@@ -423,23 +422,6 @@ var employer = function () {
         		}
         	});
         },
-
-        StringCounter:function(input,id,allowed){
-		    var a = allowed-input.length;
-		    if(a >= 0 && a <= 1){
-		        id.html(a+" character remaining");
-		    }
-		    else if(a == -1){
-		        id.html(-1*a+" character exceeded");
-		    }
-		    else if(a <= -2){
-		        id.html(-1*a+" characters exceeded");
-		    }
-		    else{
-		        id.html(a+" characters remaining");
-		    }
-		},
-		
 		logout:function(){
 			$("a[ data-cmd='logout']").on("click",function(){
 				var ajax = system.html('../assets/harmony/Process.php?kill-session');
@@ -477,13 +459,18 @@ var jobs = function(){
 			var content = "";
 			var ajax = system.html('../assets/harmony/Process.php?get-jobsPosts');
 			ajax.done(function(data){
+<<<<<<< HEAD
 				ajax = JSON.parse(ajax.responseText);
 				// console.log(data);
+=======
+				// ajax = JSON.parse(ajax.responseText);
+				console.log(data);
+>>>>>>> 4c8c79d1e979c0f96c9cff527cdb7b6618718d84
 			})
-			// console.log(ajaxData);
+			console.log(ajaxData);
 
-			if(ajax.length>0){
-				var content = "<div class='card'><div class='card-content'><table class='table table-striped' id='table_jobs'>"+
+			if(ajaxData.length>0){
+				var content = "<div class='ibox'><div class='ibox-content'><table class='table table-striped' id='table_jobs'>"+
 								"	<thead>"+
 								"		<tr>"+
 								"			<th width='5%'>Status</th>"+
@@ -497,7 +484,7 @@ var jobs = function(){
 				$("#jobs").html(content);
 
 				$('#table_jobs').DataTable({
-				    data: ajax,
+				    data: ajaxData,
 				    sort: false,
 					"columnDefs": [
 						{ className: "project-status", "targets": [ 0 ] },
@@ -560,12 +547,18 @@ var jobs = function(){
 				    ]
 				});
 			}
+<<<<<<< HEAD
 
 
 
 			// $(".prettydate").prettydate({
 			//     dateFormat: "YYYY-MM-DD hh:mm:ss"
 			// });			ajax.done(function(data){});
+=======
+			$(".prettydate").prettydate({
+			    dateFormat: "YYYY-MM-DD hh:mm:ss"
+			});			//ajax.success(function(data){});
+>>>>>>> 4c8c79d1e979c0f96c9cff527cdb7b6618718d84
         },
         posts:function(){
     		var data = JSON.parse(employer.account());
@@ -621,7 +614,7 @@ var jobs = function(){
 										var data_applicants = JSON.parse(v[2]);
 										if(i<4){
 							            	details += "<img alt='image' class='img-circle' src='' style='margin-right: 5px;'>";
-							            	 details += "<img alt='image' class='img-circle' src='"+mainProcess.get_apr(data_applicants[2])+"' style='margin-right: 5px;'>";
+							            	// details += "<img alt='image' class='img-circle' src='"+mainProcess.get_apr(data_applicants[2])+"' style='margin-right: 5px;'>";
 										}
 										else{
 											var count = full[1].length-i;
@@ -653,7 +646,7 @@ var jobs = function(){
 			}
 			$(".prettydate").prettydate({
 			    dateFormat: "YYYY-MM-DD hh:mm:ss"
-			});			ajax.success(function(data){});
+			});			//ajax.success(function(data){});
         },
         getByID:function(id){
     		var data = JSON.parse(employer.account());
@@ -686,7 +679,7 @@ var jobs = function(){
 
 					application_content += "<div class='feed-element'>"+
 											"    <a href='#' class='pull-left'>"+
-											 "        <img alt='image' class='img-circle' src='"+mainProcess.get_apr(data_applicants[2])+"'>"+
+											// "        <img alt='image' class='img-circle' src='"+mainProcess.get_apr(data_applicants[2])+"'>"+
 											"        <img alt='image' class='img-circle' src=''>"+
 											"    </a>"+
 											"    <div class='media-body'>"+
@@ -739,12 +732,12 @@ var jobs = function(){
 
 				$("#"+data+" a[data-cmd='interview']").click(function(){
 					var content = [$(this).data('id'),$("#"+data+" input[name='field_interview']").val()];
-					var ajax = system.ajax('../assets/harmony/Process.php?do-inviteInterview',content);
+					var ajax = system.do_ajax('../assets/harmony/Process.php?do-inviteInterview',content);
 					var ajaxData = JSON.parse(ajax.responseText);
 					ajax.success(function(data){
 						if(data == 1){
 							Materialize.toast("Successful!", "", "success");
-							system.close_modal();
+							system.close_modalLarge();
 							App.handleLoadPage(window.location.hash);
 						}
 						else{
@@ -767,12 +760,12 @@ var jobs = function(){
 				        confirmButtonText: "Confirm",
 				        closeOnConfirm: false
 				    }, function () {
-						var ajax = system.ajax('../assets/harmony/Process.php?do-decline',data[1]);
+						var ajax = system.do_ajax('../assets/harmony/Process.php?do-decline',data[1]);
 						var ajaxData = JSON.parse(ajax.responseText);
 						ajax.success(function(data){
 							if(data == 1){
 								Materialize.toast("Successful!", "", "success");
-								system.close_modal();
+								system.close_modalLarge();
 								App.handleLoadPage(window.location.hash);
 							}
 							else{
@@ -844,14 +837,14 @@ var jobs = function(){
 		    		data = JSON.parse(data);
 		    		data = [data[0][0],fields]
 
-					var ajax = system.ajax('../assets/harmony/Process.php?do-postJob',data);
+					var ajax = system.do_ajax('../assets/harmony/Process.php?do-postJob',data);
 					ajax.success(function(data){
 						if(data == 1){
-							Materialize.toast("Successful!", "Employer has been accepted.", "success");
+							toast("Successful!", "Employer has been accepted.", "success");
 							App.handleLoadPage(window.location.hash);
 						}
 						else{
-							Materialize.toast("Fatal Error!", "There was an Unexpected Error during the process.", "error");
+							toast("Fatal Error!", "There was an Unexpected Error during the process.", "error");
 							console.log(data);
 						}
 					});
@@ -861,6 +854,7 @@ var jobs = function(){
 			
 	    },
 	}
+<<<<<<< HEAD
 }();
 
 var Applicants = function(){
@@ -1367,4 +1361,6 @@ var Applicants = function(){
 			})
 		},
 	}
+=======
+>>>>>>> 4c8c79d1e979c0f96c9cff527cdb7b6618718d84
 }();
