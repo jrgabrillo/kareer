@@ -32,7 +32,7 @@ employer.posting();
  -->
 
 
- <nav class="purple lighten-2">
+<!--  <nav class="purple lighten-2">
     <div class="nav-wrapper" style="margin-left:15px">
         <div class="col s12">
             <a href="#cmd=index" class="breadcrumb">Home</a>
@@ -43,38 +43,6 @@ employer.posting();
 <div class='row col-lg-12' style='float: none;'>
     <div class="wrapper wrapper-content">
         <div class="row animated fadeInUp">
-            
-<!--             <div class="col s12 m7 17">
-                
-                    <ul class="tabs z-depth-0 grey lighten-2" style="width: 100%;height: 48px;">
-                                <li class="tab col s6"><a class="waves-effect waves-light black-text" href="list_activeApplicant"><i class="mdi-action-perm-identity"></i>Active Applicants</a></li>
-                                <li class="tab col s6"><a class="waves-effect waves-light black-text" href="list_inactiveApplicant"><i class="mdi-action-settings-display"></i>Inactive Applicants</a></li>
-                    </ul>
-
-                <div class="card float-e-margins" id='list_activeApplicant'>
-                           <div class="card-title">
-                                <h5 class = "col s2">Applicants</h5>
-                           </div>
-                                <div class="card-content text-center"></div>
-                      </div>
-                      <div class="card float-e-margins" id='list_inactiveApplicant'>
-                           <div class="card-title">
-                                <h5 class = "col s2">Applicants</h5>
-                           </div>
-                               <div class="card-content text-center"></div>
-                      </div>
-
-            </div>
- -->
-<!--             <div class="col s12 m5 l5">
-                <div class="card float-e-margins" id='applicant'>
-                        <div class="card-title">
-                            <h5 class = "col s2">Applicant</h5>
-                        </div>
-                        <div class="card-content text-center"> 
-                    </div>
-                </div> 
-            </div> -->
         </div>
     </div>
 </div>
@@ -84,14 +52,9 @@ employer.posting();
             <div class="col s12">
                     <ul class="tabs z-depth-0 grey lighten-2" style="width: 100%;height: 48px;">
                                 <!-- <li class="tab col s4"><a class="waves-effect waves-light black-text" href="#approved_applicants"><i class="mdi-action-perm-identity"></i> Approved applicants</a></li> -->
-                                <li class="tab col s4"><a class="waves-effect waves-light black-text" href="list_activeApplicant"><i class="mdi-action-settings-display"></i> Pending applicants</a></li>
-                                <li class="tab col s4"><a class="waves-effect waves-light black-text" href="list_InactiveApplicant"><i class="mdi-action-settings-display"></i> Declined applicants</a></li>
-                    </ul>
-<!--                 <div class="card float-e-margins" id='approved_applicants'>
-                    <div class="card-title">
-                        <h5 class = "col s4"></h5>
-                    </div>
-                    <div class="card-content text-center"></div> -->
+<!--                                 <li class="tab col s4"><a class="waves-effect waves-light black-text" href="list_activeApplicant"><i class="mdi-action-settings-display"></i> Pending applicants</a></li>
+                                <li class="tab col s4"><a class="waves-effect waves-light black-text" href="list_InactiveApplicant"><i class="mdi-action-settings-display"></i> Declined applicants</a></li> -->
+<!--                     </ul>
                 </div>
                 <div class="card float-e-margins" id='list_activeApplicant'>
                     <div class="card-title">
@@ -106,10 +69,69 @@ employer.posting();
                 </div>
             </div>
         </div>
+    </div>  -->
+
+<nav class="purple lighten-2">
+    <div class="nav-wrapper" style="margin-left:15px">
+        <div class="col s12">
+            <a href="#cmd=index" class="breadcrumb">Home</a>
+            <a class="breadcrumb">applicant</a>
+        </div>
     </div>
+</nav>
+<div class='row col-lg-12' style='float: none;'>
+    <div class="wrapper wrapper-content">
+        <div class="row animated fadeInUp">
+            
+            <div class="col s12 m7 17">
 
+                    <ul class="tabs z-depth-0 grey lighten-2" style="width: 100%;height: 48px;">
+                                <li class="tab col s4"><a class="waves-effect waves-light black-text" href="#approved_applicant"><i class="mdi-action-perm-identity"></i> Approved applicant</a></li>
+                                <li class="tab col s4"><a class="waves-effect waves-light black-text" href="#pending_applicant"><i class="mdi-action-settings-display"></i> Pending applicant</a></li>
+                                <li class="tab col s4"><a class="waves-effect waves-light black-text" href="#declined_applicant"><i class="mdi-action-settings-display"></i> Declined applicant</a></li>
+                    </ul>
+                 <div>   
+                 </div>
+                      <div class="card float-e-margins" id='approved_applicant'>
+                           <div class="card-title">
+                                <h5 class = "col s2">applicant</h5>
+                           </div>
+                                <div class="card-content text-center"></div>
+                      </div>
+                      <div class="card float-e-margins" id='pending_applicant'>
+                           <div class="card-title">
+                                <h5 class = "col s2">applicant</h5>
+                           </div>
+                               <div class="card-content text-center"></div>
+                      </div>
+                      <div class="card float-e-margins" id='declined_applicant'>
+                           <div class="card-title">
+                                <h5 class = "col s2">applicant</h5>
+                           </div>
+                                <div class="card-content text-center"></div>
+                      </div>
+                
+            </div>
+        <div class='col s12 m4 l4 input-field right'>
+            <p><a id = 'add_applicant' class="btn waves-effect waves-light navy right">Add Applicant</a></p>
+        </div>
 
+        <div class="col s12 m5 l5">
+                <div class="card float-e-margins" id='employer'>
+                        <div class="card-title">
+                            <h5 class = "col s2">Applicant</h5>
+                        </div>
+                        <div class="card-content text-center"> 
+                    </div>
+                </div>
+                
+            </div>
+            
+        </div>
+    </div>
+</div>
 <script type="text/javascript">
 employer.display();
 applicant.list_applicant();
+Applicants.addApplicant();
 </script>
