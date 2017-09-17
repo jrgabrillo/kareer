@@ -175,6 +175,25 @@ $Functions = new DatabaseClasses;
             echo "Hacker";
         }
     }
+    if(isset($_GET['do-getApplications'])){
+        if(isset($_POST["data"])){
+            $data = $_POST['data'];
+            $result = [];
+            $Query = $Functions->PDO_SQL("SELECT * FROM tbl_application ORDER BY date DESC");
+            foreach ($Query as $key => $value) {
+                $applicant = json_decode($value[2]);
+                if($data == $applicant[0]){
+                    $QueryVacancy = $Functions->PDO_SQL("SELECT * FROM tbl_vacancies WHERE id = '{$value[1]}'");
+                    $QueryEmployer = $Functions->PDO_SQL("SELECT * FROM tbl_employer WHERE id = '{$QueryVacancy[0][1]}'");
+                    $result[] = [$value,$QueryEmployer[0],$QueryVacancy[0]];
+                }
+            }
+            print_r(json_encode($result));
+        }
+        else{
+            echo "Hacker";
+        }
+    }
 
     
     /* setters*/
@@ -200,12 +219,10 @@ $Functions = new DatabaseClasses;
     }
     if(isset($_GET['update-adminPicture'])){
             $data = $_POST['data'];
-            // $user = $function->getAdmin();
-            // $session = $_SESSION['kareer7836'];
-            // $picture = $function->saveImage($user,$data[1]);
-            $query = $function->PDO(false,"UPDATE tbl_admin SET picture = '{$data[1]}' WHERE id = '{$user}';");
+           saveImage($user,$data[1]);
+            $query = $Functions->PDO("UPDATE tbl_admin SET picture = '{$data[1]}' WHERE id = '{$user}'");
             if($query->execute()){
-                $log = $function->log2("Picture is updated to {$data[1]}.","Update");
+                // $log = $functions->log2("Picture is updated to {$data[1]}.","Update");
                 echo 1;
             }
             else{
