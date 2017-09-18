@@ -73,7 +73,7 @@ $Functions = new DatabaseClasses;
     if(isset($_GET['get-employerJobsPosts'])){
         $data = $_POST['data'];
         $result = [];
-        $Query = $Functions->PDO_SQL("SELECT * FROM tbl_vacancies WHERE employer_id = '{$data}' ORDER BY date DESC");
+        $Query = $Functions->PDO("SELECT * FROM tbl_vacancies WHERE employer_id = '{$data}' ORDER BY date DESC");
         foreach ($Query as $key => $value) {
             $Query2 = $Functions->PDO_SQL("SELECT * FROM tbl_application WHERE vacany_id = '{$value[0]}'");
             $result[] = [$value,$Query2];
