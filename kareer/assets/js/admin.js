@@ -1698,11 +1698,10 @@ var applicant = function(){
 			})
 		},
 		application:function(){
-    		var data = JSON.parse(system.get_account());
-			var ajax = system.ajax('../assets/harmony/Process.php?do-getApplications',data[0][0]);
+			var ajax = system.ajax('../assets/harmony/Process.php?do-getApplications',"");
 			var ajaxData = JSON.parse(ajax.responseText);
-			var content = "";
-			console.log(ajaxData);
+			var content = "sdsdsd";
+			console.log(ajax);
 			// $.each(ajaxData,function(i,v){
 			// 	console.log(v);
 			// 	if(v[2][5] != "null"){
@@ -1737,10 +1736,10 @@ var applicant = function(){
 			// 			"    </div>";
 			// });
 			// content = "<div class='card-content inspinia-timeline'>"+content+"</div>";
-			// $("#jobapplications").html(content);
-			// $(".prettydate").prettydate({
-			//     dateFormat: "YYYY-MM-DD hh:mm:ss"
-			// });
+			$("#jobapplications").html(content);
+			$(".prettydate").prettydate({
+			    dateFormat: "YYYY-MM-DD hh:mm:ss"
+			});
         },
 		
 	}

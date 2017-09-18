@@ -84,6 +84,7 @@ $Functions = new DatabaseClasses;
     if (isset($_GET['get-account'])){
         $session = $_SESSION['kareer7836'];
         $query = $Functions->PDO("SELECT * FROM tbl_employer  WHERE email = '{$session[0]}' AND password = '{$session[1]}'");
+
         if(count($query)==0){
             $query = $Functions->PDO("SELECT * FROM tbl_admin  WHERE username = '{$session[0]}' AND password = '{$session[1]}'");
             if(count($query)==0){
@@ -97,6 +98,9 @@ $Functions = new DatabaseClasses;
             print_r(json_encode($query));
         }
     }
+
+    
+
     if(isset($_GET['update-image'])){
         if(isset($_POST['data'])){
             $data = $_POST['data'];
@@ -179,7 +183,9 @@ $Functions = new DatabaseClasses;
         if(isset($_POST["data"])){
             $data = $_POST['data'];
             $result = [];
+            print_r($data);
             $Query = $Functions->PDO_SQL("SELECT * FROM tbl_application ORDER BY date DESC");
+            
             foreach ($Query as $key => $value) {
                 $applicant = json_decode($value[2]);
                 if($data == $applicant[0]){
@@ -189,6 +195,7 @@ $Functions = new DatabaseClasses;
                 }
             }
             print_r(json_encode($result));
+
         }
         else{
             echo "Hacker";
