@@ -66,7 +66,7 @@ $Functions = new DatabaseClasses;
 
     if(isset($_GET['get-jobsPosts'])){
         $data = $_POST['data'];
-        $query = $Functions->PDO("SELECT * FROM tbl_vacancies ORDER BY date DESC LIMIT 0,6");
+        $query = $Functions->PDO("SELECT * FROM tbl_vacancies ORDER BY date DESC");
         print_r(json_encode($query));
     }
 
@@ -182,8 +182,9 @@ $Functions = new DatabaseClasses;
     if(isset($_GET['do-getApplications'])){
         if(isset($_POST["data"])){
             $data = $_POST['data'];
-            $result = [];
+
             print_r($data);
+            $result = [];
             $Query = $Functions->PDO_SQL("SELECT * FROM tbl_application ORDER BY date DESC");
             
             foreach ($Query as $key => $value) {
