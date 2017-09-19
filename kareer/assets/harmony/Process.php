@@ -250,6 +250,35 @@ $Functions = new DatabaseClasses;
             print_r($Data);
         }
     }
+    if (isset($_GET['do-postJob'])) {
+        if(isset($_POST['data'])){
+            $id = $Functions->PDO_IDGenerator('tbl_vacancies','id');
+            $date = $Functions->PDO_DateAndTime();
+            $data = $_POST['data'];
+
+            $employer_id = $data[0];
+            $description = $data[1][2]['value'];
+            $vacancy_date = $data[1][1]['value'];
+            $job_title = $data[1][0]['value'];
+
+            if(count($data[1])==4)
+                $skills = json_encode($data[1][3]);
+            else
+                $skills = json_encode([]);
+
+            $QueryString = "INSERT INTO tbl_vacancies(id,employer_id,description,vacancy_date,job_title,skills,date) VALUES('{$id}','{$employer_id}','{$description}','{$vacancy_date}','{$job_title}','{$skills}','{$date}')";
+            $Query = $Functions->PDO_SQLQuery($QueryString);
+            if($Query->execute())
+                echo 1;
+            else{
+                $Data = $Query->errorInfo();
+                print_r($Data);
+            }
+        }
+        else{
+            echo "Hacker";
+        }
+    }
     if(isset($_GET['update-adminPicture'])){
             $data = $_POST['data'];
            saveImage($user,$data[1]);
@@ -296,7 +325,7 @@ $Functions = new DatabaseClasses;
     }
     if (isset($_GET['do-registerApplicant'])) {
         if(isset($_POST['data'])){
-            $id = $Functions->PDO_IDGenerator('tbl_applicant','id');
+            $id = $Functions->PDO_IDGenerate('tbl_applicant','id');
             $date = $Functions->PDO_DateAndTime();
             $data = $_POST['data'];
 
@@ -709,7 +738,42 @@ $Functions = new DatabaseClasses;
                 $Data = $query->errorInfo();
                 print_r($Data);
             }
+    }
+    if(isset($_GET['do-decline'])){
+        if(isset($_POST['data'])){
+            $data = $_POST['data'];
+
+            $Query = $Functions->PDO_SQLQuery("UPDATE tbl_application SET status = '0' WHERE id = '{$data}'");
+            if($Query->execute()){
+                echo 1;
+            }
+            else{
+                $Data = $Query->errorInfo();
+                print_r($Data);
+            }
+        }
+        else{
+            echo "Hacker";
+        }
     } 
+    if(isset($_GET['do-inviteInterview'])){
+    if(isset($_POST['data'])){
+            $data = $_POST['data'];
+            $date = $Functions->PDO_DateAndTime();
+            $val = json_encode([$date,$data[1]]);
+            $Query = $Functions->PDO_SQLQuery("UPDATE tbl_application SET status = '{$val}' WHERE id = '{$data[0]}'");
+            if($Query->execute()){
+                echo 1;
+            }
+            else{
+                $Data = $Query->errorInfo();
+                print_r($Data);
+            }
+        }
+        else{
+            echo "Hacker";
+        }
+    }
 
 /*
     if(isset($_GET['get-jobsPosts'])){
