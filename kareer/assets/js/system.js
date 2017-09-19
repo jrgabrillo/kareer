@@ -141,6 +141,21 @@ var system = function(){
 				});
 		    });
 		},
+		StringCounter:function(input,id,allowed){
+		    var a = allowed-input.length;
+		    if(a >= 0 && a <= 1){
+		        id.html(a+" character remaining");
+		    }
+		    else if(a == -1){
+		        id.html(-1*a+" character exceeded");
+		    }
+		    else if(a <= -2){
+		        id.html(-1*a+" characters exceeded");
+		    }
+		    else{
+		        id.html(a+" characters remaining");
+		    }
+		},
 		forceLogout:function(_function){ //300000
 			$(document).idle({
 				onIdle: function(){
