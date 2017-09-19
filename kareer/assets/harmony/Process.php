@@ -105,10 +105,6 @@ $Functions = new DatabaseClasses;
             print_r(json_encode($query));
         }
     }
-<<<<<<< HEAD
-    
-=======
->>>>>>> 71d4288b683d31cc758b241c863fb3df32e5ff6a
     if(isset($_GET['update-image'])){
         if(isset($_POST['data'])){
             $data = $_POST['data'];
@@ -197,12 +193,12 @@ $Functions = new DatabaseClasses;
         if(isset($_POST["data"])){
             $data = $_POST['data'];
             $result = [];
-            $Query = $Functions->PDO("SELECT * FROM tbl_application ORDER BY date DESC");
+            $Query = $Functions->PDO_SQL("SELECT * FROM tbl_application ORDER BY date DESC");
             foreach ($Query as $key => $value) {
-                $applicant = json_decode($value[2]);
+                $applicant = json_decode($value[1]);
                 if($data == $applicant[0]){
-                    $QueryVacancy = $Functions->PDO("SELECT * FROM tbl_vacancies WHERE id = '{$value[1]}'");
-                    $QueryEmployer = $Functions->PDO("SELECT * FROM tbl_employer WHERE id = '{$QueryVacancy[0][1]}'");
+                    $QueryVacancy = $Functions->PDO_SQL("SELECT * FROM tbl_vacancies WHERE id = '{$value[1]}'");
+                    $QueryEmployer = $Functions->PDO_SQL("SELECT * FROM tbl_employer WHERE id = '{$QueryVacancy[0][1]}'");
                     $result[] = [$value,$QueryEmployer[0],$QueryVacancy[0]];
                 }
             }
@@ -740,12 +736,12 @@ $Functions = new DatabaseClasses;
         }
     } 
     if(isset($_GET['do-inviteInterview'])){
-<<<<<<< HEAD
-        if(isset($_POST['data'])){
-=======
 
+        if(isset($_POST['data'])){
+
+    }
     if(isset($_POST['data'])){
->>>>>>> 71d4288b683d31cc758b241c863fb3df32e5ff6a
+
             $data = $_POST['data'];
             $date = $Functions->PDO_DateAndTime();
             $val = json_encode([$date,$data[1]]);

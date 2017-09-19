@@ -69,7 +69,6 @@ var admin = function () {
 				}
 			});
 		},
-
 		update_data:function(){
     		var data = sys.get_account();
     		var admindata = JSON.parse(data);
@@ -971,7 +970,6 @@ var employer = function(){
 					});
 				}
 			});	
-
 	    },
  		update:function(){
 			$("a[data-cmd='updateEmployer']").on('click',function(){
@@ -2046,50 +2044,48 @@ var applicant = function(){
 			})
 		}, 
 		application:function(){
-    		var data = JSON.parse(system.get_account());
-			var ajax = system.ajax('../assets/harmony/Process.php?do-getApplications',"");
-			console.log(data[0][0]);
+    		var ajax = system.ajax('../assets/harmony/Process.php?do-getApplications',"");
 			var ajaxData = JSON.parse(ajax.responseText);
+			console.log(ajaxData);
 			var content = "";
-			// console.log(data);
-			// $.each(ajaxData,function(i,v){
-			// 	// console.log(v);
-			// 	if(v[2][5] != "null"){
-			// 		var skills = JSON.parse(v[2][5]), $skills = "";
-			// 		$.each(skills,function(a,b){
-			// 			$skills += "<span class='label label-defualt'style='margin-right: 5px;'>"+b+"</span>";
-			// 		});
-			// 	}
-			// 	content += "    <div class='timeline-item'>"+
-			// 			"        <div class='row'>"+
-			// 			"            <div class='col-lg-3 date'>"+
-			// 			"                <i class='fa fa-briefcase'></i>"+v[0][4]+"<br><small class='text-navy prettydate'>"+v[0][4]+"</small>"+
-			// 			"            </div>"+
-			// 			"            <div class='col-lg-10 content no-top-border'>"+
-			// 			"                <p class='m-b-xs'><a data-toggle='collapse' data-parent='#accordion' href='#"+v[0][0]+"' aria-expanded='false' class='collapsed btn btn-white btn-xs pull-right'>Show Employer's Information</a>"+
-			// 			"                <p class='m-b-xs'><h3><strong>Job Title:</strong> "+v[2][4]+"</h3></p>"+
-			// 			"                <p class='m-b-xs'><strong>Skills:</strong> "+$skills+"</p>"+
-			// 			"                <p class='m-b-xs'><strong>Job Description:</strong> "+v[2][2]+"</p>"+
-			// 			"                <div id='"+v[0][0]+"' class='panel-collapse collapse' aria-expanded='false' style='height: 0px;'>"+
-			// 			"                	<div class='panel-body'>"+
-			// 			"                		<div class='hr-line-dashed'></div>"+
-			// 			"                		<p class='m-b-xs'><strong>Company:</strong> "+v[1][5]+"</p>"+
-			// 			"                		<p class='m-b-xs'><strong>Office:</strong> "+v[1][3]+"</p>"+
-			// 			"                		<p class='m-b-xs'><strong>Email:</strong> "+v[1][10]+"</p>"+
-			// 			"                		<p class='m-b-xs'><strong>Company Description:</strong> "+v[1][6]+"</p>"+
-			// 			"                		<div class='hr-line-dashed'></div>"+
-			// 			"                	</div>"+
-			// 			"                </div>"+
-			// 			"                <p class='m-b-xs'><strong>Your Application:</strong><br/><div class='well'>"+v[0][3]+"</div></p>"+
-			// 			"            </div>"+
-			// 			"        </div>"+
-			// 			"    </div>";
-			// });
-			// content = "<div class='card-content inspinia-timeline'>"+content+"</div>";
-			// $("#jobapplications").html(content);
-			// $(".prettydate").prettydate({
-			//     dateFormat: "YYYY-MM-DD hh:mm:ss"
-			// });
+			$.each(ajaxData,function(i,v){
+				// console.log(v);
+				if(v[2][5] != "null"){
+					var skills = JSON.parse(v[2][5]), $skills = "";
+					$.each(skills,function(a,b){
+						$skills += "<span class='label label-defualt'style='margin-right: 5px;'>"+b+"</span>";
+					});
+				}
+				content += "    <div class='timeline-item'>"+
+						"        <div class='row'>"+
+						"            <div class='col-lg-3 date'>"+
+						"                <i class='fa fa-briefcase'></i>"+v[0][4]+"<br><small class='text-navy prettydate'>"+v[0][4]+"</small>"+
+						"            </div>"+
+						"            <div class='col-lg-10 content no-top-border'>"+
+						"                <p class='m-b-xs'><a data-toggle='collapse' data-parent='#accordion' href='#"+v[0][0]+"' aria-expanded='false' class='collapsed btn btn-white btn-xs pull-right'>Show Employer's Information</a>"+
+						"                <p class='m-b-xs'><h3><strong>Job Title:</strong> "+v[2][4]+"</h3></p>"+
+						"                <p class='m-b-xs'><strong>Skills:</strong> "+$skills+"</p>"+
+						"                <p class='m-b-xs'><strong>Job Description:</strong> "+v[2][2]+"</p>"+
+						"                <div id='"+v[0][0]+"' class='panel-collapse collapse' aria-expanded='false' style='height: 0px;'>"+
+						"                	<div class='panel-body'>"+
+						"                		<div class='hr-line-dashed'></div>"+
+						"                		<p class='m-b-xs'><strong>Company:</strong> "+v[1][5]+"</p>"+
+						"                		<p class='m-b-xs'><strong>Office:</strong> "+v[1][3]+"</p>"+
+						"                		<p class='m-b-xs'><strong>Email:</strong> "+v[1][10]+"</p>"+
+						"                		<p class='m-b-xs'><strong>Company Description:</strong> "+v[1][6]+"</p>"+
+						"                		<div class='hr-line-dashed'></div>"+
+						"                	</div>"+
+						"                </div>"+
+						"                <p class='m-b-xs'><strong>Your Application:</strong><br/><div class='well'>"+v[0][3]+"</div></p>"+
+						"            </div>"+
+						"        </div>"+
+						"    </div>";
+			});
+			content = "<div class='card-content inspinia-timeline'>"+content+"</div>";
+			$("#jobapplications").html(content);
+			$(".prettydate").prettydate({
+			    dateFormat: "YYYY-MM-DD hh:mm:ss"
+			});
 	        },
 		
 	}
