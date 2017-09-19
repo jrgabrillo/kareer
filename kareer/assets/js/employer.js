@@ -454,13 +454,54 @@ var employer = function () {
 var jobs = function(){
 	"use strict";
 	return {
+		add_vacancies:function(){
+			var sys = system, validate = validation, _this = this, _apps = App, main = mainProcess;
+	    	$("a[data-cmd='register_applicant']").click(function(){
+	    		var data = $("#form_addVacancy").serializeArray();
+	    		var skills = [], fields = [];
+				var validated = validate.validate(data);
+				if(validated[0]>0){
+					var message = "";
+					$.each(validated[1],function(i,v){
+						message += (i+1)+". "+v+"<br/>";
+					})
+					sys.errorNotification('The following fields has an error',message);
+				}
+				else{
+		    		$.each(data,function(i,v){
+		    			if(v['name'] == 'field_requiredSkills')
+		    				skills.push(v['value']);
+		    			else
+		    				fields.push(v);
+		    		});
+
+		    		fields.push(skills);
+		    		var data = sys.get_account();
+		    		data = JSON.parse(data);
+		    		data = [data[0][0],fields]
+
+					var ajax = system.ajax('../assets/harmony/Process.php?do-postJob',data);
+					ajax.success(function(data){
+						if(data == 1){
+							swal("Successful!", "Employer has been accepted.", "success");
+							App.handleLoadPage(window.location.hash);
+						}
+						else{
+							swal("Fatal Error!", "There was an Unexpected Error during the process.", "error");
+							console.log(data);
+						}
+					});
+				}
+
+	    	});
+	    },
         posting:function(){
 			var content = "";
 			var ajaxData="";
 			var ajax = system.html('../assets/harmony/Process.php?get-jobsPosts');
 			ajax.done(function(data){
 				ajax = JSON.parse(ajax.responseText);
-				console.log(data);
+				// console.log(data);
 			})
 			if(ajaxData.length>0){
 				var content = "<div class='card'><div class='card-content'><table class='table table-striped' id='table_jobs'>"+
@@ -559,7 +600,7 @@ var jobs = function(){
 								"		</tr>"+
 								"	</thead>"+
 								"</table></div></div>";
-// console.log(data);
+console.log(data);
 				$("#job-posts").html(content);
 
 				$('#table_jobs').DataTable({
@@ -900,11 +941,11 @@ var jobs = function(){
 					var ajax = system.do_ajax('../assets/harmony/Process.php?do-postJob',data);
 					ajax.success(function(data){
 						if(data == 1){
-							toast("Successful!", "Employer has been accepted.", "success");
+							Materialize.toast("Successful!", "Employer has been accepted.", "success");
 							App.handleLoadPage(window.location.hash);
 						}
 						else{
-							toast("Fatal Error!", "There was an Unexpected Error during the process.", "error");
+							Materialize.toast("Fatal Error!", "There was an Unexpected Error during the process.", "error");
 							console.log(data);
 						}
 					});
