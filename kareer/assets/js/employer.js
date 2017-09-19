@@ -30,7 +30,7 @@ var employer = function () {
 						picture = "../assets/img/"+data[0][9];					
 					}
 					else{
-						picture = system.get_apr(data[0][9]);					
+						picture =" system.get_apr(data[0][9]);"					
 					}
 				}
 				if(data[0][5] != "")
@@ -140,7 +140,7 @@ var employer = function () {
 				// 		}
 				// 		else{
 				//     		var newdata = [completiondata,data[0][0]];
-				// 			var ajax = system.ajax('../assets/harmony/Process.php?do-completeData',newdata);
+				// 			var ajax = system.do_ajax('../assets/harmony/Process.php?do-completeData',newdata);
 				// 			ajax.success(function(data){
 				// 				if(data == 1){
 				// 					toast("Successful!", "Employer's information has been saved.", "success");
@@ -263,13 +263,13 @@ var employer = function () {
 					    					var ajax = system.ajax('../assets/harmony/Process.php?update-image',[data[0][0],'employer',$image.cropper("getDataURL")]);
 											ajax.success(function(data){
 												if(data == 1){
-													toast("Successful!", "Employer's picture has been updated.", "success");
+													Materialize.toast("Successful!", "Employer's picture has been updated.", "success");
 													system.close_modal();
 													App.handleLoadPage(window.location.hash);
 												}
 												else{
-													toast("Fatal Error!", "There was an Unexpected Error during the process.", "error");
-													console.log(data);
+													Materialize.toast("Fatal Error!", "There was an Unexpected Error during the process.", "error");
+													// console.log(data);
 												}
 											});
 							            });
@@ -476,11 +476,11 @@ var jobs = function(){
 		    		});
 
 		    		fields.push(skills);
-		    		var data = sys.get_account();
+		    		var data = system.get_account();
 		    		data = JSON.parse(data);
 		    		data = [data[0][0],fields]
 
-					var ajax = system.ajax('../assets/harmony/Process.php?do-postJob',data);
+					var ajax = system.do_ajax('../assets/harmony/Process.php?do-postJob',data);
 					ajax.success(function(data){
 						if(data == 1){
 							swal("Successful!", "Employer has been accepted.", "success");
@@ -560,7 +560,7 @@ var jobs = function(){
 
 							            	details += "<div class='vertical-timeline-icon blue-bg pull-right' style='position: relative;width: 32px !important;height: 32px !important;border: 3px solid #1C84C6;'>"+
 														"    <h3>"+count+"</h3>"+
-														"<div></div>";
+														"</div>";
 											return false;
 										}
 									});
@@ -600,7 +600,6 @@ var jobs = function(){
 								"		</tr>"+
 								"	</thead>"+
 								"</table></div></div>";
-console.log(data);
 				$("#job-posts").html(content);
 
 				$('#table_jobs').DataTable({
@@ -637,7 +636,7 @@ console.log(data);
 									$.each(full[1],function(i,v){
 										var data_applicants = JSON.parse(v[2]);
 										if(i<4){
-							            	details += "<img alt='image' class='circle' src='' style='margin-right: 5px;'>";
+							            	// details += "<img alt='image' class='img-circle' src='' style='margin-right: 5px;'>";
 							            	details += "<img alt='image' class='circle' src='"+system.get_apr(data_applicants[2])+"' style='margin-right: 5px;'>";
 										}
 										else{
@@ -646,8 +645,7 @@ console.log(data);
 											if(i>13)
 												count = 9+"+";
 
-							            	details += "<div class='vertical-timeline-icon blue-bg pull-right' style='position: relative;width: 32px !important;height: 32px !important;border: 3px solid #1C84C6;'>"+
-														"    <h3>"+count+"</h3>"+
+							            	details += "    <span class='new badge blue circle'>"+count+"</span>"+
 														"</div>";
 											return false;
 										}
@@ -755,11 +753,11 @@ console.log(data);
 			var ajaxData = JSON.parse(ajax.responseText);
 			var applicant = "No Applicant.", vacancy_id = ajaxData[0][0][0];
 			var applicationexpiry = new Date(ajaxData[0][0][3]), now = new Date();
-			var status = "<span class='label label-primary'>Active</span>";
+			var status = "<span class='new badge blue'>Active</span>";
 			var application_content = "";
 
 			if(applicationexpiry<now){
-				status = "<span class='label label-danger'>Inactive</span>";
+				status = "<span class='new badge red'>Inactive</span>";
 			}
 
 			if(ajaxData[0][1].length > 0){
@@ -771,34 +769,36 @@ console.log(data);
 					if(v[5] != ""){
 						if(v[5] != "0"){
 							var applicationstatus = JSON.parse(v[5]);
-							actions = "<div class='alert alert-info' style='padding: 5px;'>"+applicationstatus[1]+"<br/><small class='prettydate'>"+applicationstatus[0]+"</small></div>";
+							actions = "<div class='new badge blue' style='padding: 5px;'>"+applicationstatus[1]+"<br/><small class='prettydate'>"+applicationstatus[0]+"</small></div>";
 						}
 						else{
-							actions = "<div class='alert alert-danger' style='padding: 5px;'>Declined</div>";
+							actions = "<div class='new badge red' style='padding: 5px;'>Declined</div>";
 						}
 					}
 
-					application_content += "<div class='feed-element'>"+
-											"    <a href='#' class='pull-left'>"+
+					application_content += "<ul class='collection'>"+
+											"    <li href='#' class='collection-item avatar'>"+
+											"	 <a>											"+
 											"        <img alt='image' class='circle' src='"+system.get_apr(data_applicants[2])+"'>"+
 											"    </a>"+
-											"    <div class='media-body'>"+
-											"       <small class='pull-right prettydate'>"+v[4]+"</small>"+
+											"    <span class='row'>"+
+											"       <small class='col s12 m6-left prettydate'>"+v[4]+"</small>"+
 											"       <strong>"+data_applicants[3][0]+", "+data_applicants[3][1]+" "+data_applicants[3][2]+"</strong><br>"+
-											"       <small class='text-muted'>"+v[4]+"</small>"+
-											"       <div class='well'>"+v[3]+"</div>"+
+											"       <small class='disabled'>"+v[4]+"</small>"+
+											"       <div class='well'>"+v[3]+"</div><br/>"+
 											"		<div class='actions'>"+actions+"</div><br/>"+
 											"		<div id='"+v[0]+"' class='panel-collapse collapse' aria-expanded='false' style='height: 0px;'>"+
 											"		    <textarea class='form-control input-sm employer_interview' placeholder='Say something about your invitation for interview' row='3' style='width:100%;max-width:100%;'></textarea>"+
-											"		    <span class='pull-right desc_stringCounter'></span>"+
+											"		    <span class='right desc_stringCounter'></span>"+
 											"		    <form role='form' class='form-inline form_interview'>"+
 											"		        <input name='field_interview' type='text' placeholder='Description' class='form-control input-sm hidden'><br/>"+
-											"		        <a data-id='"+v[0]+"' data-cmd='interview' class='btn btn-sm btn-success btn-xs disabled'>Submit</a>"+
+											"		        <a data-id='"+v[0]+"' data-cmd='interview' class='btn waves-effect waves-light ' type='submit' name='action'>Submit <i class='material-icons right'>send</i></a>"+
 											"		    </form>"+
 											"		</div>"+
-											"		</div>"+											
-											"    </div>"+
-											"</div>";
+											"		</div>"+
+											"	</span>	"+											
+											"    </li>"+
+											"</ul>";
 				});
 				applicant = ajaxData[0][1].length;
 			}
@@ -830,6 +830,36 @@ console.log(data);
 	        		$("#"+data+" input[name='field_interview']").val($(this).val());  
 	        	});
 
+        	$("#employer_description").keyup(function(){
+                system.StringCounter($(this).val(),$("#desc_stringCounter"),1000);
+                if($(this).val().length > 1000){
+                	$("#btn_submitApplication").addClass('disabled');
+        			system.errorNotification('Notice','Description must only contain 1000 characters.');
+                }
+                else{
+                	$("#btn_submitApplication").removeClass('disabled');
+                }
+        		$("#field_application").val($(this).val());    
+        	});
+
+			$("#btn_submitApplication").click(function(){
+				var applicant_data = [data[0][0],data[0][1],data[0][4],data[0][5]];
+				var senddata = [applicant_data,vacancy_id,$("#field_application").val()];
+				var ajax = system.ajax('../assets/harmony/Process.php?do-savejob',senddata);
+				var ajaxData = JSON.parse(ajax.responseText);
+				ajax.success(function(data){
+					if(data == 1){
+						swal("Successful!", "Your picture has been updated.", "success");
+						system.close_modal();
+						App.handleLoadPage(window.location.hash);
+					}
+					else{
+						swal("Fatal Error!", "There was an Unexpected Error during the process.", "error");
+						console.log(data);
+					}
+				});
+			});
+
 				$("#"+data+" a[data-cmd='interview']").click(function(){
 					var content = [$(this).data('id'),$("#"+data+" input[name='field_interview']").val()];
 					var ajax = system.ajax('../assets/harmony/Process.php?do-inviteInterview',content);
@@ -837,7 +867,7 @@ console.log(data);
 					ajax.success(function(data){
 						if(data == 1){
 							Materialize.toast("Successful!", "", "success");
-							system.close_modalLarge();
+							system.close_modal();
 							App.handleLoadPage(window.location.hash);
 						}
 						else{
@@ -851,7 +881,7 @@ console.log(data);
 			$("a[data-cmd]").click(function(){
 				var data = [$(this).data('cmd'),$(this).data('id')];
 				if(data[0] == 'decline'){
-				    Materialize.toast({
+				    swal({
 				        title: "Are you sure you want to decline this applicant?",
 				        text: "",
 				        type: "warning",
@@ -864,12 +894,12 @@ console.log(data);
 						var ajaxData = JSON.parse(ajax.responseText);
 						ajax.success(function(data){
 							if(data == 1){
-								Materialize.toast("Successful!", "", "success");
-								system.close_modalLarge();
+								swal("Successful!", "", "success");
+								system.close_modal();
 								App.handleLoadPage(window.location.hash);
 							}
 							else{
-								Materialize.toast("Fatal Error!", "There was an Unexpected Error during the process.", "error");
+								swal("Fatal Error!", "There was an Unexpected Error during the process.", "error");
 								console.log(data);
 							}
 						});
@@ -937,7 +967,7 @@ console.log(data);
 		    		data = JSON.parse(data);
 		    		data = [data[0][0],fields]
 
-					var ajax = system.ajax('../assets/harmony/Process.php?do-postJob',data);
+					var ajax = system.do_ajax('../assets/harmony/Process.php?do-postJob',data);
 					ajax.success(function(data){
 						if(data == 1){
 							Materialize.toast("Successful!", "Employer has been accepted.", "success");
@@ -1085,10 +1115,10 @@ var applicant = function(){
 								if(imageData[imageData.length-1]!='apr')
 									picture = "../assets/img/"+data[0][6];					
 								else
-									picture = sys.get_apr(data[0][6]);
+									picture = system.get_apr(data[0][6]);
 							}
 
-
+//asdsdd
 							if(data[0][8] != "")
 								description = data[0][8];    			
 							if(data[0][9] != "")
@@ -1115,13 +1145,13 @@ var applicant = function(){
 									ajax.success(function(data){
 										console.log(data);
 										if(data == 1){
-											swal("Successful!", "Applicant has been deactivated.", "success");
+											Materialize.toast("Successful!", "Applicant has been deactivated.", "success");
 											sys.clearForm();
 											_this.list_applicant();
 											console.log(id);
 										}
 										else{
-											swal("Fatal Error!", "There was an Unexpected Error during the process.", "error");
+											Materialize.toast("Fatal Error!", "There was an Unexpected Error during the process.", "error");
 											console.log(data);
 										}
 									});
