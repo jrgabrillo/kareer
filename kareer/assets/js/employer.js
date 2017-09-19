@@ -30,7 +30,7 @@ var employer = function () {
 						picture = "../assets/img/"+data[0][9];					
 					}
 					else{
-						picture = "" // mainProcess.get_apr(data[0][9]);					
+						picture =" mainProcess.get_apr(data[0][9]);"					
 					}
 				}
 				if(data[0][5] != "")
@@ -208,7 +208,7 @@ var employer = function () {
 				if(imageData[imageData.length-1]!='apr')
 					picture = "../assets/img/"+data[0][9];					
 				else
-					picture = "" //mainProcess.get_apr(data[0][9]);					
+					picture = mainProcess.get_apr(data[0][9]);					
 			}
 
 	    	$("a[data-cmd='update_picture']").click(function(){
@@ -263,13 +263,13 @@ var employer = function () {
 					    					var ajax = system.ajax('../assets/harmony/Process.php?update-image',[data[0][0],'employer',$image.cropper("getDataURL")]);
 											ajax.success(function(data){
 												if(data == 1){
-													toast("Successful!", "Employer's picture has been updated.", "success");
-													system.close_modalLarge();
+													Materialize.toast("Successful!", "Employer's picture has been updated.", "success");
+													system.close_modal();
 													App.handleLoadPage(window.location.hash);
 												}
 												else{
-													toast("Fatal Error!", "There was an Unexpected Error during the process.", "error");
-													console.log(data);
+													Materialize.toast("Fatal Error!", "There was an Unexpected Error during the process.", "error");
+													// console.log(data);
 												}
 											});
 							            });
@@ -550,7 +550,7 @@ var jobs = function(){
 									$.each(full[1],function(i,v){
 										var data_applicants = JSON.parse(v[2]);
 										if(i<4){
-							            	details += "<img alt='image' class='img-circle' src='"+mainProcess.get_apr(data_applicants[2])+"' style='margin-right: 5px;'>";
+							            	details += "<img alt='image' class='circle' src='"+mainProcess.get_apr(data_applicants[2])+"' style='margin-right: 5px;'>";
 										}
 										else{
 											var count = full[1].length-i;
@@ -637,8 +637,8 @@ console.log(data);
 									$.each(full[1],function(i,v){
 										var data_applicants = JSON.parse(v[2]);
 										if(i<4){
-							            	details += "<img alt='image' class='img-circle' src='' style='margin-right: 5px;'>";
-							            	// details += "<img alt='image' class='img-circle' src='"+mainProcess.get_apr(data_applicants[2])+"' style='margin-right: 5px;'>";
+							            	// details += "<img alt='image' class='img-circle' src='' style='margin-right: 5px;'>";
+							            	details += "<img alt='image' class='circle' src='"+mainProcess.get_apr(data_applicants[2])+"' style='margin-right: 5px;'>";
 										}
 										else{
 											var count = full[1].length-i;
@@ -646,8 +646,7 @@ console.log(data);
 											if(i>13)
 												count = 9+"+";
 
-							            	details += "<div class='vertical-timeline-icon blue-bg pull-right' style='position: relative;width: 32px !important;height: 32px !important;border: 3px solid #1C84C6;'>"+
-														"    <h3>"+count+"</h3>"+
+							            	details += "    <span class='new badge blue circle'>"+count+"</span>"+
 														"</div>";
 											return false;
 										}
@@ -779,22 +778,22 @@ console.log(data);
 					}
 
 					application_content += "<div class='feed-element'>"+
-											"    <a href='#' class='pull-left'>"+
-											// "        <img alt='image' class='img-circle' src='"+mainProcess.get_apr(data_applicants[2])+"'>"+
-											"        <img alt='image' class='img-circle' src=''>"+
+											"    <a href='#' class='left'>"+
+											"        <img alt='image' class='circle' src='"+mainProcess.get_apr(data_applicants[2])+"'>"+
+											// "        <img alt='image' class='img-circle' src=''>"+
 											"    </a>"+
-											"    <div class='media-body'>"+
-											"       <small class='pull-right prettydate'>"+v[4]+"</small>"+
+											"    <div class='media-body-row'>"+
+											"       <small class='col s12 m6-left prettydate'>"+v[4]+"</small>"+
 											"       <strong>"+data_applicants[3][0]+", "+data_applicants[3][1]+" "+data_applicants[3][2]+"</strong><br>"+
-											"       <small class='text-muted'>"+v[4]+"</small>"+
+											"       <small class='disabled'>"+v[4]+"</small>"+
 											"       <div class='well'>"+v[3]+"</div>"+
 											"		<div class='actions'>"+actions+"</div><br/>"+
 											"		<div id='"+v[0]+"' class='panel-collapse collapse' aria-expanded='false' style='height: 0px;'>"+
 											"		    <textarea class='form-control input-sm employer_interview' placeholder='Say something about your invitation for interview' row='3' style='width:100%;max-width:100%;'></textarea>"+
-											"		    <span class='pull-right desc_stringCounter'></span>"+
+											"		    <span class='right desc_stringCounter'></span>"+
 											"		    <form role='form' class='form-inline form_interview'>"+
 											"		        <input name='field_interview' type='text' placeholder='Description' class='form-control input-sm hidden'><br/>"+
-											"		        <a data-id='"+v[0]+"' data-cmd='interview' class='btn btn-sm btn-success btn-xs disabled'>Submit</a>"+
+											"		        <a data-id='"+v[0]+"' data-cmd='interview' class='btn waves-effect waves-light ' type='submit' name='action'>Submit <i class='material-icons right'>send</i></a>"+
 											"		    </form>"+
 											"		</div>"+
 											"		</div>"+											
@@ -833,12 +832,12 @@ console.log(data);
 
 				$("#"+data+" a[data-cmd='interview']").click(function(){
 					var content = [$(this).data('id'),$("#"+data+" input[name='field_interview']").val()];
-					var ajax = system.do_ajax('../assets/harmony/Process.php?do-inviteInterview',content);
+					var ajax = system.ajax('../assets/harmony/Process.php?do-inviteInterview',content);
 					var ajaxData = JSON.parse(ajax.responseText);
 					ajax.success(function(data){
 						if(data == 1){
 							Materialize.toast("Successful!", "", "success");
-							system.close_modalLarge();
+							system.close_modal();
 							App.handleLoadPage(window.location.hash);
 						}
 						else{
@@ -861,12 +860,12 @@ console.log(data);
 				        confirmButtonText: "Confirm",
 				        closeOnConfirm: false
 				    }, function () {
-						var ajax = system.do_ajax('../assets/harmony/Process.php?do-decline',data[1]);
+						var ajax = system.ajax('../assets/harmony/Process.php?do-decline',data[1]);
 						var ajaxData = JSON.parse(ajax.responseText);
 						ajax.success(function(data){
 							if(data == 1){
 								Materialize.toast("Successful!", "", "success");
-								system.close_modalLarge();
+								system.close_modal();
 								App.handleLoadPage(window.location.hash);
 							}
 							else{
@@ -1401,7 +1400,7 @@ var mainProcess = function () {
 				picture = data[1];
 		},
 		get_apr:function(image){
-			var ajax = system.do_ajax('../assets/img/'+image,'');
+			var ajax = system.ajax('../assets/img/'+image,'');
 			return ajax.responseText;
 		},
 		get_aprhome:function(image){
@@ -1878,7 +1877,7 @@ var mainProcess = function () {
 									$.each(full[1],function(i,v){
 										var data_applicants = JSON.parse(v[2]);
 										if(i<4){
-							            	details += "<img alt='image' class='img-circle' src='"+mainProcess.get_aprhome('assets/img/'+data_applicants[2])+"' style='margin-right: 5px;'>";
+							            	details += "<img alt='image' class='circle' src='"+mainProcess.get_apr('assets/img/'+data_applicants[2])+"' style='margin-right: 5px;'>";
 										}
 										else{
 											var count = full[1].length-i;
