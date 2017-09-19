@@ -454,8 +454,106 @@ var employer = function () {
 var jobs = function(){
 	"use strict";
 	return {
+<<<<<<< HEAD
+   //      posting:function(){
+			// var content = "";
+			// var ajaxData="";
+			// var ajax = system.html('../assets/harmony/Process.php?get-jobsPosts');
+			// ajax.done(function(data){
+			// 	ajax = JSON.parse(ajax.responseText);
+			// 	console.log(ajaxData);
+			// })
+			// if(ajaxData.length>0){
+			// 	var content = "<div class='card'><div class='card-content'><table class='table table-striped' id='table_jobs'>"+
+			// 					"	<thead>"+
+			// 					"		<tr>"+
+			// 					"			<th width='5%'>Status</th>"+
+			// 					"			<th width='50%'>Job</th>"+
+			// 					"			<th width='30%'>Applicants</th>"+
+			// 					"			<th width='15%'>Options</th>"+
+			// 					"		</tr>"+
+			// 					"	</thead>"+
+			// 					"</table></div></div>";
+			// 	$("#job-posts").html(content);
+
+			// 	$('#table_jobs').DataTable({
+			// 	    data: ajaxData,
+			// 	    sort: false,
+			// 		"columnDefs": [
+			// 			{ className: "project-status", "targets": [ 0 ] },
+			// 			{ className: "project-title", "targets": [ 1 ] },
+			// 			{ className: "project-people", "targets": [ 2 ] },
+			// 			{ className: "project-actions", "targets": [ 3 ] }
+			// 		],
+			// 	    columns: [
+			// 	        {data: "",
+			// 	            render: function ( data, type, full ){
+			// 					var status = "<span class='label label-primary'>Active</span>";
+			// 					var applicationexpiry = new Date(full[0][3]), now = new Date();
+
+			// 					if(applicationexpiry<now){
+			// 						status = "<span class='label label-danger'>Inactive</span>";
+			// 					}
+			// 	                return status;
+			// 	            }
+			// 	        },
+			// 	        {data: "",
+			// 	            render: function ( data, type, full ){
+			// 	            	var details = "<a>"+full[0][4]+"</a><br><small>"+full[0][2]+"</small><br/>";
+			// 	                return details;
+			// 	            }
+			// 	        },
+			// 	        {data: "",
+			// 	            render: function ( data, type, full ){
+			// 	            	var details = "";
+			// 					if(full[1].length>0){
+			// 						$.each(full[1],function(i,v){
+			// 							var data_applicants = JSON.parse(v[2]);
+			// 							if(i<4){
+			// 				            	details += "<img alt='image' class='img-circle' src='"+mainProcess.get_apr(data_applicants[2])+"' style='margin-right: 5px;'>";
+			// 							}
+			// 							else{
+			// 								var count = full[1].length-i;
+			// 								console.log(i);
+			// 								if(i>13)
+			// 									count = 9+"+";
+
+			// 				            	details += "<div class='vertical-timeline-icon blue-bg pull-right' style='position: relative;width: 32px !important;height: 32px !important;border: 3px solid #1C84C6;'>"+
+			// 											"    <h3>"+count+"</h3>"+
+			// 											"</div>";
+			// 								return false;
+			// 							}
+			// 						});
+			// 					}
+			// 					else{
+			// 						details = "No Applicant";
+			// 					}
+			// 	                return details;
+			// 	            }
+			// 	        },
+			// 	        {data: "",
+			// 	            render: function ( data, type, full ){
+			// 	            	var details = "<a href='#cmd=index;content=job;id="+full[0][0]+"' class='btn btn-white btn-xs btn-block'>Details</a>";
+			// 	                return details;
+			// 	            }
+			// 	        },
+			// 	    ]
+			// 	});
+			// }
+			// $(".prettydate").prettydate({
+			//     dateFormat: "YYYY-MM-DD hh:mm:ss"
+			// });			//ajax.success(function(data){});
+   //      },
+   		add_vacancies:function(){
+			var sys = system, validate = validation, _this = this, _apps = App;
+=======
 		add_vacancies:function(){
+<<<<<<< HEAD
 			var sys = system, validate = validation, _this = this, _apps = App, main = system;
+=======
+			var sys = system, validate = validation, _this = this, _apps = App, main = mainProcess;
+>>>>>>> 94e88e59700d402ecc1d5eb782cbd67b645948cd
+>>>>>>> 16013d4482011677fe954c79b0041aa0778310a7
 	    	$("a[data-cmd='register_applicant']").click(function(){
 	    		var data = $("#form_addVacancy").serializeArray();
 	    		var skills = [], fields = [];
@@ -474,6 +572,8 @@ var jobs = function(){
 		    			else
 		    				fields.push(v);
 		    		});
+<<<<<<< HEAD
+=======
 
 		    		fields.push(skills);
 		    		var data = system.get_account();
@@ -515,22 +615,27 @@ var jobs = function(){
 								"	</thead>"+
 								"</table></div></div>";
 				$("#job-posts").html(content);
+>>>>>>> 94e88e59700d402ecc1d5eb782cbd67b645948cd
 
-				$('#table_jobs').DataTable({
-				    data: ajaxData,
-				    sort: false,
-					"columnDefs": [
-						{ className: "project-status", "targets": [ 0 ] },
-						{ className: "project-title", "targets": [ 1 ] },
-						{ className: "project-people", "targets": [ 2 ] },
-						{ className: "project-actions", "targets": [ 3 ] }
-					],
-				    columns: [
-				        {data: "",
-				            render: function ( data, type, full ){
-								var status = "<span class='label label-primary'>Active</span>";
-								var applicationexpiry = new Date(full[0][3]), now = new Date();
+		    		fields.push(skills);
+		    		var data = sys.get_account();
+		    		data = JSON.parse(data);
+		    		data = [data[0][0],fields]
 
+<<<<<<< HEAD
+					var ajax = system.ajax('../assets/harmony/Process.php?do-postJob',data);
+					ajax.success(function(data){
+						if(data == 1){
+							swal("Successful!", "Employer has been accepted.", "success");
+							App.handleLoadPage(window.location.hash);
+						}
+						else{
+							swal("Fatal Error!", "There was an Unexpected Error during the process.", "error");
+							console.log(data);
+						}
+					});
+				}
+=======
 								if(applicationexpiry<now){
 									status = "<span class='label label-danger'>Inactive</span>";
 								}
@@ -557,33 +662,10 @@ var jobs = function(){
 											console.log(i);
 											if(i>13)
 												count = 9+"+";
+>>>>>>> 94e88e59700d402ecc1d5eb782cbd67b645948cd
 
-							            	details += "<div class='vertical-timeline-icon blue-bg pull-right' style='position: relative;width: 32px !important;height: 32px !important;border: 3px solid #1C84C6;'>"+
-														"    <h3>"+count+"</h3>"+
-														"</div>";
-											return false;
-										}
-									});
-								}
-								else{
-									details = "No Applicant";
-								}
-				                return details;
-				            }
-				        },
-				        {data: "",
-				            render: function ( data, type, full ){
-				            	var details = "<a href='#cmd=index;content=job;id="+full[0][0]+"' class='btn btn-white btn-xs btn-block'>Details</a>";
-				                return details;
-				            }
-				        },
-				    ]
-				});
-			}
-			$(".prettydate").prettydate({
-			    dateFormat: "YYYY-MM-DD hh:mm:ss"
-			});			//ajax.success(function(data){});
-        },
+	    	});
+	    },
         posts:function(){
     		var data = JSON.parse(employer.account());
 			var ajax = system.ajax('../assets/harmony/Process.php?get-employerJobsPosts',data[0][0]);
@@ -600,6 +682,13 @@ var jobs = function(){
 								"		</tr>"+
 								"	</thead>"+
 								"</table></div></div>";
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+=======
+console.log(data);
+>>>>>>> 94e88e59700d402ecc1d5eb782cbd67b645948cd
+>>>>>>> 16013d4482011677fe954c79b0041aa0778310a7
 				$("#job-posts").html(content);
 
 				$('#table_jobs').DataTable({
@@ -670,6 +759,8 @@ var jobs = function(){
 			    dateFormat: "YYYY-MM-DD hh:mm:ss"
 			});			//ajax.success(function(data){});
         },
+<<<<<<< HEAD
+=======
 
 // UPDATE JOB-POST STATUS
         Update_data:function(){
@@ -952,6 +1043,7 @@ var jobs = function(){
 	    	});
 			
 	    },
+>>>>>>> 94e88e59700d402ecc1d5eb782cbd67b645948cd
 	}
 }();
 
