@@ -26,7 +26,7 @@
                                         <label>Hiring Cut-off Date: <small><i>[Also job expiration date.]</i></small></label>
                                         <div class="input-group datepicker">
                                             <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
-                                            <input data-inputtype='required' name='field_date' placeholder="Date" type="text" class="prettydate">
+                                            <input data-inputtype='required' name='field_date' placeholder="Date" type="text" class="datepicker">
                                         </div>
                                     </div><br/>
                                     <div class='col s12'>
@@ -36,11 +36,10 @@
                                     <div class='col s12'>
                                         <label>Job Description: </label>
                                         <textarea data-inputtype='required' name='field_description' placeholder='Job Description' class='form-control'></textarea>
-                                    </div>
-
+                                    </div> 
                                     <!-- <div data-inputtype='required' class="input-field col s12">
                                         <textarea id="description" class="materialize-textarea" data-length="120"></textarea>
-                                        <label for="description">Description</label>
+                                        <label name='field_description'>Description</label>
                                     </div> -->
                                     <br/>
                                 </div>
@@ -48,7 +47,7 @@
                             <div>
                                 <div class='form-group'>  
                                     <div class='col s12'>
-                                        <button class='btn btn-sm btn-block button_success' data-cmd='add_vacancies' >Sign Up</button>  
+                                        <button data-cmd='register_applicant'  class="btn btn-sm btn-block button_success" >Sign Up</button>  
                                     </div>
                                 </div>
                             </div>
@@ -61,7 +60,10 @@
 </div>
 <!-- <script src="../assets/js/froala_editor.pkgd.min.js"></script>
  --><script type="text/javascript">
-    jobs.add_vacancies();
+    
+    jobs.posting();
+    jobs.add();
+    // jobs.add_vacancies();
 // ("#field_skills").tagit({
 //     fieldName: "field_requiredSkills",
 //     allowSpaces:true,
@@ -85,7 +87,14 @@
 //     numberOfMonths: 3,
 //     format: "mm/dd/yyyy"
 // });
-    
+      $('.datepicker').pickadate({
+    selectMonths: true, // Creates a dropdown to control month
+    selectYears: 15, // Creates a dropdown of 15 years to control year,
+    today: 'Today',
+    clear: 'Clear',
+    close: 'Ok',
+    closeOnSelect: false // Close upon selecting a date,
+  });
     // system.froala("textarea");
 </script>
 
