@@ -94,12 +94,9 @@ $Functions = new DatabaseClasses;
         }
         print_r(json_encode($result));
     }
-
     if (isset($_GET['get-account'])){
         $session = $_SESSION['kareer7836'];
-
         $query = $Functions->PDO("SELECT * FROM tbl_employer  WHERE email = '{$session[0]}' AND password = '{$session[1]}'");
-
         if(count($query)==0){
             $query = $Functions->PDO("SELECT * FROM tbl_admin  WHERE username = '{$session[0]}' AND password = '{$session[1]}'");
             if(count($query)==0){
@@ -113,9 +110,7 @@ $Functions = new DatabaseClasses;
             print_r(json_encode($query));
         }
     }
-
     
-
     if(isset($_GET['update-image'])){
         if(isset($_POST['data'])){
             $data = $_POST['data'];
@@ -196,7 +191,7 @@ $Functions = new DatabaseClasses;
     }
     if (isset($_GET['get-allStudent'])){
         if(isset($_POST["data"])){
-            $QueryApplicant = $Functions->PDO_SQL("SELECT * FROM tbl_student ORDER BY status DESC");
+            $QueryApplicant = $Functions->PDO("SELECT * FROM tbl_student ORDER BY status DESC");
             print_r(json_encode($QueryApplicant));
         }
         else{
@@ -206,22 +201,17 @@ $Functions = new DatabaseClasses;
     if(isset($_GET['do-getApplications'])){
         if(isset($_POST["data"])){
             $data = $_POST['data'];
-            print_r($data);
             $result = [];
             $Query = $Functions->PDO("SELECT * FROM tbl_application ORDER BY date DESC");
-            // print_r($Query);
-            
             foreach ($Query as $key => $value) {
                 $applicant = json_decode($value[2]);
-                // print_r($applicant);
                 if($data == $applicant[0]){
                     $QueryVacancy = $Functions->PDO("SELECT * FROM tbl_vacancies WHERE id = '{$value[1]}'");
                     $QueryEmployer = $Functions->PDO("SELECT * FROM tbl_employer WHERE id = '{$QueryVacancy[0][1]}'");
                     $result[] = [$value,$QueryEmployer[0],$QueryVacancy[0]];
-                // } print_r($result);
+                }
             }
             print_r(json_encode($result));
-
         }
         else{
             echo "Hacker";
@@ -757,7 +747,7 @@ $Functions = new DatabaseClasses;
         }
     } 
     if(isset($_GET['do-inviteInterview'])){
-    if(isset($_POST['data'])){
+        if(isset($_POST['data'])){
             $data = $_POST['data'];
             $date = $Functions->PDO_DateAndTime();
             $val = json_encode([$date,$data[1]]);
