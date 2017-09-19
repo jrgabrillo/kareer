@@ -859,6 +859,7 @@ var jobs = function(){
 					}
 				});
 			});
+        },
 
 				$("#"+data+" a[data-cmd='interview']").click(function(){
 					var content = [$(this).data('id'),$("#"+data+" input[name='field_interview']").val()];
