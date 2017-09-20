@@ -163,7 +163,7 @@ $Functions = new DatabaseClasses;
             $result = [];
             $Query = $Functions->PDO("SELECT * FROM tbl_vacancies WHERE id = '{$data}'");
             $Query2 = $Functions->PDO("SELECT * FROM tbl_application WHERE vacany_id = '{$Query[0][0]}'");
-            $Query3 = $Functions->PDO("SELECT * FROM tbl_employer WHERE id = '{$Query[0][1]}'");
+            $Query3 = $Functions->PDO("SELECT * FROM tbl_vacancies WHERE id = '{$Query[0][1]}'");
             $result[] = [$Query[0],$Query2,$Query3[0]];
             print_r(json_encode($result));
         }
@@ -189,7 +189,38 @@ $Functions = new DatabaseClasses;
             echo "Hacker";
         }
     }
-    if(isset($_GET['do-getApplications'])){
+    if(isset($_GET['do-getActivities'])){
+        if(isset($_POST["data"])){
+            $data = $_POST['data'];
+            $result = [];
+            $Query = $Functions->PDO_SQL("SELECT * FROM tbl_application ORDER BY date DESC");
+            foreach ($Query as $key => $value) {
+                $applicant = json_decode($value[1]);
+                if($data == $applicant[0]){
+                    $QueryVacancy = $Functions->PDO_SQL("SELECT * FROM tbl_vacancies WHERE id = '{$value[1]}'");
+                    $QueryEmployer = $Functions->PDO_SQL("SELECT * FROM tbl_employer WHERE id = '{$QueryVacancy[0][1]}'");
+                    $result[] = [$value,$QueryEmployer[0],$QueryVacancy[0]];
+                }
+            }
+            print_r(json_encode($result));
+        }
+        else{
+            echo "Hacker";
+        }
+    }
+    if(isset($_GET['do-getApplications'])){  
+        //  if(isset($_POST["data"])){
+        //     $data = $_POST['data'];
+        //     $result = [];
+        //     $Query = $Functions->PDO("SELECT * FROM tbl_student WHERE id = '{$data}'");
+        //     $Query2 = $Functions->PDO("SELECT * FROM tbl_application WHERE vacany_id = '{$Query[0][0]}'");
+        //     $Query3 = $Functions->PDO("SELECT * FROM tbl_employer WHERE id = '{$Query[0][0]}'");
+        //     $result[] = [$Query,$Query2,$Query3];
+        //     print_r(json_encode($result));
+        // }
+        // else{
+        //     echo "Hacker";
+        // }
         if(isset($_POST["data"])){
             $data = $_POST['data'];
             $result = [];
