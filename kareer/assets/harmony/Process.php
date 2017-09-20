@@ -12,11 +12,9 @@ $Functions = new DatabaseClasses;
             echo "Hacker";
         }
     }
-
     if(isset($_GET['check-login'])){
         print_r(json_encode($_SESSION['kareer7836']));
     }
-
     if(isset($_GET['validateEmail'])){
         $data = $_POST['data'];
         $query = $function->PDO(true,"SELECT count(*) FROM tbl_applicant WHERE email = '{$data}'");
@@ -33,7 +31,6 @@ $Functions = new DatabaseClasses;
 
         $result = mail($data[0],$subject,$message,$headers);
     }
-
     /*login*/
     if (isset($_GET['login'])){
         $data = $_POST['data']; $flag = 0;
@@ -55,7 +52,6 @@ $Functions = new DatabaseClasses;
             echo 1;
         }
     }
-
     /*getters*/
     if(isset($_GET['get-session'])){
         if(isset($_SESSION['kareer7836']))
@@ -63,7 +59,6 @@ $Functions = new DatabaseClasses;
         else
             print_r(0);
     }
-
     if(isset($_GET['get-jobsPosts'])){
         $data = $_POST['data'];
         $query = $Functions->PDO("SELECT * FROM tbl_vacancies ORDER BY date DESC");
@@ -94,7 +89,6 @@ $Functions = new DatabaseClasses;
         }
         print_r(json_encode($result));
     }
-
     if (isset($_GET['get-account'])){
         $session = $_SESSION['kareer7836'];
         $query = $Functions->PDO("SELECT * FROM tbl_employer  WHERE email = '{$session[0]}' AND password = '{$session[1]}'");
@@ -112,9 +106,6 @@ $Functions = new DatabaseClasses;
             print_r(json_encode($query));
         }
     }
-
-    
-
     if(isset($_GET['update-image'])){
         if(isset($_POST['data'])){
             $data = $_POST['data'];
@@ -149,7 +140,6 @@ $Functions = new DatabaseClasses;
             echo "Hacker";
         }
     }
-
     if(isset($_GET['get-jobByID'])){
         $data = $_POST['data'];
         $result = [];
@@ -159,7 +149,6 @@ $Functions = new DatabaseClasses;
         $result[] = [$Query[0],$Query2,$Query3[0]];
         print_r(json_encode($result));
     }
-
     if (isset($_GET['get-allEmployer'])){
         if(isset($_POST["data"])){
             $QueryEmployer = $Functions->PDO("SELECT * FROM tbl_employer ORDER BY status DESC");
@@ -169,7 +158,6 @@ $Functions = new DatabaseClasses;
             echo "Hacker";
         }
     }
-
     if(isset($_GET['get-job'])){
         if(isset($_POST["data"])){
             $data = $_POST['data'];
@@ -216,12 +204,10 @@ $Functions = new DatabaseClasses;
             echo "Hacker";
         }
     }
-
-    
     /* setters*/
     if (isset($_GET['set-postJob'])) {
         $data = $_POST['data'];
-        $id = $Functions->PDO_IDGenerator('tbl_vacancies','id');
+        $id = $Functions->PDO_IDGenerate('tbl_vacancies','id');
         $date = $Functions->PDO_DateAndTime();
         $data = $_POST['data'];
 
@@ -239,6 +225,7 @@ $Functions = new DatabaseClasses;
             print_r($Data);
         }
     }
+    
     if (isset($_GET['do-postJob'])) {
         if(isset($_POST['data'])){
             $id = $Functions->PDO_IDGenerator('tbl_vacancies','id');
@@ -580,8 +567,7 @@ $Functions = new DatabaseClasses;
                     $Data = $query->errorInfo();
                     print_r($Data);
                 }
-            }
-            
+            }         
     }
     if (isset($_GET['set-declinePendingEmployer'])){
         if(isset($_POST["data"])){
@@ -746,6 +732,7 @@ $Functions = new DatabaseClasses;
         }
     } 
     if(isset($_GET['do-inviteInterview'])){
+
     if(isset($_POST['data'])){
             $data = $_POST['data'];
             $date = $Functions->PDO_DateAndTime();
