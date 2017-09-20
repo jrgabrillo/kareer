@@ -455,11 +455,12 @@ var jobs = function(){
 	"use strict";
 	return {
 		add_vacancies:function(){
-			var sys = system, validate = validation, _this = this, _apps = App, main = system;
-	    	$("a[data-cmd='register_applicant']").click(function(){
+			var sys = system, validate = validation, _this = this, _apps = App;
+	    	$("a[data-cmd='add_Vacancies']").click(function(){
 	    		var data = $("#form_addVacancy").serializeArray();
 	    		var skills = [], fields = [];
 				var validated = validate.validate(data);
+				console.log(data);
 				if(validated[0]>0){
 					var message = "";
 					$.each(validated[1],function(i,v){
@@ -476,12 +477,13 @@ var jobs = function(){
 		    		});
 
 		    		fields.push(skills);
-		    		var data = system.get_account();
+		    		var data = sys.get_account();
 		    		data = JSON.parse(data);
 		    		data = [data[0][0],fields]
 
-					var ajax = system.do_ajax('../assets/harmony/Process.php?do-postJob',data);
+					var ajax = sys.ajax('../assets/harmony/Process.php?do-postJob',data);
 					ajax.success(function(data){
+						console.log(ajax);
 						if(data == 1){
 							swal("Successful!", "Employer has been accepted.", "success");
 							App.handleLoadPage(window.location.hash);
@@ -501,7 +503,7 @@ var jobs = function(){
 			var ajax = system.html('../assets/harmony/Process.php?get-jobsPosts');
 			ajax.done(function(data){
 				ajax = JSON.parse(ajax.responseText);
-				// console.log(data);
+				console.log(data);
 			})
 			if(ajaxData.length>0){
 				var content = "<div class='card'><div class='card-content'><table class='table table-striped' id='table_jobs'>"+
@@ -580,9 +582,9 @@ var jobs = function(){
 				    ]
 				});
 			}
-			$(".prettydate").prettydate({
+			$(".datepicker").datepicker({
 			    dateFormat: "YYYY-MM-DD hh:mm:ss"
-			});			//ajax.success(function(data){});
+			});			ajax.success(function(data){});
         },
         posts:function(){
     		var data = JSON.parse(employer.account());
@@ -1004,7 +1006,6 @@ var applicant = function(){
 						else
 				            arrActive.push(v);
 					});
-
 					if(arrActive.length>0){
 						var content = "<table class='table table-bordered' id='table_activeApplicant'>"+
 									"	<thead>"+

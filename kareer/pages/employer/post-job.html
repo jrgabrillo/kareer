@@ -26,29 +26,29 @@
                                         <label>Hiring Cut-off Date: <small><i>[Also job expiration date.]</i></small></label>
                                         <div class="input-group datepicker">
                                             <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
-                                            <input data-inputtype='required' name='field_date' placeholder="Date" type="text" class="prettydate">
+                                            <input data-inputtype='required' name='field_date' placeholder="Date" type="text" class="datepicker">
                                         </div>
                                     </div><br/>
                                     <div class='col s12'>
                                         <label>Skills Needed: <small><i>You can add up-to 5 skills</i></small></label>
                                         <input data-inputtype='required' name='field_skills' placeholder="skills" type="text" class="form-control">
                                     </div><br/>
-                                    <div class='col s12'>
+<!--                                     <div class='col s12'>
                                         <label>Job Description: </label>
                                         <textarea data-inputtype='required' name='field_description' placeholder='Job Description' class='form-control'></textarea>
-                                    </div>
-
-                                    <!-- <div data-inputtype='required' class="input-field col s12">
-                                        <textarea id="description" class="materialize-textarea" data-length="120"></textarea>
-                                        <label for="description">Description</label>
                                     </div> -->
+
+                                    <div data-inputtype='required' class="input-field col s12">
+                                        <textarea id="description" class="materialize-textarea" data-length="120"></textarea>
+                                        <label name='field_description'>Description</label>
+                                    </div>
                                     <br/>
                                 </div>
                             </div>
                             <div>
                                 <div class='form-group'>  
                                     <div class='col s12'>
-                                        <button class='btn btn-sm btn-block button_success' data-cmd='add_vacancies' >Sign Up</button>  
+                                        <button class='btn btn-sm btn-block button_success' data-cmd='add_Vacancies' >Sign Up</button>  
                                     </div>
                                 </div>
                             </div>
@@ -85,7 +85,14 @@
 //     numberOfMonths: 3,
 //     format: "mm/dd/yyyy"
 // });
-    
+      $('.datepicker').pickadate({
+    selectMonths: true, // Creates a dropdown to control month
+    selectYears: 15, // Creates a dropdown of 15 years to control year,
+    today: 'Today',
+    clear: 'Clear',
+    close: 'Ok',
+    closeOnSelect: false // Close upon selecting a date,
+  });
     // system.froala("textarea");
 </script>
 
