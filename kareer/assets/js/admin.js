@@ -8,6 +8,7 @@ var admin = function () {
 				employer.list();
 				applicant.list_student();
 				admin.jobposting();
+				applicant.activities();
 			}
 		},
 		display:function(){
@@ -665,7 +666,8 @@ var admin = function () {
 					}
 				});
 			})
-        }      
+        }
+              
     };
 }();
 
@@ -1978,9 +1980,9 @@ var applicant = function(){
 								});
 							});	
 						}
-					});
+					});			
 				}
-			});
+			});;
 	    },
 	    addApplicant: function(){
 			$("#add_applicant").on('click',function(){
@@ -2042,8 +2044,8 @@ var applicant = function(){
 					});
 				});
 			})
-		}, 
-		application:function(){
+		},
+		activities:function(){
     		var ajax = system.ajax('../assets/harmony/Process.php?do-getApplications',"");
 			var ajaxData = JSON.parse(ajax.responseText);
 			console.log(ajaxData);
@@ -2061,22 +2063,22 @@ var applicant = function(){
 						"            <div class='col-lg-3 date'>"+
 						"                <i class='fa fa-briefcase'></i>"+v[0][4]+"<br><small class='text-navy prettydate'>"+v[0][4]+"</small>"+
 						"            </div>"+
-						"            <div class='col-lg-10 content no-top-border'>"+
-						"                <p class='m-b-xs'><a data-toggle='collapse' data-parent='#accordion' href='#"+v[0][0]+"' aria-expanded='false' class='collapsed btn btn-white btn-xs pull-right'>Show Employer's Information</a>"+
+						"            <div class='col-lg-15 content no-top-border'>"+
+						// "                <p class='m-b-xs'><a data-toggle='collapse' data-parent='#accordion' href='#"+v[0][0]+"' aria-expanded='false' class='collapsed btn btn-white btn-xs pull-right'>Show Employer's Information</a>"+
 						"                <p class='m-b-xs'><h3><strong>Job Title:</strong> "+v[2][4]+"</h3></p>"+
 						"                <p class='m-b-xs'><strong>Skills:</strong> "+$skills+"</p>"+
 						"                <p class='m-b-xs'><strong>Job Description:</strong> "+v[2][2]+"</p>"+
-						"                <div id='"+v[0][0]+"' class='panel-collapse collapse' aria-expanded='false' style='height: 0px;'>"+
-						"                	<div class='panel-body'>"+
+						// "                <div id='"+v[0][0]+"' class='panel-collapse collapse' aria-expanded='false' style='height: 0px;'>"+
+						// "                	<div class='panel-body'>"+
 						"                		<div class='hr-line-dashed'></div>"+
 						"                		<p class='m-b-xs'><strong>Company:</strong> "+v[1][5]+"</p>"+
 						"                		<p class='m-b-xs'><strong>Office:</strong> "+v[1][3]+"</p>"+
 						"                		<p class='m-b-xs'><strong>Email:</strong> "+v[1][10]+"</p>"+
 						"                		<p class='m-b-xs'><strong>Company Description:</strong> "+v[1][6]+"</p>"+
 						"                		<div class='hr-line-dashed'></div>"+
-						"                	</div>"+
-						"                </div>"+
-						"                <p class='m-b-xs'><strong>Your Application:</strong><br/><div class='well'>"+v[0][3]+"</div></p>"+
+						// "                	</div>"+
+						// "                </div>"+
+						"                <p class='m-b-xs'><strong>Applicant:</strong><br/><div class='well'>"+v[1][2]+"</div></p>"+
 						"            </div>"+
 						"        </div>"+
 						"    </div>";
@@ -2086,7 +2088,8 @@ var applicant = function(){
 			$(".prettydate").prettydate({
 			    dateFormat: "YYYY-MM-DD hh:mm:ss"
 			});
-	        },
+	    }, 
+		
 		
 	}
 
