@@ -645,7 +645,7 @@ var jobs = function(){
 										else{
 											var count = full[1].length-i;
 											console.log(i);
-											if(i>8)
+											if(i>13)
 												count = 9+"+";
 
 							            	details += "    <span class='new badge blue circle'>"+count+"</span>"+
@@ -756,14 +756,11 @@ var jobs = function(){
 			var ajaxData = JSON.parse(ajax.responseText);
 			var applicant = "No Applicant.", vacancy_id = ajaxData[0][0][0];
 			var applicationexpiry = new Date(ajaxData[0][0][3]), now = new Date();
-			var status = "<span>Active</span>";
+			var status = "<span class=' badge blue'>Active</span>";
 			var application_content = "";
 
 			if(applicationexpiry<now){
-				status = "<span>Inactive</span>";
-			}
-			if(applicationexpiry<now){
-				status = "<span>Inactive</span>";
+				status = "<span class='badge red'>Inactive</span>";
 			}
 
 			if(ajaxData[0][1].length > 0){
@@ -771,13 +768,14 @@ var jobs = function(){
 					var data_applicants = JSON.parse(v[2]);
 					var actions = "	<a class='btn btn-xs btn-danger collapsed' data-toggle='collapse' data-parent='#accordion' data-cmd='toggle-interview' data-id='"+v[0]+"' href='#"+v[0]+"' aria-expanded='false'>Invite for interview </a>"+
 								  "	<a class='btn btn-xs btn-white' data-cmd='decline' data-id='"+v[0]+"'>Decline</a>";
+
 					if(v[5] != ""){
 						if(v[5] != "0"){
 							var applicationstatus = JSON.parse(v[5]);
-							actions = "<div style='padding: 5px;'>"+applicationstatus[1]+"<br/><small class='prettydate'>"+applicationstatus[0]+"</small></div>";
+							actions = "<div class='badge blue' style='padding: 5px;'>"+applicationstatus[1]+"<br/><small class='prettydate'>"+applicationstatus[0]+"</small></div>";
 						}
 						else{
-							actions = "<div style='padding: 5px;'>Declined</div>";
+							actions = "<div class='badge red' style='padding: 5px;'>Declined</div>";
 						}
 					}
 
@@ -804,14 +802,12 @@ var jobs = function(){
 											"	</span>	"+											
 											"    </li>"+
 											"</ul>";
-
-					
-
 				});
 				applicant = ajaxData[0][1].length;
 			}
 			application_content = "<div class='feed-activity-list'>"+application_content+"</div>";
 			$('#data_info').removeClass('hidden').html(application_content);
+
 			$('#job-post #txt_jobtitle').html(ajaxData[0][0][4]);
 			$('#job-post #txt_jobstatus').html(status);
 			$('#job-post #txt_jobexpiry').html(ajaxData[0][0][3]);
@@ -937,12 +933,11 @@ var jobs = function(){
 					var _form = $(form).serializeArray();
 					var ajax = system.ajax('../assets/harmony/Process.php?set-postJob',[acount[0][0],_form]);
 					ajax.done(function(data){
+						console.log(data);
 						if(data == 1){
-							Materialize.toast('Saved.',4000);
 							system.clearForm();
-							var data = system.send_mail('renziichancornista@gmail.com,info@rnrdigitalconsultancy.com','Employer Registration',text);
+							Materialize.toast('Saved.',4000);
 							App.handleLoadPage("#cmd=index;content=post-job");
-
 						}
 						else{
 							Materialize.toast('Cannot process request.',4000);
@@ -991,7 +986,6 @@ var jobs = function(){
 
 	    	});	
 	    },
-
 	}
 }();
 
@@ -1126,6 +1120,45 @@ var applicant = function(){
 									picture = system.get_apr(data[0][6]);
 							}
 
+//asdsdd
+							if(data[0][8] != "")
+								description = data[0][8];    			
+							if(data[0][9] != "")
+								var resume = "<a href='../assets/files/"+data[0][9]+"' class='btn btn-xs btn-white'>Download and Read</a>";    			
+
+							var content = "<div class='col-md-12' style='float:none !important;'><table class='table table-bordered card-content'>"+
+										    "	<tr><td width='20%'>Name: </td><td width='80%'>"+data[0][1]+", "+data[0][2]+" "+data[0][3]+"</td><td></tr>"+
+										    "	<tr><td>Description: </td><td>"+data[0][8]+"</td></tr>"+
+										    "	<tr><td>Gender: </td><td>"+data[0][7]+"</td></tr>"+
+										    "	<tr><td>Contact Number: </td><td>"+data[0][5]+"</td></tr>"+
+										    "	<tr><td>Address: </td><td>"+data[0][4]+"</td></tr>"+
+										    "	<tr><td>Email Address: </td><td>"+data[0][10]+"</td></tr>"+
+										    "	<tr><td>Status: </td><td>"+data[0][12]+"</td></tr>"+
+										    "	<tr><td>Resume: </td><td>"+resume+"</td></tr>"+
+										  	"</table>"+
+										  	"	<div class='col-md-6'><a class='btn btn-white btn-xs btn-block' data-cmd='action_inactivateApplicant' data-id='"+data[0][0]+"'>Deactivate</a></div>"+
+							   			"</div>";
+								$("#applicant .card-content").html(content);
+
+							$("a[data-cmd='action_inactivateApplicant']").click(function(){
+								var id = $(this).data('id');
+								sys.confim("Dectivate this Applicant?",function(){
+									var ajax = sys.ajax('../assets/harmony/Process.php?set-inactivateApplicant',id);
+									ajax.success(function(data){
+										console.log(data);
+										if(data == 1){
+											Materialize.toast("Successful!", "Applicant has been deactivated.", "success");
+											sys.clearForm();
+											_this.list_applicant();
+											console.log(id);
+										}
+										else{
+											Materialize.toast("Fatal Error!", "There was an Unexpected Error during the process.", "error");
+											console.log(data);
+										}
+									});
+								});
+							});			
 						}
 						if(cmd == 'info_InactiveApplicant'){
 							var data = sys.searchJSON(arrInactive,0,id);
@@ -1251,14 +1284,14 @@ var applicant = function(){
 			var ajaxData = JSON.parse(ajax.responseText);
 			var content = "";
 			console.log(ajaxData);
-			$.each(ajaxData,function(i,v){
-				console.log(v);
-				if(v[2][5] != "null"){
-					var skills = JSON.parse(v[2][5]), $skills = "";
-					$.each(skills,function(a,b){
-						$skills += "<span class='label label-defualt'style='margin-right: 5px;'>"+b+"</span>";
-					});
-				}
+			// $.each(ajaxData,function(i,v){
+			// 	console.log(v);
+			// 	if(v[2][5] != "null"){
+			// 		var skills = JSON.parse(v[2][5]), $skills = "";
+			// 		$.each(skills,function(a,b){
+			// 			$skills += "<span class='label label-defualt'style='margin-right: 5px;'>"+b+"</span>";
+			// 		});
+			// 	}
 			// 	content += "    <div class='timeline-item'>"+
 			// 			"        <div class='row'>"+
 			// 			"            <div class='col-lg-3 date'>"+
@@ -1288,107 +1321,9 @@ var applicant = function(){
 			// $("#jobapplications").html(content);
 			// $(".prettydate").prettydate({
 			//     dateFormat: "YYYY-MM-DD hh:mm:ss"
-			});
+			// });
         },
 		
 	}
 
 }();
-
-// var jobVacancy = function(){
-// 	"use strict";
-// 	return {
-//     	status = {
-// 	    		ini:function(){
-// 	    			this.add();
-// 	    			this.list();
-// 	    		},
-// 	    		list:function(){
-// 	    			var data = window.location.hash.split(';');
-// 	    			var content = "";
-// 	    			var data = system.html(insert php here);
-// 	    			data.done(function(data){
-// 	    				data = JSON.parse(data);
-// 	    				content =
-// 			"<div class='row'>"+
-// 			"	<div class='col s12' id='job-post'>"+
-// 			"		<div class='card-panel '>"+
-// 			"		<span >"+
-// 			"			<div class='card-content'>"+
-// 			"				<dl class='dl-horizontal'>"+
-// 			"					<dt></dt><dd><h2 id='txt_jobtitle'></h2></dd>"+
-// 			"					<dt>Status:</dt> <dd id='txt_jobstatus'></dd>"+
-// 			"					<dt>Application Expiry:</dt><dd id='txt_jobexpiry' class='datepicker'></dd>"+
-// 			"					<dt>Created:</dt><dd id='txt_jobdate' class='datepicker'></dd>"+
-// 			"					<dt>Description:</dt><dd id='txt_jobdescription'></dd>"+
-// 			"					<dt>Applicant:</dt><dd id='txt_jobapplicant'></dd>"+
-// 			"				</dl>"+
-// 						"</div>"+
-// 			"		</span>"+
-// 			"		</div>"+
-// 			"	</div>"+
-// 			"</div>"+
-// 	    		$("#display_jobStatus").html(content);
-// 	    			});
-
-// 	    content = "";
-// 		var data = system.html('../assets/harmony/Process.php?get-listAdmin');
-// 		var actions = "", status = "";
-// 		data.done(function(data){
-// 			data = JSON.parse(data);
-// 			$.each(data,function(i,v){
-// 				if(Number(v[6]) == 1){
-// 					status = "Active";
-// 					var actions = "<a data-cmd='deactivateAdmin' data-name='"+v[1]+"' data-node='"+v[0]+"' class='tooltipped btn-floating waves-effect black-text no-shadow grey lighten-5 right' data-position='left' data-delay='50' data-tooltip='Deactivate account' data-cmd='update'>"+
-// 								  "	<i class='mdi-action-lock-open right black-text'></i>"+
-// 								  "</a>";	
-// 				}
-// 				else{
-// 					status = "Deactivated";
-// 					var actions = "<a data-cmd='activateAdmin' data-name='"+v[1]+"' data-node='"+v[0]+"' class='tooltipped btn-floating waves-effect black-text no-shadow grey lighten-5 right' data-position='left' data-delay='50' data-tooltip='Activate account' data-cmd='update'>"+
-// 								  "	<i class='mdi-action-lock right black-text'></i>"+
-// 								  "</a>";	
-// 				}
-// 				content += "<tr>"+
-// 							"	<td>"+v[1]+"</td>"+
-// 							"	<td>#txt_jobstatus</td>"+
-// 							"	<td>"+status+"</td>"+
-// 							"	<td>"+actions+"</td>"+
-// 							"</tr>";
-// 			})	
-
-// 			content = "<table class='table bordered'>"+
-// 						"	<tr>"+
-// 						"		<th>Name</th><th>Role</th><th>Status</th><th></th>"+
-// 						"	</tr>"+content+"</table>";
-// 			$("#display_jobStatus").html(content);
-
-// 			account.deactivate();
-// 			account.activate();
-// 						}
-// 					});
-// 				}
-
-// 	    	};	
-// 	    },
-
-// 	}
-// }();
-	// content = 	"	<div class="row">"+
-	// 										"      <div class="col s12" id='job-post'>"+
-	// 										"        <div class="card-panel ">"+
-	// 										"            <span >"+
-	// 										"                <div class='card-content'>"+
-	// 										"                    <dl class='dl-horizontal'>"+
-	// 										"                        <dt></dt><dd><h2 id='txt_jobtitle'></h2></dd>"+
-	// 										"                        <dt>Status:</dt> <dd id='txt_jobstatus'></dd>"+
-	// 										"                        <dt>Application Expiry:</dt><dd id='txt_jobexpiry' class='datepicker'></dd>"+
-	// 										"                        <dt>Created:</dt><dd id='txt_jobdate' class='datepicker'></dd>"+
-	// 										"                        <dt>Description:</dt><dd id='txt_jobdescription'></dd>"+
-	// 										"                        <dt>Applicant:</dt><dd id='txt_jobapplicant'></dd>"+
-	// 										"                    </dl>"+
-	// 										"                </div>"+
-	// 										"            </span>"+
-	// 										"        </div>"+
-	// 										"     </div>";
-	// 										$("#display_vacancyjob").html(content);

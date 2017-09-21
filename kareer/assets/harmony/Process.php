@@ -181,19 +181,19 @@ $Functions = new DatabaseClasses;
             echo "Hacker";
         }
     }
-    if(isset($_GET['do-getApplications'])){
-        if(isset($_POST["data"])){
-            $data = $_POST['data'];
-
-            print_r($data);
-            $result = [];
-            $Query = $Functions->PDO_SQL("SELECT * FROM tbl_application ORDER BY date DESC");
-            
-            foreach ($Query as $key => $value) {
-                $applicant = json_decode($value[2]);
     if (isset($_GET['get-allStudent'])){
         if(isset($_POST["data"])){
             $QueryApplicant = $Functions->PDO("SELECT * FROM tbl_student ORDER BY status DESC");
+            print_r(json_encode($QueryApplicant));
+        }
+        else{
+            echo "Hacker";
+        }
+    }
+    if (isset($_GET['get-Student'])){
+        if(isset($_POST["data"])){
+            $data = $_POST['data'];
+            $QueryApplicant = $Functions->PDO_SQL("SELECT * FROM tbl_student WHERE id = '{$data}'");
             print_r(json_encode($QueryApplicant));
         }
         else{
@@ -219,13 +219,13 @@ $Functions = new DatabaseClasses;
             echo "Hacker";
         }
     }
-    if(isset($_GET['do-getApplications'])){  
+    if(isset($_GET['do-getApplications'])){
         if(isset($_POST["data"])){
             $data = $_POST['data'];
             $result = [];
-            $Query = $Functions->PDO_SQL("SELECT * FROM tbl_application");
+            $Query = $Functions->PDO_SQL("SELECT * FROM tbl_application ORDER BY date DESC");
             foreach ($Query as $key => $value) {
-                $applicant = json_decode($value[1]);
+                $applicant = json_decode($value[2]);
                 if($data == $applicant[0]){
                     $QueryVacancy = $Functions->PDO_SQL("SELECT * FROM tbl_vacancies WHERE id = '{$value[1]}'");
                     $QueryEmployer = $Functions->PDO_SQL("SELECT * FROM tbl_employer WHERE id = '{$QueryVacancy[0][1]}'");
@@ -258,7 +258,8 @@ $Functions = new DatabaseClasses;
             $Data = $query->errorInfo();
             print_r($Data);
         }
-    }    
+    }
+    
     if (isset($_GET['do-postJob'])) {
         if(isset($_POST['data'])){
             $id = $Functions->PDO_IDGenerator('tbl_vacancies','id');
@@ -493,6 +494,7 @@ $Functions = new DatabaseClasses;
     if(isset($_GET['update-employer'])){
             $data = $_POST['data'];
             $user = $data[0];
+            // print_r($data);
 
             if($data[1][0]['name'] == "field_CompanyName"){
                 $name = $data[1][0]['value'];
@@ -637,7 +639,7 @@ $Functions = new DatabaseClasses;
         if(isset($_POST["data"])){
             $data = $_POST['data'];
 
-            $Query = $Functions->PDO_SQLQuery("UPDATE tbl_applicant SET status = '1' WHERE id = '{$data}'");
+            $Query = $Functions->PDO_SQLQuery("UPDATE tbl_student SET status = '1' WHERE id = '{$data}'");
             if($Query->execute())
                 echo 1;
             else{
@@ -654,7 +656,7 @@ $Functions = new DatabaseClasses;
             $data = $_POST['data'];
 
 
-            $Query = $Functions->PDO_SQLQuery("UPDATE tbl_applicant SET status = '0' WHERE id = '{$data}'");
+            $Query = $Functions->PDO_SQLQuery("UPDATE tbl_student SET status = '0' WHERE id = '{$data}'");
             if($Query->execute())
                 echo 1;
             else{
@@ -804,4 +806,4 @@ $Functions = new DatabaseClasses;
         }
     }
 */
-?>
+?> 

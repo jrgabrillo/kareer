@@ -1456,7 +1456,6 @@ var employer = function(){
 var applicant = function(){
 	"use strict";
 	return {
-		
 	    list_student: function(){
 			var sys = system, validate = validation, _this = this, _apps = App;
 			var content = "", actions = "", status = "";
@@ -1525,7 +1524,7 @@ var applicant = function(){
 						        },
 						        {data: "",
 					            	render: function ( data, type, full ){
-					            		var details = "<a href='#cmd=index;content=applications;id="+full[0]+"'><i class='small material-icons'>more_vert</i></a>";
+					            		var details = "<a href='#cmd=index;content=applications;id="+full[0]+"' data-id='"+full[0]+"' ><i class='small material-icons'>more_vert</i></a>";
 					                	return details;
 					            	}
 					        	},
@@ -1914,7 +1913,11 @@ var applicant = function(){
 			});
 	    },
 	    application: function(id){
-    		var ajax = system.ajax('../assets/harmony/Process.php?do-getApplications',"");
+	    	console.log(id);
+	    	var applicant = system.ajax('../assets/harmony/Process.php?get-Student',id[1]);
+	    	var appData = JSON.parse(applicant.responseText);
+			console.log(appData);
+    		var ajax = system.ajax('../assets/harmony/Process.php?do-getApplications',appData[0][0]);
 			ajax.done(function(data){
 				data = JSON.parse(data);
 			console.log(data);
@@ -1961,6 +1964,7 @@ var applicant = function(){
 				});
 			})
 	    }, 
+		
 		
 	}
 
