@@ -88,6 +88,7 @@ $Functions = new DatabaseClasses;
                 print_r(json_encode($query));
             }
         }
+        
         else if(count($query)==1){
             print_r(json_encode($query));
         }
@@ -133,7 +134,67 @@ $Functions = new DatabaseClasses;
             echo "Hacker";
         }
     }
+<<<<<<< HEAD
 
+=======
+    if (isset($_GET['get-allStudent'])){
+        if(isset($_POST["data"])){
+            $QueryApplicant = $Functions->PDO("SELECT * FROM tbl_student ORDER BY status DESC");
+            print_r(json_encode($QueryApplicant));
+        }
+        else{
+            echo "Hacker";
+        }
+    }
+    if (isset($_GET['get-Student'])){
+        if(isset($_POST["data"])){
+            $data = $_POST['data'];
+            $QueryApplicant = $Functions->PDO_SQL("SELECT * FROM tbl_student WHERE id = '{$data}'");
+            print_r(json_encode($QueryApplicant));
+        }
+        else{
+            echo "Hacker";
+        }
+    }
+    if(isset($_GET['do-getActivities'])){
+        if(isset($_POST["data"])){
+            $data = $_POST['data'];
+            $result = [];
+            $Query = $Functions->PDO_SQL("SELECT * FROM tbl_application ORDER BY date DESC");
+            foreach ($Query as $key => $value) {
+                $applicant = json_decode($value[1]);
+                if($data == $applicant[0]){
+                    $QueryVacancy = $Functions->PDO_SQL("SELECT * FROM tbl_vacancies WHERE id = '{$value[1]}'");
+                    $QueryEmployer = $Functions->PDO_SQL("SELECT * FROM tbl_employer WHERE id = '{$QueryVacancy[0][1]}'");
+                    $result[] = [$value,$QueryEmployer[0],$QueryVacancy[0]];
+                }
+            }
+            print_r(json_encode($result));
+        }
+        else{
+            echo "Hacker";
+        }
+    }
+    if(isset($_GET['do-getApplications'])){
+        if(isset($_POST["data"])){
+            $data = $_POST['data'];
+            $result = [];
+            $Query = $Functions->PDO_SQL("SELECT * FROM tbl_application ORDER BY date DESC");
+            foreach ($Query as $key => $value) {
+                $applicant = json_decode($value[2]);
+                if($data == $applicant[0]){
+                    $QueryVacancy = $Functions->PDO_SQL("SELECT * FROM tbl_vacancies WHERE id = '{$value[1]}'");
+                    $QueryEmployer = $Functions->PDO_SQL("SELECT * FROM tbl_employer WHERE id = '{$QueryVacancy[0][1]}'");
+                    $result[] = [$value,$QueryEmployer[0],$QueryVacancy[0]];
+                }
+            }
+            print_r(json_encode($result));
+        }
+        else{
+            echo "Hacker";
+        }
+    }
+>>>>>>> 87d57d19718f7260dbe13b9d9713f10e1c8129dc
     /* setters*/
     if (isset($_GET['set-postJob'])) {
         $data = $_POST['data'];
@@ -154,7 +215,54 @@ $Functions = new DatabaseClasses;
             $Data = $query->errorInfo();
             print_r($Data);
         }
+<<<<<<< HEAD
     }    
+=======
+    }
+    
+    if (isset($_GET['do-postJob'])) {
+        if(isset($_POST['data'])){
+            $id = $Functions->PDO_IDGenerator('tbl_vacancies','id');
+            $date = $Functions->PDO_DateAndTime();
+            $data = $_POST['data'];
+
+            $employer_id = $data[0];
+            $description = $data[1][2]['value'];
+            $vacancy_date = $data[1][1]['value'];
+            $job_title = $data[1][0]['value'];
+
+            if(count($data[1])==4)
+                $skills = json_encode($data[1][3]);
+            else
+                $skills = json_encode([]);
+
+            $QueryString = "INSERT INTO tbl_vacancies(id,employer_id,description,vacancy_date,job_title,skills,date) VALUES('{$id}','{$employer_id}','{$description}','{$vacancy_date}','{$job_title}','{$skills}','{$date}')";
+            $Query = $Functions->PDO_SQLQuery($QueryString);
+            if($Query->execute())
+                echo 1;
+            else{
+                $Data = $Query->errorInfo();
+                print_r($Data);
+            }
+        }
+        else{
+            echo "Hacker";
+        }
+    }
+    if(isset($_GET['update-adminPicture'])){
+            $data = $_POST['data'];
+           saveImage($user,$data[1]);
+            $query = $Functions->PDO("UPDATE tbl_admin SET picture = '{$data[1]}' WHERE id = '{$user}'");
+            if($query->execute()){
+                echo 1;
+            }
+            else{
+                unlink('../assets/img/'.$picture);
+                $Data = $query->errorInfo();
+                print_r($Data);
+            }
+    }
+>>>>>>> 87d57d19718f7260dbe13b9d9713f10e1c8129dc
     if (isset($_GET['set-registerEmployer'])) {
         if(isset($_POST['data'])){
             $id = $Functions->PDO_IDGenerator('tbl_employer','id');
@@ -533,10 +641,16 @@ $Functions = new DatabaseClasses;
     if(isset($_GET['do-inviteInterview'])){
        if(isset($_POST['data'])){
             $data = $_POST['data'];
+<<<<<<< HEAD
             $date = $Functions->PDO_DateAndTime();
             $val = json_encode([$date,$data[1]]);
             $Query = $Functions->PDO_SQLQuery("UPDATE tbl_application SET status = '{$val}' WHERE id = '{$data[0]}'");
             if($Query->execute()){
+=======
+
+            $Query = $Functions->PDO_SQLQuery("UPDATE tbl_student SET status = '1' WHERE id = '{$data}'");
+            if($Query->execute())
+>>>>>>> 87d57d19718f7260dbe13b9d9713f10e1c8129dc
                 echo 1;
             }
             else{
@@ -555,8 +669,13 @@ $Functions = new DatabaseClasses;
             $data = $_POST['data'];
             $applicant = json_encode([$data[0][0],$data[0][1],$data[0][3],json_decode($data[0][2])]);
 
+<<<<<<< HEAD
             $QueryString = "INSERT INTO  tbl_application(id,vacany_id,applicant,description,date) VALUES('{$id}','{$data[1]}','{$applicant}','{$data[2]}','{$date}')";
             $Query = $Functions->PDO_SQLQuery($QueryString);
+=======
+
+            $Query = $Functions->PDO_SQLQuery("UPDATE tbl_student SET status = '0' WHERE id = '{$data}'");
+>>>>>>> 87d57d19718f7260dbe13b9d9713f10e1c8129dc
             if($Query->execute())
                 echo 1;
             else{

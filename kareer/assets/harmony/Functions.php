@@ -194,18 +194,6 @@ class DatabaseClasses{
 		return $Query->fetch(PDO::FETCH_NUM)[0];
 	}
 
-	function PDO_IDGenerator($Table,$ID){
-		$Status = true;
-		for($x=0;$Status == true;$x++){
-			$TempID = sha1(DatabaseClasses::PDO_TableCounter($Table)+$x);
-			$Query = DatabaseClasses::PDO_RowCount($Table,$ID,$TempID);
-			if($Query == 0){
-				$Status = false;
-			}
-		}
-		return $TempID;
-	}
-	
 	function BackUpTable($TableName,$WhereClause = ''){
 	    $RetVal = '{"'.$TableName.'":['; $loop = 0;
 	    $Query = DatabaseClasses::PDO_SQL2("SELECT COUNT(*) FROM $TableName $WhereClause");
