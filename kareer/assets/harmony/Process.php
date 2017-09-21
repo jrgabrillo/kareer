@@ -134,9 +134,6 @@ $Functions = new DatabaseClasses;
             echo "Hacker";
         }
     }
-<<<<<<< HEAD
-
-=======
     if (isset($_GET['get-allStudent'])){
         if(isset($_POST["data"])){
             $QueryApplicant = $Functions->PDO("SELECT * FROM tbl_student ORDER BY status DESC");
@@ -194,7 +191,6 @@ $Functions = new DatabaseClasses;
             echo "Hacker";
         }
     }
->>>>>>> 87d57d19718f7260dbe13b9d9713f10e1c8129dc
     /* setters*/
     if (isset($_GET['set-postJob'])) {
         $data = $_POST['data'];
@@ -215,9 +211,8 @@ $Functions = new DatabaseClasses;
             $Data = $query->errorInfo();
             print_r($Data);
         }
-<<<<<<< HEAD
     }    
-=======
+
     }
     
     if (isset($_GET['do-postJob'])) {
@@ -641,16 +636,14 @@ $Functions = new DatabaseClasses;
     if(isset($_GET['do-inviteInterview'])){
        if(isset($_POST['data'])){
             $data = $_POST['data'];
-<<<<<<< HEAD
             $date = $Functions->PDO_DateAndTime();
             $val = json_encode([$date,$data[1]]);
             $Query = $Functions->PDO_SQLQuery("UPDATE tbl_application SET status = '{$val}' WHERE id = '{$data[0]}'");
             if($Query->execute()){
-=======
+
 
             $Query = $Functions->PDO_SQLQuery("UPDATE tbl_student SET status = '1' WHERE id = '{$data}'");
             if($Query->execute())
->>>>>>> 87d57d19718f7260dbe13b9d9713f10e1c8129dc
                 echo 1;
             }
             else{
@@ -669,13 +662,10 @@ $Functions = new DatabaseClasses;
             $data = $_POST['data'];
             $applicant = json_encode([$data[0][0],$data[0][1],$data[0][3],json_decode($data[0][2])]);
 
-<<<<<<< HEAD
             $QueryString = "INSERT INTO  tbl_application(id,vacany_id,applicant,description,date) VALUES('{$id}','{$data[1]}','{$applicant}','{$data[2]}','{$date}')";
             $Query = $Functions->PDO_SQLQuery($QueryString);
-=======
 
             $Query = $Functions->PDO_SQLQuery("UPDATE tbl_student SET status = '0' WHERE id = '{$data}'");
->>>>>>> 87d57d19718f7260dbe13b9d9713f10e1c8129dc
             if($Query->execute())
                 echo 1;
             else{
