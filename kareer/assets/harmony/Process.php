@@ -101,6 +101,7 @@ $Functions = new DatabaseClasses;
                 print_r(json_encode($query));
             }
         }
+        
         else if(count($query)==1){
             print_r(json_encode($query));
         }
@@ -209,22 +210,10 @@ $Functions = new DatabaseClasses;
         }
     }
     if(isset($_GET['do-getApplications'])){  
-        //  if(isset($_POST["data"])){
-        //     $data = $_POST['data'];
-        //     $result = [];
-        //     $Query = $Functions->PDO("SELECT * FROM tbl_student WHERE id = '{$data}'");
-        //     $Query2 = $Functions->PDO("SELECT * FROM tbl_application WHERE vacany_id = '{$Query[0][0]}'");
-        //     $Query3 = $Functions->PDO("SELECT * FROM tbl_employer WHERE id = '{$Query[0][0]}'");
-        //     $result[] = [$Query,$Query2,$Query3];
-        //     print_r(json_encode($result));
-        // }
-        // else{
-        //     echo "Hacker";
-        // }
-        if(isset($_POST["data"])){
+         if(isset($_POST["data"])){
             $data = $_POST['data'];
             $result = [];
-            $Query = $Functions->PDO_SQL("SELECT * FROM tbl_application ORDER BY date DESC");
+            $Query = $Functions->PDO_SQL("SELECT * FROM tbl_application");
             foreach ($Query as $key => $value) {
                 $applicant = json_decode($value[1]);
                 if($data == $applicant[0]){
@@ -238,6 +227,18 @@ $Functions = new DatabaseClasses;
         else{
             echo "Hacker";
         }
+       // if(isset($_POST["data"])){
+       //      $data = $_POST['data'];
+       //      $result = [];
+       //      $Query = $Functions->PDO("SELECT * FROM tbl_student WHERE id = '{$data}'");
+       //      $Query2 = $Functions->PDO("SELECT * FROM tbl_application WHERE applicant = '{$Query[0][0]}' ");
+       //      $Query3 = $Functions->PDO("SELECT * FROM tbl_vacancies ");
+       //      $result[] = [$Query[0],$Query2,$Query3];
+       //      print_r(json_encode($result));
+       //  }
+       //  else{
+       //      echo "Hacker";
+       //  }
     }
     /* setters*/
     if (isset($_GET['set-postJob'])) {
