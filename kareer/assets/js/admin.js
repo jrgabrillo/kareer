@@ -69,7 +69,6 @@
 				}
 			});
 		},
-
 		update_data:function(){
     		var data = sys.get_account();
     		var admindata = JSON.parse(data);
@@ -970,7 +969,6 @@ var employer = function(){
 					});
 				}
 			});	
-
 	    },
  		update:function(){
 			$("a[data-cmd='updateEmployer']").on('click',function(){
