@@ -22,7 +22,7 @@
                                         <label>Job Title: </label>
                                         <input data-inputtype='required' name='field_jobTitle' type='text' placeholder='Job Title' class='form-control'>
                                     </div>
-                                    <div class='col s6-' id='prettydate'>
+                                    <div class='col s6' id='prettydate'>
                                         <label>Hiring Cut-off Date: <small><i>[Also job expiration date.]</i></small></label>
                                         <div class="input-group datepicker">
                                             <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
@@ -30,12 +30,12 @@
                                         </div>
                                     </div><br/>
                                     <div class='col s12'>
-                                        <label>Skills Needed: <small><i>You can add up-to 5 skills</i></small></label>
-                                        <input data-inputtype='required' name='field_skills' placeholder="skills" type="text" class="form-control">
-                                    </div><br/>
+                                        <label>Skills needed: </label>
+                                        <div class="chips chips-placeholder" data-inputtype='required' name='field_description' placeholder='Job Description'>
+                                    </div>
                                     <div class='col s12'>
                                         <label>Job Description: </label>
-                                        <textarea data-inputtype='required' name='field_description' placeholder='Job Description' class='form-control'></textarea>
+                                        <textarea  class='form-control'></textarea>
                                     </div> 
                                     <!-- <div data-inputtype='required' class="input-field col s12">
                                         <textarea id="description" class="materialize-textarea" data-length="120"></textarea>
@@ -96,5 +96,10 @@
     closeOnSelect: false // Close upon selecting a date,
   });
     // system.froala("textarea");
+     $('.chips').material_chip();
+     $('.chips-placeholder').material_chip({
+    placeholder: 'Add up to 5',
+    secondaryPlaceholder: 'Put your skills',
+  });
 </script>
 
