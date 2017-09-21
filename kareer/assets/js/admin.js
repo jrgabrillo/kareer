@@ -1,4 +1,4 @@
-	var admin = function () {
+var admin = function () {
 	"use strict";
 	return {
 		ini:function(){
@@ -6,7 +6,7 @@
 			if(data != 0){
 				admin.display();
 				employer.list();
-				applicant.list_applicant();
+				applicant.list_student();
 				admin.jobposting();
 			}
 		},
@@ -14,7 +14,7 @@
 			var ajax = system.html('../assets/harmony/Process.php?get-account',"");
 			var data = ajax.responseText;
 			var picture = "../assets/img/profile_avatar.jpg", level = "";
-			data = JSON.parse(data)
+			data = JSON.parse(data);
 			if(data[0][3] != ""){
 				var imageData = data[0][3].split('.');
 				if(imageData[imageData.length-1]!='apr'){
@@ -542,6 +542,7 @@
 			var ajax = system.ajax('../assets/harmony/Process.php?get-job',id[1]);
 			ajax.done(function(data){
 				data = JSON.parse(data);
+				console.log(data);
 				var applicant = "No Applicant.", vacancy_id = data[0][0][0];
 				var applicationexpiry = new Date(data[0][0][3]), now = new Date();
 				var status = "<span class='label label-primary'>Active</span>";
@@ -665,15 +666,16 @@
 					}
 				});
 			})
-        }      
+        }
+              
     };
 }();
 
-var jobs = function(){
-	"use strict";
-	return {
-	}
-}();
+// var jobs = function(){
+// 	"use strict";
+// 	return {
+// 	}
+// }();
 
 var employer = function(){
 	"use strict";
@@ -683,6 +685,7 @@ var employer = function(){
 			var content = "", actions = "", status = "";
 			var ajax = sys.ajax('../assets/harmony/Process.php?get-allEmployer',"");
 			ajax.success(function(data){
+				// console.log(data);
 				var arrPending = [], arrApproved = [], arrDeclined = [];
 				if(data != ""){
 					var data = JSON.parse(data);
@@ -792,6 +795,7 @@ var employer = function(){
 					$("a").click(function(){
 						var cmd = $(this).data('cmd');
 						var id = $(this).data('id');
+
 						if(cmd == 'options_pendingEmployer'){
 							
 							var data = sys.searchJSON(arrPending,0,id);
@@ -1452,38 +1456,39 @@ var employer = function(){
 var applicant = function(){
 	"use strict";
 	return {
-		list_applicant: function(){
+	    list_student: function(){
 			var sys = system, validate = validation, _this = this, _apps = App;
 			var content = "", actions = "", status = "";
-			var ajax = sys.ajax('../assets/harmony/Process.php?get-allApplicant',"");
+			var ajax = sys.ajax('../assets/harmony/Process.php?get-allStudent',"");
 			ajax.success(function(data){
 				var arrInactive = [], arrActive = [];
 				if(data != ""){
 					var data = JSON.parse(data);
-					sys.sortResults(data,12,false);
+					sys.sortResults(data,6,false);
 					$.each(data,function(i,v){
-						if(v[12] == 0)
+						if(v[6] == 0)
 				            arrInactive.push(v);					
 						else
 				            arrActive.push(v);
 					});
 
 					if(arrActive.length>0){
+
 						var content = "<table class='table table-bordered' id='table_activeApplicant'>"+
 									"	<thead>"+
 									"		<tr>"+
 									"			<th width='15%'></th>"+
-									"			<th width='75%'>Name</th>"+
-									"			<th width='5%'></th>"+
-									"			<th width='5%'></th>"+
+									"			<th width='80%'>Name</th>"+
+									"			<th width='15%'></th>"+
+									"			<th width='15%'></th>"+
 									"		</tr>"+
 									"	</thead>"+
 									"</table>";
 						$("#active_applicants .card-content").html(content);
 
 						$('#table_activeApplicant').DataTable( {
-						    data: arrActive,
-						    sort: false,
+							data: arrActive,
+					   		sort: false,
 							"columnDefs": [
 								{ className: "client-avatar", "targets": [ 0 ] },
 								{ className: "text-left", "targets": [ 1 ] }
@@ -1491,115 +1496,162 @@ var applicant = function(){
 						    columns: [
 						        {data: "",
 						            render: function ( data, type, full ){
-										var picture = "../assets/img/profile avatar.jpg";
-
-										if(full[6] != ""){
-											var imageData = full[6].split('.');
+										var picture = "../assets/img/profile avatar.jpg";			
+										if(full[5] != ""){
+											var imageData = full[5].split('.');
 											if(imageData[imageData.length-1]!='apr')
-												picture = "../assets/img/"+full[6];					
+												picture = "../assets/img/"+full[5];					
 											else
-												picture = sys.get_apr(full[6]);
+												picture = sys.get_apr(full[5]);
 										}
 
-					            		var details = '<img class = "responsive-img alt="image" src="'+picture+'" class = "responsive-img">';
-					                	return details;
-					         	   }
-					        	},
-					        	{data: "",
+						            	var details = '<img alt="image" class ="responsive-img" src="'+picture+'">';
+						                return details;
+						            }
+						        },
+						        {data: "",
+						            render: function ( data, type, full ){
+						            	var data = JSON.parse(full[4]);
+						            	var details = data[0]+", "+data[1]+" "+data[2];
+						                return details;
+						            }
+						        },
+						        {data: "",
+						            render: function ( data, type, full ){
+						            	var details = "<a data-id='"+full[0]+"' data-cmd='info_ActiveApplicant' class='btn btn-success btn-xs btn-block'>Details</a>";
+						                return details;
+						            }
+						        },
+						        {data: "",
 					            	render: function ( data, type, full ){
-					            		var details = full[2]+" "+full[3]+" "+full[1];
+					            		var details = "<a href='#cmd=index;content=applications;id="+full[0]+"' data-id='"+full[0]+"' ><i class='small material-icons'>more_vert</i></a>";
 					                	return details;
 					            	}
 					        	},
-					        	{data: "",
-					            	render: function ( data, type, full ){
-					            		var details = "<a data-id='"+full[0]+"' data-cmd='info_ActiveApplicant' class='btn btn-success btn-xs btn-block'>Details</a>";
-					                	return details;
-					            	}
-					        	},
-					        	{data: "",
-					            	render: function ( data, type, full ){
-					            		var details = "<a href ='#cmd=index;content=applications' data-cmd ='application' ><i class='small material-icons'>more_vert</i></a>";
-					                	return details;
-					            	}
-					        	},
-					    	]
-						});
-
+						    ]
+						});	
 					}
-
 					if(arrInactive.length>0){
-						var content = "";
 
-						$.each(arrInactive,function(i,v){
-							content += "<tr>"+
-										"	<td class='text-left' width='80%'>"+(i+1)+". "+v[1]+", "+v[2]+" "+v[3]+"</td>"+
-										"	<td width='20%'><a data-id='"+v[0]+"' data-cmd='info_InactiveApplicant' class='btn btn-danger btn-xs btn-block'>Details</a></td>"+
-										"</tr>";
-						});
-
-							content = "<table class='table table-bordered' id='table_inactiveApplicant'>"+content+"</table>";
-
+						var content = "<table class='table table-bordered' id='table_inactiveApplicant'>"+
+									"	<thead>"+
+									"		<tr>"+
+									"			<th width='15%'></th>"+
+									"			<th width='80%'>Name</th>"+
+									"			<th width='15%'></th>"+
+									"			<th width='15%'></th>"+
+									"		</tr>"+
+									"	</thead>"+
+									"</table>";
 						$("#inactive_applicants .card-content").html(content);
+
+						$('#table_inactiveApplicant').DataTable( {
+							data: arrInactive,
+					   		sort: false,
+							"columnDefs": [
+								{ className: "client-avatar", "targets": [ 0 ] },
+								{ className: "text-left", "targets": [ 1 ] }
+							],
+						    columns: [
+						        {data: "",
+						            render: function ( data, type, full ){
+										var picture = "../assets/img/profile avatar.jpg";			
+										if(full[5] != ""){
+											var imageData = full[5].split('.');
+											if(imageData[imageData.length-1]!='apr')
+												picture = "../assets/img/"+full[5];					
+											else
+												picture = sys.get_apr(full[5]);
+										}
+
+						            	var details = '<img alt="image" class ="responsive-img" src="'+picture+'">';
+						                return details;
+						            }
+						        },
+						        {data: "",
+						            render: function ( data, type, full ){
+						            	var data = JSON.parse(full[4]);
+						            	var details = data[0]+", "+data[1]+" "+data[2];
+						                return details;
+						            }
+						        },
+						        {data: "",
+						            render: function ( data, type, full ){
+						            	var details = "<a data-id='"+full[0]+"' data-cmd='info_InactiveApplicant' class='btn btn-success btn-xs btn-block'>Details</a>";
+						                return details;
+						            }
+						        },
+						    ]
+						});	
 					}
 					else{
 						$("#inactive_applicants .card-content").html("<h2>All caught up. </h2><h4>No Inactive request for applicant's account approval</h4>");
-					}	
-
-					if(arrInactive.length>0){
-						var content = "";
-
-						$.each(arrInactive,function(i,v){
-							content += "<tr>"+
-										"	<td class='text-left' width='80%'>"+(i+1)+". "+v[1]+", "+v[2]+" "+v[3]+"</td>"+
-										"	<td width='20%'><a data-id='"+v[0]+"' data-cmd='info_InactiveApplicant' class='btn btn-danger btn-xs btn-block'>Details</a></td>"+
-										"</tr>";
-						});
-
-							content = "<table class='table table-bordered' id='table_inactiveApplicant'>"+content+"</table>";
-
-						$("#inactive_applicants .card-content").html(content);
 					}
-					else{
-						$("#inactive_applicants .card-content").html("<h2>All caught up. </h2><h4>No Inactive request for applicant's account approval</h4>");
-					}
-
-
 					$("a").click(function(){
-							var cmd = $(this).data('cmd');
-							var id = $(this).data('id');
+						var cmd = $(this).data('cmd');
+						var id = $(this).data('id');
 
 						if(cmd == 'info_ActiveApplicant'){
-							var data = sys.searchJSON(arrActive,0,id);
-							var picture = "../assets/img/profile_avatar.jpg", description = "No description yet.", resume = "No resume uploaded yet.";
+							var newdata = sys.searchJSON(arrActive,0,id);
+							var picture = "../assets/img/profile avatar.jpg", description = "No description yet.", resume = "No resume uploaded yet.";
+			            	var info = JSON.parse(newdata[0][4]);
+			            	console.log(info);
+			            	$.each(info,function(i,v){
+			            		console.log(i+":"+v);
+			            	});
 
-							if(data[0][6] != ""){
-								var imageData = data[0][6].split('.');
+							if(newdata[0][5] != ""){
+								var imageData = newdata[0][5].split('.');
 								if(imageData[imageData.length-1]!='apr')
-									picture = "../assets/img/"+data[0][6];					
+									picture = "../assets/img/"+newdata[0][5];					
 								else
-									picture = sys.get_apr(data[0][6]);
+									picture = sys.get_apr(newdata[0][5]);
 							}
 
+							if(newdata[0][7] != "")
+								description = newdata[0][7];    			
+							if(newdata[0][3] != ""){
+								resume = JSON.parse(newdata[0][3]);
+								resume = "<a href='../assets/files/"+resume+"' class='btn btn-xs btn-white'>Download and Read</a>";    			
+							}
 
-							if(data[0][8] != "")
-								description = data[0][8];    			
-							if(data[0][9] != "")
-								var resume = "<a href='../assets/files/"+data[0][9]+"' class='btn btn-xs btn-white'>Download and Read</a>";    			
-
-							var content = "<div class='col-md-12' style='float:none !important;'><table class='table table-bordered card-content'>"+
-										    "	<tr><td width='20%'>Name: </td><td width='80%'>"+data[0][1]+", "+data[0][2]+" "+data[0][3]+"</td><td></tr>"+
-										    "	<tr><td>Description: </td><td>"+data[0][8]+"</td></tr>"+
-										    "	<tr><td>Gender: </td><td>"+data[0][7]+"</td></tr>"+
-										    "	<tr><td>Contact Number: </td><td>"+data[0][5]+"</td></tr>"+
-										    "	<tr><td>Address: </td><td>"+data[0][4]+"</td></tr>"+
-										    "	<tr><td>Email Address: </td><td>"+data[0][10]+"</td></tr>"+
-										    "	<tr><td>Status: </td><td>"+data[0][12]+"</td></tr>"+
-										    "	<tr><td>Resume: </td><td>"+resume+"</td></tr>"+
-										  	"</table>"+
-										  	"	<div class='col-md-6'><a class='btn btn-white btn-xs btn-block' data-cmd='action_inactivateApplicant' data-id='"+data[0][0]+"'>Deactivate</a></div>"+
-							   			"</div>";
-								$("#applicant .card-content").html(content);
+							var content = ""+
+											"<div class='row m-b-lg m-t-lg'>"+
+											"    <div class='col-md-6'>"+
+											"		<div></div>"+
+											"        <div class='profile-image'>"+
+											"            <img src='"+picture+"' class='responsive-img' alt='profile'>"+
+											"        </div>"+
+											"        <div class='profile-info'>"+
+											"            <div>"+
+											"                <h2 class='no-margins'>"+info[0]+", "+info[1]+" "+info[2]+"</h2>"+
+											"            </div>"+
+											"        </div>"+
+											"    </div>"+
+											"    <div class='col-md-6'>"+
+											"        <table class='table small m-b-xs'>"+
+											"            <tr><td><strong>Gender: </strong>"+info[7]+"</td></tr>"+
+											"            <tr><td><strong>Address: </strong>"+info[5]+"</td></tr>"+
+											"            <tr><td><strong>Date Of Birth: </strong>"+info[3]+"</td></tr>"+
+											"            <tr><td><strong>Age: </strong>"+info[4]+"</td></tr>"+
+											"            <tr><td><strong>Place Of Birth: </strong>"+info[6]+"</td></tr>"+
+											"            <tr><td><strong>Nationality: </strong>"+info[8]+"</td></tr>"+
+											"            <tr><td><strong>Guardian: </strong>"+info[9]+"</td></tr>"+
+											"            <tr><td><strong>Relationship with the guardian: </strong>"+info[10]+"</td></tr>"+
+											"            <tr><td><strong>Email Address: </strong>"+info[17]+"</td></tr>"+
+											"            <tr><td><strong>Elementary Graduated: </strong>"+info[11]+"</td></tr>"+
+											"            <tr><td><strong>Date of Elementary Graduated: </strong>"+info[12]+"</td></tr>"+
+											"            <tr><td><strong>Address of Elementary Graduated: </strong>"+info[13]+"</td></tr>"+
+											"            <tr><td><strong>High School Graduated: </strong>"+info[14]+"</td></tr>"+
+											"            <tr><td><strong>Date of High School Graduated: </strong>"+info[15]+"</td></tr>"+
+											"            <tr><td><strong>Address of High School Graduated: </strong>"+info[16]+"</td></tr>"+
+											"            <tr><td><strong>Resume: </strong>"+resume+"</td></tr>"+
+											"        </table>"+
+											"<div class='col-md-6'><a class='btn btn-white btn-xs btn-block' data-cmd='action_inactivateApplicant' data-id='"+newdata[0][0]+"'>Deactivate</a></div>"+
+											"    </div>"+
+											"</div>"+
+										  "";
+							$("#applicant .card-content").html(content);
 
 							$("a[data-cmd='action_inactivateApplicant']").click(function(){
 								var id = $(this).data('id');
@@ -1610,7 +1662,7 @@ var applicant = function(){
 										if(data == 1){
 											swal("Successful!", "Applicant has been deactivated.", "success");
 											sys.clearForm();
-											_this.list_applicant();
+											_this.list_student();
 											console.log(id);
 										}
 										else{
@@ -1619,42 +1671,73 @@ var applicant = function(){
 										}
 									});
 								});
-							});			
+							});
 						}
 						if(cmd == 'info_InactiveApplicant'){
-							var data = sys.searchJSON(arrInactive,0,id);
-							var picture = "../assets/img/profile_avatar.jpg", description = "No description yet.", resume = "No resume uploaded yet.";
+							var newdata = sys.searchJSON(arrInactive,0,id);
+							var picture = "../assets/img/profile avatar.jpg", description = "No description yet.", resume = "No resume uploaded yet.";
+			            	var info = JSON.parse(newdata[0][4]);
+			            	console.log(info);
+			            	$.each(info,function(i,v){
+			            		console.log(i+":"+v);
+			            	});
 
-							if(data[0][6] != ""){
-								var imageData = data[0][6].split('.');
+							if(newdata[0][5] != ""){
+								var imageData = newdata[0][5].split('.');
 								if(imageData[imageData.length-1]!='apr')
-									picture = "../assets/img/"+data[0][6];					
+									picture = "../assets/img/"+newdata[0][5];					
 								else
-									picture = sys.get_apr(data[0][6]);
+									picture = sys.get_apr(newdata[0][5]);
 							}
 
+							if(newdata[0][7] != "")
+								description = newdata[0][7];    			
+							if(newdata[0][3] != ""){
+								resume = JSON.parse(newdata[0][3]);
+								resume = "<a href='../assets/files/"+resume+"' class='btn btn-xs btn-white'>Download and Read</a>";    			
+							}
 
-							if(data[0][8] != "")
-								description = data[0][8];    			
-							if(data[0][9] != "")
-								var resume = "<a href='../assets/files/"+data[0][9]+"' class='btn btn-xs btn-white'>Download and Read</a>";    			
-
-							var content = "<div class='col-md-12' style='float:none !important;'><table class='table table-bordered card-content'>"+
-										    "	<tr><td width='20%'>Name: </td><td width='80%'>"+data[0][1]+", "+data[0][2]+" "+data[0][3]+"</td><td></tr>"+
-										    "	<tr><td>Description: </td><td>"+data[0][8]+"</td></tr>"+
-										    "	<tr><td>Gender: </td><td>"+data[0][7]+"</td></tr>"+
-										    "	<tr><td>Contact Number: </td><td>"+data[0][5]+"</td></tr>"+
-										    "	<tr><td>Address: </td><td>"+data[0][4]+"</td></tr>"+
-										    "	<tr><td>Email Address: </td><td>"+data[0][10]+"</td></tr>"+
-										    "	<tr><td>Status: </td><td>"+data[0][12]+"</td></tr>"+
-										    "	<tr><td>Resume: </td><td>"+resume+"</td></tr>"+
-										  	"</table>"+
-										  	"	<div class='col-md-6'><a class='btn btn-white btn-xs btn-block' data-cmd='action_activateApplicant' data-id='"+data[0][0]+"'>Activate</a></div>"+
-							   			"</div>";
-								$("#applicant .card-content").html(content);
+							var content = ""+
+											"<div class='row m-b-lg m-t-lg'>"+
+											"    <div class='col-md-6'>"+
+											"		<div></div>"+
+											"        <div class='profile-image'>"+
+											"            <img src='"+picture+"' class='responsive-img' alt='profile'>"+
+											"        </div>"+
+											"        <div class='profile-info'>"+
+											"            <div>"+
+											"                <h2 class='no-margins'>"+info[0]+", "+info[1]+" "+info[2]+"</h2>"+
+											"            </div>"+
+											"        </div>"+
+											"    </div>"+
+											"    <div class='col-md-6'>"+
+											"        <table class='table small m-b-xs'>"+
+											"            <tr><td><strong>Gender: </strong>"+info[7]+"</td></tr>"+
+											"            <tr><td><strong>Address: </strong>"+info[5]+"</td></tr>"+
+											"            <tr><td><strong>Date Of Birth: </strong>"+info[3]+"</td></tr>"+
+											"            <tr><td><strong>Age: </strong>"+info[4]+"</td></tr>"+
+											"            <tr><td><strong>Place Of Birth: </strong>"+info[6]+"</td></tr>"+
+											"            <tr><td><strong>Nationality: </strong>"+info[8]+"</td></tr>"+
+											"            <tr><td><strong>Guardian: </strong>"+info[9]+"</td></tr>"+
+											"            <tr><td><strong>Relationship with the guardian: </strong>"+info[10]+"</td></tr>"+
+											"            <tr><td><strong>Email Address: </strong>"+info[17]+"</td></tr>"+
+											"            <tr><td><strong>Elementary Graduated: </strong>"+info[11]+"</td></tr>"+
+											"            <tr><td><strong>Date of Elementary Graduated: </strong>"+info[12]+"</td></tr>"+
+											"            <tr><td><strong>Address of Elementary Graduated: </strong>"+info[13]+"</td></tr>"+
+											"            <tr><td><strong>High School Graduated: </strong>"+info[14]+"</td></tr>"+
+											"            <tr><td><strong>Date of High School Graduated: </strong>"+info[15]+"</td></tr>"+
+											"            <tr><td><strong>Address of High School Graduated: </strong>"+info[16]+"</td></tr>"+
+											"            <tr><td><strong>Resume: </strong>"+resume+"</td></tr>"+
+											"        </table>"+
+											"<div class='col-md-6'><a class='btn btn-white btn-xs btn-block' data-cmd='action_activateApplicant' data-id='"+newdata[0][0]+"'>Activate</a></div>"+
+											"    </div>"+
+											"</div>"+
+										  "";
+							$("#applicant .card-content").html(content);
 
 							$("a[data-cmd='action_activateApplicant']").click(function(){
 								var id = $(this).data('id');
+								console.log(id);
 								sys.confim("Activate this Applicant?",function(){
 									var ajax = sys.ajax('../assets/harmony/Process.php?set-activateApplicant',id);
 									ajax.success(function(data){
@@ -1662,7 +1745,7 @@ var applicant = function(){
 										if(data == 1){
 											swal("Successful!", "Applicant has been activated.", "success");
 											sys.clearForm();
-											_this.list_applicant();
+											_this.list_student();
 											console.log(id);
 										}
 										else{
@@ -1671,11 +1754,11 @@ var applicant = function(){
 										}
 									});
 								});
-							});			
+							});	
 						}
-					});
+					});			
 				}
-			});
+			});;
 	    },
 	    addApplicant: function(){
 			$("#add_applicant").on('click',function(){
@@ -1737,13 +1820,12 @@ var applicant = function(){
 					});
 				});
 			})
-		}, 
-		application:function(){
-    		// var data = JSON.parse(system.get_account());
-			var ajax = system.ajax('../assets/harmony/Process.php?do-getApplications',"");
+		},
+		activities:function(){
+    		var ajax = system.ajax('../assets/harmony/Process.php?do-getActivities',"");
 			var ajaxData = JSON.parse(ajax.responseText);
-			var content = "";
 			console.log(ajaxData);
+			var content = "";
 			$.each(ajaxData,function(i,v){
 				// console.log(v);
 				if(v[2][5] != "null"){
@@ -1757,44 +1839,86 @@ var applicant = function(){
 						"            <div class='col-lg-3 date'>"+
 						"                <i class='fa fa-briefcase'></i>"+v[0][4]+"<br><small class='text-navy prettydate'>"+v[0][4]+"</small>"+
 						"            </div>"+
-						"            <div class='col-lg-10 content no-top-border'>"+
-						"                <p class='m-b-xs'><a data-toggle='collapse' data-parent='#accordion' href='#"+v[0][0]+"' aria-expanded='false' class='collapsed btn btn-white btn-xs pull-right'>Show Employer's Information</a>"+
+						"            <div class='col-lg-15 content no-top-border'>"+
+						// "                <p class='m-b-xs'><a data-toggle='collapse' data-parent='#accordion' href='#"+v[0][0]+"' aria-expanded='false' class='collapsed btn btn-white btn-xs pull-right'>Show Employer's Information</a>"+
 						"                <p class='m-b-xs'><h3><strong>Job Title:</strong> "+v[2][4]+"</h3></p>"+
 						"                <p class='m-b-xs'><strong>Skills:</strong> "+$skills+"</p>"+
 						"                <p class='m-b-xs'><strong>Job Description:</strong> "+v[2][2]+"</p>"+
-						"                <div id='"+v[0][0]+"' class='panel-collapse collapse' aria-expanded='false' style='height: 0px;'>"+
-						"                	<div class='panel-body'>"+
+						// "                <div id='"+v[0][0]+"' class='panel-collapse collapse' aria-expanded='false' style='height: 0px;'>"+
+						// "                	<div class='panel-body'>"+
 						"                		<div class='hr-line-dashed'></div>"+
 						"                		<p class='m-b-xs'><strong>Company:</strong> "+v[1][5]+"</p>"+
 						"                		<p class='m-b-xs'><strong>Office:</strong> "+v[1][3]+"</p>"+
 						"                		<p class='m-b-xs'><strong>Email:</strong> "+v[1][10]+"</p>"+
 						"                		<p class='m-b-xs'><strong>Company Description:</strong> "+v[1][6]+"</p>"+
 						"                		<div class='hr-line-dashed'></div>"+
-						"                	</div>"+
-						"                </div>"+
-						"                <p class='m-b-xs'><strong>Your Application:</strong><br/><div class='well'>"+v[0][3]+"</div></p>"+
+						// "                	</div>"+
+						// "                </div>"+
+						"                <p class='m-b-xs'><strong>Applicant:</strong><br/><div class='well'>"+v[1][1]+" "+v[1][2]+"</div></p>"+
 						"            </div>"+
 						"        </div>"+
 						"    </div>";
 			});
 			content = "<div class='card-content inspinia-timeline'>"+content+"</div>";
-			$("#jobapplications").html(content);
+			$("#activities").html(content);
 			$(".prettydate").prettydate({
 			    dateFormat: "YYYY-MM-DD hh:mm:ss"
 			});
-        },
+	    },
+	    application: function(id){
+	    	console.log(id);
+	    	var applicant = system.ajax('../assets/harmony/Process.php?get-Student',id[1]);
+	    	var appData = JSON.parse(applicant.responseText);
+			console.log(appData);
+    		var ajax = system.ajax('../assets/harmony/Process.php?do-getApplications',appData[0][0]);
+			ajax.done(function(data){
+				data = JSON.parse(data);
+			console.log(data);
+			var content = "";
+				$.each(data,function(i,v){
+					// console.log(v);
+					if(v[2][5] != "null"){
+						var skills = JSON.parse(v[2][5]), $skills = "";
+						$.each(skills,function(a,b){
+							$skills += "<span class='label label-defualt'style='margin-right: 5px;'>"+b+"</span>";
+						});
+						console.log(skills);
+					}
+					content += "    <div class='timeline-item'>"+
+							"        <div class='row'>"+
+							"                <p class='m-b-xs'><h3><strong>Applicant:</strong>"+v[1][1]+" "+v[1][2]+" </h3></p>"+
+							"            <div class='col-lg-3 date'>"+
+							"                <i class='fa fa-briefcase'></i>"+v[0][4]+"<br><small class='text-navy prettydate'>"+v[0][4]+"</small>"+
+							"            </div>"+
+							"            <div class='col-lg-15 content no-top-border'>"+
+							// "                <p class='m-b-xs'><a data-toggle='collapse' data-parent='#accordion' href='#"+v[0][0]+"' aria-expanded='false' class='collapsed btn btn-white btn-xs pull-right'>Show Employer's Information</a>"+
+							"                <p class='m-b-xs'><span>Job Title:</span> "+v[2][4]+"</p>"+
+							"                <p class='m-b-xs'><strong>Skills:</strong> "+$skills+"</p>"+
+							"                <p class='m-b-xs'><strong>Job Description:</strong> "+v[2][2]+"</p>"+
+							// "                <div id='"+v[0][0]+"' class='panel-collapse collapse' aria-expanded='false' style='height: 0px;'>"+
+							// "                	<div class='panel-body'>"+
+							"                		<div class='hr-line-dashed'></div>"+
+							"                		<p class='m-b-xs'><strong>Company:</strong> "+v[1][5]+"</p>"+
+							"                		<p class='m-b-xs'><strong>Office:</strong> "+v[1][3]+"</p>"+
+							"                		<p class='m-b-xs'><strong>Email:</strong> "+v[1][10]+"</p>"+
+							"                		<p class='m-b-xs'><strong>Company Description:</strong> "+v[1][6]+"</p>"+
+							"                		<div class='hr-line-dashed'></div>"+
+							// "                	</div>"+
+							// "                </div>"+
+							
+							"            </div>"+
+							"        </div>"+
+							"    </div>";
+				});	
+				content = "<div class='card-content inspinia-timeline'>"+content+"</div>";
+				$("#jobapplications").html(content);
+				$(".prettydate").prettydate({
+				    dateFormat: "YYYY-MM-DD hh:mm:ss"
+				});
+			})
+	    }, 
+		
 		
 	}
 
 }();
-
-
-
-
-
-
-
-								
-
-
-                                

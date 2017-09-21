@@ -1,12 +1,10 @@
 <?php
 //secure this file
 class DatabaseClasses{
-
 	public $Data;
 	public $Row;
 	public $Key;
 	public $Value;
-
 	function DBCon(){
 		$host = "localhost";
 		$dataBase = "db_kareer";
@@ -37,45 +35,38 @@ class DatabaseClasses{
 			die("DB ERROR: ". $e->getMessage());
 		}
 	}
-
 	function chkConnection(){
 		$data = DatabaseClasses::DBCon();
 		if(is_object($data)){
 			echo 1;
 		}
 	}
-
 	function PDO_DateAndTime(){
 		$Query = DatabaseClasses::PDO_Query("SELECT NOW() AS DateAndTime");
 		foreach ($Query as $key => $value) {
 			return $value[0];
 		}
 	}
-
 	function PDO_Queried_RowCount($String){
 		$Query = DatabaseClasses::PDO_Query($String);
 		return $Query->rowCount();
 	} 
-
 	function PDO_Query($QueryString){
 		$Data = DatabaseClasses::DBCon();
 		$Query = $Data->prepare($QueryString);
 		$Query->execute();
 		return $Query;
 	}
-
 	function PDO_Query2($QueryString){
 		$Data = DatabaseClasses::DBCon();
 		$Query = $Data->prepare($QueryString);
 		return $Query->execute();
 	}
-
 	function PDO_SQLQuery($QueryString){
 		$Data = DatabaseClasses::DBCon();
 		$Query = $Data->prepare($QueryString);
 		return $Query;
 	}
-
 	function PDO_ShowTable($Table,$Column = "*",$Condition = "*"){
 		if($Column == '*' || $Condition == "*"){
 			$Array = array();
@@ -94,7 +85,6 @@ class DatabaseClasses{
 			return $Array;
 		}
 	}
-
 	function PDO_SQL($SQLString){
 		$Array = array();
 		$Query = DatabaseClasses::PDO_Query($SQLString);
@@ -103,7 +93,6 @@ class DatabaseClasses{
 		}
 		return $Array;
 	}
-
 	function PDO($query){
 		$array = array();
 		$Data = DatabaseClasses::DBCon();
@@ -119,17 +108,14 @@ class DatabaseClasses{
 			return $result;
 		}
 	}
-
 	function escape($string){
 		$Data = DatabaseClasses::DBCon();
 		return $Data->quote($string);
 	}
-
 	function PDO_RowCount($Table,$Column,$Condition){
 		$Query = DatabaseClasses::PDO_Query("SELECT * FROM $Table WHERE $Column = '$Condition'");
 		return $Query->rowCount();
 	}
-
 	function PDO_ShowRow($Table,$Column,$Condition){
 		$Array = array();
 		$Query = DatabaseClasses::PDO_Query("SELECT * FROM $Table WHERE $Column = '$Condition'");
@@ -140,12 +126,10 @@ class DatabaseClasses{
 			return $Array;
 		}
 	}
-
 	function PDO_TableCounter($Table){
 		$Query = DatabaseClasses::PDO_Query("SELECT * FROM $Table'");
 		return $Query->rowCount();
 	}
-
 	function PDO_IDGenerate($Table,$ID){
 		$Status = true;
 		for($x=0;$Status == true;$x++){
@@ -157,7 +141,6 @@ class DatabaseClasses{
 		}
 		return $TempID;
 	}
-
 	function CheckUserLog($Username,$Password){
 		if(!isset($Username) && !isset($Password))
 			return true;
@@ -174,7 +157,6 @@ class DatabaseClasses{
 			return $Data;
 		}			
 	}
-
 	function PDO_StudentIDNumberGenerator($Table,$ID){
 		$Status = true; $RetString = ""; $Zero = '';
 		$Query = DatabaseClasses::PDO_SQLQuery("SELECT * FROM $Table");
@@ -184,28 +166,13 @@ class DatabaseClasses{
 		}
 		$Year = substr(DatabaseClasses::PDO_DateNow(),2,2);
 		$TempNum = $Zero.$Query->rowCount();
-
 		return $Year.'-LN-'.$TempNum;
 	}
-
 	function PDO_DateNow(){
 		$Query = DatabaseClasses::PDO_SQLQuery("SELECT NOW() as Date");
 		$Query->execute();
 		return $Query->fetch(PDO::FETCH_NUM)[0];
 	}
-
-	function PDO_IDGenerator($Table,$ID){
-		$Status = true;
-		for($x=0;$Status == true;$x++){
-			$TempID = sha1(DatabaseClasses::PDO_TableCounter($Table)+$x);
-			$Query = DatabaseClasses::PDO_RowCount($Table,$ID,$TempID);
-			if($Query == 0){
-				$Status = false;
-			}
-		}
-		return $TempID;
-	}
-	
 	function BackUpTable($TableName,$WhereClause = ''){
 	    $RetVal = '{"'.$TableName.'":['; $loop = 0;
 	    $Query = DatabaseClasses::PDO_SQL2("SELECT COUNT(*) FROM $TableName $WhereClause");
@@ -222,7 +189,6 @@ class DatabaseClasses{
 	    $RetVal .= ']}';
 	    return $RetVal;
 	}
-
     function SecureString($String){
         $String = trim($String);
         $String = str_replace(PHP_EOL,"<33>  ",$String);
@@ -230,7 +196,6 @@ class DatabaseClasses{
         $String = str_replace("\r","<33>  ",$String);
         return $String;
     }    
-
 	function db_buckup(){
 		$sql=""; $createsql=""; $dropsql="DROP TABLE IF EXISTS "; $subcreatesql=""; $insertsql=""; $subinsertsql="";
 		$q1 = DatabaseClasses::PDO(true,"SHOW TABLES");
@@ -249,7 +214,6 @@ class DatabaseClasses{
 			}
 			$subcreatesql .= "PRIMARY KEY (`{$pri}`)";
 			$createsql = "CREATE TABLE IF NOT EXISTS `{$v1[0]}` (\n{$subcreatesql}\n) ENGINE=InnoDB DEFAULT CHARSET=latin1;\n\n";
-
 			$insertsql="";
 			$q3 = DatabaseClasses::PDO(true,"SELECT * FROM {$v1[0]}");
 			if(count($q3)>0){
@@ -264,20 +228,15 @@ class DatabaseClasses{
 				}
 				$insertsql = "INSERT INTO `{$v1[0]}` ({$columns}) VALUES \n{$insertsql};\n\n";				
 			}
-
 			$sql .= "-- Table structure for `{$v1[0]}`-- \n{$createsql}-- Dumping data for table `{$v1[0]}`-- \n{$insertsql}\n\n";
 		}
-
 		$sql = "SET SQL_MODE = \"NO_AUTO_VALUE_ON_ZERO\";\nSET time_zone = \"+00:00\";\n\n/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;\n/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;\n/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;\n/*!40101 SET NAMES utf8 */;\n\n{$dropsql};\n\n{$sql}\n/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;\n/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;\n/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;\n\n-- Buckup function --\n-- Developed by Rufo N. Gabrillo Jr. --";
-
 		return $sql;
 	}
-
 	function mail($receiver,$subject,$message){
         $headers  = 'MIME-Version: 1.0' . "\r\n";
         $headers .= 'Content-type: text/html; charset=iso-8859-1' . "\r\n";
         $headers .= 'From: Kareer' . "\r\n";
-
         $result = mail($receiver,$subject,$message,$headers);
         return $result;
 	}
