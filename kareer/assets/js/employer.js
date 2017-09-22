@@ -626,6 +626,7 @@ var jobs = function(){
 			$(".prettydate").prettydate({
 			    dateFormat: "YYYY-MM-DD hh:mm:ss"
 			});
+			
 
         	$("a[data-cmd='toggle-interview']").click(function(){
         		var data = $(this).data('id');
