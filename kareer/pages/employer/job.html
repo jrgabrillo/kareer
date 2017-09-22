@@ -14,7 +14,7 @@
 <!--                 <div class='card-content'>
                     <dl class='dl-horizontal'>
                         <dt></dt><dd><h2 id='txt_jobtitle'></h2></dd>
-                        <dt>Status:</dt> <dd id='txt_jobstatus'></dd>
+                        <dt>Status:</dt> <dd id='txt_jobstatus'></dd><a data-cmd='updateJob' data-value='"+data[0][5]+"' data-name='"+data[0][5]+"' data-node='"+data[0][0]+"' data-prop='CompanyName' class='tooltipped btn-floating waves-effect black-text no-shadow white right material-icons' data-position='left' data-delay='50' data-tooltip='Update Company'><i class='material-icons'></i></a>
                         <dt>Application Expiry:</dt><dd id='txt_jobexpiry' class='datepicker'></dd>
                         <dt>Created:</dt><dd id='txt_jobdate' class='datepicker'></dd>
                         <dt>Description:</dt><dd id='txt_jobdescription'></dd>
@@ -46,6 +46,11 @@
 <script type="text/javascript">
     var data = window.location.hash.split(';');
     jobs.getByID(data[2].split('='));
+<<<<<<< HEAD
     job.ini();
 
 </script>
+=======
+    jobs.update();
+</script>
+>>>>>>> 4ad8b6406396eb41933bc4e28944eefedc37f23a

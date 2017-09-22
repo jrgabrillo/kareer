@@ -250,32 +250,32 @@ $Functions = new DatabaseClasses;
         }
     }
     
-    if (isset($_GET['do-postJob'])) {
-        if(isset($_POST['data'])){
-            $id = $Functions->PDO_IDGenerator('tbl_vacancies','id');
-            $date = $Functions->PDO_DateAndTime();
-            $data = $_POST['data'];
-            $employer_id = $data[0];
-            $description = $data[1][2]['value'];
-            $vacancy_date = $data[1][1]['value'];
-            $job_title = $data[1][0]['value'];
-            if(count($data[1])==4)
-                $skills = json_encode($data[1][3]);
-            else
-                $skills = json_encode([]);
-            $QueryString = "INSERT INTO tbl_vacancies(id,employer_id,description,vacancy_date,job_title,skills,date) VALUES('{$id}','{$employer_id}','{$description}','{$vacancy_date}','{$job_title}','{$skills}','{$date}')";
-            $Query = $Functions->PDO_SQLQuery($QueryString);
-            if($Query->execute())
-                echo 1;
-            else{
-                $Data = $Query->errorInfo();
-                print_r($Data);
-            }
-        }
-        else{
-            echo "Hacker";
-        }
-    }
+    // if (isset($_GET['do-postJob'])) {
+    //     if(isset($_POST['data'])){
+    //         $id = $Functions->PDO_IDGenerate('tbl_vacancies','id');
+    //         $date = $Functions->PDO_DateAndTime();
+    //         $data = $_POST['data'];
+    //         $employer_id = $data[0];
+    //         $description = $data[1][2]['value'];
+    //         $vacancy_date = $data[1][1]['value'];
+    //         $job_title = $data[1][0]['value'];
+    //         if(count($data[1])==4)
+    //             $skills = json_encode($data[1][3]);
+    //         else
+    //             $skills = json_encode([]);
+    //         $QueryString = "INSERT INTO tbl_vacancies(id,employer_id,description,vacancy_date,job_title,skills,date,status) VALUES('{$id}','{$employer_id}','{$description}','{$vacancy_date}','{$job_title}','{$skills}','{$date}','1')";
+    //         $Query = $Functions->PDO_SQLQuery($QueryString);
+    //         if($Query->execute())
+    //             echo 1;
+    //         else{
+    //             $Data = $Query->errorInfo();
+    //             print_r($Data);
+    //         }
+    //     }
+    //     else{
+    //         echo "Hacker";
+    //     }
+    // }
     if(isset($_GET['update-adminPicture'])){
             $data = $_POST['data'];
            saveImage($user,$data[1]);
