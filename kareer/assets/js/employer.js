@@ -1,6 +1,5 @@
 job = {
 	ini:function(){
-		// this.add();
 		this.list();
 	},
 	management:function(){
@@ -830,7 +829,7 @@ var employer = function () {
 						picture = "../assets/img/"+data[0][9];					
 					}
 					else{
-						picture =" system.get_apr(data[0][9]);"					
+						picture = system.get_apr(data[0][9]);					
 					}
 				}
 				if(data[0][5] != "")
@@ -903,58 +902,58 @@ var employer = function () {
 					}
 				}
 
-				// var accountCompute = sys.computeAccount(data);
-				// if(accountCompute[0]<100){
-				// 	var fields = ["id","Last Name","First Name","Address","Contact Number","Company Name","Description","DTI Number","BIR Number","Picture","Email","Password","Status"];
-				// 	var subcontent = "", content = "";
+				var accountCompute = system.get_apr(data);
+				if(accountCompute[0]<100){
+					var fields = ["id","Last Name","First Name","Address","Contact Number","Company Name","Description","DTI Number","BIR Number","Picture","Email","Password","Status"];
+					var subcontent = "", content = "";
 
-				// 	$.each(accountCompute[2],function(i,v){
-				// 		if(fields[v] == "Description"){
-				// 			subcontent += "<li class='list-group-item'>"+fields[v]+": <textarea data-inputtype='required' placeholder='"+fields[v]+"' class='form-control' name='"+fields[v]+"' style='resize: none;'></textarea></li>";						
-				// 		}
-				// 		else{
-				// 			subcontent += "<li class='list-group-item'>"+fields[v]+": <input data-inputtype='required' placeholder='"+fields[v]+"' type='text' class='form-control' name='"+fields[v]+"'></li>";						
-				// 		}
-				// 	});
+					$.each(accountCompute[2],function(i,v){
+						if(fields[v] == "Description"){
+							subcontent += "<li class='list-group-item'>"+fields[v]+": <textarea data-inputtype='required' placeholder='"+fields[v]+"' class='form-control' name='"+fields[v]+"' style='resize: none;'></textarea></li>";						
+						}
+						else{
+							subcontent += "<li class='list-group-item'>"+fields[v]+": <input data-inputtype='required' placeholder='"+fields[v]+"' type='text' class='form-control' name='"+fields[v]+"'></li>";						
+						}
+					});
 
-				// 	subcontent = "<strong>You need to complete the following:</strong><form class='form-horizontal' id='form_completion' role='form' method='post' enctype='multipart/form-data'><ul class='list-group clear-list'>"+subcontent+"</ul></form>";
-				// 	content = "<div class='row col-md-12' style='float:none;'><div class='row col-md-5 text-center'>"+
-				// 				"    <h1>"+accountCompute[0]+"%</h1><h2>Complete</h2>"+
-				// 				"</div>"+
-				// 				"<div class='row col-md-8'>"+
-				// 					subcontent+
-				// 				"<a class='btn btn-sm btn-block btn-success' data-cmd='save_info'>Save</a></div>"+
-				// 				"</div>";
+					subcontent = "<strong>You need to complete the following:</strong><form class='form-horizontal' id='form_completion' role='form' method='post' enctype='multipart/form-data'><ul class='list-group clear-list'>"+subcontent+"</ul></form>";
+					content = "<div class='row col-md-12' style='float:none;'><div class='row col-md-5 text-center'>"+
+								"    <h1>"+accountCompute[0]+"%</h1><h2>Complete</h2>"+
+								"</div>"+
+								"<div class='row col-md-8'>"+
+									subcontent+
+								"<a class='btn btn-sm btn-block btn-success' data-cmd='save_info'>Save</a></div>"+
+								"</div>";
 
-				// 	$("#account").html(content);
-				// 	$("a[data-cmd='save_info']").click(function(){
-			 //    		var completiondata = $("#form_completion").serializeArray();
+					$("#account").html(content);
+					$("a[data-cmd='save_info']").click(function(){
+			    		var completiondata = $("#form_completion").serializeArray();
 
-				// 		var validated = validate.validate(completiondata);
-				// 		if(validated[0]>0){
-				// 			var message = "";
-				// 			$.each(validated[1],function(i,v){
-				// 				message += (i+1)+". "+v+"<br/>";
-				// 			})
-				// 			sys.errorNotification('The following fields has an error',message);
-				// 		}
-				// 		else{
-				//     		var newdata = [completiondata,data[0][0]];
-				// 			var ajax = system.do_ajax('../assets/harmony/Process.php?do-completeData',newdata);
-				// 			ajax.success(function(data){
-				// 				if(data == 1){
-				// 					toast("Successful!", "Employer's information has been saved.", "success");
-				// 					App.handleLoadPage(window.location.hash);
-				// 				}
-				// 				else{
-				// 					toast("Fatal Error!", "There was an Unexpected Error during the process.", "error");
-				// 					console.log(data);
-				// 				}
-				// 			});
-				// 		}
+						var validated = validate.validate(completiondata);
+						if(validated[0]>0){
+							var message = "";
+							$.each(validated[1],function(i,v){
+								message += (i+1)+". "+v+"<br/>";
+							})
+							system.errorNotification('The following fields has an error',message);
+						}
+						else{
+				    		var newdata = [completiondata,data[0][0]];
+							var ajax = system.ajax('../assets/harmony/Process.php?do-completeData',newdata);
+							ajax.success(function(data){
+								if(data == 1){
+									toast("Successful!", "Employer's information has been saved.", "success");
+									App.handleLoadPage(window.location.hash);
+								}
+								else{
+									toast("Fatal Error!", "There was an Unexpected Error during the process.", "error");
+									console.log(data);
+								}
+							});
+						}
 
-				// 	});
-				// }
+					});
+				}
 
 				//picture
 				$(".profile-element span img").prop({"src":picture});
@@ -1063,13 +1062,13 @@ var employer = function () {
 					    					var ajax = system.ajax('../assets/harmony/Process.php?update-image',[data[0][0],'employer',$image.cropper("getDataURL")]);
 											ajax.success(function(data){
 												if(data == 1){
-													Materialize.toast("Successful!", "Employer's picture has been updated.", "success");
+													swal("Successful!", "Employer's picture has been updated.", "success");
 													system.close_modal();
 													App.handleLoadPage(window.location.hash);
 												}
 												else{
-													Materialize.toast("Fatal Error!", "There was an Unexpected Error during the process.", "error");
-													// console.log(data);
+													swal("Fatal Error!", "There was an Unexpected Error during the process.", "error");
+													console.log(data);
 												}
 											});
 							            });

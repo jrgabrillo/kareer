@@ -363,6 +363,26 @@ $Functions = new DatabaseClasses;
             echo "Hacker";
         }
     }
+    if(isset($_GET['do-savejob'])){
+        if(isset($_POST["data"])){
+            $id = $Functions->PDO_IDGenerate('tbl_application','id');
+            $date = $Functions->PDO_DateAndTime();
+            $data = $_POST['data'];
+            $applicant = json_encode([$data[0][0],$data[0][1],$data[0][3],json_decode($data[0][2])]);
+
+            $QueryString = "INSERT INTO  tbl_application(id,vacany_id,applicant,description,date) VALUES('{$id}','{$data[1]}','{$applicant}','{$data[2]}','{$date}')";
+            $Query = $Functions->PDO_SQLQuery($QueryString);
+            if($Query->execute())
+                echo 1;
+            else{
+                $Data = $Query->errorInfo();
+                print_r($Data);
+            }
+        }
+        else{
+            echo "Hacker";
+        }
+    }
     if(isset($_GET['do-updateData'])){
         if(isset($_POST['data'])){
             $date = $Functions->PDO_DateAndTime();
@@ -694,6 +714,24 @@ $Functions = new DatabaseClasses;
                 $Data = $query->errorInfo();
                 print_r($Data);
             }
+    }
+    if(isset($_GET['do-inviteInterview'])){
+        if(isset($_POST['data'])){
+            $data = $_POST['data'];
+            $date = $Functions->PDO_DateAndTime();
+            $val = json_encode([$date,$data[1]]);
+            $Query = $Functions->PDO_SQLQuery("UPDATE tbl_application SET status = '{$val}' WHERE id = '{$data[0]}'");
+            if($Query->execute()){
+                echo 1;
+            }
+            else{
+                $Data = $Query->errorInfo();
+                print_r($Data);
+            }
+        }
+        else{
+            echo "Hacker";
+        }
     }   
     if(isset($_GET['set-newApplicant'])){
             $data = $_POST['data'];
@@ -726,7 +764,7 @@ $Functions = new DatabaseClasses;
             echo "Hacker";
         }
     } 
-    if(isset($_GET['do-inviteInterview'])){
+    if(isset($_GET['do-inviteInterviewq'])){
         if(isset($_POST['data'])){
     }
     if(isset($_POST['data'])){
@@ -763,4 +801,96 @@ $Functions = new DatabaseClasses;
         }
     }
 */
+
+    if(isset($_GET['update-admin'])){
+            $data = $_POST['data'];
+            $user = $function->getAdmin();
+            $session = $_SESSION['kareer7836'];
+            if($data[0]['name'] == "field_Name"){
+                $name = $data[0]['value'];
+                $query = $function->PDO(false,"UPDATE tbl_application SET name = '{$name}' WHERE id = '{$user}';");
+                if($query->execute()){
+                    $log = $function->log2($user,"Name is updated to {$name}.","Update");
+                    echo 1;
+                }
+                else{
+                    $Data = $query->errorInfo();
+                    print_r($Data);
+                }
+            }
+            else if($data[0]['name'] == "field_Email"){
+                $email = $data[0]['value'];
+                $query = $function->PDO(false,"UPDATE tbl_application SET email = '{$email}' WHERE id = '{$user}';");
+                if($query->execute()){
+                    $log = $function->log2($user,"Email Updated","Update");
+                    echo 1;
+                }
+                else{
+                    $Data = $query->errorInfo();
+                    print_r($Data);
+                }
+            }
+            else if($data[0]['name'] == "field_Username"){
+                $username = $data[0]['value'];
+                $query = $function->PDO(false,"UPDATE tbl_application SET username = '{$username}' WHERE id = '{$user}';");
+                if($query->execute()){
+                    $_SESSION["kareer7836"] = [$username,$session[1],$session[2]];
+                    $log = $function->log2($user,"Username Updated","Update");
+                    echo 1;
+                }
+                else{
+                    $Data = $query->errorInfo();
+                    print_r($Data);
+                }
+            }
+            else if($data[0]['name'] == "field_Password"){
+                $password = sha1($data[0]['value']);
+                $query = $function->PDO(false,"UPDATE tbl_application SET password = '{$password}' WHERE id = '{$user}';");
+                if($query->execute()){
+                    $_SESSION["kareer7836"] = [$session[0],$password,$session[2]];
+                    $log = $function->log2($user,"Password updated","Update");
+                    echo 1;
+                }
+                else{
+                    $Data = $query->errorInfo();
+                    print_r($Data);
+                }
+            }
+    }
+    if(isset($_GET['activate-admin'])){
+                $user = $function->getUser();
+                $data = $_POST['data'];
+                $query = $function->PDO(false,"UPDATE tbl_application SET status = '1' WHERE id = '{$data}';");
+                if($query->execute()){
+                    $log = $function->log2($user,"Activating admin account","Active");
+                    echo 1;
+                }
+                else{
+                    $Data = $query->errorInfo();
+                    print_r($Data);
+                }
+    }
+    if(isset($_GET['deactivate-admin'])){
+                $user = $function->getUser();
+                $data = $_POST['data'];
+                $query = $function->PDO(false,"UPDATE tbl_application SET status = '0' WHERE id = '{$data[0]}';");
+                if($query->execute()){
+                    $log = $function->log2($user,$data[1],"Deactivate");
+                    echo 1;
+                }
+                else{
+                    $Data = $query->errorInfo();
+                    print_r($Data);
+                }
+    }
+    if(isset($_GET['get-listAdmin'])){
+            $data = $function->getAdmin();
+            $query = $function->PDO(true,"SELECT * FROM tbl_application WHERE id != '{$data}' ORDER BY status DESC");
+            print_r(json_encode($query));
+    }
+    if(isset($_GET['get-admin'])){
+            $query = $function->PDO(true,"SELECT * FROM tbl_application WHERE username = '{$_SESSION['kareer7836'][0]}' AND password = '{$_SESSION['kareer7836'][1]}'");
+            print_r(json_encode($query));
+    }
+
 ?> 
