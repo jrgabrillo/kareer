@@ -1,57 +1,3 @@
-<<<<<<< HEAD
-job = {
-	ini:function(){
-		this.list();
-	},
-	management:function(){
-		var data = system.xml("pages.xml");
-		$(data.responseText).find("addAccount").each(function(i,content){
-			$("#modal .modal-content").html(content);
-			$('#modal').openModal('show');			
-		});
-	},
-	list:function(){
-		var content = "";
-		var data = system.html('../assets/harmony/Process.php?get-admin');
-		data.done(function(data){
-			data = JSON.parse(data);
-			var profile = (data[0][8] == "")?'avatar.jpg':data[0][8];
-			content = "<div id='profile-card' class='card'>"+
-					"    <div class='card-image waves-effect waves-block waves-light'>"+
-					"        <img class='activator' src='../assets/images/user-bg.jpg' alt='user background'>"+
-					"    </div>"+
-					"    <div class='card-content'>"+
-					"        <div class=' responsive-img activator card-profile-image circle'>"+
-					"        	<img src='../assets/images/profile/"+profile+"' alt='' class='circle'>"+
-					"        	<a data-cmd='updateAdminPicture' data-value='"+profile+"' data-name='"+data[0][1]+"' data-node='"+data[0][0]+"' data-prop='Picture' class='btn waves-effect white-text no-shadow black' style='font-size: 10px;z-index: 1;padding: 0 12px;top:40px;'>Change</a>"+
-					"		 </div>"+
-					"        <span class='card-title activator grey-text text-darken-4'>"+data[0][1]+" </span>"+
-					"			<a data-cmd='updateAdmin' data-value='"+data[0][1]+"' data-name='"+data[0][1]+"' data-node='"+data[0][0]+"' data-prop='Name' class='tooltipped btn-floating waves-effect black-text no-shadow white right' data-position='left' data-delay='50' data-tooltip='Update name'>"+
-					"				<i class='mdi-editor-mode-edit right black-text'></i>"+
-					"			</a>"+
-					"		 <div class='divider'></div>"+
-					"        <p><span style='width:80%;display: inline-block;' class='truncate'><i class='mdi-communication-email cyan-text text-darken-2'></i> Email: "+data[0][5]+"</span>"+
-					"			<a data-cmd='updateAdmin' data-value='"+data[0][5]+"' data-name='"+data[0][1]+"' data-node='"+data[0][0]+"' data-prop='Email' class='tooltipped btn-floating waves-effect black-text no-shadow white right' data-position='left' data-delay='50' data-tooltip='Update email'>"+
-					"				<i class='mdi-editor-mode-edit right black-text'></i>"+
-					"			</a>"+
-					"		 </p>"+
-					"		 <div class='divider'></div>"+
-					"        <p><span style='width:80%;display: inline-block;' class='truncate'><i class='mdi-action-perm-identity cyan-text text-darken-2'></i> Username: "+data[0][2]+"</span>"+
-					"			<a data-cmd='updateAdmin' data-value='"+data[0][2]+"' data-name='"+data[0][1]+"' data-node='"+data[0][0]+"' data-prop='Username' class='tooltipped btn-floating waves-effect black-text no-shadow white right' data-position='left' data-delay='50' data-tooltip='Update uaername'>"+
-					"				<i class='mdi-editor-mode-edit right black-text'></i>"+
-					"			</a>"+
-					"		 </p>"+
-					"		 <div class='divider'></div>"+
-					"        <p><span style='width:80%;display: inline-block;' class='truncate'><i class='mdi-action-verified-user cyan-text text-darken-2'></i> Password"+"</span>"+
-					"			<a data-cmd='updateAdmin' data-name='"+data[0][1]+"' data-node='"+data[0][0]+"' data-prop='Password' class='tooltipped btn-floating waves-effect black-text no-shadow white right' data-position='left' data-delay='50' data-tooltip='Update password'>"+
-					"				<i class='mdi-editor-mode-edit right black-text'></i>"+
-					"			</a>"+
-					"		 </p>"+
-					"    </div>"+
-					"</div>";
-			$("#display_newAdmin").html(content);
-		});
-=======
 // job = {
 // 	ini:function(){
 // 		// this.add();
@@ -105,7 +51,6 @@ job = {
 // 					"</div>";
 // 			$("#display_newAdmin").html(content);
 // 		});
->>>>>>> 4ad8b6406396eb41933bc4e28944eefedc37f23a
 
 // 		content = "";
 // 		var data = system.html('../assets/harmony/Process.php?get-listAdmin');
@@ -948,7 +893,7 @@ var employer = function () {
 						picture = "../assets/img/"+data[0][9];					
 					}
 					else{
-						picture = system.get_apr(data[0][9]);					
+						picture =" system.get_apr(data[0][9]);"					
 					}
 				}
 				if(data[0][5] != "")
@@ -1021,58 +966,58 @@ var employer = function () {
 					}
 				}
 
-				var accountCompute = system.get_apr(data);
-				if(accountCompute[0]<100){
-					var fields = ["id","Last Name","First Name","Address","Contact Number","Company Name","Description","DTI Number","BIR Number","Picture","Email","Password","Status"];
-					var subcontent = "", content = "";
+				// var accountCompute = sys.computeAccount(data);
+				// if(accountCompute[0]<100){
+				// 	var fields = ["id","Last Name","First Name","Address","Contact Number","Company Name","Description","DTI Number","BIR Number","Picture","Email","Password","Status"];
+				// 	var subcontent = "", content = "";
 
-					$.each(accountCompute[2],function(i,v){
-						if(fields[v] == "Description"){
-							subcontent += "<li class='list-group-item'>"+fields[v]+": <textarea data-inputtype='required' placeholder='"+fields[v]+"' class='form-control' name='"+fields[v]+"' style='resize: none;'></textarea></li>";						
-						}
-						else{
-							subcontent += "<li class='list-group-item'>"+fields[v]+": <input data-inputtype='required' placeholder='"+fields[v]+"' type='text' class='form-control' name='"+fields[v]+"'></li>";						
-						}
-					});
+				// 	$.each(accountCompute[2],function(i,v){
+				// 		if(fields[v] == "Description"){
+				// 			subcontent += "<li class='list-group-item'>"+fields[v]+": <textarea data-inputtype='required' placeholder='"+fields[v]+"' class='form-control' name='"+fields[v]+"' style='resize: none;'></textarea></li>";						
+				// 		}
+				// 		else{
+				// 			subcontent += "<li class='list-group-item'>"+fields[v]+": <input data-inputtype='required' placeholder='"+fields[v]+"' type='text' class='form-control' name='"+fields[v]+"'></li>";						
+				// 		}
+				// 	});
 
-					subcontent = "<strong>You need to complete the following:</strong><form class='form-horizontal' id='form_completion' role='form' method='post' enctype='multipart/form-data'><ul class='list-group clear-list'>"+subcontent+"</ul></form>";
-					content = "<div class='row col-md-12' style='float:none;'><div class='row col-md-5 text-center'>"+
-								"    <h1>"+accountCompute[0]+"%</h1><h2>Complete</h2>"+
-								"</div>"+
-								"<div class='row col-md-8'>"+
-									subcontent+
-								"<a class='btn btn-sm btn-block btn-success' data-cmd='save_info'>Save</a></div>"+
-								"</div>";
+				// 	subcontent = "<strong>You need to complete the following:</strong><form class='form-horizontal' id='form_completion' role='form' method='post' enctype='multipart/form-data'><ul class='list-group clear-list'>"+subcontent+"</ul></form>";
+				// 	content = "<div class='row col-md-12' style='float:none;'><div class='row col-md-5 text-center'>"+
+				// 				"    <h1>"+accountCompute[0]+"%</h1><h2>Complete</h2>"+
+				// 				"</div>"+
+				// 				"<div class='row col-md-8'>"+
+				// 					subcontent+
+				// 				"<a class='btn btn-sm btn-block btn-success' data-cmd='save_info'>Save</a></div>"+
+				// 				"</div>";
 
-					$("#account").html(content);
-					$("a[data-cmd='save_info']").click(function(){
-			    		var completiondata = $("#form_completion").serializeArray();
+				// 	$("#account").html(content);
+				// 	$("a[data-cmd='save_info']").click(function(){
+			 //    		var completiondata = $("#form_completion").serializeArray();
 
-						var validated = validate.validate(completiondata);
-						if(validated[0]>0){
-							var message = "";
-							$.each(validated[1],function(i,v){
-								message += (i+1)+". "+v+"<br/>";
-							})
-							system.errorNotification('The following fields has an error',message);
-						}
-						else{
-				    		var newdata = [completiondata,data[0][0]];
-							var ajax = system.ajax('../assets/harmony/Process.php?do-completeData',newdata);
-							ajax.success(function(data){
-								if(data == 1){
-									toast("Successful!", "Employer's information has been saved.", "success");
-									App.handleLoadPage(window.location.hash);
-								}
-								else{
-									toast("Fatal Error!", "There was an Unexpected Error during the process.", "error");
-									console.log(data);
-								}
-							});
-						}
+				// 		var validated = validate.validate(completiondata);
+				// 		if(validated[0]>0){
+				// 			var message = "";
+				// 			$.each(validated[1],function(i,v){
+				// 				message += (i+1)+". "+v+"<br/>";
+				// 			})
+				// 			sys.errorNotification('The following fields has an error',message);
+				// 		}
+				// 		else{
+				//     		var newdata = [completiondata,data[0][0]];
+				// 			var ajax = system.do_ajax('../assets/harmony/Process.php?do-completeData',newdata);
+				// 			ajax.success(function(data){
+				// 				if(data == 1){
+				// 					toast("Successful!", "Employer's information has been saved.", "success");
+				// 					App.handleLoadPage(window.location.hash);
+				// 				}
+				// 				else{
+				// 					toast("Fatal Error!", "There was an Unexpected Error during the process.", "error");
+				// 					console.log(data);
+				// 				}
+				// 			});
+				// 		}
 
-					});
-				}
+				// 	});
+				// }
 
 				//picture
 				$(".profile-element span img").prop({"src":picture});
@@ -1181,13 +1126,13 @@ var employer = function () {
 					    					var ajax = system.ajax('../assets/harmony/Process.php?update-image',[data[0][0],'employer',$image.cropper("getDataURL")]);
 											ajax.success(function(data){
 												if(data == 1){
-													swal("Successful!", "Employer's picture has been updated.", "success");
+													Materialize.toast("Successful!", "Employer's picture has been updated.", "success");
 													system.close_modal();
 													App.handleLoadPage(window.location.hash);
 												}
 												else{
-													swal("Fatal Error!", "There was an Unexpected Error during the process.", "error");
-													console.log(data);
+													Materialize.toast("Fatal Error!", "There was an Unexpected Error during the process.", "error");
+													// console.log(data);
 												}
 											});
 							            });
