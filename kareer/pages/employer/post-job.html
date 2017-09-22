@@ -9,13 +9,14 @@
         </div>
     </div>
 </nav>
+
 <div class='row' style='float:none;'>
-        <div class="wrapper wrapper-content">
-            <div class="row animated fadeInUp">
-                <div class="card float-e-margins">
-                    <div class="col s12">
-                     <div class="card-content">
-                        <form class='form-horizontal' id='form_postJob' role='form' action='' method='post' enctype='multipart/form-data'>
+    <div class="wrapper wrapper-content">
+        <div class="row animated fadeInUp">
+            <div class="card float-e-margins">
+                <div class="col s12">
+                    <div class="card-content">
+                        <form class='form-horizontal' id='form_addVacancy' role='form' action='' method='post' enctype='multipart/form-data'>
                             <div>
                                 <div class='form-group'>
                                     <div class='col s6'>
@@ -36,18 +37,14 @@
                                     <div class='col s12'>
                                         <label>Job Description: </label>
                                         <textarea data-inputtype='required' name='field_description' placeholder='Job Description' class='form-control'></textarea>
-                                    </div> 
-                                    <!-- <div data-inputtype='required' class="input-field col s12">
-                                        <textarea id="description" class="materialize-textarea" data-length="120"></textarea>
-                                        <label name='field_description'>Description</label>
-                                    </div> -->
+                                    </div>
                                     <br/>
                                 </div>
                             </div>
                             <div>
                                 <div class='form-group'>  
                                     <div class='col s12'>
-                                        <button data-cmd='register_applicant'  class="btn btn-sm btn-block button_success" >Sign Up</button>  
+                                        <a class="btn btn-sm btn-block button_success" data-cmd='register_applicant'>Sign Up</a>  
                                     </div>
                                 </div>
                             </div>
@@ -58,13 +55,12 @@
         </div>
     </div>
 </div>
-<!-- <script src="../assets/js/froala_editor.pkgd.min.js"></script>
- --><script type="text/javascript">
-    
-    jobs.posting();
-    jobs.add();
-    // jobs.add_vacancies();
-// ("#field_skills").tagit({
+
+
+<script type="text/javascript">
+jobs.add_vacancies();
+
+// $("#field_skills").tagit({
 //     fieldName: "field_requiredSkills",
 //     allowSpaces:true,
 //     tagLimit: 5,
@@ -87,7 +83,7 @@
 //     numberOfMonths: 3,
 //     format: "mm/dd/yyyy"
 // });
-      $('.datepicker').pickadate({
+$('.datepicker').pickadate({
     selectMonths: true, // Creates a dropdown to control month
     selectYears: 15, // Creates a dropdown of 15 years to control year,
     today: 'Today',
@@ -96,5 +92,8 @@
     closeOnSelect: false // Close upon selecting a date,
   });
     // system.froala("textarea");
+
 </script>
+
+
 

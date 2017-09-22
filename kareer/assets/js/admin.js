@@ -8,6 +8,7 @@ var admin = function () {
 				employer.list();
 				applicant.list_student();
 				admin.jobposting();
+				admin.updatePicture();
 			}
 		},
 		display:function(){
@@ -239,112 +240,106 @@ var admin = function () {
             });
 		    });
 		},
-		update_picture:function(){
-			var sys = system;
-    		var data = sys.get_account();
-    		data = JSON.parse(data);
+		// update_picture:function(){
+  //   		var data = JSON.parse(employer.account());
 
-			var picture = "../assets/img/profile_avatar.jpg";
-			if(data[0][3] != ""){
-				var imageData = data[0][3].split('.');
-				if(imageData[imageData.length-1]!='apr')
-					picture = "../assets/img/"+data[0][3];					
-				else
-					picture = sys.get_apr(data[0][3]);
-					console.log(picture);
-			}
-				var content = " <img alt='image' class='img-responsive' src='"+picture+"' style='width: 100%;' >";
+		// 	var picture = "../assets/img/profile avatar.jpg";
+		// 	if(data[0][9] != ""){
+		// 		var imageData = data[0][9].split('.');
+		// 		if(imageData[imageData.length-1]!='apr')
+		// 			picture = "../assets/img/"+data[0][9];					
+		// 		else
+		// 			picture = system.get_apr(data[0][9]);					
+		// 	}
 
-				$("#profile_picture1").html(content);
-	    	$("a[data-cmd='update_picture']").click(function(){
-	    		$("#profile_picture1").addClass('hidden');
-	    		$("#profile_picture2").removeClass('hidden')
+	 //    	$("a[data-cmd='update_picture']").click(function(){
+	 //    		$("#profile_picture1").removeClass('hidden');
+	 //    		$("#profile_picture2").removeClass('hidden')
+	 //    		var content =   "<div class='image-crop' style='margin-bottom:5px;'>"+
+		// 						"	<img width='100%' src='"+picture+"'>"+
+		// 						"</div>"+
+		// 						"<div class='btn-group'>"+
+		// 						"<label for='inputImage' class='btn btn-xs btn-primary'>"+
+		// 						"	<input type='file' accept='image/*' name='file' id='inputImage' class='hide'>"+
+		// 						"	Upload new image"+
+		// 						"</label>"+
+		// 						"<button class='btn btn-warning btn-xs' data-cmd='cancel' type='button'>"+
+		// 						"	Cancel"+
+		// 						"</button>"+
+		// 						"<button class='btn btn-info btn-xs hidden' data-cmd='rotate' data-option='-90' type='button' title='Rotate Left'>"+
+		// 						"	<span class='fa fa-rotate-left'></span>"+
+		// 						"</button>"+
+		// 						"<button class='btn btn-info btn-xs hidden' data-cmd='rotate' data-option='90' type='button' title='Rotate Right'>"+
+		// 						"	<span class='fa fa-rotate-right'></span>"+
+		// 						"</button>"+
+		// 						"<button class='btn btn-danger btn-xs hidden' data-cmd='save' type='button'>"+
+		// 						"	Save"+
+		// 						"</button>"+
+		// 						"</div>";
+	 //    		$("#profile_picture2").html(content);
+	 //            var $inputImage = $("#inputImage");
+	 //            if(window.FileReader){
+	 //                $inputImage.change(function() {
+	 //                    var fileReader = new FileReader(),
+	 //                            files = this.files,
+	 //                            file;
 
-	    		var content =   "<div class='image-crop' style='margin-bottom:5px;'>"+
-								"	<img width='100%' src='"+picture+"'>"+
-								"</div>"+
-								"<div class='btn-group'>"+
-								"<label for='inputImage' class='btn btn-xs btn-primary'>"+
-								"	<input type='file' accept='image/*' name='file' id='inputImage' class='hide'>"+
-								"	Upload new image"+
-								"</label>"+
-								"<button class='btn btn-warning btn-xs' data-cmd='cancel' type='button'>"+
-								"	Cancel"+
-								"</button>"+
-								"<button class='btn btn-info btn-xs hidden' data-cmd='rotate' data-option='-90' type='button' title='Rotate Left'>"+
-								"	<span class='fa fa-rotate-left'></span>"+
-								"</button>"+
-								"<button class='btn btn-info btn-xs hidden' data-cmd='rotate' data-option='90' type='button' title='Rotate Right'>"+
-								"	<span class='fa fa-rotate-right'></span>"+
-								"</button>"+
-								"<button class='btn btn-danger btn-xs hidden' data-cmd='save' type='button'>"+
-								"	Save"+
-								"</button>"+
-								"</div>";
-	    		$("#profile_picture2").html(content);
-	            var $inputImage = $("#inputImage");
-	            if(window.FileReader){
-	                $inputImage.change(function() {
-	                    var fileReader = new FileReader(),
-	                            files = this.files,
-	                            file;
+	 //                    file = files[0];
 
-	                    file = files[0];
+	 //                    if (/^image\/\w+$/.test(file.type)) {
+	 //                        fileReader.readAsDataURL(file);
+	 //                        fileReader.onload = function () {
+	 //                            $inputImage.val("");
 
-	                    if (/^image\/\w+$/.test(file.type)) {
-	                        fileReader.readAsDataURL(file);
-	                        fileReader.onload = function () {
-	                            $inputImage.val("");
+		// 			            var $image = $(".image-crop > img")
+		// 			            $($image).cropper({
+		// 			            	aspectRatio: 1/1,
+		// 						    autoCropArea: 0.80,
+		// 						    preview: ".avatar-preview",
+		// 						    built: function () {
+		// 						    	$("button[data-cmd='rotate']").removeClass('hidden');
+		// 						    	$("button[data-cmd='save']").removeClass('hidden');
+		// 					            $("button[data-cmd='save']").click(function(){									    	
+		// 							    	$(this).html('Loading..').addClass('disabled');
+		// 			    					var ajax = system.ajax('../assets/harmony/Process.php?update-image',[data[0][0],'employer',$image.cropper("getDataURL")]);
+		// 									ajax.success(function(data){
+		// 										if(data == 1){
+		// 											Materialize.toast("Successful!", "Employer's picture has been updated.", "success");
+		// 											system.close_modal();
+		// 											App.handleLoadPage(window.location.hash);
+		// 										}
+		// 										else{
+		// 											Materialize.toast("Fatal Error!", "There was an Unexpected Error during the process.", "error");
+		// 											// console.log(data);
+		// 										}
+		// 									});
+		// 					            });
+		// 						    }
+		// 						});
 
-					            var $image = $(".image-crop > img")
-					            $($image).cropper({
-					            	aspectRatio: 1/1,
-								    autoCropArea: 0.80,
-								    preview: ".avatar-preview",
-								    built: function () {
-								    	$("button[data-cmd='save']").removeClass('hidden');
-								    	$("button[data-cmd='rotate']").removeClass('hidden');
-							            $("button[data-cmd='save']").click(function(){									    	
-									    	$(this).html('Loading..').addClass('disabled');
-					    					var ajax = system.ajax('../assets/harmony/Process.php?update-image',[data[0][0],'admin',$image.cropper("getDataURL")]);
-											ajax.success(function(data){
-												console.log(data);
-												if(data == 1){
-													swal("Successful!", "Admin's picture has been updated.", "success");
-													system.close_modal();
-													App.handleLoadPage(window.location.hash);
-												}
-												else{
-													swal("Fatal Error!", "There was an Unexpected Error during the process.", "error");
-													console.log(data);
-												}
-											});
-							            });
-								    }
-								});
+	 //                            $image.cropper("reset", true).cropper("replace", this.result);
 
-	                            $image.cropper("reset", true).cropper("replace", this.result);
+		// 			            $("button[data-cmd='rotate']").click(function(){
+		// 			            	var data = $(this).data('option');
+		// 				        	$image.cropper('rotate', data);
+		// 			            });
 
-					            $("button[data-cmd='rotate']").click(function(){
-					            	var data = $(this).data('option');
-						        	$image.cropper('rotate', data);
-					            });
+	 //                        };
+	 //                    }
+	 //                    else{
+	 //                        showMessage("Please choose an image file.");
+	 //                    }
+	 //                });
+	 //            }
+	 //            else{
+	 //                $inputImage.addClass("hide");
+	 //            }
 
-	                        };
-	                    }
-	                    else{
-	                        showMessage("Please choose an image file.");
-	                    }
-	                });
-	            }
-	            else{
-	                $inputImage.addClass("hide");
-	            }
-	            $("button[data-cmd='cancel']").click(function(){
-					App.handleLoadPage(window.location.hash);
-	            });
-	    	});
-	    },
+	 //            $("button[data-cmd='cancel']").click(function(){
+		// 			App.handleLoadPage(window.location.hash);
+	 //            });
+	 //    	});
+	 //    },
         get:function(){
 			var data = system.html('assets/harmony/Process.php?get_jobsPosts');
 			data.done(function(data){
