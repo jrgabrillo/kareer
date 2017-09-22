@@ -9,6 +9,9 @@ var admin = function () {
 				applicant.list_student();
 				admin.jobposting();
 				admin.updatePicture();
+				var data = system.get_account();
+    			var admindata = JSON.parse(data);
+    			console.log(admindata);
 			}
 		},
 		display:function(){
@@ -73,6 +76,7 @@ var admin = function () {
 		update_data:function(){
     		var data = sys.get_account();
     		var admindata = JSON.parse(data);
+    		console.log(admindata);
 
         	$("a[data-field='given-name']").click(function(){
         		$('input').val('');

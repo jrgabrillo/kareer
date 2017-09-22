@@ -465,6 +465,7 @@ var jobs = function(){
 				    ]
 				});
 			}
+
 			// $(".datepicker").datepicker({
 			//     dateFormat: "YYYY-MM-DD hh:mm:ss"
 			// });			ajax.success(function(data){});
@@ -717,6 +718,67 @@ var jobs = function(){
 				}
 			});
         },
+        update:function(){
+			$("a[data-cmd='updateJob']").on('click',function(){
+				var data = $(this).data();
+				var id = data.node;
+				console.log(data);	
+				// var content = "<h5>Change "+data.prop+"</h5>"+
+				// 		  "<form id='form_update' class='formValidate' method='get' action='' novalidate='novalidate'>"+
+				// 		  "		<label for='field_"+data.prop+"'>"+data.prop+": </label>"+
+				// 		  "		<input id='field_"+data.prop+"' value='"+data.value+"' type='text' name='field_"+data.prop+"' data-error='.error_"+data.prop+"'>"+
+				// 		  "		<div class='error_"+data.prop+"'></div>"+
+				// 		  "		<button type='submit' data-cmd='button_proceed' class='waves-effect waves-grey grey lighten-5 blue-text btn-flat modal-action right'>Save</button>"+
+				// 		  "		<a class='waves-effect waves-grey grey-text btn-flat modal-action modal-close_modal right'>Cancel</a>"+
+				// 		  "</form>";
+				// 		  console.log(data.prop);
+				// 		  console.log(data.value);
+				// 		  console.log(data.node);
+				// $("#modal .modal-content").html(content);
+				// $('#modal .modal-footer').html("");		
+
+				// if(data.prop == "CompanyName"){
+				// 	$('#modal').modal('open');			
+				// 	$("#form_update").validate({
+				// 	    rules: {
+				// 	        field_CompanyName: {required: true,maxlength: 50},
+				// 	    },
+				// 	    errorElement : 'div',
+				// 	    errorPlacement: function(error, element) {
+				// 			var placement = $(element).data('error');
+				// 			if(placement){
+				// 				$(placement).append(error)
+				// 			} 
+				// 			else{
+				// 				error.insertAfter(element);
+				// 			}
+				// 		},
+				// 		submitHandler: function (form) {
+				// 			var _form = $(form).serializeArray();
+				// 			if(data.value == _form[0]['value']){
+				// 				Materialize.toast('You did not even change the value.',4000);
+				// 			}
+				// 			else{
+				// 				var ajax = system.ajax('../assets/harmony/Process.php?update-employer',[id,_form]);
+				// 				ajax.done(function(ajax){
+				// 					console.log(ajax)
+				// 					if(ajax == 1){
+				// 						system.clearForm();
+				// 						Materialize.toast('Name updated.',4000);
+				// 						system.close_modal();	
+				// 						App.handleLoadPage("#cmd=index;content=employers");
+				// 					}
+				// 					else{
+				// 						Materialize.toast('Cannot process request.',4000);
+				// 					}
+				// 				});
+				// 			}
+				// 	    }
+				// 	}); 
+				// }
+			
+			});
+		},
 	    add:function(){
     		var acount = JSON.parse(employer.account());
 			$("#form_postJob").validate({
