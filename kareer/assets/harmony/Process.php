@@ -746,7 +746,7 @@ $Functions = new DatabaseClasses;
             echo "Hacker";
         }
     }
-
+/*
     if(isset($_GET['get-jobsPosts'])){
         if(isset($_POST["data"])){
             $data = $_POST['data'];
@@ -762,5 +762,5 @@ $Functions = new DatabaseClasses;
             echo "Hacker";
         }
     }
-
+*/
 ?> 

@@ -221,8 +221,7 @@ var jobs = function(){
 			    dateFormat: "YYYY-MM-DD hh:mm:ss"
 			});			//ajax.success(function(data){});
         },
-        // Job Detail
-        JobDetail:function(id){
+        getByID:function(id){
     		var data = JSON.parse(employer.account());
 			var ajax = system.ajax('../assets/harmony/Process.php?get-jobByID',id[1]);
 			var ajaxData = JSON.parse(ajax.responseText);
@@ -303,45 +302,7 @@ var jobs = function(){
 			$(".prettydate").prettydate({
 			    dateFormat: "YYYY-MM-DD hh:mm:ss"
 			});
-<<<<<<< HEAD
-		// content = "";
-			var data = system.html('../assets/harmony/Process.php?get-listAdmin');
-			var actions = "", status = "";
-			data.done(function(data){
-				data = JSON.parse(data);
-				$.each(data,function(i,v){
-					if(Number(v[6]) == 1){
-						status = "Active";
-						var actions = "<a data-cmd='deactivateAdmin' data-name='"+v[1]+"' data-node='"+v[0]+"' class='tooltipped btn-floating waves-effect black-text no-shadow grey lighten-5 right' data-position='left' data-delay='50' data-tooltip='Deactivate account' data-cmd='update'>"+
-									  "	<i class='mdi-action-lock-open right black-text'></i>"+
-									  "</a>";	
-					}
-					else{
-						status = "Deactivated";
-						var actions = "<a data-cmd='activateAdmin' data-name='"+v[1]+"' data-node='"+v[0]+"' class='tooltipped btn-floating waves-effect black-text no-shadow grey lighten-5 right' data-position='left' data-delay='50' data-tooltip='Activate account' data-cmd='update'>"+
-									  "	<i class='mdi-action-lock right black-text'></i>"+
-									  "</a>";	
-					}
-					content += "<tr>"+
-								"	<td>"+v[1]+"</td>"+
-								"	<td>Admin</td>"+
-								"	<td>"+status+"</td>"+
-								"	<td>"+actions+"</td>"+
-								"</tr>";
-				})	
-
-			content = "<table class='table bordered'>"+
-						"	<tr>"+
-						"		<th>Name</th><th>Role</th><th>Status</th><th></th>"+
-						"	</tr>"+content+"</table>";
-			$("#display_adminList").html(content);
-
-			account.deactivate();
-			account.activate();
-		});
-=======
 			
->>>>>>> 58b14966aafcc674ce69695fcd736f81bf42c894
 
         	$("a[data-cmd='toggle-interview']").click(function(){
         		var data = $(this).data('id');
@@ -439,64 +400,59 @@ var jobs = function(){
 				var data = $(this).data();
 				var id = data.node;
 				console.log(data);	
-				var content = "<h5>Change "+data.prop+"</h5>"+
-						  "<form id='form_update' class='formValidate' method='get' action='' novalidate='novalidate'>"+
-						  "		<label for='field_"+data.prop+"'>"+data.prop+": </label>"+
-						  "		<input id='field_"+data.prop+"' value='"+data.value+"' type='text' name='field_"+data.prop+"' data-error='.error_"+data.prop+"'>"+
-						  "		<div class='error_"+data.prop+"'></div>"+
-						  "		<button type='submit' data-cmd='button_proceed' class='waves-effect waves-grey grey lighten-5 blue-text btn-flat modal-action right'>Save</button>"+
-						  "		<a class='waves-effect waves-grey grey-text btn-flat modal-action modal-close_modal right'>Cancel</a>"+
-						  "</form>";
-						  console.log(data.prop);
-						  console.log(data.value);
-						  console.log(data.node);
-				$("#modal .modal-content").html(content);
-				$('#modal .modal-footer').html("");		
+				// var content = "<h5>Change "+data.prop+"</h5>"+
+				// 		  "<form id='form_update' class='formValidate' method='get' action='' novalidate='novalidate'>"+
+				// 		  "		<label for='field_"+data.prop+"'>"+data.prop+": </label>"+
+				// 		  "		<input id='field_"+data.prop+"' value='"+data.value+"' type='text' name='field_"+data.prop+"' data-error='.error_"+data.prop+"'>"+
+				// 		  "		<div class='error_"+data.prop+"'></div>"+
+				// 		  "		<button type='submit' data-cmd='button_proceed' class='waves-effect waves-grey grey lighten-5 blue-text btn-flat modal-action right'>Save</button>"+
+				// 		  "		<a class='waves-effect waves-grey grey-text btn-flat modal-action modal-close_modal right'>Cancel</a>"+
+				// 		  "</form>";
+				// 		  console.log(data.prop);
+				// 		  console.log(data.value);
+				// 		  console.log(data.node);
+				// $("#modal .modal-content").html(content);
+				// $('#modal .modal-footer').html("");		
 
-
-
-
-
-
-				if(data.prop == "CompanyName"){
-					$('#modal').modal('open');			
-					$("#form_update").validate({
-					    rules: {
-					        field_CompanyName: {required: true,maxlength: 50},
-					    },
-					    errorElement : 'div',
-					errorPlacement: function(error, element) {
-										var placement = $(element).data('error');
-										if(placement){
-											$(placement).append(error)
-										} 
-										else{
-											error.insertAfter(element);
-										}
-									},
-					submitHandler: function (form) {
-							var _form = $(form).serializeArray();
-							if(data.value == _form[0]['value']){
-								Materialize.toast('You did not even change the value.',4000);
-							}
-							else{
-								var ajax = system.ajax('../assets/harmony/Process.php?update-employer',[id,_form]);
-								ajax.done(function(ajax){
-									console.log(ajax)
-									if(ajax == 1){
-										system.clearForm();
-										Materialize.toast('Name updated.',4000);
-										system.close_modal();	
-										App.handleLoadPage("#cmd=index;content=employers");
-									}
-									else{
-										Materialize.toast('Cannot process request.',4000);
-									}
-								});
-							}
-					    }
-					}); 
-				}
+				// if(data.prop == "CompanyName"){
+				// 	$('#modal').modal('open');			
+				// 	$("#form_update").validate({
+				// 	    rules: {
+				// 	        field_CompanyName: {required: true,maxlength: 50},
+				// 	    },
+				// 	    errorElement : 'div',
+				// 	    errorPlacement: function(error, element) {
+				// 			var placement = $(element).data('error');
+				// 			if(placement){
+				// 				$(placement).append(error)
+				// 			} 
+				// 			else{
+				// 				error.insertAfter(element);
+				// 			}
+				// 		},
+				// 		submitHandler: function (form) {
+				// 			var _form = $(form).serializeArray();
+				// 			if(data.value == _form[0]['value']){
+				// 				Materialize.toast('You did not even change the value.',4000);
+				// 			}
+				// 			else{
+				// 				var ajax = system.ajax('../assets/harmony/Process.php?update-employer',[id,_form]);
+				// 				ajax.done(function(ajax){
+				// 					console.log(ajax)
+				// 					if(ajax == 1){
+				// 						system.clearForm();
+				// 						Materialize.toast('Name updated.',4000);
+				// 						system.close_modal();	
+				// 						App.handleLoadPage("#cmd=index;content=employers");
+				// 					}
+				// 					else{
+				// 						Materialize.toast('Cannot process request.',4000);
+				// 					}
+				// 				});
+				// 			}
+				// 	    }
+				// 	}); 
+				// }
 			
 			});
 		},
@@ -577,68 +533,6 @@ var jobs = function(){
 
 	    	});	
 	    },
-	   	deactivate:function(){
-			$("a[data-cmd='deactivateAdmin']").on('click',function(){
-				var id = $(this).data('node');
-				var content = "Are you sure DEACTIVATE "+$(this).data('name')+"'s account?<br/>"+
-							  "<label for='field_description'>Remarks: </label>"+
-							  "<textarea class='materialize-textarea' data-field='field_description' name='field_description'></textarea>";
-				$("#modal_confirm .modal-content").html(content);
-				$("#modal_confirm .modal-footer").html("<a class='waves-effect waves-red red white-text btn-flat modal-action modal-close'>Cancel</a>"+
-													   "<a data-cmd='button_proceed' class='waves-effect waves-grey btn-flat modal-action'>Proceed</a>");
-				$('#modal_confirm').openModal('show');			
-
-				$("a[data-cmd='button_proceed']").on("click",function(){
-					var remarks = $("textarea[data-field='field_description']").val();
-					if(remarks.length == 0){
-							Materialize.toast('Remarks is required.',4000);
-					}
-					else if(remarks.length > 800){
-							Materialize.toast('Statement is too long.',4000);
-					}
-					else{
-						var data = system.ajax('../assets/harmony/Process.php?deactivate-admin',[id,remarks]);
-						data.done(function(data){
-							// console.log(data);
-							if(data == 1){
-								Materialize.toast('Account deactivaded.',4000);
-								system.clearForm();
-								App.handleLoadPage("#cmd=index;content=account");
-								$('#modal_confirm').closeModal();	
-							}
-							else{
-								Materialize.toast('Cannot process request.',4000);
-							}
-						});
-					}
-				});
-			})
-		},
-		activate:function(){
-			$("a[data-cmd='activateAdmin']").on('click',function(){
-				var id = $(this).data('node');
-				$("#modal_confirm .modal-content").html("Arey you sure ACTIVATE "+$(this).data('name')+"'s account?");
-				$("#modal_confirm .modal-footer").html("<a class='waves-effect waves-red red white-text btn-flat modal-action modal-close'>Cancel</a>"+
-													   "<a data-cmd='button_proceed' class='waves-effect waves-grey btn-flat modal-action modal-close'>Proceed</a>");
-				$('#modal_confirm').openModal('show');			
-
-				$("a[data-cmd='button_proceed']").on("click",function(){
-					var data = system.ajax('../assets/harmony/Process.php?activate-application',id);
-					data.done(function(data){
-						console.log(data);
-						if(data == 1){
-							Materialize.toast('Account activaded.',4000);
-							system.clearForm();
-							App.handleLoadPage("#cmd=index;content=account");
-							$('#modal_confirm').closeModal();	
-						}
-						else{
-							Materialize.toast('Cannot process request.',4000);
-						}
-					});
-				});
-			})
-		},
 
 	}
 }();
