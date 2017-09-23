@@ -292,6 +292,7 @@ var jobs = function(){
 			$(".prettydate").prettydate({
 			    dateFormat: "YYYY-MM-DD hh:mm:ss"
 			});
+<<<<<<< HEAD
 		// content = "";
 			var data = system.html('../assets/harmony/Process.php?get-listAdmin');
 			var actions = "", status = "";
@@ -327,6 +328,9 @@ var jobs = function(){
 			account.deactivate();
 			account.activate();
 		});
+=======
+			
+>>>>>>> 58b14966aafcc674ce69695fcd736f81bf42c894
 
         	$("a[data-cmd='toggle-interview']").click(function(){
         		var data = $(this).data('id');

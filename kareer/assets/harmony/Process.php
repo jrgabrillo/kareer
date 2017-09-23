@@ -608,7 +608,7 @@ $Functions = new DatabaseClasses;
     if (isset($_GET['set-activateApplicant'])){
         if(isset($_POST["data"])){
             $data = $_POST['data'];
-            $Query = $Functions->PDO_SQLQuery("UPDATE tbl_student SET status = '1' WHERE id = '{$data}'");
+            $Query = $Functions->PDO_SQLQuery("UPDATE tbl_applicant SET status = '1' WHERE id = '{$data}'");
             if($Query->execute())
                 echo 1;
             else{
@@ -623,7 +623,7 @@ $Functions = new DatabaseClasses;
     if (isset($_GET['set-inactivateApplicant'])){
         if(isset($_POST["data"])){
             $data = $_POST['data'];
-            $Query = $Functions->PDO_SQLQuery("UPDATE tbl_student SET status = '0' WHERE id = '{$data}'");
+            $Query = $Functions->PDO_SQLQuery("UPDATE tbl_applicant SET status = '0' WHERE id = '{$data}'");
             if($Query->execute())
                 echo 1;
             else{
