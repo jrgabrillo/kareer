@@ -110,16 +110,16 @@ $Functions = new DatabaseClasses;
             fwrite($handle, $data[2]);
             fclose($handle);
             if($data[1] == 'employer'){
-                $Query = $Functions->PDO_SQLQuery("UPDATE tbl_employer SET image = '{$file}' WHERE id = '{$data[0]}'");
+                $Query = $Functions->PDO("UPDATE tbl_employer SET image = '{$file}' WHERE id = '{$data[0]}'");
             }
-            else if($data[1] == 'applicant'){
-                $Query = $Functions->PDO_SQLQuery("UPDATE tbl_employer SET image = '{$file}' WHERE id = '{$data[0]}'");
-            }
-            else if($data[1] == 'admin'){
-                $Query = $Functions->PDO_SQLQuery("UPDATE tbl_admin SET image = '{$file}' WHERE id = '{$data[0]}'");
-            }
+            // else if($data[1] == 'applicant'){
+            //     $Query = $Functions->PDO_SQLQuery("UPDATE tbl_employer SET image = '{$file}' WHERE id = '{$data[0]}'");
+            // }
+            // else if($data[1] == 'admin'){
+            //     $Query = $Functions->PDO_SQLQuery("UPDATE tbl_admin SET image = '{$file}' WHERE id = '{$data[0]}'");
+            // }
             else{
-                $Query = $Functions->PDO_SQLQuery("UPDATE tbl_user SET image = '{$file}' WHERE id = '{$data[0]}'");
+                $Query = $Functions->PDO("UPDATE tbl_admin SET image = '{$file}' WHERE id = '{$data[0]}'");
             }
             if($Query->execute())
                 echo 1;

@@ -112,6 +112,10 @@ var system = function(){
 			var ajax = system.ajax('../assets/img/'+image,'');
 			return ajax.responseText;
 		},
+		get_aprhome:function(image){
+			var ajax = system.ajax(image,'');
+			return ajax.responseText;
+		},
 		send_mail:function(email,subject,message,callback){
 			return system.ajax('../assets/harmony/Process.php?send-mail',[email,subject,message]);
 		},
