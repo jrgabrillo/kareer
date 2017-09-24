@@ -578,7 +578,7 @@ $Functions = new DatabaseClasses;
     if (isset($_GET['set-declinePendingEmployer'])){
         if(isset($_POST["data"])){
             $data = $_POST['data'];
-            $Query = $Functions->PDO_SQLQuery("UPDATE tbl_employer SET status = '2' WHERE id = '{$data}'");
+            $Query = $Functions->PDO_SQLQuery("UPDATE tbl_employer SET status = '0' WHERE id = '{$data}'");
             if($Query->execute())
                 echo 1;
             else{
@@ -686,7 +686,7 @@ $Functions = new DatabaseClasses;
             $date = $Functions->PDO_DateAndTime();
             $id = $companyID.'-0';
             $password = sha1($data[9]['value']);
-            $query = $Functions->PDO("INSERT INTO tbl_employer(id,company_name,description,lname,fname,address,bir,dti,email,password,contactno,image,status,`date`) VALUES ('{$companyID}','{$data[0]['value']}','{$data[1]['value']}','{$data[6]['value']}','{$data[5]['value']}','{$data[4]['value']}','{$data[2]['value']}','{$data[3]['value']}','{$data[8]['value']}','{$password}','{$data[7]['value']}','profile_small.jpg','0','{$date}')");
+            $query = $Functions->PDO("INSERT INTO tbl_employer(id,company_name,description,lname,fname,address,bir,dti,email,password,contactno,image,status,`date`) VALUES ('{$companyID}','{$data[0]['value']}','{$data[1]['value']}','{$data[6]['value']}','{$data[5]['value']}','{$data[4]['value']}','{$data[2]['value']}','{$data[3]['value']}','{$data[8]['value']}','{$password}','{$data[7]['value']}','profile_small.jpg','1','{$date}')");
             if($query->execute()){
                 echo 1;
             }
@@ -728,8 +728,6 @@ $Functions = new DatabaseClasses;
     } 
     if(isset($_GET['do-inviteInterview'])){
         if(isset($_POST['data'])){
-    }
-    if(isset($_POST['data'])){
             $data = $_POST['data'];
             $date = $Functions->PDO_DateAndTime();
             $val = json_encode([$date,$data[1]]);
@@ -744,6 +742,61 @@ $Functions = new DatabaseClasses;
         }
         else{
             echo "Hacker";
+    }
+    if(isset($_POST['data'])){
+            $data = $_POST['data'];
+            $date = $Functions->PDO_DateAndTime();
+            $val = json_encode([$date,$data[1]]);
+            $Query = $Functions->PDO_SQLQuery("UPDATE tbl_application SET status = '{$val}' WHERE id = '{$data[0]}'");
+            if($Query->execute()){
+                echo 1;
+            }
+            else{
+                $Data = $Query->errorInfo();
+                print_r($Data);
+            }
+            }
+            else{
+                echo "Hacker";
+            }
+    }
+
+    if(isset($_GET['get-listAdmin'])){
+            $data = $function->getAdmin();
+            $query = $function->PDO(true,"SELECT * FROM tbl_admin WHERE id != '{$data}' ORDER BY status DESC");
+            print_r(json_encode($query));
+    }
+
+    if(isset($_GET['get-admin'])){
+            $query = $function->PDO(true,"SELECT * FROM tbl_admin WHERE username = '{$_SESSION['kaboom'][0]}' AND password = '{$_SESSION['kaboom'][1]}'");
+            print_r(json_encode($query));
+    }
+
+    if(isset($_GET['activate-admin'])){
+        $user = $function->getUser();
+        $data = $_POST['data'];
+        $query = $function->PDO(false,"UPDATE tbl_admin SET status = '1' WHERE id = '{$data}';");
+        if($query->execute()){
+            $log = $function->log2($user,"Activating admin account","Active");
+            echo 1;
+        }
+        else{
+            $Data = $query->errorInfo();
+            print_r($Data);
+        }
+    }
+    
+    if(isset($_GET['deactivate-admin'])){
+        $user = $function->getUser();
+        $data = $_POST['data'];
+        $query = $function->PDO(false,"UPDATE tbl_admin SET status = '0' WHERE id = '{$data[0]}';");
+        if($query->execute()){
+            $log = $function->log2($user,$data[1],"Deactivate");
+            echo 1;
+        }
+        else{
+            $Data = $query->errorInfo();
+            print_r($Data);
         }
     }
 /*

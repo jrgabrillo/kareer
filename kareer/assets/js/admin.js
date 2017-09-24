@@ -762,7 +762,7 @@ var employer = function(){
 						var content = "<table class='table table-bordered' id='table_approvedEmployers'>"+
 										"	<thead>"+
 										"		<tr>"+
-										"			<th width='15%'></th>"+
+										"			<th width='5%'></th>"+
 										"			<th width='50%'>Name</th>"+
 										"			<th width='15%'></th>"+
 										"		</tr>"+
