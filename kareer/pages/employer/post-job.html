@@ -9,38 +9,34 @@
         </div>
     </div>
 </nav>
+
 <div class='row' style='float:none;'>
-        <div class="wrapper wrapper-content">
-            <div class="row animated fadeInUp">
-                <div class="card float-e-margins">
-                    <div class="col s12">
-                     <div class="card-content">
-                        <form class='form-horizontal' id='form_postJob' role='form' action='' method='post' enctype='multipart/form-data'>
+    <div class="wrapper wrapper-content">
+        <div class="row animated fadeInUp">
+            <div class="card float-e-margins">
+                <div class="col s12">
+                    <div class="card-content">
+                        <form class='form-horizontal' id='form_addVacancy' role='form' action='' method='post' enctype='multipart/form-data'>
                             <div>
                                 <div class='form-group'>
                                     <div class='col s6'>
                                         <label>Job Title: </label>
                                         <input data-inputtype='required' name='field_jobTitle' type='text' placeholder='Job Title' class='form-control'>
                                     </div>
-                                    <div class='col s6-' id='prettydate'>
+                                    <div class='col s6' id='prettydate'>
                                         <label>Hiring Cut-off Date: <small><i>[Also job expiration date.]</i></small></label>
-                                        <div class="input-group datepicker">
+                                        <div class="input-group date">
                                             <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
-                                            <input data-inputtype='required' name='field_date' placeholder="Date" type="text" class="prettydate">
+                                            <input data-inputtype='required' placeholder="Date" type="text" class="form-control" name='field_date'>
                                         </div>
                                     </div><br/>
                                     <div class='col s12'>
                                         <label>Skills Needed: <small><i>You can add up-to 5 skills</i></small></label>
                                         <input data-inputtype='required' name='field_skills' placeholder="skills" type="text" class="form-control">
                                     </div><br/>
-<!--                                     <div class='col s12'>
+                                    <div class='col s12'>
                                         <label>Job Description: </label>
                                         <textarea data-inputtype='required' name='field_description' placeholder='Job Description' class='form-control'></textarea>
-                                    </div> -->
-
-                                    <div data-inputtype='required' class="input-field col s12">
-                                        <textarea id="description" class="materialize-textarea" data-length="120"></textarea>
-                                        <label for="description">Description</label>
                                     </div>
                                     <br/>
                                 </div>
@@ -48,7 +44,7 @@
                             <div>
                                 <div class='form-group'>  
                                     <div class='col s12'>
-                                        <button class='btn btn-sm btn-block button_success' data-cmd='validate_form' >Sign Up</button>
+                                        <a class="btn btn-sm btn-block button_success" data-cmd='register_applicant'>Sign Up</a>  
                                     </div>
                                 </div>
                             </div>
@@ -59,9 +55,12 @@
         </div>
     </div>
 </div>
-<!-- <script src="../assets/js/froala_editor.pkgd.min.js"></script>
- --><script type="text/javascript">
-// ("#field_skills").tagit({
+
+
+<script type="text/javascript">
+jobs.add_vacancies();
+
+// $("#field_skills").tagit({
 //     fieldName: "field_requiredSkills",
 //     allowSpaces:true,
 //     tagLimit: 5,
@@ -71,20 +70,30 @@
 //     }
 // });
 
-// var dateToday = new Date();
-// $('#date .input-group.date').datepicker({
-//     startView: 1,
-//     todayBtn: "linked",
-//     keyboardNavigation: false,
-//     forceParse: false,
-//     autoclose: true,
-//     minDate: 1,
-//     defaultDate: "+1w",
-//     changeMonth: true,
-//     numberOfMonths: 3,
-//     format: "mm/dd/yyyy"
-// });
-    jobs.posting();
-    jobs.add();
+var dateToday = new Date();
+$('#date .input-group.date').prettydate({
+    startView: 1,
+    todayBtn: "linked",
+    keyboardNavigation: false,
+    forceParse: false,
+    autoclose: true,
+    minDate: 1,
+    defaultDate: "+1w",
+    changeMonth: true,
+    numberOfMonths: 3,
+    format: "mm/dd/yyyy"
+});
+// $('.datepicker').pickadate({
+//     selectMonths: true, // Creates a dropdown to control month
+//     selectYears: 15, // Creates a dropdown of 15 years to control year,
+//     today: 'Today',
+//     clear: 'Clear',
+//     close: 'Ok',
+//     closeOnSelect: false // Close upon selecting a date,
+//   });
     // system.froala("textarea");
+
 </script>
+
+
+

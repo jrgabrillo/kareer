@@ -112,6 +112,10 @@ var system = function(){
 			var ajax = system.ajax('../assets/img/'+image,'');
 			return ajax.responseText;
 		},
+		get_aprhome:function(image){
+			var ajax = system.ajax(image,'');
+			return ajax.responseText;
+		},
 		send_mail:function(email,subject,message,callback){
 			return system.ajax('../assets/harmony/Process.php?send-mail',[email,subject,message]);
 		},
@@ -140,6 +144,21 @@ var system = function(){
 					quickInsertButtons: ['table', 'ol', 'ul', 'hr']
 				});
 		    });
+		},
+		StringCounter:function(input,id,allowed){
+		    var a = allowed-input.length;
+		    if(a >= 0 && a <= 1){
+		        id.html(a+" character remaining");
+		    }
+		    else if(a == -1){
+		        id.html(-1*a+" character exceeded");
+		    }
+		    else if(a <= -2){
+		        id.html(-1*a+" characters exceeded");
+		    }
+		    else{
+		        id.html(a+" characters remaining");
+		    }
 		},
 		forceLogout:function(_function){ //300000
 			$(document).idle({

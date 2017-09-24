@@ -183,10 +183,10 @@
 		<form id='form_addEmployer' class='formValidate' method='get' action='' novalidate='novalidate'>
 			<div class='row'>
 				<div class='col offset-m1 offset-l1 s12 m10 l10'>
-					<h4 class="">Add Business Clients</h4>
+					<h4 class="">Add Employer</h4>
 					<div class='row'>
 						<div class='input-field col s12'>
-							<p>Business Information</p>
+							<p>CompanyInformation</p>
 							<div class='divider'></div><br/>
 						</div>
 						<div class='input-field col s12'>
@@ -195,7 +195,7 @@
 							<div class='error_name'></div>	
 						</div>
 						<div class='input-field col s12'>
-							<label for='field_description'>Business Description: </label>
+							<label for='field_description'>Description: </label>
 				            <input id='field_description' type='text' name='field_description' data-error='.error_description'>
 							<div class='error_description'></div>	
 						</div>
@@ -215,7 +215,7 @@
 							<div class='error_address'></div>	
 						</div>
 						<div class='input-field col s12'>
-							<p>Account Information</p>
+							<p>Employer Information</p>
 							<div class='divider'></div><br/>
 						</div>
 						<div class='input-field col s6'>
@@ -240,6 +240,7 @@
 						</div>
 						<div class='input-field col s12'>
 							<label for='field_password'>Password: </label>
+                               <!--  <input data-inputtype='required' type="text" placeholder="Password" disabled name="field_password" class="form-control"> -->
 				            <input id='field_password' type='password' name='field_password' data-error='.error_password'>
 							<div class='error_password'></div>	
 							<div id='note_password' class='hidden animated zoomOut'>
