@@ -102,6 +102,40 @@ $Functions = new DatabaseClasses;
             print_r(json_encode($query));
         }
     }
+    if(isset($_GET['update-Image'])){
+        if(isset($_POST['data'])){
+            $data = $_POST['data'];
+            $file = $data[0].'-'.time().'.apr';
+
+            $handle = fopen('../img/'.$file, 'w+');
+
+            fwrite($handle, $data[2]);
+            fclose($handle);
+
+            if($data[1] == 'employer'){
+                $Query = $Functions->PDO_SQLQuery("UPDATE tbl_employer SET image = '{$file}' WHERE id = '{$data[0]}'");
+            }
+            else if($data[1] == 'applicant'){
+                $Query = $Functions->PDO_SQLQuery("UPDATE tbl_employer SET image = '{$file}' WHERE id = '{$data[0]}'");
+            }
+            else if($data[1] == 'student'){
+                $Query = $Functions->PDO_SQLQuery("UPDATE tbl_student SET picture = '{$file}' WHERE id = '{$data[0]}'");
+            }
+            else{
+                $Query = $Functions->PDO_SQLQuery("UPDATE tbl_admin SET image = '{$file}' WHERE id = '{$data[0]}'");
+            }
+
+            if($Query->execute())
+                echo 1;
+            else{
+                $Data = $Query->errorInfo();
+                print_r($Data);
+            }
+        }
+        else{
+            echo "Hacker";
+        }
+    }
     if(isset($_GET['update-image'])){
         if(isset($_POST['data'])){
             $data = $_POST['data'];

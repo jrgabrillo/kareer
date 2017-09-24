@@ -139,7 +139,7 @@ var admin = function () {
         		}
         	});
         },
-		update_picture:function(){
+        update_picture:function(){
     		var data = system.get_account();
     		data = JSON.parse(data);
 
@@ -154,7 +154,7 @@ var admin = function () {
 
 	    	$("a[data-cmd='update_picture']").click(function(){
 	    		$("#profile_picture1").addClass('hidden');
-	    		$("#profile_picture2").removeClass('hidden');
+	    		$("#profile_picture2").removeClass('hidden')
 
 	    		var content =   "<div class='image-crop' style='margin-bottom:5px;'>"+
 								"	<img width='100%' src='"+picture+"'>"+
@@ -202,7 +202,7 @@ var admin = function () {
 								    	$("button[data-cmd='rotate']").removeClass('hidden');
 							            $("button[data-cmd='save']").click(function(){									    	
 									    	$(this).html('Loading..').addClass('disabled');
-					    					var ajax = system.ajax('../assets/harmony/Process.php?update-image',[data[0][0],'administrator',$image.cropper("getDataURL")]);
+					    					var ajax = system.ajax('../assets/harmony/Process.php?update-Image',[data[0][0],'administrator',$image.cropper("getDataURL")]);
 											ajax.success(function(data){
 												if(data == 1){
 													swal("Successful!", "Employer's picture has been updated.", "success");
@@ -1501,9 +1501,10 @@ var employer = function(){
 									// var data = system.send_mail('rufo.gabrillo@gmail.com,info@rnrdigitalconsultancy.com','Employer Registration',text);
 									// if(data.responseText != ""){
 										Materialize.toast('Saved.',4000);
-										$("#modal") .close_modal('hide');
+										system.close_modal();
 										system.clearForm();
-										App.handleLoadPage("#cmd=index;content=employers;approved_employers");
+										App.handleLoadPage("#cmd=index;content=employers");
+										// App.handleLoadPage("#cmd=index;content=employers;approved_employers");
 									// }
 								}
 								else{
