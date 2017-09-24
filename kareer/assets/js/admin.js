@@ -202,7 +202,7 @@ var admin = function () {
 								    	$("button[data-cmd='rotate']").removeClass('hidden');
 							            $("button[data-cmd='save']").click(function(){									    	
 									    	$(this).html('Loading..').addClass('disabled');
-					    					var ajax = system.ajax('../assets/harmony/Process.php?update-image',[data[0][0],'administrator',$image.cropper("getDataURL")]);
+					    					var ajax = system.ajax('../assets/harmony/Process.php?update-Image',[data[0][0],'administrator',$image.cropper("getDataURL")]);
 											ajax.success(function(data){
 												if(data == 1){
 													swal("Successful!", "Employer's picture has been updated.", "success");
