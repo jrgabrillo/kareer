@@ -31,7 +31,7 @@ var jobs = function(){
 		    		var data = sys.get_account();
 		    		data = JSON.parse(data);
 		    		data = [data[0][0],fields]
-
+		    		console.log(data);
 					var ajax = sys.ajax('../assets/harmony/Process.php?set-postJob',data);
 					ajax.success(function(data){
 						console.log(data);
@@ -284,7 +284,27 @@ var jobs = function(){
 			}
 			application_content = "<div class='feed-activity-list'>"+application_content+"</div>";
 			$('#data_info').removeClass('hidden').html(application_content);
+<<<<<<< HEAD
 				
+=======
+				var content =  "<div>"+
+									"<dl class='dl-horizontal'>"+
+			                    	"<dt></dt><dd><h2 id='txt_jobtitle'>"+ajaxData[0][0][4]+"</h2></dd>"+
+			                    	"<dt>Status:</dt> <dd id='txt_jobstatus'>"+status+"</dd><a data-cmd='updateJob' data-value='"+data[0][5]+"' data-name='"+data[0][5]+"' data-node='"+data[0][0]+"' data-prop='CompanyName' class='tooltipped btn-floating waves-effect black-text no-shadow white right material-icons' data-position='left' data-delay='50' data-tooltip='Update Company'><i class='material-icons'></i></a>"+
+			                    	"<dt>Application Expiry:</dt><dd id='txt_jobexpiry' class='prettydate'>"+ajaxData[0][0][3]+"</dd>"+
+			                    	"<dt>Created:</dt><dd id='txt_jobdate' class='prettydate'>"+ajaxData[0][0][6]+"</dd>"+
+			                    	"<dt>Description:</dt><dd id='txt_jobdescription'>"+ajaxData[0][0][2]+"</dd>"+
+			                    	"<dt>Applicant:</dt><dd id='txt_jobapplicant'>"+applicant+"</dd>"+
+                    				"</dl>"+
+                    			"</div>";
+            $('#job-post').html(content);
+			// $('#job-post #txt_jobtitle').html(ajaxData[0][0][4]);
+			// $('#job-post #txt_jobstatus').html(status);
+			// $('#job-post #txt_jobexpiry').html(ajaxData[0][0][3]);
+			// $('#job-post #txt_jobdate').html(ajaxData[0][0][6]);
+			// $('#job-post #txt_jobdescription').html(ajaxData[0][0][2]);
+			// $('#job-post #txt_jobapplicant').html(applicant);
+>>>>>>> a1a2d437fca154ced8e6ed07f14583da84a8c419
 
 			$(".prettydate").prettydate({
 			    dateFormat: "YYYY-MM-DD hh:mm:ss"

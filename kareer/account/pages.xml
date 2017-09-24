@@ -240,6 +240,7 @@
 						</div>
 						<div class='input-field col s12'>
 							<label for='field_password'>Password: </label>
+                               <!--  <input data-inputtype='required' type="text" placeholder="Password" disabled name="field_password" class="form-control"> -->
 				            <input id='field_password' type='password' name='field_password' data-error='.error_password'>
 							<div class='error_password'></div>	
 							<div id='note_password' class='hidden animated zoomOut'>

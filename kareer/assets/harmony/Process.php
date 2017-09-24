@@ -135,6 +135,7 @@ $Functions = new DatabaseClasses;
     if(isset($_GET['get-jobByID'])){
         $data = $_POST['data'];
         $result = [];
+        
         $Query = $Functions->PDO_SQL("SELECT * FROM tbl_vacancies WHERE id = '{$data}'");
         $Query2 = $Functions->PDO_SQL("SELECT * FROM tbl_application WHERE vacany_id = '{$Query[0][0]}'");
         $Query3 = $Functions->PDO_SQL("SELECT * FROM tbl_employer WHERE id = '{$Query[0][1]}'");
@@ -182,10 +183,10 @@ $Functions = new DatabaseClasses;
             echo "Hacker";
         }
     }
-    if (isset($_GET['get-Student'])){
+    if (isset($_GET['get-Applicant'])){
         if(isset($_POST["data"])){
             $data = $_POST['data'];
-            $QueryApplicant = $Functions->PDO_SQL("SELECT * FROM tbl_student WHERE id = '{$data}'");
+            $QueryApplicant = $Functions->PDO_SQL("SELECT * FROM tbl_applicant WHERE id = '{$data}'");
             print_r(json_encode($QueryApplicant));
         }
         else{
@@ -198,14 +199,16 @@ $Functions = new DatabaseClasses;
             $result = [];
             $Query = $Functions->PDO_SQL("SELECT * FROM tbl_application ORDER BY date DESC");
             foreach ($Query as $key => $value) {
-                $applicant = json_decode($value[1]);
-                if($data == $applicant[0]){
+                // $applicant = $value;
+                // if($data == $value[1]){
                     $QueryVacancy = $Functions->PDO_SQL("SELECT * FROM tbl_vacancies WHERE id = '{$value[1]}'");
                     $QueryEmployer = $Functions->PDO_SQL("SELECT * FROM tbl_employer WHERE id = '{$QueryVacancy[0][1]}'");
-                    $result[] = [$value,$QueryEmployer[0],$QueryVacancy[0]];
-                }
+                    $QueryApplicant = $Functions->PDO_SQL("SELECT * FROM tbl_applicant WHERE id = '{$value[2]}'");
+                    $result[] = [$value,$QueryEmployer[0],$QueryVacancy[0],$QueryApplicant[0]];
+                // }
             }
             print_r(json_encode($result));
+
         }
         else{
             echo "Hacker";
@@ -215,14 +218,12 @@ $Functions = new DatabaseClasses;
         if(isset($_POST["data"])){
             $data = $_POST['data'];
             $result = [];
-            $Query = $Functions->PDO_SQL("SELECT * FROM tbl_application ORDER BY date DESC");
+            $Query = $Functions->PDO_SQL("SELECT * FROM tbl_application WHERE applicant = '{$data}'");
             foreach ($Query as $key => $value) {
-                $applicant = json_decode($value[2]);
-                if($data == $applicant[0]){
                     $QueryVacancy = $Functions->PDO_SQL("SELECT * FROM tbl_vacancies WHERE id = '{$value[1]}'");
                     $QueryEmployer = $Functions->PDO_SQL("SELECT * FROM tbl_employer WHERE id = '{$QueryVacancy[0][1]}'");
-                    $result[] = [$value,$QueryEmployer[0],$QueryVacancy[0]];
-                }
+                    $QueryApplicant = $Functions->PDO_SQL("SELECT * FROM tbl_applicant WHERE id = '{$value[2]}'");
+                    $result[] = [$value,$QueryEmployer[0],$QueryVacancy[0],$QueryApplicant[0]];
             }
             print_r(json_encode($result));
         }
@@ -241,7 +242,7 @@ $Functions = new DatabaseClasses;
         $vacancy_date = $Functions->escape($data[1][1]['value']);
         $skills = $Functions->escape($data[1][2]['value']);
         $description = $Functions->escape($data[1][3]['value']);
-        $query = $Functions->PDO("INSERT INTO tbl_vacancies(id,employer_id,description,vacancy_date,job_title,skills,date,status) VALUES('{$id}',{$employer_id},{$description},{$vacancy_date},{$job_title},{$skills},'{$date}',1)");
+        $query = $Functions->PDO("INSERT INTO tbl_vacancies(id,employer_id,description,vacancy_date,job_title,skills,date,status) VALUES('{$id}','{$employer_id}',{$description},{$vacancy_date},{$job_title},{$skills},'{$date}',1)");
         if($query->execute())
             echo 1;
         else{
