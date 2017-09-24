@@ -1,9 +1,341 @@
+// job = {
+// 	ini:function(){
+// 		// this.add();
+// 		this.list();
+// 	},
+// 	management:function(){
+// 		var data = system.xml("pages.xml");
+// 		$(data.responseText).find("addAccount").each(function(i,content){
+// 			$("#modal .modal-content").html(content);
+// 			$('#modal').openModal('show');			
+// 		});
+// 	},
+// 	list:function(){
+// 		var content = "";
+// 		var data = system.html('../assets/harmony/Process.php?get-admin');
+// 		data.done(function(data){
+// 			data = JSON.parse(data);
+// 			var profile = (data[0][8] == "")?'avatar.jpg':data[0][8];
+// 			content = "<div id='profile-card' class='card'>"+
+// 					"    <div class='card-image waves-effect waves-block waves-light'>"+
+// 					"        <img class='activator' src='../assets/images/user-bg.jpg' alt='user background'>"+
+// 					"    </div>"+
+// 					"    <div class='card-content'>"+
+// 					"        <div class=' responsive-img activator card-profile-image circle'>"+
+// 					"        	<img src='../assets/images/profile/"+profile+"' alt='' class='circle'>"+
+// 					"        	<a data-cmd='updateAdminPicture' data-value='"+profile+"' data-name='"+data[0][1]+"' data-node='"+data[0][0]+"' data-prop='Picture' class='btn waves-effect white-text no-shadow black' style='font-size: 10px;z-index: 1;padding: 0 12px;top:40px;'>Change</a>"+
+// 					"		 </div>"+
+// 					"        <span class='card-title activator grey-text text-darken-4'>"+data[0][1]+" </span>"+
+// 					"			<a data-cmd='updateAdmin' data-value='"+data[0][1]+"' data-name='"+data[0][1]+"' data-node='"+data[0][0]+"' data-prop='Name' class='tooltipped btn-floating waves-effect black-text no-shadow white right' data-position='left' data-delay='50' data-tooltip='Update name'>"+
+// 					"				<i class='mdi-editor-mode-edit right black-text'></i>"+
+// 					"			</a>"+
+// 					"		 <div class='divider'></div>"+
+// 					"        <p><span style='width:80%;display: inline-block;' class='truncate'><i class='mdi-communication-email cyan-text text-darken-2'></i> Email: "+data[0][5]+"</span>"+
+// 					"			<a data-cmd='updateAdmin' data-value='"+data[0][5]+"' data-name='"+data[0][1]+"' data-node='"+data[0][0]+"' data-prop='Email' class='tooltipped btn-floating waves-effect black-text no-shadow white right' data-position='left' data-delay='50' data-tooltip='Update email'>"+
+// 					"				<i class='mdi-editor-mode-edit right black-text'></i>"+
+// 					"			</a>"+
+// 					"		 </p>"+
+// 					"		 <div class='divider'></div>"+
+// 					"        <p><span style='width:80%;display: inline-block;' class='truncate'><i class='mdi-action-perm-identity cyan-text text-darken-2'></i> Username: "+data[0][2]+"</span>"+
+// 					"			<a data-cmd='updateAdmin' data-value='"+data[0][2]+"' data-name='"+data[0][1]+"' data-node='"+data[0][0]+"' data-prop='Username' class='tooltipped btn-floating waves-effect black-text no-shadow white right' data-position='left' data-delay='50' data-tooltip='Update uaername'>"+
+// 					"				<i class='mdi-editor-mode-edit right black-text'></i>"+
+// 					"			</a>"+
+// 					"		 </p>"+
+// 					"		 <div class='divider'></div>"+
+// 					"        <p><span style='width:80%;display: inline-block;' class='truncate'><i class='mdi-action-verified-user cyan-text text-darken-2'></i> Password"+"</span>"+
+// 					"			<a data-cmd='updateAdmin' data-name='"+data[0][1]+"' data-node='"+data[0][0]+"' data-prop='Password' class='tooltipped btn-floating waves-effect black-text no-shadow white right' data-position='left' data-delay='50' data-tooltip='Update password'>"+
+// 					"				<i class='mdi-editor-mode-edit right black-text'></i>"+
+// 					"			</a>"+
+// 					"		 </p>"+
+// 					"    </div>"+
+// 					"</div>";
+// 			$("#display_newAdmin").html(content);
+// 		});
+
+// 		content = "";
+// 		var data = system.html('../assets/harmony/Process.php?get-listAdmin');
+// 		var actions = "", status = "";
+// 		data.done(function(data){
+// 			data = JSON.parse(data);
+// 			$.each(data,function(i,v){
+// 				if(Number(v[6]) == 1){
+// 					status = "Active";
+// 					var actions = "<a data-cmd='deactivateAdmin' data-name='"+v[1]+"' data-node='"+v[0]+"' class='tooltipped btn-floating waves-effect black-text no-shadow grey lighten-5 right' data-position='left' data-delay='50' data-tooltip='Deactivate account' data-cmd='update'>"+
+// 								  "	<i class='mdi-action-lock-open right black-text'></i>"+
+// 								  "</a>";	
+// 				}
+// 				else{
+// 					status = "Deactivated";
+// 					var actions = "<a data-cmd='activateAdmin' data-name='"+v[1]+"' data-node='"+v[0]+"' class='tooltipped btn-floating waves-effect black-text no-shadow grey lighten-5 right' data-position='left' data-delay='50' data-tooltip='Activate account' data-cmd='update'>"+
+// 								  "	<i class='mdi-action-lock right black-text'></i>"+
+// 								  "</a>";	
+// 				}
+// 				content += "<tr>"+
+// 							"	<td>"+v[1]+"</td>"+
+// 							"	<td>Admin</td>"+
+// 							"	<td>"+status+"</td>"+
+// 							"	<td>"+actions+"</td>"+
+// 							"</tr>";
+// 			})	
+
+// 			content = "<table class='table bordered'>"+
+// 						"	<tr>"+
+// 						"		<th>Name</th><th>Role</th><th>Status</th><th></th>"+
+// 						"	</tr>"+content+"</table>";
+// 			$("#display_adminList").html(content);
+
+// 			account.deactivate();
+// 			account.activate();
+// 		});
+// 		account.update();
+// 		account.updatePicture();
+// 	},
+// 	update:function(){
+// 		$("a[data-cmd='updateAdmin']").on('click',function(){
+// 			var data = $(this).data();
+// 			console.log(data);
+
+// 			var content = "<h5>Change "+data.prop+"</h5>"+
+// 						  "<form id='form_update' class='formValidate' method='get' action='' novalidate='novalidate'>"+
+// 						  "		<label for='field_"+data.prop+"'>"+data.prop+": </label>"+
+// 						  "		<input id='field_"+data.prop+"' value='"+data.value+"' type='text' name='field_"+data.prop+"' data-error='.error_"+data.prop+"'>"+
+// 						  "		<div class='error_"+data.prop+"'></div>"+
+// 						  "		<button type='submit' data-cmd='button_proceed' class='waves-effect waves-grey grey lighten-5 blue-text btn-flat modal-action right'>Save</button>"+
+// 						  "		<a class='waves-effect waves-grey grey-text btn-flat modal-action modal-close right'>Cancel</a>"+
+// 						  "</form>";
+// 			$("#modal_confirm .modal-content").html(content);
+// 			$('#modal_confirm .modal-footer').html("");			
+
+// 			if(data.prop == "Name"){
+// 				$('#modal_confirm').openModal('show');			
+// 				$("#form_update").validate({
+// 				    rules: {
+// 				        field_Name: {required: true,maxlength: 50},
+// 				    },
+// 				    errorElement : 'div',
+// 				    errorPlacement: function(error, element) {
+// 						var placement = $(element).data('error');
+// 						if(placement){
+// 							$(placement).append(error)
+// 						} 
+// 						else{
+// 							error.insertAfter(element);
+// 						}
+// 					},
+// 					submitHandler: function (form) {
+// 						var _form = $(form).serializeArray();
+// 						if(data.value == _form[0]['value']){
+// 							Materialize.toast('You did not even change the value.',4000);
+// 						}
+// 						else{
+// 							var ajax = system.ajax('../assets/harmony/Process.php?update-admin',_form);
+// 							ajax.done(function(ajax){
+// 								if(ajax == 1){
+// 									system.clearForm();
+// 									Materialize.toast('Name updated.',4000);
+// 									$('#modal_confirm').closeModal();	
+// 									App.handleLoadPage("#cmd=index;content=account");
+// 								}
+// 								else{
+// 									Materialize.toast('Cannot process request.',4000);
+// 								}
+// 							});
+// 						}
+// 				    }
+// 				}); 
+// 			}			
+// 			else if(data.prop == "Email"){
+// 				$('#modal_confirm').openModal('show');			
+// 				$("#form_update").validate({
+// 				    rules: {
+// 				        field_Email: {required: true,maxlength: 50,checkEmail:true},
+// 				    },
+// 				    errorElement : 'div',
+// 				    errorPlacement: function(error, element) {
+// 						var placement = $(element).data('error');
+// 						if(placement){
+// 							$(placement).append(error)
+// 						} 
+// 						else{
+// 							error.insertAfter(element);
+// 						}
+// 					},
+// 					submitHandler: function (form) {
+// 						var _form = $(form).serializeArray();
+// 						if(data.value == _form[0]['value']){
+// 							Materialize.toast('You did not even change the value.',4000);
+// 						}
+// 						else{
+// 							var ajax = system.ajax('../assets/harmony/Process.php?update-admin',_form);
+// 							ajax.done(function(ajax){
+// 								if(ajax == 1){
+// 									system.clearForm();
+// 									Materialize.toast('Email updated.',4000);
+// 									$('#modal_confirm').closeModal();	
+// 									App.handleLoadPage("#cmd=index;content=account");
+// 								}
+// 								else{
+// 									Materialize.toast('Cannot process request.',4000);
+// 								}
+// 							});
+// 						}
+// 				    }
+// 				}); 
+// 			}
+// 			else if(data.prop == "Username"){
+// 				$('#modal_confirm').openModal('show');			
+// 				$("#form_update").validate({
+// 				    rules: {
+// 				        field_Username: {required: true,maxlength: 50,checkUsername:true,validateUsername:true},
+// 				    },
+// 				    errorElement : 'div',
+// 				    errorPlacement: function(error, element) {
+// 						var placement = $(element).data('error');
+// 						if(placement){
+// 							$(placement).append(error)
+// 						} 
+// 						else{
+// 							error.insertAfter(element);
+// 						}
+// 					},
+// 					submitHandler: function (form) {
+// 						var _form = $(form).serializeArray();
+// 						if(data.value == _form[0]['value']){
+// 							Materialize.toast('You did not even change the value.',4000);
+// 						}
+// 						else{
+// 							var ajax = system.ajax('../assets/harmony/Process.php?update-admin',_form);
+// 							ajax.done(function(ajax){
+// 								if(ajax == 1){
+// 									system.clearForm();
+// 									Materialize.toast('Username updated.',4000);
+// 									$('#modal_confirm').closeModal();	
+// 									App.handleLoadPage("#cmd=index;content=account");
+// 								}
+// 								else{
+// 									Materialize.toast('Cannot process request.',4000);
+// 								}
+// 							});
+// 						}
+// 				    }
+// 				}); 
+// 			}
+// 			else if(data.prop == "Password"){
+// 				$('#modal_confirm').openModal('show');			
+// 				$("#field_Password").val("");
+// 				$("#field_Password").attr({"type":"password"});
+// 				$("#form_update").append("<p><input type='checkbox' id='showPassword'><label for='showPassword'>Show password</label></p>");
+
+// 				$("#showPassword").on("click",function(){
+// 					if($(this).is(':checked')){
+// 						$("#field_Password").attr({"type":"text"});						
+// 					}
+// 					else{
+// 						$("#field_Password").attr({"type":"password"});						
+// 					}
+// 				})
+
+// 				$("#form_update").validate({
+// 				    rules: {
+// 				        field_Password: {required: true,maxlength: 50,checkPassword:true,validatePassword:true},
+// 				    },
+// 				    errorElement : 'div',
+// 				    errorPlacement: function(error, element) {
+// 						var placement = $(element).data('error');
+// 						if(placement){
+// 							$(placement).append(error)
+// 						} 
+// 						else{
+// 							error.insertAfter(element);
+// 						}
+// 					},
+// 					submitHandler: function (form) {
+// 						var _form = $(form).serializeArray();
+// 						var data = system.ajax('../assets/harmony/Process.php?update-admin',_form);
+// 						data.done(function(data){
+// 							console.log(data);
+// 							if(data == 1){
+// 								system.clearForm();
+// 								Materialize.toast('Password updated.',4000);
+// 								$('#modal_confirm').closeModal();	
+// 								App.handleLoadPage("#cmd=index;content=account");
+// 							}
+// 							else{
+// 								Materialize.toast('Cannot process request.',4000);
+// 							}
+// 						});
+// 				    }
+// 				}); 
+// 			}
+// 		});
+// 	},
+// 	deactivate:function(){
+// 		$("a[data-cmd='deactivateAdmin']").on('click',function(){
+// 			var id = $(this).data('node');
+// 			var content = "Are you sure DEACTIVATE "+$(this).data('name')+"'s account?<br/>"+
+// 						  "<label for='field_description'>Remarks: </label>"+
+// 						  "<textarea class='materialize-textarea' data-field='field_description' name='field_description'></textarea>";
+// 			$("#modal_confirm .modal-content").html(content);
+// 			$("#modal_confirm .modal-footer").html("<a class='waves-effect waves-red red white-text btn-flat modal-action modal-close'>Cancel</a>"+
+// 												   "<a data-cmd='button_proceed' class='waves-effect waves-grey btn-flat modal-action'>Proceed</a>");
+// 			$('#modal_confirm').openModal('show');			
+
+// 			$("a[data-cmd='button_proceed']").on("click",function(){
+// 				var remarks = $("textarea[data-field='field_description']").val();
+// 				if(remarks.length == 0){
+// 						Materialize.toast('Remarks is required.',4000);
+// 				}
+// 				else if(remarks.length > 800){
+// 						Materialize.toast('Statement is too long.',4000);
+// 				}
+// 				else{
+// 					var data = system.ajax('../assets/harmony/Process.php?deactivate-admin',[id,remarks]);
+// 					data.done(function(data){
+// 						// console.log(data);
+// 						if(data == 1){
+// 							Materialize.toast('Account deactivaded.',4000);
+// 							system.clearForm();
+// 							App.handleLoadPage("#cmd=index;content=account");
+// 							$('#modal_confirm').closeModal();	
+// 						}
+// 						else{
+// 							Materialize.toast('Cannot process request.',4000);
+// 						}
+// 					});
+// 				}
+// 			});
+// 		})
+// 	},
+// 	activate:function(){
+// 		$("a[data-cmd='activateAdmin']").on('click',function(){
+// 			var id = $(this).data('node');
+// 			$("#modal_confirm .modal-content").html("Arey you sure ACTIVATE "+$(this).data('name')+"'s account?");
+// 			$("#modal_confirm .modal-footer").html("<a class='waves-effect waves-red red white-text btn-flat modal-action modal-close'>Cancel</a>"+
+// 												   "<a data-cmd='button_proceed' class='waves-effect waves-grey btn-flat modal-action modal-close'>Proceed</a>");
+// 			$('#modal_confirm').openModal('show');			
+
+// 			$("a[data-cmd='button_proceed']").on("click",function(){
+// 				var data = system.ajax('../assets/harmony/Process.php?activate-application',id);
+// 				data.done(function(data){
+// 					console.log(data);
+// 					if(data == 1){
+// 						Materialize.toast('Account activaded.',4000);
+// 						system.clearForm();
+// 						App.handleLoadPage("#cmd=index;content=account");
+// 						$('#modal_confirm').closeModal();	
+// 					}
+// 					else{
+// 						Materialize.toast('Cannot process request.',4000);
+// 					}
+// 				});
+// 			});
+// 		})
+// 	}
+// }
+
 var jobs = function(){
 	"use strict";
 	return {
-		ini:function(){
-		// this.list();
-		},
 		add_vacancies: function(){
 			var sys = system, validate = validation, _this = this, _apps = App;
 	    	$("a[data-cmd='register_applicant']").click(function(){
@@ -284,9 +616,6 @@ var jobs = function(){
 			}
 			application_content = "<div class='feed-activity-list'>"+application_content+"</div>";
 			$('#data_info').removeClass('hidden').html(application_content);
-<<<<<<< HEAD
-				
-=======
 				var content =  "<div>"+
 									"<dl class='dl-horizontal'>"+
 			                    	"<dt></dt><dd><h2 id='txt_jobtitle'>"+ajaxData[0][0][4]+"</h2></dd>"+
@@ -304,7 +633,6 @@ var jobs = function(){
 			// $('#job-post #txt_jobdate').html(ajaxData[0][0][6]);
 			// $('#job-post #txt_jobdescription').html(ajaxData[0][0][2]);
 			// $('#job-post #txt_jobapplicant').html(applicant);
->>>>>>> a1a2d437fca154ced8e6ed07f14583da84a8c419
 
 			$(".prettydate").prettydate({
 			    dateFormat: "YYYY-MM-DD hh:mm:ss"
@@ -355,7 +683,7 @@ var jobs = function(){
 				});
 			});
 
-			$("#"+data+" a[data-cmd='interview']").click(function(){
+				$("#"+data+" a[data-cmd='interview']").click(function(){
 					var content = [$(this).data('id'),$("#"+data+" input[name='field_interview']").val()];
 					var ajax = system.ajax('../assets/harmony/Process.php?do-inviteInterview',content);
 					var ajaxData = JSON.parse(ajax.responseText);
@@ -402,6 +730,67 @@ var jobs = function(){
 				}
 			});
         },
+        update:function(){
+			$("a[data-cmd='updateJob']").on('click',function(){
+				var data = $(this).data();
+				var id = data.node;
+				console.log(data);	
+				// var content = "<h5>Change "+data.prop+"</h5>"+
+				// 		  "<form id='form_update' class='formValidate' method='get' action='' novalidate='novalidate'>"+
+				// 		  "		<label for='field_"+data.prop+"'>"+data.prop+": </label>"+
+				// 		  "		<input id='field_"+data.prop+"' value='"+data.value+"' type='text' name='field_"+data.prop+"' data-error='.error_"+data.prop+"'>"+
+				// 		  "		<div class='error_"+data.prop+"'></div>"+
+				// 		  "		<button type='submit' data-cmd='button_proceed' class='waves-effect waves-grey grey lighten-5 blue-text btn-flat modal-action right'>Save</button>"+
+				// 		  "		<a class='waves-effect waves-grey grey-text btn-flat modal-action modal-close_modal right'>Cancel</a>"+
+				// 		  "</form>";
+				// 		  console.log(data.prop);
+				// 		  console.log(data.value);
+				// 		  console.log(data.node);
+				// $("#modal .modal-content").html(content);
+				// $('#modal .modal-footer').html("");		
+
+				// if(data.prop == "CompanyName"){
+				// 	$('#modal').modal('open');			
+				// 	$("#form_update").validate({
+				// 	    rules: {
+				// 	        field_CompanyName: {required: true,maxlength: 50},
+				// 	    },
+				// 	    errorElement : 'div',
+				// 	    errorPlacement: function(error, element) {
+				// 			var placement = $(element).data('error');
+				// 			if(placement){
+				// 				$(placement).append(error)
+				// 			} 
+				// 			else{
+				// 				error.insertAfter(element);
+				// 			}
+				// 		},
+				// 		submitHandler: function (form) {
+				// 			var _form = $(form).serializeArray();
+				// 			if(data.value == _form[0]['value']){
+				// 				Materialize.toast('You did not even change the value.',4000);
+				// 			}
+				// 			else{
+				// 				var ajax = system.ajax('../assets/harmony/Process.php?update-employer',[id,_form]);
+				// 				ajax.done(function(ajax){
+				// 					console.log(ajax)
+				// 					if(ajax == 1){
+				// 						system.clearForm();
+				// 						Materialize.toast('Name updated.',4000);
+				// 						system.close_modal();	
+				// 						App.handleLoadPage("#cmd=index;content=employers");
+				// 					}
+				// 					else{
+				// 						Materialize.toast('Cannot process request.',4000);
+				// 					}
+				// 				});
+				// 			}
+				// 	    }
+				// 	}); 
+				// }
+			
+			});
+		},
 	    add:function(){
     		var acount = JSON.parse(employer.account());
 			$("#form_postJob").validate({
@@ -479,328 +868,9 @@ var jobs = function(){
 
 	    	});	
 	    },
-		management:function(){
-			var data = system.xml("pages.xml");
-			$(data.responseText).find("addAccount").each(function(i,content){
-				$("#modal .modal-content").html(content);
-				$('#modal').openModal('show');			
-			});
-		},
-		list:function(){
-			var content = "";
-			var data = system.html('../assets/harmony/Process.php?get-admin');
-			data.done(function(data){
-				data = JSON.parse(data);
-				var profile = (data[0][8] == "")?'avatar.jpg':data[0][8];
-				content = "<div id='profile-card' class='card'>"+
-						"    <div class='card-image waves-effect waves-block waves-light'>"+
-						"        <img class='activator' src='../assets/images/user-bg.jpg' alt='user background'>"+
-						"    </div>"+
-						"    <div class='card-content'>"+
-						"        <div class=' responsive-img activator card-profile-image circle'>"+
-						"        	<img src='../assets/images/profile/"+profile+"' alt='' class='circle'>"+
-						"        	<a data-cmd='updateAdminPicture' data-value='"+profile+"' data-name='"+data[0][1]+"' data-node='"+data[0][0]+"' data-prop='Picture' class='btn waves-effect white-text no-shadow black' style='font-size: 10px;z-index: 1;padding: 0 12px;top:40px;'>Change</a>"+
-						"		 </div>"+
-						"        <span class='card-title activator grey-text text-darken-4'>"+data[0][1]+" </span>"+
-						"			<a data-cmd='updateAdmin' data-value='"+data[0][1]+"' data-name='"+data[0][1]+"' data-node='"+data[0][0]+"' data-prop='Name' class='tooltipped btn-floating waves-effect black-text no-shadow white right' data-position='left' data-delay='50' data-tooltip='Update name'>"+
-						"				<i class='mdi-editor-mode-edit right black-text'></i>"+
-						"			</a>"+
-						"		 <div class='divider'></div>"+
-						"        <p><span style='width:80%;display: inline-block;' class='truncate'><i class='mdi-communication-email cyan-text text-darken-2'></i> Email: "+data[0][5]+"</span>"+
-						"			<a data-cmd='updateAdmin' data-value='"+data[0][5]+"' data-name='"+data[0][1]+"' data-node='"+data[0][0]+"' data-prop='Email' class='tooltipped btn-floating waves-effect black-text no-shadow white right' data-position='left' data-delay='50' data-tooltip='Update email'>"+
-						"				<i class='mdi-editor-mode-edit right black-text'></i>"+
-						"			</a>"+
-						"		 </p>"+
-						"		 <div class='divider'></div>"+
-						"        <p><span style='width:80%;display: inline-block;' class='truncate'><i class='mdi-action-perm-identity cyan-text text-darken-2'></i> Username: "+data[0][2]+"</span>"+
-						"			<a data-cmd='updateAdmin' data-value='"+data[0][2]+"' data-name='"+data[0][1]+"' data-node='"+data[0][0]+"' data-prop='Username' class='tooltipped btn-floating waves-effect black-text no-shadow white right' data-position='left' data-delay='50' data-tooltip='Update uaername'>"+
-						"				<i class='mdi-editor-mode-edit right black-text'></i>"+
-						"			</a>"+
-						"		 </p>"+
-						"		 <div class='divider'></div>"+
-						"        <p><span style='width:80%;display: inline-block;' class='truncate'><i class='mdi-action-verified-user cyan-text text-darken-2'></i> Password"+"</span>"+
-						"			<a data-cmd='updateAdmin' data-name='"+data[0][1]+"' data-node='"+data[0][0]+"' data-prop='Password' class='tooltipped btn-floating waves-effect black-text no-shadow white right' data-position='left' data-delay='50' data-tooltip='Update password'>"+
-						"				<i class='mdi-editor-mode-edit right black-text'></i>"+
-						"			</a>"+
-						"		 </p>"+
-						"    </div>"+
-						"</div>";
-				$("#display_newAdmin").html(content);
-			});
 
-			content = "";
-			var data = system.html('../assets/harmony/Process.php?get-listAdmin');
-			var actions = "", status = "";
-			data.done(function(data){
-				data = JSON.parse(data);
-				$.each(data,function(i,v){
-					if(Number(v[6]) == 1){
-						status = "Active";
-						var actions = "<a data-cmd='deactivateAdmin' data-name='"+v[1]+"' data-node='"+v[0]+"' class='tooltipped btn-floating waves-effect black-text no-shadow grey lighten-5 right' data-position='left' data-delay='50' data-tooltip='Deactivate account' data-cmd='update'>"+
-									  "	<i class='mdi-action-lock-open right black-text'></i>"+
-									  "</a>";	
-					}
-					else{
-						status = "Deactivated";
-						var actions = "<a data-cmd='activateAdmin' data-name='"+v[1]+"' data-node='"+v[0]+"' class='tooltipped btn-floating waves-effect black-text no-shadow grey lighten-5 right' data-position='left' data-delay='50' data-tooltip='Activate account' data-cmd='update'>"+
-									  "	<i class='mdi-action-lock right black-text'></i>"+
-									  "</a>";	
-					}
-					content += "<tr>"+
-								"	<td>"+v[1]+"</td>"+
-								"	<td>Admin</td>"+
-								"	<td>"+status+"</td>"+
-								"	<td>"+actions+"</td>"+
-								"</tr>";
-				})	
-
-				content = "<table class='table bordered'>"+
-							"	<tr>"+
-							"		<th>Name</th><th>Role</th><th>Status</th><th></th>"+
-							"	</tr>"+content+"</table>";
-				$("#display_adminList").html(content);
-
-				account.deactivate();
-				account.activate();
-			});
-			account.update();
-			account.updatePicture();
-		},
-		update:function(){
-			$("a[data-cmd='updateAdmin']").on('click',function(){
-				var data = $(this).data();
-				console.log(data);
-
-				var content = "<h5>Change "+data.prop+"</h5>"+
-							  "<form id='form_update' class='formValidate' method='get' action='' novalidate='novalidate'>"+
-							  "		<label for='field_"+data.prop+"'>"+data.prop+": </label>"+
-							  "		<input id='field_"+data.prop+"' value='"+data.value+"' type='text' name='field_"+data.prop+"' data-error='.error_"+data.prop+"'>"+
-							  "		<div class='error_"+data.prop+"'></div>"+
-							  "		<button type='submit' data-cmd='button_proceed' class='waves-effect waves-grey grey lighten-5 blue-text btn-flat modal-action right'>Save</button>"+
-							  "		<a class='waves-effect waves-grey grey-text btn-flat modal-action modal-close right'>Cancel</a>"+
-							  "</form>";
-				$("#modal_confirm .modal-content").html(content);
-				$('#modal_confirm .modal-footer').html("");			
-
-				if(data.prop == "JobTitle"){
-					$('#modal_confirm').openModal('show');			
-					$("#form_update").validate({
-					    rules: {
-					        field_jobTitle: {required: true,maxlength: 50},
-					    },
-					    errorElement : 'div',
-					    errorPlacement: function(error, element) {
-							var placement = $(element).data('error');
-							if(placement){
-								$(placement).append(error)
-							} 
-							else{
-								error.insertAfter(element);
-							}
-						},
-						submitHandler: function (form) {
-							var _form = $(form).serializeArray();
-							if(data.value == _form[0]['value']){
-								Materialize.toast('You did not even change the value.',4000);
-							}
-							else{
-								var ajax = system.ajax('../assets/harmony/Process.php?update-admin',_form);
-								ajax.done(function(ajax){
-									if(ajax == 1){
-										system.clearForm();
-										Materialize.toast('Name updated.',4000);
-										$('#modal_confirm').closeModal();	
-										App.handleLoadPage("#cmd=index;content=account");
-									}
-									else{
-										Materialize.toast('Cannot process request.',4000);
-									}
-								});
-							}
-					    }
-					}); 
-				}			
-				else if(data.prop == "applicationexpiry"){
-					$('#modal_confirm').openModal('show');			
-					$("#form_update").validate({
-					    rules: {
-					        field_application: {required: true,maxlength: 50,checkEmail:true},
-					    },
-					    errorElement : 'div',
-					    errorPlacement: function(error, element) {
-							var placement = $(element).data('error');
-							if(placement){
-								$(placement).append(error)
-							} 
-							else{
-								error.insertAfter(element);
-							}
-						},
-						submitHandler: function (form) {
-							var _form = $(form).serializeArray();
-							if(data.value == _form[0]['value']){
-								Materialize.toast('You did not even change the value.',4000);
-							}
-							else{
-								var ajax = system.ajax('../assets/harmony/Process.php?update-admin',_form);
-								ajax.done(function(ajax){
-									if(ajax == 1){
-										system.clearForm();
-										Materialize.toast('Email updated.',4000);
-										$('#modal_confirm').closeModal();	
-										App.handleLoadPage("#cmd=index;content=account");
-									}
-									else{
-										Materialize.toast('Cannot process request.',4000);
-									}
-								});
-							}
-					    }
-					}); 
-				}
-				else if(data.prop == "Created"){
-					$('#modal_confirm').openModal('show');			
-					$("#form_update").validate({
-					    rules: {
-					        field_created: {required: true,maxlength: 50,checkUsername:true,validateUsername:true},
-					    },
-					    errorElement : 'div',
-					    errorPlacement: function(error, element) {
-							var placement = $(element).data('error');
-							if(placement){
-								$(placement).append(error)
-							} 
-							else{
-								error.insertAfter(element);
-							}
-						},
-						submitHandler: function (form) {
-							var _form = $(form).serializeArray();
-							if(data.value == _form[0]['value']){
-								Materialize.toast('You did not even change the value.',4000);
-							}
-							else{
-								var ajax = system.ajax('../assets/harmony/Process.php?update-admin',_form);
-								ajax.done(function(ajax){
-									if(ajax == 1){
-										system.clearForm();
-										Materialize.toast('Username updated.',4000);
-										$('#modal_confirm').closeModal();	
-										App.handleLoadPage("#cmd=index;content=account");
-									}
-									else{
-										Materialize.toast('Cannot process request.',4000);
-									}
-								});
-							}
-					    }
-					}); 
-				}
-				else if(data.prop == "Description"){
-					$('#modal_confirm').openModal('show');			
-					$("#form_update").validate({
-					    rules: {
-					        field_description: {required: true,maxlength: 50,checkEmail:true},
-					    },
-					    errorElement : 'div',
-					    errorPlacement: function(error, element) {
-							var placement = $(element).data('error');
-							if(placement){
-								$(placement).append(error)
-							} 
-							else{
-								error.insertAfter(element);
-							}
-						},
-						submitHandler: function (form) {
-							var _form = $(form).serializeArray();
-							if(data.value == _form[0]['value']){
-								Materialize.toast('You did not even change the value.',4000);
-							}
-							else{
-								var ajax = system.ajax('../assets/harmony/Process.php?update-admin',_form);
-								ajax.done(function(ajax){
-									if(ajax == 1){
-										system.clearForm();
-										Materialize.toast('Email updated.',4000);
-										$('#modal_confirm').closeModal();	
-										App.handleLoadPage("#cmd=index;content=account");
-									}
-									else{
-										Materialize.toast('Cannot process request.',4000);
-									}
-								});
-							}
-					    }
-					}); 
-				}
-			});
-		},
-		deactivate:function(){
-			$("a[data-cmd='deactivateAdmin']").on('click',function(){
-				var id = $(this).data('node');
-				var content = "Are you sure DEACTIVATE "+$(this).data('name')+"'s account?<br/>"+
-							  "<label for='field_description'>Remarks: </label>"+
-							  "<textarea class='materialize-textarea' data-field='field_description' name='field_description'></textarea>";
-				$("#modal_confirm .modal-content").html(content);
-				$("#modal_confirm .modal-footer").html("<a class='waves-effect waves-red red white-text btn-flat modal-action modal-close'>Cancel</a>"+
-													   "<a data-cmd='button_proceed' class='waves-effect waves-grey btn-flat modal-action'>Proceed</a>");
-				$('#modal_confirm').openModal('show');			
-
-				$("a[data-cmd='button_proceed']").on("click",function(){
-					var remarks = $("textarea[data-field='field_description']").val();
-					if(remarks.length == 0){
-							Materialize.toast('Remarks is required.',4000);
-					}
-					else if(remarks.length > 800){
-							Materialize.toast('Statement is too long.',4000);
-					}
-					else{
-						var data = system.ajax('../assets/harmony/Process.php?deactivate-admin',[id,remarks]);
-						data.done(function(data){
-							// console.log(data);
-							if(data == 1){
-								Materialize.toast('Account deactivaded.',4000);
-								system.clearForm();
-								App.handleLoadPage("#cmd=index;content=account");
-								$('#modal_confirm').closeModal();	
-							}
-							else{
-								Materialize.toast('Cannot process request.',4000);
-							}
-						});
-					}
-				});
-			})
-		},
-		activate:function(){
-			$("a[data-cmd='activateAdmin']").on('click',function(){
-				var id = $(this).data('node');
-				$("#modal_confirm .modal-content").html("Arey you sure ACTIVATE "+$(this).data('name')+"'s account?");
-				$("#modal_confirm .modal-footer").html("<a class='waves-effect waves-red red white-text btn-flat modal-action modal-close'>Cancel</a>"+
-													   "<a data-cmd='button_proceed' class='waves-effect waves-grey btn-flat modal-action modal-close'>Proceed</a>");
-				$('#modal_confirm').openModal('show');			
-
-				$("a[data-cmd='button_proceed']").on("click",function(){
-					var data = system.ajax('../assets/harmony/Process.php?activate-admin',id);
-					data.done(function(data){
-						console.log(data);
-						if(data == 1){
-							Materialize.toast('Account activaded.',4000);
-							system.clearForm();
-							App.handleLoadPage("#cmd=index;content=account");
-							$('#modal_confirm').closeModal();	
-						}
-						else{
-							Materialize.toast('Cannot process request.',4000);
-						}
-					});
-				});
-			})
-		}
-
-			}
-		}();
+	}
+}();
 
 var employer = function () {
 	"use strict";

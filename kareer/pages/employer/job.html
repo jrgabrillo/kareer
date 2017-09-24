@@ -10,7 +10,7 @@
 <div class='row animated fadeInRight'>
     <div class="wrapper wrapper-content">
         <div class="col s12" >
-            <div class='card' id='display_newAdmin'>
+            <div class='card' id='job-post'>
                 <div class='card-content text-center'>
                    <!--  <dl class='dl-horizontal'>
                         <dt></dt><dd><h2 id='txt_jobtitle'></h2></dd>
@@ -34,5 +34,5 @@
 <script type="text/javascript">
     var data = window.location.hash.split(';');
     jobs.getByID(data[2].split('='));
-    jobs.ini();
+    jobs.update();
 </script>
