@@ -763,7 +763,22 @@ $Functions = new DatabaseClasses;
     } 
     if(isset($_GET['do-inviteInterview'])){
         if(isset($_POST['data'])){
+            $data = $_POST['data'];
+            $date = $Functions->PDO_DateAndTime();
+            $val = json_encode([$date,$data[1]]);
+            $Query = $Functions->PDO_SQLQuery("UPDATE tbl_application SET status = WHERE id = '{$data}'");
+            if($Query->execute()){
+                echo 1;
+            }
+            else{
+                $Data = $Query->errorInfo();
+                print_r($Data);
+            }
+        }
+        else{
+            echo "Hacker";
     }
+
     if(isset($_POST['data'])){
             $data = $_POST['data'];
             $date = $Functions->PDO_DateAndTime();
