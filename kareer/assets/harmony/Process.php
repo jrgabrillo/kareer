@@ -48,7 +48,7 @@ $Functions = new DatabaseClasses;
             echo 1;
         }
     }
-    /*getters*/
+
     if(isset($_GET['get-session'])){
         if(isset($_SESSION['kareer7836']))
             print_r(json_encode($_SESSION['kareer7836']));
@@ -102,45 +102,11 @@ $Functions = new DatabaseClasses;
             print_r(json_encode($query));
         }
     }
-    if(isset($_GET['update-Image'])){
-        if(isset($_POST['data'])){
-            $data = $_POST['data'];
-            $file = $data[0].'-'.time().'.apr';
-
-            $handle = fopen('../img/'.$file, 'w+');
-
-            fwrite($handle, $data[2]);
-            fclose($handle);
-
-            if($data[1] == 'employer'){
-                $Query = $Functions->PDO_SQLQuery("UPDATE tbl_employer SET image = '{$file}' WHERE id = '{$data[0]}'");
-            }
-            else if($data[1] == 'applicant'){
-                $Query = $Functions->PDO_SQLQuery("UPDATE tbl_employer SET image = '{$file}' WHERE id = '{$data[0]}'");
-            }
-            else if($data[1] == 'student'){
-                $Query = $Functions->PDO_SQLQuery("UPDATE tbl_student SET picture = '{$file}' WHERE id = '{$data[0]}'");
-            }
-            else{
-                $Query = $Functions->PDO_SQLQuery("UPDATE tbl_admin SET image = '{$file}' WHERE id = '{$data[0]}'");
-            }
-
-            if($Query->execute())
-                echo 1;
-            else{
-                $Data = $Query->errorInfo();
-                print_r($Data);
-            }
-        }
-        else{
-            echo "Hacker";
-        }
-    }
     if(isset($_GET['update-image'])){
         if(isset($_POST['data'])){
             $data = $_POST['data'];
             $file = $data[0].'-'.time().'.apr';
-            $handle = fopen('../img'.$file, 'w+');
+            $handle = fopen('../img/'.$file, 'w+');
             fwrite($handle, $data[2]);
             fclose($handle);
             if($data[1] == 'employer'){
@@ -265,17 +231,17 @@ $Functions = new DatabaseClasses;
             echo "Hacker";
         }
     }
-    /* setters*/
     if (isset($_GET['set-postJob'])) {
         $data = $_POST['data'];
+        // print_r($data[0][5]['value']);
         $id = $Functions->PDO_IDGenerate('tbl_vacancies','id');
         $date = $Functions->PDO_DateAndTime();
         $data = $_POST['data'];
         $employer_id = $data[0];
         $job_title = $Functions->escape($data[1][0]['value']);
         $vacancy_date = $Functions->escape($data[1][1]['value']);
-        $skills = $Functions->escape($data[1][2]['value']);
-        $description = $Functions->escape($data[1][3]['value']);
+        $skills = $Functions->escape($data[1][5]['value']);
+        $description = $Functions->escape($data[1][2]['value']);
         $query = $Functions->PDO("INSERT INTO tbl_vacancies(id,employer_id,description,vacancy_date,job_title,skills,date,status) VALUES('{$id}','{$employer_id}',{$description},{$vacancy_date},{$job_title},{$skills},'{$date}',1)");
         if($query->execute())
             echo 1;
@@ -284,7 +250,6 @@ $Functions = new DatabaseClasses;
             print_r($Data);
         }
     }
-    
     // if (isset($_GET['do-postJob'])) {
     //     if(isset($_POST['data'])){
     //         $id = $Functions->PDO_IDGenerate('tbl_vacancies','id');
@@ -778,23 +743,22 @@ $Functions = new DatabaseClasses;
         else{
             echo "Hacker";
     }
-
     if(isset($_POST['data'])){
-            $data = $_POST['data'];
-            $date = $Functions->PDO_DateAndTime();
-            $val = json_encode([$date,$data[1]]);
-            $Query = $Functions->PDO_SQLQuery("UPDATE tbl_application SET status = '{$val}' WHERE id = '{$data[0]}'");
-            if($Query->execute()){
-                echo 1;
-            }
-            else{
-                $Data = $Query->errorInfo();
-                print_r($Data);
-            }
+        $data = $_POST['data'];
+        $date = $Functions->PDO_DateAndTime();
+        $val = json_encode([$date,$data[1]]);
+        $Query = $Functions->PDO_SQLQuery("UPDATE tbl_application SET status = '{$val}' WHERE id = '{$data[0]}'");
+        if($Query->execute()){
+            echo 1;
         }
         else{
-            echo "Hacker";
+            $Data = $Query->errorInfo();
+            print_r($Data);
         }
+    }
+    else{
+        echo "Hacker";
+    }
     }
 /*
     if(isset($_GET['get-jobsPosts'])){

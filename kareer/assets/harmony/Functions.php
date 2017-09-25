@@ -115,7 +115,6 @@ class DatabaseClasses{
 		$Query = DatabaseClasses::PDO_Query("SELECT * FROM $Table WHERE $Column = '$Condition'");
 		return $Query->rowCount();
 	}
-<<<<<<< HEAD
 
 	function password($string){
 		$options = ['cost' => 11,'salt' => mcrypt_create_iv(22, MCRYPT_DEV_URANDOM)];
@@ -131,8 +130,6 @@ class DatabaseClasses{
 		}
 	}
 
-=======
->>>>>>> 36900449b578edcff1176f1f0e0128fcbc935f05
 	function PDO_ShowRow($Table,$Column,$Condition){
 		$Array = array();
 		$Query = DatabaseClasses::PDO_Query("SELECT * FROM $Table WHERE $Column = '$Condition'");
@@ -175,9 +172,7 @@ class DatabaseClasses{
 			return $Data;
 		}			
 	}
-<<<<<<< HEAD
 
-=======
 	function PDO_StudentIDNumberGenerator($Table,$ID){
 		$Status = true; $RetString = ""; $Zero = '';
 		$Query = DatabaseClasses::PDO_SQLQuery("SELECT * FROM $Table");
@@ -189,7 +184,6 @@ class DatabaseClasses{
 		$TempNum = $Zero.$Query->rowCount();
 		return $Year.'-LN-'.$TempNum;
 	}
->>>>>>> 36900449b578edcff1176f1f0e0128fcbc935f05
 	function PDO_DateNow(){
 		$Query = DatabaseClasses::PDO_SQLQuery("SELECT NOW() as Date");
 		$Query->execute();
