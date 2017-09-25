@@ -20,6 +20,7 @@ class DatabaseClasses{
 		}
 	}
 	
+	
 	function dropDB($db){
 		$host = "localhost";
 		$dataBase = "test";
@@ -115,24 +116,6 @@ class DatabaseClasses{
 		$Query = DatabaseClasses::PDO_Query("SELECT * FROM $Table WHERE $Column = '$Condition'");
 		return $Query->rowCount();
 	}
-<<<<<<< HEAD
-
-	function password($string){
-		$options = ['cost' => 11,'salt' => mcrypt_create_iv(22, MCRYPT_DEV_URANDOM)];
-		return password_hash($string,PASSWORD_BCRYPT, $options);		
-	}
-
-	function testPassword($string,$hash){
-		if (password_verify($string,$hash)) {
-		    return 1;
-		}
-		else {
-		    return 0;
-		}
-	}
-
-=======
->>>>>>> 36900449b578edcff1176f1f0e0128fcbc935f05
 	function PDO_ShowRow($Table,$Column,$Condition){
 		$Array = array();
 		$Query = DatabaseClasses::PDO_Query("SELECT * FROM $Table WHERE $Column = '$Condition'");
@@ -147,7 +130,7 @@ class DatabaseClasses{
 		$Query = DatabaseClasses::PDO_Query("SELECT * FROM $Table'");
 		return $Query->rowCount();
 	}
-	function PDO_IDGenerate($Table,$ID){
+	function PDO_IDGenerator($Table,$ID){
 		$Status = true;
 		for($x=0;$Status == true;$x++){
 			$TempID = sha1(DatabaseClasses::PDO_TableCounter($Table)+$x);
@@ -162,10 +145,9 @@ class DatabaseClasses{
 		if(!isset($Username) && !isset($Password))
 			return true;
 	}
-
 	function log2($_id,$_remarks,$_header){
 		$date = DatabaseClasses::PDO_DateAndTime();
-		$id = DatabaseClasses::PDO_IDGenerate('tbl_logs','id');
+		$id = DatabaseClasses::PDO_IDGenerator('tbl_logs','id');
 		$Query = DatabaseClasses::PDO(false,"INSERT INTO tbl_logs(id,account,remarks,`date`,header) VALUES ('{$id}','{$_id}','{$_remarks}','{$date}','{$_header}')");
 		if($Query->execute()){
 			return 1;	
@@ -175,9 +157,6 @@ class DatabaseClasses{
 			return $Data;
 		}			
 	}
-<<<<<<< HEAD
-
-=======
 	function PDO_StudentIDNumberGenerator($Table,$ID){
 		$Status = true; $RetString = ""; $Zero = '';
 		$Query = DatabaseClasses::PDO_SQLQuery("SELECT * FROM $Table");
@@ -189,7 +168,6 @@ class DatabaseClasses{
 		$TempNum = $Zero.$Query->rowCount();
 		return $Year.'-LN-'.$TempNum;
 	}
->>>>>>> 36900449b578edcff1176f1f0e0128fcbc935f05
 	function PDO_DateNow(){
 		$Query = DatabaseClasses::PDO_SQLQuery("SELECT NOW() as Date");
 		$Query->execute();
