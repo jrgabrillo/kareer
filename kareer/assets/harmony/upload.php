@@ -13,7 +13,7 @@ if(!empty($_FILES['file'])){
 		$ext = explode('.',$name);
 		$ext = strtolower(end($ext));
 		$file = sha1($temp).'-'.time().'.'.$ext;
-		if(in_array($ext, $allowed) && move_uploaded_file($temp,'../img/people/'.$file)){
+		if(in_array($ext, $allowed) && move_uploaded_file($temp,'../img/'.$file)){
 			$succeeded[] = array(
 				'name' => $name,
 				'file' => $file,
