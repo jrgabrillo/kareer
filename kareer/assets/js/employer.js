@@ -31,14 +31,13 @@ var jobs = function(){
 
 					var ajax = sys.ajax('../assets/harmony/Process.php?set-postJob',data);
 					ajax.success(function(data){
-						console.log(data);
-						if(data == 1){
-							swal("Successful!", "Employer has been accepted.", "success");
+						if(data){
+							Materialize.toast('Successful', 2000,'',function(){alert('Your Job was posted')});
 							App.handleLoadPage(window.location.hash);
 						}
 						else{
-							swal("Fatal Error!", "There was an Unexpected Error during the process.", "error");
-							console.log(data);
+							Materialize.toast("Fatal Error!", "There was an Unexpected Error during the process.", "error");
+						
 						}
 					});
 				}
@@ -558,7 +557,7 @@ var employer = function () {
 						picture = "../assets/img/"+data[0][9];					
 					}
 					else{
-						picture =" system.get_apr(data[0][9]);"					
+						picture = system.get_apr(data[0][9]);				
 					}
 				}
 				if(data[0][5] != "")
@@ -582,6 +581,7 @@ var employer = function () {
 				if((data[0][1] != "") || (data[0][2] != ""))
 					name = data[0][1]+", "+data[0][2];
 
+				$("#profile_picture1 img").attr({"src":picture});
 	    		$("#text_company span").html(company);
 	    		$("#text_description span").html(description);
 	    		$("#text_DTI span").html(dti);
