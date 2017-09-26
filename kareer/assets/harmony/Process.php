@@ -156,6 +156,13 @@ $Functions = new DatabaseClasses;
             echo "Hacker";
         }
     }
+    if(isset($_GET['validateEmployer'])){
+        $data = $_POST['data'];
+        $count = 0;
+        $query = $Functions->PDO("SELECT count(*) FROM tbl_employer WHERE email = '{$data}'");
+        $count = $count + $query[0][0];
+        print_r($count);
+    }
     if(isset($_GET['get-job'])){
         if(isset($_POST["data"])){
             $data = $_POST['data'];
