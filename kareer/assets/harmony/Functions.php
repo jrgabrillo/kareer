@@ -18,9 +18,7 @@ class DatabaseClasses{
 			echo 'There was an error connecting to your database.<br/>';
 			echo 'Error:'.$e->getMessage();
 		}
-	}
-	
-	
+	}	
 	function dropDB($db){
 		$host = "localhost";
 		$dataBase = "test";
@@ -116,13 +114,10 @@ class DatabaseClasses{
 		$Query = DatabaseClasses::PDO_Query("SELECT * FROM $Table WHERE $Column = '$Condition'");
 		return $Query->rowCount();
 	}
-<<<<<<< HEAD
-
 	function password($string){
 		$options = ['cost' => 11,'salt' => mcrypt_create_iv(22, MCRYPT_DEV_URANDOM)];
 		return password_hash($string,PASSWORD_BCRYPT, $options);		
 	}
-
 	function testPassword($string,$hash){
 		if (password_verify($string,$hash)) {
 		    return 1;
@@ -131,9 +126,6 @@ class DatabaseClasses{
 		    return 0;
 		}
 	}
-
-=======
->>>>>>> 20e04d9113b166a8f69b1b03099122e4f5c25227
 	function PDO_ShowRow($Table,$Column,$Condition){
 		$Array = array();
 		$Query = DatabaseClasses::PDO_Query("SELECT * FROM $Table WHERE $Column = '$Condition'");
@@ -175,10 +167,6 @@ class DatabaseClasses{
 			return $Data;
 		}			
 	}
-<<<<<<< HEAD
-
-=======
->>>>>>> 20e04d9113b166a8f69b1b03099122e4f5c25227
 	function PDO_StudentIDNumberGenerator($Table,$ID){
 		$Status = true; $RetString = ""; $Zero = '';
 		$Query = DatabaseClasses::PDO_SQLQuery("SELECT * FROM $Table");
