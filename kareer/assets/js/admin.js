@@ -1393,234 +1393,6 @@ var employer = function(){
 var applicant = function(){
 	"use strict";
 	return {
-		// list: function(){
-		// 	var sys = system, validate = validation, _this = this, _apps = App;
-		// 	var content = "", actions = "", status = "";
-		// 	var ajax = sys.ajax('../assets/harmony/Process.php?get-allApplicant',"");
-		// 	ajax.success(function(data){
-		// 		var arrInactive = [], arrActive = [];
-		// 		if(data != ""){
-		// 			var data = JSON.parse(data);
-		// 			sys.sortResults(data,5,false);
-		// 			$.each(data,function(i,v){
-		// 				if(v[5] == 0)
-		// 		            arrInactive.push(v);					
-		// 				else
-		// 		            arrActive.push(v);
-		// 			});
-
-		// 			if(arrActive.length>0){
-		// 				var content = "<table class='table table-bordered' id='table_activeApplicant'>"+
-		// 							"	<thead>"+
-		// 							"		<tr>"+
-		// 							"			<th width='15%'></th>"+
-		// 							"			<th width='80%'>Name</th>"+
-		// 							"			<th width='15%'></th>"+
-		// 							"			<th width='5%'></th>"+
-		// 							"		</tr>"+
-		// 							"	</thead>"+
-		// 							"</table>";
-		// 				$("#active_applicants .card-content").html(content);
-
-		// 				$('#table_activeApplicant').DataTable( {
-		// 				    data: arrActive,
-		// 				    sort: false,
-		// 					"columnDefs": [
-		// 						{ className: "client-avatar", "targets": [ 0 ] },
-		// 						{ className: "text-left", "targets": [ 1 ] }
-		// 					],
-		// 				    columns: [
-		// 				        {data: "",
-		// 				            render: function ( data, type, full ){
-		// 								var picture = "../assets/img/profile avatar.jpg";
-
-		// 								if(full[21] != ""){
-		// 									var imageData = full[21].split('.');
-		// 									if(imageData[imageData.length-1]!='apr')
-		// 										picture = "../assets/img/"+full[21];					
-		// 									else
-		// 										picture = sys.get_apr(full[21]);
-		// 								}
-
-		// 			            		var details = '<img alt="image" src="'+picture+'" class = "responsive-img">';
-		// 			                	return details;
-		// 			         	   }
-		// 			        	},
-		// 			        	{data: "",
-		// 			            	render: function ( data, type, full ){
-		// 			            		var details = full[2]+" "+full[3]+" "+full[1];
-		// 			                	return details;
-		// 			            	}
-		// 			        	},
-		// 			        	{data: "",
-		// 			            	render: function ( data, type, full ){
-		// 			            		var details = "<a data-id='"+full[0]+"' data-cmd='info_ActiveApplicant' class='btn btn-success btn-xs btn-block'>Details</a>";
-		// 			                	return details;
-		// 			            	}
-		// 			        	},
-		// 			        	{data: "",
-		// 			            	render: function ( data, type, full ){
-		// 			            		var details = "<a href='#cmd=index;content=applications;id="+full[0]+"' data-id='"+full[0]+"' ><i class='small material-icons'>more_vert</i></a>";
-		// 			                	return details;
-		// 			            	}
-		// 			        	},
-		// 			    	]
-		// 				});
-
-		// 			}
-		// 			if(arrInactive.length>0){
-		// 				var content = "";
-
-		// 				$.each(arrInactive,function(i,v){
-		// 					content += "<tr>"+
-		// 								"	<td class='text-left' width='80%'>"+(i+1)+". "+v[1]+", "+v[2]+" "+v[3]+"</td>"+
-		// 								"	<td width='20%'><a data-id='"+v[0]+"' data-cmd='info_InactiveApplicant' class='btn btn-danger btn-xs btn-block'>Details</a></td>"+
-		// 								"</tr>";
-		// 				});
-
-		// 					content = "<table class='table table-bordered' id='table_inactiveApplicant'>"+content+"</table>";
-
-		// 				$("#inactive_applicants .card-content").html(content);
-		// 			}
-		// 			else{
-		// 				$("#inactive_applicants .card-content").html("<h2>All caught up. </h2><h4>No Inactive request for applicant's account approval</h4>");
-		// 			}
-
-
-		// 			$("a").click(function(){
-		// 				var cmd = $(this).data('cmd');
-		// 				var id = $(this).data('id');
-		// 				if(cmd == 'info_ActiveApplicant'){
-		// 					var newdata = sys.searchJSON(arrActive,0,id);
-		// 					var picture = "../assets/img/profile_avatar.jpg", description = "No description yet.", resume = "No resume uploaded yet.";
-
-		// 					if(newdata[0][21] != ""){
-		// 						var imageData = newdata[0][21].split('.');
-		// 						if(imageData[imageData.length-1]!='apr')
-		// 							picture = "../assets/img/"+newdata[0][21];					
-		// 						else
-		// 							picture = sys.get_apr(newdata[0][21]);
-		// 					}
-
-
-		// 					if(newdata[0][4] != "")
-		// 						description = newdata[0][8];    			
-		// 					if(newdata[0][24] != "")
-		// 						var resume = "<a href='../assets/files/"+newdata[0][24]+"' class='btn btn-xs btn-white'>Download and Read</a>";    			
-
-		// 					var content = "<div class='col-md-12' style='float:none !important;'><table class='table table-bordered card-content'>"+
-		// 								    "	<tr><td width='20%'><strong>Name: </strong></td><td width='80%'>"+newdata[0][1]+", "+newdata[0][2]+" "+newdata[0][3]+"</td><td></tr>"+
-		// 								    "	<tr><td><strong>Description: </strong></td><td>"+newdata[0][4]+"</td></tr>"+
-		// 								    "	<tr><td><strong>Gender: </strong></td><td>"+newdata[0][5]+"</td></tr>"+
-		// 								    "	<tr><td><strong>Contact Number: </strong></td><td>"+newdata[0][6]+"</td></tr>"+
-		// 								    "	<tr><td><strong>Address: </strong></td><td>"+newdata[0][7]+"</td></tr>"+
-		// 								    "	<tr><td><strong>Email Address: </strong></td><td>"+newdata[0][8]+"</td></tr>"+
-		// 									"   <tr><td><strong>Date Of Birth: </strong></td><td>"+newdata[0][9]+"</td></tr>"+
-		// 									"   <tr><td><strong>Place Of Birth: </strong></td><td>"+newdata[0][10]+"</td></tr>"+
-		// 									"   <tr><td><strong>Age: </strong></td><td>"+newdata[0][11]+"</td></tr>"+
-		// 									"   <tr><td><strong>Nationality: </strong></td><td>"+newdata[0][12]+"</td></tr>"+
-		// 									"   <tr><td><strong>Guardian: </strong></td><td>"+newdata[0][13]+"</td></tr>"+
-		// 									"   <tr><td><strong>Relationship with the guardian: </strong></td><td>"+newdata[0][14]+"</td></tr>"+
-		// 									"   <tr><td><strong>Elementary Graduated: </strong></td><td>"+newdata[0][15]+"</td></tr>"+
-		// 									"   <tr><td><strong>Date of Elementary Graduated: </strong></td><td>"+newdata[0][16]+"</td></tr>"+
-		// 									"   <tr><td><strong>Address of Elementary Graduated: </strong></td><td>"+newdata[0][17]+"</td></tr>"+
-		// 									"   <tr><td><strong>High School Graduated: </strong></td><td>"+newdata[0][18]+"</td></tr>"+
-		// 									"   <tr><td><strong>Date of High School Graduated: </strong></td><td>"+newdata[0][19]+"</td></tr>"+
-		// 									"   <tr><td><strong>Address of High School Graduated: </strong></td><td>"+newdata[0][20]+"</td></tr>"+
-		// 								    "	<tr><td><strong>Status: </strong></td><td>"+newdata[0][23]+"</td></tr>"+
-		// 								    "	<tr><td><strong>Resume: </strong></td><td>"+resume+"</td></tr>"+
-		// 								  	"</table>"+
-		// 								  	"	<div class='col-md-6'><a class='btn btn-white btn-xs btn-block' data-cmd='action_inactivateApplicant' data-id='"+newdata[0][0]+"'>Deactivate</a></div>"+
-		// 					   			"</div>";
-		// 						$("#applicant .card-content").html(content);
-
-		// 					$("a[data-cmd='action_inactivateApplicant']").click(function(){
-		// 						var id = $(this).data('id');
-		// 						sys.confim("Dectivate this Applicant?",function(){
-		// 							var ajax = sys.ajax('../assets/harmony/Process.php?set-inactivateApplicant',id);
-		// 							ajax.success(function(data){
-		// 								console.log(data);
-		// 								if(data == 1){
-		// 									swal("Successful!", "Applicant has been deactivated.", "success");
-		// 									sys.clearForm();
-		// 									_this.list();
-		// 								}
-		// 								else{
-		// 									swal("Fatal Error!", "There was an Unexpected Error during the process.", "error");
-		// 									console.log(data);
-		// 								}
-		// 							});
-		// 						});
-		// 					});			
-		// 				}
-		// 				if(cmd == 'info_InactiveApplicant'){
-		// 					var newdata = sys.searchJSON(arrInactive,0,id);
-		// 					var picture = "../assets/img/profile_avatar.jpg", description = "No description yet.", resume = "No resume uploaded yet.";
-		// 					if(newdata[0][21] != ""){
-		// 						var imageData = newdata[0][21].split('.');
-		// 						if(imageData[imageData.length-1]!='apr')
-		// 							picture = "../assets/img/"+newdata[0][21];					
-		// 						else
-		// 							picture = sys.get_apr(newdata[0][21]);
-		// 					}
-
-
-		// 					if(newdata[0][4] != "")
-		// 						description = newdata[0][8];    			
-		// 					if(newdata[0][24] != "")
-		// 						var resume = "<a href='../assets/files/"+newdata[0][24]+"' class='btn btn-xs btn-white'>Download and Read</a>";    			
-
-		// 					var content = "<div class='col-md-12' style='float:none !important;'><table class='table table-bordered card-content'>"+
-		// 								    "	<tr><td width='20%'><strong>Name: </strong></td><td width='80%'>"+newdata[0][1]+", "+newdata[0][2]+" "+newdata[0][3]+"</td><td></tr>"+
-		// 								    "	<tr><td><strong>Description: </strong></td><td>"+newdata[0][4]+"</td></tr>"+
-		// 								    "	<tr><td><strong>Gender: </strong></td><td>"+newdata[0][5]+"</td></tr>"+
-		// 								    "	<tr><td><strong>Contact Number: </strong></td><td>"+newdata[0][6]+"</td></tr>"+
-		// 								    "	<tr><td><strong>Address: </strong></td><td>"+newdata[0][7]+"</td></tr>"+
-		// 								    "	<tr><td><strong>Email Address: </strong></td><td>"+newdata[0][8]+"</td></tr>"+
-		// 									"   <tr><td><strong>Date Of Birth: </strong></td><td>"+newdata[0][9]+"</td></tr>"+
-		// 									"   <tr><td><strong>Place Of Birth: </strong></td><td>"+newdata[0][10]+"</td></tr>"+
-		// 									"   <tr><td><strong>Age: </strong></td><td>"+newdata[0][11]+"</td></tr>"+
-		// 									"   <tr><td><strong>Nationality: </strong></td><td>"+newdata[0][12]+"</td></tr>"+
-		// 									"   <tr><td><strong>Guardian: </strong></td><td>"+newdata[0][13]+"</td></tr>"+
-		// 									"   <tr><td><strong>Relationship with the guardian: </strong></td><td>"+newdata[0][14]+"</td></tr>"+
-		// 									"   <tr><td><strong>Elementary Graduated: </strong></td><td>"+newdata[0][15]+"</td></tr>"+
-		// 									"   <tr><td><strong>Date of Elementary Graduated: </strong></td><td>"+newdata[0][16]+"</td></tr>"+
-		// 									"   <tr><td><strong>Address of Elementary Graduated: </strong></td><td>"+newdata[0][17]+"</td></tr>"+
-		// 									"   <tr><td><strong>High School Graduated: </strong></td><td>"+newdata[0][18]+"</td></tr>"+
-		// 									"   <tr><td><strong>Date of High School Graduated: </strong></td><td>"+newdata[0][19]+"</td></tr>"+
-		// 									"   <tr><td><strong>Address of High School Graduated: </strong></td><td>"+newdata[0][20]+"</td></tr>"+
-		// 								    "	<tr><td><strong>Status: </strong></td><td>"+newdata[0][23]+"</td></tr>"+
-		// 								    "	<tr><td><strong>Resume: </strong></td><td>"+resume+"</td></tr>"+
-		// 								  	"</table>"+
-		// 								  	"	<div class='col-md-6'><a class='btn btn-white btn-xs btn-block' data-cmd='action_activateApplicant' data-id='"+newdata[0][0]+"'>Activate</a></div>"+
-		// 					   			"</div>";
-		// 						$("#applicant .card-content").html(content);
-
-		// 					$("a[data-cmd='action_activateApplicant']").click(function(){
-		// 						var id = $(this).data('id');
-		// 						sys.confim("Activate this Applicant?",function(){
-		// 							var ajax = sys.ajax('../assets/harmony/Process.php?set-activateApplicant',id);
-		// 							ajax.success(function(data){
-		// 								console.log(data);
-		// 								if(data == 1){
-		// 									swal("Successful!", "Applicant has been activated.", "success");
-		// 									sys.clearForm();
-		// 									_this.list();
-		// 									console.log(id);
-		// 								}
-		// 								else{
-		// 									swal("Fatal Error!", "There was an Unexpected Error during the process.", "error");
-		// 									console.log(data);
-		// 								}
-		// 							});
-		// 						});
-		// 					});			
-		// 				}
-						
-		// 			});
-		// 		}
-		// 	});
-	 //    },
 	 	list: function(){
 			var sys = system, validate = validation, _this = this, _apps = App;
 			var ajax = sys.ajax('../assets/harmony/Process.php?get-allApplicant',"");
@@ -1629,7 +1401,7 @@ var applicant = function(){
 				if(data != ""){
 					var data = JSON.parse(data);
 					console.log(data);
-					sys.sortResults(data,5,false);
+					sys.sortResults(data,1,false);
 
 					var content = "<table class='table table-bordered' id='table_allApplicant'>"+
 									"	<thead>"+
@@ -1689,19 +1461,19 @@ var applicant = function(){
 							console.log(infodata);
 							var picture = "../assets/img/profile avatar.jpg", description = "No description yet.", resume = "No resume uploaded yet.";
 
-							if(infodata[0][1][13] != ""){
-								var imageData = infodata[0][1][13].split(';');
-								if(imageData[imageData.length-1]!='apr')
-									picture = "../assets/img/"+infodata[0][1][13];					
-								else
-									picture = sys.get_apr(infodata[0][1][13]);
-							}
+							// if(infodata[0][1][13] != ""){
+							// 	var imageData = infodata[0][1][13].split(';');
+							// 	if(imageData[imageData.length-1]!='apr')
+							// 		picture = "../assets/img/"+infodata[0][1][13];					
+							// 	else
+							// 		picture = sys.get_apr(infodata[0][1][13]);
+							// }
 
 
-							if(infodata[0][7] != "")
+							if(infodata[0][0][1] != "")
 								description = infodata[0][0][1];    			
 							if(infodata[0][8] != "")
-								resume = "<a href='../assets/files/"+infodata[0][0][1]+"' class='btn btn-xs btn-white'>Download and Read</a>";    			
+								resume = "<a href='../assets/files/"+infodata[0][0][2]+"' class='btn btn-xs btn-white'>Download and Read</a>";    			
 
 							var content = ""+
 											"<div class='row m-b-lg m-t-lg'>"+
@@ -1711,22 +1483,39 @@ var applicant = function(){
 											"        </div>"+
 											"        <div class='profile-info'>"+
 											"            <div>"+
-											"                <h2 class='no-margins'>"+infodata[0][0][1]+", "+infodata[0][0][2]+" "+infodata[0][0][1]+"</h2>"+
+											"                <h1 class='no-margins'>"+infodata[0][1][0][1]+", "+infodata[0][1][0][2]+" "+infodata[0][1][0][3]+"</h1>"+
 											"                <small>"+description+"</small>"+
 											"            </div>"+
 											"        </div>"+
 											"    </div>"+
 											"    <div class='col-md-6'>"+
+											"		<strong>PERSONAL INFORMATION</strong>"+
 											"        <table class='table small m-b-xs'>"+
-											"            <tr><td><strong>Gender: </strong>"+infodata[0][0][1]+"</td></tr>"+
-											"            <tr><td><strong>Address: </strong>"+infodata[0][0][1]+"</td></tr>"+
-											"            <tr><td><strong>Contact Number: </strong>"+infodata[0][0][1]+"</td></tr>"+
-											"            <tr><td><strong>Email Address: </strong>"+infodata[0][0][1]+"</td></tr>"+
-											"            <tr><td><strong>Resume: </strong>"+resume+"</td></tr>"+
+											"            <tr><td><strong>Gender: </strong>"+infodata[0][1][0][4]+"</td></tr>"+
+											"            <tr><td><strong>Address: </strong>"+infodata[0][1][0][7]+"</td></tr>"+
+											"            <tr><td><strong>Email Address: </strong>"+infodata[0][0][3]+"</td></tr>"+
+											"            <tr><td><strong>Date of Birth: </strong>"+infodata[0][1][0][5]+"</td></tr>"+
+											"            <tr><td><strong>Place of Birth: </strong>"+infodata[0][1][0][6]+"</td></tr>"+
+											"            <tr><td><strong>Citizenship: </strong>"+infodata[0][1][0][8]+"</td></tr>"+
+											"            <tr><td><strong>Height: </strong>"+infodata[0][1][0][9]+"</td></tr>"+
+											"            <tr><td><strong>weight: </strong>"+infodata[0][1][0][10]+"</td></tr>"+
+											"            <tr><td><strong>Mother: </strong>"+infodata[0][1][0][11]+"</td></tr>"+
+											"            <tr><td><strong>Father: </strong>"+infodata[0][1][0][12]+"</td></tr>"+
+											"            <tr><td><strong>Date Applied: </strong>"+infodata[0][1][0][14]+"</td></tr>"+
+											"        </table>"+
+											"		 <table class='table small m-b-xs'>"+
+											"		<strong>ACADEMIC INFORMATION</strong>"+
+											"            <tr><td><strong>Level: </strong></td></tr>"+
+											"            <tr><td><strong>SchoolAttended: </strong></td></tr>"+
+											"            <tr><td><strong>Degree: </strong></td></tr>"+
+											"            <tr><td><strong>Period of Attendance: </strong></td></tr>"+
+											"            <tr><td><strong>Highest Level: </strong></td></tr>"+
+											"            <tr><td><strong>Year Graduated: </strong></td></tr>"+
 											"        </table>"+
 											"    </div>"+
 											"</div>"+
 										  "";
+										  console.log(infodata[0][1][0][1]);
 							$("#modal .modal-content").html(content);
 							$('#modal').modal('open');	
 						});
