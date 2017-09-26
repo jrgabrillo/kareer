@@ -557,7 +557,7 @@ var employer = function () {
 						picture = "../assets/img/"+data[0][9];					
 					}
 					else{
-						picture =" system.get_apr(data[0][9]);"					
+						picture = system.get_apr(data[0][9]);				
 					}
 				}
 				if(data[0][5] != "")
@@ -581,6 +581,7 @@ var employer = function () {
 				if((data[0][1] != "") || (data[0][2] != ""))
 					name = data[0][1]+", "+data[0][2];
 
+				$("#profile_picture1 img").attr({"src":picture});
 	    		$("#text_company span").html(company);
 	    		$("#text_description span").html(description);
 	    		$("#text_DTI span").html(dti);
