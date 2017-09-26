@@ -198,30 +198,26 @@ $Functions = new DatabaseClasses;
         if(isset($_POST["data"])){
             $Query = $Functions->PDO("SELECT * FROM tbl_applicant");
             foreach ($Query as $key => $value) {
-                $QueryIDs = $Functions->PDO("SELECT tbl_applicant.id, tbl_personalinfo.id FROM tbl_applicant LEFT JOIN tbl_personalinfo ON tbl_applicant.id = tbl_personalinfo.id ORDER BY tbl_applicant.id");
-                $QuerypersonalInfo = $Functions->PDO("SELECT tbl_applicant WHERE id = '{$QueryIDs[0][0]}'");
-                print_r($QuerypersonalInfo);
+                $QueryIDs = $Functions->PDO("SELECT tbl_applicant.id, tbl_personalinfo.family_name, tbl_personalinfo.given_name, tbl_personalinfo.picture FROM tbl_applicant LEFT JOIN tbl_personalinfo ON tbl_applicant.id = tbl_personalinfo.id ORDER BY tbl_applicant.id");
+                // print_r($QueryIDs[0]);
             }
-            // print_r(json_encode($Query));
+            print_r(json_encode($QueryIDs));
         }
         else {
-            echo "Hacker";
-        }
-    }
-    if (isset($_GET['get-allStudent'])){
-        if(isset($_POST["data"])){
-            $QueryApplicant = $Functions->PDO("SELECT * FROM tbl_student ORDER BY status DESC");
-            print_r(json_encode($QueryApplicant));
-        }
-        else{
             echo "Hacker";
         }
     }
     if (isset($_GET['get-Applicant'])){
         if(isset($_POST["data"])){
             $data = $_POST['data'];
+            $result = [];
             $QueryApplicant = $Functions->PDO_SQL("SELECT * FROM tbl_applicant WHERE id = '{$data}'");
-            print_r(json_encode($QueryApplicant));
+            foreach ($QueryApplicant as $key => $value) {
+                $QuerypersonalInfo = $Functions->PDO("SELECT * FROM tbl_personalinfo WHERE id = '{$value[0]}'");
+            //     // print_r($QuerypersonalInfo);
+                $result [] = [$value,$QuerypersonalInfo];
+             }
+            print_r(json_encode($result));
         }
         else{
             echo "Hacker";
@@ -287,34 +283,6 @@ $Functions = new DatabaseClasses;
         //     print_r($Data);
         // }
     }
-
-    // if (isset($_GET['do-postJob'])) {
-    //     if(isset($_POST['data'])){
-    //         $id = $Functions->PDO_IDGenerate('tbl_vacancies','id');
-    //         $date = $Functions->PDO_DateAndTime();
-    //         $data = $_POST['data'];
-    //         $employer_id = $data[0];
-    //         $description = $data[1][2]['value'];
-    //         $vacancy_date = $data[1][1]['value'];
-    //         $job_title = $data[1][0]['value'];
-    //         if(count($data[1])==4)
-    //             $skills = json_encode($data[1][3]);
-    //         else
-    //             $skills = json_encode([]);
-    //         $QueryString = "INSERT INTO tbl_vacancies(id,employer_id,description,vacancy_date,job_title,skills,date,status) VALUES('{$id}','{$employer_id}','{$description}','{$vacancy_date}','{$job_title}','{$skills}','{$date}','1')";
-    //         $Query = $Functions->PDO_SQLQuery($QueryString);
-    //         if($Query->execute())
-    //             echo 1;
-    //         else{
-    //             $Data = $Query->errorInfo();
-    //             print_r($Data);
-    //         }
-    //     }
-    //     else{
-    //         echo "Hacker";
-    //     }
-    // }
-
     
     if(isset($_GET['update-adminPicture'])){
             $data = $_POST['data'];
