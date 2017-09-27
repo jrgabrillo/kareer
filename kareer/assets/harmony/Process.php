@@ -1,4 +1,4 @@
-<?php
+<?pkhp
 session_start();
 include("Functions.php");
 $Functions = new DatabaseClasses;
@@ -107,7 +107,6 @@ $Functions = new DatabaseClasses;
         if(isset($_POST['data'])){
             $data = $_POST['data'];
             $file = $data[0].'-'.time().'.apr';
-<<<<<<< HEAD
             $handle = fopen('../img/'.$file, 'w+');
             fwrite($handle, $data[2]);
             fclose($handle);
@@ -123,7 +122,6 @@ $Functions = new DatabaseClasses;
             else{
                 $Query = $Functions->PDO("UPDATE tbl_admin SET image = '{$file}' WHERE id = '{$data[0]}'");
             }
-=======
 
             $handle = fopen('../img/'.$file, 'w+');
 
@@ -143,7 +141,6 @@ $Functions = new DatabaseClasses;
                 $Query = $Functions->PDO_SQLQuery("UPDATE tbl_admin SET image = '{$file}' WHERE id = '{$data[0]}'");
             }
 
->>>>>>> 20e04d9113b166a8f69b1b03099122e4f5c25227
             if($Query->execute())
                 echo 1;
             else{
@@ -261,12 +258,9 @@ $Functions = new DatabaseClasses;
     }
     if (isset($_GET['set-postJob'])) {
         $data = $_POST['data'];
-<<<<<<< HEAD
         // print_r($data[0][5]['value']);
         $id = $Functions->PDO_IDGenerate('tbl_vacancies','id');
-=======
         $id = $Functions->PDO_IDGenerator('tbl_vacanecies','id');
->>>>>>> 20e04d9113b166a8f69b1b03099122e4f5c25227
         $date = $Functions->PDO_DateAndTime();
         $data = $_POST['data'];
         $employer_id = $data[0];
@@ -282,36 +276,33 @@ $Functions = new DatabaseClasses;
             print_r($Data);
         }
     }
-<<<<<<< HEAD
-    // if (isset($_GET['do-postJob'])) {
-    //     if(isset($_POST['data'])){
-    //         $id = $Functions->PDO_IDGenerate('tbl_vacancies','id');
-    //         $date = $Functions->PDO_DateAndTime();
-    //         $data = $_POST['data'];
-    //         $employer_id = $data[0];
-    //         $description = $data[1][2]['value'];
-    //         $vacancy_date = $data[1][1]['value'];
-    //         $job_title = $data[1][0]['value'];
-    //         if(count($data[1])==4)
-    //             $skills = json_encode($data[1][3]);
-    //         else
-    //             $skills = json_encode([]);
-    //         $QueryString = "INSERT INTO tbl_vacancies(id,employer_id,description,vacancy_date,job_title,skills,date,status) VALUES('{$id}','{$employer_id}','{$description}','{$vacancy_date}','{$job_title}','{$skills}','{$date}','1')";
-    //         $Query = $Functions->PDO_SQLQuery($QueryString);
-    //         if($Query->execute())
-    //             echo 1;
-    //         else{
-    //             $Data = $Query->errorInfo();
-    //             print_r($Data);
-    //         }
-    //     }
-    //     else{
-    //         echo "Hacker";
-    //     }
-    // }
-=======
+ /*   if (isset($_GET['do-postJob'])) {
+         if(isset($_POST['data'])){
+            $id = $Functions->PDO_IDGenerate('tbl_vacancies','id');
+            $date = $Functions->PDO_DateAndTime();
+            $data = $_POST['data'];
+            $employer_id = $data[0];
+            $description = $data[1][2]['value'];
+            $vacancy_date = $data[1][1]['value'];
+            $job_title = $data[1][0]['value'];
+            if(count($data[1])==4)
+                $skills = json_encode($data[1][3]);
+            else
+                $skills = json_encode([]);
+            $QueryString = "INSERT INTO tbl_vacancies(id,employer_id,description,vacancy_date,job_title,skills,date,status) VALUES('{$id}','{$employer_id}','{$description}','{$vacancy_date}','{$job_title}','{$skills}','{$date}','1')";
+            $Query = $Functions->PDO_SQLQuery($QueryString);
+            if($Query->execute())
+                echo 1;
+            else{
+                $Data = $Query->errorInfo();
+                print_r($Data);
+            }
+        }
+        else{
+            echo "Hacker";
+        }
+    }*/
     
->>>>>>> 20e04d9113b166a8f69b1b03099122e4f5c25227
     if(isset($_GET['update-adminPicture'])){
             $data = $_POST['data'];
            saveImage($user,$data[1]);
