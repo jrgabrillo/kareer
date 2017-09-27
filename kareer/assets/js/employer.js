@@ -32,8 +32,8 @@ var jobs = function(){
 					var ajax = sys.ajax('../assets/harmony/Process.php?set-postJob',data);
 					ajax.success(function(data){
 						console.log(data);
-						if(data == 1){
-							swal("Successful!", "Employer has been accepted.", "success");
+						if(data){
+							swal("Successful!", "Employer has been added job post.", "success");
 							App.handleLoadPage(window.location.hash);
 						}
 						else{

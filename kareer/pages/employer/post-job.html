@@ -1,6 +1,3 @@
-<link media="screen" href="../assets/css/froala/froala_style.min.css" rel="stylesheet">
-<link media="screen" href="../assets/css/froala/froala_editor.pkgd.min.css" rel="stylesheet">
-<link media="screen" href="../assets/css/froala/font-awesome.min.css" rel="stylesheet">
 <nav class="purple lighten-2">
     <div class="nav-wrapper" style="margin-left:15px">
         <div class="col s12">
@@ -9,7 +6,6 @@
         </div>
     </div>
 </nav>
-
 <div class='row' style='float:none;'>
     <div class="wrapper wrapper-content">
         <div class="row animated fadeInUp">
@@ -35,6 +31,9 @@
                                             <div data-inputtype='required' name='field_skills' class="chips"></div>
                                         </label>
                                     </div><br/>
+                                    <div class="col s12">
+                                      <div id="test-slider"></div>
+                                    </div>
                                     <div class='col s12' >
                                         <label>Job Description: </label>
                                         <textarea data-inputtype='required' name='field_description' placeholder='Job Description' class='form-control' id="field_description" row="5"></textarea>
@@ -62,6 +61,21 @@
 
 jobs.add_vacancies();
 // system.froala("#field_description");
+
+// $ ('slider') = document.getElementById('test-slider');
+//   noUiSlider.create(slider, {
+//    start: [20, 80],
+//    connect: true,
+//    step: 1,
+//    orientation: 'horizontal', // 'horizontal' or 'vertical'
+//    range: {
+//      'min': 0,
+//      'max': 100
+//    },
+//    format: wNumb({
+//      decimals: 0
+//    })
+//   })
 
   $('.datepicker').pickadate({
     selectMonths: true, // Creates a dropdown to control month
