@@ -152,7 +152,7 @@ var admin = function () {
 	    		$("#profile_picture2").removeClass('hidden')
 
 	    		var content =   "<div class='image-crop'>"+
-								"	<img class='circle responsive-img' style='width: 25%;' src='"+picture+"'>"+
+								"	<img class='circle responsive-img' style='width: 75%;' src='"+picture+"'>"+
 								"</div>"+
 								"<div class='btn-group'>"+
 								"<label for='inputImage' class='btn btn-xs btn-primary'>"+
