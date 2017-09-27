@@ -41,10 +41,9 @@ var admin = function () {
 			$(".profile-element span img").attr({"src":picture});
 			$("#ajax-content img").prop({"src":picture});
 			//name
-			$(".profile-element .font-bold").html(data[0][1]+", "+data[0][2]);
-			$("#ajax-content .profile-content strong").html(data[0][1]+", "+data[0][2]);
+			$(".profile-element span strong").html(data[0][1]+" "+data[0][2]);
 			//addres
-			$("#ajax-content .profile-content p").html(level);
+			$(".profile-element span p").html('Welcome '+level);
 
 			$("a[data-cmd]").click(function(){
 				$("a").parent('li').removeClass("active");
@@ -152,8 +151,8 @@ var admin = function () {
 	    		$("#profile_picture1").addClass('hidden');
 	    		$("#profile_picture2").removeClass('hidden')
 
-	    		var content =   "<div class='image-crop' style='margin-bottom:5px;'>"+
-								"	<img width='100%' src='"+picture+"'>"+
+	    		var content =   "<div class='image-crop'>"+
+								"	<img class='circle responsive-img' style='width: 25%;' src='"+picture+"'>"+
 								"</div>"+
 								"<div class='btn-group'>"+
 								"<label for='inputImage' class='btn btn-xs btn-primary'>"+
