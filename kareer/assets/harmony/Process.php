@@ -48,7 +48,6 @@ $Functions = new DatabaseClasses;
             echo 1;
         }
     }
-
     if(isset($_GET['get-session'])){
         if(isset($_SESSION['kareer7836']))
             print_r(json_encode($_SESSION['kareer7836']));
@@ -267,23 +266,22 @@ $Functions = new DatabaseClasses;
         print_r($data[1][5]['value']);
         // $id = $Functions->PDO_IDGenerate('tbl_vacancies','id');
 
-        // $id = $Functions->PDO_IDGenerator('tbl_vacanecies','id');
-        // $date = $Functions->PDO_DateAndTime();
-        // $data = $_POST['data'];
-        // $employer_id = $data[0];
-        // $job_title = $Functions->escape($data[1][0]['value']);
-        // $vacancy_date = $Functions->escape($data[1][1]['value']);
-        // $skills = $Functions->escape($data[1][5]['value']);
-        // $description = $Functions->escape($data[1][2]['value']);
-        // $query = $Functions->PDO("INSERT INTO tbl_vacancies(id,employer_id,description,vacancy_date,job_title,skills,date,status) VALUES('{$id}','{$employer_id}',{$description},{$vacancy_date},{$job_title},{$skills},'{$date}',1)");
-        // if($query->execute())
-        //     echo 1;
-        // else{
-        //     $Data = $query->errorInfo();
-        //     print_r($Data);
-        // }
-    }
-    
+        $id = $Functions->PDO_IDGenerator('tbl_vacanecies','id');
+        $date = $Functions->PDO_DateAndTime();
+        $data = $_POST['data'];
+        $employer_id = $data[0];
+        $job_title = $Functions->escape($data[1][0]['value']);
+        $vacancy_date = $Functions->escape($data[1][1]['value']);
+        $skills = $Functions->escape($data[1][5]['value']);
+        $description = $Functions->escape($data[1][2]['value']);
+        $query = $Functions->PDO("INSERT INTO tbl_vacancies(id,employer_id,description,vacancy_date,job_title,skills,date,status) VALUES('{$id}','{$employer_id}',{$description},{$vacancy_date},{$job_title},{$skills},'{$date}',1)");
+        if($query->execute())
+            echo 1;
+        else{
+            $Data = $query->errorInfo();
+            print_r($Data);
+        }
+    }    
     if(isset($_GET['update-adminPicture'])){
             $data = $_POST['data'];
            saveImage($user,$data[1]);

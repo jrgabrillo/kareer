@@ -28,16 +28,17 @@ var jobs = function(){
 		    		var data = sys.get_account();
 		    		data = JSON.parse(data);
 		    		data = [data[0][0],fields]
-
+		    		console.log(data);
 					var ajax = sys.ajax('../assets/harmony/Process.php?set-postJob',data);
 					ajax.success(function(data){
-						if(data){
-							Materialize.toast('Successful', 2000,'',function(){alert('Your Job was posted')});
+						console.log(data);
+						if(data == 1){
+							swal("Successful!", "Employer has been accepted.", "success");
 							App.handleLoadPage(window.location.hash);
 						}
 						else{
-							Materialize.toast("Fatal Error!", "There was an Unexpected Error during the process.", "error");
-						
+							swal("Fatal Error!", "There was an Unexpected Error during the process.", "error");
+							console.log(data);
 						}
 					});
 				}
@@ -557,7 +558,7 @@ var employer = function () {
 						picture = "../assets/img/"+data[0][9];					
 					}
 					else{
-						picture =" system.get_apr(data[0][9]);"					
+						picture = system.get_apr(data[0][9]);				
 					}
 				}
 				if(data[0][5] != "")
@@ -581,6 +582,7 @@ var employer = function () {
 				if((data[0][1] != "") || (data[0][2] != ""))
 					name = data[0][1]+", "+data[0][2];
 
+				$("#profile_picture1 img").attr({"src":picture});
 	    		$("#text_company span").html(company);
 	    		$("#text_description span").html(description);
 	    		$("#text_DTI span").html(dti);
@@ -753,10 +755,10 @@ var employer = function () {
 								"	Cancel"+
 								"</button>"+
 								"<button class='btn btn-info btn-xs hidden' data-cmd='rotate' data-option='-90' type='button' title='Rotate Left'>"+
-								"	<span class='fa fa-rotate-left'></span>"+
+								"	<span class='large material-icons'>rotate_left</span>"+
 								"</button>"+
 								"<button class='btn btn-info btn-xs hidden' data-cmd='rotate' data-option='90' type='button' title='Rotate Right'>"+
-								"	<span class='fa fa-rotate-right'></span>"+
+								"	<span class='large material-icons'>rotate_right</span>"+
 								"</button>"+
 								"<button class='btn btn-danger btn-xs hidden' data-cmd='save' type='button'>"+
 								"	Save"+
