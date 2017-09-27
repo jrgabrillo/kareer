@@ -6362,6 +6362,9 @@ textarea.materialize-textarea + label:after {
 .input-field .prefix ~ label {
   margin-left: 3rem;
 }
+.input-field {
+     color:white;
+   }
 
 @media only screen and (max-width: 992px) {
   .input-field .prefix ~ input {
