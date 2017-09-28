@@ -145,8 +145,9 @@ var jobs = function(){
 								"	<thead>"+
 								"		<tr>"+
 								"			<th width='5%'>Status</th>"+
-								"			<th width='50%'>Job</th>"+
+								"			<th width='50%'>Job Title</th>"+
 								"			<th width='30%'>Applicants</th>"+
+								// "			<th width='10%'>Salary Range</th>"+
 								"			<th width='15%'>Options</th>"+
 								"		</tr>"+
 								"	</thead>"+
@@ -160,6 +161,7 @@ var jobs = function(){
 						{ className: "project-status", "targets": [ 0 ] },
 						{ className: "project-title", "targets": [ 1 ] },
 						{ className: "project-people", "targets": [ 2 ] },
+						{ className: "project-range", "targets": [ null ] },
 						{ className: "project-actions", "targets": [ 3 ] }
 					],
 				    columns: [
@@ -229,6 +231,7 @@ var jobs = function(){
 			var applicationexpiry = new Date(ajaxData[0][0][3]), now = new Date();
 			var status = "<span>Active</span>";
 			var application_content = "";
+			// var salaryRange ="";
 
 			if(applicationexpiry<now){
 				status = "<span>Inactive</span>";
@@ -285,9 +288,10 @@ var jobs = function(){
 			$('#job-post #txt_jobtitle').html(ajaxData[0][0][4]);
 			$('#job-post #txt_jobstatus').html(status);
 			$('#job-post #txt_jobexpiry').html(ajaxData[0][0][3]);
-			$('#job-post #txt_jobdate').html(ajaxData[0][0][6]);
+			$('#job-post #txt_jobdate').html(ajaxData[0][0][5]);
 			$('#job-post #txt_jobdescription').html(ajaxData[0][0][2]);
 			$('#job-post #txt_jobapplicant').html(applicant);
+			// $('#job-post #txt_salaryRange').html(ajaxData[0][0][6])
 			$(".prettydate").prettydate({
 			    dateFormat: "YYYY-MM-DD hh:mm:ss"
 			});
