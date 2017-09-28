@@ -33,12 +33,18 @@
 
         <div class="demo-layout mdl-layout mdl-js-layout mdl-layout--fixed-drawer mdl-layout--fixed-header">
             <div class="demo-drawer mdl-layout__drawer profile-element  teal darken-1">
-                <header class="demo-drawer-header">
+                <br><br><br><br><br><br>
+                <header class="demo-drawer-header" background='assets/img/loginbg.png'>
                     <span class="center white-text">
-                        <p></p>
+                        <h6></h6>
                     </span>
-                    <span class ="center ">
+                    <div class="center white-text">
+                            <small>You have 0 sms and 0 notification</small>
+                            <br><br><br><br>
+                    </div>
+                    <span class ="center">
                          <img src="../assets/img/profile_avatar.jpg" class="demo-avatar">
+                         <br><br>
                     </span>
                     <span class="center white-text">
                         <strong></strong>
@@ -46,7 +52,7 @@
                     <div class="demo-avatar-dropdown">   
                         <div class="mdl-layout-spacer"></div>
                         <button id="accbtn" class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon">
-                            <i class="material-icons" role="presentation">arrow_drop_down</i>
+                            <i class="material-icons white-text" role="presentation">arrow_drop_down</i>
                             <span class="visuallyhidden">Accounts</span>
                         </button>
                         <ul class="mdl-menu mdl-menu--bottom-right mdl-js-menu mdl-js-ripple-effect teal darken-1" for="accbtn">
@@ -62,6 +68,7 @@
             </div>
             <div class="mdl-layout__content mdl-color--grey-100" id='content'></div>
         </div>
+
 <div class="modal inmodal fade" id="modal" tabindex="-1" role="dialog" aria-hidden="true" style="display: none;">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">

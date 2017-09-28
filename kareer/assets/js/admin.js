@@ -44,7 +44,7 @@ var admin = function () {
 			//name
 			$(".profile-element span strong").html(data[0][1]+" "+data[0][2]);
 			//addres
-			$(".profile-element span p").html('Welcome '+level);
+			$(".profile-element span h6").html('Welcome '+level);
 
 			$("a[data-cmd]").click(function(){
 				$("a").parent('li').removeClass("active");
