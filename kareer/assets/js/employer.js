@@ -51,7 +51,6 @@ var jobs = function(){
 			var ajax = system.html('../assets/harmony/Process.php?get-jobsPosts');
 			ajax.done(function(data){
 				ajax = JSON.parse(ajax.responseText);
-				// console.log(data);
 			})
 			if(ajaxData.length>0){
 				var content = "<div class='card'><div class='card-content'><table class='table table-striped' id='table_jobs'>"+
@@ -141,13 +140,14 @@ var jobs = function(){
 			var ajaxData = JSON.parse(ajax.responseText);
 			var content = "";
 			if(ajaxData.length>0){
-				var content = "<div class='card'><div class='card-content'><table class='table table-striped' id='table_jobs'>"+
+				var content = 	"<div class='card'><div class='card-content'><table class='table' id='table_jobs'>"+
+								"<h5><i class='material-icons'>business_center</i>Posted Jobs</h5>"+
 								"	<thead>"+
-								"		<tr>"+
-								"			<th width='5%'>Status</th>"+
-								"			<th width='50%'>Job</th>"+
-								"			<th width='30%'>Applicants</th>"+
-								"			<th width='15%'>Options</th>"+
+								"		<tr style='background-color:#b3d3d7'>"+
+								"			<th width='5%'>STATUS</th>"+
+								"			<th width='50%'>JOB TITLE</th>"+
+								"			<th width='25%'>APPLICANTS</th>"+
+								"			<th width='10%'>VIEW MORE</th>"+
 								"		</tr>"+
 								"	</thead>"+
 								"</table></div></div>";
@@ -229,6 +229,7 @@ var jobs = function(){
 			var applicationexpiry = new Date(ajaxData[0][0][3]), now = new Date();
 			var status = "<span>Active</span>";
 			var application_content = "";
+			// var salaryRange ="";
 
 			if(applicationexpiry<now){
 				status = "<span>Inactive</span>";
@@ -285,7 +286,7 @@ var jobs = function(){
 			$('#job-post #txt_jobtitle').html(ajaxData[0][0][4]);
 			$('#job-post #txt_jobstatus').html(status);
 			$('#job-post #txt_jobexpiry').html(ajaxData[0][0][3]);
-			$('#job-post #txt_jobdate').html(ajaxData[0][0][6]);
+			$('#job-post #txt_jobdate').html(ajaxData[0][0][5]);
 			$('#job-post #txt_jobdescription').html(ajaxData[0][0][2]);
 			$('#job-post #txt_jobapplicant').html(applicant);
 			$(".prettydate").prettydate({
@@ -452,6 +453,7 @@ var jobs = function(){
 			        field_date: {required: true,maxlength: 50},
 			        field_skills: {required: true,maxlength: 50},
 			        field_description: {required: true,maxlength: 50},
+			        field_range: {required: true,maxlength: 50},
 			    },
 			    errorElement : 'div',
 			    errorPlacement: function(error, element) {
