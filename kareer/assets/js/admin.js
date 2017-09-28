@@ -152,23 +152,23 @@ var admin = function () {
 	    		$("#profile_picture2").removeClass('hidden')
 
 	    		var content =   "<div class='image-crop'>"+
-								"	<img class='circle responsive-img' style='width: 75%;' src='"+picture+"'>"+
+								"	<img class='circle responsive-img' style='width: 85%;' src='"+picture+"'>"+
 								"</div>"+
 								"<div class='btn-group'>"+
-								"<label for='inputImage' class='btn btn-xs btn-primary'>"+
+								"<label for='inputImage' class='btn-flat btn-xs btn-primary'>"+
 								"	<input type='file' accept='image/*' name='file' id='inputImage' class='hide'>"+
-								"	Upload new image"+
+								"	Choose an image"+
 								"</label>"+
-								"<button class='btn btn-warning btn-xs' data-cmd='cancel' type='button'>"+
+								"<button class='btn-flat btn-warning btn-xs' data-cmd='cancel' type='button'>"+
 								"	Cancel"+
 								"</button>"+
-								"<button class='btn btn-info btn-xs hidden' data-cmd='rotate' data-option='-90' type='button' title='Rotate Left'>"+
-								"	<span class='fa fa-rotate-left'></span>"+
+								"<button class='btn-flat btn-info btn-xs hidden' data-cmd='rotate' data-option='-90' type='button' title='Rotate Left'>"+
+								"	<i class='tiny material-icons'>rotate_left</i>"+
 								"</button>"+
-								"<button class='btn btn-info btn-xs hidden' data-cmd='rotate' data-option='90' type='button' title='Rotate Right'>"+
-								"	<span class='fa fa-rotate-right'></span>"+
+								"<button class='btn-flat btn-info btn-xs hidden' data-cmd='rotate' data-option='90' type='button' title='Rotate Right'>"+
+								"	<i class='tiny material-icons'>rotate_right</i>"+
 								"</button>"+
-								"<button class='btn btn-danger btn-xs hidden' data-cmd='save' type='button'>"+
+								"<button class='btn-flat btn-danger btn-xs hidden' data-cmd='save' type='button'>"+
 								"	Save"+
 								"</button>"+
 								"</div>";
@@ -635,10 +635,10 @@ var employer = function(){
 
 					if(arrApproved.length>0){
 					
-						var content = "<table class='table table-bordered' id='table_approvedEmployers'>"+
+						var content = "<table class='table table-bordered responsive-table' id='table_approvedEmployers'>"+
 										"	<thead>"+
 										"		<tr>"+
-										"			<th width='15%'></th>"+
+										"			<th width='5%'></th>"+
 										"			<th width='50%'>Name</th>"+
 										"			<th width='15%'></th>"+
 										"		</tr>"+
@@ -668,7 +668,7 @@ var employer = function(){
 											}
 										}
 
-						            	var details = '<img alt="image" src="'+picture+'" class = "responsive-img" >';
+						            	var details = '<img alt="image" src="'+picture+'" class = " circle responsive-img" >';
 						                return details;
 						            }
 						        },
@@ -691,23 +691,6 @@ var employer = function(){
 					}
 					
 
-					// if(arrPending.length>0){
-					// 	var content = "";
-
-					// 	$.each(arrPending,function(i,v){
-					// 		content += "<tr>"+
-					// 					"	<td class='text-left' width='80%'>"+(i+1)+". "+v[5]+"</td>"+
-					// 					"	<td width='20%'><a data-id='"+v[0]+"' data-cmd='options_pendingEmployer' class='btn btn-danger btn-xs btn-block'>Details</a></td>"+
-					// 					"</tr>";
-					// 	});
-
-					// 	content = "<table class='table table-bordered' id='table_pendingEmployers'>"+content+"</table>";
-
-					// 	$("#pending_employers .card-content").html(content);
-					// }
-					// else{
-					// 	$("#pending_employers .card-content").html("<h2>All caught up. </h2><h4>No pending request for employer's account approval</h4>");
-					// }
 					if(arrDeclined.length>0){
 						var content = "";
 
@@ -729,67 +712,7 @@ var employer = function(){
 					$("a").click(function(){
 						var cmd = $(this).data('cmd');
 						var id = $(this).data('id');
-
-						// if(cmd == 'options_pendingEmployer'){
-							
-						// 	var data = sys.searchJSON(arrPending,0,id);
-						// 	var content = "<div class='col-md-offset-3 col-md-6' style='float:none !important;'>"+
-						// 					"	<table class='table table-bordered card-content'>"+
-						// 					"		   <tr><td width='20%'>Company: </td><td width='80%'>"+data[0][5]+"</td></tr>"+
-						// 					"		   <tr><td>Description: </td><td>"+data[0][6]+"</td></tr>"+
-						// 					"		   <tr><td>BIR: </td><td>"+data[0][7]+"</td></tr>"+
-						// 					"		   <tr><td>DTI: </td><td>"+data[0][8]+"</td></tr>"+
-						// 					"		   <tr><td>Owner: </td><td>"+data[0][2]+" "+data[0][1]+"</td></tr>"+
-						// 					"		   <tr><td>Contact Number: </td><td>"+data[0][4]+"</td></tr>"+
-						// 					"		   <tr><td>Office Address: </td><td>"+data[0][3]+"</td></tr>"+
-						// 					"		   <tr><td>Email Address: </td><td>"+data[0][10]+"</td></tr>"+
-						// 					"		   <tr><td>Status: </td><td>"+data[0][12]+"</td></tr>"+
-						// 					"	</table>"+
-						// 					"	<div class='col-md-6'><a class='btn btn-primary btn-xs btn-block' data-cmd='action_acceptPending' data-id='"+data[0][0]+"'>Accept</a></div>"+
-						// 					"	<div class='col-md-6'><a class='btn btn-white btn-xs btn-block' data-cmd='action_declinePending' data-id='"+data[0][0]+"'>Decline</a></div>"+
-						// 					"</div>";
-						// 	$("#employer .card-content").html(content);
-
-						// 	$("a[data-cmd='action_acceptPending']").click(function(){
-						// 		var id = $(this).data('id');
-						// 		sys.confim("Accept this Employer?",function(){
-						// 			var ajax = sys.ajax('../assets/harmony/Process.php?set-acceptPendingEmployer',id);
-						// 			ajax.success(function(data){
-						// 				console.log(data);
-						// 				if(data == 1){
-								        	
-						// 					swal("Successful!", "Employer has been declined.", "success");
-						// 					sys.clearForm();
-						// 					_this.list();
-						// 				}
-						// 				else{
-						// 					swal("Fatal Error!", "There was an Unexpected Error during the process.", "error");
-						// 					console.log(data);
-						// 				}
-						// 			});
-						// 		});
-						// 	});
-						// 	$("a[data-cmd='action_declinePending']").click(function(){
-						// 		var id = $(this).data('id');
-						// 		sys.confim("Decline this Employer?",function(){
-						// 			var ajax = sys.ajax('../assets/harmony/Process.php?set-declinePendingEmployer',id);
-						// 			ajax.success(function(data){
-						// 				console.log(data);
-						// 				if(data == 1){
-								        	
-						// 					swal("Successful!", "Employer has been declined.", "success");
-						// 					sys.clearForm();
-						// 					_this.list();
-						// 				}
-						// 				else{
-						// 					swal("Fatal Error!", "There was an Unexpected Error during the process.", "error");
-						// 					console.log(data);
-						// 				}
-						// 			});
-						// 		});
-						// 	});
-						// }
-
+						
 						if(cmd == 'options_declinedEmployer'){
 							var data = sys.searchJSON(arrDeclined,0,id);
 							var content = "<div class='col-md-12' style='float:none !important;'><table class='table table-bordered card-content'>"+
@@ -880,25 +803,25 @@ var employer = function(){
 
 							$("#employer .card-content").html(content);
 							
-							$("a[data-cmd='action_declinePending']").click(function(){
-								var id = $(this).data('id');
-								sys.confim("Decline this Employer?",function(){
-									var ajax = sys.ajax('../assets/harmony/Process.php?set-declinePendingEmployer',id);
-									ajax.success(function(data){
-										console.log(data);
-										if(data == 1){
-											swal("Successful!", "Employer has been declined.", "success");
-											sys.clearForm();
-											_this.list();
-											// console.log(id);
-										}
-										else{
-											swal("Fatal Error!", "There was an Unexpected Error during the process.", "error");
-											console.log(data);
-										}
-									});
-								});
-							});
+							// $("a[data-cmd='action_declinePending']").click(function(){
+							// 	var id = $(this).data('id');
+							// 	sys.confim("Decline this Employer?",function(){
+							// 		var ajax = sys.ajax('../assets/harmony/Process.php?set-declinePendingEmployer',id);
+							// 		ajax.success(function(data){
+							// 			console.log(data);
+							// 			if(data == 1){
+							// 				swal("Successful!", "Employer has been declined.", "success");
+							// 				sys.clearForm();
+							// 				_this.list();
+							// 				// console.log(id);
+							// 			}
+							// 			else{
+							// 				swal("Fatal Error!", "There was an Unexpected Error during the process.", "error");
+							// 				console.log(data);
+							// 			}
+							// 		});
+							// 	});
+							// });
 						}
 
 						else{
