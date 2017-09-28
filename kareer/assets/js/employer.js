@@ -51,7 +51,6 @@ var jobs = function(){
 			var ajax = system.html('../assets/harmony/Process.php?get-jobsPosts');
 			ajax.done(function(data){
 				ajax = JSON.parse(ajax.responseText);
-				// console.log(data);
 			})
 			if(ajaxData.length>0){
 				var content = "<div class='card'><div class='card-content'><table class='table table-striped' id='table_jobs'>"+
@@ -141,14 +140,14 @@ var jobs = function(){
 			var ajaxData = JSON.parse(ajax.responseText);
 			var content = "";
 			if(ajaxData.length>0){
-				var content = "<div class='card'><div class='card-content'><table class='table table-striped' id='table_jobs'>"+
+				var content = 	"<div class='card'><div class='card-content'><table class='table' id='table_jobs'>"+
+								"<h5><i class='material-icons'>business_center</i>Posted Jobs</h5>"+
 								"	<thead>"+
-								"		<tr>"+
-								"			<th width='5%'>Status</th>"+
-								"			<th width='50%'>Job Title</th>"+
-								"			<th width='30%'>Applicants</th>"+
-								// "			<th width='10%'>Salary Range</th>"+
-								"			<th width='15%'>Options</th>"+
+								"		<tr style='background-color:#b3d3d7'>"+
+								"			<th width='5%'>STATUS</th>"+
+								"			<th width='50%'>JOB TITLE</th>"+
+								"			<th width='25%'>APPLICANTS</th>"+
+								"			<th width='10%'>VIEW MORE</th>"+
 								"		</tr>"+
 								"	</thead>"+
 								"</table></div></div>";
@@ -161,7 +160,6 @@ var jobs = function(){
 						{ className: "project-status", "targets": [ 0 ] },
 						{ className: "project-title", "targets": [ 1 ] },
 						{ className: "project-people", "targets": [ 2 ] },
-						{ className: "project-range", "targets": [ null ] },
 						{ className: "project-actions", "targets": [ 3 ] }
 					],
 				    columns: [
@@ -291,7 +289,6 @@ var jobs = function(){
 			$('#job-post #txt_jobdate').html(ajaxData[0][0][5]);
 			$('#job-post #txt_jobdescription').html(ajaxData[0][0][2]);
 			$('#job-post #txt_jobapplicant').html(applicant);
-			// $('#job-post #txt_salaryRange').html(ajaxData[0][0][6])
 			$(".prettydate").prettydate({
 			    dateFormat: "YYYY-MM-DD hh:mm:ss"
 			});
