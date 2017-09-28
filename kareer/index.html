@@ -19,21 +19,24 @@
         <link media="screen" href="../assets/css/froala/froala_editor.pkgd.min.css" rel="stylesheet">
         <link media="screen" href="../assets/css/froala/font-awesome.min.css" rel="stylesheet">
     </head>
-    <body style="background-color: teal";>
-        <div style="margin-top: 100px"></div>
+    <body   background='assets/img/loginbg.png' style=" 
+            background-repeat: no-repeat;
+            background-position: center;
+            background-size: contain;">
+        <div style="margin-top: 150px"></div>
     <div class="nav-header de">
         <div class="content animated fadeInUp">
             <div class="row">
                 <div class="col s12"></div>
-                <h1>Kareer</h1>        
+                <img src="assets/img/kareerLogoW.png" width="auto" height="200px;">        
             </div>
         </div>
     </div>
-        <div class="container-s10 m6 l3 offset-s1 offset-m3 offset-l4">
+        <div class="container-s10 m6 l3 offset-s1 offset-m4 offset-l4">
             <div class="common">
                 <div class='wrapper wrapper-content animated fadeInUp'>
                     <div class="row">
-                        <div class="col s10 m6 l4 offset-s1 offset-m3 offset-l4" style="opacity:'100%';">
+                        <div class="col s10 m6 l4 offset-s1 offset-m4 offset-l4" style="opacity:'100%';">
                             <div class="card animated" id='dsplay_login'>
                                 <div class="card-content  teal darken-3">
                                     <form class="m-t" role="form" id='form_login'>
@@ -42,15 +45,20 @@
                                         </div>
                                         <div class="input-field">
                                             <input type='password' class="form-control" placeholder="Password" name='field_password'>
+                                        </div>
+                                        <div>            
+                                            <small><a>Forgot Password?</a></small>                              
+                                            <button class="btn waves-effect waves-light right" data-cmd='btn_login' data-node='employer' style="width: 40%;">Login</button>
                                         </div>            
-                                            <small>Forgot Password?</small>                              
-                                          <button class="btn waves-effect waves-light right" data-cmd='btn_login' data-node='employer' style="width: 40%;">Login</button>            
                                       </div>                                              
                                     </form>  
                                 </div>
                             </div>
                         </div>
                     </div>
+                   <!--      <div class="col s10 m6 l4 offset-s1 offset-m4 offset-l4">
+                           <ul class="collection" id='display_jobposts'></ul>
+                       </div>  -->                 
                 </div>
             </div>
         </div>
