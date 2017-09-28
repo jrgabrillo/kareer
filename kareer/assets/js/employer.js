@@ -691,11 +691,9 @@ var employer = function () {
 				$(".profile-element span img").prop({"src":picture});
 				$("#ajax-content img").prop({"src":picture});
 				//name
-				$(".profile-element .font-bold").html(data[0][5]+"<br/>"+name);
-				$("#ajax-content .profile-content strong").html(data[0][5]+"<br/>"+name);
+				$(".profile-element span strong").html(data[0][2]+" "+data[0][1]);
 				//addres
-				$("#ajax-content .profile-content ._address").html(data[0][3]);
-				$("#ajax-content .profile-content ._description").html(description);
+				$(".profile-element span p").html('Welcome Employer!');
 
 				$("a[data-cmd]").click(function(){
 					$("a").parent('li').removeClass("active");

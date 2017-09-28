@@ -29,6 +29,7 @@ var admin = function () {
 			
 			if(data[0][5] == 1)
 				level = "Administrator";
+			
 			$("#profile_picture1 img").attr({"src":picture});
 
     		$("#text_givenName span").html(data[0][1]);
@@ -353,7 +354,7 @@ var admin = function () {
 			console.log(ajaxData);
 
 			if(ajaxData.length>0){
-				var content = "<div class='card'><div class='card-content'><table class='table table-striped' id='table_jobs'>"+
+				var content = "<table class='table table-striped' id='table_jobs'>"+
 								"	<thead>"+
 								"		<tr>"+
 								"			<th width='5%'>Status</th>"+
@@ -362,9 +363,9 @@ var admin = function () {
 								"			<th width='15%'>Options</th>"+
 								"		</tr>"+
 								"	</thead>"+
-								"</table></div></div>";
+								"</table>";
 
-				$("#job-posts").html(content);
+				$("#job-posts .card-content").html(content);
 
 				$('#table_jobs').DataTable({
 				    data: ajaxData,
@@ -396,7 +397,7 @@ var admin = function () {
 				        },
 				        {data: "",
 				            render: function ( data, type, full ){
-				            	var details = "";
+				            	var details = "No Applicant";
 				            	
 								// if(full[1].length>0){
 								// 	$.each(full[1],function(i,v){
@@ -1328,7 +1329,7 @@ var applicant = function(){
 					var content = "<table class='table table-bordered' id='table_allApplicant'>"+
 									"	<thead>"+
 									"		<tr>"+
-									"			<th width='15%'></th>"+
+									"			<th width='10%'></th>"+
 									"			<th width='80%'>Name</th>"+
 									"			<th width='15%'></th>"+
 									"		</tr>"+
@@ -1356,7 +1357,7 @@ var applicant = function(){
 											picture = sys.get_apr(full[3]);
 									}
 
-					            	var details = '<img alt="image" src="'+picture+'" class = "responsive-img">';
+					            	var details = '<img alt="image" src="'+picture+'" class = "circle responsive-img">';
 					                return details;
 					            }
 					        },
@@ -1381,7 +1382,7 @@ var applicant = function(){
 						info.done(function(data){
 						var	infodata = JSON.parse(data);
 							console.log(infodata);
-							var picture = "../assets/img/profile avatar.jpg", description = "No description yet.", resume = "No resume uploaded yet.";
+							var picture = "../assets/img/profile_avatar.jpg", description = "No description yet.", resume = "No resume uploaded yet.";
 
 							// if(infodata[0][1][13] != ""){
 							// 	var imageData = infodata[0][1][13].split(';');
@@ -1399,9 +1400,10 @@ var applicant = function(){
 
 							var content = ""+
 											"<div class='row m-b-lg m-t-lg'>"+
+											"	<a class='modal-action modal-close waves-effect waves-red btn-flat right'>x</a>"+
 											"    <div class='col-md-6'>"+
 											"        <div class='profile-image'>"+
-											"            <img src='"+picture+"' class='img-circle circle-border m-b-md' alt='profile'>"+
+											"            <img src='"+picture+"' class='circle border-circle responsive-img' alt='profile'>"+
 											"        </div>"+
 											"        <div class='profile-info'>"+
 											"            <div>"+

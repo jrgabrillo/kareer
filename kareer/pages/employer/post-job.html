@@ -1,48 +1,67 @@
+<nav class="grey lighten-3">
+    <div class="nav-wrapper">
+        <div class="row">
+            <a class="col s8 grey-text"><i class="tiny material-icons">search</i></a>
+            <a class="col s2 grey-text "><small class="material-icons grey-text">notifications</small>Notifications</a> 
+            <a class="col s2 grey-text"><small class="tiny material-icons">message</small>Messages</a>
+        </div>
+    </div>
+</nav>
 <div class='row' style='float:none;'>
     <div class="wrapper wrapper-content">
         <div class="row animated fadeInUp">
             <div class="card float-e-margins">
-                <div class="col s12">
+                <div class="col s6">
                     <div class="card-content">
+                          <h5><i class='material-icons'>business_center</i>Post a Job</h5>
                         <form class='form-horizontal' id='form_addVacancy' role='form' action='' method='post' enctype='multipart/form-data'>
                             <div>
-                                <div class='form-group'>         
-                                    <div class="input-field col s6">
-                                      <i class="material-icons prefix">account_circle</i>
-                                      <input id="icon_prefix" type="text" class="validate" name='field_jobTitle'>
-                                      <label for="icon_prefix">Job Title</label>
+                                <div class='form-group'>
+                                    <div class='col s12'>
+                                        <label>Job Title: </label>
+                                        <input data-inputtype='required' name='field_jobTitle' type='text' placeholder='Job Title' class='form-control'>
                                     </div>
-                                     <div class="input-field col s6">
-                                      <i class="material-icons prefix">account_circle</i>
-                                      <input id="icon_prefix1" type="text" class="datepicker" name='field_date'>
-                                      <label for="icon_prefix1">Hiring Cut-off Date:</label>
-                                    </div>
-
-                                    <div class="input-field col s12">
-                                      <i class="material-icons prefix">account_circle</i>
-                                      <label for="icon_prefix2">Add your skills:
-                                      <div class="chips" id="icon_prefix2" type="text"  name='field_skills'>
-                                      </label></div>
-                                    <div class="input-field col s12">
-                                      <i class="material-icons prefix">account_circle</i>
-                                      <label for="icon_prefix3">Salary Range:
-                                      <div id="icon_prefix3" type="number" class="validate" name='field_range'></div>
-                                      </label>
-                                    </div>
-      
-<!--                                     <div class='col s12' >
-                                        <label>Job Description: </label>
-                                        <textarea data-inputtype='required' name='field_description' placeholder='Job Description' class='form-control' id="field_description" row="5"></textarea>
-                                    </div>
-                                    <br/> -->
+                                    <div class='col s12'>
+                                        <label>Hiring Cut-off Date: <small><i>[Also job expiration date.]</i></small></label>
+                                        <div>
+                                            <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                                            <input data-inputtype='required' placeholder="Date" type="text" class="datepicker" name='field_date'>
+                                        </div>
+                                    </div><br/>
+                                    <div class='col s12 '>
+                                        <label> Add your skills :
+                                            <div data-inputtype='required' name='field_skills' class="chips"></div>
+                                        </label>
+                                    </div><br/>
+                                    <div class='col s12 '>
+                                        <label> Salary Range :
+                                            <input data-inputtype='required' name='field_range' type="number" class="form-control">
+                                        </label>
+                                    </div><br/>
                                 </div>
                             </div>
                             <div>
-           <!--                      <div class='form-group'>  
-                                    <div class="col s12">
-                                        <a class="btn btn-sm btn-block button_success" data-cmd='register_applicant'>Post Job</a>  
+                                <div class='form-group'>  
+                                    <div class='col s12'>
+                                        <a class="btn btn-sm btn-block button_success" data-cmd='register_applicant'>Post</a>  
                                     </div>
-                                </div> -->
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                <div class="col s6">
+                    <div style="margin-top: 100px;" class="card-content">
+                        <form class='form-horizontal' id='form_addVacancy' role='form' action='' method='post' enctype='multipart/form-data'>
+                            <div>
+                                <div class='form-group'>
+                                    <div class='col s12 '>
+                                    <div class='col s12' >
+                                        <label>Job Description: </label>
+                                        <textarea data-inputtype='required' name='field_description' placeholder='Job Description' class='form-control' id="field_description" row="10"></textarea>
+                                    </div>
+                                    <br/>
+                                </div>
                             </div>
                         </form>
                     </div>
@@ -54,10 +73,22 @@
 
 
 <script type="text/javascript">
-
 jobs.add_vacancies();
 // system.froala("#field_description");
-
+// $ ('slider') = document.getElementById('test-slider');
+//   noUiSlider.create(slider, {
+//    start: [20, 80],
+//    connect: true,
+//    step: 1,
+//    orientation: 'horizontal', // 'horizontal' or 'vertical'
+//    range: {
+//      'min': 0,
+//      'max': 100
+//    },
+//    format: wNumb({
+//      decimals: 0
+//    })
+//   })
   $('.datepicker').pickadate({
     selectMonths: true, // Creates a dropdown to control month
     selectYears: 15, // Creates a dropdown of 15 years to control year,
@@ -66,17 +97,13 @@ jobs.add_vacancies();
     close: 'Ok',
     closeOnSelect: false // Close upon selecting a date,
   });
-
     var chip = {
     tag: 'chip content',
   };
-
   $('.chips').material_chip();
   $('.chips-placeholder').material_chip({
     placeholder: 'Enter a tag',
     secondaryPlaceholder: '+skills',
     name:'field_skills',
   });
-
-
 </script>
