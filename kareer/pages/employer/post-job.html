@@ -31,9 +31,12 @@
                                             <div data-inputtype='required' name='field_skills' class="chips"></div>
                                         </label>
                                     </div><br/>
-                                    <div class="col s12">
-                                      <div id="test-slider"></div>
-                                    </div>
+                                    <div class='col s6'>
+                                        <label>Salary Range</label>
+                                        <div>
+                                            <input data-inputtype='required' placeholder="Range" type="number"  name='field_range'>
+                                        </div>
+                                    </div><br/>
                                     <div class='col s12' >
                                         <label>Job Description: </label>
                                         <textarea data-inputtype='required' name='field_description' placeholder='Job Description' class='form-control' id="field_description" row="5"></textarea>
@@ -62,21 +65,6 @@
 jobs.add_vacancies();
 // system.froala("#field_description");
 
-// $ ('slider') = document.getElementById('test-slider');
-//   noUiSlider.create(slider, {
-//    start: [20, 80],
-//    connect: true,
-//    step: 1,
-//    orientation: 'horizontal', // 'horizontal' or 'vertical'
-//    range: {
-//      'min': 0,
-//      'max': 100
-//    },
-//    format: wNumb({
-//      decimals: 0
-//    })
-//   })
-
   $('.datepicker').pickadate({
     selectMonths: true, // Creates a dropdown to control month
     selectYears: 15, // Creates a dropdown of 15 years to control year,
@@ -85,6 +73,7 @@ jobs.add_vacancies();
     close: 'Ok',
     closeOnSelect: false // Close upon selecting a date,
   });
+
     var chip = {
     tag: 'chip content',
   };
@@ -95,4 +84,6 @@ jobs.add_vacancies();
     secondaryPlaceholder: '+skills',
     name:'field_skills',
   });
+
+
 </script>

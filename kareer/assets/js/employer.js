@@ -452,6 +452,7 @@ var jobs = function(){
 			        field_date: {required: true,maxlength: 50},
 			        field_skills: {required: true,maxlength: 50},
 			        field_description: {required: true,maxlength: 50},
+			        field_range: {required: true,maxlength: 50},
 			    },
 			    errorElement : 'div',
 			    errorPlacement: function(error, element) {
