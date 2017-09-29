@@ -420,7 +420,7 @@ var admin = function () {
 								// 	});
 								// }
 								// else{
-								// 	details = "No Applicant";
+								// 	details = "None";
 								// }
 				                return details;
 				            }
@@ -737,51 +737,58 @@ var employer = function(){
 									status = "Inactive";
 								}
 
-									var content = "<div class='col-md-12' style='float:none !important;'><table class='table table-bordered card-content'>"+
-												    "	<a class='modal-action modal-close waves-effect waves-red right'>x</a>"+
-												    "	<tr><td><strong>Business</strong></td></tr>"+
-												    "	<tr><td width='20%'>Company: </td><td width='80%'>"+data[0][5]+"</td>"+
-												    "   <td><a data-cmd='updateEmployer' data-value='"+data[0][5]+"' data-name='"+data[0][5]+"' data-node='"+data[0][0]+"' data-prop='CompanyName' data-position='left' data-delay='50' data-tooltip='Update Company'>"+
-													"	<i class='tiny material-icons'>create</i></a>"+
-													"	</td></tr>"+
-												    "	<tr><td>Description: </td><td>"+data[0][6]+"</td>"+
-												    "	<td><a data-cmd='updateEmployer' data-value='"+data[0][6]+"' data-name='"+data[0][6]+"' data-node='"+data[0][0]+"' data-prop='Description' data-position='left' data-delay='50' data-tooltip='Update Description'>"+
-													"	<i class='tiny material-icons'>create</i></a>"+
-													"	</td></tr>"+
-												    "	<tr><td>BIR: </td><td>"+data[0][7]+"</td>"+
-												    "	<td><a data-cmd='updateEmployer' data-value='"+data[0][7]+"' data-name='"+data[0][7]+"' data-node='"+data[0][0]+"' data-prop='BIR' data-position='left' data-delay='50' data-tooltip='Update BIR'>"+
-													"	<i class='tiny material-icons'>create</i></a>"+
-													"	</td></tr>"+
-												    "	<tr><td>DTI: </td><td>"+data[0][8]+"</td>"+
-												    "	<td><a data-cmd='updateEmployer' data-value='"+data[0][8]+"' data-name='"+data[0][8]+"' data-node='"+data[0][0]+"' data-prop='DTI' data-position='left' data-delay='50' data-tooltip='Update DTI'>"+
-													"	<i class='tiny material-icons'>create</i></a>"+
-													"	</td></tr>"+
-													"	<tr><td><strong>Owner</strong></td></tr>"+
-												    "	<tr><td>First Name: </td><td>"+data[0][2]+"</td>"+
-												    "	<td><a data-cmd='updateEmployer' data-value='"+data[0][2]+"' data-name='"+data[0][2]+"' data-node='"+data[0][0]+"' data-prop='FirstName' data-position='left' data-delay='50' data-tooltip='Update FirstName'>"+
-													"	<i class='tiny material-icons'>create</i></a>"+
-													"	</td></tr>"+
-													 "	<tr><td>Last Name: </td><td>"+data[0][1]+"</td>"+
-												    "	<td><a data-cmd='updateEmployer' data-value='"+data[0][1]+"' data-name='"+data[0][1]+"' data-node='"+data[0][0]+"' data-prop='LastName' data-position='left' data-delay='50' data-tooltip='Update LastName'>"+
-													"	<i class='tiny material-icons'>create</i></a>"+
-													"	</td></tr>"+
-												    "	<tr><td>Contact Number: </td><td>"+data[0][4]+"</td>"+
-												    "	<td><a data-cmd='updateEmployer' data-value='"+data[0][4]+"' data-name='"+data[0][4]+"' data-node='"+data[0][0]+"' data-prop='ContactNo' data-position='left' data-delay='50' data-tooltip='Update ContactNo'>"+
-													"	<i class='tiny material-icons'>create</i></a>"+
-													"	</td></tr>"+
-												    "	<tr><td>Office Address: </td><td>"+data[0][3]+"</td>"+
-												    "	<td><a data-cmd='updateEmployer' data-value='"+data[0][3]+"' data-name='"+data[0][3]+"' data-node='"+data[0][0]+"' data-prop='Address' data-position='left' data-delay='50' data-tooltip='Update Address'>"+
-													"	<i class='tiny material-icons'>create</i></a>"+
-													"	</td></tr>"+
-												    "	<tr><td>Email Address: </td><td>"+data[0][10]+"</td>"+
-												    "	<td><a data-cmd='updateEmployer' data-value='"+data[0][10]+"' data-name='"+data[0][10]+"' data-node='"+data[0][0]+"' data-prop='Email' data-position='left' data-delay='50' data-tooltip='Update Email'>"+
-													"	<i class='tiny material-icons'>create</i></a>"+
-													"	</td></tr>"+
-												    "	<tr><td>Status: </td><td>"+status+"</td></tr>"+
-												  	"</table>"+
-
-													"	<div class='col-md-6'><a class='btn btn-white btn-xs btn-block' data-cmd='action_acceptPending' data-id='"+data[0][0]+"'>Activate</a></div>"+
-												  "</div>";
+									var content ="<a class='modal-action modal-close waves-effect waves-red btn-flat right'>Close</a>"+
+												"<div class='card card-header-pic'>"+
+                									"	<div class='card-header color-white no-border'>"+
+                    								"		<img src='../assets/img/bg.jpg' class=' responsive-img' style='width: 100%''>"+
+               										"	</div>"+
+                									"	<div class='card-content'>"+
+                									"		<div class='card-content-inner'>"+
+															"<table class='table table-bordered card-content'>"+
+														    "	<tr><td><strong>Business</strong></td></tr>"+
+														    "	<tr><td width='20%'>Company: </td><td width='80%'>"+data[0][5]+"</td>"+
+														    "   <td><a data-cmd='updateEmployer' data-value='"+data[0][5]+"' data-name='"+data[0][5]+"' data-node='"+data[0][0]+"' data-prop='CompanyName' data-position='left' data-delay='50' data-tooltip='Update Company'>"+
+															"	<i class='tiny material-icons'>create</i></a>"+
+															"	</td></tr>"+
+														    "	<tr><td>Description: </td><td>"+data[0][6]+"</td>"+
+														    "	<td><a data-cmd='updateEmployer' data-value='"+data[0][6]+"' data-name='"+data[0][6]+"' data-node='"+data[0][0]+"' data-prop='Description' data-position='left' data-delay='50' data-tooltip='Update Description'>"+
+															"	<i class='tiny material-icons'>create</i></a>"+
+															"	</td></tr>"+
+														    "	<tr><td>BIR: </td><td>"+data[0][7]+"</td>"+
+														    "	<td><a data-cmd='updateEmployer' data-value='"+data[0][7]+"' data-name='"+data[0][7]+"' data-node='"+data[0][0]+"' data-prop='BIR' data-position='left' data-delay='50' data-tooltip='Update BIR'>"+
+															"	<i class='tiny material-icons'>create</i></a>"+
+															"	</td></tr>"+
+														    "	<tr><td>DTI: </td><td>"+data[0][8]+"</td>"+
+														    "	<td><a data-cmd='updateEmployer' data-value='"+data[0][8]+"' data-name='"+data[0][8]+"' data-node='"+data[0][0]+"' data-prop='DTI' data-position='left' data-delay='50' data-tooltip='Update DTI'>"+
+															"	<i class='tiny material-icons'>create</i></a>"+
+															"	</td></tr>"+
+															"	<tr><td><strong>Owner</strong></td></tr>"+
+														    "	<tr><td>First Name: </td><td>"+data[0][2]+"</td>"+
+														    "	<td><a data-cmd='updateEmployer' data-value='"+data[0][2]+"' data-name='"+data[0][2]+"' data-node='"+data[0][0]+"' data-prop='FirstName' data-position='left' data-delay='50' data-tooltip='Update FirstName'>"+
+															"	<i class='tiny material-icons'>create</i></a>"+
+															"	</td></tr>"+
+															 "	<tr><td>Last Name: </td><td>"+data[0][1]+"</td>"+
+														    "	<td><a data-cmd='updateEmployer' data-value='"+data[0][1]+"' data-name='"+data[0][1]+"' data-node='"+data[0][0]+"' data-prop='LastName' data-position='left' data-delay='50' data-tooltip='Update LastName'>"+
+															"	<i class='tiny material-icons'>create</i></a>"+
+															"	</td></tr>"+
+														    "	<tr><td>Contact Number: </td><td>"+data[0][4]+"</td>"+
+														    "	<td><a data-cmd='updateEmployer' data-value='"+data[0][4]+"' data-name='"+data[0][4]+"' data-node='"+data[0][0]+"' data-prop='ContactNo' data-position='left' data-delay='50' data-tooltip='Update ContactNo'>"+
+															"	<i class='tiny material-icons'>create</i></a>"+
+															"	</td></tr>"+
+														    "	<tr><td>Office Address: </td><td>"+data[0][3]+"</td>"+
+														    "	<td><a data-cmd='updateEmployer' data-value='"+data[0][3]+"' data-name='"+data[0][3]+"' data-node='"+data[0][0]+"' data-prop='Address' data-position='left' data-delay='50' data-tooltip='Update Address'>"+
+															"	<i class='tiny material-icons'>create</i></a>"+
+															"	</td></tr>"+
+														    "	<tr><td>Email Address: </td><td>"+data[0][10]+"</td>"+
+														    "	<td><a data-cmd='updateEmployer' data-value='"+data[0][10]+"' data-name='"+data[0][10]+"' data-node='"+data[0][0]+"' data-prop='Email' data-position='left' data-delay='50' data-tooltip='Update Email'>"+
+															"	<i class='tiny material-icons'>create</i></a>"+
+															"	</td></tr>"+
+														    "	<tr><td>Status: </td><td>"+status+"</td></tr>"+
+														  	"</table>"+
+															"<div class='col-md-6'><a class='btn btn-white btn-xs btn-block' data-cmd='action_acceptPending' data-id='"+data[0][0]+"'>Activate</a></div>"+
+												  		"</div>"+
+												  	"</div"+
+												"</div>";
 
 									$("#modal .modal-content").html(content);
 									$('#modal').modal('open');
@@ -815,7 +822,7 @@ var employer = function(){
 							var info = sys.ajax('../assets/harmony/admin.php?get-Employer',id);
 								info.done(function(data){
 								var	data = JSON.parse(data);
-								console.log(data);
+								console.log(data[0][9]);
 								var status = data[0][12];
 								if (status == 1){
 									status = "Active";
@@ -824,51 +831,58 @@ var employer = function(){
 								{
 									status = "Inactive";
 								}
-									var content = "<div class='col-md-12' style='float:none !important;'><table class='table table-bordered card-content'>"+
-												    "	<a class='modal-action modal-close waves-effect waves-red btn-flat right'>x</a>"+
-												    "	<tr><td><strong>Business</strong></td></tr>"+
-												    "	<tr><td width='20%'>Company: </td><td width='80%'>"+data[0][5]+"</td>"+
-												    "   <td><a data-cmd='updateEmployer' data-value='"+data[0][5]+"' data-name='"+data[0][5]+"' data-node='"+data[0][0]+"' data-prop='CompanyName' data-position='left' data-delay='50' data-tooltip='Update Company'>"+
-													"	<i class='tiny material-icons'>create</i></a>"+
-													"	</td></tr>"+
-												    "	<tr><td>Description: </td><td>"+data[0][6]+"</td>"+
-												    "	<td><a data-cmd='updateEmployer' data-value='"+data[0][6]+"' data-name='"+data[0][6]+"' data-node='"+data[0][0]+"' data-prop='Description' data-position='left' data-delay='50' data-tooltip='Update Description'>"+
-													"	<i class='tiny material-icons'>create</i></a>"+
-													"	</td></tr>"+
-												    "	<tr><td>BIR: </td><td>"+data[0][7]+"</td>"+
-												    "	<td><a data-cmd='updateEmployer' data-value='"+data[0][7]+"' data-name='"+data[0][7]+"' data-node='"+data[0][0]+"' data-prop='BIR' data-position='left' data-delay='50' data-tooltip='Update BIR'>"+
-													"	<i class='tiny material-icons'>create</i></a>"+
-													"	</td></tr>"+
-												    "	<tr><td>DTI: </td><td>"+data[0][8]+"</td>"+
-												    "	<td><a data-cmd='updateEmployer' data-value='"+data[0][8]+"' data-name='"+data[0][8]+"' data-node='"+data[0][0]+"' data-prop='DTI' data-position='left' data-delay='50' data-tooltip='Update DTI'>"+
-													"	<i class='tiny material-icons'>create</i></a>"+
-													"	</td></tr>"+
-													"	<tr><td><strong>Owner</strong></td></tr>"+
-												    "	<tr><td>First Name: </td><td>"+data[0][2]+"</td>"+
-												    "	<td><a data-cmd='updateEmployer' data-value='"+data[0][2]+"' data-name='"+data[0][2]+"' data-node='"+data[0][0]+"' data-prop='FirstName' data-position='left' data-delay='50' data-tooltip='Update FirstName'>"+
-													"	<i class='tiny material-icons'>create</i></a>"+
-													"	</td></tr>"+
-													 "	<tr><td>Last Name: </td><td>"+data[0][1]+"</td>"+
-												    "	<td><a data-cmd='updateEmployer' data-value='"+data[0][1]+"' data-name='"+data[0][1]+"' data-node='"+data[0][0]+"' data-prop='LastName' data-position='left' data-delay='50' data-tooltip='Update LastName'>"+
-													"	<i class='tiny material-icons'>create</i></a>"+
-													"	</td></tr>"+
-												    "	<tr><td>Contact Number: </td><td>"+data[0][4]+"</td>"+
-												    "	<td><a data-cmd='updateEmployer' data-value='"+data[0][4]+"' data-name='"+data[0][4]+"' data-node='"+data[0][0]+"' data-prop='ContactNo' data-position='left' data-delay='50' data-tooltip='Update ContactNo'>"+
-													"	<i class='tiny material-icons'>create</i></a>"+
-													"	</td></tr>"+
-												    "	<tr><td>Office Address: </td><td>"+data[0][3]+"</td>"+
-												    "	<td><a data-cmd='updateEmployer' data-value='"+data[0][3]+"' data-name='"+data[0][3]+"' data-node='"+data[0][0]+"' data-prop='Address' data-position='left' data-delay='50' data-tooltip='Update Address'>"+
-													"	<i class='tiny material-icons'>create</i></a>"+
-													"	</td></tr>"+
-												    "	<tr><td>Email Address: </td><td>"+data[0][10]+"</td>"+
-												    "	<td><a data-cmd='updateEmployer' data-value='"+data[0][10]+"' data-name='"+data[0][10]+"' data-node='"+data[0][0]+"' data-prop='Email' data-position='left' data-delay='50' data-tooltip='Update Email'>"+
-													"	<i class='tiny material-icons'>create</i></a>"+
-													"	</td></tr>"+
-												    "	<tr><td>Status: </td><td>"+status+"</td></tr>"+
-												  	"</table>"+
-
-													"	<div class='col-md-6'><a class='btn btn-white btn-xs btn-block' data-cmd='action_declinePending' data-id='"+data[0][0]+"'>Deactivate</a></div>"+
-												  "</div>";
+									var content = "<a class='modal-action modal-close waves-effect waves-red btn-flat right'>Close</a>"+
+												"<div class='card card-header-pic'>"+
+                									"	<div class='card-header color-white no-border'>"+
+                    								"		<img src='../assets/img/bg.jpg' class=' responsive-img' style='width: 100%''>"+
+               										"	</div>"+
+                									"	<div class='card-content'>"+
+                									"		<div class='card-content-inner'>"+
+															"<table class='table table-bordered card-content'>"+
+														    "	<tr><td><strong>Business</strong></td></tr>"+
+														    "	<tr><td width='20%'>Company: </td><td width='80%'>"+data[0][5]+"</td>"+
+														    "   <td><a data-cmd='updateEmployer' data-value='"+data[0][5]+"' data-name='"+data[0][5]+"' data-node='"+data[0][0]+"' data-prop='CompanyName' data-position='left' data-delay='50' data-tooltip='Update Company'>"+
+															"	<i class='tiny material-icons'>create</i></a>"+
+															"	</td></tr>"+
+														    "	<tr><td>Description: </td><td>"+data[0][6]+"</td>"+
+														    "	<td><a data-cmd='updateEmployer' data-value='"+data[0][6]+"' data-name='"+data[0][6]+"' data-node='"+data[0][0]+"' data-prop='Description' data-position='left' data-delay='50' data-tooltip='Update Description'>"+
+															"	<i class='tiny material-icons'>create</i></a>"+
+															"	</td></tr>"+
+														    "	<tr><td>BIR: </td><td>"+data[0][7]+"</td>"+
+														    "	<td><a data-cmd='updateEmployer' data-value='"+data[0][7]+"' data-name='"+data[0][7]+"' data-node='"+data[0][0]+"' data-prop='BIR' data-position='left' data-delay='50' data-tooltip='Update BIR'>"+
+															"	<i class='tiny material-icons'>create</i></a>"+
+															"	</td></tr>"+
+														    "	<tr><td>DTI: </td><td>"+data[0][8]+"</td>"+
+														    "	<td><a data-cmd='updateEmployer' data-value='"+data[0][8]+"' data-name='"+data[0][8]+"' data-node='"+data[0][0]+"' data-prop='DTI' data-position='left' data-delay='50' data-tooltip='Update DTI'>"+
+															"	<i class='tiny material-icons'>create</i></a>"+
+															"	</td></tr>"+
+															"	<tr><td><strong>Owner</strong></td></tr>"+
+														    "	<tr><td>First Name: </td><td>"+data[0][2]+"</td>"+
+														    "	<td><a data-cmd='updateEmployer' data-value='"+data[0][2]+"' data-name='"+data[0][2]+"' data-node='"+data[0][0]+"' data-prop='FirstName' data-position='left' data-delay='50' data-tooltip='Update FirstName'>"+
+															"	<i class='tiny material-icons'>create</i></a>"+
+															"	</td></tr>"+
+															 "	<tr><td>Last Name: </td><td>"+data[0][1]+"</td>"+
+														    "	<td><a data-cmd='updateEmployer' data-value='"+data[0][1]+"' data-name='"+data[0][1]+"' data-node='"+data[0][0]+"' data-prop='LastName' data-position='left' data-delay='50' data-tooltip='Update LastName'>"+
+															"	<i class='tiny material-icons'>create</i></a>"+
+															"	</td></tr>"+
+														    "	<tr><td>Contact Number: </td><td>"+data[0][4]+"</td>"+
+														    "	<td><a data-cmd='updateEmployer' data-value='"+data[0][4]+"' data-name='"+data[0][4]+"' data-node='"+data[0][0]+"' data-prop='ContactNo' data-position='left' data-delay='50' data-tooltip='Update ContactNo'>"+
+															"	<i class='tiny material-icons'>create</i></a>"+
+															"	</td></tr>"+
+														    "	<tr><td>Office Address: </td><td>"+data[0][3]+"</td>"+
+														    "	<td><a data-cmd='updateEmployer' data-value='"+data[0][3]+"' data-name='"+data[0][3]+"' data-node='"+data[0][0]+"' data-prop='Address' data-position='left' data-delay='50' data-tooltip='Update Address'>"+
+															"	<i class='tiny material-icons'>create</i></a>"+
+															"	</td></tr>"+
+														    "	<tr><td>Email Address: </td><td>"+data[0][10]+"</td>"+
+														    "	<td><a data-cmd='updateEmployer' data-value='"+data[0][10]+"' data-name='"+data[0][10]+"' data-node='"+data[0][0]+"' data-prop='Email' data-position='left' data-delay='50' data-tooltip='Update Email'>"+
+															"	<i class='tiny material-icons'>create</i></a>"+
+															"	</td></tr>"+
+														    "	<tr><td>Status: </td><td>"+status+"</td></tr>"+
+														  	"</table>"+
+															"<div class='col-md-6'><a class='btn btn-white btn-xs btn-block' data-cmd='action_declinePending' data-id='"+data[0][0]+"'>Deactivate</a></div>"+
+												  			"</div>"+
+												  		"</div"+
+												"</div>";
 
 									$("#modal .modal-content").html(content);
 									$('#modal').modal('open');
@@ -1340,7 +1354,7 @@ var employer = function(){
 					        field_fname: {required: true,maxlength: 50},
 					        field_lname: {required: true,maxlength: 50},
 					        field_phone: {required: true,maxlength: 50},
-					        field_email: {required: true,maxlength: 50, email:true, checkEmail:true},
+					        field_email: {required: true,maxlength: 50, email:true},
 					        field_password: {required: true,maxlength: 50, checkPassword:true},
 					    },
 					    errorElement : 'div',
@@ -1480,7 +1494,8 @@ var applicant = function(){
 							if(infodata[0][8] != "")
 								resume = "<a href='../assets/files/"+infodata[0][0][2]+"' class='btn btn-xs btn-white'>Download and Read</a>";    			
 
-							var content = 	"<div class='card card-header-pic'>"+
+							var content = 	"	<a class='modal-action modal-close waves-effect waves-red right'>Close</a><br>"+
+											"<div class='card card-header-pic'>"+
                 							"	<div class='card-header color-white no-border' style='background-image:url(../assets/img/bg.jpg)'><br><br><br><br><br>"+
                     						"     <img class='circle responsive-img' style='width: 30%' src='"+picture+"'>"+
                								"	</div>"+
