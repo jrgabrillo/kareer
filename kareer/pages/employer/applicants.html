@@ -1,48 +1,49 @@
+<nav class="grey lighten-3">
+    <div class="nav-wrapper" style="margin-left:15px">
+        <div class="row">
+            <a class="col s8 grey-text" href="#cmd=index">Home</a>
+            <!-- <a class="col s2 grey-text"><i class="tiny material-icons">search</i></a> -->
+            <a class="col s2 grey-text "><small class="material-icons grey-text">notifications</small>Notifications</a> 
+            <a class="col s2 grey-text"><small class="tiny material-icons">message</small>Messages</a>
+        </div>
+    </div>
+</nav>
 <div class='row col-lg-12' style='float: none;'>
     <div class="wrapper wrapper-content">
-        <div class="row animated fadeInRight">
-            <div class="col-md-12">
-                <div class="float-e-margins" id='list_applicant'>
-                    <a href="#cmd=index;content=add-applicants" class='btn btn-xs btn-warning pull-right'>Add Applicant</a>              
-                </div>
-            </div>
-        </div>
-        <div class="row animated fadeInRight">
-        <div class="col s12 m7 17">
-            <ul class="tabs z-depth-0 grey lighten-2" style="width: 100%;height: 48px;">
-                <li class="tab col s6"><a class="waves-effect waves-light black-text" href="#active_applicants"><i class="mdi-action-perm-identity"></i>Active Applicants</a></li>
-                <li class="tab col s6"><a class="waves-effect waves-light black-text" href="#inactive_applicants"><i class="mdi-action-settings-display"></i>Inactive Applicants</a></li>
-            </ul>
-            <div>
-            </div>
-            <div class="card float-e-margins" id='active_applicants'>
-                <div class="card-title">
-                    <h5 class = "col s2">Applicants</h5>
-                </div>
-                    <div class="card-content text-center"></div>
-            </div>
-            <div class="card float-e-margins" id='inactive_applicants'>
-                <div class="card-title">
-                    <h5 class = "col s2">Applicants</h5>
-                </div>
-                <div class="card-content text-center"></div>
-            </div>
-        </div>
-            <div class="col s12 m5 l5">
-                <div class="card float-e-margins" id='applicant'>
+        <div class="row animated fadeInUp">
+             <div class="col s12" id='list_applicant'>
+                <div class="card float-e-margins">
                     <div class="card-title">
-                        <h5 class = "col s2">Applicant</h5>
-                    </div>
-                    <div class="card-content text-center"> 
-                    </div>
+                        <h5 class = "col s12">Applicants</h5>
+                   </div>
+                        <div class="card-content text-center"></div>
                 </div>
-            </div>
+             </div>
+                     <!-- <div class="card float-e-margins" id='inactive_applicants'>
+                           <div class="card-title">
+                                <h5 class = "col s6">Inactive Applicants</h5>
+                           </div>
+                               <div class="card-content text-center"></div>
+                     </div> -->
+ <!--            </div> -->
+            <!-- <div class='col s12 m4 l4 input-field right'>
+               <p><a href="#cmd=index;content=activities" class="btn waves-effect waves-light navy right">Activities</a></p>
+            </div> -->
+
+            <!-- <div class="col s12 m5 l5">
+                <div class="card float-e-margins" id='applicant'>
+                        <div class="card-title">
+                            <h5 class = "col s2">Applicant</h5>
+                        </div>
+                        <div class="card-content text-center"> 
+                    </div>
+                </div>           
+            </div> -->
         </div>
     </div>
 </div>
 
 <script type="text/javascript">
-employer.display();
-applicant.list_applicant();
-Applicants.addApplicant();
+   admin.ini();
+   applicant.list();
 </script>

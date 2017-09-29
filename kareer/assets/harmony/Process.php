@@ -559,7 +559,7 @@ $Functions = new DatabaseClasses;
                     print_r($Data);
                 }
             }
-              else if($data[1][0]['name'] == "field_Address"){
+            else if($data[1][0]['name'] == "field_Address"){
                 $address = $data[1][0]['value'];
                 $query = $Functions->PDO("UPDATE tbl_employer SET address = '{$address}' WHERE id = '{$user}';");
                 if($query->execute()){
