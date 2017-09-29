@@ -66,7 +66,8 @@ $Functions = new DatabaseClasses;
             $Query = $Functions->PDO_SQL("SELECT * FROM tbl_vacancies ORDER BY date DESC");
             foreach ($Query as $key => $value) {
                 $Query2 = $Functions->PDO_SQL("SELECT * FROM tbl_application WHERE vacany_id = '{$value[0]}'");
-                $result[] = [$value,$Query2];
+                $QueryEmployer = $Functions->PDO_SQL("SELECT * FROM tbl_employer WHERE id = '{$value[1]}'");
+                $result[] = [$value,$Query2,$QueryEmployer];
             }
             print_r(json_encode($result));
             // print_r(json_encode($Query2));
@@ -263,16 +264,16 @@ $Functions = new DatabaseClasses;
     if (isset($_GET['set-postJob'])) {
         $data = $_POST['data'];
 
-        print_r($data[1][5]['value']);
+        print_r($data[1][3]['value']);
         $id = $Functions->PDO_IDGenerator('tbl_vacancies','id');
         $date = $Functions->PDO_DateAndTime();
         $data = $_POST['data'];
         $employer_id = $data[0];
         $job_title = $Functions->escape($data[1][0]['value']);
         $vacancy_date = $Functions->escape($data[1][1]['value']);
-        $skills = $Functions->escape($data[1][5]['value']);
-        $salary_range = $Functions->escape($data[1][6]['value']);
-        $description = $Functions->escape($data[1][2]['value']);
+        $skills = $Functions->escape($data[1][2]['value']);
+        $salary_range = $Functions->escape($data[1][3]['value']);
+        $description = $Functions->escape($data[1][4]['value']);
         $query = $Functions->PDO("INSERT INTO tbl_vacancies(id,employer_id,description,vacancy_date,job_title,skills,salary_range,date,status) VALUES('{$id}','{$employer_id}',{$description},{$vacancy_date},{$job_title},{$skills},{$salary_range},'{$date}',1)");
         if($query->execute())
             echo 1;
@@ -688,11 +689,11 @@ $Functions = new DatabaseClasses;
     }
     if(isset($_GET['set-newEmployer'])){
             $data = $_POST['data'];
-            $companyID = $Functions->PDO_IDGenerator('tbl_emploeyer','id');
+            $companyID = $Functions->PDO_IDGenerator('tbl_employer','id');
             // $date = $Functions->PDO_DateAndTime();
             // $id = $companyID.'-0';
             $password = sha1($data[9]['value']);
-            $query = $Functions->PDO("INSERT INTO tbl_employer(id,company_name,description,lname,fname,address,bir,dti,email,password,contactno,image,status) VALUES ('{$companyID}','{$data[0]['value']}','{$data[1]['value']}','{$data[6]['value']}','{$data[5]['value']}','{$data[4]['value']}','{$data[2]['value']}','{$data[3]['value']}','{$data[8]['value']}','{$password}','{$data[7]['value']}','profile_small.jpg','1')");
+            $query = $Functions->PDO("INSERT INTO tbl_employer(id,company_name,description,lname,fname,address,bir,dti,email,password,contactno,image,status) VALUES ('{$companyID}','{$data[0]['value']}','{$data[1]['value']}','{$data[6]['value']}','{$data[5]['value']}','{$data[4]['value']}','{$data[2]['value']}','{$data[3]['value']}','{$data[8]['value']}','{$password}','{$data[7]['value']}','profile_avatar.jpg','1')");
             if($query->execute()){
                 echo 1;
             }
@@ -701,21 +702,21 @@ $Functions = new DatabaseClasses;
                 print_r($Data);
             }
     }   
-    if(isset($_GET['set-newApplicant'])){
-            $data = $_POST['data'];
-            $applicantID = $Functions->PDO_IDGenerator('tbl_appliecant','id');
-            $date = $Functions->PDO_DateAndTime();
-            $id = $applicantID.'-0';
-            $password = sha1($data[8]['value']);
-            $query = $Functions->PDO("INSERT INTO tbl_applicant(id,fname,mname,lname,description,address,contactno,image,gender,email,password,status,`date`) VALUES ('{$applicantID}','{$data[0]['value']}','{$data[1]['value']}','{$data[2]['value']}','{$data[3]['value']}','{$data[6]['value']}','{$data[5]['value']}','profile_small.jpg','{$data[4]['value']}','{$data[7]['value']}','{$password}','1','{$date}')");
-            if($query->execute()){
-                echo 1;
-            }
-            else{
-                $Data = $query->errorInfo();
-                print_r($Data);
-            }
-    }
+    // if(isset($_GET['set-newApplicant'])){
+    //         $data = $_POST['data'];
+    //         $applicantID = $Functions->PDO_IDGenerator('tbl_appliecant','id');
+    //         $date = $Functions->PDO_DateAndTime();
+    //         $id = $applicantID.'-0';
+    //         $password = sha1($data[8]['value']);
+    //         $query = $Functions->PDO("INSERT INTO tbl_applicant(id,fname,mname,lname,description,address,contactno,image,gender,email,password,status,`date`) VALUES ('{$applicantID}','{$data[0]['value']}','{$data[1]['value']}','{$data[2]['value']}','{$data[3]['value']}','{$data[6]['value']}','{$data[5]['value']}','profile_small.jpg','{$data[4]['value']}','{$data[7]['value']}','{$password}','1','{$date}')");
+    //         if($query->execute()){
+    //             echo 1;
+    //         }
+    //         else{
+    //             $Data = $query->errorInfo();
+    //             print_r($Data);
+    //         }
+    // }
     if(isset($_GET['do-decline'])){
         if(isset($_POST['data'])){
             $data = $_POST['data'];

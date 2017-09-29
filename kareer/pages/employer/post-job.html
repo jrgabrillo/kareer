@@ -11,7 +11,7 @@
     <div class="wrapper wrapper-content">
         <div class="row animated fadeInUp">
             <div class="card float-e-margins">
-                <div class="col s6">
+                <div class="col s12">
                     <div class="card-content">
                           <h5><i class='material-icons'>business_center</i>Post a Job</h5>
                         <form class='form-horizontal' id='form_addVacancy' role='form' action='' method='post' enctype='multipart/form-data'>
@@ -19,48 +19,44 @@
                                 <div class='form-group'>
                                     <div class='col s12'>
                                         <label>Job Title: </label>
-                                        <input data-inputtype='required' name='field_jobTitle' type='text' placeholder='Job Title' class='form-control'>
+                                        <input data-inputtype='required' name='field_jobTitle' type='text' placeholder='Job Title' class='form-control' data-error='error_jobTitle'>
+                                        <div class='error_jobTitle'></div>
                                     </div>
                                     <div class='col s12'>
                                         <label>Hiring Cut-off Date: <small><i>[Also job expiration date.]</i></small></label>
                                         <div>
                                             <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
-                                            <input data-inputtype='required' placeholder="Date" type="text" class="datepicker" name='field_date'>
+                                            <input data-inputtype='required' placeholder="Date" type="text" class="datepicker" name='field_date' data-error='error_date'>
+                                            <div class='error_date'></div>
                                         </div>
                                     </div><br/>
                                     <div class='col s12 '>
                                         <label> Add your skills :
-                                            <div data-inputtype='required' name='field_skills' class="chips"></div>
+                                            <!-- <div class="chips"> -->
+                                                <input data-inputtype='required' name='field_skills' class="chips" data-error='error_skills'>
+                                                <div class='error_skills'></div>
+                                            <!-- </div> -->
                                         </label>
                                     </div><br/>
                                     <div class='col s12 '>
                                         <label> Salary Range :
-                                            <input data-inputtype='required' name='field_range' type="number" class="form-control">
+                                            <input data-inputtype='required' name='field_range' type="number" class="form-control" data-error='error_range'>
+                                            <div class='error_range'></div>
                                         </label>
                                     </div><br/>
+                                    <div class='col s12' >
+                                        <label>Job Description: 
+                                        <textarea style="margin-top: 0px; margin-bottom: 0px; height: 300px;" data-inputtype='required' name='field_description' placeholder='Job Description' class='form-control' id="field_description" data-length="500" data-error='error_description'></textarea>
+                                        <div class='error_description'></div>
+                                        </label>
+                                    </div>
                                 </div>
                             </div>
                             <div>
                                 <div class='form-group'>  
-                                    <div class='col s12'>
+                                    <div class='col s4 m6 l4 offset-s6 offset-m4 offset-l6-right'>
                                         <a class="btn btn-sm btn-block button_success" data-cmd='register_applicant'>Post</a>  
                                     </div>
-                                </div>
-                            </div>
-                        </form>
-                    </div>
-                </div>
-                <div class="col s6">
-                    <div style="margin-top: 100px;" class="card-content">
-                        <form class='form-horizontal' id='form_addVacancy' role='form' action='' method='post' enctype='multipart/form-data'>
-                            <div>
-                                <div class='form-group'>
-                                    <div class='col s12 '>
-                                    <div class='col s12' >
-                                        <label>Job Description: </label>
-                                        <textarea style="margin-top: 0px; margin-bottom: 0px; height: 300px;" data-inputtype='required' name='field_description' placeholder='Job Description' class='form-control' id="field_description" data-length="500"></textarea>
-                                    </div>
-                                    <br/>
                                 </div>
                             </div>
                         </form>
