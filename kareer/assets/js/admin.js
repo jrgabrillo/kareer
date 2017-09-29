@@ -205,7 +205,7 @@ var admin = function () {
 												if(data == 1){
 													swal("Successful!", "Administrator's picture has been updated.", "success");
 													system.close_modal();
-													App.handleLoadPage("#cmd-index");
+													App.handleLoadPage("#cmd-index;content=account");
 												}
 												else{
 													swal("Fatal Error!", "There was an Unexpected Error during the process.", "error");
