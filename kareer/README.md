@@ -1,2 +1,0 @@
-# kareer
-hi pows
