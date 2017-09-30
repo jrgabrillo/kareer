@@ -1,0 +1,134 @@
+<nav class="grey lighten-3">
+    <div class="nav-wrapper">
+        <div class="row">
+            <a class="col s8 grey-text"><i class="tiny material-icons">search</i></a>
+            <a class="col s2 grey-text "><small class="material-icons grey-text">notifications</small>Notifications</a> 
+            <a class="col s2 grey-text"><small class="tiny material-icons">message</small>Messages</a>
+        </div>
+    </div>
+</nav>
+<div class = "row">
+    <div class="wrapper">
+        <div class="animated fadeInRight"> 
+             <div class="col s12">
+                <div class="card float-e-margins">
+                    <div class="card horizontal">
+                        <div class="col s5">
+                            <div class = "card-title">
+                                <div class="col s12">
+                                    <div class="card-content">
+                                        <div id='profile_picture1' class="card-content center ">
+                                            <img alt="image" class="circle responsive-img" src="" style="width: 85%;">
+                                            <div class='center'>
+                                                <a data-cmd='update_picture' class="btn-flat"><i class="tiny material-icons">photo_camera</i> Upload Photo</a>
+                                            </div>      
+                                        </div>
+                                            <div id='profile_picture2' class="card-content center hidden"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col s7"> 
+                        <br><br> 
+                            <div class="card-content">        
+                                <div class='feed-element'>
+                                    <br>
+                                    <div class="row">
+                                        <small>First Name: </small>
+                                            <span id="text_givenName">
+                                                 <span></span>
+                                                        <a data-cmd='update_profile' data-field='given-name' class='push-right text-navy'>Update</a>
+                                            </span>
+                                        <div id='field_givenName' class='field hidden'>
+                                            <form role="form" class="form-inline">
+                                                <div class='input-group'>
+                                                    <input type='text' placeholder='Given Name' class='form-control input-sm'>
+                                                    <span class='input-group-btn'>
+                                                        <a class='btn-flat btn-sm btn-success save-profile'>Save</a>
+                                                        <a class='btn-flat btn-sm btn-default cancel'>Cancel</a>
+                                                    </span>
+                                                </div>                                        
+                                            </form>
+                                        </div>
+                                    </div>
+                                    <div class="divider"></div>
+                                </div>
+                                <div class='feed-element'>
+                                    <br>
+                                    <div class="row">
+                                        <small>Last Name: </small>
+                                        <span id="text_familyName">
+                                            <span></span>
+                                            <a data-cmd='update_profile' data-field='family-name' class='pull-right text-navy'>Update</a>
+                                        </span>
+                                        <div id='field_familyName' class='field hidden'>
+                                            <form role="form" class="form-inline">
+                                                <div class='input-group'>
+                                                    <input type='text' placeholder="Family Name" class="form-control input-sm">
+                                                    <span class='input-group-btn'>
+                                                        <a class='btn-flat btn-sm btn-success save-profile'>Save</a>
+                                                        <a class='btn-flat btn-sm btn-default cancel'>Cancel</a>
+                                                    </span>
+                                                </div>                                        
+                                            </form>
+                                        </div>
+                                    </div>
+                                    <div class="divider"></div>
+                                </div>
+                                <div class='feed-element'>
+                                    <br>
+                                    <div class="row">
+                                        <small>Username: </small>
+                                        <span id="text_userName">
+                                            <span></span>
+                                            <a data-cmd='update_profile' data-field='user-name' class='pull-right text-navy'>Update</a>
+                                        </span>
+                                        <div id='field_userName' class='field hidden'>
+                                            <form role="form" class="form-inline">
+                                                <div class='input-group'>
+                                                    <input type='text' placeholder="Username" class="form-control input-sm">
+                                                    <span class='input-group-btn'>
+                                                        <a class='btn-flat btn-sm btn-success save-profile'>Save</a>
+                                                        <a class='btn-flat btn-sm btn-default cancel'>Cancel</a>
+                                                    </span>
+                                                </div>                                        
+                                            </form>
+                                        </div>
+                                    </div>
+                                    <div class="divider"></div>
+                                </div>
+                                <div class='feed-element'>
+                                    <br>
+                                    <div class="row">
+                                        <small>Password</small>
+                                        <span id="text_password">
+                                            <a data-cmd='update_profile' data-field='password' class='pull-right text-navy'>Update</a>
+                                        </span>
+                                        <div id='field_password' class='field hidden'>
+                                            <form role="form" class="form-inline">
+                                                <div class='input-group'>
+                                                    <input type='password' placeholder="New Password" class="form-control input-sm">
+                                                    <span class='input-group-btn'>
+                                                        <a class='btn-flat btn-tiny btn-info show-password'><i class='tiny material-icons'>visibility</i></a>
+                                                        <a class='btn-flat btn-tiny btn-success save-profile'>Save</a>
+                                                        <a class='btn-flat btn-tiny btn-default cancel'>Cancel</a>
+                                                    </span>
+                                                </div>                                        
+                                            </form>
+                                        </div>
+                                    </div>
+                                    <div class="divider"></div>
+                                </div>
+                             </div>       
+                        </div>
+                    </div>   
+                </div>
+            </div>
+        </div>
+    </div>    
+</div>
+<script type="text/javascript">
+admin.ini();
+admin.update_picture();
+admin.update_data();
+</script>

@@ -1,0 +1,96 @@
+<div class='row' style='float:none;'>
+    <div class="wrapper wrapper-content">
+        <div class="row animated fadeInUp">
+            <div class="card float-e-margins">
+                <div class="col s12">
+                    <div class="card-content">
+                          <h5><i class='material-icons'>business_center</i>Post a Job</h5>
+                        <form class='form-horizontal' id='form_addVacancy' role='form' action='' method='post' enctype='multipart/form-data'>
+                            <div>
+                                <div class='form-group'>
+                                    <div class='col s12'>
+                                        <label>Job Title: </label>
+                                        <input data-inputtype='required' name='field_jobTitle' type='text' placeholder='Job Title' class='form-control' data-error='error_jobTitle'>
+                                        <div class='error_jobTitle'></div>
+                                    </div>
+                                    <div class='col s12'>
+                                        <label>Hiring Cut-off Date: <small><i>[Also job expiration date.]</i></small></label>
+                                        <div>
+                                            <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                                            <input data-inputtype='required' placeholder="Date" type="text" class="datepicker" name='field_date' data-error='error_date'>
+                                            <div class='error_date'></div>
+                                        </div>
+                                    </div><br/>
+                                    <div class='col s12 '>
+                                        <label> Add your skills :
+                                            <!-- <div class="chips"> -->
+                                                <input data-inputtype='required' name='field_skills' class="chips" data-error='error_skills'>
+                                                <div class='error_skills'></div>
+                                            <!-- </div> -->
+                                        </label>
+                                    </div><br/>
+                                    <div class='col s12 '>
+                                        <label> Salary Range :
+                                            <input data-inputtype='required' name='field_range' type="number" class="form-control" data-error='error_range'>
+                                            <div class='error_range'></div>
+                                        </label>
+                                    </div><br/>
+                                    <div class='col s12' >
+                                        <label>Job Description: 
+                                        <textarea style="margin-top: 0px; margin-bottom: 0px; height: 300px;" data-inputtype='required' name='field_description' placeholder='Job Description' class='form-control' id="field_description" data-length="500" data-error='error_description'></textarea>
+                                        <div class='error_description'></div>
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div>
+                                <div class='form-group'>  
+                                    <div class='col s4 m6 l4 offset-s6 offset-m4 offset-l6-right'>
+                                        <a class="btn btn-sm btn-block button_success" data-cmd='register_applicant'>Post</a>  
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script type="text/javascript">
+jobs.add_vacancies();
+// system.froala("#field_description");
+// $ ('slider') = document.getElementById('test-slider');
+//   noUiSlider.create(slider, {
+//    start: [20, 80],
+//    connect: true,
+//    step: 1,
+//    orientation: 'horizontal', // 'horizontal' or 'vertical'
+//    range: {
+//      'min': 0,
+//      'max': 100
+//    },
+//    format: wNumb({
+//      decimals: 0
+//    })
+//   })
+  $('.datepicker').pickadate({
+    selectMonths: true, // Creates a dropdown to control month
+    selectYears: 15, // Creates a dropdown of 15 years to control year,
+    today: 'Today',
+    clear: 'Clear',
+    close: 'Ok',
+    closeOnSelect: false // Close upon selecting a date,
+  });
+    var chip = {
+    tag: 'chip content',
+  };
+  $('.chips').material_chip();
+  $('.chips-placeholder').material_chip({
+    placeholder: 'Enter a tag',
+    secondaryPlaceholder: '+skills',
+    name:'field_skills',
+  });
+</script>

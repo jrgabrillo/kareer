@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html ng-app="myapp" class="pixel-ratio-3 retina android android-5 android-5-0 watch-active-state">
+    <head>
+        <meta charset="utf-8">
+        <!-- <meta http-equiv="Content-Security-Policy" content="default-src *; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; media-src *; img-src 'self' data:"> -->
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui">
+        <meta name="apple-mobile-web-app-capable" content="yes">
+        <meta name="apple-mobile-web-app-status-bar-style" content="black">
+        <title>Kareer</title>
+        <link rel="shortcut icon" type="image/png" href="res/icon/android/icon.png">
+        <link rel="stylesheet" href="css/original.materialize.min.css">
+        <link rel="stylesheet" href="lib/framework7/css/framework7.material.min.css">
+        <link rel="stylesheet" href="lib/framework7/css/framework7.material.colors.min.css">
+        <link rel="stylesheet" href="css/framework7.3dpanels.min.css">
+        <link rel="stylesheet" href="css/framework7-icons.css">
+        <link rel="stylesheet" href="css/animate.css">
+        <link rel="stylesheet" href="css/my-app.css">
+        <link rel="stylesheet" href="css/main.css">
+        <link rel="stylesheet" href="css/welcomescreen.css">
+    </head>
+    <body class='theme-teal'>
+        <div class="views">
+            <div class="view view-main">
+                <div class="pages navbar-through toolbar-through">
+                    <div class="navbar white hidden" style="border-bottom: 1px solid #ccc;">
+                        <div class="navbar-inner">
+                            <div class="left">
+                                <a href="#" data-page="index" class=" white btn btn-floating btn-flat color-teal waves-effect waves-teal waves-light"><i class="icon f7-icons">person</i></a> <!-- pages/admin/account.html -->
+                            </div>
+                            <div class="center" style="margin:0 auto;">
+                                <a href="#" data-page="jobs" class=" white btn btn-floating btn-flat color-gray waves-effect waves-teal waves-light"><i class="icon f7-icons">briefcase_fill</i></a>
+                            </div>
+                            <div class="right" style="margin-left:unset;">
+                                <a href="#" data-page="search" class=" white btn btn-floating btn-flat color-gray waves-effect waves-teal waves-light"><i class="icon f7-icons">search_strong</i></a> <!-- pages/admin/search.html -->
+                            </div>
+                        </div>
+                    </div>
+                    <div data-page='index' class="page hidden" data-node="page-initialization" style="background-image: url(img/kareer_bg.png);">
+                        <div class="page-content">
+                            <div class="button-row" id="splashScreen">  
+                                <img id='displayLogo' src="img/kareer_logo.png" class="animated fadeInUp" style="position:relative; top:0px;">
+                            </div>
+                        </div>
+                        <div class="toolbar" style="background: transparent; height: 80px;">
+                            <div class="toolbar-inner">
+                                <div class="collection" style="width: 100%; margin-top: 20px; border:none;">
+                                    <a href="#" data-popup=".popup-login" class="white-text collection-item open-popup teal waves-effect waves-teal waves-light btn" style="opacity: 0.8;border:none;border-radius: 0px;">Sign In</a>
+                                    <a href="#" data-popup=".popup-sign-up" class="white-text collection-item open-popup purple waves-effect waves-teal waves-light btn" style="opacity: 0.8;border:none;border-radius: 0px;">Sign Up</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="popup loader">
+            <div style="position: relative; top: 15%;">
+                <div class="login-screen-title">
+                    <img width="200px" src="img/logo.png"/>
+                </div><br/><br/>
+                <div class='row no-gutter'>
+                    <div class='col-10'></div>
+                    <div class='col-80'>
+                        <p class="text-center">Loading...</p>
+                    </div>
+                    <div class='col-10'></div>
+                </div>
+            </div>                          
+        </div>
+        <div class="popup developer">
+            <div style="position: relative; top: 15%;">
+                <div class="login-screen-title">
+                    <img width="200px" src="img/logo.png"/>
+                </div><br/><br/>
+                <div class='row no-gutter'>
+                    <div class='col-10'></div>
+                    <div class='col-80'>
+                        <p class="text-center">Loading...</p>
+                    </div>
+                    <div class='col-10'></div>
+                </div>
+            </div>                          
+        </div>
+        <div class="popup popup-login">
+            <div class="page-content login-screen-content" style="background: transparent;">
+                <div class="login-screen-title color-white">
+                    Log In 
+                    <a class="close-popup"><i class="icon f7-icons color-white" style="width: 25px; position: absolute;right: 5%;">close_round</i></a>
+                </div>
+                <div class="content-block">
+                    <form action="" method="POST" id='form_logIn' autocomplete="off">
+                        <div class="list-block">
+                            <ul>
+                                <li style="margin-bottom: 10px;">
+                                    <div class="input-field">
+                                        <input type='email' id="field_email" name="field_email" class="form-control white-text" value="">
+                                        <label class="white-text" for="field_email">Email</label>
+                                    </div>
+                                </li>
+                                <li style="margin-bottom: 10px;">
+                                    <div class="input-field">
+                                        <input type='password' id="field_password" name="field_password" class="form-control white-text" value="">
+                                        <label class="white-text" for="field_password">Password</label>
+                                    </div>
+                                </li>
+                                <li style="margin-bottom: 10px;">
+                                    <button class="waves-effect waves-teal waves-light btn btn-flat grey-text white" style="width: 100%;">Login</button>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="list-block hidden">
+                            <div class="list-block-label">
+                                <div class="col-50" style='background: transparent; color: #fff; line-height: 2;'>
+                                    Forget password?
+                                </div>
+                                <div class="row" style='margin-top:50px;'>
+                                    <div class="col-100" style='background: transparent;'>
+                                        <span class="hr color-white"> or Sign up using </span>
+                                    </div>
+                                    <div class="col-100" style='background: transparent;'>
+                                        <!-- <img src="img/icons/fb.png" width="30px" /> -->
+                                        <!-- <img src="img/icons/gp.png" width="30px" /> -->
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <div class="popup popup-sign-up">
+            <div class="page-content login-screen-content infinite-scroll" style="background: transparent;">
+                <div class="login-screen-title close-popup" style="color: white">Sign Up<i class="icon f7-icons" style="width: 25px; position: absolute;right: 5%;">close_round</i></div>
+                <div class="content-block">
+                    <form action="" method="POST" id='form_signUp'>
+                        <div class="list-block">
+                            <ul>
+                                <li>
+                                    <div class="input-field">
+                                        <input type='text' id="field_firstname" name="field_firstname" class="form-control white-text">
+                                        <label class="white-text" for="field_firstname">First Name</label>
+                                    </div>
+                                </li>
+                                <li>
+                                    <div class="input-field">
+                                        <input type='text' id="field_lastname" name="field_lastname" class="form-control white-text">
+                                        <label class="white-text" for="field_lastname">Last Name</label>
+                                    </div>
+                                </li>
+                                <li>
+                                    <div class="input-field">
+                                        <input type='email' id="field_email" name="field_email" class="form-control white-text">
+                                        <label class="white-text" for="field_email">Email</label>
+                                    </div>
+                                </li>
+                                <li>
+                                    <div class="input-field">
+                                        <input type='password' id="field_password" name="field_password" class="form-control white-text">
+                                        <label class="white-text" for="field_password">Password</label>
+                                    </div>
+                                </li>
+                                <li>
+                                    <button class="waves-effect waves-teal waves-light btn btn-flat grey-text white" style="width:100%;">Sign Up</button>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="list-block">`
+                            <div class="list-block-label">
+                                <div class="row hidden" style='margin-top:50px;'>
+                                    <div class="col-100" style='background: transparent;'>
+                                        <span class="hr color-white"> or Sign up using </span>
+                                    </div>
+                                    <div class="col-100" style='background: transparent;'>
+                                        <!-- <img src="img/icons/fb.png" width="30px"/> -->
+                                        <!-- <img src="img/icons/gp.png" width="30px"/> -->
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <div class="panel-overlay" style=""></div>
+    </body>
+    <script src="js/jquery.js "></script>
+    <script src="js/materialize.min.js"></script>
+    <script src="lib/framework7/js/framework7.js"></script>
+    <script src="js/welcomescreen.js "></script>
+    <script src="js/myapp/pages/IndexPageController.js"></script>
+    <script src="js/myapp/init.js"></script>
+    <script src="js/validation/jquery.validate.min.js "></script>
+    <script src="js/validation/additional-methods.min.js "></script>
+    <script src="js/defiant.min.js "></script>
+    <script src="js/my-app.js "></script>
+    <script src="js/process.js"></script>
+</html>
