@@ -65,7 +65,7 @@ $Functions = new DatabaseClasses;
             $result = [];
             $Query = $Functions->PDO_SQL("SELECT * FROM tbl_vacancies ORDER BY date DESC");
             foreach ($Query as $key => $value) {
-                $Query2 = $Functions->PDO_SQL("SELECT * FROM tbl_application WHERE vacany_id = '{$value[0]}'");
+                $Query2 = $Functions->PDO_SQL("SELECT * FROM tbl_application WHERE vacancy_id = '{$value[0]}'");
                 $QueryEmployer = $Functions->PDO_SQL("SELECT * FROM tbl_employer WHERE id = '{$value[1]}'");
                 $result[] = [$value,$Query2,$QueryEmployer];
             }
@@ -81,7 +81,7 @@ $Functions = new DatabaseClasses;
         $result = [];
         $Query = $Functions->PDO("SELECT * FROM tbl_vacancies WHERE employer_id = '{$data}' ORDER BY date DESC");
         foreach ($Query as $key => $value) {
-            $Query2 = $Functions->PDO_SQL("SELECT * FROM tbl_application WHERE vacany_id = '{$value[0]}'");
+            $Query2 = $Functions->PDO_SQL("SELECT * FROM tbl_application WHERE vacancy_id = '{$value[0]}'");
             $result[] = [$value,$Query2];
         }
         print_r(json_encode($result));
@@ -157,9 +157,8 @@ $Functions = new DatabaseClasses;
     if(isset($_GET['get-jobByID'])){
         $data = $_POST['data'];
         $result = [];
-        
         $Query = $Functions->PDO_SQL("SELECT * FROM tbl_vacancies WHERE id = '{$data}'");
-        $Query2 = $Functions->PDO_SQL("SELECT * FROM tbl_application WHERE vacany_id = '{$Query[0][0]}'");
+        $Query2 = $Functions->PDO_SQL("SELECT * FROM tbl_application WHERE vacancy_id = '{$Query[0][0]}'");
         $Query3 = $Functions->PDO_SQL("SELECT * FROM tbl_employer WHERE id = '{$Query[0][1]}'");
         $result[] = [$Query[0],$Query2,$Query3[0]];
         print_r(json_encode($result));

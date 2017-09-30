@@ -398,30 +398,30 @@ var admin = function () {
 				        },
 				        {data: "",
 				            render: function ( data, type, full ){
-				            	var details = "None";
+				            	var details = "";
 				            	
-								// if(full[1].length>0){
-								// 	$.each(full[1],function(i,v){
-								// 		var data_applicants = v[2];
-								// 		if(i<4){
-							 //            	details += "<img alt='image' class='img-circle' src='"+system.get_apr(data_applicants)+"' style='margin-right: 5px;'>";
-								// 		}
-								// 		else{
-								// 			var count = full[1].length-i;
-								// 			// console.log(i);
-								// 			if(i>13)
-								// 				count = 9+"+";
+								if(full[1].length>0){
+									$.each(full[1],function(i,v){
+										var data_applicants = v[2];
+										if(i<4){
+							            	details += "<img alt='image' class='img-circle' src='"+system.get_apr(data_applicants)+"' style='margin-right: 5px;'>";
+										}
+										// else{
+										// 	var count = full[1].length-i;
+										// 	// console.log(i);
+										// 	if(i>13)
+										// 		count = 9+"+";
 
-							 //            	details += "<div class='vertical-timeline-icon blue-bg pull-right' style='position: relative;width: 32px !important;height: 32px !important;border: 3px solid #1C84C6;'>"+
-								// 						"    <h3>"+count+"</h3>"+
-								// 						"</div>";
-								// 			return false;
-								// 		}
-								// 	});
-								// }
-								// else{
-								// 	details = "None";
-								// }
+							   //          	details += "<div class='vertical-timeline-icon blue-bg pull-right' style='position: relative;width: 32px !important;height: 32px !important;border: 3px solid #1C84C6;'>"+
+										// 				"    <h3>"+count+"</h3>"+
+										// 				"</div>";
+										// 	return false;
+										// }
+									});
+								}
+								else{
+									details = "None";
+								}
 				                return details;
 				            }
 				        },
@@ -461,51 +461,64 @@ var admin = function () {
 			if(applicationexpiry<now){
 				status = "<span>Inactive</span>";
 			}
-			console.log(ajaxData[0][1]);
-			if(ajaxData[0][1].length > 0){
-				$.each(ajaxData[0][1],function(i,v){
-					var data_applicants = JSON.parse(v[2]);
-					var actions = "	<a class='btn btn-xs btn-danger collapsed' data-toggle='collapse' data-parent='#accordion' data-cmd='toggle-interview' data-id='"+v[0]+"' href='#"+v[0]+"' aria-expanded='false'>Invite for interview </a>"+
-								  "	<a class='btn btn-xs btn-white' data-cmd='decline' data-id='"+v[0]+"'>Decline</a>";
-					if(v[5] != ""){
-						if(v[5] != "0"){
-							var applicationstatus = JSON.parse(v[5]);
-							actions = "<div style='padding: 5px;'>"+applicationstatus[1]+"<br/><small class='prettydate'>"+applicationstatus[0]+"</small></div>";
-						}
-						else{
-							actions = "<div style='padding: 5px;'>Declined</div>";
-						}
-					}
+			// console.log(ajaxData[0][1]);
+			// if(ajaxData[0][1].length > 0){
+			// 	$.each(ajaxData[0][1],function(i,v){
+			// 		var data_applicants = v[2];
+			// 		var appajax = system.ajax('../assets/harmony/Process.php?get-Applicant',data_applicants);
+			// 		var ajaxappData = JSON.parse(appajax.responseText);
+			// 		console.log(ajaxappData);
+			// 		// $.each(ajaxappData,function(i,v){
+			// 		// var content ="<div>"+
+			// 		// 				"<table class='table small m-b-xs'>"+
+			// 		// 				"	<td>"+ajaxappData[0][1][13]"</td>"+
+			// 		// 				"	<td>"+ajaxappData[0][1][0][2]+", "+ajaxappData[0][1][0][1]+"</td>"+
+			// 		// 				"</table>"+
+			// 		// 			"</div>";	
+			// 		// });
 
-					application_content += "<ul class='collection'>"+
-											"    <li href='#' class='collection-item avatar'>"+
-											"	 <a>											"+
-											"        <img alt='image' class='circle' src='"+system.get_apr(data_applicants[2])+"'>"+
-											"    </a>"+
-											"    <span class='row'>"+
-											"       <small class='col s12 m6-left prettydate'>"+v[4]+"</small>"+
-											"       <strong>"+data_applicants[3][0]+", "+data_applicants[3][1]+" "+data_applicants[3][2]+"</strong><br>"+
-											"       <small class='disabled'>"+v[4]+"</small>"+
-											"       <div class='well'>"+v[3]+"</div><br/>"+
-											"		<div class='actions'>"+actions+"</div><br/>"+
-											"		<div id='"+v[0]+"' class='panel-collapse collapse' aria-expanded='false' style='height: 0px;'>"+
-											"		    <textarea class='form-control input-sm employer_interview' placeholder='Say something about your invitation for interview' row='3' style='width:100%;max-width:100%;'></textarea>"+
-											"		    <span class='right desc_stringCounter'></span>"+
-											"		    <form role='form' class='form-inline form_interview'>"+
-											"		        <input name='field_interview' type='text' placeholder='Description' class='form-control input-sm hidden'><br/>"+
-											"		        <a data-id='"+v[0]+"' data-cmd='interview' class='btn waves-effect waves-light ' type='submit' name='action'>Submit <i class='material-icons right'>send</i></a>"+
-											"		    </form>"+
-											"		</div>"+
-											"		</div>"+
-											"	</span>	"+											
-											"    </li>"+
-											"</ul>";
+			// 		$("#applicants .card-content").html(content);
+			// 		// var actions = "	<a class='btn btn-xs btn-danger collapsed' data-toggle='collapse' data-parent='#accordion' data-cmd='toggle-interview' data-id='"+v[0]+"' href='#"+v[0]+"' aria-expanded='false'>Invite for interview </a>"+
+			// 		// 			  "	<a class='btn btn-xs btn-white' data-cmd='decline' data-id='"+v[0]+"'>Decline</a>";
+			// 		// if(v[5] != ""){
+			// 		// 	if(v[5] != "0"){
+			// 		// 		var applicationstatus = JSON.parse(v[5]);
+			// 		// 		actions = "<div style='padding: 5px;'>"+applicationstatus[1]+"<br/><small class='prettydate'>"+applicationstatus[0]+"</small></div>";
+			// 		// 	}
+			// 		// 	else{
+			// 		// 		actions = "<div style='padding: 5px;'>Declined</div>";
+			// 		// 	}
+			// 		// }
 
-				});
-				applicant = ajaxData[0][1].length;
-			}
-			application_content = "<div class='feed-activity-list'>"+application_content+"</div>";
-			$('#data_info').removeClass('hidden').html(application_content);
+			// 		// application_content += "<ul class='collection'>"+
+			// 		// 						"    <li href='#' class='collection-item avatar'>"+
+			// 		// 						"	 <a>											"+
+			// 		// 						"        <img alt='image' class='circle' src='"+system.get_apr(data_applicants[2])+"'>"+
+			// 		// 						"    </a>"+
+			// 		// 						"    <span class='row'>"+
+			// 		// 						"       <small class='col s12 m6-left prettydate'>"+v[4]+"</small>"+
+			// 		// 						"       <strong>"+data_applicants[3][0]+", "+data_applicants[3][1]+" "+data_applicants[3][2]+"</strong><br>"+
+			// 		// 						"       <small class='disabled'>"+v[4]+"</small>"+
+			// 		// 						"       <div class='well'>"+v[3]+"</div><br/>"+
+			// 		// 						"		<div class='actions'>"+actions+"</div><br/>"+
+			// 		// 						"		<div id='"+v[0]+"' class='panel-collapse collapse' aria-expanded='false' style='height: 0px;'>"+
+			// 		// 						"		    <textarea class='form-control input-sm employer_interview' placeholder='Say something about your invitation for interview' row='3' style='width:100%;max-width:100%;'></textarea>"+
+			// 		// 						"		    <span class='right desc_stringCounter'></span>"+
+			// 		// 						"		    <form role='form' class='form-inline form_interview'>"+
+			// 		// 						"		        <input name='field_interview' type='text' placeholder='Description' class='form-control input-sm hidden'><br/>"+
+			// 		// 						"		        <a data-id='"+v[0]+"' data-cmd='interview' class='btn waves-effect waves-light ' type='submit' name='action'>Submit <i class='material-icons right'>send</i></a>"+
+			// 		// 						"		    </form>"+
+			// 		// 						"		</div>"+
+			// 		// 						"		</div>"+
+			// 		// 						"	</span>	"+											
+			// 		// 						"    </li>"+
+			// 		// 						"</ul>";
+
+			// 	});
+			// 	// applicant = ajaxData[0][1].length;
+			// }
+			// application_content = "<div class='feed-activity-list'>"+application_content+"</div>";
+			// $('#data_info').removeClass('hidden').html(application_content);
 				// console.log(ajaxData);
 			$('#job-post #txt_jobtitle').html(ajaxData[0][0][4]);
 			$('#job-post #txt_jobstatus').html(status);

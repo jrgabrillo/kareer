@@ -2,6 +2,7 @@
 var jobs = function(){
 	"use strict";
 	return {
+		// Post a job
 		add_vacancies: function(){
 			var sys = system, validate = validation, _this = this, _apps = App;
 	    	$("a[data-cmd='register_applicant']").click(function(){
@@ -48,7 +49,6 @@ var jobs = function(){
 
 	    	});
 	    },
-
         posting:function(){
 			var content = "";
 			var ajaxData="";
@@ -144,6 +144,7 @@ var jobs = function(){
 			var ajax = system.ajax('../assets/harmony/Process.php?get-employerJobsPosts',data[0][0]);
 			var ajaxData = JSON.parse(ajax.responseText);
 			var content = "";
+			console.log(ajaxData);
 			if(ajaxData.length>0){
 				var content = 	"<div class='card'><div class='card-content'><table class='table' id='table_jobs'>"+
 								"<h5><i class='material-icons'>business_center</i>Posted Jobs</h5>"+
@@ -190,10 +191,10 @@ var jobs = function(){
 				            	var details = "";
 								if(full[1].length>0){
 									$.each(full[1],function(i,v){
-										var data_applicants = JSON.parse(v[2]);
+										var data_applicants = v[2];
 										if(i<4){
 							            	// details += "<img alt='image' class='img-circle' src='' style='margin-right: 5px;'>";
-							            	details += "<img alt='image' class='circle' src='"+system.get_apr(data_applicants[2])+"' style='margin-right: 5px;'>";
+							            	details += "<img alt='image' class='circle' src='"+system.get_apr(data_applicants)+"' style='margin-right: 5px;'>";
 										}
 										else{
 											var count = full[1].length-i;
@@ -393,7 +394,7 @@ var jobs = function(){
 				}
 			});
         },
-        update:function(){
+/*        update:function(){
 			$("a[data-cmd='updateJob']").on('click',function(){
 				var data = $(this).data();
 				var id = data.node;
@@ -453,7 +454,7 @@ var jobs = function(){
 				}
 			
 			});
-		},
+		},*/
 	    add_job:function(){
 	    	var sys = system, validate = validation, _this = this, _apps = App;
     		var acount = JSON.parse(employer.account());
@@ -532,7 +533,9 @@ var jobs = function(){
 	    	});	
 	    },
 
+
 	}
+	
 }();
 //for account,profile.html
 var employer = function () {
