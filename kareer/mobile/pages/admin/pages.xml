@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<content>
+    <pop-up-academic>
+        <div class='popup academic'>
+            <div class="page-content login-screen-content infinite-scroll" style="background: transparent;">
+                <div class="content-block">
+                    <div class="close-popup">Add Academic<i class="icon f7-icons" style="width: 25px; position: absolute;right: 5%;">close_round</i></div>
+                    <form action="" method="POST" id='form_academic'>
+                        <div class="list-block">
+                            <ul>
+                                <li>
+                                    <div class="input-field">
+                                        <select id="field_yearLevel" name="field_yearLevel">
+                                            <option value="" disabled selected>Select Year Level</option>
+                                            <option value="Elementary">Elementary</option>
+                                            <option value="High School">High School</option>
+                                            <option value="Vocational">Vocational</option>
+                                            <option value="College">College</option>
+                                            <option value="Masteral">Masteral</option>
+                                            <option value="Doctoral">Doctoral</option>
+                                        </select>
+                                        <label class="" for="field_yearLevel">Year Level</label>
+                                    </div>
+                                </li>
+                                <li>
+                                    <div class="input-field">
+                                        <input type='text' id="field_school" name="field_school" class="form-control">
+                                        <label class="" for="field_school">Name of Schools</label>
+                                    </div>
+                                </li>
+                                <li>
+                                    <div class="input-field">
+                                        <input type='text' id="field_degree" name="field_degree" class="form-control">
+                                        <label class="" for="field_degree">Basic Education/Degree/Course</label>
+                                    </div>
+                                </li>
+                                <li>
+                                    <div class="input-field">
+                                        <input type='text' id="field_units" name="field_units" class="form-control">
+                                        <label class="" for="field_units">Units Earned</label>
+                                    </div>
+                                </li>
+                                <li>
+                                    <div class="row">
+                                        <div class="input-field">
+                                            <label class="active">Period of Attendance</label>
+                                            <div class="col s6">
+                                                <input type='date' id="field_dateFirst" name="field_dateFirst" class="form-control" placeholder="From">
+                                            </div>
+                                            <div class="col s6">
+                                                <input type='date' id="field_dateLast" name="field_dateLast" class="form-control" placeholder="To">
+                                            </div>
+                                        </div>                                            
+                                    </div>
+                                </li>
+                                <li>
+                                    <button class="btn-flat waves-effect waves-teal waves-light teal color-white" style="width:100%;">Save</button>
+                                </li>
+                            </ul>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </pop-up-academic>
+    <pop-up-career>
+        <div class='popup career'>
+            <div class="page-content login-screen-content infinite-scroll" style="background: transparent;">
+                <div class="content-block">
+                    <div class="close-popup">Add Career<i class="icon f7-icons" style="width: 25px; position: absolute;right: 5%;">close_round</i></div>
+                    <form action="" method="POST" id='form_career'>
+                        <div class="list-block">
+                            <ul>
+                                <li>
+                                    <div class="row">
+                                        <div class="input-field">
+                                            <label class="active">Inclusive dates</label>
+                                            <div class="col s6">
+                                                <input type='date' id="field_dateFirst" name="field_dateFirst" class="form-control" placeholder="From">
+                                            </div>
+                                            <div class="col s6">
+                                                <input type='date' id="field_dateLast" name="field_dateLast" class="form-control" placeholder="To">
+                                            </div>
+                                        </div>                                            
+                                    </div>
+                                </li>
+                                <li>
+                                    <div class="input-field">
+                                        <input type='text' id="field_position" name="field_position" class="form-control">
+                                        <label class="" for="field_position">Position</label>
+                                    </div>
+                                </li>
+                                <li>
+                                    <div class="input-field">
+                                        <input type='text' id="field_agency" name="field_agency" class="form-control">
+                                        <label class="" for="field_agency">Company/Agency</label>
+                                    </div>
+                                </li>
+                                <li>
+                                    <div class="input-field">
+                                        <input type='text' id="field_salary" name="field_salary" class="form-control">
+                                        <label class="" for="field_salary">Monthly Salary</label>
+                                    </div>
+                                </li>
+                                <li>
+                                    <div class="input-field">
+                                        <input type='text' id="field_appointment" name="field_appointment" class="form-control">
+                                        <label class="" for="field_appointment">Status of Appointment</label>
+                                    </div>
+                                </li>
+                                <li>
+                                    <button class="btn-flat waves-effect waves-teal waves-light teal color-white" style="width:100%;">Save</button>
+                                </li>
+                            </ul>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </pop-up-career>
+    <pop-up-search>
+        <div class='popup search'>
+            <div class="page-content login-screen-content infinite-scroll" style="background: transparent;">
+                <div class="content-block">
+                    <div class="close-popup">Search Result<i class="icon f7-icons" style="width: 25px; position: absolute;right: 5%;">close_round</i></div>
+                    <div class="page-content tabs" id="jobs" style="overflow:hidden;">
+                        <div class="swiper-container" style="margin:55px 0;">
+                            <div class="swiper-wrapper">
+                                <div class="progress">
+                                    <div class="indeterminate"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </pop-up-search>
+</content>
+

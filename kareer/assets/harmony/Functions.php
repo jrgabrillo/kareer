@@ -1,10 +1,12 @@
 <?php
 //secure this file
 class DatabaseClasses{
+
 	public $Data;
 	public $Row;
 	public $Key;
 	public $Value;
+
 	function DBCon(){
 		$host = "localhost";
 		$dataBase = "db_kareer";
@@ -18,7 +20,8 @@ class DatabaseClasses{
 			echo 'There was an error connecting to your database.<br/>';
 			echo 'Error:'.$e->getMessage();
 		}
-	}	
+	}
+	
 	function dropDB($db){
 		$host = "localhost";
 		$dataBase = "test";
@@ -33,7 +36,7 @@ class DatabaseClasses{
 			die("DB ERROR: ". $e->getMessage());
 		}
 	}
-	
+
 	function chkConnection(){
 		$data = DatabaseClasses::DBCon();
 		if(is_object($data)){
@@ -125,14 +128,12 @@ class DatabaseClasses{
 		$Query = DatabaseClasses::PDO_Query("SELECT * FROM $Table WHERE $Column = '$Condition'");
 		return $Query->rowCount();
 	}
-<<<<<<< HEAD
 
-=======
->>>>>>> 10510372bb6659b5345850e43fbd485b053b819a
 	function password($string){
 		$options = ['cost' => 11,'salt' => mcrypt_create_iv(22, MCRYPT_DEV_URANDOM)];
 		return password_hash($string,PASSWORD_BCRYPT, $options);		
 	}
+
 	function testPassword($string,$hash){
 		if (password_verify($string,$hash)) {
 		    return 1;
@@ -141,10 +142,7 @@ class DatabaseClasses{
 		    return 0;
 		}
 	}
-<<<<<<< HEAD
 
-=======
->>>>>>> 10510372bb6659b5345850e43fbd485b053b819a
 	function PDO_ShowRow($Table,$Column,$Condition){
 		$Array = array();
 		$Query = DatabaseClasses::PDO_Query("SELECT * FROM $Table WHERE $Column = '$Condition'");
@@ -160,12 +158,8 @@ class DatabaseClasses{
 		$Query = DatabaseClasses::PDO_Query("SELECT * FROM $Table'");
 		return $Query->rowCount();
 	}
-<<<<<<< HEAD
 
 	function PDO_IDGenerate($Table,$ID){
-=======
-	function PDO_IDGenerator($Table,$ID){
->>>>>>> 10510372bb6659b5345850e43fbd485b053b819a
 		$Status = true;
 		for($x=0;$Status == true;$x++){
 			$TempID = sha1(DatabaseClasses::PDO_TableCounter($Table)+$x);
@@ -181,9 +175,10 @@ class DatabaseClasses{
 		if(!isset($Username) && !isset($Password))
 			return true;
 	}
+
 	function log2($_id,$_remarks,$_header){
 		$date = DatabaseClasses::PDO_DateAndTime();
-		$id = DatabaseClasses::PDO_IDGenerator('tbl_logs','id');
+		$id = DatabaseClasses::PDO_IDGenerate('tbl_logs','id');
 		$Query = DatabaseClasses::PDO(false,"INSERT INTO tbl_logs(id,account,remarks,`date`,header) VALUES ('{$id}','{$_id}','{$_remarks}','{$date}','{$_header}')");
 		if($Query->execute()){
 			return 1;	
@@ -193,25 +188,7 @@ class DatabaseClasses{
 			return $Data;
 		}			
 	}
-<<<<<<< HEAD
 
-=======
->>>>>>> 10510372bb6659b5345850e43fbd485b053b819a
-	function PDO_StudentIDNumberGenerator($Table,$ID){
-		$Status = true; $RetString = ""; $Zero = '';
-		$Query = DatabaseClasses::PDO_SQLQuery("SELECT * FROM $Table");
-		$Query->execute(); $Num = $Query->rowCount();
-		for($x=0;$x<5-strlen($Num);$x++){
-			$Zero.="0";
-		}
-		$Year = substr(DatabaseClasses::PDO_DateNow(),2,2);
-		$TempNum = $Zero.$Query->rowCount();
-		return $Year.'-LN-'.$TempNum;
-	}
-<<<<<<< HEAD
-
-=======
->>>>>>> 10510372bb6659b5345850e43fbd485b053b819a
 	function PDO_DateNow(){
 		$Query = DatabaseClasses::PDO_SQLQuery("SELECT NOW() as Date");
 		$Query->execute();
@@ -261,6 +238,7 @@ class DatabaseClasses{
 			}
 			$subcreatesql .= "PRIMARY KEY (`{$pri}`)";
 			$createsql = "CREATE TABLE IF NOT EXISTS `{$v1[0]}` (\n{$subcreatesql}\n) ENGINE=InnoDB DEFAULT CHARSET=latin1;\n\n";
+
 			$insertsql="";
 			$q3 = DatabaseClasses::PDO(true,"SELECT * FROM {$v1[0]}");
 			if(count($q3)>0){
@@ -275,9 +253,12 @@ class DatabaseClasses{
 				}
 				$insertsql = "INSERT INTO `{$v1[0]}` ({$columns}) VALUES \n{$insertsql};\n\n";				
 			}
+
 			$sql .= "-- Table structure for `{$v1[0]}`-- \n{$createsql}-- Dumping data for table `{$v1[0]}`-- \n{$insertsql}\n\n";
 		}
+
 		$sql = "SET SQL_MODE = \"NO_AUTO_VALUE_ON_ZERO\";\nSET time_zone = \"+00:00\";\n\n/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;\n/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;\n/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;\n/*!40101 SET NAMES utf8 */;\n\n{$dropsql};\n\n{$sql}\n/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;\n/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;\n/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;\n\n-- Buckup function --\n-- Developed by Rufo N. Gabrillo Jr. --";
+
 		return $sql;
 	}
 
@@ -285,6 +266,7 @@ class DatabaseClasses{
         $headers  = 'MIME-Version: 1.0' . "\r\n";
         $headers .= 'Content-type: text/html; charset=iso-8859-1' . "\r\n";
         $headers .= 'From: Kareer' . "\r\n";
+
         $result = mail($receiver,$subject,$message,$headers);
         return $result;
 	}
