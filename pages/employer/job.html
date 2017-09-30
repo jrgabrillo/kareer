@@ -1,34 +1,49 @@
-<nav class="purple lighten-2">
-    <div class="nav-wrapper" style="margin-left:15px">
-        <div class="col s12">
-            <a href="#cmd=index" class="breadcrumb">Home</a>
-            <a href="#cmd=index;content=jobs" class="breadcrumb">Job Postings</a>
-            <a href="#cmd=index;content=job" class="breadcrumb">Details</a>
-        </div>
-    </div>
-</nav>
 <div class='row animated fadeInRight'>
     <div class="wrapper wrapper-content">
-        <div class="col s12" >
+        <div class="col s7" >
             <div class='card' id='job-post'>
+                <a class="btn-flat btn-sm btn-block button_success" href='#cmd=index;content=jobs'><small class ="grey-text">< Back</small></a>
+                <div class="divider"></div>
                 <div class='card-content text-center'>
-                    <table class='dl-horizontal'>
-                        <tr></tr><dd><h2 id='txt_jobtitle'></h2></dd>
-                       <!--  <a data-cmd='updateJob' data-value='"+data[0][5]+"' data-name='"+data[0][5]+"' data-node='"+data[0][0]+"' data-prop='#txt_jobtitle' class='tooltippedbtn-floating btn waves-effect waves-light red right material-icons' data-position='left' data-delay='50' data-tooltip='Update Company'><i class='material-icons'></i></a> -->
-                        <tr>Status:</tr> <dd id='txt_jobstatus'></dd>
-                        <tr>Application Expiry:</tr><dd id='txt_jobexpiry' class='datepicker'></dd>
-                        <tr>Created:</tr><dd id='txt_jobdate' class='datepicker'></dd>
-                        <tr>Description:</tr><dd id='txt_jobdescription'></dd>
-                        <tr>Applicant:</tr><dd id='txt_jobapplicant'></td>
-                    </table>
-                </div>
-                <div class="card" id='data_info'>
-                    <div class='row-col s12' style="float: none;">
-                        <div class='card-content text-center'>
+                    <ul>
+                        <li></li><h5 id='txt_jobtitle'></h5>
+                        <li class ="blue-text"><small>Status:</small></li><dd><strong id='txt_jobstatus'></strong></dd>
+                        <li class ="blue-text"><small>Application Expiry:</small></li><dd><strong id='txt_jobexpiry' class='datepicker'></strong></dd>
+                        <li class ="blue-text"><small>Created:</small></li><dd><strong id='txt_jobdate' class='datepicker'></strong></dd>
+                       <!--  <div class='feed-activity-list'>
+                        <div class='feed-element'> 
+                        <div class='media-body '> -->
+                        <li class ="blue-text" class ="blue-text">Description:</small></li><dd><span><strong id='txt_jobdescription'></strong></dd>
+                       <!--  <a data-cmd='update_profile' data-field='given-company' class='pull-right text-navy'>Update</a></span>
+                        <div id='field_company' class='field hidden'>
+                            <form role="form" class="form-inline">
+                                <div class='input-group'>
+                                    <input type='text' placeholder="Company" class="form-control input-sm">
+                                        <span class='input-group-btn'>
+                                            <a class='btn btn-sm btn-success'>Save</a>
+                                            <a class='btn btn-sm btn-default cancel'>Cancel</a>
+                                        </span>
+                                </div>                                        
+                            </form>
                         </div>
-                    </div>
+                        </div>
+                        </div>
+                        </div> -->
+                        <li class ="blue-text"><small>Skills:</small></li><dd><strong id='txt_jobskills'></strong></dd>
+                        <li class ="blue-text"><small>Salary Range:</small></li><dd><strong id='txt_jobsalary'></strong></dd>
+                        <li class ="blue-text"><small>Applicant:</small></li><dd><strong id='txt_jobapplicant'></strong></dd>
+                    </ul>
                 </div>
             </div>
+        </div>
+        <div class="col s5">
+            <div class = 'card' id='applicants' >
+                    <br>
+                    <div class="col s2"><a>Applicants</a></div>
+                <div class="card-content">
+                    <h5> No applicants yet. </h5>
+                </div>
+            </div>  
         </div>
     </div>
 </div>

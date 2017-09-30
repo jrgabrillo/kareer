@@ -183,6 +183,7 @@
 		<form id='form_addEmployer' class='formValidate' method='get' action='' novalidate='novalidate'>
 			<div class='row'>
 				<div class='col offset-m1 offset-l1 s12 m10 l10'>
+					<a class='modal-action modal-close waves-effect waves-red right'>Close</a>
 					<h4 class="">Add Employer</h4>
 					<div class='row'>
 						<div class='input-field col s12'>

@@ -19,53 +19,53 @@
         <link media="screen" href="../assets/css/plugins/sweetalert/sweetalert.css" rel="stylesheet"/>
         <link media="screen" href="../assets/css/cropper.min.css" rel="stylesheet">
         <style type="text/css">
-            body{
-                overflow:hidden;
-            }
+
         </style>
     </head>
-    <body>
+        <body>
         <div id="loader-wrapper" class="animated zoomOut hide-on-med-and-up hide-on-med-and-down">
             <div id="loader"></div>        
             <div class="loader-section section-left"></div>
             <div class="loader-section section-right"></div>
         </div>
-
-        <div class="demo-layout mdl-layout mdl-js-layout mdl-layout--fixed-drawer mdl-layout--fixed-header">
-            <header class="demo-header mdl-layout__header cyan white-text">
-                <div class="mdl-layout__header-row">
-                    <span class="mdl-layout-title">Kareer | Administrator</span>
-                </div>
-            </header>
-            <div class="demo-drawer mdl-layout__drawer profile-element">
+        <div  class="demo-layout mdl-layout mdl-js-layout mdl-layout--fixed-drawer mdl-layout--fixed-header">
+            <div class="demo-drawer mdl-layout__drawer profile-element teal darken-1">
+                <br><br><br><br><br><br><br>
                 <header class="demo-drawer-header">
-                    <span>
-                         <img src="../assets/img/profile_avatar.jpg" class="demo-avatar">
+                    <span class="center white-text">
+                        <h6></h6>
                     </span>
-                    <div class="demo-avatar-dropdown">
-                        <span>
-                            <strong></strong>
-                        </span>
-                        <span>Kareer Admin</span>
+                    <div class="center white-text">
+                            <small>You have 0 sms and 0 notification</small>
+                            <br><br><br><br>
+                    </div>
+                    <span class ="center">
+                         <a href="#cmd=index;content=account"><img src="../assets/img/profile_avatar.jpg" class="demo-avatar"></a>
+                         <br><br>
+                    </span>
+                    <span class="center white-text">
+                        <strong></strong>
+                    </span>                   
+                    <div class="demo-avatar-dropdown">   
                         <div class="mdl-layout-spacer"></div>
                         <button id="accbtn" class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon">
-                            <i class="material-icons" role="presentation">arrow_drop_down</i>
+                            <i class="material-icons white-text" role="presentation">arrow_drop_down</i>
                             <span class="visuallyhidden">Accounts</span>
                         </button>
-                        <ul class="mdl-menu mdl-menu--bottom-right mdl-js-menu mdl-js-ripple-effect" for="accbtn">
-                            <li><a href="#cmd=index;content=account" class="mdl-menu__item">Profile</a></li>
+                        <ul class="mdl-menu mdl-menu--bottom-right mdl-js-menu mdl-js-ripple-effect teal darken-1" for="accbtn">
+                            <li><a href="#cmd=index;content=account" class="mdl-menu__item white-text">Profile</a></li>
                             <li>
-                                <a data-cmd="logout" class="mdl-menu__item" >Log out</a>
+                                <a data-cmd="logout" class="mdl-menu__item white-text" >Log out</a>
                             </li>
-                            <!-- 
-                            <li class="mdl-menu__item">Report an issue</li> -->
                         </ul>
                     </div>
+                    <hr/>
                 </header>
-                <nav id='navigation' class="demo-navigation mdl-navigation mdl-color--blue-grey-800"></nav>
+                <nav background='assets/img/sidebg.png' id='navigation' class="demo-navigation mdl-navigation  teal darken-1"></nav>
             </div>
             <div class="mdl-layout__content mdl-color--grey-100" id='content'></div>
         </div>
+
 <div class="modal inmodal fade" id="modal" tabindex="-1" role="dialog" aria-hidden="true" style="display: none;">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
