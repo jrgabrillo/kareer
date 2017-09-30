@@ -532,10 +532,8 @@ var jobs = function(){
 
 	    	});	
 	    },
-
-
 	}
-	
+
 }();
 //for account,profile.html
 var employer = function () {

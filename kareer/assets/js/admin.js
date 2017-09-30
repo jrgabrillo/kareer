@@ -122,7 +122,7 @@ var admin = function () {
 					ajax.success(function(data){
 						if(data == 1){
 							swal("Successful!", "", "success");
-							App.handleLoadPage(window.location.hash);
+							App.handleLoadPage("#cmd-index;content=account");
 						}
 						else{
 							swal("Fatal Error!", "There was an Unexpected Error during the process.", "error");
