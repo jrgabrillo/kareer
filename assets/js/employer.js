@@ -394,7 +394,7 @@ var jobs = function(){
 				}
 			});
         },
-/*        update:function(){
+/*       update:function(){
 			$("a[data-cmd='updateJob']").on('click',function(){
 				var data = $(this).data();
 				var id = data.node;
@@ -515,7 +515,6 @@ var jobs = function(){
 		    		var data = system.get_account();
 		    		data = JSON.parse(data);
 		    		data = [data[0][0],fields]
-
 					var ajax = sys.ajax('../assets/harmony/Process.php?set-postJob',data);
 					ajax.success(function(data){
 						console.log(data);

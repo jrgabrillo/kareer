@@ -351,7 +351,7 @@ var admin = function () {
 			var ajax = system.ajax('../assets/harmony/Process.php?do-getAllJobsPosts',"");
 			var ajaxData = JSON.parse(ajax.responseText);
 			var content = "";
-			console.log(ajaxData);
+			// console.log(ajaxData);
 
 			if(ajaxData.length>0){
 				var content = "<table class='table table-striped' id='table_jobs'>"+
@@ -403,9 +403,12 @@ var admin = function () {
 								if(full[1].length>0){
 									$.each(full[1],function(i,v){
 										var data_applicants = v[2];
-										if(i<4){
-							            	details += "<img alt='image' class='img-circle' src='"+system.get_apr(data_applicants)+"' style='margin-right: 5px;'>";
-										}
+										var ajax = system.ajax('../assets/harmony/Process.php?get-Applicant',data_applicants);
+										var appajax = JSON.parse(ajax.responseText);
+										// console.log(appajax);
+										// if(i<4){
+							            details += "<img alt='image' class='img-circle' src='"+appajax[0][1][0][13]+"' style='margin-right: 5px;'>";
+										// }
 										// else{
 										// 	var count = full[1].length-i;
 										// 	// console.log(i);
@@ -443,17 +446,16 @@ var admin = function () {
 			}
 			$(".prettydate").prettydate({
 			    dateFormat: "YYYY-MM-DD hh:mm:ss"
-			});			//ajax.success(function(data){});
+			});
         },       
    		getByID:function(id){
 			var ajax = system.ajax('../assets/harmony/Process.php?get-jobByID',id[1]);
 			var ajaxData = JSON.parse(ajax.responseText);
-			console.log(ajaxData);
+			// console.log(ajaxData);
 			var applicant = "No Applicant.", vacancy_id = ajaxData[0][0][0];
 			var applicationexpiry = new Date(ajaxData[0][0][3]), now = new Date();
 			var status = "<span>Active</span>";
 			var application_content = "";
-			// var salaryRange ="";
 
 			if(applicationexpiry<now){
 				status = "<span>Inactive</span>";
@@ -461,13 +463,12 @@ var admin = function () {
 			if(applicationexpiry<now){
 				status = "<span>Inactive</span>";
 			}
-			// console.log(ajaxData[0][1]);
+			// console.log(ajaxData[0][1][0][2]);
+			// var adata = admin.getapp(ajaxData[0][1]);
+			// console.log(adata);
 			// if(ajaxData[0][1].length > 0){
-			// 	$.each(ajaxData[0][1],function(i,v){
+				// $.each(ajaxData[0][1],function(i,v){
 			// 		var data_applicants = v[2];
-			// 		var appajax = system.ajax('../assets/harmony/Process.php?get-Applicant',data_applicants);
-			// 		var ajaxappData = JSON.parse(appajax.responseText);
-			// 		console.log(ajaxappData);
 			// 		// $.each(ajaxappData,function(i,v){
 			// 		// var content ="<div>"+
 			// 		// 				"<table class='table small m-b-xs'>"+
@@ -514,12 +515,12 @@ var admin = function () {
 			// 		// 						"    </li>"+
 			// 		// 						"</ul>";
 
-			// 	});
+				// });
 			// 	// applicant = ajaxData[0][1].length;
 			// }
 			// application_content = "<div class='feed-activity-list'>"+application_content+"</div>";
 			// $('#data_info').removeClass('hidden').html(application_content);
-				// console.log(ajaxData);
+			// 	console.log(ajaxData);
 			$('#job-post #txt_jobtitle').html(ajaxData[0][0][4]);
 			$('#job-post #txt_jobstatus').html(status);
 			$('#job-post #txt_jobexpiry').html(ajaxData[0][0][3]);
@@ -527,7 +528,7 @@ var admin = function () {
 			$('#job-post #txt_jobdescription').html(ajaxData[0][0][2]);
 			$('#job-post #txt_jobskills').html(ajaxData[0][0][5]);
 			$('#job-post #txt_jobsalary').html(ajaxData[0][0][6]);
-			$('#job-post #txt_jobapplicant').html(applicant);
+			
 			$(".datepicker").datepicker({
 			    dateFormat: "YYYY-MM-DD hh:mm:ss"
 			});
@@ -623,6 +624,16 @@ var admin = function () {
 				}
 			});
         },
+   //      getapp:function(id){
+   //      	// console.log(id);
+   //          var $data = "";
+   //          var info = system.ajax('../assets/harmony/Process.php?get-Applicant',id);
+			// info.done(function(data){
+   //          	console.log(info);
+   //              $data = data;
+   //          });
+   //          // return JSON.parse($data);
+   //      }
               
     };
 }();
@@ -630,6 +641,7 @@ var admin = function () {
 // var jobs = function(){
 // 	"use strict";
 // 	return {
+
 // 	}
 // }();
 
@@ -737,7 +749,7 @@ var employer = function(){
 						
 						if(cmd == 'options_declinedEmployer'){
 							// var data = sys.searchJSON(arrDeclined,0,id);
-							var info = sys.ajax('../assets/harmony/admin.php?get-Employer',id);
+							var info = sys.ajax('../assets/harmony/process.php?get-Employer',id);
 								info.done(function(data){
 								var	data = JSON.parse(data);
 								console.log(data);
@@ -758,45 +770,49 @@ var employer = function(){
                 									"	<div class='card-content'>"+
                 									"		<div class='card-content-inner'>"+
 															"<table class='table table-bordered card-content'>"+
-														    "	<tr><td><strong>Business</strong></td></tr>"+
-														    "	<tr><td width='20%'>Company: </td><td width='80%'>"+data[0][5]+"</td>"+
-														    "   <td><a data-cmd='updateEmployer' data-value='"+data[0][5]+"' data-name='"+data[0][5]+"' data-node='"+data[0][0]+"' data-prop='CompanyName' data-position='left' data-delay='50' data-tooltip='Update Company'>"+
-															"	<i class='tiny material-icons'>create</i></a>"+
-															"	</td></tr>"+
-														    "	<tr><td>Description: </td><td>"+data[0][6]+"</td>"+
-														    "	<td><a data-cmd='updateEmployer' data-value='"+data[0][6]+"' data-name='"+data[0][6]+"' data-node='"+data[0][0]+"' data-prop='Description' data-position='left' data-delay='50' data-tooltip='Update Description'>"+
-															"	<i class='tiny material-icons'>create</i></a>"+
-															"	</td></tr>"+
-														    "	<tr><td>BIR: </td><td>"+data[0][7]+"</td>"+
-														    "	<td><a data-cmd='updateEmployer' data-value='"+data[0][7]+"' data-name='"+data[0][7]+"' data-node='"+data[0][0]+"' data-prop='BIR' data-position='left' data-delay='50' data-tooltip='Update BIR'>"+
-															"	<i class='tiny material-icons'>create</i></a>"+
-															"	</td></tr>"+
-														    "	<tr><td>DTI: </td><td>"+data[0][8]+"</td>"+
-														    "	<td><a data-cmd='updateEmployer' data-value='"+data[0][8]+"' data-name='"+data[0][8]+"' data-node='"+data[0][0]+"' data-prop='DTI' data-position='left' data-delay='50' data-tooltip='Update DTI'>"+
-															"	<i class='tiny material-icons'>create</i></a>"+
-															"	</td></tr>"+
-															"	<tr><td><strong>Owner</strong></td></tr>"+
-														    "	<tr><td>First Name: </td><td>"+data[0][2]+"</td>"+
-														    "	<td><a data-cmd='updateEmployer' data-value='"+data[0][2]+"' data-name='"+data[0][2]+"' data-node='"+data[0][0]+"' data-prop='FirstName' data-position='left' data-delay='50' data-tooltip='Update FirstName'>"+
-															"	<i class='tiny material-icons'>create</i></a>"+
-															"	</td></tr>"+
-															 "	<tr><td>Last Name: </td><td>"+data[0][1]+"</td>"+
-														    "	<td><a data-cmd='updateEmployer' data-value='"+data[0][1]+"' data-name='"+data[0][1]+"' data-node='"+data[0][0]+"' data-prop='LastName' data-position='left' data-delay='50' data-tooltip='Update LastName'>"+
-															"	<i class='tiny material-icons'>create</i></a>"+
-															"	</td></tr>"+
-														    "	<tr><td>Contact Number: </td><td>"+data[0][4]+"</td>"+
-														    "	<td><a data-cmd='updateEmployer' data-value='"+data[0][4]+"' data-name='"+data[0][4]+"' data-node='"+data[0][0]+"' data-prop='ContactNo' data-position='left' data-delay='50' data-tooltip='Update ContactNo'>"+
-															"	<i class='tiny material-icons'>create</i></a>"+
-															"	</td></tr>"+
-														    "	<tr><td>Office Address: </td><td>"+data[0][3]+"</td>"+
-														    "	<td><a data-cmd='updateEmployer' data-value='"+data[0][3]+"' data-name='"+data[0][3]+"' data-node='"+data[0][0]+"' data-prop='Address' data-position='left' data-delay='50' data-tooltip='Update Address'>"+
-															"	<i class='tiny material-icons'>create</i></a>"+
-															"	</td></tr>"+
-														    "	<tr><td>Email Address: </td><td>"+data[0][10]+"</td>"+
-														    "	<td><a data-cmd='updateEmployer' data-value='"+data[0][10]+"' data-name='"+data[0][10]+"' data-node='"+data[0][0]+"' data-prop='Email' data-position='left' data-delay='50' data-tooltip='Update Email'>"+
-															"	<i class='tiny material-icons'>create</i></a>"+
-															"	</td></tr>"+
-														    "	<tr><td>Status: </td><td>"+status+"</td></tr>"+
+														    "	<strong class = 'teal-text'>BUSINESS INFORMATION</strong>"+
+														   	"<table>"+ 
+															    "	<tr><td width='20%'>Company: </td><td width='80%'>"+data[0][5]+"</td>"+
+															    "   <td><a data-cmd='updateEmployer' data-value='"+data[0][5]+"' data-name='"+data[0][5]+"' data-node='"+data[0][0]+"' data-prop='CompanyName' data-position='left' data-delay='50' data-tooltip='Update Company'>"+
+																"	<i class='tiny material-icons'>create</i></a>"+
+																"	</td></tr>"+
+															    "	<tr><td>Description: </td><td>"+data[0][6]+"</td>"+
+															    "	<td><a data-cmd='updateEmployer' data-value='"+data[0][6]+"' data-name='"+data[0][6]+"' data-node='"+data[0][0]+"' data-prop='Description' data-position='left' data-delay='50' data-tooltip='Update Description'>"+
+																"	<i class='tiny material-icons'>create</i></a>"+
+																"	</td></tr>"+
+															    "	<tr><td>BIR: </td><td>"+data[0][7]+"</td>"+
+															    "	<td><a data-cmd='updateEmployer' data-value='"+data[0][7]+"' data-name='"+data[0][7]+"' data-node='"+data[0][0]+"' data-prop='BIR' data-position='left' data-delay='50' data-tooltip='Update BIR'>"+
+																"	<i class='tiny material-icons'>create</i></a>"+
+																"	</td></tr>"+
+															    "	<tr><td>DTI: </td><td>"+data[0][8]+"</td>"+
+															    "	<td><a data-cmd='updateEmployer' data-value='"+data[0][8]+"' data-name='"+data[0][8]+"' data-node='"+data[0][0]+"' data-prop='DTI' data-position='left' data-delay='50' data-tooltip='Update DTI'>"+
+																"	<i class='tiny material-icons'>create</i></a>"+
+																"	</td></tr>"+
+															"</table>"+	
+															"	<strong class = 'teal-text'>EMPLOYER INFORMATION</strong>"+
+															"<table>"+
+															    "	<tr><td>First Name: </td><td>"+data[0][2]+"</td>"+
+															    "	<td><a data-cmd='updateEmployer' data-value='"+data[0][2]+"' data-name='"+data[0][2]+"' data-node='"+data[0][0]+"' data-prop='FirstName' data-position='left' data-delay='50' data-tooltip='Update FirstName'>"+
+																"	<i class='tiny material-icons'>create</i></a>"+
+																"	</td></tr>"+
+																"	<tr><td>Last Name: </td><td>"+data[0][1]+"</td>"+
+															    "	<td><a data-cmd='updateEmployer' data-value='"+data[0][1]+"' data-name='"+data[0][1]+"' data-node='"+data[0][0]+"' data-prop='LastName' data-position='left' data-delay='50' data-tooltip='Update LastName'>"+
+																"	<i class='tiny material-icons'>create</i></a>"+
+																"	</td></tr>"+
+															    "	<tr><td>Contact Number: </td><td>"+data[0][4]+"</td>"+
+															    "	<td><a data-cmd='updateEmployer' data-value='"+data[0][4]+"' data-name='"+data[0][4]+"' data-node='"+data[0][0]+"' data-prop='ContactNo' data-position='left' data-delay='50' data-tooltip='Update ContactNo'>"+
+																"	<i class='tiny material-icons'>create</i></a>"+
+																"	</td></tr>"+
+															    "	<tr><td>Office Address: </td><td>"+data[0][3]+"</td>"+
+															    "	<td><a data-cmd='updateEmployer' data-value='"+data[0][3]+"' data-name='"+data[0][3]+"' data-node='"+data[0][0]+"' data-prop='Address' data-position='left' data-delay='50' data-tooltip='Update Address'>"+
+																"	<i class='tiny material-icons'>create</i></a>"+
+																"	</td></tr>"+
+															    "	<tr><td>Email Address: </td><td>"+data[0][10]+"</td>"+
+															    "	<td><a data-cmd='updateEmployer' data-value='"+data[0][10]+"' data-name='"+data[0][10]+"' data-node='"+data[0][0]+"' data-prop='Email' data-position='left' data-delay='50' data-tooltip='Update Email'>"+
+																"	<i class='tiny material-icons'>create</i></a>"+
+																"	</td></tr>"+
+															    "	<tr><td>Status: </td><td>"+status+"</td></tr>"+
+															 "</table>"+   
 														  	"</table>"+
 															"<div class='col-md-6'><a class='btn btn-white btn-xs btn-block' data-cmd='action_acceptPending' data-id='"+data[0][0]+"'>Activate</a></div>"+
 												  		"</div>"+
@@ -832,7 +848,7 @@ var employer = function(){
 
 						else if(cmd == 'options_approvedEmployer'){
 							// var data = sys.searchJSON(arrApproved,0,id);
-							var info = sys.ajax('../assets/harmony/admin.php?get-Employer',id);
+							var info = sys.ajax('../assets/harmony/process.php?get-Employer',id);
 								info.done(function(data){
 								var	data = JSON.parse(data);
 								console.log(data[0][9]);
@@ -852,45 +868,49 @@ var employer = function(){
                 									"	<div class='card-content'>"+
                 									"		<div class='card-content-inner'>"+
 															"<table class='table table-bordered card-content'>"+
-														    "	<tr><td><strong>Business</strong></td></tr>"+
-														    "	<tr><td width='20%'>Company: </td><td width='80%'>"+data[0][5]+"</td>"+
-														    "   <td><a data-cmd='updateEmployer' data-value='"+data[0][5]+"' data-name='"+data[0][5]+"' data-node='"+data[0][0]+"' data-prop='CompanyName' data-position='left' data-delay='50' data-tooltip='Update Company'>"+
-															"	<i class='tiny material-icons'>create</i></a>"+
-															"	</td></tr>"+
-														    "	<tr><td>Description: </td><td>"+data[0][6]+"</td>"+
-														    "	<td><a data-cmd='updateEmployer' data-value='"+data[0][6]+"' data-name='"+data[0][6]+"' data-node='"+data[0][0]+"' data-prop='Description' data-position='left' data-delay='50' data-tooltip='Update Description'>"+
-															"	<i class='tiny material-icons'>create</i></a>"+
-															"	</td></tr>"+
-														    "	<tr><td>BIR: </td><td>"+data[0][7]+"</td>"+
-														    "	<td><a data-cmd='updateEmployer' data-value='"+data[0][7]+"' data-name='"+data[0][7]+"' data-node='"+data[0][0]+"' data-prop='BIR' data-position='left' data-delay='50' data-tooltip='Update BIR'>"+
-															"	<i class='tiny material-icons'>create</i></a>"+
-															"	</td></tr>"+
-														    "	<tr><td>DTI: </td><td>"+data[0][8]+"</td>"+
-														    "	<td><a data-cmd='updateEmployer' data-value='"+data[0][8]+"' data-name='"+data[0][8]+"' data-node='"+data[0][0]+"' data-prop='DTI' data-position='left' data-delay='50' data-tooltip='Update DTI'>"+
-															"	<i class='tiny material-icons'>create</i></a>"+
-															"	</td></tr>"+
-															"	<tr><td><strong>Owner</strong></td></tr>"+
-														    "	<tr><td>First Name: </td><td>"+data[0][2]+"</td>"+
-														    "	<td><a data-cmd='updateEmployer' data-value='"+data[0][2]+"' data-name='"+data[0][2]+"' data-node='"+data[0][0]+"' data-prop='FirstName' data-position='left' data-delay='50' data-tooltip='Update FirstName'>"+
-															"	<i class='tiny material-icons'>create</i></a>"+
-															"	</td></tr>"+
-															 "	<tr><td>Last Name: </td><td>"+data[0][1]+"</td>"+
-														    "	<td><a data-cmd='updateEmployer' data-value='"+data[0][1]+"' data-name='"+data[0][1]+"' data-node='"+data[0][0]+"' data-prop='LastName' data-position='left' data-delay='50' data-tooltip='Update LastName'>"+
-															"	<i class='tiny material-icons'>create</i></a>"+
-															"	</td></tr>"+
-														    "	<tr><td>Contact Number: </td><td>"+data[0][4]+"</td>"+
-														    "	<td><a data-cmd='updateEmployer' data-value='"+data[0][4]+"' data-name='"+data[0][4]+"' data-node='"+data[0][0]+"' data-prop='ContactNo' data-position='left' data-delay='50' data-tooltip='Update ContactNo'>"+
-															"	<i class='tiny material-icons'>create</i></a>"+
-															"	</td></tr>"+
-														    "	<tr><td>Office Address: </td><td>"+data[0][3]+"</td>"+
-														    "	<td><a data-cmd='updateEmployer' data-value='"+data[0][3]+"' data-name='"+data[0][3]+"' data-node='"+data[0][0]+"' data-prop='Address' data-position='left' data-delay='50' data-tooltip='Update Address'>"+
-															"	<i class='tiny material-icons'>create</i></a>"+
-															"	</td></tr>"+
-														    "	<tr><td>Email Address: </td><td>"+data[0][10]+"</td>"+
-														    "	<td><a data-cmd='updateEmployer' data-value='"+data[0][10]+"' data-name='"+data[0][10]+"' data-node='"+data[0][0]+"' data-prop='Email' data-position='left' data-delay='50' data-tooltip='Update Email'>"+
-															"	<i class='tiny material-icons'>create</i></a>"+
-															"	</td></tr>"+
-														    "	<tr><td>Status: </td><td>"+status+"</td></tr>"+
+														    "	<strong class = 'teal-text'>BUSINESS INFORMATION</strong>"+
+														    "<table>"+
+															    "	<tr><td width='20%'>Company: </td><td width='80%'>"+data[0][5]+"</td>"+
+															    "   <td><a data-cmd='updateEmployer' data-value='"+data[0][5]+"' data-name='"+data[0][5]+"' data-node='"+data[0][0]+"' data-prop='CompanyName' data-position='left' data-delay='50' data-tooltip='Update Company'>"+
+																"	<i class='tiny material-icons'>create</i></a>"+
+																"	</td></tr>"+
+															    "	<tr><td>Description: </td><td>"+data[0][6]+"</td>"+
+															    "	<td><a data-cmd='updateEmployer' data-value='"+data[0][6]+"' data-name='"+data[0][6]+"' data-node='"+data[0][0]+"' data-prop='Description' data-position='left' data-delay='50' data-tooltip='Update Description'>"+
+																"	<i class='tiny material-icons'>create</i></a>"+
+																"	</td></tr>"+
+															    "	<tr><td>BIR: </td><td>"+data[0][7]+"</td>"+
+															    "	<td><a data-cmd='updateEmployer' data-value='"+data[0][7]+"' data-name='"+data[0][7]+"' data-node='"+data[0][0]+"' data-prop='BIR' data-position='left' data-delay='50' data-tooltip='Update BIR'>"+
+																"	<i class='tiny material-icons'>create</i></a>"+
+																"	</td></tr>"+
+															    "	<tr><td>DTI: </td><td>"+data[0][8]+"</td>"+
+															    "	<td><a data-cmd='updateEmployer' data-value='"+data[0][8]+"' data-name='"+data[0][8]+"' data-node='"+data[0][0]+"' data-prop='DTI' data-position='left' data-delay='50' data-tooltip='Update DTI'>"+
+																"	<i class='tiny material-icons'>create</i></a>"+
+																"	</td></tr>"+
+															"</table>"+	
+															"	<strong class = 'teal-text'>EMPLOYER INFORMATION</strong>"+
+															"<table>"+
+															    "	<tr><td>First Name: </td><td>"+data[0][2]+"</td>"+
+															    "	<td><a data-cmd='updateEmployer' data-value='"+data[0][2]+"' data-name='"+data[0][2]+"' data-node='"+data[0][0]+"' data-prop='FirstName' data-position='left' data-delay='50' data-tooltip='Update FirstName'>"+
+																"	<i class='tiny material-icons'>create</i></a>"+
+																"	</td></tr>"+
+																"	<tr><td>Last Name: </td><td>"+data[0][1]+"</td>"+
+															    "	<td><a data-cmd='updateEmployer' data-value='"+data[0][1]+"' data-name='"+data[0][1]+"' data-node='"+data[0][0]+"' data-prop='LastName' data-position='left' data-delay='50' data-tooltip='Update LastName'>"+
+																"	<i class='tiny material-icons'>create</i></a>"+
+																"	</td></tr>"+
+															    "	<tr><td>Contact Number: </td><td>"+data[0][4]+"</td>"+
+															    "	<td><a data-cmd='updateEmployer' data-value='"+data[0][4]+"' data-name='"+data[0][4]+"' data-node='"+data[0][0]+"' data-prop='ContactNo' data-position='left' data-delay='50' data-tooltip='Update ContactNo'>"+
+																"	<i class='tiny material-icons'>create</i></a>"+
+																"	</td></tr>"+
+															    "	<tr><td>Office Address: </td><td>"+data[0][3]+"</td>"+
+															    "	<td><a data-cmd='updateEmployer' data-value='"+data[0][3]+"' data-name='"+data[0][3]+"' data-node='"+data[0][0]+"' data-prop='Address' data-position='left' data-delay='50' data-tooltip='Update Address'>"+
+																"	<i class='tiny material-icons'>create</i></a>"+
+																"	</td></tr>"+
+															    "	<tr><td>Email Address: </td><td>"+data[0][10]+"</td>"+
+															    "	<td><a data-cmd='updateEmployer' data-value='"+data[0][10]+"' data-name='"+data[0][10]+"' data-node='"+data[0][0]+"' data-prop='Email' data-position='left' data-delay='50' data-tooltip='Update Email'>"+
+																"	<i class='tiny material-icons'>create</i></a>"+
+																"	</td></tr>"+
+															    "	<tr><td>Status: </td><td>"+status+"</td></tr>"+
+															"</table>"+    
 														  	"</table>"+
 															"<div class='col-md-6'><a class='btn btn-white btn-xs btn-block' data-cmd='action_declinePending' data-id='"+data[0][0]+"'>Deactivate</a></div>"+
 												  			"</div>"+
@@ -1492,14 +1512,14 @@ var applicant = function(){
 						var	infodata = JSON.parse(data);
 							console.log(infodata);
 							var picture = "../assets/img/profile_avatar.jpg", description = "No description yet.", resume = "No resume uploaded yet.";
-
-							// if(infodata[0][1][13] != ""){
-							// 	var imageData = infodata[0][1][13].split(';');
-							// 	if(imageData[imageData.length-1]!='apr')
-							// 		picture = "../assets/img/"+infodata[0][1][13];					
-							// 	else
-							// 		picture = sys.get_apr(infodata[0][1][13]);
-							// }
+							console.log(infodata[0][1][0][13]);
+							if(infodata[0][1][0][13] != ""){
+								var imageData = infodata[0][1][0][13].split(';');
+								if(imageData[imageData.length-1]!='apr')
+									picture = "../assets/img/"+infodata[0][1][0][13];					
+								else
+									picture = sys.get_apr(infodata[0][1][0][13]);
+							}
 
 
 							if(infodata[0][0][1] != "")
@@ -1509,7 +1529,7 @@ var applicant = function(){
 
 							var content = 	"	<a class='modal-action modal-close waves-effect waves-red right'>Close</a><br>"+
 											"<div class='card card-header-pic'>"+
-                							"	<div class='card-header color-white no-border' style='background-image:url(../assets/img/bg.jpg)'><br><br><br><br><br>"+
+                							"	<div class='card-header color-white no-border' style='background-image:url(../assets/img/bg.jpg)'><br><br><br>"+
                     						"     <img class='circle responsive-img' style='width: 30%' src='"+picture+"'>"+
                								"	</div>"+
                 							"	<div class='card-content'>"+

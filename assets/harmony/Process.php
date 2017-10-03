@@ -172,6 +172,16 @@ $Functions = new DatabaseClasses;
             echo "Hacker";
         }
     }
+    if (isset($_GET['get-Employer'])){
+        if(isset($_POST["data"])){
+            $data = $_POST['data'];
+            $QueryEmployer = $Functions->PDO_SQL("SELECT * FROM tbl_employer WHERE id = '{$data}'");
+            print_r(json_encode($QueryEmployer));
+        }
+        else{
+            echo "Hacker";
+        }
+    }
     if(isset($_GET['validateEmployer'])){
         $data = $_POST['data'];
         $count = 0;
@@ -263,23 +273,23 @@ $Functions = new DatabaseClasses;
     if (isset($_GET['set-postJob'])) {
         $data = $_POST['data'];
 
-        print_r($data[1][3]['value']);
-        $id = $Functions->PDO_IDGenerator('tbl_vacancies','id');
-        $date = $Functions->PDO_DateAndTime();
-        $data = $_POST['data'];
-        $employer_id = $data[0];
-        $job_title = $Functions->escape($data[1][0]['value']);
-        $vacancy_date = $Functions->escape($data[1][1]['value']);
-        $skills = $Functions->escape($data[1][2]['value']);
-        $salary_range = $Functions->escape($data[1][3]['value']);
-        $description = $Functions->escape($data[1][4]['value']);
-        $query = $Functions->PDO("INSERT INTO tbl_vacancies(id,employer_id,description,vacancy_date,job_title,skills,salary_range,date,status) VALUES('{$id}','{$employer_id}',{$description},{$vacancy_date},{$job_title},{$skills},{$salary_range},'{$date}',1)");
-        if($query->execute())
-            echo 1;
-        else{
-            $Data = $query->errorInfo();
-            print_r($Data[1][6]);
-        }
+        // print_r($data[1][3]['value']);
+        // $id = $Functions->PDO_IDGenerator('tbl_vacancies','id');
+        // $date = $Functions->PDO_DateAndTime();
+        // $data = $_POST['data'];
+        // $employer_id = $data[0];
+        // $job_title = $Functions->escape($data[1][0]['value']);
+        // $vacancy_date = $Functions->escape($data[1][1]['value']);
+        // $skills = $Functions->escape($data[1][2]['value']);
+        // $salary_range = $Functions->escape($data[1][3]['value']);
+        // $description = $Functions->escape($data[1][4]['value']);
+        // $query = $Functions->PDO("INSERT INTO tbl_vacancies(id,employer_id,description,vacancy_date,job_title,skills,salary_range,date,status) VALUES('{$id}','{$employer_id}',{$description},{$vacancy_date},{$job_title},{$skills},{$salary_range},'{$date}',1)");
+        // if($query->execute())
+        //     echo 1;
+        // else{
+        //     $Data = $query->errorInfo();
+        //     print_r($Data[1][6]);
+        // }
     }    
     if(isset($_GET['update-adminPicture'])){
             $data = $_POST['data'];

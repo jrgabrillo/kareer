@@ -5,8 +5,8 @@ Framework7.prototype.plugins.kareer = function (app, params) {
     'use strict';
     if (!params) return;
     var self = this;
-    // var processor = 'http://localhost/kareer/kareer/assets/harmony/mobile.php?';
-    var processor = 'http://kareerserver.rnrdigitalconsultancy.com/assets/harmony/mobile.php?';
+    var processor = 'http://localhost/kareer/kareer/assets/harmony/mobile.php?';
+    // var processor = 'http://kareerserver.rnrdigitalconsultancy.com/assets/harmony/mobile.php?';
     var directory = '/';
 	var $$ = Dom7;
 	var view = app.addView('.view-main');
