@@ -1169,7 +1169,7 @@ var employer = function () {
 					ajax.success(function(data){
 						if(data == 1){
 							Materialize.toast("Successful!", "", "success");
-							App.handleLoadPage(window.location.hash);
+							App.handleLoadPage("#cmd=index");
 						}
 						else{
 							Materialize.toast("Fatal Error!", "There was an Unexpected Error during the process.", "error");

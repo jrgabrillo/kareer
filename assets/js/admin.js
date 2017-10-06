@@ -38,6 +38,8 @@ var admin = function () {
 
     		$("#text_userName span").html(data[0][4]);
 
+    		$("#text_password span").html(data[0][6]);
+
 			// picture
 			$(".profile-element span img").attr({"src":picture});
 			$("#ajax-content img").prop({"src":picture});
@@ -153,7 +155,7 @@ var admin = function () {
 	    		$("#profile_picture2").removeClass('hidden')
 
 	    		var content =   "<div class='image-crop'>"+
-								"	<img class='circle responsive-img' style='width: 85%;' src='"+picture+"'>"+
+								"	<img class='circle responsive-img' style='width: 100%; border:2px; border-style: solid; border-color: #2b9c9b' src='"+picture+"'>"+
 								"</div>"+
 								"<div class='btn-group'>"+
 								"<label for='inputImage' class='btn-flat btn-xs btn-primary'>"+
@@ -333,11 +335,11 @@ var admin = function () {
 					var ajax = system.ajax('../assets/harmony/Process.php?do-updateData',data);
 					ajax.success(function(data){
 						if(data == 1){
-							swal("Successful!", "", "success");
-							App.handleLoadPage(window.location.hash);
+							Materialize.toast("Successful!", "", "success", 4000);
+							App.handleLoadPage("#cmd=index");
 						}
 						else{
-							swal("Fatal Error!", "There was an Unexpected Error during the process.", "error");
+							Materialize.toast("Fatal Error!", "There was an Unexpected Error during the process.", "error");
 							console.log(data);
 						}
 					});
@@ -354,14 +356,14 @@ var admin = function () {
 			// console.log(ajaxData);
 
 			if(ajaxData.length>0){
-				var content = "<table class='table table-striped' id='table_jobs'>"+
+				var content = "<table class='table table-bordered responsive-table' id='table_jobs'>"+
 								"	<thead>"+
 								"		<tr>"+
 								"			<td width='10%'>Status</td>"+
 								"			<td width='30%'>Job</td>"+
 								"			<td width='30%'>Applicants</td>"+
 								"			<td width='30%'>Posted by</td>"+
-								"			<td width='15%'>Options</td>"+
+								"			<td width='15%'>Details</td>"+
 								"		</tr>"+
 								"	</thead>"+
 								"</table>";
@@ -765,7 +767,7 @@ var employer = function(){
 									var content ="<a class='modal-action modal-close waves-effect waves-red btn-flat right'>Close</a>"+
 												"<div class='card card-header-pic'>"+
                 									"	<div class='card-header color-white no-border'>"+
-                    								"		<img src='../assets/img/bg.jpg' class=' responsive-img' style='width: 100%''>"+
+                    								"		<img src='../assets/img/background.jpg' class=' responsive-img' style='width: 100%''>"+
                										"	</div>"+
                 									"	<div class='card-content'>"+
                 									"		<div class='card-content-inner'>"+
@@ -863,7 +865,7 @@ var employer = function(){
 									var content = "<a class='modal-action modal-close waves-effect waves-red btn-flat right'>Close</a>"+
 												"<div class='card card-header-pic'>"+
                 									"	<div class='card-header color-white no-border'>"+
-                    								"		<img src='../assets/img/bg.jpg' class=' responsive-img' style='width: 100%''>"+
+                    								"		<img src='../assets/img/background.jpg' class=' responsive-img' style='width: 100%''>"+
                										"	</div>"+
                 									"	<div class='card-content'>"+
                 									"		<div class='card-content-inner'>"+
@@ -1529,7 +1531,7 @@ var applicant = function(){
 
 							var content = 	"	<a class='modal-action modal-close waves-effect waves-red right'>Close</a><br>"+
 											"<div class='card card-header-pic'>"+
-                							"	<div class='card-header color-white no-border' style='background-image:url(../assets/img/bg.jpg)'><br><br><br>"+
+                							"	<div class='card-header color-white no-border' style='background-image:url(../assets/img/background.jpg); background-size: cover'><br><br><br>"+
                     						"     <img class='circle responsive-img' style='width: 30%' src='"+picture+"'>"+
                								"	</div>"+
                 							"	<div class='card-content'>"+

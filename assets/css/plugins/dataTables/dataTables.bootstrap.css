@@ -17,12 +17,14 @@ table.dataTable.nowrap td {
 
 div.dataTables_wrapper div.dataTables_length label {
   font-weight: normal;
+  text-decoration-color: black;
   text-align: left;
   white-space: nowrap;
 }
 div.dataTables_wrapper div.dataTables_length select {
   width: 75px;
   display: inline-block;
+  white-space: nowrap;
 }
 div.dataTables_wrapper div.dataTables_filter {
   text-align: right;
@@ -59,7 +61,7 @@ table.dataTable thead > tr > th:active,
 table.dataTable thead > tr > td:active {
   outline: none;
 }
-table.dataTable thead .sorting,
+table.dataTable thead .sorting
 table.dataTable thead .sorting_asc,
 table.dataTable thead .sorting_desc,
 table.dataTable thead .sorting_asc_disabled,

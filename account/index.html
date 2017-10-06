@@ -10,6 +10,10 @@
         <meta id="in-context-paypal-metadata" data-merchant-id="972FMYYC2E548" data-environment="production" data-locale="en_US" data-redirect-url="">
         <title>Kareer</title>
         <link media="screen" href="../assets/css/mdl.css" rel="stylesheet" />
+        <link media="screen" href="../assets/css/plugins/dataTables/dataTables.bootstrap.css" rel="stylesheet" />
+        <link media="screen" href="../assets/css/plugins/dataTables/dataTables.responsive.css" rel="stylesheet" />
+        <link media="screen" href="../assets/css/plugins/dataTables/dataTables.tableTools.min.css" rel="stylesheet" />
+        <link media="screen" href="../assets/js/dataTables/dataTable.css" rel="stylesheet">
         <link media="screen" href="../assets/css/md-lite.css" rel="stylesheet">
         <link media="screen" href="../assets/css/mdl-sub.css" rel="stylesheet" />
         <link media="screen" href="../assets/css/font.css" rel="stylesheet" />
@@ -25,7 +29,10 @@
         <body>
 
         <div  class="demo-layout mdl-layout mdl-js-layout mdl-layout--fixed-drawer mdl-layout--fixed-header">
-            <div class="demo-drawer mdl-layout__drawer profile-element teal darken-1">
+            <header class="mdl-layout__header white">
+                <div class="mdl-layout__header-row"></div>
+            </header>
+            <div class="demo-drawer mdl-layout__drawer profile-element" style="background-image:url(../assets/img/sidenav.png">
                 <br><br><br><br><br><br><br>
                 <header class="demo-drawer-header">
                     <span class="center white-text">
@@ -36,7 +43,7 @@
                             <br><br><br><br>
                     </div>
                     <span class ="center">
-                         <a href="#cmd=index;content=account"><img src="../assets/img/profile_avatar.jpg" class="demo-avatar"></a>
+                         <a href="#cmd=index;content=account"><img src="../assets/img/profile_avatar.jpg" style="border:2px; border-style: solid; border-color: white" class="demo-avatar"></a>
                          <br><br>
                     </span>
                     <span class="center white-text">
@@ -48,16 +55,16 @@
                             <i class="material-icons white-text" role="presentation">arrow_drop_down</i>
                             <span class="visuallyhidden">Accounts</span>
                         </button>
-                        <ul class="mdl-menu mdl-menu--bottom-right mdl-js-menu mdl-js-ripple-effect teal darken-1" for="accbtn">
-                            <li><a href="#cmd=index;content=account" class="mdl-menu__item white-text">Profile</a></li>
+                        <ul class="mdl-menu mdl-menu--bottom-right mdl-js-menu mdl-js-ripple-effect" for="accbtn">
+                            <li><a href="#cmd=index;content=account" class="mdl-menu__item teal-text">Profile</a></li>
                             <li>
-                                <a data-cmd="logout" class="mdl-menu__item white-text" >Log out</a>
+                                <a data-cmd="logout" class="mdl-menu__item teal-text" >Log out</a>
                             </li>
                         </ul>
                     </div>
                     <hr/>
                 </header>
-                <nav background='assets/img/sidebg.png' id='navigation' class="demo-navigation mdl-navigation  teal darken-1"></nav>
+                <nav background='assets/img/sidebg.png' id='navigation' class="demo-navigation mdl-navigation" style="background-image:url(../assets/img/sidenav.png"></nav>
             </div>
             <div class="mdl-layout__content mdl-color--grey-100" id='content'></div>
         </div>
@@ -86,7 +93,7 @@
     <script src="../assets/js/md-lite.min.js"></script>
     <script src="../assets/js/plugins/sweetalert/sweetalert.min.js"></script>
     <script src="../assets/js/pretty-date/pretty-date.js"></script>
-    <script src="../assets/js/dataTables/jquery.dataTables.js"></script>
+    <script src="../assets/js/dataTables/jquery.dataTablesss.js"></script>
     <script src="../assets/js/dataTables/dataTables.material.min.js"></script>
     <script src="../assets/js/dataTables/dataTables.tableTools.min.js"></script>
     <script src="../assets/js/validation/jquery.validate.min.js"></script>
