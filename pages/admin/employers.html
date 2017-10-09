@@ -1,48 +1,49 @@
-<!-- <nav class="grey lighten-3"> -->
-    <!-- <div class="nav-wrapper" style="margin-left:15px"> -->
-        <!-- <div class="row"> -->
-            <!-- <a class="col s8 grey-text" href="#cmd=index">Home</a> -->
-            <!-- <a class="col s8 grey-text"><i class="tiny material-icons">search</i></a> -->
-            <!-- <a class="col s2 grey-text "><small class="material-icons grey-text">notifications</small>Notifications</a>  -->
-            <!-- <a class="col s2 grey-text"><small class="tiny material-icons">message</small>Messages</a> -->
-        <!-- </div> -->
-    <!-- </div> -->
-<!-- </nav> -->
 <div class='row' style='float: none;'>
     <div class="wrapper wrapper-content">
         <div class="row animated fadeInUp">
-            <!-- <div class="col s5">
-              <div class="card float-e-margins">
+            <div class="col s5">
+              <div class="card float-e-margins" style="border-top:3px; border-top-style: solid; border-top-color: #03ded3 ">
                         <div class="card-title">
                             <h5 class = "col s12">Add Employer</h5>
                         </div>
                       <div class="card-content">
-                        <br><br>
-                          <form class="m-t" role="form" action="login.html" id='form_addEmployer'>
-                              <div class="form-group">
-                                  Company Name:                            
-                                  <input data-inputtype='required' type="text" placeholder="Company Name" name="field_cname" class="form-control">
-                              </div>
-                              <div class="form-group">
-                                  Email Address:
-                                  <input data-inputtype='required' type="email" placeholder="Email" name="field_email" class="form-control">
-                              </div>
-                              <div class="form-group">
-                                  Password:
-                                  <input data-inputtype='required' type="text" placeholder="Password"  name="field_password" class="form-control">
-                              </div>
-                              <a class='btn right btn-sm btn-block btn-warning' data-cmd ="add_employer" >Add</a>
-                              <br>
-                          </form>
+                            <form id='form_addEmployer' class='formValidate' method='get'>
+                                  <div class='row'>
+                                    <div class='input-field col s12'>
+                                      <label for='field_phone' class="teal-text">Company Name: </label>
+                                            <input id='field_cname' type='text' name='field_cname' data-error='.error_cname'>
+                                      <div class='error_cname'></div> 
+                                    </div>
+                                    <div class='input-field col s12'>
+                                      <label for='field_email' class="teal-text">Email Address: </label>
+                                            <input id='field_email' type='text' name='field_email' data-error='.error_email'>
+                                      <div class='error_email'></div> 
+                                    </div>
+                                    <div class='input-field col s12'>
+                                      <label for='field_password' class="teal-text">Password: </label>
+                                            <input id='field_password' type='password' name='field_password' data-error='.error_password'>
+                                      <div class='error_password'></div>  
+                                      <div id='note_password' class='hidden animated zoomOut'>
+                                        Password must contain atleast 1 number, 1 uppercase letter, 1 lowercare letter, 1 special character* and 6 character length. <br/>
+                                        <u>Special characters are ! @ $ % *</u>
+                                      </div>
+                                    </div>
+                                  </div>
+                                  <div class='row'>
+                                    <div class='input-field col s12'>
+                                      <button class='btn blue waves-effect waves-light right' type='submit'>Save</button>
+                                    </div>
+                                  </div>
+                            </form>
                       </div>
                </div>
-            </div> -->
-            <div class="col s12">
-                <div class="card float-e-margins" id='approved_employers' >
+            </div>
+            <div class="col s7">
+                <div class="card float-e-margins" id='approved_employers' style="border-top:3px; border-top-style: solid; border-top-color: #03ded3 " >
                      <div class="card-title">
                           <h5 class = "col s8">Employers</h5>
-                          <br>
-                          <p class = "col s4"><a id = 'add_employer' class="btn waves-effect waves-light navy right">Add Employer</a></p>
+                          <!-- <br>
+                          <p class = "col s4"><a id = 'add_employer' class="btn waves-effect waves-light navy right">Add Employer</a></p> -->
                      </div>
                      <div class="card-content text-center"></div>
                 </div>
@@ -75,7 +76,8 @@
 <script type="text/javascript">
     admin.ini();
     employer.list();
-    employer.addEmployer();
+    // employer.addEmployer();
+    employer.registerEmployer();
 </script>
 
 

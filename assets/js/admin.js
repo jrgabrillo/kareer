@@ -1,3 +1,4 @@
+/* Admin side Functionalities*/
 var admin = function () {
 	"use strict";
 	return {
@@ -11,10 +12,10 @@ var admin = function () {
 				// admin.update_picture();
 			}
 		},
+		//display admin picture and information
 		display:function(){
 			var ajax = system.html('../assets/harmony/Process.php?get-account',"");
 			var data = ajax.responseText;
-			// console.log(data);
 			var picture = "../assets/img/profile_avatar.jpg", level = "";
 			data = JSON.parse(data);
 			if(data[0][3] != ""){
@@ -45,7 +46,7 @@ var admin = function () {
 			$("#ajax-content img").prop({"src":picture});
 			//name
 			$(".profile-element span strong").html(data[0][1]+" "+data[0][2]);
-			//addres
+
 			$(".profile-element span h6").html('Welcome '+level);
 
 			$("a[data-cmd]").click(function(){
@@ -68,79 +69,10 @@ var admin = function () {
 				}
 			});
 		},
-		update_data:function(){
-    		var data = sys.get_account();
-    		var admindata = JSON.parse(data);
-    		console.log(admindata);
-
-        	$("a[data-field='given-name']").click(function(){
-        		$('input').val('');
-        		$('span').removeClass('hidden');
-        		$('div.field').addClass('hidden');
-        		$("#text_givenName").addClass('hidden');
-        		$("#field_givenName").removeClass('hidden');
-        	});
-        	$("a[data-field='family-name']").click(function(){
-        		$('input').val('');
-        		$('span').removeClass('hidden');
-        		$('div.field').addClass('hidden');
-        		$("#text_familyName").addClass('hidden');
-        		$("#field_familyName").removeClass('hidden');
-        	});
-        	$("a[data-field='user-name']").click(function(){
-        		$('input').val('');
-        		$('span').removeClass('hidden');
-        		$('div.field').addClass('hidden');
-        		$("#text_userName").addClass('hidden');
-        		$("#field_userName").removeClass('hidden');
-        	});
-        	$("a[data-field='password']").click(function(){
-        		$('input').val('');
-        		$('span').removeClass('hidden');
-        		$('div.field').addClass('hidden');
-        		$("#text_password").addClass('hidden');
-        		$("#field_password").removeClass('hidden');
-        	});
-
-        	$(".cancel").click(function(){
-        		$('span').removeClass('hidden');
-        		$('div.field').addClass('hidden');
-        		$('input').val('');
-        	});
-
-        	$(".show-password").mouseup(function() {
-        		$(this).parent('span').parent('div').find('input').prop({"type":"password"})
-			})
-			.mousedown(function() {
-        		$(this).parent('span').parent('div').find('input').prop({"type":"text"})
-			});
-
-        	$(".save-profile").click(function(){
-        		var name = $(this).parent('span').parent('div').find('input').attr('placeholder');
-        		var value = $(this).parent('span').parent('div').find('input').val();
-        		if(value != ""){
-	        		var data = ['admin',admindata[0][0],name,value];
-					var ajax = system.ajax('../assets/harmony/Process.php?do-updateData',data);
-					ajax.success(function(data){
-						if(data == 1){
-							swal("Successful!", "", "success");
-							App.handleLoadPage("#cmd-index;content=account");
-						}
-						else{
-							swal("Fatal Error!", "There was an Unexpected Error during the process.", "error");
-							console.log(data);
-						}
-					});
-        		}
-        		else{
-        			system.errorNotification('Notice',name+' can\'t be empty.');
-        		}
-        	});
-        },
+		//upload new profile picture
         update_picture:function(){
     		var data = system.get_account();
     		data = JSON.parse(data);
-    		console.log(data);
 			var picture = "../assets/img/profile avatar.jpg";
 			if(data[0][3] != ""){
 				var imageData = data[0][3].split('.');
@@ -205,13 +137,12 @@ var admin = function () {
 					    					var ajax = system.ajax('../assets/harmony/Process.php?update-image',[data[0][0],'administrator',$image.cropper("getDataURL")]);
 											ajax.success(function(data){
 												if(data == 1){
-													swal("Successful!", "Administrator's picture has been updated.", "success");
+													Materialize.toast("Successful!", 2000);
 													system.close_modal();
-													App.handleLoadPage("#cmd-index;content=account");
+													App.handleLoadPage("#cmd=index");
 												}
 												else{
-													swal("Fatal Error!", "There was an Unexpected Error during the process.", "error");
-													console.log(data);
+													Materialize.toast("Fatal Error!", "There was an Unexpected Error during the process.", "error");
 												}
 											});
 							            });
@@ -281,6 +212,7 @@ var admin = function () {
             })
             return result;
         },
+        //change admin information
       	update_data:function(){
     		var data = system.get_account();
     		var admindata = JSON.parse(data);
@@ -335,7 +267,7 @@ var admin = function () {
 					var ajax = system.ajax('../assets/harmony/Process.php?do-updateData',data);
 					ajax.success(function(data){
 						if(data == 1){
-							Materialize.toast("Successful!", "", "success", 4000);
+							Materialize.toast("Successful!", 2000);
 							App.handleLoadPage("#cmd=index");
 						}
 						else{
@@ -349,21 +281,19 @@ var admin = function () {
         		}
         	});
         },
+        //display all job posts of all employers
        	jobposting:function(){
 			var ajax = system.ajax('../assets/harmony/Process.php?do-getAllJobsPosts',"");
 			var ajaxData = JSON.parse(ajax.responseText);
 			var content = "";
-			// console.log(ajaxData);
-
 			if(ajaxData.length>0){
 				var content = "<table class='table table-bordered responsive-table' id='table_jobs'>"+
 								"	<thead>"+
 								"		<tr>"+
-								"			<td width='10%'>Status</td>"+
-								"			<td width='30%'>Job</td>"+
-								"			<td width='30%'>Applicants</td>"+
-								"			<td width='30%'>Posted by</td>"+
-								"			<td width='15%'>Details</td>"+
+								"			<th width='5%'>Status</th>"+
+								"			<th width='50%'>Job</th>"+
+								"			<th width='15%'>Applicants</th>"+
+								"			<th width='15%'>Options</th>"+
 								"		</tr>"+
 								"	</thead>"+
 								"</table>";
@@ -407,21 +337,20 @@ var admin = function () {
 										var data_applicants = v[2];
 										var ajax = system.ajax('../assets/harmony/Process.php?get-Applicant',data_applicants);
 										var appajax = JSON.parse(ajax.responseText);
-										// console.log(appajax);
-										// if(i<4){
-							            details += "<img alt='image' class='img-circle' src='"+appajax[0][1][0][13]+"' style='margin-right: 5px;'>";
-										// }
-										// else{
-										// 	var count = full[1].length-i;
-										// 	// console.log(i);
-										// 	if(i>13)
-										// 		count = 9+"+";
+										var applicant_photo = appajax[0][1][0][13];
+										if(i<4){
+							            	details += "<img alt='image' class='circle responsive-img' src='"+applicant_photo+"' style='margin-right: 15px;'>";
+										}
+										else{
+											var count = full[1].length-i;
+											if(i>13)
+												count = 9+"+";
 
-							   //          	details += "<div class='vertical-timeline-icon blue-bg pull-right' style='position: relative;width: 32px !important;height: 32px !important;border: 3px solid #1C84C6;'>"+
-										// 				"    <h3>"+count+"</h3>"+
-										// 				"</div>";
-										// 	return false;
-										// }
+							            	details += "<div class='vertical-timeline-icon blue-bg pull-right' style='position: relative;width: 32px !important;height: 32px !important;border: 3px solid #1C84C6;'>"+
+														"    <h3>"+count+"</h3>"+
+														"</div>";
+											return false;
+										}
 									});
 								}
 								else{
@@ -430,13 +359,13 @@ var admin = function () {
 				                return details;
 				            }
 				        },
-				        {data: "",
-				            render: function ( data, type, full ){
-				            	// console.log(full);
-				            	var details = "<p>"+full[2][0][2]+"</p";
-				                return details;
-				            }
-				        },
+				        // {data: "",
+				        //     render: function ( data, type, full ){
+				        //     	// console.log(full);
+				        //     	var details = "<p>"+full[2][0][2]+"</p";
+				        //         return details;
+				        //     }
+				        // },
 				        {data: "",
 				            render: function ( data, type, full ){
 				            	var details = "<a href='#cmd=index;content=job;id="+full[0][0]+"' class='btn btn-blue btn-xs'>View</a>";
@@ -449,12 +378,12 @@ var admin = function () {
 			$(".prettydate").prettydate({
 			    dateFormat: "YYYY-MM-DD hh:mm:ss"
 			});
-        },       
+        },
+        //display job details with number of applicants applied       
    		getByID:function(id){
 			var ajax = system.ajax('../assets/harmony/Process.php?get-jobByID',id[1]);
 			var ajaxData = JSON.parse(ajax.responseText);
-			// console.log(ajaxData);
-			var applicant = "No Applicant.", vacancy_id = ajaxData[0][0][0];
+			var applicant = "0", vacancy_id = ajaxData[0][0][0];
 			var applicationexpiry = new Date(ajaxData[0][0][3]), now = new Date();
 			var status = "<span>Active</span>";
 			var application_content = "";
@@ -465,75 +394,36 @@ var admin = function () {
 			if(applicationexpiry<now){
 				status = "<span>Inactive</span>";
 			}
-			// console.log(ajaxData[0][1][0][2]);
-			// var adata = admin.getapp(ajaxData[0][1]);
-			// console.log(adata);
-			// if(ajaxData[0][1].length > 0){
-				// $.each(ajaxData[0][1],function(i,v){
-			// 		var data_applicants = v[2];
-			// 		// $.each(ajaxappData,function(i,v){
-			// 		// var content ="<div>"+
-			// 		// 				"<table class='table small m-b-xs'>"+
-			// 		// 				"	<td>"+ajaxappData[0][1][13]"</td>"+
-			// 		// 				"	<td>"+ajaxappData[0][1][0][2]+", "+ajaxappData[0][1][0][1]+"</td>"+
-			// 		// 				"</table>"+
-			// 		// 			"</div>";	
-			// 		// });
+			if(ajaxData[0][1].length>0){
+				$.each(ajaxData[0][1],function(i,v){
+					var data_app = v[2]
+					var ajax = system.ajax('../assets/harmony/Process.php?get-Applicant',data_app);
+					var appajax = JSON.parse(ajax.responseText);
+					var applicant_photo = appajax[0][1][0][13];
 
-			// 		$("#applicants .card-content").html(content);
-			// 		// var actions = "	<a class='btn btn-xs btn-danger collapsed' data-toggle='collapse' data-parent='#accordion' data-cmd='toggle-interview' data-id='"+v[0]+"' href='#"+v[0]+"' aria-expanded='false'>Invite for interview </a>"+
-			// 		// 			  "	<a class='btn btn-xs btn-white' data-cmd='decline' data-id='"+v[0]+"'>Decline</a>";
-			// 		// if(v[5] != ""){
-			// 		// 	if(v[5] != "0"){
-			// 		// 		var applicationstatus = JSON.parse(v[5]);
-			// 		// 		actions = "<div style='padding: 5px;'>"+applicationstatus[1]+"<br/><small class='prettydate'>"+applicationstatus[0]+"</small></div>";
-			// 		// 	}
-			// 		// 	else{
-			// 		// 		actions = "<div style='padding: 5px;'>Declined</div>";
-			// 		// 	}
-			// 		// }
+					application_content = "<table class='table table-bordered responsive-table'>"+
+												"	<td width='20%'><img alt='image' class='circle responsive-img' src='"+applicant_photo+"' style='margin-right: 15px;'></td>"+
+												"	<td width='80%'><strong>"+appajax[0][1][0][1]+" "+appajax[0][1][0][2]+"</strong></td>"+
+										   "</table>";
 
-			// 		// application_content += "<ul class='collection'>"+
-			// 		// 						"    <li href='#' class='collection-item avatar'>"+
-			// 		// 						"	 <a>											"+
-			// 		// 						"        <img alt='image' class='circle' src='"+system.get_apr(data_applicants[2])+"'>"+
-			// 		// 						"    </a>"+
-			// 		// 						"    <span class='row'>"+
-			// 		// 						"       <small class='col s12 m6-left prettydate'>"+v[4]+"</small>"+
-			// 		// 						"       <strong>"+data_applicants[3][0]+", "+data_applicants[3][1]+" "+data_applicants[3][2]+"</strong><br>"+
-			// 		// 						"       <small class='disabled'>"+v[4]+"</small>"+
-			// 		// 						"       <div class='well'>"+v[3]+"</div><br/>"+
-			// 		// 						"		<div class='actions'>"+actions+"</div><br/>"+
-			// 		// 						"		<div id='"+v[0]+"' class='panel-collapse collapse' aria-expanded='false' style='height: 0px;'>"+
-			// 		// 						"		    <textarea class='form-control input-sm employer_interview' placeholder='Say something about your invitation for interview' row='3' style='width:100%;max-width:100%;'></textarea>"+
-			// 		// 						"		    <span class='right desc_stringCounter'></span>"+
-			// 		// 						"		    <form role='form' class='form-inline form_interview'>"+
-			// 		// 						"		        <input name='field_interview' type='text' placeholder='Description' class='form-control input-sm hidden'><br/>"+
-			// 		// 						"		        <a data-id='"+v[0]+"' data-cmd='interview' class='btn waves-effect waves-light ' type='submit' name='action'>Submit <i class='material-icons right'>send</i></a>"+
-			// 		// 						"		    </form>"+
-			// 		// 						"		</div>"+
-			// 		// 						"		</div>"+
-			// 		// 						"	</span>	"+											
-			// 		// 						"    </li>"+
-			// 		// 						"</ul>";
+				});
+			applicant = ajaxData[0][1].length;
+			}
+			$("#applicants .card-content").html(application_content);
 
-				// });
-			// 	// applicant = ajaxData[0][1].length;
-			// }
-			// application_content = "<div class='feed-activity-list'>"+application_content+"</div>";
-			// $('#data_info').removeClass('hidden').html(application_content);
-			// 	console.log(ajaxData);
 			$('#job-post #txt_jobtitle').html(ajaxData[0][0][4]);
 			$('#job-post #txt_jobstatus').html(status);
 			$('#job-post #txt_jobexpiry').html(ajaxData[0][0][3]);
 			$('#job-post #txt_jobdate').html(ajaxData[0][0][7]);
+			$('#job-post #txt_jobemployer').html(ajaxData[0][2][1]+" "+ajaxData[0][2][2]);
 			$('#job-post #txt_jobdescription').html(ajaxData[0][0][2]);
 			$('#job-post #txt_jobskills').html(ajaxData[0][0][5]);
 			$('#job-post #txt_jobsalary').html(ajaxData[0][0][6]);
+			$('#applicants #txt_jobapplicant').html(applicant);
 			
-			$(".datepicker").datepicker({
-			    dateFormat: "YYYY-MM-DD hh:mm:ss"
-			});
+			// $(".datepicker").datepicker({
+			//     dateFormat: "YYYY-MM-DD hh:mm:ss"
+			// });
 
         	$("a[data-cmd='toggle-interview']").click(function(){
         		var data = $(this).data('id');
@@ -626,30 +516,13 @@ var admin = function () {
 				}
 			});
         },
-   //      getapp:function(id){
-   //      	// console.log(id);
-   //          var $data = "";
-   //          var info = system.ajax('../assets/harmony/Process.php?get-Applicant',id);
-			// info.done(function(data){
-   //          	console.log(info);
-   //              $data = data;
-   //          });
-   //          // return JSON.parse($data);
-   //      }
-              
     };
 }();
-
-// var jobs = function(){
-// 	"use strict";
-// 	return {
-
-// 	}
-// }();
 
 var employer = function(){
 	"use strict";
 	return {
+		//display all employers, employers details, deactivate or active an employer
 		list: function(){
 			var sys = system, validate = validation, _this = this, _apps = App;
 			var content = "", actions = "", status = "";
@@ -662,9 +535,7 @@ var employer = function(){
 					sys.sortResults(data,13,false);
 					$.each(data,function(i,v){
 						if(v[12] == 0)
-				            arrDeclined.push(v);					
-						// else if(v[12] == 2)
-				  //           arrDeclined.push(v);					
+				            arrDeclined.push(v);				
 						else
 				            arrApproved.push(v);
 					});
@@ -710,13 +581,17 @@ var employer = function(){
 						        },
 						        {data: "",
 						            render: function ( data, type, full ){
-						            	var details = full[5]+"</br><i>"+(full[3])+"</i>";
+						            	var  address= "No address yet."
+						            	if (full[3] != null){
+						            		address = full[3];
+						            	}
+						            	var details = full[5]+"</br><i>"+address+"</i>";
 						                return details;
 						            }
 						        },
 						        {data: "",
 						            render: function ( data, type, full ){
-						            	var details = "<a data-id='"+full[0]+"' data-cmd='options_approvedEmployer' class='btn btn-success btn-xs btn-block'>Details</a>";
+						            	var details = "<a href ='#cmd=index;content=employer;"+full[0]+"' class='btn btn-success btn-xs btn-block'>Details</a>";
 						                return details;
 						            }
 						        },
@@ -725,36 +600,63 @@ var employer = function(){
 						});
 						
 					}
-					
 
-					if(arrDeclined.length>0){
-						var content = "";
+					// if(arrDeclined.length>0){
+					// 	var content = "";
 
-						$.each(arrDeclined,function(i,v){
-							content += "<tr>"+
-										"	<td class='text-left' width='80%'>"+(i+1)+". "+v[5]+"</td>"+
-										"	<td width='20%'><a data-id='"+v[0]+"' data-cmd='options_declinedEmployer' class='btn btn-danger btn-xs btn-block'>Details</a></td>"+
-										"</tr>";
-						});
+					// 	$.each(arrDeclined,function(i,v){
+					// 		content += "<tr>"+
+					// 					"	<td class='text-left' width='80%'>"+(i+1)+". "+v[5]+"</td>"+
+					// 					"	<td width='20%'><a data-id='"+v[0]+"' data-cmd='options_declinedEmployer' class='btn btn-danger btn-xs btn-block'>Details</a></td>"+
+					// 					"</tr>";
+					// 	});
 
-						content = "<table class='table table-bordered' id='table_declinedEmployers'>"+content+"</table>";
+					// 	content = "<table class='table table-bordered' id='table_declinedEmployers'>"+content+"</table>";
 
-						$("#declined_employers .card-content").html(content);
-					}
-					else{
-						$("#declined_employers .card-content").html("<h2>All caught up. </h2><h4>No declined request for employer's account approval</h4>");
-					}
+					// 	$("#declined_employers .card-content").html(content);
+					// }
+					// else{
+					// 	$("#declined_employers .card-content").html("<h2>All caught up. </h2><h4>No declined request for employer's account approval</h4>");
+					// }
 					
 					$("a").click(function(){
 						var cmd = $(this).data('cmd');
 						var id = $(this).data('id');
 						
 						if(cmd == 'options_declinedEmployer'){
-							// var data = sys.searchJSON(arrDeclined,0,id);
 							var info = sys.ajax('../assets/harmony/process.php?get-Employer',id);
 								info.done(function(data){
 								var	data = JSON.parse(data);
-								console.log(data);
+							var description = "No description yet.",
+								lname = "Your last name",
+								gname = "Your given name",
+								address = "Set your company's address",
+								bir = "Set your company's BIR number",
+								dti = "Set your company's DTI number",
+								contactnumber = "Set your company's contact number";
+								
+								if(data[0][6] != null){
+									description = data[0][6];
+								}
+								if(data[0][7] != null){
+									dti = data[0][7];
+								}
+								if(data[0][8] != null){
+									bir = data[0][8];
+								}
+								if(data[0][2] != null){
+									gname = data[0][2];
+								}
+								if(data[0][1] != null){
+									lname = data[0][1];
+								}
+								if(data[0][3] != null){
+									address = data[0][3];
+								}
+								if(data[0][4] != null){
+									contactnumber = data[0][4];
+								}
+
 								var status = data[0][12];
 								if (status == 1){
 									status = "Active";
@@ -763,66 +665,65 @@ var employer = function(){
 								{
 									status = "Inactive";
 								}
+								var content = "<a class='modal-action modal-close waves-effect waves-red btn-flat right'>Close</a>"+
+											"<div class='card card-header-pic'>"+
+            									"	<div class='card-header color-white no-border'>"+
+                								"		<img src='../assets/img/background.jpg' class=' responsive-img' style='width: 100%''>"+
+           										"	</div>"+
+            									"	<div class='card-content'>"+
+            									"		<div class='card-content-inner'>"+
+														"<table class='table table-bordered card-content'>"+
+													    "	<strong class = 'teal-text'>BUSINESS INFORMATION</strong>"+
+													    "<table>"+
+														    "	<tr><td>Company: </td><td>"+data[0][5]+"</td>"+
+														    "   <td><a data-cmd='updateEmployer' data-value='"+data[0][5]+"' data-name='"+data[0][5]+"' data-node='"+data[0][0]+"' data-prop='CompanyName' data-position='left' data-delay='50' data-tooltip='Update Company'>"+
+															"	<i class='tiny material-icons'>create</i></a>"+
+															"	</td></tr>"+
+														    "	<tr><td>Description: </td><td>"+description+"</td>"+
+														    "	<td><a data-cmd='updateEmployer' data-value='"+data[0][6]+"' data-name='"+data[0][6]+"' data-node='"+data[0][0]+"' data-prop='Description' data-position='left' data-delay='50' data-tooltip='Update Description'>"+
+															"	<i class='tiny material-icons'>create</i></a>"+
+															"	</td></tr>"+
+														    "	<tr><td>DTI: </td><td>"+dti+"</td>"+
+														    "	<td><a data-cmd='updateEmployer' data-value='"+data[0][7]+"' data-name='"+data[0][7]+"' data-node='"+data[0][0]+"' data-prop='DTI' data-position='left' data-delay='50' data-tooltip='Update DTI'>"+
+															"	<i class='tiny material-icons'>create</i></a>"+
+															"	</td></tr>"+
+														    "	<tr><td>BIR: </td><td>"+bir+"</td>"+
+														    "	<td><a data-cmd='updateEmployer' data-value='"+data[0][8]+"' data-name='"+data[0][8]+"' data-node='"+data[0][0]+"' data-prop='BIR' data-position='left' data-delay='50' data-tooltip='Update BIR'>"+
+															"	<i class='tiny material-icons'>create</i></a>"+
+															"	</td></tr>"+
+														"</table>"+	
+														"	<strong class = 'teal-text'>EMPLOYER INFORMATION</strong>"+
+														"<table>"+
+														    "	<tr><td>First Name:</td><td>"+gname+"</td>"+
+														    "	<td><a data-cmd='updateEmployer' data-value='"+data[0][2]+"' data-name='"+data[0][2]+"' data-node='"+data[0][0]+"' data-prop='FirstName' data-position='left' data-delay='50' data-tooltip='Update FirstName'>"+
+															"	<i class='tiny material-icons'>create</i></a>"+
+															"	</td></tr>"+
+															"	<tr><td>Last Name:</td><td>"+lname+"</td>"+
+														    "	<td><a data-cmd='updateEmployer' data-value='"+data[0][1]+"' data-name='"+data[0][1]+"' data-node='"+data[0][0]+"' data-prop='LastName' data-position='left' data-delay='50' data-tooltip='Update LastName'>"+
+															"	<i class='tiny material-icons'>create</i></a>"+
+															"	</td></tr>"+
+														    "	<tr><td>Contact Number:</td><td>"+contactnumber+"</td>"+
+														    "	<td><a data-cmd='updateEmployer' data-value='"+data[0][4]+"' data-name='"+data[0][4]+"' data-node='"+data[0][0]+"' data-prop='ContactNo' data-position='left' data-delay='50' data-tooltip='Update ContactNo'>"+
+															"	<i class='tiny material-icons'>create</i></a>"+
+															"	</td></tr>"+
+														    "	<tr><td>Office Address:</td><td>"+address+"</td>"+
+														    "	<td><a data-cmd='updateEmployer' data-value='"+data[0][3]+"' data-name='"+data[0][3]+"' data-node='"+data[0][0]+"' data-prop='Address' data-position='left' data-delay='50' data-tooltip='Update Address'>"+
+															"	<i class='tiny material-icons'>create</i></a>"+
+															"	</td></tr>"+
+														    "	<tr><td>Email Address:</td><td>"+data[0][10]+"</td>"+
+														    "	<td><a data-cmd='updateEmployer' data-value='"+data[0][10]+"' data-name='"+data[0][10]+"' data-node='"+data[0][0]+"' data-prop='Email' data-position='left' data-delay='50' data-tooltip='Update Email'>"+
+															"	<i class='tiny material-icons'>create</i></a>"+
+															"	</td></tr>"+
+														    "	<tr><td>Status: </td><td>"+status+"</td></tr>"+
+														"</table>"+    
+													  	"</table>"+
+														"<div class='col-md-6'><a class='btn btn-white btn-xs btn-block' data-cmd='action_acceptPending' data-id='"+data[0][0]+"'>Activate</a></div>"+
+											  			"</div>"+
+											  		"</div"+
+											"</div>";
 
-									var content ="<a class='modal-action modal-close waves-effect waves-red btn-flat right'>Close</a>"+
-												"<div class='card card-header-pic'>"+
-                									"	<div class='card-header color-white no-border'>"+
-                    								"		<img src='../assets/img/background.jpg' class=' responsive-img' style='width: 100%''>"+
-               										"	</div>"+
-                									"	<div class='card-content'>"+
-                									"		<div class='card-content-inner'>"+
-															"<table class='table table-bordered card-content'>"+
-														    "	<strong class = 'teal-text'>BUSINESS INFORMATION</strong>"+
-														   	"<table>"+ 
-															    "	<tr><td width='20%'>Company: </td><td width='80%'>"+data[0][5]+"</td>"+
-															    "   <td><a data-cmd='updateEmployer' data-value='"+data[0][5]+"' data-name='"+data[0][5]+"' data-node='"+data[0][0]+"' data-prop='CompanyName' data-position='left' data-delay='50' data-tooltip='Update Company'>"+
-																"	<i class='tiny material-icons'>create</i></a>"+
-																"	</td></tr>"+
-															    "	<tr><td>Description: </td><td>"+data[0][6]+"</td>"+
-															    "	<td><a data-cmd='updateEmployer' data-value='"+data[0][6]+"' data-name='"+data[0][6]+"' data-node='"+data[0][0]+"' data-prop='Description' data-position='left' data-delay='50' data-tooltip='Update Description'>"+
-																"	<i class='tiny material-icons'>create</i></a>"+
-																"	</td></tr>"+
-															    "	<tr><td>BIR: </td><td>"+data[0][7]+"</td>"+
-															    "	<td><a data-cmd='updateEmployer' data-value='"+data[0][7]+"' data-name='"+data[0][7]+"' data-node='"+data[0][0]+"' data-prop='BIR' data-position='left' data-delay='50' data-tooltip='Update BIR'>"+
-																"	<i class='tiny material-icons'>create</i></a>"+
-																"	</td></tr>"+
-															    "	<tr><td>DTI: </td><td>"+data[0][8]+"</td>"+
-															    "	<td><a data-cmd='updateEmployer' data-value='"+data[0][8]+"' data-name='"+data[0][8]+"' data-node='"+data[0][0]+"' data-prop='DTI' data-position='left' data-delay='50' data-tooltip='Update DTI'>"+
-																"	<i class='tiny material-icons'>create</i></a>"+
-																"	</td></tr>"+
-															"</table>"+	
-															"	<strong class = 'teal-text'>EMPLOYER INFORMATION</strong>"+
-															"<table>"+
-															    "	<tr><td>First Name: </td><td>"+data[0][2]+"</td>"+
-															    "	<td><a data-cmd='updateEmployer' data-value='"+data[0][2]+"' data-name='"+data[0][2]+"' data-node='"+data[0][0]+"' data-prop='FirstName' data-position='left' data-delay='50' data-tooltip='Update FirstName'>"+
-																"	<i class='tiny material-icons'>create</i></a>"+
-																"	</td></tr>"+
-																"	<tr><td>Last Name: </td><td>"+data[0][1]+"</td>"+
-															    "	<td><a data-cmd='updateEmployer' data-value='"+data[0][1]+"' data-name='"+data[0][1]+"' data-node='"+data[0][0]+"' data-prop='LastName' data-position='left' data-delay='50' data-tooltip='Update LastName'>"+
-																"	<i class='tiny material-icons'>create</i></a>"+
-																"	</td></tr>"+
-															    "	<tr><td>Contact Number: </td><td>"+data[0][4]+"</td>"+
-															    "	<td><a data-cmd='updateEmployer' data-value='"+data[0][4]+"' data-name='"+data[0][4]+"' data-node='"+data[0][0]+"' data-prop='ContactNo' data-position='left' data-delay='50' data-tooltip='Update ContactNo'>"+
-																"	<i class='tiny material-icons'>create</i></a>"+
-																"	</td></tr>"+
-															    "	<tr><td>Office Address: </td><td>"+data[0][3]+"</td>"+
-															    "	<td><a data-cmd='updateEmployer' data-value='"+data[0][3]+"' data-name='"+data[0][3]+"' data-node='"+data[0][0]+"' data-prop='Address' data-position='left' data-delay='50' data-tooltip='Update Address'>"+
-																"	<i class='tiny material-icons'>create</i></a>"+
-																"	</td></tr>"+
-															    "	<tr><td>Email Address: </td><td>"+data[0][10]+"</td>"+
-															    "	<td><a data-cmd='updateEmployer' data-value='"+data[0][10]+"' data-name='"+data[0][10]+"' data-node='"+data[0][0]+"' data-prop='Email' data-position='left' data-delay='50' data-tooltip='Update Email'>"+
-																"	<i class='tiny material-icons'>create</i></a>"+
-																"	</td></tr>"+
-															    "	<tr><td>Status: </td><td>"+status+"</td></tr>"+
-															 "</table>"+   
-														  	"</table>"+
-															"<div class='col-md-6'><a class='btn btn-white btn-xs btn-block' data-cmd='action_acceptPending' data-id='"+data[0][0]+"'>Activate</a></div>"+
-												  		"</div>"+
-												  	"</div"+
-												"</div>";
-
-									$("#modal .modal-content").html(content);
-									$('#modal').modal('open');
+								$("#modal .modal-content").html(content);
+								$('#modal').modal('open');
 							
 								$("a[data-cmd='action_acceptPending']").click(function(){
 									var id = $(this).data('id');
@@ -849,11 +750,39 @@ var employer = function(){
 						}
 
 						else if(cmd == 'options_approvedEmployer'){
-							// var data = sys.searchJSON(arrApproved,0,id);
 							var info = sys.ajax('../assets/harmony/process.php?get-Employer',id);
 								info.done(function(data){
 								var	data = JSON.parse(data);
-								console.log(data[0][9]);
+								var description = "No description yet.",
+								lname = "Your last name",
+								gname = "Your given name",
+								address = "Set your company's address",
+								bir = "Set your company's BIR number",
+								dti = "Set your company's DTI number",
+								contactnumber = "Set your company's contact number";
+								
+								if(data[0][6] != null){
+									description = data[0][6];
+								}
+								if(data[0][7] != null){
+									dti = data[0][7];
+								}
+								if(data[0][8] != null){
+									bir = data[0][8];
+								}
+								if(data[0][2] != null){
+									gname = data[0][2];
+								}
+								if(data[0][1] != null){
+									lname = data[0][1];
+								}
+								if(data[0][3] != null){
+									address = data[0][3];
+								}
+								if(data[0][4] != null){
+									contactnumber = data[0][4];
+								}
+
 								var status = data[0][12];
 								if (status == 1){
 									status = "Active";
@@ -862,66 +791,36 @@ var employer = function(){
 								{
 									status = "Inactive";
 								}
-									var content = "<a class='modal-action modal-close waves-effect waves-red btn-flat right'>Close</a>"+
+								var content = 	"<a class='modal-action modal-close waves-effect waves-red btn-flat right'>Close</a>"+
 												"<div class='card card-header-pic'>"+
-                									"	<div class='card-header color-white no-border'>"+
-                    								"		<img src='../assets/img/background.jpg' class=' responsive-img' style='width: 100%''>"+
-               										"	</div>"+
-                									"	<div class='card-content'>"+
-                									"		<div class='card-content-inner'>"+
-															"<table class='table table-bordered card-content'>"+
-														    "	<strong class = 'teal-text'>BUSINESS INFORMATION</strong>"+
-														    "<table>"+
-															    "	<tr><td width='20%'>Company: </td><td width='80%'>"+data[0][5]+"</td>"+
-															    "   <td><a data-cmd='updateEmployer' data-value='"+data[0][5]+"' data-name='"+data[0][5]+"' data-node='"+data[0][0]+"' data-prop='CompanyName' data-position='left' data-delay='50' data-tooltip='Update Company'>"+
-																"	<i class='tiny material-icons'>create</i></a>"+
-																"	</td></tr>"+
-															    "	<tr><td>Description: </td><td>"+data[0][6]+"</td>"+
-															    "	<td><a data-cmd='updateEmployer' data-value='"+data[0][6]+"' data-name='"+data[0][6]+"' data-node='"+data[0][0]+"' data-prop='Description' data-position='left' data-delay='50' data-tooltip='Update Description'>"+
-																"	<i class='tiny material-icons'>create</i></a>"+
-																"	</td></tr>"+
-															    "	<tr><td>BIR: </td><td>"+data[0][7]+"</td>"+
-															    "	<td><a data-cmd='updateEmployer' data-value='"+data[0][7]+"' data-name='"+data[0][7]+"' data-node='"+data[0][0]+"' data-prop='BIR' data-position='left' data-delay='50' data-tooltip='Update BIR'>"+
-																"	<i class='tiny material-icons'>create</i></a>"+
-																"	</td></tr>"+
-															    "	<tr><td>DTI: </td><td>"+data[0][8]+"</td>"+
-															    "	<td><a data-cmd='updateEmployer' data-value='"+data[0][8]+"' data-name='"+data[0][8]+"' data-node='"+data[0][0]+"' data-prop='DTI' data-position='left' data-delay='50' data-tooltip='Update DTI'>"+
-																"	<i class='tiny material-icons'>create</i></a>"+
-																"	</td></tr>"+
-															"</table>"+	
-															"	<strong class = 'teal-text'>EMPLOYER INFORMATION</strong>"+
-															"<table>"+
-															    "	<tr><td>First Name: </td><td>"+data[0][2]+"</td>"+
-															    "	<td><a data-cmd='updateEmployer' data-value='"+data[0][2]+"' data-name='"+data[0][2]+"' data-node='"+data[0][0]+"' data-prop='FirstName' data-position='left' data-delay='50' data-tooltip='Update FirstName'>"+
-																"	<i class='tiny material-icons'>create</i></a>"+
-																"	</td></tr>"+
-																"	<tr><td>Last Name: </td><td>"+data[0][1]+"</td>"+
-															    "	<td><a data-cmd='updateEmployer' data-value='"+data[0][1]+"' data-name='"+data[0][1]+"' data-node='"+data[0][0]+"' data-prop='LastName' data-position='left' data-delay='50' data-tooltip='Update LastName'>"+
-																"	<i class='tiny material-icons'>create</i></a>"+
-																"	</td></tr>"+
-															    "	<tr><td>Contact Number: </td><td>"+data[0][4]+"</td>"+
-															    "	<td><a data-cmd='updateEmployer' data-value='"+data[0][4]+"' data-name='"+data[0][4]+"' data-node='"+data[0][0]+"' data-prop='ContactNo' data-position='left' data-delay='50' data-tooltip='Update ContactNo'>"+
-																"	<i class='tiny material-icons'>create</i></a>"+
-																"	</td></tr>"+
-															    "	<tr><td>Office Address: </td><td>"+data[0][3]+"</td>"+
-															    "	<td><a data-cmd='updateEmployer' data-value='"+data[0][3]+"' data-name='"+data[0][3]+"' data-node='"+data[0][0]+"' data-prop='Address' data-position='left' data-delay='50' data-tooltip='Update Address'>"+
-																"	<i class='tiny material-icons'>create</i></a>"+
-																"	</td></tr>"+
-															    "	<tr><td>Email Address: </td><td>"+data[0][10]+"</td>"+
-															    "	<td><a data-cmd='updateEmployer' data-value='"+data[0][10]+"' data-name='"+data[0][10]+"' data-node='"+data[0][0]+"' data-prop='Email' data-position='left' data-delay='50' data-tooltip='Update Email'>"+
-																"	<i class='tiny material-icons'>create</i></a>"+
-																"	</td></tr>"+
-															    "	<tr><td>Status: </td><td>"+status+"</td></tr>"+
-															"</table>"+    
-														  	"</table>"+
-															"<div class='col-md-6'><a class='btn btn-white btn-xs btn-block' data-cmd='action_declinePending' data-id='"+data[0][0]+"'>Deactivate</a></div>"+
-												  			"</div>"+
-												  		"</div"+
-												"</div>";
+            									"	<div class='card-header color-white no-border'>"+
+                								"		<img src='../assets/img/background.jpg' class=' responsive-img' style='width: 100%''>"+
+           										"	</div>"+
+												"<div class='feed-element'>"+
+                                              	"              <br>"+
+                                                "            <div class='row'>"+
+                                                "                <h5>COMPANY INFO</h5>"+
+                                                "                <small class='blue-text'>Company: </small>"+
+                                                "                    <span>"+
+                                                "                         <span>"+data[0][5]+"</span>"+
+                                                "                                <a data-cmd='update_profile' data-field='given-company' class='right text-navy'>Update</a>"+
+                                                "                    </span>"+
+                                                "                <div id='field_company' class='field hidden'>"+
+                                                "                    <form role'form' class='form-inline'>"+
+                                                "                        <div class='input-group'>"+
+                                                "                            <input type='text' placeholder='Company' class='form-control input-sm'>"+
+                                                "                            <span class='input-group-btn'>"+
+                                                "                                <a class='btn-flat btn-sm btn-success save-profile'>Save</a>"+
+                                                "                                <a class='btn-flat btn-sm btn-default cancel'>Cancel</a>"+
+                                                "                            </span>"+
+                                                "                        </div>"+
+                                                "                    </form>"+
+                                                "                </div>"+
+                                                "            </div>";
 
-									$("#modal .modal-content").html(content);
-									$('#modal').modal('open');
-									
+								$("#modal .modal-content").html(content);
+								$('#modal').modal('open');
+								
 									$("a[data-cmd='action_declinePending']").click(function(){
 										var id = $(this).data('id');
 										sys.confim("Deactivate this Employer?",function(){
@@ -947,11 +846,13 @@ var employer = function(){
 
 						else{
 						}
-							employer.update();
+							// employer.update();
+							employer.update_data();
 					});
 				}
 			});	
 	    },
+	    //update employer's information
  		update:function(){
 			$("a[data-cmd='updateEmployer']").on('click',function(){
 				var data = $(this).data();
@@ -962,8 +863,9 @@ var employer = function(){
 						  "		<label for='field_"+data.prop+"'>"+data.prop+": </label>"+
 						  "		<input id='field_"+data.prop+"' value='"+data.value+"' type='text' name='field_"+data.prop+"' data-error='.error_"+data.prop+"'>"+
 						  "		<div class='error_"+data.prop+"'></div>"+
+						  "		<a class='modal-action modal-close waves-effect waves-red btn-flat right'>Cancel</a>"+
 						  "		<button type='submit' data-cmd='button_proceed' class='waves-effect waves-grey grey lighten-5 blue-text btn-flat modal-action right'>Save</button>"+
-						 "		<a class='modal-action modal-close waves-effect waves-red btn-flat right'>Cancel</a>"+
+						 
 						  "</form>";
 				$("#modal .modal-content").html(content);
 				$('#modal').modal('open');	
@@ -1319,134 +1221,247 @@ var employer = function(){
 					    }
 					}); 
 				}
-				// else if(data.prop == "Password"){
-				// 	$('#modal').modal('show');			
-				// 	$("#field_Password").val("");
-				// 	$("#field_Password").attr({"type":"password"});
-				// 	$("#form_update").append("<p><input type='checkbox' id='showPassword'><label for='showPassword'>Show password</label></p>");		
-				// 	$("#showPassword").on("click",function(){
-				// 		if($(this).is(':checked')){
-				// 			$("#field_Password").attr({"type":"text"});						
-				// 		}
-				// 		else{
-				// 			$("#field_Password").attr({"type":"password"});						
-				// 		}
-				// 	})		
-				// 	$("#form_update").validate({
-				// 	    rules: {
-				// 	        field_Password: {required: true,maxlength: 50,checkPassword:true,validatePassword:true},
-				// 	    },
-				// 	    errorElement : 'div',
-				// 	    errorPlacement: function(error, element) {
-				// 			var placement = $(element).data('error');
-				// 			if(placement){
-				// 				$(placement).append(error)
-				// 			} 
-				// 			else{
-				// 				error.insertAfter(element);
-				// 			}
-				// 		},
-				// 		submitHandler: function (form) {
-				// 			var _form = $(form).serializeArray();
-				// 			var data = system.ajax('../assets/harmony/Process.php?update-employer',[id,_form]);
-				// 			data.done(function(data){
-				// 				console.log(data);
-				// 				if(data == 1){
-				// 					system.clearForm();
-				// 					Materialize.toast('Password updated.',4000);
-				// 					system.close_modal();	
-				// 					App.handleLoadPage("#cmd=index;content=employers");
-				// 				}
-				// 				else{
-				// 					Materialize.toast('Cannot process request.',4000);
-				// 				}
-				// 			});
-				// 	    }
-				// 	}); 
-				// }
+				
 			});
 		},
-		addEmployer:function(){
-			var _this = this, validate = validation;
-			$("#add_employer").on('click',function(){
-				var data = system.xml("pages.xml");
-				$(data.responseText).find("addemployer").each(function(i,content){
-					$("#modal .modal-content").html(content);
-					$('#modal').modal('open');
-					// $("#field_password").val($.md5(date.toString()).substring(0,8));					
-					$("#field_password").on('focus',function(){
-						$("#note_password").removeClass('zoomOut hidden').addClass("zoomIn");
-					}).on('blur',function(){
-						$("#note_password").removeClass('zoomIn').addClass('zoomOut hidden');
-					})		
-					$("#form_addEmployer").validate({
-					    rules: {
-					        field_name: {required:true,maxlength: 50},
-					        field_description: {required: true,maxlength: 500},
-					        field_bir: {required: true,maxlength: 50},
-					        field_dti: {required: true,maxlength: 50},
-					        field_address: {required: true,maxlength: 50},
-					        field_fname: {required: true,maxlength: 50},
-					        field_lname: {required: true,maxlength: 50},
-					        field_phone: {required: true,maxlength: 50},
-					        field_email: {required: true,maxlength: 50, email:true},
-					        field_password: {required: true,maxlength: 50, checkPassword:true},
-					    },
-					    errorElement : 'div',
-					    errorPlacement: function(error, element) {
-							var placement = $(element).data('error');
-							if(placement){
-								$(placement).append(error)
-							} 
-							else{
-								error.insertAfter(element);
-							}
-						},
-						messages: {
-			                field_email: {
-			                    required: "<i class='icon f7-icons' style='margin:5px;'>This field is required</i>",
-			                    maxlength: "<i class='icon f7-icons' style='margin:5px;'>Name is too long</i>",
-			                    email: "<i class='icon f7-icons' style='margin:5px;'>Email is invalid</i>",
-			                    checkEmail: "<i class='icon f7-icons' style='margin:5px;'>Email already in use.</i>",
+		//add an employer
+		registerEmployer:function(){
+            	$("#form_addEmployer").validate({
+				    rules: {
+				        field_cname: {required:true,maxlength: 50},
+				        field_email: {required: true,maxlength: 50, email:true},
+				        field_password: {required: true,maxlength: 50, checkPassword:true},
+				    },
+				    errorElement : 'div',
+				    errorPlacement: function(error, element) {
+						var placement = $(element).data('error');
+						if(placement){
+							$(placement).append(error)
+						} 
+						else{
+							error.insertAfter(element);
+						}
+					},
+					messages: {
+		                field_email: {
+		                    required: "<i class='icon f7-icons' style='margin:5px;'>This field is required</i>",
+		                    maxlength: "<i class='icon f7-icons' style='margin:5px;'>Name is too long</i>",
+		                    email: "<i class='icon f7-icons' style='margin:5px;'>Email is invalid</i>",
+		                    checkEmail: "<i class='icon f7-icons' style='margin:5px;'>Email already in use.</i>",
 
-			                },
-			                field_password: {
-			                    required: "<i class='icon f7-icons' style='margin:5px;'>This field is required</i>",
-			                    maxlength: "<i class='icon f7-icons' style='margin:5px;'>too long</i>",
-			                    checkPassword: "<i class='icon f7-icons' style='margin:5px;'>weak password</i>",
-			                },
-	            		},
-						submitHandler: function (form) {
-							var _form = $(form).serializeArray();
-							var data = system.ajax('../assets/harmony/Process.php?set-newEmployer',_form);
-							data.done(function(data){
-								console.log(data);
-								if(data == 1){ 
-									// var text = "<h1>Congratulations</h1>, you are now registered. You can login using <u>"+_form[2]['value']+"</u> as you username and <u>"+
-									// _form[5]['value']+"</u> as your password. <a href='http://localhost/kaboomRewards/login.html'>Just follow this link</a>";
-									// var data = system.send_mail('rufo.gabrillo@gmail.com,info@rnrdigitalconsultancy.com','Employer Registration',text);
-									// if(data.responseText != ""){
-										Materialize.toast('Saved.',4000);
-										system.close_modal();
-										system.clearForm();
-										App.handleLoadPage("#cmd=index;content=employers");
-										// App.handleLoadPage("#cmd=index;content=employers;approved_employers");
-									// }
-								}
-								else{
-									Materialize.toast('Cannot process request.',4000);
-								}
-							});
-					    }
-					});
+		                },
+		                field_password: {
+		                    required: "<i class='icon f7-icons' style='margin:5px;'>This field is required</i>",
+		                    maxlength: "<i class='icon f7-icons' style='margin:5px;'>too long</i>",
+		                    checkPassword: "<i class='icon f7-icons' style='margin:5px;'>weak password</i>",
+		                },
+            		},
+					submitHandler: function (form) {
+						var _form = $(form).serializeArray();
+						var data = system.ajax('../assets/harmony/Process.php?set-registerEmployer',_form);
+						data.done(function(data){
+							console.log(data);
+							if(data == 1){ 
+									Materialize.toast('Saved.',4000);
+									system.clearForm();
+									App.handleLoadPage("#cmd=index;content=employers");
+							}
+							else{
+								Materialize.toast('Cannot process request.',4000);
+							}
+						});
+				    }
 				});
-			})
-		},
+        },
+        update_data:function(){
+        	var ajax = system.html('../assets/harmony/Process.php?get-account');
+			ajax.done(function(data){
+			var employerdata = JSON.parse(data);
+			console.log(employerdata);
+ 
+
+	        	$("a[data-field='given-company']").click(function(){
+	        		$('input').val('');
+	        		$('span').removeClass('hidden');
+	        		$('div.field').addClass('hidden');
+	        		$("#text_company").addClass('hidden');
+	        		$("#field_company").removeClass('hidden');
+	        	});
+	        	$("a[data-field='description']").click(function(){
+	        		$('input').val('');
+	        		$('span').removeClass('hidden');
+	        		$('div.field').addClass('hidden');
+	        		$("#text_description").addClass('hidden');
+	        		$("#field_description").removeClass('hidden');
+	        	});
+	        	$("a[data-field='dti']").click(function(){
+	        		$('input').val('');
+	        		$('span').removeClass('hidden');
+	        		$('div.field').addClass('hidden');
+	        		$("#text_DTI").addClass('hidden');
+	        		$("#field_DTI").removeClass('hidden');
+	        	});
+	        	$("a[data-field='bir']").click(function(){
+	        		$('input').val('');
+	        		$('span').removeClass('hidden');
+	        		$('div.field').addClass('hidden');
+	        		$("#text_BIR").addClass('hidden');
+	        		$("#field_BIR").removeClass('hidden');
+	        	});
+	        	$("a[data-field='given-name']").click(function(){
+	        		$('input').val('');
+	        		$('span').removeClass('hidden');
+	        		$('div.field').addClass('hidden');
+	        		$("#text_givenName").addClass('hidden');
+	        		$("#field_givenName").removeClass('hidden');
+	        	});
+	        	$("a[data-field='family-name']").click(function(){
+	        		$('input').val('');
+	        		$('span').removeClass('hidden');
+	        		$('div.field').addClass('hidden');
+	        		$("#text_familyName").addClass('hidden');
+	        		$("#field_familyName").removeClass('hidden');
+	        	});
+	        	$("a[data-field='address']").click(function(){
+	        		$('input').val('');
+	        		$('span').removeClass('hidden');
+	        		$('div.field').addClass('hidden');
+	        		$("#text_address").addClass('hidden');
+	        		$("#field_address").removeClass('hidden');
+	        	});
+	        	$("a[data-field='contact-number']").click(function(){
+	        		$('input').val('');
+	        		$('span').removeClass('hidden');
+	        		$('div.field').addClass('hidden');
+	        		$("#text_contactnumber").addClass('hidden');
+	        		$("#field_contactnumber").removeClass('hidden');
+	        	});
+	        	$("a[data-field='email']").click(function(){
+	        		$('input').val('');
+	        		$('span').removeClass('hidden');
+	        		$('div.field').addClass('hidden');
+	        		$("#text_email").addClass('hidden');
+	        		$("#field_email").removeClass('hidden');
+	        	});
+	        	$("a[data-field='password']").click(function(){
+	        		$('input').val('');
+	        		$('span').removeClass('hidden');
+	        		$('div.field').addClass('hidden');
+	        		$("#text_password").addClass('hidden');
+	        		$("#field_password").removeClass('hidden');
+	        	});
+	        	$("#field_description textarea").keyup(function(){
+	                system.StringCounter($(this).val(),$("#desc_stringCounter"),1000);
+	                if($(this).val().length > 1000){
+	                	$("#field_description a.btn-success").addClass('disabled');
+	        			system.errorNotification('Notice','Description must only contain 1000 characters.');
+	                }
+	                else{
+	                	$("#field_description a.btn-success").removeClass('disabled');
+	                }
+	        		$(this).parent('div').find('input').val($(this).val());    
+	        	});
+
+	        	$(".show-password").mouseup(function() {
+	        		$(this).parent('span').parent('div').find('input').prop({"type":"password"})
+				})
+				.mousedown(function() {
+	        		$(this).parent('span').parent('div').find('input').prop({"type":"text"})
+				});
+
+	        	$(".cancel").click(function(){
+	        		$('span').removeClass('hidden');
+	        		$('div.field').addClass('hidden');
+	        		$('input').val('');
+	        	});
+
+	        	$(".btn-success").click(function(){
+	        		var name = $(this).parent('span').parent('div').find('input').attr('placeholder');
+	        		var value = $(this).parent('span').parent('div').find('input').val();
+
+	        		if(value != ""){
+		        		var data = ['employer',employerdata[0][0],name,value];
+		        		console.log(data);
+						var ajax = system.ajax('../assets/harmony/Process.php?do-updateData',data);
+						ajax.success(function(data){
+							// if(data == 1){
+							// 	Materialize.toast("Successful!", 2000);
+							// 	App.handleLoadPage("#cmd=index;content=employer;"+(employerdata[0][0]));
+							// }
+							// else{
+							// 	Materialize.toast("Fatal Error!", "There was an Unexpected Error during the process.", "error");
+							// 	// console.log(data);
+							// }
+						});
+	        		}
+	        		else{
+	        			system.errorNotification('Notice',name+' can\'t be empty.');
+	        		}
+	        	});
+        	});
+        },
+        employerByID:function(id){
+			var ajax = system.ajax('../assets/harmony/Process.php?get-Employer',id[0]);
+			var data = JSON.parse(ajax.responseText);
+			console.log(data);
+			var description = "No description yet.",
+				lname = "Your last name",
+				gname = "Your given name",
+				address = "Set your company's address",
+				bir = "Set your company's BIR number",
+				dti = "Set your company's DTI number",
+				company = "Set your company's name",
+				contactnumber = "Set your company's contact number",
+				email = "Set your company's email";
+
+				// if(data[0][9] != ""){
+				// 	var imageData = data[0][9].split('.');
+				// 	if(imageData[imageData.length-1]!='apr'){
+				// 		console.log(imageData.length);
+				// 		picture = "../assets/img/"+data[0][9];					
+				// 	}
+				// 	else{
+				// 		picture = system.get_apr(data[0][9]);				
+				// 	}
+				// }
+				if(data[0][5] != "")
+					company = data[0][5];
+				if(data[0][6] != null)
+					description = data[0][6];
+				if(data[0][7] != null)
+					dti = data[0][7];
+				if(data[0][8] != null)
+					bir = data[0][8];
+				if(data[0][2] != null)
+					gname = data[0][2];
+				if(data[0][1] != null)
+					lname = data[0][1];
+				if(data[0][3] != null)
+					address = data[0][3];
+				if(data[0][4] != null)
+					contactnumber = data[0][4];
+				if(data[0][10] != "")
+					email = data[0][10];
+				if((data[0][1] != null) || (data[0][2] != null))
+					name = lname+", "+gname;
+
+				// $("#profile_picture1 img").attr({"src":picture});
+	    		$("#text_company span").html(company);
+	    		$("#text_description span").html(description);
+	    		$("#text_DTI span").html(dti);
+	    		$("#text_BIR span").html(bir);
+	    		$("#text_givenName span").html(gname);
+	    		$("#text_familyName span").html(lname);
+	    		$("#text_address span").html(address);
+	    		$("#text_contactnumber span").html(contactnumber);
+	    		$("#text_email span").html(email);
+        },
 	}
 }();
 var applicant = function(){
 	"use strict";
 	return {
+		//display all applicants and able to see applicant's information
 	 	list: function(){
 			var sys = system, validate = validation, _this = this, _apps = App;
 			var ajax = sys.ajax('../assets/harmony/Process.php?get-allApplicant',"");
@@ -1570,165 +1585,238 @@ var applicant = function(){
 				}
 			});
 	    },
-	    addApplicant: function(){
-			$("#add_applicant").on('click',function(){
-				var data = system.xml("pages.xml");
-				$(data.responseText).find("addApplicant").each(function(i,content){
-					$("#modal .modal-content").html(content);
-					$('#modal').modal('open');				
+	 //    addApplicant: function(){
+		// 	$("#add_applicant").on('click',function(){
+		// 		var data = system.xml("pages.xml");
+		// 		$(data.responseText).find("addApplicant").each(function(i,content){
+		// 			$("#modal .modal-content").html(content);
+		// 			$('#modal').modal('open');				
 
-					$("#field_password").on('focus',function(){
-						$("#note_password").removeClass('zoomOut hidden').addClass("zoomIn");
-					}).on('blur',function(){
-						$("#note_password").removeClass('zoomIn').addClass('zoomOut hidden');
-					})
+		// 			$("#field_password").on('focus',function(){
+		// 				$("#note_password").removeClass('zoomOut hidden').addClass("zoomIn");
+		// 			}).on('blur',function(){
+		// 				$("#note_password").removeClass('zoomIn').addClass('zoomOut hidden');
+		// 			})
 
-					$("#form_addApplicant").validate({
-					 	rules: {
-					        field_fname: {required: true,maxlength: 50},
-					        field_mname: {required: true,maxlength: 50},
-					        field_lname: {required: true,maxlength: 50},
-					        field_description: {required: true,maxlength: 500},
-					        field_gender: {required: true,maxlength: 50},
-					        field_phone: {required: true,maxlength: 50},
-					        field_address: {required: true,maxlength: 100},
-					        field_email: {required: true,maxlength: 100,checkEmail:true},
-					        field_password: {required: true,maxlength: 50,checkPassword:true,validatePassword:true},
+		// 			$("#form_addApplicant").validate({
+		// 			 	rules: {
+		// 			        field_fname: {required: true,maxlength: 50},
+		// 			        field_mname: {required: true,maxlength: 50},
+		// 			        field_lname: {required: true,maxlength: 50},
+		// 			        field_description: {required: true,maxlength: 500},
+		// 			        field_gender: {required: true,maxlength: 50},
+		// 			        field_phone: {required: true,maxlength: 50},
+		// 			        field_address: {required: true,maxlength: 100},
+		// 			        field_email: {required: true,maxlength: 100,checkEmail:true},
+		// 			        field_password: {required: true,maxlength: 50,checkPassword:true,validatePassword:true},
 
-					    },
-					    errorElement : 'div',
-					    errorPlacement: function(error, element) {
-							var placement = $(element).data('error');
-							if(placement){
-								$(placement).append(error)
-							} 
-							else{
-								error.insertAfter(element);
-							}
-						},
-						submitHandler: function (form) {
-							var _form = $(form).serializeArray();
-							var data = system.ajax('../assets/harmony/Process.php?set-newApplicant',_form);
-							data.done(function(data){
-								// console.log(data);
-								if(data == 1){
-									var text = "<h1>Congratulations</h1>, you are now registered. You can login using <u>"+_form[2]['value']+"</u> as you username and <u>"+
-									_form[5]['value']+"</u> as your password. <a href='http://localhost/kaboomRewards/login.html'>Just follow this link</a>";
-									var data = system.send_mail('rufo.gabrillo@gmail.com,info@rnrdigitalconsultancy.com','Employer Registration',text);
-									if(data.responseText != ""){
-										Materialize.toast('Saved.',4000);
-										$("#modal") .close_modal('hide');
-										system.clearForm();
-										App.handleLoadPage("#cmd=index;content=employers");
-									}
-								}
-								else{
-									Materialize.toast('Cannot process request.',4000);
-								}
-							});
-					    }
-					});
-				});
-			})
-		},
-		activities:function(){
-    		var ajax = system.ajax('../assets/harmony/Process.php?do-getActivities',"");
-			var ajaxData = JSON.parse(ajax.responseText);
-			// console.log(ajaxData);
-			var content = "";
-			$.each(ajaxData,function(i,v){
-				// console.log(v);
-				if(v[2][5] != "null"){
-					var skills = JSON.parse(v[2][5]), $skills = "";
-					$.each(skills,function(a,b){
-						$skills += "<span class='label label-defualt'style='margin-right: 5px;'>"+b+"</span>";
-					});
-				}
-				content += "    <div class='timeline-item'>"+
-						"        <div class='row'>"+
-						"            <div class='col-lg-3 date'>"+
-						"                <i class='fa fa-briefcase'></i>"+v[0][4]+"<br><small class='text-navy prettydate'>"+v[0][4]+"</small>"+
-						"            </div>"+
-						"            <div class='col-lg-15 content no-top-border'>"+
-						// "                <p class='m-b-xs'><a data-toggle='collapse' data-parent='#accordion' href='#"+v[0][0]+"' aria-expanded='false' class='collapsed btn btn-white btn-xs pull-right'>Show Employer's Information</a>"+
-						"                <p class='m-b-xs'><h3><strong>Job Title:</strong> "+v[2][4]+"</h3></p>"+
-						"                <p class='m-b-xs'><strong>Skills:</strong> "+$skills+"</p>"+
-						"                <p class='m-b-xs'><strong>Job Description:</strong> "+v[2][2]+"</p>"+
-						// "                <div id='"+v[0][0]+"' class='panel-collapse collapse' aria-expanded='false' style='height: 0px;'>"+
-						// "                	<div class='panel-body'>"+
-						"                		<div class='hr-line-dashed'></div>"+
-						"                		<p class='m-b-xs'><strong>Company:</strong> "+v[1][5]+"</p>"+
-						"                		<p class='m-b-xs'><strong>Office:</strong> "+v[1][3]+"</p>"+
-						"                		<p class='m-b-xs'><strong>Email:</strong> "+v[1][10]+"</p>"+
-						"                		<p class='m-b-xs'><strong>Company Description:</strong> "+v[1][6]+"</p>"+
-						"                		<div class='hr-line-dashed'></div>"+
-						// "                	</div>"+
-						// "                </div>"+
-						"                <p class='m-b-xs'><strong>Applicant:</strong><br/><div class='well'>"+v[3][1]+" "+v[3][2]+"</div></p>"+
-						"            </div>"+
-						"        </div>"+
-						"    </div>";
-			});
-			content = "<div class='card-content inspinia-timeline'>"+content+"</div>";
-			$("#activities").html(content);
-			$(".prettydate").prettydate({
-			    dateFormat: "YYYY-MM-DD hh:mm:ss"
-			});
-	    },
-	    application: function(id){
-	    	// console.log(id);
-	    	var applicant = system.ajax('../assets/harmony/Process.php?get-Applicant',id[1]);
-	    	var appData = JSON.parse(applicant.responseText);
-			// console.log(appData);
-    		var ajax = system.ajax('../assets/harmony/Process.php?do-getApplications',appData[0][0]);
-			ajax.done(function(data){
-				data = JSON.parse(data);
-			// console.log(data);
-			var content = "";
-				$.each(data,function(i,v){
-					// console.log(v);
-					if(v[2][5] != "null"){
-						var skills = JSON.parse(v[2][5]), $skills = "";
-						$.each(skills,function(a,b){
-							$skills += "<span class='label label-defualt'style='margin-right: 5px;'>"+b+"</span>";
-						});
-						// console.log(skills);
-					}
-					content += "    <div class='timeline-item'>"+
-							"        <div class='row'>"+
-							"                <p class='m-b-xs'><h3><strong>Applicant:</strong>"+v[3][1]+" "+v[3][2]+" </h3></p>"+
-							"            <div class='col-lg-3 date'>"+
-							"                <i class='fa fa-briefcase'></i>"+v[0][4]+"<br><small class='text-navy prettydate'>"+v[0][4]+"</small>"+
-							"            </div>"+
-							"            <div class='col-lg-15 content no-top-border'>"+
-							// "                <p class='m-b-xs'><a data-toggle='collapse' data-parent='#accordion' href='#"+v[0][0]+"' aria-expanded='false' class='collapsed btn btn-white btn-xs pull-right'>Show Employer's Information</a>"+
-							"                <p class='m-b-xs'><span>Job Title:</span> "+v[2][4]+"</p>"+
-							"                <p class='m-b-xs'><strong>Skills:</strong> "+$skills+"</p>"+
-							"                <p class='m-b-xs'><strong>Job Description:</strong> "+v[2][2]+"</p>"+
-							// "                <div id='"+v[0][0]+"' class='panel-collapse collapse' aria-expanded='false' style='height: 0px;'>"+
-							// "                	<div class='panel-body'>"+
-							"                		<div class='hr-line-dashed'></div>"+
-							"                		<p class='m-b-xs'><strong>Company:</strong> "+v[1][5]+"</p>"+
-							"                		<p class='m-b-xs'><strong>Office:</strong> "+v[1][3]+"</p>"+
-							"                		<p class='m-b-xs'><strong>Email:</strong> "+v[1][10]+"</p>"+
-							"                		<p class='m-b-xs'><strong>Company Description:</strong> "+v[1][6]+"</p>"+
-							"                		<div class='hr-line-dashed'></div>"+
-							// "                	</div>"+
-							// "                </div>"+
+		// 			    },
+		// 			    errorElement : 'div',
+		// 			    errorPlacement: function(error, element) {
+		// 					var placement = $(element).data('error');
+		// 					if(placement){
+		// 						$(placement).append(error)
+		// 					} 
+		// 					else{
+		// 						error.insertAfter(element);
+		// 					}
+		// 				},
+		// 				submitHandler: function (form) {
+		// 					var _form = $(form).serializeArray();
+		// 					var data = system.ajax('../assets/harmony/Process.php?set-newApplicant',_form);
+		// 					data.done(function(data){
+		// 						// console.log(data);
+		// 						if(data == 1){
+		// 							var text = "<h1>Congratulations</h1>, you are now registered. You can login using <u>"+_form[2]['value']+"</u> as you username and <u>"+
+		// 							_form[5]['value']+"</u> as your password. <a href='http://localhost/kaboomRewards/login.html'>Just follow this link</a>";
+		// 							var data = system.send_mail('rufo.gabrillo@gmail.com,info@rnrdigitalconsultancy.com','Employer Registration',text);
+		// 							if(data.responseText != ""){
+		// 								Materialize.toast('Saved.',4000);
+		// 								$("#modal") .close_modal('hide');
+		// 								system.clearForm();
+		// 								App.handleLoadPage("#cmd=index;content=employers");
+		// 							}
+		// 						}
+		// 						else{
+		// 							Materialize.toast('Cannot process request.',4000);
+		// 						}
+		// 					});
+		// 			    }
+		// 			});
+		// 		});
+		// 	})
+		// },
+		// activities:function(){
+  //   		var ajax = system.ajax('../assets/harmony/Process.php?do-getActivities',"");
+		// 	var ajaxData = JSON.parse(ajax.responseText);
+		// 	// console.log(ajaxData);
+		// 	var content = "";
+		// 	$.each(ajaxData,function(i,v){
+		// 		// console.log(v);
+		// 		if(v[2][5] != "null"){
+		// 			var skills = JSON.parse(v[2][5]), $skills = "";
+		// 			$.each(skills,function(a,b){
+		// 				$skills += "<span class='label label-defualt'style='margin-right: 5px;'>"+b+"</span>";
+		// 			});
+		// 		}
+		// 		content += "    <div class='timeline-item'>"+
+		// 				"        <div class='row'>"+
+		// 				"            <div class='col-lg-3 date'>"+
+		// 				"                <i class='fa fa-briefcase'></i>"+v[0][4]+"<br><small class='text-navy prettydate'>"+v[0][4]+"</small>"+
+		// 				"            </div>"+
+		// 				"            <div class='col-lg-15 content no-top-border'>"+
+		// 				// "                <p class='m-b-xs'><a data-toggle='collapse' data-parent='#accordion' href='#"+v[0][0]+"' aria-expanded='false' class='collapsed btn btn-white btn-xs pull-right'>Show Employer's Information</a>"+
+		// 				"                <p class='m-b-xs'><h3><strong>Job Title:</strong> "+v[2][4]+"</h3></p>"+
+		// 				"                <p class='m-b-xs'><strong>Skills:</strong> "+$skills+"</p>"+
+		// 				"                <p class='m-b-xs'><strong>Job Description:</strong> "+v[2][2]+"</p>"+
+		// 				// "                <div id='"+v[0][0]+"' class='panel-collapse collapse' aria-expanded='false' style='height: 0px;'>"+
+		// 				// "                	<div class='panel-body'>"+
+		// 				"                		<div class='hr-line-dashed'></div>"+
+		// 				"                		<p class='m-b-xs'><strong>Company:</strong> "+v[1][5]+"</p>"+
+		// 				"                		<p class='m-b-xs'><strong>Office:</strong> "+v[1][3]+"</p>"+
+		// 				"                		<p class='m-b-xs'><strong>Email:</strong> "+v[1][10]+"</p>"+
+		// 				"                		<p class='m-b-xs'><strong>Company Description:</strong> "+v[1][6]+"</p>"+
+		// 				"                		<div class='hr-line-dashed'></div>"+
+		// 				// "                	</div>"+
+		// 				// "                </div>"+
+		// 				"                <p class='m-b-xs'><strong>Applicant:</strong><br/><div class='well'>"+v[3][1]+" "+v[3][2]+"</div></p>"+
+		// 				"            </div>"+
+		// 				"        </div>"+
+		// 				"    </div>";
+		// 	});
+		// 	content = "<div class='card-content inspinia-timeline'>"+content+"</div>";
+		// 	$("#activities").html(content);
+		// 	$(".prettydate").prettydate({
+		// 	    dateFormat: "YYYY-MM-DD hh:mm:ss"
+		// 	});
+	 //    },
+	 //    application: function(id){
+	 //    	// console.log(id);
+	 //    	var applicant = system.ajax('../assets/harmony/Process.php?get-Applicant',id[1]);
+	 //    	var appData = JSON.parse(applicant.responseText);
+		// 	// console.log(appData);
+  //   		var ajax = system.ajax('../assets/harmony/Process.php?do-getApplications',appData[0][0]);
+		// 	ajax.done(function(data){
+		// 		data = JSON.parse(data);
+		// 	// console.log(data);
+		// 	var content = "";
+		// 		$.each(data,function(i,v){
+		// 			// console.log(v);
+		// 			if(v[2][5] != "null"){
+		// 				var skills = JSON.parse(v[2][5]), $skills = "";
+		// 				$.each(skills,function(a,b){
+		// 					$skills += "<span class='label label-defualt'style='margin-right: 5px;'>"+b+"</span>";
+		// 				});
+		// 				// console.log(skills);
+		// 			}
+		// 			content += "    <div class='timeline-item'>"+
+		// 					"        <div class='row'>"+
+		// 					"                <p class='m-b-xs'><h3><strong>Applicant:</strong>"+v[3][1]+" "+v[3][2]+" </h3></p>"+
+		// 					"            <div class='col-lg-3 date'>"+
+		// 					"                <i class='fa fa-briefcase'></i>"+v[0][4]+"<br><small class='text-navy prettydate'>"+v[0][4]+"</small>"+
+		// 					"            </div>"+
+		// 					"            <div class='col-lg-15 content no-top-border'>"+
+		// 					// "                <p class='m-b-xs'><a data-toggle='collapse' data-parent='#accordion' href='#"+v[0][0]+"' aria-expanded='false' class='collapsed btn btn-white btn-xs pull-right'>Show Employer's Information</a>"+
+		// 					"                <p class='m-b-xs'><span>Job Title:</span> "+v[2][4]+"</p>"+
+		// 					"                <p class='m-b-xs'><strong>Skills:</strong> "+$skills+"</p>"+
+		// 					"                <p class='m-b-xs'><strong>Job Description:</strong> "+v[2][2]+"</p>"+
+		// 					// "                <div id='"+v[0][0]+"' class='panel-collapse collapse' aria-expanded='false' style='height: 0px;'>"+
+		// 					// "                	<div class='panel-body'>"+
+		// 					"                		<div class='hr-line-dashed'></div>"+
+		// 					"                		<p class='m-b-xs'><strong>Company:</strong> "+v[1][5]+"</p>"+
+		// 					"                		<p class='m-b-xs'><strong>Office:</strong> "+v[1][3]+"</p>"+
+		// 					"                		<p class='m-b-xs'><strong>Email:</strong> "+v[1][10]+"</p>"+
+		// 					"                		<p class='m-b-xs'><strong>Company Description:</strong> "+v[1][6]+"</p>"+
+		// 					"                		<div class='hr-line-dashed'></div>"+
+		// 					// "                	</div>"+
+		// 					// "                </div>"+
 							
-							"            </div>"+
-							"        </div>"+
-							"    </div>";
-				});	
-				content = "<div class='card-content inspinia-timeline'>"+content+"</div>";
-				$("#jobapplications").html(content);
-				$(".prettydate").prettydate({
-				    dateFormat: "YYYY-MM-DD hh:mm:ss"
-				});
-			})
-	    }, 
+		// 					"            </div>"+
+		// 					"        </div>"+
+		// 					"    </div>";
+		// 		});	
+		// 		content = "<div class='card-content inspinia-timeline'>"+content+"</div>";
+		// 		$("#jobapplications").html(content);
+		// 		$(".prettydate").prettydate({
+		// 		    dateFormat: "YYYY-MM-DD hh:mm:ss"
+		// 		});
+		// 	})
+	 //    }, 
 		
 		
 	}
 
 }();
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// "<a class='modal-action modal-close waves-effect waves-red btn-flat right'>Close</a>"+
+// 											"<div class='card card-header-pic'>"+
+//             									"	<div class='card-header color-white no-border'>"+
+//                 								"		<img src='../assets/img/background.jpg' class=' responsive-img' style='width: 100%''>"+
+//            										"	</div>"+
+//             									"	<div class='card-content'>"+
+//             									"		<div class='card-content-inner'>"+
+// 														"<table class='table table-bordered card-content'>"+
+// 													    "	<strong class = 'teal-text'>BUSINESS INFORMATION</strong>"+
+// 													    "<table>"+
+// 														    "	<tr><td>Company: </td><td>"+data[0][5]+"</td>"+
+// 														    "   <td><a data-cmd='updateEmployer' data-value='"+data[0][5]+"' data-name='"+data[0][5]+"' data-node='"+data[0][0]+"' data-prop='CompanyName' data-position='left' data-delay='50' data-tooltip='Update Company'>"+
+// 															"	<i class='tiny material-icons'>create</i></a>"+
+// 															"	</td></tr>"+
+// 														    "	<tr><td>Description: </td><td>"+description+"</td>"+
+// 														    "	<td><a data-cmd='updateEmployer' data-value='"+data[0][6]+"' data-name='"+data[0][6]+"' data-node='"+data[0][0]+"' data-prop='Description' data-position='left' data-delay='50' data-tooltip='Update Description'>"+
+// 															"	<i class='tiny material-icons'>create</i></a>"+
+// 															"	</td></tr>"+
+// 														    "	<tr><td>DTI: </td><td>"+dti+"</td>"+
+// 														    "	<td><a data-cmd='updateEmployer' data-value='"+data[0][7]+"' data-name='"+data[0][7]+"' data-node='"+data[0][0]+"' data-prop='DTI' data-position='left' data-delay='50' data-tooltip='Update DTI'>"+
+// 															"	<i class='tiny material-icons'>create</i></a>"+
+// 															"	</td></tr>"+
+// 														    "	<tr><td>BIR: </td><td>"+bir+"</td>"+
+// 														    "	<td><a data-cmd='updateEmployer' data-value='"+data[0][8]+"' data-name='"+data[0][8]+"' data-node='"+data[0][0]+"' data-prop='BIR' data-position='left' data-delay='50' data-tooltip='Update BIR'>"+
+// 															"	<i class='tiny material-icons'>create</i></a>"+
+// 															"	</td></tr>"+
+// 														"</table>"+	
+// 														"	<strong class = 'teal-text'>EMPLOYER INFORMATION</strong>"+
+// 														"<table>"+
+// 														    "	<tr><td>First Name:</td><td>"+gname+"</td>"+
+// 														    "	<td><a data-cmd='updateEmployer' data-value='"+data[0][2]+"' data-name='"+data[0][2]+"' data-node='"+data[0][0]+"' data-prop='FirstName' data-position='left' data-delay='50' data-tooltip='Update FirstName'>"+
+// 															"	<i class='tiny material-icons'>create</i></a>"+
+// 															"	</td></tr>"+
+// 															"	<tr><td>Last Name:</td><td>"+lname+"</td>"+
+// 														    "	<td><a data-cmd='updateEmployer' data-value='"+data[0][1]+"' data-name='"+data[0][1]+"' data-node='"+data[0][0]+"' data-prop='LastName' data-position='left' data-delay='50' data-tooltip='Update LastName'>"+
+// 															"	<i class='tiny material-icons'>create</i></a>"+
+// 															"	</td></tr>"+
+// 														    "	<tr><td>Contact Number:</td><td>"+contactnumber+"</td>"+
+// 														    "	<td><a data-cmd='updateEmployer' data-value='"+data[0][4]+"' data-name='"+data[0][4]+"' data-node='"+data[0][0]+"' data-prop='ContactNo' data-position='left' data-delay='50' data-tooltip='Update ContactNo'>"+
+// 															"	<i class='tiny material-icons'>create</i></a>"+
+// 															"	</td></tr>"+
+// 														    "	<tr><td>Office Address:</td><td>"+address+"</td>"+
+// 														    "	<td><a data-cmd='updateEmployer' data-value='"+data[0][3]+"' data-name='"+data[0][3]+"' data-node='"+data[0][0]+"' data-prop='Address' data-position='left' data-delay='50' data-tooltip='Update Address'>"+
+// 															"	<i class='tiny material-icons'>create</i></a>"+
+// 															"	</td></tr>"+
+// 														    "	<tr><td>Email Address:</td><td>"+data[0][10]+"</td>"+
+// 														    "	<td><a data-cmd='updateEmployer' data-value='"+data[0][10]+"' data-name='"+data[0][10]+"' data-node='"+data[0][0]+"' data-prop='Email' data-position='left' data-delay='50' data-tooltip='Update Email'>"+
+// 															"	<i class='tiny material-icons'>create</i></a>"+
+// 															"	</td></tr>"+
+// 														    "	<tr><td>Status: </td><td>"+status+"</td></tr>"+
+// 														"</table>"+    
+// 													  	"</table>"+
+// 														"<div class='col-md-6'><a class='btn btn-white btn-xs btn-block' data-cmd='action_declinePending' data-id='"+data[0][0]+"'>Deactivate</a></div>"+
+// 											  			"</div>"+
+// 											  		"</div"+
+// 											"</div>";

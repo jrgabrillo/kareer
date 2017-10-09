@@ -28,7 +28,7 @@ $Functions = new DatabaseClasses;
         $subject = 'Kareer - Applicant Account Registration';
         $result = mail($data[0],$subject,$message,$headers);
     }
-    /*login*/
+/*login*/
     if (isset($_GET['login'])){
         $data = $_POST['data']; $flag = 0;
         $password = sha1($data[1]['value']);
@@ -173,14 +173,9 @@ $Functions = new DatabaseClasses;
         }
     }
     if (isset($_GET['get-Employer'])){
-        if(isset($_POST["data"])){
-            $data = $_POST['data'];
-            $QueryEmployer = $Functions->PDO_SQL("SELECT * FROM tbl_employer WHERE id = '{$data}'");
-            print_r(json_encode($QueryEmployer));
-        }
-        else{
-            echo "Hacker";
-        }
+        $data = $_POST['data'];
+        $Query = $Functions->PDO_SQL("SELECT * FROM tbl_employer WHERE id = '{$data}'");
+        print_r(json_encode($Query));
     }
     if(isset($_GET['validateEmployer'])){
         $data = $_POST['data'];
@@ -304,7 +299,7 @@ $Functions = new DatabaseClasses;
                 print_r($Data);
             }
     }
-    if (isset($_GET['set-registerEmployer'])) {
+/*    if (isset($_GET['set-registerEmployer'])) {
         if(isset($_POST['data'])){
             $id = $Functions->PDO_IDGenerator('tbl_employer','id');
             $date = $Functions->PDO_DateAndTime();
@@ -332,7 +327,7 @@ $Functions = new DatabaseClasses;
         else{
             echo "Hacker";
         }
-    }
+    }*/
     if (isset($_GET['do-registerApplicant'])) {
         if(isset($_POST['data'])){
             $id = $Functions->PDO_IDGenerator('tbl_appliecant','id');
@@ -711,21 +706,21 @@ $Functions = new DatabaseClasses;
                 print_r($Data);
             }
     }   
-    // if(isset($_GET['set-newApplicant'])){
-    //         $data = $_POST['data'];
-    //         $applicantID = $Functions->PDO_IDGenerator('tbl_appliecant','id');
-    //         $date = $Functions->PDO_DateAndTime();
-    //         $id = $applicantID.'-0';
-    //         $password = sha1($data[8]['value']);
-    //         $query = $Functions->PDO("INSERT INTO tbl_applicant(id,fname,mname,lname,description,address,contactno,image,gender,email,password,status,`date`) VALUES ('{$applicantID}','{$data[0]['value']}','{$data[1]['value']}','{$data[2]['value']}','{$data[3]['value']}','{$data[6]['value']}','{$data[5]['value']}','profile_small.jpg','{$data[4]['value']}','{$data[7]['value']}','{$password}','1','{$date}')");
-    //         if($query->execute()){
-    //             echo 1;
-    //         }
-    //         else{
-    //             $Data = $query->errorInfo();
-    //             print_r($Data);
-    //         }
-    // }
+    if(isset($_GET['set-registerEmployer'])){
+            $data = $_POST['data'];
+            $companyID = $Functions->PDO_IDGenerator('tbl_employer','id');
+            // $date = $Functions->PDO_DateAndTime();
+            // $id = $companyID.'-0';
+            $password = sha1($data[2]['value']);
+            $query = $Functions->PDO("INSERT INTO tbl_employer(id,company_name,email,password,image,status) VALUES ('{$companyID}','{$data[0]['value']}','{$data[1]['value']}','{$password}','profile_avatar.jpg','1')");
+            if($query->execute()){
+                echo 1;
+            }
+            else{
+                $Data = $query->errorInfo();
+                print_r($Data);
+            }
+    }
     if(isset($_GET['do-decline'])){
         if(isset($_POST['data'])){
             $data = $_POST['data'];

@@ -2,7 +2,7 @@
 var jobs = function(){
 	"use strict";
 	return {
-		// Post a job
+// Post a job
 		add_vacancies: function(){
 			var sys = system, validate = validation, _this = this, _apps = App;
 	    	$("a[data-cmd='register_applicant']").click(function(){
@@ -49,6 +49,7 @@ var jobs = function(){
 
 	    	});
 	    },
+// Display posted Job with status and number of applicants
         posting:function(){
 			var content = "";
 			var ajaxData="";
@@ -138,13 +139,13 @@ var jobs = function(){
 			    dateFormat: "YYYY-MM-DD hh:mm:ss"
 			});			ajax.success(function(data){});
         },
-//Display Jobs.html
+//Display Jobs.html .. View table of Job, Status , Number of applicants and Details
         posts:function(){	
     		var data = JSON.parse(employer.account());
 			var ajax = system.ajax('../assets/harmony/Process.php?get-employerJobsPosts',data[0][0]);
 			var ajaxData = JSON.parse(ajax.responseText);
 			var content = "";
-			console.log(ajaxData);
+			// console.log(ajaxData);
 			if(ajaxData.length>0){
 				var content = 	"<div class='card'><div class='card-content'><table class='table' id='table_jobs'>"+
 								"<h5><i class='material-icons'>business_center</i>Posted Jobs</h5>"+
@@ -192,20 +193,36 @@ var jobs = function(){
 								if(full[1].length>0){
 									$.each(full[1],function(i,v){
 										var data_applicants = v[2];
+										var ajax = system.ajax('../assets/harmony/Process.php?get-Applicant',data_applicants);
+										var appajax = JSON.parse(ajax.responseText);
+										var applicant_photo = appajax[0][1][0][13];;
 										if(i<4){
-							            	// details += "<img alt='image' class='img-circle' src='' style='margin-right: 5px;'>";
-							            	details += "<img alt='image' class='circle' src='"+system.get_apr(data_applicants)+"' style='margin-right: 5px;'>";
+							            	details += "<img alt='image' class='circle responsive-img' src='"+applicant_photo+"' style='margin-right: 15px;'>";
 										}
 										else{
 											var count = full[1].length-i;
-											console.log(i);
-											if(i>8)
+											if(i>13)
 												count = 9+"+";
 
-							            	details += "    <span class='new badge blue circle'>"+count+"</span>"+
+							            	details += "<div class='vertical-timeline-icon blue-bg pull-right' style='position: relative;width: 32px !important;height: 32px !important;border: 3px solid #1C84C6;'>"+
+														"    <h3>"+count+"</h3>"+
 														"</div>";
 											return false;
 										}
+										// if(i<4){
+							   //          	// details += "<img alt='image' class='img-circle' src='' style='margin-right: 5px;'>";
+							   //          	details += "<img alt='image' class='circle' src='"+data_applicants+"' style='margin-right: 5px;'>";
+										// }
+										// else{
+										// 	var count = full[1].length-i;
+										// 	console.log(i);
+										// 	if(i>8)
+										// 		count = 9+"+";
+
+							   //          	details += "    <span class='new badge blue circle'>"+count+"</span>"+
+										// 				"</div>";
+										// 	return false;
+										// }
 									});
 								}
 								else{
@@ -232,8 +249,7 @@ var jobs = function(){
     		var data = JSON.parse(employer.account());
 			var ajax = system.ajax('../assets/harmony/Process.php?get-jobByID',id[1]);
 			var ajaxData = JSON.parse(ajax.responseText);
-			console.log(ajaxData);
-			var applicant = "No Applicant.", vacancy_id = ajaxData[0][0][0];
+			var applicant = "0", vacancy_id = ajaxData[0][0][0];
 			var applicationexpiry = new Date(ajaxData[0][0][3]), now = new Date();
 			var status = "<span>Active</span>";
 			var application_content = "";
@@ -290,7 +306,7 @@ var jobs = function(){
 			}
 			application_content = "<div class='feed-activity-list'>"+application_content+"</div>";
 			$('#data_info').removeClass('hidden').html(application_content);
-				// console.log(ajaxData);
+				console.log(ajaxData);
 			$('#job-post #txt_jobtitle').html(ajaxData[0][0][4]);
 			$('#job-post #txt_jobstatus').html(status);
 			$('#job-post #txt_jobexpiry').html(ajaxData[0][0][3]);
@@ -298,10 +314,11 @@ var jobs = function(){
 			$('#job-post #txt_jobdescription').html(ajaxData[0][0][2]);
 			$('#job-post #txt_jobskills').html(ajaxData[0][0][5]);
 			$('#job-post #txt_jobsalary').html(ajaxData[0][0][6]);
-			$('#job-post #txt_jobapplicant').html(applicant);
-			$(".datepicker").datepicker({
-			    dateFormat: "YYYY-MM-DD hh:mm:ss"
-			});
+			$('#applicants #txt_jobapplicant').html(applicant);
+
+			// $(".datepicker").datepicker({
+			//     dateFormat: "YYYY-MM-DD hh:mm:ss"
+			// });
 
         	$("a[data-cmd='toggle-interview']").click(function(){
         		var data = $(this).data('id');
@@ -455,6 +472,7 @@ var jobs = function(){
 			
 			});
 		},*/
+// add jobs 
 	    add_job:function(){
 	    	var sys = system, validate = validation, _this = this, _apps = App;
     		var acount = JSON.parse(employer.account());
@@ -532,8 +550,8 @@ var jobs = function(){
 	    	});	
 	    },
 	}
-
 }();
+
 //for account,profile.html
 var employer = function () {
 	"use strict";
@@ -547,14 +565,15 @@ var employer = function () {
 							
 			}
 		},
+//Display Employers Profile
 		display:function(){
 			var ajax = system.html('../assets/harmony/Process.php?get-account');
 			ajax.done(function(data){
 				data = JSON.parse(data);
 				var picture = "../assets/img/profile avatar.jpg",
 				description = "No description yet.",
-				lname = "Set your last name",
-				gname = "Set your given name",
+				lname = "Your last name",
+				gname = "Your given name",
 				address = "Set your company's address",
 				bir = "Set your company's BIR number",
 				dti = "Set your company's DTI number",
@@ -574,24 +593,24 @@ var employer = function () {
 				}
 				if(data[0][5] != "")
 					company = data[0][5];
-				if(data[0][6] != "")
+				if(data[0][6] != null)
 					description = data[0][6];
-				if(data[0][7] != "")
+				if(data[0][7] != null)
 					dti = data[0][7];
-				if(data[0][8] != "")
+				if(data[0][8] != null)
 					bir = data[0][8];
-				if(data[0][2] != "")
+				if(data[0][2] != null)
 					gname = data[0][2];
-				if(data[0][1] != "")
+				if(data[0][1] != null)
 					lname = data[0][1];
-				if(data[0][3] != "")
+				if(data[0][3] != null)
 					address = data[0][3];
-				if(data[0][4] != "")
+				if(data[0][4] != null)
 					contactnumber = data[0][4];
 				if(data[0][10] != "")
 					email = data[0][10];
-				if((data[0][1] != "") || (data[0][2] != ""))
-					name = data[0][1]+", "+data[0][2];
+				if((data[0][1] != null) || (data[0][2] != null))
+					name = lname+", "+gname;
 
 				$("#profile_picture1 img").attr({"src":picture});
 	    		$("#text_company span").html(company);
@@ -700,9 +719,9 @@ var employer = function () {
 				$(".profile-element span img").prop({"src":picture});
 				$("#ajax-content img").prop({"src":picture});
 				//name
-				$(".profile-element span strong").html(data[0][2]+" "+data[0][1]);
-				//addres
-				$(".profile-element span p").html('Welcome Employer!');
+				$(".profile-element span strong").html(lname+", "+gname);
+
+				$(".profile-element span h6").html('Welcome Employer!');
 
 				$("a[data-cmd]").click(function(){
 					$("a").parent('li').removeClass("active");
@@ -1168,7 +1187,7 @@ var employer = function () {
 					var ajax = system.ajax('../assets/harmony/Process.php?do-updateData',data);
 					ajax.success(function(data){
 						if(data == 1){
-							Materialize.toast("Successful!", "", "success");
+							Materialize.toast("Successful!", 2000);
 							App.handleLoadPage("#cmd=index");
 						}
 						else{
