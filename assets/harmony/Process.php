@@ -268,23 +268,24 @@ $Functions = new DatabaseClasses;
     if (isset($_GET['set-postJob'])) {
         $data = $_POST['data'];
 
-        // print_r($data[1][3]['value']);
-        // $id = $Functions->PDO_IDGenerator('tbl_vacancies','id');
-        // $date = $Functions->PDO_DateAndTime();
-        // $data = $_POST['data'];
-        // $employer_id = $data[0];
-        // $job_title = $Functions->escape($data[1][0]['value']);
-        // $vacancy_date = $Functions->escape($data[1][1]['value']);
-        // $skills = $Functions->escape($data[1][2]['value']);
-        // $salary_range = $Functions->escape($data[1][3]['value']);
-        // $description = $Functions->escape($data[1][4]['value']);
-        // $query = $Functions->PDO("INSERT INTO tbl_vacancies(id,employer_id,description,vacancy_date,job_title,skills,salary_range,date,status) VALUES('{$id}','{$employer_id}',{$description},{$vacancy_date},{$job_title},{$skills},{$salary_range},'{$date}',1)");
-        // if($query->execute())
-        //     echo 1;
-        // else{
-        //     $Data = $query->errorInfo();
-        //     print_r($Data[1][6]);
-        // }
+        print_r($data);
+
+        $id = $Functions->PDO_IDGenerator('tbl_vacancies','id');
+        $date = $Functions->PDO_DateAndTime();
+        $data = $_POST['data'];
+        $employer_id = $data[0];
+        $job_title = $Functions->escape($data[1][0]['value']);
+        $vacancy_date = $Functions->escape($data[1][1]['value']);
+        $salary_range = $Functions->escape($data[1][2]['value']);
+        $description = $Functions->escape($data[1][3]['value']);
+        $skills = json_encode($data[1][4]);
+        $query = $Functions->PDO("INSERT INTO tbl_vacancies(id,employer_id,description,vacancy_date,job_title,skills,salary_range,date,status) VALUES('{$id}','{$employer_id}',{$description},{$vacancy_date},{$job_title},{$skills},{$salary_range},'{$date}',1)");
+        if($query->execute())
+            echo 1;
+        else{
+            $Data = $query->errorInfo();
+            print_r($Data[1][6]);
+        }
     }    
     if(isset($_GET['update-adminPicture'])){
             $data = $_POST['data'];
@@ -299,35 +300,6 @@ $Functions = new DatabaseClasses;
                 print_r($Data);
             }
     }
-/*    if (isset($_GET['set-registerEmployer'])) {
-        if(isset($_POST['data'])){
-            $id = $Functions->PDO_IDGenerator('tbl_employer','id');
-            $date = $Functions->PDO_DateAndTime();
-            $data = $_POST['data'];
-            $cname = $data[0][0]['value'];
-            $email = $data[0][1]['value'];
-            $password = $data[1];
-            $password = sha1($data[1]);
-            $Query2 = $Functions->PDO("SELECT * FROM tbl_employer WHERE email = '{$email}'");
-            $Query1 = $Functions->PDO("SELECT * FROM tbl_applicant WHERE email = '{$email}'");
-            if((count($Query1)>0) || (count($Query2)>0)){
-                echo 0;
-            }
-            else{
-                $QueryString = "INSERT INTO tbl_employer(id,company_name,email,password,image,status) VALUES('{$id}','{$cname}','{$email}','{$password}','profile avatar.jpg','1')";
-                $Query = $Functions->PDO_SQLQuery($QueryString);
-                if($Query->execute())
-                    echo 1;
-                else{
-                    $Data = $Query->errorInfo();
-                    print_r($Data);
-                }
-            }
-        }
-        else{
-            echo "Hacker";
-        }
-    }*/
     if (isset($_GET['do-registerApplicant'])) {
         if(isset($_POST['data'])){
             $id = $Functions->PDO_IDGenerator('tbl_appliecant','id');
@@ -485,7 +457,6 @@ $Functions = new DatabaseClasses;
     if(isset($_GET['update-employer'])){
             $data = $_POST['data'];
             $user = $data[0];
-            // print_r($data);
             if($data[1][0]['name'] == "field_CompanyName"){
                 $name = $data[1][0]['value'];
                 $query = $Functions->PDO("UPDATE tbl_employer SET company_name = '{$name}' WHERE id = '{$user}';");
@@ -586,7 +557,44 @@ $Functions = new DatabaseClasses;
                 }
             }         
     }
-    if (isset($_GET['set-declinePendingEmployer'])){
+    if(isset($_GET['update-job'])){
+            $data = $_POST['data'];
+            $user = $data[0];
+            if($data[1][0]['name'] == "field_JobExpiry"){
+                $name = $data[1][0]['value'];
+                $query = $Functions->PDO("UPDATE tbl_vacancies SET vacancy_date = '{$name}', status = '1' WHERE id = '{$user}';");
+                if($query->execute()){
+                    echo 1;
+                }
+                else{
+                    $Data = $query->errorInfo();
+                    print_r($Data);
+                }
+            }
+            else if($data[1][0]['name'] == "field_JobSalary"){
+                $name = $data[1][0]['value'];
+                $query = $Functions->PDO("UPDATE tbl_vacancies SET salary_range = '{$name}' WHERE id = '{$user}';");
+                if($query->execute()){
+                    echo 1;
+                }
+                else{
+                    $Data = $query->errorInfo();
+                    print_r($Data);
+                }
+            }  
+            else if($data[1][0]['name'] == "field_JobDescription"){
+                $name = $data[1][0]['value'];
+                $query = $Functions->PDO("UPDATE tbl_vacancies SET description = '{$name}' WHERE id = '{$user}';");
+                if($query->execute()){
+                    echo 1;
+                }
+                else{
+                    $Data = $query->errorInfo();
+                    print_r($Data);
+                }
+            }      
+    }
+    if (isset($_GET['set-deactivateEmployer'])){
         if(isset($_POST["data"])){
             $data = $_POST['data'];
             $Query = $Functions->PDO_SQLQuery("UPDATE tbl_employer SET status = '0' WHERE id = '{$data}'");
@@ -601,10 +609,25 @@ $Functions = new DatabaseClasses;
             echo "Hacker";
         }
     }
-    if (isset($_GET['set-acceptPendingEmployer'])){
+    if (isset($_GET['set-activateEmployer'])){
         if(isset($_POST["data"])){
             $data = $_POST['data'];
             $Query = $Functions->PDO_SQLQuery("UPDATE tbl_employer SET status = '1' WHERE id = '{$data}'");
+            if($Query->execute())
+                echo 1;
+            else{
+                $Data = $Query->errorInfo();
+                print_r($Data);
+            }
+        }
+        else{
+            echo "Hacker";
+        }
+    }
+    if (isset($_GET['set-deactivateJob'])){
+        if(isset($_POST["data"])){
+            $data = $_POST['data'];
+            $Query = $Functions->PDO_SQLQuery("UPDATE tbl_vacancies SET status = '0' WHERE id = '{$data}'");
             if($Query->execute())
                 echo 1;
             else{
