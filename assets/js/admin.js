@@ -462,7 +462,7 @@ var admin = function () {
 				});
 			});
 
-			$("#"+data+" a[data-cmd='interview']").click(function(){
+			$(`#${data} a[data-cmd='interview']`).click(function(){
 					var content = [$(this).data('id'),$("#"+data+" input[name='field_interview']").val()];
 					var ajax = system.ajax('../assets/harmony/Process.php?do-inviteInterview',content);
 					var ajaxData = JSON.parse(ajax.responseText);
@@ -1132,6 +1132,7 @@ var employer = function(){
         },
 	}
 }();
+
 var applicant = function(){
 	"use strict";
 	return {
