@@ -22,22 +22,6 @@
   -webkit-font-smoothing: antialiased;
 }
 
-/**
- * Copyright 2015 Google Inc. All Rights Reserved.
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-
 html, body {
   font-family: 'Roboto', 'Helvetica', sans-serif;
 }
@@ -240,4 +224,86 @@ _:-ms-input-placeholder, :root .demo-graph {
   -webkit-align-items: center;
       -ms-flex-align: center;
           align-items: center;
+}
+
+.mdl-layout__drawer .mdl-navigation .mdl-navigation__link{
+  padding:16px !important;
+}
+
+.white-text{
+  color:#fff !important;
+}
+
+.center{
+  margin:0 auto !important;
+}
+
+.divider {
+  height: 1px;
+  overflow: hidden;
+  background-color: #e0e0e0
+}
+
+.no-shadow{
+  box-shadow: none !important;
+}
+
+.demo-card-wide.mdl-card {
+  width: 100%;
+}
+.demo-card-wide > .mdl-card__title {
+  color: #fff;
+  height: 176px;
+}
+.demo-card-wide > .mdl-card__menu {
+  color: #fff;
+}
+
+.mdl-card{
+  width: 100% !important;
+}
+
+.demo-grid .mdl-cell {
+    box-sizing: border-box;
+    background-color: #BDBDBD;
+    height: 200px;
+    padding-left: 8px;
+    padding-top: 4px;
+    color: white;
+}
+
+.top-line{
+  border-top:3px; 
+  border-top-style: solid; 
+  border-top-color: #03ded3;
+}
+
+#subcontent{
+  width:95%;
+  margin:0 auto;
+}
+
+.round{
+  border-radius: 50%;
+}
+
+img.round{
+  width: 100%; 
+  border:2px solid #2b9c9b;
+}
+
+.bold{
+  font-weight: bold;
+}
+
+.mdl-navigation__link{
+  color:#fff !important;
+}
+
+.left{
+  text-align: left !important;
+}
+
+.mdl-layout__drawer .mdl-navigation .mdl-navigation__link:hover {
+    background-color: #11353c !important;
 }

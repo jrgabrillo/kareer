@@ -6,20 +6,19 @@ var admin = function () {
 			var data = admin.check_access();
 			if(data != 0){
 				admin.display();
+				jobs.ini();
 				// employer.list();
 				// applicant.list();
-				// admin.jobposting();
 				// admin.update_picture();
 			}
 		},
-		//display admin picture and information
 		display:function(){
-			var ajax = system.html('../assets/harmony/Process.php?get-account',"");
-			var data = ajax.responseText;
-			var picture = "../assets/img/profile_avatar.jpg", level = "";
+			let ajax = system.html('../assets/harmony/Process.php?get-account',"");
+			let data = ajax.responseText;
+			let picture = "../assets/img/profile_avatar.jpg", level = "";
 			data = JSON.parse(data);
 			if(data[0][3] != ""){
-				var imageData = data[0][3].split('.');
+				let imageData = data[0][3].split('.');
 				if(imageData[imageData.length-1]!='apr'){
 					picture = "../assets/img/"+data[0][3];		
 				}
@@ -27,45 +26,126 @@ var admin = function () {
 					picture = system.get_apr(data[0][3]);			
 				}
 			}
-			
-			if(data[0][5] == 1)
-				level = "Administrator";
-			
-			$("#profile_picture1 img").attr({"src":picture});
 
-    		$("#text_givenName span").html(data[0][1]);
+			let content = `<table class="mdl-data-table mdl-js-data-table" width='100%'>
+							<tr>
+								<td class='bold left' style='width: 100px;'>First Name:</td>
+								<td class='left'>
+									${data[0][1]}
+									<div class='field hidden' id='field_givenName'>
+										<form class="form-inline" role="form">
+											<div class='input-group'>
+												<input class='form-control input-sm' placeholder='Given Name' type='text'>
+												<span class='input-group-btn'>
+													<a class='btn-flat btn-tiny btn-success save-profile'>Save</a> 
+													<a class='btn-flat btn-tiny btn-default cancel'>Cancel</a>
+												</span>
+											</div>
+										</form>
+									</div>
+								</td>
+								<td>
+									<button data-cmd='update_profile' data-field='given-name' class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon" id="tooltip_updateName">
+										<i class="material-icons mdl-color-text--grey-400">edit</i>
+										<div class="mdl-tooltip mdl-tooltip--left" for="tooltip_updateName">
+											Update
+										</div>
+									</button>
+								</td>
+							</tr>
+							<tr>
+								<td class='bold left'>Last Name:</td>
+								<td class='left'>
+									${data[0][2]}
+									<div class='field hidden' id='field_familyName'>
+										<form class="form-inline" role="form">
+											<div class='input-group'>
+												<input class="form-control input-sm" placeholder="Family Name" type='text'> 
+												<span class='input-group-btn'>
+													<a class='btn-flat btn-sm btn-success save-profile'>Save</a>
+													<a class='btn-flat btn-sm btn-default cancel'>Cancel</a>
+												</span>
+											</div>
+										</form>
+									</div>
+								</td>
+								<td>
+									<button data-cmd='update_profile' data-field='family-name' class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon" id="tooltip_updateFamilyName">
+										<i class="material-icons mdl-color-text--grey-400">edit</i></a>
+										<div class="mdl-tooltip mdl-tooltip--left" for="tooltip_updateFamilyName">
+											Update
+										</div>
+									</button>
+								</td>
+							</tr>
+							<tr>
+								<td class='bold left'>Username:</td>
+								<td class='left'>
+									${data[0][4]}
+									<div class='field hidden' id='field_userName'>
+										<form class="form-inline" role="form">
+											<div class='input-group'>
+												<input class="form-control input-sm" placeholder="Username" type='text'>
+												<span class='input-group-btn'>
+													<a class='btn-flat btn-sm btn-success save-profile'>Save</a> 
+													<a class='btn-flat btn-sm btn-default cancel'>Cancel</a>
+												</span>
+											</div>
+										</form>
+									</div>
+								</td>
+								<td>
+									<button data-cmd='update_profile' data-field='user-name' class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon" id="tooltip_updateUsername">
+										<i class="material-icons mdl-color-text--grey-400">edit</i></a>
+										<div class="mdl-tooltip mdl-tooltip--left" for="tooltip_updateUsername">
+											Update
+										</div>
+									</button>
+								</td>
+							</tr>
+							<tr>
+								<td class='bold left'>Password</td>
+								<td class='left'>
+									<div class='field hidden' id='field_password'>
+										<form class="form-inline" role="form">
+											<div class='input-group'>
+												<input class="form-control input-sm" placeholder="New Password" type='password'> 
+												<span class='input-group-btn'>
+													<a class='btn-flat btn-tiny btn-info show-password'><i class='tiny material-icons'>visibility</i></a>
+													<a class='btn-flat btn-tiny btn-success save-profile'>Save</a>
+													<a class='btn-flat btn-tiny btn-default cancel'>Cancel</a>
+												</span>
+											</div>
+										</form>
+									</div>
+								</td>
+								<td>
+									<button data-cmd='update_profile' data-field='password' class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon" id="tooltip_updatePassword">
+										<i class="material-icons mdl-color-text--grey-400">edit</i></a>
+										<div class="mdl-tooltip mdl-tooltip--left" for="tooltip_updatePassword">
+											Update
+										</div>
+									</button>
+								</td>
+							</tr>
+						</table>`;
 
-    		$("#text_familyName span").html(data[0][2]);
-
-    		$("#text_userName span").html(data[0][4]);
-
-    		$("#text_password span").html(data[0][6]);
-
-			// picture
+			$("#display_details").html(content);
+			$("#profile_picture img").attr({"src":picture});
 			$(".profile-element span img").attr({"src":picture});
-			$("#ajax-content img").prop({"src":picture});
-			//name
+			$("#ajax-content img").attr({"src":picture});
 			$(".profile-element span strong").html(data[0][1]+" "+data[0][2]);
-
-			$(".profile-element span h6").html('Welcome '+level);
-
+			$(".profile-element span h6").html('Welcome Administrator');
 			$("a[data-cmd]").click(function(){
 				$("a").parent('li').removeClass("active");
 				$(this).parent('li').addClass("active");
-				var data = $(this).data('cmd');
-				if(data == "jobs"){
-				}
-				else if(data == "applications"){
-				}
-				else if(data == "logout"){
-					var ajax = system.ajax('../assets/harmony/Process.php?kill-session',"");
+				let data = $(this).data('cmd');
+				if(data == "logout"){
+					let ajax = system.ajax('../assets/harmony/Process.php?kill-session',"");
 					admin.check_access();
-				}
-				else{
 				}
 			});
 		},
-		//upload new profile picture
         update_picture:function(){
     		var data = system.get_account();
     		data = JSON.parse(data);
@@ -207,7 +287,6 @@ var admin = function () {
             })
             return result;
         },
-        //change admin information
       	update_data:function(){
     		var data = system.get_account();
     		var admindata = JSON.parse(data);
@@ -274,239 +353,7 @@ var admin = function () {
         			system.errorNotification('Notice',name+' can\'t be empty.');
         		}
         	});
-        },
-        //display all job posts of all employers
-       	jobposting:function(){
-			var ajax = system.ajax('../assets/harmony/Process.php?do-getAllJobsPosts',"");
-			var ajaxData = JSON.parse(ajax.responseText);
-			// console.log(ajaxData);
-			var content = "";
-			if(ajaxData.length>0){
-				var content = "<table class='table table-bordered responsive-table' id='table_jobs'>"+
-								"	<thead>"+
-								"		<tr>"+
-								"			<th width='5%'>Status</th>"+
-								"			<th width='50%'>Job</th>"+
-								"			<th width='15%'>Applicants</th>"+
-								"			<th width='15%'>Posted by</th>"+
-								"			<th width='15%'>Options</th>"+
-								"		</tr>"+
-								"	</thead>"+
-								"</table>";
-
-				$("#job-posts .card-content").html(content);
-
-				$('#table_jobs').DataTable({
-				    data: ajaxData,
-				    sort: false,
-					"columnDefs": [
-						{ className: "project-status", "targets": [ 0 ] },
-						{ className: "project-title", "targets": [ 1 ] },
-						{ className: "project-people", "targets": [ 2 ] },
-						{ className: "project-people", "targets": [ 3 ] },
-						{ className: "project-actions", "targets": [ 4 ] }
-					],
-				    columns: [
-				        {data: "",
-				            render: function ( data, type, full ){
-								var status = "<span class='label label-primary'><p class = 'tiny material-icons yellow-text'>star</p></span>";
-								var applicationexpiry = new Date(full[0][3]), now = new Date();
-
-								if(applicationexpiry<now){
-									status = "<span class='label label-danger'><p class = 'tiny material-icons grey-text'>star</p></span>";
-								}
-				                return status;
-				            }
-				        },
-				        {data: "",
-				            render: function ( data, type, full ){
-				            	var details = "<strong>"+full[0][4]+"</strong>";
-				                return details;
-				            }
-				        },
-				        {data: "",
-				            render: function ( data, type, full ){
-				            	var details = "";
-				            	
-								if(full[1].length>0){
-									$.each(full[1],function(i,v){
-										var data_applicants = v[2];
-										var ajax = system.ajax('../assets/harmony/Process.php?get-Applicant',data_applicants);
-										var appajax = JSON.parse(ajax.responseText);
-										var applicant_photo = appajax[0][1][0][13];
-										if(i<4){
-							            	details += "<img alt='image' class='circle responsive-img' style ='width: 25%' src='"+applicant_photo+"' style='margin-right: 15px;'>";
-										}
-										else{
-											var count = full[1].length-i;
-											if(i>13)
-												count = 9+"+";
-
-							            	details += "<div class='vertical-timeline-icon blue-bg pull-right' style='position: relative;width: 32px !important;height: 32px !important;border: 3px solid #1C84C6;'>"+
-														"    <h3>"+count+"</h3>"+
-														"</div>";
-											return false;
-										}
-									});
-								}
-								else{
-									details = "None";
-								}
-				                return details;
-				            }
-				        },
-				        {data: "",
-				            render: function ( data, type, full ){
-				            	var details = "<p>"+full[2][0][2]+"</p";
-				                return details;
-				            }
-				        },
-				        {data: "",
-				            render: function ( data, type, full ){
-				            	var details = "<a href='#cmd=index;content=job;id="+full[0][0]+"' class='btn btn-blue btn-xs'>View</a>";
-				                return details;
-				            }
-				        },
-				    ]
-				});
-			}
-			$(".prettydate").prettydate({
-			    dateFormat: "YYYY-MM-DD hh:mm:ss"
-			});
-        },
-        //display job details with number of applicants applied       
-   		getByID:function(id){
-			var ajax = system.ajax('../assets/harmony/Process.php?get-jobByID',id[1]);
-			var ajaxData = JSON.parse(ajax.responseText);
-			var applicant = "0", vacancy_id = ajaxData[0][0][0];
-			var applicationexpiry = new Date(ajaxData[0][0][3]), now = new Date();
-			var status = "<span>Active</span>";
-			var application_content = "";
-
-			if(applicationexpiry<now){
-				status = "<span>Inactive</span>";
-			}
-			if(applicationexpiry<now){
-				status = "<span>Inactive</span>";
-			}
-			if(ajaxData[0][1].length>0){
-				$.each(ajaxData[0][1],function(i,v){
-					var data_app = v[2]
-					var ajax = system.ajax('../assets/harmony/Process.php?get-Applicant',data_app);
-					var appajax = JSON.parse(ajax.responseText);
-					console.log(appajax[0][1][0][1]);
-					var applicant_photo = appajax[0][1][0][13];
-
-					application_content = 
-											"	<td width='20%'><img alt='image' class='circle responsive-img' src='"+applicant_photo+"' style='margin-right: 15px;'></td>"+
-											"	<td width='80%'><strong>"+appajax[0][1][0][1]+" "+appajax[0][1][0][2]+"</strong></td>";
-				});
-			applicant = ajaxData[0][1].length;
-			}
-			$("#applicants .card-content").html(application_content);
-
-			$('#job-post #txt_jobtitle').html(ajaxData[0][0][4]);
-			$('#job-post #txt_jobstatus').html(status);
-			$('#job-post #txt_jobexpiry').html(ajaxData[0][0][3]);
-			$('#job-post #txt_jobdate').html(ajaxData[0][0][7]);
-			$('#job-post #txt_jobemployer').html(ajaxData[0][2][1]+" "+ajaxData[0][2][2]);
-			$('#job-post #txt_jobdescription').html(ajaxData[0][0][2]);
-			$('#job-post #txt_jobskills').html(ajaxData[0][0][5]);
-			$('#job-post #txt_jobsalary').html(ajaxData[0][0][6]);
-			$('#applicants #txt_jobapplicant').html(applicant);
-			
-			// $(".datepicker").datepicker({
-			//     dateFormat: "YYYY-MM-DD hh:mm:ss"
-			// });
-
-        	$("a[data-cmd='toggle-interview']").click(function(){
-        		var data = $(this).data('id');
-	        	$("#"+data+" textarea").keyup(function(){
-	                system.StringCounter($(this).val(),$("#"+data+" span.desc_stringCounter"),800);
-	                if($(this).val().length > 800){
-	                	$("#"+data+" a[data-cmd='interview']").addClass('disabled');
-	        			system.errorNotification('Notice','Description must only contain 800 characters.');
-	                }
-	                else{
-	                	$("#"+data+" a[data-cmd='interview']").removeClass('disabled');
-	                }
-	        		$("#"+data+" input[name='field_interview']").val($(this).val());  
-	        });
-
-        	$("#employer_description").keyup(function(){
-                system.StringCounter($(this).val(),$("#desc_stringCounter"),1000);
-                if($(this).val().length > 1000){
-                	$("#btn_submitApplication").addClass('disabled');
-        			system.errorNotification('Notice','Description must only contain 1000 characters.');
-                }
-                else{
-                	$("#btn_submitApplication").removeClass('disabled');
-                }
-        		$("#field_application").val($(this).val());    
-        	});
-
-			$("#btn_submitApplication").click(function(){
-				var applicant_data = [data[0][0],data[0][1],data[0][4],data[0][5]];
-				var senddata = [applicant_data,vacancy_id,$("#field_application").val()];
-				var ajax = system.ajax('../assets/harmony/Process.php?do-savejob',senddata);
-				var ajaxData = JSON.parse(ajax.responseText);
-				ajax.success(function(data){
-					if(data == 1){
-						swal("Successful!", "Your picture has been updated.", "success");
-						system.close_modal();
-						App.handleLoadPage(window.location.hash);
-					}
-					else{
-						swal("Fatal Error!", "There was an Unexpected Error during the process.", "error");
-					}
-				});
-			});
-
-			$(`#${data} a[data-cmd='interview']`).click(function(){
-					var content = [$(this).data('id'),$("#"+data+" input[name='field_interview']").val()];
-					var ajax = system.ajax('../assets/harmony/Process.php?do-inviteInterview',content);
-					var ajaxData = JSON.parse(ajax.responseText);
-					ajax.success(function(data){
-						if(data == 1){
-							Materialize.toast("Successful!", "", "success");
-							system.close_modal();
-							App.handleLoadPage(window.location.hash);
-						}
-						else{
-							Materialize.toast("Fatal Error!", "There was an Unexpected Error during the process.", "error");
-						}
-					});
-					});
-        	});
-
-			$("a[data-cmd]").click(function(){
-				var data = [$(this).data('cmd'),$(this).data('id')];
-				if(data[0] == 'decline'){
-				    swal({
-				        title: "Are you sure you want to decline this applicant?",
-				        text: "",
-				        type: "warning",
-				        showCancelButton: true,
-				        confirmButtonColor: "#DD6B55",
-				        confirmButtonText: "Confirm",
-				        closeOnConfirm: false
-				    }, function () {
-						var ajax = system.ajax('../assets/harmony/Process.php?do-decline',data[1]);
-						var ajaxData = JSON.parse(ajax.responseText);
-						ajax.success(function(data){
-							if(data == 1){
-								swal("Successful!", "", "success");
-								system.close_modal();
-								App.handleLoadPage(window.location.hash);
-							}
-							else{
-								swal("Fatal Error!", "There was an Unexpected Error during the process.", "error");
-							}
-						});
-				    });
-				}
-			});
-        },
+        }
     };
 }();
 
@@ -1257,5 +1104,87 @@ var applicant = function(){
 			});
 	    },
 	}
+}();
 
+var jobs = function(){
+	"use strict";
+	return {
+		ini:function(){
+			let data = this.get();
+			this.list(data);
+		},
+		get:function(){
+			let ajax = system.ajax('../assets/harmony/Process.php?do-getAllJobsPosts',"");
+			return JSON.parse(ajax.responseText);
+		},
+		list:function(data){
+			let content = "";
+			if(data.length>0){
+				let content = `<table class='mdl-data-table mdl-js-data-table'>
+									<thead>
+										<tr>
+											<th width='5%'>Status</th>
+											<th width='50%'>Job</th>
+											<th width='15%'>Applicants</th>
+											<th width='15%'>Options</th>
+										</tr>
+									</thead>
+									<tbody></tbody>
+								</table>`;
+
+				$("#job-posts .table").html(content);
+
+				content = "";
+				$.each(data,function(i,v){
+					let applicationexpiry = new Date(v[0][3]), now = new Date(), details="";
+					if(v[1].length>0){
+						$.each(v[1],function(i,v){
+							let ajax = system.ajax('../assets/harmony/Process.php?get-applicant',v[2]);
+							let applicants = JSON.parse(ajax.responseText);
+							if(i<4){
+				            	details += `<img alt='image' class='round responsive-img' style ='width: 25%; margin:2px; ' src='${applicants[0][1][0][13]}' style='margin-right: 15px;'>`;
+							}
+							else{
+								var count = v[1].length-i;
+								if(i>13)
+									count = `${9}+`;
+
+				            	details += `<div class='vertical-timeline-icon blue-bg pull-right' style='position: relative;width: 32px !important;height: 32px !important;border: 3px solid #1C84C6;'>
+											    <h3>${count}</h3>
+											</div>`;
+								return false;
+							}
+						});
+					}
+					else{
+						details = "None";
+					}
+					content += `
+						<tr>
+							<td class='left'>${(applicationexpiry<now)?"<span class='label label-danger'><i class='tiny material-icons grey-text'>star</i></span>":"<span class='label label-primary'><i class='tiny material-icons yellow-text'>star</i></span>"}</td>
+							<td class='left'><strong>${v[0][4]}</strong></td>
+							<td class='left'>${details}</td>
+							<td>
+								<a href='#cmd=index;content=job;id=${v[0][0]}' class='btn btn-blue btn-xs' id='tooltip_${v[0][0]}'>
+									<i class="material-icons mdl-color-text--grey-400">more_vert</i>
+									<div class="mdl-tooltip mdl-tooltip--left" for="tooltip_${v[0][0]}">
+										View
+									</div>
+								</a>
+							</td>
+						</tr>
+					`; 
+				})
+
+				$('#job-posts table tbody').html(content);
+
+				$('#job-posts table').DataTable({
+				    sort: false,
+				});
+			}
+			$(".prettydate").prettydate({
+			    dateFormat: "YYYY-MM-DD hh:mm:ss"
+			});
+		},
+	}
 }();

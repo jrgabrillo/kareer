@@ -13,83 +13,77 @@
         <link media="screen" href="../assets/css/plugins/dataTables/dataTables.responsive.css" rel="stylesheet" />
         <link media="screen" href="../assets/css/plugins/dataTables/dataTables.tableTools.min.css" rel="stylesheet" />
         <link media="screen" href="../assets/js/dataTables/dataTable.css" rel="stylesheet">
-        <link media="screen" href="../assets/css/mdl.css" rel="stylesheet" />
+        <!-- <link media="screen" href="../assets/css/mdl.css" rel="stylesheet" /> -->
         <link media="screen" href="../assets/css/md-lite.css" rel="stylesheet">
         <!-- <link media="screen" href="../assets/css/mdl-sub.css" rel="stylesheet" /> -->
         <link media="screen" href="../assets/css/font.css" rel="stylesheet" />
         <link media="screen" href="../assets/css/main.css" rel="stylesheet" />
         <link media="screen" href="../assets/css/animate.css" rel="stylesheet" />
         <link media="screen" href="../assets/css/style.css" rel="stylesheet" />
-        <link media="screen" href="../assets/css/plugins/sweetalert/sweetalert.css" rel="stylesheet"/>
         <link media="screen" href="../assets/css/cropper.min.css" rel="stylesheet">
-        <style type="text/css">
-
-        </style>
     </head>
-        <body>
+    <body>
+        <div class="mdl-layout mdl-js-layout mdl-layout--fixed-drawer mdl-layout--fixed-header mdl-shadow--2dp">
+            <header class="mdl-layout__header mdl-color--grey-100 no-shadow">
+                <div class="mdl-layout__header-row">
+                    <span class="mdl-layout-title">Home</span>
+                    <div class="mdl-layout-spacer"></div>
 
-        <div  class="demo-layout mdl-layout mdl-js-layout mdl-layout--fixed-drawer mdl-layout--fixed-header">
-            <header class="mdl-layout__header white">
-                <div class="mdl-layout__header-row"></div>
+                    <button class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon" id='tooltip_notification'>
+                        <i class="material-icons mdl-color-text--grey-400">notifications</i>
+                        <div class="mdl-tooltip" data-mdl-for="tooltip_notification">
+                            Notifications
+                        </div>
+                    </button>
+                    <button class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon" id='tooltip_message'>
+                        <i class="material-icons mdl-color-text--grey-400">message</i> 
+                        <div class="mdl-tooltip" data-mdl-for="tooltip_message">
+                            Messages
+                        </div>
+                    </button>
+                </div>
             </header>
             <div class="demo-drawer mdl-layout__drawer profile-element" style="background-image:url(../assets/img/sidenav.png">
-                <br><br><br><br><br><br><br>
-                <header class="demo-drawer-header">
-                    <span class="center white-text">
+                <header class="center demo-drawer-header" style="padding-top: 180px;">
+                    <span class="white-text" style="margin-bottom: 30px;">
                         <h6></h6>
                     </span>
-                    <div class="center white-text">
-                            <small>You have 0 sms and 0 notification</small>
-                            <br><br><br><br>
-                    </div>
                     <span class ="center">
-                         <a href="#cmd=index;content=account"><img src="../assets/img/profile_avatar.jpg" style="border:2px; border-style: solid; border-color: white" class="demo-avatar"></a>
-                         <br><br>
+                         <a href="#cmd=index;content=account">
+                            <img src="../assets/img/profile_avatar.jpg" style="border:2px; border-style: solid; border-color: white" class="demo-avatar">
+                        </a>
                     </span>
                     <span class="center white-text">
                         <strong></strong>
                     </span>                   
                     <div class="demo-avatar-dropdown">   
                         <div class="mdl-layout-spacer"></div>
-                        <button id="accbtn" class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon">
-                            <i class="material-icons white-text" role="presentation">arrow_drop_down</i>
-                            <span class="visuallyhidden">Accounts</span>
-                        </button>
-                        <ul class="mdl-menu mdl-menu--bottom-right mdl-js-menu mdl-js-ripple-effect" for="accbtn">
-                            <li><a href="#cmd=index;content=account" class="mdl-menu__item teal-text">Profile</a></li>
-                            <li>
-                                <a data-cmd="logout" class="mdl-menu__item teal-text" >Log out</a>
-                            </li>
-                        </ul>
                     </div>
-                    <hr/>
                 </header>
+                <div class="divider" style="width: 70%;margin: 0 auto;opacity: 0.3;"></div>
                 <nav background='assets/img/sidebg.png' id='navigation' class="demo-navigation mdl-navigation" style="background-image:url(../assets/img/sidenav.png"></nav>
             </div>
-            <div class="mdl-layout__content mdl-color--grey-100" id='content'></div>
+            <div class="mdl-layout__content mdl-layout-spacer mdl-color--grey-100" id='content'></div>
         </div>
-
-<div class="modal inmodal fade" id="modal" tabindex="-1" role="dialog" aria-hidden="true" style="display: none;">
-    <div class="modal-dialog modal-lg">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true"></span><span class="sr-only">Close</span></button>
-                <h4 class="modal-title"</h4>
-                <small class="font-bold"></small>
-            </div>
-            <div class="modal-body">
-                <div></div>
-            </div>
-            <div class="modal-footer">
+        <div class="modal inmodal fade" id="modal" tabindex="-1" role="dialog" aria-hidden="true" style="display: none;">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true"></span><span class="sr-only">Close</span></button>
+                        <h4 class="modal-title"</h4>
+                        <small class="font-bold"></small>
+                    </div>
+                    <div class="modal-body">
+                        <div></div>
+                    </div>
+                    <div class="modal-footer">
+                    </div>  
+                </div>
             </div>
         </div>
-    </div>
-</div>
-
-
     </body>
     <script src="../assets/js/jquery.js"></script>
-    <script src="../assets/js/mdl.min.js"></script>
+    <!-- <script src="../assets/js/mdl.min.js"></script> -->
     <script src="../assets/js/md-lite.min.js"></script>
     <script src="../assets/js/plugins/sweetalert/sweetalert.min.js"></script>
     <script src="../assets/js/pretty-date/pretty-date.js"></script>

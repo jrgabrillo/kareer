@@ -22,10 +22,9 @@ var main = function () {
 					console.log(_form);
 					var data = system.ajax('assets/harmony/Process.php?login',_form);
 					data.done(function(data){
-                        var access = main.check_access();
-						if(data == 1){
-                            access = JSON.parse(access);
-                            localStorage.setItem("hash",access[2]);
+						data = JSON.parse(data);
+						if(data != 0){
+                            localStorage.setItem("hash",data[2]);
 							Materialize.toast('Success.',1000,'',function(){
 						    	$(location).attr('href','account/');
 							});
@@ -128,7 +127,6 @@ var main = function () {
 				}
 			});
 		},
-
     };
 }();
 var validation = function () {
