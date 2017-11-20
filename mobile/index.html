@@ -9,6 +9,9 @@
         <title>Kareer</title>
         <link rel="shortcut icon" type="image/png" href="res/icon/android/icon.png">
         <link rel="stylesheet" href="css/original.materialize.min.css">
+        <link rel="stylesheet" href="css/material.min.css">
+        <link rel="stylesheet" href="css/dropify.css">
+        <link rel="stylesheet" href="css/cropper.min.css">
         <link rel="stylesheet" href="lib/framework7/css/framework7.material.min.css">
         <link rel="stylesheet" href="lib/framework7/css/framework7.material.colors.min.css">
         <link rel="stylesheet" href="css/framework7.3dpanels.min.css">
@@ -44,7 +47,7 @@
                         <div class="toolbar" style="background: transparent; height: 80px;">
                             <div class="toolbar-inner">
                                 <div class="collection" style="width: 100%; margin-top: 20px; border:none;">
-                                    <a href="#" data-popup=".popup-login" class="white-text collection-item open-popup teal waves-effect waves-teal waves-light btn" style="opacity: 0.8;border:none;border-radius: 0px;">Sign In</a>
+                                    <a href="#" data-popup=".popup-login" class="white-text collection-item open-popup teal waves-effect waves-teal waves-light btn" style="opacity: 0.8;border:none;border-radius: 0px;">Log In</a>
                                     <a href="#" data-popup=".popup-sign-up" class="white-text collection-item open-popup purple waves-effect waves-teal waves-light btn" style="opacity: 0.8;border:none;border-radius: 0px;">Sign Up</a>
                                 </div>
                             </div>
@@ -94,13 +97,14 @@
                                 <li style="margin-bottom: 10px;">
                                     <div class="input-field">
                                         <input type='email' id="field_email" name="field_email" class="form-control white-text" value="">
-                                        <label class="white-text" for="field_email">Email</label>
+                                        <label class="white-text" for="field_email" style="margin-top: -10px">Email</label>
                                     </div>
                                 </li>
                                 <li style="margin-bottom: 10px;">
                                     <div class="input-field">
-                                        <input type='password' id="field_password" name="field_password" class="form-control white-text" value="">
-                                        <label class="white-text" for="field_password">Password</label>
+                                        <input type='password' id="field_password" name="field_password" class="form-control white-text" value="" style="padding-right: 45px;">
+                                        <a style="position: absolute; right: 0px; top: 50%; margin-top: -8px;">show</a>
+                                        <label class="white-text" for="field_password" style="margin-top: -10px">Password</label>
                                     </div>
                                 </li>
                                 <li style="margin-bottom: 10px;">
@@ -184,6 +188,7 @@
         <div class="panel-overlay" style=""></div>
     </body>
     <script src="js/jquery.js "></script>
+    <script src="js/cropper.min.js"></script>
     <script src="js/materialize.min.js"></script>
     <script src="lib/framework7/js/framework7.js"></script>
     <script src="js/welcomescreen.js "></script>

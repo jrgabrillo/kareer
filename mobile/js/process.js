@@ -5,7 +5,8 @@ Framework7.prototype.plugins.kareer = function (app, params) {
     'use strict';
     if (!params) return;
     var self = this;
-    var processor = 'http://localhost/kareer/kareer/assets/harmony/mobile.php?';
+    // var processor = 'http://192.168.1.20/kareer/assets/harmony/mobile.php?';
+    var processor = 'http://localhost/kareer/assets/harmony/mobile.php?';
     // var processor = 'http://kareerserver.rnrdigitalconsultancy.com/assets/harmony/mobile.php?';
     var directory = '/';
 	var $$ = Dom7;
@@ -182,35 +183,42 @@ Framework7.prototype.plugins.kareer = function (app, params) {
 	var account = {
 		ini:function(){
 			var applicantData = JSON.parse(localStorage.getItem('applicant'));
+            var data = account.get(applicantData[0][0]);
 			jobs.bookmarked(applicantData[0][0]);
-			$("#index img.responsive-img").attr({"src":"img/profile/"+applicantData[0][18]});
 
+			$("#index img.responsive-img").attr({"src":"img/profile/"+data[18]});
 			var content = "<div class='content-block'>"+
-							"    <p class='color-gray'><h5>"+applicantData[0][6]+" "+applicantData[0][7]+"</h5></p>"+
-							// "    <p>"+
-							// "        <span><strong>Chief Technology Officer</strong> Pangasinan</span>"+
-							// "    </p>"+
+							"    <p class='color-gray'><h5>"+data[6]+" "+data[7]+"</h5></p>"+
+                            // "    <a data-cmd='account-logout' class='btn-floating btn-flat'>"+
+                            // "      <i class='f7-icons color grey'>logout</i>"+
+                            // "    </a>"+
 							"</div>"+
 							"<div class='content-block'>"+
 							"    <div class='row'>"+
 							"        <div class='col-33'>"+
-							"            <a data-load='account' class='account btn-floating btn-large waves-effect waves-light waves-teal grey lighten-4 btn-flat'><i class='icon f7-icons color-gray'>list</i></a>Account"+
+							"            <a data-load='account'  class='account btn-floating btn-large waves-effect waves-light waves-teal grey lighten-4 btn-flat'><i class='icon f7-icons color-gray'>list_fill</i></a><strong class='grey-text'>ACCOUNT</strong>"+
 							"        </div>"+
 							"        <div class='col-33'>"+
-							"            <a data-load='career' class='account btn-floating btn-large waves-effect waves-light waves-teal grey lighten-4 btn-flat'><i class='icon f7-icons color-gray'>briefcase</i></a>Career"+
+							"            <a data-load='career' class='account btn-floating btn-large waves-effect waves-light waves-teal grey lighten-4 btn-flat'><i class='icon f7-icons color-gray'>briefcase_fill</i></a><strong class='grey-text'>CAREER</strong>"+
 							"        </div>"+
 							"        <div class='col-33'>"+
-							"            <a data-load='academic' class='account btn-floating btn-large waves-effect waves-light waves-teal grey lighten-4 btn-flat'><i class='icon f7-icons color-gray'>folder</i></a>Academic"+
+							"            <a data-load='academic' class='account btn-floating btn-large waves-effect waves-light waves-teal grey lighten-4 btn-flat'><i class='icon f7-icons color-gray'>folder_fill</i></a><strong class='grey-text'>ACADEMIC</strong>"+
 							"        </div>"+
 							"    </div>"+
-							"</div>";
+                            "</div>";
 			$("#display_account").html(content);
 
 			$("a.account").on('click',function(){
 				var data = $(this).data('load');
                 view.router.loadPage("pages/admin/"+data+".html");
 			});
-
+            $("a[data-cmd='account-logout']").on('click',function(){
+                console.log("uwian na");
+                localStorage.removeItem('applicant','');
+                localStorage.removeItem('applications','');
+                localStorage.removeItem('bookmarks','');
+                window.location.reload();
+            }) 
             app.onPageInit('academic',function(page){
                 console.log('page');
                 academic.ini();
@@ -221,26 +229,149 @@ Framework7.prototype.plugins.kareer = function (app, params) {
                 var applicantData = JSON.parse(localStorage.getItem('applicant'));
                 var data = account.get(applicantData[0][0]);
                 account.account(data);
+                account.edit(data);
+                account.show(data);
             });
 
             app.onPageInit('career',function(page){
                 console.log('page');
                 career.ini();
             });
-		},
+
+            var picture = "img/profile/"+data[18];
+            $("a[data-cmd='update']").on('click',function(){
+                console.log("content");
+                var content =   "<div class='card-content'>"+
+                                "<div class=' center image-crop'>"+
+                                "   <img class='circle responsive-img' style='width: 145px; height: 145px; border:2px; border-style: solid; border-color: #2b9c9b' src='"+picture+"'>"+
+                                "</div>"+
+                                "<div class='center btn-group'>"+
+                                "<label for='inputImage' class='btn-flat btn-xs btn-primary'>"+
+                                "   <input type='file' accept='image/*' name='file' id='inputImage' class='hide'>"+
+                                "   <i class='icon f7-icons'>add_round</i>"+
+                                "</label>"+
+                                "<button class='btn-flat btn-warning btn-xs close-popup' data-load='index' data-cmd='cancel' type='button'>"+
+                                "   <i class='icon f7-icons'>close_round</i>"+
+                                "</button>"+
+                                "<button class='btn-flat btn-info btn-xs hidden' data-cmd='rotate' data-option='-90' type='button' title='Rotate Left'>"+
+                                "   <i class='icon f7-icons'>undo</i>"+
+                                "</button>"+
+                                "<button class='btn-flat btn-info btn-xs hidden' data-cmd='rotate' data-option='90' type='button' title='Rotate Right'>"+
+                                "   <i class='icon f7-icons'>redo</i>"+
+                                "</button>"+
+                                "<button class='btn-flat btn-danger btn-xs hidden' data-cmd='save' type='button'>"+
+                                "   <i class='icon f7-icons'>check</i>"+
+                                "</button>"+
+                                "</div>"+
+                                "</div>";
+                $("#profile_picture2").html(content);
+                $('.tooltipped').tooltip({delay: 50});
+              
+                var $inputImage = $("#inputImage");
+                if(window.FileReader){
+                    $inputImage.change(function() {
+                        var fileReader = new FileReader(),
+                                files = this.files,
+                                file;
+
+                        file = files[0];
+
+                        if (/^image\/\w+$/.test(file.type)) {
+                            fileReader.readAsDataURL(file);
+                            fileReader.onload = function () {
+                                $inputImage.val("");
+
+                                var $image = $(".image-crop > img")
+                                $($image).cropper({
+                                    aspectRatio: 1/1,
+                                    autoCropArea: 0.80,
+                                    preview: ".avatar-preview",
+                                    built: function () {
+                                        $("button[data-cmd='save']").removeClass('hidden');
+                                        $("button[data-cmd='rotate']").removeClass('hidden');
+                                        $("button[data-cmd='save']").click(function(){                                          
+                                            $(this).html('Loading..').addClass('disabled');
+                                            console.log("palitan na");
+                                            var ajax = system.ajax(processor+'do-update-image',[data[0],$image.cropper("getDataURL")]);
+                                            ajax.done(function(data){
+                                                if(data == 1){
+                                                    system.notification("Update","Success. Please wait.",false,2000,true,false,function(){
+                                                        app.closeModal('.popup-edit', true);
+                                                        account.ini();
+                                                    });
+                                                    console.log(data);
+                                                }
+                                                else{
+                                                   system.notification("Update","Failed.",false,3000,true,false,false);
+                                                    console.log(data);
+                                                }
+                                            });
+                                        });
+                                    }
+                                });
+
+                                $image.cropper("reset", true).cropper("replace", this.result);
+
+                                $("button[data-cmd='rotate']").click(function(){
+                                    var data = $(this).data('option');
+                                    $image.cropper('rotate', data);
+                                });
+
+                            };
+                        }
+                        else{
+                            showMessage("Please choose an image file.");
+                        }
+                    });
+                }
+                else{
+                    $inputImage.addClass("hide");
+                }
+                $("button[data-cmd='cancel']").click(function(){
+                    app.onPageInit('index',function(page){
+                        console.log('index');
+                        account.ini();
+                    });
+                });
+            });
+		},    
         account:function(data){
-            $$("#display_givenName").html(data[6]);
-            $$("#display_middleName").html(data[8]);
-            $$("#display_lastName").html(data[7]);
-            $$("#display_gender").html(data[9]);
-            $$("#display_dateOfBirth").html(data[10]);
-            $$("#display_placeOfBirth").html(data[11]);
-            $$("#display_address").html(data[12]);
-            $$("#display_citizenship").html(data[13]);
-            $$("#display_weight").html(data[15]);
-            $$("#display_height").html(data[14]);
-            $$("#display_mother").html(data[16]);
-            $$("#display_father").html(data[17]);
+            $$("#display_givenName strong").html(data[6]);
+            $$("#display_givenName a").attr({"data-value":data[6]});
+            $$("#display_givenName a").attr({"data-node":data[0]});
+            $$("#display_middleName strong").html(data[8]);
+            $$("#display_middleName a").attr({"data-value":data[8]});
+            $$("#display_middleName a").attr({"data-node":data[0]});
+            $$("#display_lastName strong").html(data[7]);
+            $$("#display_lastName a").attr({"data-value":data[7]});
+            $$("#display_lastName a").attr({"data-node":data[0]});
+            $$("#display_gender strong").html(data[9]);
+            $$("#display_gender a").attr({"data-value":data[9]});
+            $$("#display_gender a").attr({"data-node":data[0]});
+            $$("#display_dateOfBirth strong").html(data[10]);
+            $$("#display_dateOfBirth a").attr({"data-value":data[10]});
+            $$("#display_dateOfBirth a").attr({"data-node":data[0]});
+            $$("#display_placeOfBirth strong").html(data[11]);
+            $$("#display_placeOfBirth a").attr({"data-value":data[11]});
+            $$("#display_placeOfBirth a").attr({"data-node":data[0]});
+            $$("#display_address strong").html(data[12]);
+            $$("#display_address a").attr({"data-value":data[12]});
+            $$("#display_address a").attr({"data-node":data[0]});
+            $$("#display_citizenship strong").html(data[13]);
+            $$("#display_citizenship a").attr({"data-value":data[13]});
+            $$("#display_citizenship a").attr({"data-node":data[0]});
+            $$("#display_weight strong").html(data[15]);
+            $$("#display_weight a").attr({"data-value":data[15]});
+            $$("#display_weight a").attr({"data-node":data[0]});
+            $$("#display_height strong").html(data[14]);
+            $$("#display_height a").attr({"data-value":data[14]});
+            $$("#display_height a").attr({"data-node":data[0]});
+            $$("#display_mother strong").html(data[16]);
+            $$("#display_mother a").attr({"data-value":data[16]});
+            $$("#display_mother a").attr({"data-node":data[0]});
+            $$("#display_father strong").html(data[17]);
+            $$("#display_father a").attr({"data-value":data[17]});
+            $$("#display_father a").attr({"data-node":data[0]});
         },
         get:function(id){
             var $data = "";
@@ -249,6 +380,732 @@ Framework7.prototype.plugins.kareer = function (app, params) {
                 $data = data;
             });
             return JSON.parse($data);
+        },
+        show:function(data){
+            $("a[data-cmd='view']").on('click',function(){
+                var data = $(this).data();
+                console.log(data);
+            });
+        },
+        edit:function(data){
+            $("a[data-cmd='edit']").on('click',function(){
+                var data = $(this).data();
+                var id = data.node;
+                if(data.prop == "GivenName"){
+                    var content =   "<form action='' method='POST' id='form_edit'>"+
+                                    "    <div class='list-block'>"+
+                                    "        <ul>"+
+                                    "            <li>"+
+                                    "                <div class='input-field'>"+
+                                    "                    <input type='text' id='field_"+data.prop+"' value ='"+data.value+"' name='field_"+data.prop+"' class='form-control black-text'>"+
+                                    "                    <label class='black-text-text' for='field_"+data.prop+"'></label>"+
+                                    "                </div>"+
+                                    "            </li>"+
+                                    "            <li>"+
+                                    "                <a href='#' class='close-popover btn waves-effect waves-teal waves-light btn btn-flat grey-text white'>Cancel</a>"+
+                                    "                <button type ='submit' class='waves-effect waves-teal waves-light btn btn-flat grey-text white'>Save</button>"+
+                                    "            </li>"+
+                                    "        </ul>"+
+                                    "    </div>"+
+                                    "</form> ";
+                    $("#editPopover").html(content);               
+                    $("#form_edit").validate({
+                        rules: {
+                            field_GivenName: {required: true,maxlength:100}
+                        },
+                        errorElement : 'div',
+                        errorPlacement: function(error, element) {
+                            var placement = $(element).data('error');
+                            if(placement){
+                                $(placement).append(error)
+                            } 
+                            else{
+                                error.insertAfter(element);
+                            }
+                        },
+                        messages: {
+                            field_email: {
+                                required: "<i data-error ='Field is required' class='icon f7-icons  color red' style='margin:5px;'>info</i>",
+                                maxlength: "<i data-error ='Name is too long' class='icon f7-icons color red' style='margin:5px;'>info</i>",
+                            },
+                        },
+                        submitHandler: function (form) {
+                            var _form = $(form).serializeArray();
+                            var data = system.ajax(processor+'do-update',[id,_form]);
+                            data.done(function(data){
+                                console.log(data);
+                                if(data != 0){
+                                    system.notification("Update","Success. Please wait.",false,2000,true,false,function(){
+                                        app.closeModal('.popover-edit', true);
+                                        var newdata = account.get(id);
+                                        account.account(newdata);
+                                        account.edit(newdata);
+                                    });
+
+                                }
+                                else{
+                                    system.notification("Update","Failed.",false,3000,true,false,false);
+                                }
+                            })
+                        }
+                    });
+                }
+                else if(data.prop == "MiddleName"){  
+                    var content =   "<form action='' method='POST' id='form_edit'>"+
+                                    "    <div class='list-block'>"+
+                                    "        <ul>"+
+                                    "            <li>"+
+                                    "                <div class='input-field'>"+
+                                    "                    <input type='text' id='field_"+data.prop+"' value ='"+data.value+"' name='field_"+data.prop+"' class='form-control black-text'>"+
+                                    "                    <label class='black-text-text' for='field_"+data.prop+"'></label>"+
+                                    "                </div>"+
+                                    "            </li>"+
+                                    "            <li>"+
+                                    "                <a href='#' class='close-popover btn waves-effect waves-teal waves-light btn btn-flat grey-text white'>Cancel</a>"+
+                                    "                <button type ='submit' class='waves-effect waves-teal waves-light btn btn-flat grey-text white'>Save</button>"+
+                                    "            </li>"+
+                                    "        </ul>"+
+                                    "    </div>"+
+                                    "</form> ";
+                    $("#editPopover").html(content);             
+                    $("#form_edit").validate({
+                        rules: {
+                            field_MiddleName: {required: true,maxlength:100}
+                        },
+                        errorElement : 'div',
+                        errorPlacement: function(error, element) {
+                            var placement = $(element).data('error');
+                            if(placement){
+                                $(placement).append(error)
+                            } 
+                            else{
+                                error.insertAfter(element);
+                            }
+                        },
+                        messages: {
+                            field_email: {
+                                required: "<i data-error ='Field is required' class='icon f7-icons  color red' style='margin:5px;'>info</i>",
+                                maxlength: "<i data-error ='Name is too long' class='icon f7-icons color red' style='margin:5px;'>info</i>",
+                            },
+                        },
+                        submitHandler: function (form) {
+                            var _form = $(form).serializeArray();
+                            var data = system.ajax(processor+'do-update',[id,_form]);
+                            data.done(function(data){
+                                console.log(data);
+                                if(data != 0){
+                                    system.notification("Update","Success. Please wait.",false,2000,true,false,function(){
+                                        app.closeModal('.popover-edit', true);
+                                        var newdata = account.get(id);
+                                        account.account(newdata);
+                                        account.edit(newdata);
+                                    });
+
+                                }
+                                else{
+                                    system.notification("Update","Failed.",false,3000,true,false,false);
+                                }
+                            })
+                        }
+                    });
+                }
+                else if(data.prop == "LastName"){
+                    var content =   "<form action='' method='POST' id='form_edit'>"+
+                                    "    <div class='list-block'>"+
+                                    "        <ul>"+
+                                    "            <li>"+
+                                    "                <div class='input-field'>"+
+                                    "                    <input type='text' id='field_"+data.prop+"' value ='"+data.value+"' name='field_"+data.prop+"' class='form-control black-text'>"+
+                                    "                    <label class='black-text-text' for='field_"+data.prop+"'></label>"+
+                                    "                </div>"+
+                                    "            </li>"+
+                                    "            <li>"+
+                                    "                <a href='#' class='close-popover btn waves-effect waves-teal waves-light btn btn-flat grey-text white'>Cancel</a>"+
+                                    "                <button type ='submit' class='waves-effect waves-teal waves-light btn btn-flat grey-text white'>Save</button>"+
+                                    "            </li>"+
+                                    "        </ul>"+
+                                    "    </div>"+
+                                    "</form> ";
+                    $("#editPopover").html(content);               
+                    $("#form_edit").validate({
+                        rules: {
+                            field_LastName: {required: true,maxlength:100}
+                        },
+                        errorElement : 'div',
+                        errorPlacement: function(error, element) {
+                            var placement = $(element).data('error');
+                            if(placement){
+                                $(placement).append(error)
+                            } 
+                            else{
+                                error.insertAfter(element);
+                            }
+                        },
+                        messages: {
+                            field_email: {
+                                required: "<i data-error ='Field is required' class='icon f7-icons  color red' style='margin:5px;'>info</i>",
+                                maxlength: "<i data-error ='Name is too long' class='icon f7-icons color red' style='margin:5px;'>info</i>",
+                            },
+                        },
+                        submitHandler: function (form) {
+                            var _form = $(form).serializeArray();
+                            var data = system.ajax(processor+'do-update',[id,_form]);
+                            data.done(function(data){
+                                console.log(data);
+                                if(data != 0){
+                                    system.notification("Update","Success. Please wait.",false,2000,true,false,function(){
+                                        app.closeModal('.popover-edit', true);
+                                        account.ini();
+                                    });
+
+                                }
+                                else{
+                                    system.notification("Update","Failed.",false,3000,true,false,false);
+                                }
+                            })
+                        }
+                    });
+                }
+                else if(data.prop == "Gender"){
+                    var content =   "<form action='' method='POST' id='form_edit'>"+
+                                    "    <div class='list-block'>"+
+                                    "        <ul>"+
+                                    "            <li>"+
+                                    "                 <div class='input-field'>"+
+                                    "                   <select id='field_"+data.prop+"' value ='"+data.value+"' name='field_"+data.prop+"'>"+
+                                    "                     <option value='' disabled selected>Select Gender</option>"+
+                                    "                     <option value ='Male'>Male</option>"+
+                                    "                     <option value ='Female'>Female</option>"+
+                                    "                   </select>"+
+                                    "                    <label class='black-text-text' for='field_"+data.prop+"'></label>"+
+                                    "                 </div>"+
+                                    "            </li>"+
+                                    "            <li>"+
+                                    "                <a href='#' class='close-popover btn waves-effect waves-teal waves-light btn btn-flat grey-text white'>Cancel</a>"+
+                                    "                <button type ='submit' class='waves-effect waves-teal waves-light btn btn-flat grey-text white'>Save</button>"+
+                                    "            </li>"+
+                                    "        </ul>"+
+                                    "    </div>"+
+                                    "</form> ";
+                    $("#editPopover").html(content);  
+                    $('select').material_select();             
+                    $("#form_edit").validate({
+                        rules: {
+                            field_Gender: {required: true,maxlength:100}
+                        },
+                        errorElement : 'div',
+                        errorPlacement: function(error, element) {
+                            var placement = $(element).data('error');
+                            if(placement){
+                                $(placement).append(error)
+                            } 
+                            else{
+                                error.insertAfter(element);
+                            }
+                        },
+                        messages: {
+                            field_email: {
+                                required: "<i data-error ='Field is required' class='icon f7-icons  color red' style='margin:5px;'>info</i>",
+                                maxlength: "<i data-error ='Name is too long' class='icon f7-icons color red' style='margin:5px;'>info</i>",
+                            },
+                        },
+                        submitHandler: function (form) {
+                            var _form = $(form).serializeArray();
+                            console.log(_form);
+                            var data = system.ajax(processor+'do-update',[id,_form]);
+                            data.done(function(data){
+                                console.log(data);
+                                if(data != 0){
+                                    system.notification("Update","Success. Please wait.",false,2000,true,false,function(){
+                                        app.closeModal('.popover-edit', true);
+                                         var newdata = account.get(id);
+                                        account.account(newdata);
+                                        account.edit(newdata);
+                                    });
+
+                                }
+                                else{
+                                    system.notification("Update","Failed.",false,3000,true,false,false);
+                                }
+                            })
+                        }
+                    });
+                }
+                else if(data.prop == "DateOfBirth"){
+                    var content =   "<form action='' method='POST' id='form_edit'>"+
+                                    "    <div class='list-block'>"+
+                                    "        <ul>"+
+                                    "            <li>"+
+                                    "                 <label class='active'>Date of Birth</label>"+
+                                    "                    <div>"+
+                                    "                        <input type='date' id='field_"+data.prop+"' value ='"+data.value+"' name='field_"+data.prop+"' class='form-control' placeholder='From'>"+
+                                    "                    </div>"+
+                                    "            </li>"+
+                                    "            <li>"+
+                                    "                <a href='#' class='close-popover btn waves-effect waves-teal waves-light btn btn-flat grey-text white'>Cancel</a>"+
+                                    "                <button type ='submit' class='waves-effect waves-teal waves-light btn btn-flat grey-text white'>Save</button>"+
+                                    "            </li>"+
+                                    "        </ul>"+
+                                    "    </div>"+
+                                    "</form> ";
+                    $("#editPopover").html(content);           
+                    $("#form_edit").validate({
+                        rules: {
+                            field_DateOfBirth: {required: true,maxlength:100}
+                        },
+                        errorElement : 'div',
+                        errorPlacement: function(error, element) {
+                            var placement = $(element).data('error');
+                            if(placement){
+                                $(placement).append(error)
+                            } 
+                            else{
+                                error.insertAfter(element);
+                            }
+                        },
+                        messages: {
+                            field_email: {
+                                required: "<i data-error ='Field is required' class='icon f7-icons  color red' style='margin:5px;'>info</i>",
+                                maxlength: "<i data-error ='Name is too long' class='icon f7-icons color red' style='margin:5px;'>info</i>",
+                            },
+                        },
+                        submitHandler: function (form) {
+                            var _form = $(form).serializeArray();
+                            console.log(_form);
+                            var data = system.ajax(processor+'do-update',[id,_form]);
+                            data.done(function(data){
+                                console.log(data);
+                                if(data != 0){
+                                    system.notification("Update","Success. Please wait.",false,2000,true,false,function(){
+                                        app.closeModal('.popover-edit', true);
+                                         var newdata = account.get(id);
+                                        account.account(newdata);
+                                        account.edit(newdata);
+                                    });
+
+                                }
+                                else{
+                                    system.notification("Update","Failed.",false,3000,true,false,false);
+                                }
+                            })
+                        }
+                    });
+                }
+                else if(data.prop == "PlaceOfBirth"){  
+                    var content =   "<form action='' method='POST' id='form_edit'>"+
+                                    "    <div class='list-block'>"+
+                                    "        <ul>"+
+                                    "            <li>"+
+                                    "                <div class='input-field'>"+
+                                    "                    <input type='text' id='field_"+data.prop+"' value ='"+data.value+"' name='field_"+data.prop+"' class='form-control black-text'>"+
+                                    "                    <label class='black-text-text' for='field_"+data.prop+"'></label>"+
+                                    "                </div>"+
+                                    "            </li>"+
+                                    "            <li>"+
+                                    "                <a href='#' class='close-popover btn waves-effect waves-teal waves-light btn btn-flat grey-text white'>Cancel</a>"+
+                                    "                <button type ='submit' class='waves-effect waves-teal waves-light btn btn-flat grey-text white'>Save</button>"+
+                                    "            </li>"+
+                                    "        </ul>"+
+                                    "    </div>"+
+                                    "</form> ";
+                    $("#editPopover").html(content);             
+                    $("#form_edit").validate({
+                        rules: {
+                            field_PlaceOfBirth: {required: true,maxlength:100}
+                        },
+                        errorElement : 'div',
+                        errorPlacement: function(error, element) {
+                            var placement = $(element).data('error');
+                            if(placement){
+                                $(placement).append(error)
+                            } 
+                            else{
+                                error.insertAfter(element);
+                            }
+                        },
+                        messages: {
+                            field_email: {
+                                required: "<i data-error ='Field is required' class='icon f7-icons  color red' style='margin:5px;'>info</i>",
+                                maxlength: "<i data-error ='Name is too long' class='icon f7-icons color red' style='margin:5px;'>info</i>",
+                            },
+                        },
+                        submitHandler: function (form) {
+                            var _form = $(form).serializeArray();
+                            var data = system.ajax(processor+'do-update',[id,_form]);
+                            data.done(function(data){
+                                console.log(data);
+                                if(data != 0){
+                                    system.notification("Update","Success. Please wait.",false,2000,true,false,function(){
+                                        app.closeModal('.popover-edit', true);
+                                         var newdata = account.get(id);
+                                        account.account(newdata);
+                                        account.edit(newdata);
+                                    });
+
+                                }
+                                else{
+                                    system.notification("Update","Failed.",false,3000,true,false,false);
+                                }
+                            })
+                        }
+                    });
+                }
+                else if(data.prop == "PermanentAddress"){  
+                    var content =   "<form action='' method='POST' id='form_edit'>"+
+                                    "    <div class='list-block'>"+
+                                    "        <ul>"+
+                                    "            <li>"+
+                                    "                <div class='input-field'>"+
+                                    "                    <input type='text' id='field_"+data.prop+"' value ='"+data.value+"' name='field_"+data.prop+"' class='form-control black-text'>"+
+                                    "                    <label class='black-text-text' for='field_"+data.prop+"'></label>"+
+                                    "                </div>"+
+                                    "            </li>"+
+                                    "            <li>"+
+                                    "                <a href='#' class='close-popover btn waves-effect waves-teal waves-light btn btn-flat grey-text white'>Cancel</a>"+
+                                    "                <button type ='submit' class='waves-effect waves-teal waves-light btn btn-flat grey-text white'>Save</button>"+
+                                    "            </li>"+
+                                    "        </ul>"+
+                                    "    </div>"+
+                                    "</form> ";
+                    $("#editPopover").html(content);             
+                    $("#form_edit").validate({
+                        rules: {
+                            field_PermanentAddress: {required: true,maxlength:100}
+                        },
+                        errorElement : 'div',
+                        errorPlacement: function(error, element) {
+                            var placement = $(element).data('error');
+                            if(placement){
+                                $(placement).append(error)
+                            } 
+                            else{
+                                error.insertAfter(element);
+                            }
+                        },
+                        messages: {
+                            field_email: {
+                                required: "<i data-error ='Field is required' class='icon f7-icons  color red' style='margin:5px;'>info</i>",
+                                maxlength: "<i data-error ='Name is too long' class='icon f7-icons color red' style='margin:5px;'>info</i>",
+                            },
+                        },
+                        submitHandler: function (form) {
+                            var _form = $(form).serializeArray();
+                            var data = system.ajax(processor+'do-update',[id,_form]);
+                            data.done(function(data){
+                                console.log(data);
+                                if(data != 0){
+                                    system.notification("Update","Success. Please wait.",false,2000,true,false,function(){
+                                        app.closeModal('.popover-edit', true);
+                                         var newdata = account.get(id);
+                                        account.account(newdata);
+                                        account.edit(newdata);
+                                    });
+
+                                }
+                                else{
+                                    system.notification("Update","Failed.",false,3000,true,false,false);
+                                }
+                            })
+                        }
+                    });
+                }
+                else if(data.prop == "Citizenship"){  
+                    var content =   "<form action='' method='POST' id='form_edit'>"+
+                                    "    <div class='list-block'>"+
+                                    "        <ul>"+
+                                    "            <li>"+
+                                    "                <div class='input-field'>"+
+                                    "                    <input type='text' id='field_"+data.prop+"' value ='"+data.value+"' name='field_"+data.prop+"' class='form-control black-text'>"+
+                                    "                    <label class='black-text-text' for='field_"+data.prop+"'></label>"+
+                                    "                </div>"+
+                                    "            </li>"+
+                                    "            <li>"+
+                                    "                <a href='#' class='close-popover btn waves-effect waves-teal waves-light btn btn-flat grey-text white'>Cancel</a>"+
+                                    "                <button type ='submit' class='waves-effect waves-teal waves-light btn btn-flat grey-text white'>Save</button>"+
+                                    "            </li>"+
+                                    "        </ul>"+
+                                    "    </div>"+
+                                    "</form> ";
+                    $("#editPopover").html(content);             
+                    $("#form_edit").validate({
+                        rules: {
+                            field_Citizenship: {required: true,maxlength:100}
+                        },
+                        errorElement : 'div',
+                        errorPlacement: function(error, element) {
+                            var placement = $(element).data('error');
+                            if(placement){
+                                $(placement).append(error)
+                            } 
+                            else{
+                                error.insertAfter(element);
+                            }
+                        },
+                        messages: {
+                            field_email: {
+                                required: "<i data-error ='Field is required' class='icon f7-icons  color red' style='margin:5px;'>info</i>",
+                                maxlength: "<i data-error ='Name is too long' class='icon f7-icons color red' style='margin:5px;'>info</i>",
+                            },
+                        },
+                        submitHandler: function (form) {
+                            var _form = $(form).serializeArray();
+                            var data = system.ajax(processor+'do-update',[id,_form]);
+                            data.done(function(data){
+                                console.log(data);
+                                if(data != 0){
+                                    system.notification("Update","Success. Please wait.",false,2000,true,false,function(){
+                                        app.closeModal('.popover-edit', true);
+                                         var newdata = account.get(id);
+                                        account.account(newdata);
+                                        account.edit(newdata);
+                                    });
+
+                                }
+                                else{
+                                    system.notification("Update","Failed.",false,3000,true,false,false);
+                                }
+                            })
+                        }
+                    });
+                }
+                else if(data.prop == "Weight"){  
+                    var content =   "<form action='' method='POST' id='form_edit'>"+
+                                    "    <div class='list-block'>"+
+                                    "        <ul>"+
+                                    "            <li>"+
+                                    "                <div class='input-field'>"+
+                                    "                    <input type='text' id='field_"+data.prop+"' value ='"+data.value+"' name='field_"+data.prop+"' class='form-control black-text'>"+
+                                    "                    <label class='black-text-text' for='field_"+data.prop+"'></label>"+
+                                    "                </div>"+
+                                    "            </li>"+
+                                    "            <li>"+
+                                    "                <a href='#' class='close-popover btn waves-effect waves-teal waves-light btn btn-flat grey-text white'>Cancel</a>"+
+                                    "                <button type ='submit' class='waves-effect waves-teal waves-light btn btn-flat grey-text white'>Save</button>"+
+                                    "            </li>"+
+                                    "        </ul>"+
+                                    "    </div>"+
+                                    "</form> ";
+                    $("#editPopover").html(content);             
+                    $("#form_edit").validate({
+                        rules: {
+                            field_Weight: {required: true,maxlength:100}
+                        },
+                        errorElement : 'div',
+                        errorPlacement: function(error, element) {
+                            var placement = $(element).data('error');
+                            if(placement){
+                                $(placement).append(error)
+                            } 
+                            else{
+                                error.insertAfter(element);
+                            }
+                        },
+                        messages: {
+                            field_email: {
+                                required: "<i data-error ='Field is required' class='icon f7-icons  color red' style='margin:5px;'>info</i>",
+                                maxlength: "<i data-error ='Name is too long' class='icon f7-icons color red' style='margin:5px;'>info</i>",
+                            },
+                        },
+                        submitHandler: function (form) {
+                            var _form = $(form).serializeArray();
+                            var data = system.ajax(processor+'do-update',[id,_form]);
+                            data.done(function(data){
+                                console.log(data);
+                                if(data != 0){
+                                    system.notification("Update","Success. Please wait.",false,2000,true,false,function(){
+                                        app.closeModal('.popover-edit', true);
+                                         var newdata = account.get(id);
+                                        account.account(newdata);
+                                        account.edit(newdata);
+                                    });
+
+                                }
+                                else{
+                                    system.notification("Update","Failed.",false,3000,true,false,false);
+                                }
+                            })
+                        }
+                    });
+                }
+                else if(data.prop == "Height"){  
+                    var content =   "<form action='' method='POST' id='form_edit'>"+
+                                    "    <div class='list-block'>"+
+                                    "        <ul>"+
+                                    "            <li>"+
+                                    "                <div class='input-field'>"+
+                                    "                    <input type='text' id='field_"+data.prop+"' value ='"+data.value+"' name='field_"+data.prop+"' class='form-control black-text'>"+
+                                    "                    <label class='black-text-text' for='field_"+data.prop+"'></label>"+
+                                    "                </div>"+
+                                    "            </li>"+
+                                    "            <li>"+
+                                    "                <a href='#' class='close-popover btn waves-effect waves-teal waves-light btn btn-flat grey-text white'>Cancel</a>"+
+                                    "                <button type ='submit' class='waves-effect waves-teal waves-light btn btn-flat grey-text white'>Save</button>"+
+                                    "            </li>"+
+                                    "        </ul>"+
+                                    "    </div>"+
+                                    "</form> ";
+                    $("#editPopover").html(content);             
+                    $("#form_edit").validate({
+                        rules: {
+                            field_Height: {required: true,maxlength:100}
+                        },
+                        errorElement : 'div',
+                        errorPlacement: function(error, element) {
+                            var placement = $(element).data('error');
+                            if(placement){
+                                $(placement).append(error)
+                            } 
+                            else{
+                                error.insertAfter(element);
+                            }
+                        },
+                        messages: {
+                            field_email: {
+                                required: "<i data-error ='Field is required' class='icon f7-icons  color red' style='margin:5px;'>info</i>",
+                                maxlength: "<i data-error ='Name is too long' class='icon f7-icons color red' style='margin:5px;'>info</i>",
+                            },
+                        },
+                        submitHandler: function (form) {
+                            var _form = $(form).serializeArray();
+                            var data = system.ajax(processor+'do-update',[id,_form]);
+                            data.done(function(data){
+                                console.log(data);
+                                if(data != 0){
+                                    system.notification("Update","Success. Please wait.",false,2000,true,false,function(){
+                                        app.closeModal('.popover-edit', true);
+                                        var newdata = account.get(id);
+                                        account.account(newdata);
+                                        account.edit(newdata);
+                                    });
+
+                                }
+                                else{
+                                    system.notification("Update","Failed.",false,3000,true,false,false);
+                                }
+                            })
+                        }
+                    });
+                }
+                else if(data.prop == "MotherName"){  
+                    var content =   "<form action='' method='POST' id='form_edit'>"+
+                                    "    <div class='list-block'>"+
+                                    "        <ul>"+
+                                    "            <li>"+
+                                    "                <div class='input-field'>"+
+                                    "                    <input type='text' id='field_"+data.prop+"' value ='"+data.value+"' name='field_"+data.prop+"' class='form-control black-text'>"+
+                                    "                    <label class='black-text-text' for='field_"+data.prop+"'></label>"+
+                                    "                </div>"+
+                                    "            </li>"+
+                                    "            <li>"+
+                                    "                <a href='#' class='close-popover btn waves-effect waves-teal waves-light btn btn-flat grey-text white'>Cancel</a>"+
+                                    "                <button type ='submit' class='waves-effect waves-teal waves-light btn btn-flat grey-text white'>Save</button>"+
+                                    "            </li>"+
+                                    "        </ul>"+
+                                    "    </div>"+
+                                    "</form> ";
+                    $("#editPopover").html(content);             
+                    $("#form_edit").validate({
+                        rules: {
+                            field_MotherName: {required: true,maxlength:100}
+                        },
+                        errorElement : 'div',
+                        errorPlacement: function(error, element) {
+                            var placement = $(element).data('error');
+                            if(placement){
+                                $(placement).append(error)
+                            } 
+                            else{
+                                error.insertAfter(element);
+                            }
+                        },
+                        messages: {
+                            field_email: {
+                                required: "<i data-error ='Field is required' class='icon f7-icons  color red' style='margin:5px;'>info</i>",
+                                maxlength: "<i data-error ='Name is too long' class='icon f7-icons color red' style='margin:5px;'>info</i>",
+                            },
+                        },
+                        submitHandler: function (form) {
+                            var _form = $(form).serializeArray();
+                            var data = system.ajax(processor+'do-update',[id,_form]);
+                            data.done(function(data){
+                                console.log(data);
+                                if(data != 0){
+                                    system.notification("Update","Success. Please wait.",false,2000,true,false,function(){
+                                        app.closeModal('.popover-edit', true);
+                                        var newdata = account.get(id);
+                                        account.account(newdata);
+                                        account.edit(newdata);
+                                    });
+
+                                }
+                                else{
+                                    system.notification("Update","Failed.",false,3000,true,false,false);
+                                }
+                            })
+                        }
+                    });
+                }
+                else if(data.prop == "FatherName"){  
+                    var content =   "<form action='' method='POST' id='form_edit'>"+
+                                    "    <div class='list-block'>"+
+                                    "        <ul>"+
+                                    "            <li>"+
+                                    "                <div class='input-field'>"+
+                                    "                    <input type='text' id='field_"+data.prop+"' value ='"+data.value+"' name='field_"+data.prop+"' class='form-control black-text'>"+
+                                    "                    <label class='black-text-text' for='field_"+data.prop+"'></label>"+
+                                    "                </div>"+
+                                    "            </li>"+
+                                    "            <li>"+
+                                    "                <a href='#' class='close-popover btn waves-effect waves-teal waves-light btn btn-flat grey-text white'>Cancel</a>"+
+                                    "                <button type ='submit' class='waves-effect waves-teal waves-light btn btn-flat grey-text white'>Save</button>"+
+                                    "            </li>"+
+                                    "        </ul>"+
+                                    "    </div>"+
+                                    "</form> ";
+                    $("#editPopover").html(content);             
+                    $("#form_edit").validate({
+                        rules: {
+                            field_FatherName: {required: true,maxlength:100}
+                        },
+                        errorElement : 'div',
+                        errorPlacement: function(error, element) {
+                            var placement = $(element).data('error');
+                            if(placement){
+                                $(placement).append(error)
+                            } 
+                            else{
+                                error.insertAfter(element);
+                            }
+                        },
+                        messages: {
+                            field_email: {
+                                required: "<i data-error ='Field is required' class='icon f7-icons  color red' style='margin:5px;'>info</i>",
+                                maxlength: "<i data-error ='Name is too long' class='icon f7-icons color red' style='margin:5px;'>info</i>",
+                            },
+                        },
+                        submitHandler: function (form) {
+                            var _form = $(form).serializeArray();
+                            var data = system.ajax(processor+'do-update',[id,_form]);
+                            data.done(function(data){
+                                console.log(data);
+                                if(data != 0){
+                                    system.notification("Update","Success. Please wait.",false,2000,true,false,function(){
+                                        app.closeModal('.popover-edit', true);
+                                        var newdata = account.get(id);
+                                        account.account(newdata);
+                                        account.edit(newdata);
+                                    });
+
+                                }
+                                else{
+                                    system.notification("Update","Failed.",false,3000,true,false,false);
+                                }
+                            })
+                        }
+                    });
+                }
+
+            });
         }
 	}
 
@@ -261,6 +1118,7 @@ Framework7.prototype.plugins.kareer = function (app, params) {
                 career.add(applicantData[0][0]);
             });
             career.show(list);
+            career.delete(list);
         },
         add:function(id){
             var data = system.xml("pages/admin/pages.xml");
@@ -290,10 +1148,12 @@ Framework7.prototype.plugins.kareer = function (app, params) {
                         var _form = $(form).serializeArray();
                         var data = system.ajax(processor+'do-career',[id,_form]);
                         data.done(function(data){
+                            console.log(data);
                             if(data != 0){
                                 $$("input").val("");
                                 system.notification("Kareer","Career Added.",false,2000,true,false,function(){
                                     app.closeModal('.career', true);
+                                    career.ini();
                                 });
                             }
                             else{
@@ -317,15 +1177,48 @@ Framework7.prototype.plugins.kareer = function (app, params) {
             var content = "";
             $.each(list,function(i,v){
                 content += "<li class='collection-item'>"+
-                            "   <a class='secondary-content' href='#!'><i class='icon f7-icons'>close_round</i></a>"+
-                            "   <span class='title'><strong>"+v[4]+"</strong></span>"+
-                            "   <p>Inclusive Date: "+v[2]+" - "+v[3]+"</p>"+
-                            "   <p>Agency: "+v[5]+"</p>"+
-                            "   <p>Salary: "+v[6]+"</p>"+
-                            "   <p>Status: "+v[7]+"</p>"+
+                            "   <a class='secondary-content right btn btn-floating btn-flat open-popover waves-effect waves-teal waves-light' href='#' data-cmd='delete' data-node='"+v[0]+"' data-popover='.popover-delete'><i class='icon f7-icons color-teal'>close_round</i></a>"+
+                            "   <span class='title color-teal'><strong class ='color-black'>"+v[4]+"</strong></span>"+
+                            "   <div class ='color-teal'class ='color-teal'>Inclusive Date: <strong class ='color-black'>"+v[2]+" - "+v[3]+"</strong></div>"+
+                            "   <div class ='color-teal'>Agency: <strong class ='color-black'>"+v[5]+"</strong></div>"+
+                            "   <div class ='color-teal'>Salary: <strong class ='color-black'>"+v[6]+"</strong></div>"+
+                            "   <div class ='color-teal'>Status: <strong class ='color-black'>"+v[7]+"</strong></div>"+
                             "</li>";
             });
             $$("#display_career").html("<ul class='collection'>"+content+"</ul");
+        },
+        delete:function(data){
+            $("a[data-cmd='delete']").on('click',function(){
+                var data = $(this).data();
+                var id = data.node;
+                var content =   "        <ul>"+
+                                "            <li>"+
+                                "                <h5 class = 'center'>Are you sure?"+
+                                "                </h5>"+
+                                "            </li>"+
+                                "            <li>"+
+                                "                <a href='#' class='close-popover btn waves-effect waves-teal waves-light btn btn-flat grey-text white'>Cancel</a>"+
+                                "                <a data-cmd='proceed' class='waves-effect waves-teal waves-light btn btn-flat grey-text white'>Yes</a>"+
+                                "            </li>"+
+                                "        </ul>";
+                $("#deletePopover").html(content);
+                $("a[data-cmd='proceed']").on('click',function(){
+                    var acad = system.ajax(processor+'do-deleteCareer',id);
+                    acad.done(function(data){
+                        console.log(acad);
+                            if(data != 0){
+                                system.notification("Kareer","Success. Please wait.",false,2000,true,false,function(){
+                                    app.closeModal('.popover-delete', true);
+                                    career.ini();
+                                });
+
+                            }
+                            else{
+                                system.notification("Kareer","Failed.",false,3000,true,false,false);
+                            }
+                    });
+                });
+            });
         }
     }
 
@@ -337,6 +1230,7 @@ Framework7.prototype.plugins.kareer = function (app, params) {
                 academic.add(applicantData[0][0]);
             });
             academic.show(list);
+            academic.delete(list);
         },
         add:function(id){
             var data = system.xml("pages/admin/pages.xml");
@@ -346,7 +1240,7 @@ Framework7.prototype.plugins.kareer = function (app, params) {
                 $("#form_academic").validate({
                     rules: {
                         field_yearLevel: {required: true,maxlength:20},
-                        field_school: {required: true,maxlength:20},
+                        field_school: {required: true,maxlength:100},
                         field_degree: {required: true,maxlength:100},
                         field_dateFirst: {required: true,maxlength:100},
                         field_dateLast: {required: true,maxlength:100},
@@ -363,6 +1257,7 @@ Framework7.prototype.plugins.kareer = function (app, params) {
                     },
                     submitHandler: function (form) {
                         var _form = $(form).serializeArray();
+                        console.log(_form);
                         var data = system.ajax(processor+'do-academic',[id,_form]);
                         data.done(function(data){
                             console.log(data);
@@ -370,6 +1265,7 @@ Framework7.prototype.plugins.kareer = function (app, params) {
                                 $$("input").val("");
                                 system.notification("Kareer","Academic Added.",false,2000,true,false,function(){
                                     app.closeModal('.academic', true);
+                                    academic.ini();
                                 });
                             }
                             else{
@@ -392,17 +1288,49 @@ Framework7.prototype.plugins.kareer = function (app, params) {
             var content = "";
             $.each(list,function(i,v){
                 content += "<li class='collection-item'>"+
-                            "   <a class='secondary-content' href='#!'><i class='icon f7-icons'>close_round</i></a>"+
-                            "   <span class='title'><strong>"+v[2]+"</strong></span>"+
-                            "   <p>Name of School: "+v[3]+"</p>"+
-                            "   <p>Degree: "+v[4]+"</p>"+
-                            "   <p>Units Earned: "+v[6]+"</p>"+
-                            "   <p>Period of Attendance: "+v[5]+"</p>"+
-                            "   <p>Year Graduated: "+v[7]+"</p>"+
+                            "   <a class='secondary-content right btn btn-floating btn-flat open-popover waves-effect waves-teal waves-light' href='#' data-cmd='delete' data-node='"+v[0]+"' data-popover='.popover-delete'><i class='icon f7-icons color-teal'>close_round</i></a>"+
+                            "   <span class='title color-teal'><strong class ='color-black'>"+v[2]+"</strong></span>"+
+                            "   <div class ='color-teal'class ='color-teal'>Name of School: <strong class ='color-black'>"+v[3]+"</strong></div>"+
+                            "   <div class ='color-teal'>Degree: <strong class ='color-black'>"+v[4]+"</strong></div>"+
+                            "   <div class ='color-teal'>Units Earned: <strong class ='color-black'>"+v[6]+"</strong></div>"+
+                            "   <div class ='color-teal'>Period of Attendance: <strong class ='color-black'>"+v[5]+"</strong></div>"+
+                            "   <div class ='color-teal'>Year Graduated: <strong class ='color-black'>"+v[7]+"</strong></div>"+
                             "</li>";
             });
-            console.log(content);
-            $("#display_academic").html("<ul class='collection'>"+content+"</ul");
+            $$("#display_academic").html("<ul class='collection'>"+content+"</ul");
+        },
+        delete:function(data){
+            $("a[data-cmd='delete']").on('click',function(){
+                var data = $(this).data();
+                var id = data.node;
+                var content =   "        <ul>"+
+                                "            <li>"+
+                                "                <h5 class = 'center'>Are you sure?"+
+                                "                </h5>"+
+                                "            </li>"+
+                                "            <li>"+
+                                "                <a href='#' class='close-popover btn waves-effect waves-teal waves-light btn btn-flat grey-text white'>Cancel</a>"+
+                                "                <a data-cmd='proceed' class='waves-effect waves-teal waves-light btn btn-flat grey-text white'>Yes</a>"+
+                                "            </li>"+
+                                "        </ul>";
+                $("#deletePopover").html(content);
+                $("a[data-cmd='proceed']").on('click',function(){
+                    var acad = system.ajax(processor+'do-deleteAcad',id);
+                    acad.done(function(data){
+                        console.log(acad);
+                            if(data != 0){
+                                system.notification("Kareer","Success. Please wait.",false,2000,true,false,function(){
+                                    app.closeModal('.popover-delete', true);
+                                    academic.ini();
+                                });
+
+                            }
+                            else{
+                                system.notification("Kareer","Failed.",false,3000,true,false,false);
+                            }
+                    });
+                });
+            });
         }
     }
 
@@ -445,8 +1373,8 @@ Framework7.prototype.plugins.kareer = function (app, params) {
                         	$$("input").val("");
                             system.notification("Kareer","Success. Please wait.",false,2000,true,false,function(){
 			                	app.closeModal('.popup-login', true);
-					        	content.ini();
 					        	localStorage.setItem('applicant',data);
+                                content.ini();
                             });
 	                    }
 	                    else{
@@ -458,7 +1386,8 @@ Framework7.prototype.plugins.kareer = function (app, params) {
 	        $$(".log-error-icon").on('click',function(){
 	            var data= $(this).find('i');
 	            system.notification("Kareer",data[0].dataset.error,false,3000,true,false,false);
-	        });    		
+	        });
+            		
     	},
     	logout:function(){
     		$$("a[data-cmd='account-logout']").on('click',function(){
@@ -537,9 +1466,9 @@ Framework7.prototype.plugins.kareer = function (app, params) {
         personal:function(){
             $("#form_personal_info").validate({
                 rules: {
-                    field_last_name: {required: true, maxlength:50},
                     field_given_name: {required: true, maxlength:50},
                     field_middle_name: {required: true, maxlength:50},
+                    field_last_name: {required: true, maxlength:50},
                     field_gender: {required: true, maxlength:50},
                     field_date_of_birth: {required: true, maxlength:50},
                     field_place_of_birth: {required: true, maxlength:50},
@@ -770,17 +1699,15 @@ Framework7.prototype.plugins.kareer = function (app, params) {
         show:function(list){
 			var applicantData = JSON.parse(localStorage.getItem('applicant'));
 			var bookmarks = JSON.parse(localStorage.getItem('bookmarks'));
-
             var content = "";
             var height = $(window).height();
             $.each(list,function(i,v){
             	var skills = "", bookmarkButtonSettings = "";
                 bookmarkButtonSettings = ($.inArray(v[0],bookmarks)>=0)?"disabled":"";
-
                 v[5] = JSON.parse(v[5]);
             	$.each(v[5],function(i2,v2){
                     if(v2 != "null")
-            		skills += "<div class='chip'><div class='chip-media bg-teal'>J</div><div class='chip-label'>"+v2+"</div></div>";
+            		skills += "<div class='chip'><div class='chip-media bg-teal'></div><div class='chip-label'>"+v2+"</div></div>";
             	});
 
                 content = "<div class='swiper-slide'>"+
@@ -811,7 +1738,7 @@ Framework7.prototype.plugins.kareer = function (app, params) {
                             "       </div>"+
                             "       <div class='card-footer'>"+
                             "           <a class='waves-effect waves-teal btn-flat hidden' href='#'>Read More</a>"+
-                            "           <button data-node='"+(JSON.stringify([v[0],applicantData[0][0]]))+"' data-cmd='apply' class='waves-effect waves-light btn icon f7-icons color-white' style='background: rgb(0, 150, 136); margin: 0;'>"+
+                            "           <button data-node='"+(JSON.stringify([v[0],applicantData[0][0]]))+"' data-cmd='apply' class='waves-effect waves-light btn btn-floating icon f7-icons color-white' style='background: rgb(0, 150, 136); margin: 0;'>"+
                             "               paper_plane_fill"+
                             "           </button>"+
                             "       </div>"+
@@ -836,6 +1763,7 @@ Framework7.prototype.plugins.kareer = function (app, params) {
 	                    if(e == 1){
                             system.notification("Kareer","Done.",false,2000,true,false,function(){
 								$(_this).attr({"disabled":true});
+
                             });
 	                    }
 	                    else{
