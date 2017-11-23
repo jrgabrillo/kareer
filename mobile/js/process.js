@@ -16,9 +16,9 @@ Framework7.prototype.plugins.kareer = function (app, params) {
     	ini:function(){
         	// var deviceSize = system.getDeviceSize();
         	// console.log(deviceSize);
-            logIn.ini();
-        	signUp.ini();
-        	// content.ini();
+            // logIn.ini();
+        	// signUp.ini();
+        	content.ini();
     	},
         notification:function(title,message,button,timeout,loader,_functionOpen,_functionClose){
             var timeout = (timeout == "")?false:timeout;
@@ -194,16 +194,27 @@ Framework7.prototype.plugins.kareer = function (app, params) {
                             // "    </a>"+
 							"</div>"+
 							"<div class='content-block'>"+
-							"    <div class='row'>"+
+							"    <div class='row rows'>"+
 							"        <div class='col-33'>"+
-							"            <a data-load='account'  class='account btn-floating btn-large waves-effect waves-light waves-teal grey lighten-4 btn-flat'><i class='icon f7-icons color-gray'>list_fill</i></a><strong class='grey-text'>ACCOUNT</strong>"+
+							"            <a data-load='account'  class='account btn-floating btn-large waves-effect waves-light waves-teal grey lighten-4 btn-flat'><i class='icon f7-icons color-gray' style='font-size: 30px; margin-top: 6px;'>person</i></a><div class='grey-text' style = 'font-size: xx-small'>ACCOUNT</div>"+
 							"        </div>"+
 							"        <div class='col-33'>"+
-							"            <a data-load='career' class='account btn-floating btn-large waves-effect waves-light waves-teal grey lighten-4 btn-flat'><i class='icon f7-icons color-gray'>briefcase_fill</i></a><strong class='grey-text'>CAREER</strong>"+
+							"            <a data-load='career' class='account btn-floating btn-large waves-effect waves-light waves-teal grey lighten-4 btn-flat'><i class='icon f7-icons color-gray' style='font-size: 30px; margin-top: 6px;'>briefcase_fill</i></a><div class='grey-text' style = 'font-size: xx-small'>CAREER</div>"+
 							"        </div>"+
 							"        <div class='col-33'>"+
-							"            <a data-load='academic' class='account btn-floating btn-large waves-effect waves-light waves-teal grey lighten-4 btn-flat'><i class='icon f7-icons color-gray'>folder_fill</i></a><strong class='grey-text'>ACADEMIC</strong>"+
+							"            <a data-load='academic' class='account btn-floating btn-large waves-effect waves-light waves-teal grey lighten-4 btn-flat'><i class='icon f7-icons color-gray' style='font-size: 30px; margin-top: 6px;'>folder_fill</i></a><div class='grey-text' style = 'font-size: xx-small'>ACADEMIC</div>"+
 							"        </div>"+
+                            "    </div>"+
+                            "    <div class='row rows'>"+
+                            "        <div class='col-33'>"+
+                            "            <a data-load='' class='account btn-floating btn-large waves-effect waves-light waves-teal grey lighten-4 btn-flat'><i class='icon f7-icons color-gray' style='font-size: 30px; margin-top: 6px;'>bookmark_fill</i></a><div class='grey-text' style = 'font-size: xx-small'>BOOKMARKS</div>"+
+                            "        </div>"+
+                            "        <div class='col-33'>"+
+                            "            <a data-load='' class='account btn-floating btn-large waves-effect waves-light waves-teal grey lighten-4 btn-flat'><i class='icon f7-icons color-gray' style='font-size: 30px; margin-top: 6px;'>gear_fill</i></a><div class='grey-text' style = 'font-size: xx-small'>SETTINGS</div>"+
+                            "        </div>"+
+                            "        <div class='col-33'>"+
+                            "            <a data-load='resume' class='account btn-floating btn-large waves-effect waves-light waves-teal grey lighten-4 btn-flat'><i class='icon f7-icons color-gray' style='font-size: 30px; margin-top: 6px;'>document_text_fill</i></a><div class='grey-text' style = 'font-size: xx-small'>RESUME</div>"+
+                            "      </div>"+
 							"    </div>"+
                             "</div>";
 			$("#display_account").html(content);
@@ -222,7 +233,12 @@ Framework7.prototype.plugins.kareer = function (app, params) {
             app.onPageInit('academic',function(page){
                 console.log('page');
                 academic.ini();
-            });         
+            }); 
+            app.onPageInit('resume',function(page){
+                console.log('page'); 
+                resume.ini();
+
+            });       
 
             app.onPageInit('account',function(page){
                 console.log('page');
@@ -237,6 +253,7 @@ Framework7.prototype.plugins.kareer = function (app, params) {
                 console.log('page');
                 career.ini();
             });
+             
 
             var picture = "img/profile/"+data[18];
             $("a[data-cmd='update']").on('click',function(){
@@ -264,6 +281,7 @@ Framework7.prototype.plugins.kareer = function (app, params) {
                                 "</button>"+
                                 "</div>"+
                                 "</div>";
+                                console.log("sdsd");
                 $("#profile_picture2").html(content);
                 $('.tooltipped').tooltip({delay: 50});
               
@@ -334,44 +352,95 @@ Framework7.prototype.plugins.kareer = function (app, params) {
                     });
                 });
             });
-		},    
+		}, 
+        controller:function(data){
+            $$(".card-header a").on('click',function(){
+                console.log(data);
+                $("a").removeClass('color-teal').addClass('color-gray');
+                $(this).removeClass('color-gray').addClass('color-teal');
+            });
+        },   
         account:function(data){
-            $$("#display_givenName strong").html(data[6]);
-            $$("#display_givenName a").attr({"data-value":data[6]});
-            $$("#display_givenName a").attr({"data-node":data[0]});
-            $$("#display_middleName strong").html(data[8]);
-            $$("#display_middleName a").attr({"data-value":data[8]});
-            $$("#display_middleName a").attr({"data-node":data[0]});
-            $$("#display_lastName strong").html(data[7]);
-            $$("#display_lastName a").attr({"data-value":data[7]});
-            $$("#display_lastName a").attr({"data-node":data[0]});
-            $$("#display_gender strong").html(data[9]);
-            $$("#display_gender a").attr({"data-value":data[9]});
-            $$("#display_gender a").attr({"data-node":data[0]});
-            $$("#display_dateOfBirth strong").html(data[10]);
-            $$("#display_dateOfBirth a").attr({"data-value":data[10]});
-            $$("#display_dateOfBirth a").attr({"data-node":data[0]});
-            $$("#display_placeOfBirth strong").html(data[11]);
-            $$("#display_placeOfBirth a").attr({"data-value":data[11]});
-            $$("#display_placeOfBirth a").attr({"data-node":data[0]});
-            $$("#display_address strong").html(data[12]);
-            $$("#display_address a").attr({"data-value":data[12]});
-            $$("#display_address a").attr({"data-node":data[0]});
-            $$("#display_citizenship strong").html(data[13]);
-            $$("#display_citizenship a").attr({"data-value":data[13]});
-            $$("#display_citizenship a").attr({"data-node":data[0]});
-            $$("#display_weight strong").html(data[15]);
-            $$("#display_weight a").attr({"data-value":data[15]});
-            $$("#display_weight a").attr({"data-node":data[0]});
-            $$("#display_height strong").html(data[14]);
-            $$("#display_height a").attr({"data-value":data[14]});
-            $$("#display_height a").attr({"data-node":data[0]});
-            $$("#display_mother strong").html(data[16]);
-            $$("#display_mother a").attr({"data-value":data[16]});
-            $$("#display_mother a").attr({"data-node":data[0]});
-            $$("#display_father strong").html(data[17]);
-            $$("#display_father a").attr({"data-value":data[17]});
-            $$("#display_father a").attr({"data-node":data[0]});
+            var accData = data;
+            $("img.resume").attr({"src":"img/profile/"+accData[18]});
+            // console.log(data);
+            var storedData = app.formStoreData('account', {
+                'GivenName' : accData[6],
+                'MiddleName' : accData[8],
+                'LastName' : accData[7],
+                'Gender' : accData[9],
+                'DateOfBirth' : accData[10],
+                'PlaceOfBirth' : accData[11],
+                'Address' : accData[12],
+                'Citizenship' : accData[13],
+                'Weight' : accData[14],
+                'Height' : accData[15],
+                'Mother' : accData[16],
+                'Father' : accData[17]
+            });
+
+            $("a.saveAccount").on('click',function(){
+                 var id = accData[0];
+                var storedData = app.formGetData('account');
+                console.log(storedData);
+                var accountData = $.map(storedData, function(value, index) {
+                    return [value];
+                });
+                var data = system.ajax(processor+'do-accountResume',[id,accountData]);
+                data.done(function(data){
+                    console.log(data);
+                    if(data != 0){
+                        system.notification("Kareer","Saved",false,2000,true,false,function(){
+                            var update = account.get(id);
+                            account.account(update);
+                        });                        
+                    }
+
+                })
+                console.log(accountData); 
+            });
+            
+            $("a.home").on('click',function(){
+                var data = $(this).data('load');
+                view.router.loadPage("pages/admin/"+data+".html");
+            });
+
+            app.onPageInit('resume',function(page){
+                account.controller();
+                resume.ini();
+            });
+
+            app.onPageInit('index',function(page){
+                account.controller();
+                account.ini();
+            });
+
+            $("a.next").on('click',function(){ 
+                var data = $(this).data('load');
+                view.router.loadPage("pages/admin/"+data+".html");
+                $("a.career").addClass('disabled');
+                var id = accData[0];
+                var storedData = app.formGetData('account');
+                console.log(storedData);
+                var accountData = $.map(storedData, function(value, index) {
+                    return [value];
+                });
+                var data = system.ajax(processor+'do-accountResume',[id,accountData]);
+                data.done(function(data){
+                    console.log(data);
+                    if(data != 0){
+                            var update = account.get(id);
+                            account.account(update);
+                            resume.ini();
+                    }
+
+                })
+                console.log(accountData); 
+
+            });
+            app.onPageInit('builderCareer',function(page){
+                career.ini();
+            });
         },
         get:function(id){
             var $data = "";
@@ -1111,62 +1180,165 @@ Framework7.prototype.plugins.kareer = function (app, params) {
 
     var career = {
         ini:function(){
-            console.log("xx");
             var applicantData = JSON.parse(localStorage.getItem('applicant'));
-            var list = career.get(applicantData[0][0]);
+            var list = career.getAll(applicantData[0][0]);
             $$("a[data-cmd='add-career']").on('click',function(){
                 career.add(applicantData[0][0]);
             });
             career.show(list);
             career.delete(list);
+
+            $("a.home").on('click',function(){
+                var data = $(this).data('load');
+                view.router.loadPage("pages/admin/"+data+".html");
+                account.controller(data);
+            });
+
+            app.onPageInit('index',function(page){
+                account.controller();
+            });
         },
         add:function(id){
-            var data = system.xml("pages/admin/pages.xml");
-            $(data.responseText).find("div.popup.career").each(function(i,content){
-                app.popup(content);
+            console.log("othan");
+            $("a.career").addClass('hidden');
+            $("a.add").addClass('hidden');
+            $("a.save").removeClass('hidden');
+            $("a.cancel").removeClass('hidden');
+            $("div.list").addClass('hidden');
+            $("div.add").removeClass('hidden');
+            $("a.add").addClass('hidden');
+            $("a.home").addClass('hidden');
+            $("a.goback").removeClass('hidden');
+            // $("div.toolbar").addClass('hidden');
 
-                $("#form_career").validate({
-                    rules: {
-                        field_dateFirst: {required: true,maxlength:20},
-                        field_dateLast: {required: true,maxlength:20},
-                        field_position: {required: true,maxlength:100},
-                        field_agency: {required: true,maxlength:100},
-                        field_salary: {required: true,maxlength:100},
-                        field_appointment: {required: true,maxlength:100},
-                    },
-                    errorElement : 'div',
-                    errorPlacement: function(error, element) {
-                        var placement = $(element).data('error');
-                        if(placement){
-                            $(placement).append(error)
-                        } 
-                        else{
-                            error.insertAfter(element);
-                        }
-                    },
-                    submitHandler: function (form) {
-                        var _form = $(form).serializeArray();
-                        var data = system.ajax(processor+'do-career',[id,_form]);
-                        data.done(function(data){
-                            console.log(data);
-                            if(data != 0){
-                                $$("input").val("");
-                                system.notification("Kareer","Career Added.",false,2000,true,false,function(){
-                                    app.closeModal('.career', true);
-                                    career.ini();
-                                });
-                            }
-                            else{
-                                system.notification("Kareer","Failed.",false,3000,true,false,false);
-                            }
-                        })
-                    }
-                }); 
+            let content =`<div class="center">
+                           <form action="" method="POST" id='form_career'>
+                                <div class="list-block">
+                                    <ul>
+                                        <li>
+                                            <div class="row center">
+                                                <div class="input-field">
+                                                    <label class="active" style="top: auto; left: 0px; font-size: 17px;">Inclusive dates</label>
+                                                    <div class="col s6">
+                                                        <input type='date' id="field_dateFirst" name="field_dateFirst" class="form-control" placeholder="From">
+                                                    </div>
+                                                    <div class="col s6">
+                                                        <input type='date' id="field_dateLast" name="field_dateLast" class="form-control" placeholder="To">
+                                                    </div>
+                                                </div>                                            
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <div class="input-field">
+                                                <input type='text' id="field_position" name="field_position" class="form-control">
+                                                <label class="" for="field_position" style="top: -2px; left: 0px;">Position Title</label>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <div class="input-field">
+                                                <input type='text' id="field_agency" name="field_agency" class="form-control">
+                                                <label class="" for="field_agency" style="top: -2px !important; left: 0px !important;">Department/Company/Office/Agency</label>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <div class="input-field">
+                                                <input type='text' id="field_salary" name="field_salary" class="form-control">
+                                                <label class="" for="field_salary" style="top: -2px !important; left: 0px !important;">Monthly Salary</label>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <div class="input-field">
+                                                <input type='text' id="field_appointment" name="field_appointment" class="form-control">
+                                                <label class="" for="field_appointment" style="top: -2px !important; left: 0px !important;">Status of Appointment</label>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <div class="input-field">
+                                                <input type='text' id="field_govt_service" name="field_govt_service" class="form-control">
+                                                <label class="" for="field_govt_service" style="top: -2px !important; left: 0px !important;">Gov't Service</label>
+                                            </div>
+                                        </li>
+                                        <li style="margin-top: 70% !important;">
+                                            <button class="btn-flat waves-effect waves-teal waves-light teal color-white" style="width:100%; border-radius: 30px !important;">Save</button>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </form>
+                          </div>`;
+             $$("#addCareer").html(content);
+
+            $("a.cancel").on('click',function(){
+                $("div.list").removeClass('hidden');
+                $("div.add").addClass('hidden');
+                $("a.career").removeClass('hidden');
+                $("a.add").removeClass('hidden');
+                $("a.save").addClass('hidden');
+                $("a.cancel").addClass('hidden');
             });
+
+            $("a.goback").on('click',function(){
+                $("div.list").removeClass('hidden');
+                $("div.add").addClass('hidden');
+                $("a.add").removeClass('hidden');
+                $("a.goback").addClass('hidden');
+                $("a.home").removeClass('hidden');
+                var data = $(this).data('load');
+                view.router.loadPage("pages/admin/"+data+".html");
+            });
+
+            app.onPageInit('career',function(page){
+                career.ini();
+            });
+                
+            $("#form_career").validate({
+                rules: {
+                    field_dateFirst: {required: true,maxlength:20},
+                    field_dateLast: {required: true,maxlength:20},
+                    field_position: {required: true,maxlength:100},
+                    field_agency: {required: true,maxlength:100},
+                    field_salary: {required: true,maxlength:100},
+                    field_appointment: {required: true,maxlength:100},
+                    field_govt_service: {required: true,maxlength:100},
+                },
+                errorElement : 'div',
+                errorPlacement: function(error, element) {
+                    var placement = $(element).data('error');
+                    if(placement){
+                        $(placement).append(error)
+                    } 
+                    else{
+                        error.insertAfter(element);
+                    }
+                },
+                submitHandler: function (form) {
+                    var _form = $(form).serializeArray();
+                    var data = system.ajax(processor+'do-career',[id,_form]);
+                    data.done(function(data){
+                        console.log(data);
+                        if(data != 0){
+                            $$("input").val("");
+                            system.notification("Kareer","Career Added.",false,2000,true,false,function(){
+                                career.ini();
+                            });
+                        }
+                        else{
+                            system.notification("Kareer","Failed.",false,3000,true,false,false);
+                        }
+                    })
+                }
+            });
+        },
+        getAll:function(id){
+            var $data = "";
+            var jobs = system.ajax(processor+'get-career',id);
+            jobs.done(function(data){
+                $data = data;
+            });
+            return JSON.parse($data);
         },
         get:function(id){
             var $data = "";
-            var jobs = system.ajax(processor+'get-career',id);
+            var jobs = system.ajax(processor+'do-editCareer',id);
             jobs.done(function(data){
                 $data = data;
             });
@@ -1177,15 +1349,24 @@ Framework7.prototype.plugins.kareer = function (app, params) {
             var content = "";
             $.each(list,function(i,v){
                 content += "<li class='collection-item'>"+
-                            "   <a class='secondary-content right btn btn-floating btn-flat open-popover waves-effect waves-teal waves-light' href='#' data-cmd='delete' data-node='"+v[0]+"' data-popover='.popover-delete'><i class='icon f7-icons color-teal'>close_round</i></a>"+
-                            "   <span class='title color-teal'><strong class ='color-black'>"+v[4]+"</strong></span>"+
-                            "   <div class ='color-teal'class ='color-teal'>Inclusive Date: <strong class ='color-black'>"+v[2]+" - "+v[3]+"</strong></div>"+
-                            "   <div class ='color-teal'>Agency: <strong class ='color-black'>"+v[5]+"</strong></div>"+
-                            "   <div class ='color-teal'>Salary: <strong class ='color-black'>"+v[6]+"</strong></div>"+
-                            "   <div class ='color-teal'>Status: <strong class ='color-black'>"+v[7]+"</strong></div>"+
+                            "   <a class='secondary-content right btn btn-floating btn-flat waves-effect waves-teal waves-light' href='#' data-cmd='edit' data-node='"+v[0]+"'><i class='icon f7-icons color-black'>chevron_right</i></a>"+
+                            "   <div class='title color-teal' style='margin-left: 50px !important;'><strong class ='color-black'>"+v[4]+"</strong></div>"+
+                            "   <div class ='color-teal' style='margin-left: 50px !important;'><small class ='color-black'>"+v[2]+" - "+v[3]+"</small></div>"+
+                            // "   <div class ='color-teal'>Agency: <strong class ='color-black'>"+v[5]+"</strong></div>"+
+                            // "   <div class ='color-teal'>Salary: <strong class ='color-black'>"+v[6]+"</strong></div>"+
+                            // "   <div class ='color-teal'>Status: <strong class ='color-black'>"+v[7]+"</strong></div>"+
                             "</li>";
+                $("a.career").removeClass('disabled');
+                console.log(v[0]);
             });
             $$("#display_career").html("<ul class='collection'>"+content+"</ul");
+            $$("a[data-cmd='edit']").on('click',function(){
+                var data = $(this).data();
+                var id = data.node;
+                var c = career.get(id);
+                career.edit(c);
+                
+            });
         },
         delete:function(data){
             $("a[data-cmd='delete']").on('click',function(){
@@ -1209,6 +1390,8 @@ Framework7.prototype.plugins.kareer = function (app, params) {
                             if(data != 0){
                                 system.notification("Kareer","Success. Please wait.",false,2000,true,false,function(){
                                     app.closeModal('.popover-delete', true);
+                                    app.closeModal('.popup career', true);
+                                    $("a.career").addClass('disabled');
                                     career.ini();
                                 });
 
@@ -1219,6 +1402,94 @@ Framework7.prototype.plugins.kareer = function (app, params) {
                     });
                 });
             });
+        },
+        edit:function(data){
+            console.log(data);
+            var storedData = app.formStoreData('form_career', {
+                'field_dateFirst' : data[0][2],
+                'field_dateLast' : data[0][3],
+                'field_position' : data[0][4],
+                'field_agency' : data[0][5],
+                'field_salary' : data[0][6],
+                'field_appointment' : data[0][7],
+                'field_govt_service' : data[0][8]
+            }); 
+            $("a.career").addClass('hidden');
+            $("a.add").addClass('hidden');
+            $("a.save").removeClass('hidden');
+            $("a.cancel").removeClass('hidden');
+            $("div.list").addClass('hidden');
+            $("div.edit").removeClass('hidden');
+            $("div.input-field").addClass('not-empty-state');
+            $("input.form-control").addClass('not-empty-state');
+            $("label").addClass('active');
+
+            $("a.cancel").on('click',function(){
+                $("div.list").removeClass('hidden');
+                $("div.edit").addClass('hidden');
+                $("div.add").addClass('hidden');
+                $("a.career").removeClass('hidden');
+                $("a.add").removeClass('hidden');
+                $("a.save").addClass('hidden');
+                $("a.cancel").addClass('hidden');
+                var list = career.getAll(data[0][1]);
+                career.show(list);
+                // var storedData = app.formDeleteData('form_career');
+                // // if(storedData){
+                // console.log(storedData);
+                // // }
+            });
+
+            $("a.save").on('click',function(){              
+                var storedData = app.formGetData('form_career');
+                if(storedData){
+                console.log(storedData);
+                }
+            });
+
+            // var data = system.xml("pages/admin/pages.xml");
+            // $(data.responseText).find("div.popup.career").each(function(i,content){
+            //     app.popup(content);
+            // $("a.save").on('click',function(){
+            //     console.log("sdsa");
+            //     $("#form_career").validate({
+            //         rules: {
+            //             field_dateFirst: {required: true,maxlength:20},
+            //             field_dateLast: {required: true,maxlength:20},
+            //             field_position: {required: true,maxlength:100},
+            //             field_agency: {required: true,maxlength:100},
+            //             field_salary: {required: true,maxlength:100},
+            //             field_appointment: {required: true,maxlength:100},
+            //         },
+            //         errorElement : 'div',
+            //         errorPlacement: function(error, element) {
+            //             var placement = $(element).data('error');
+            //             if(placement){
+            //                 $(placement).append(error)
+            //             } 
+            //             else{
+            //                 error.insertAfter(element);
+            //             }
+            //         },
+            //         submitHandler: function (form) {
+            //             var _form = $(form).serializeArray();
+            //             // var data = system.ajax(processor+'do-career',[id,_form]);
+            //             // data.done(function(data){
+            //             //     console.log(data);
+            //             //     if(data != 0){
+            //             //         $$("input").val("");
+            //             //         system.notification("Kareer","Career Added.",false,2000,true,false,function(){
+            //             //             app.closeModal('.career', true);
+            //             //             career.ini();
+            //             //         });
+            //             //     }
+            //             //     else{
+            //             //         system.notification("Kareer","Failed.",false,3000,true,false,false);
+            //             //     }
+            //             // })
+            //         }
+            //     }); 
+            // });
         }
     }
 
@@ -1231,6 +1502,16 @@ Framework7.prototype.plugins.kareer = function (app, params) {
             });
             academic.show(list);
             academic.delete(list);
+
+            $("a.home").on('click',function(){
+                var data = $(this).data('load');
+                view.router.loadPage("pages/admin/"+data+".html");
+                account.controller(data);
+            });
+
+            app.onPageInit('index',function(page){
+                account.controller();
+            });
         },
         add:function(id){
             var data = system.xml("pages/admin/pages.xml");
@@ -1298,6 +1579,7 @@ Framework7.prototype.plugins.kareer = function (app, params) {
                             "</li>";
             });
             $$("#display_academic").html("<ul class='collection'>"+content+"</ul");
+
         },
         delete:function(data){
             $("a[data-cmd='delete']").on('click',function(){
@@ -1330,6 +1612,66 @@ Framework7.prototype.plugins.kareer = function (app, params) {
                             }
                     });
                 });
+            });
+        }
+    }
+    let resume ={
+        ini:function(){
+            var applicantData = JSON.parse(localStorage.getItem('applicant'));
+            var data = resume.get(applicantData[0][0]);
+
+            let content =   `<div><img src="./img/RES.png" style="width: 200px; position: relative; margin-top: 80px;" ></div>
+                            <p style="font-size: 17px">Make my Resume</p>
+                            <div class="center">
+                                <a data-load ='builderAccount' class="resume btn btn-large white-text waves-effect waves-teal waves-light" style="border-radius: 30px; width: 90%; height: 55px; font-size: 20px; margin-top: 97px; background-color: #5cb0a8;">Create Resume</a>
+                                <a data-load ='SavedResume' class="resume btn btn-large white-text waves-effect waves-purple waves-light" style="border-radius: 30px;width: 90%;height: 55px; font-size: 20px; margin-top: 15px; background-color: #7a5578;"><p>Saved Resume</p></a>
+                            </div>`;
+            $$("#resume_builder").html(content);
+
+            $("a.resume").on('click',function(){
+                var data = $(this).data('load');
+                view.router.loadPage("pages/admin/"+data+".html");
+            });
+
+            $("a.home").on('click',function(){
+                var data = $(this).data('load');
+                view.router.loadPage("pages/admin/"+data+".html");
+            });
+
+            app.onPageInit('builderAccount',function(page){
+                console.log('page'); 
+                $("a.acc").removeClass('color-grey').addClass('color-white');
+                account.account(data);
+
+            });
+            app.onPageInit('SavedResume',function(page){
+                console.log('page');
+                resume.savedResume();
+            });
+
+
+            app.onPageInit('index',function(page){
+                account.controller();
+            });
+        },
+        get:function(id){
+            var $data = "";
+            var jobs = system.ajax(processor+'get-applicant',id);
+            jobs.done(function(data){
+                $data = data;
+            });
+            return JSON.parse($data);
+        },
+        savedResume:function(){
+            $("a.home").on('click',function(){
+                var data = $(this).data('load');
+                view.router.loadPage("pages/admin/"+data+".html");
+                console.log("dfdfdd");
+            });
+
+            app.onPageInit('resume',function(page){
+                account.controller();
+                resume.ini();
             });
         }
     }

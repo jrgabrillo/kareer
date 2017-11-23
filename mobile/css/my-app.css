@@ -9,7 +9,14 @@ div[class*="col1-"] {
 }
 .row {
     margin-bottom: 2px;
+
 }
+.rows {
+    margin-bottom: 20px;
+    padding-left: 40px;
+    padding-right: 30px;
+}
+
 
 /* label color */
 #splashScreen a.button {

@@ -1,11 +1,29 @@
-<div class="page no-toolbar no-navbar" data-page="account">
-    <div class="page-content infinite-scroll" style="white-space: normal;">
+<div class="page no-navbar" data-page="builderAccount">
         <div class="card card-header-pic" style="height: auto !important; margin-top: 0px !important; margin-left: auto; margin-bottom: auto;">
-            <div class="card-header">
-                <a href="#" data-load="index" class="btn btn-floating btn-flat white waves-effect waves-teal waves-light home color-gray"><i class="icon f7-icons">arrow_left</i></a>Account
+            <div class="card-header" style="width: 51% !important;">
+                <a href="#" data-load='resume' class="btn btn-floating btn-flat white waves-effect waves-teal waves-light home color-gray"><i class="icon f7-icons">chevron_left</i></a>Account
             </div>
+            <div class="navbar" style="background-color: #4DB6AC; height: 45px !important; ">
+                <div class="navbar-inner rows">
+                    <div class="left">
+                        <a class="acc btn btn-flat color-grey " style ="padding: 0px; font-size: 12px;">ACCOUNT</a>
+                    </div>
+                    <div class="center" style="margin:auto; margin-top: -6px;">
+                        <a class="car btn btn-flat color-grey " style ="padding: 0px; font-size: 12px;">CAREER</a>
+                    </div>
+                    <div class="right" style="margin-left:unset;">
+                        <a class="aca btn btn-flat color-grey " style ="padding: 0px; font-size: 12px;">ACADEMIC</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="toolbar toolbar-bottom center" style="height: 59px; background-color: white;">
+                <a href="#" data-load='builderCareer' class="next btn btn-large white-text waves-effect waves-purple waves-light" style="border-radius: 30px;width: 90%;height: 49px; font-size: 20px; background-color: #7a5578;"><strong class="">Next</strong></a>
+        </div>
+          <div class="page-content infinite-scroll toolbar-fixed" style="white-space: normal;">
             <form id="account" class="list-block store-data" style=" margin-bottom: 120px !important;">
-               <ul>
+              <div class="center"><a href="#" data-cmd="update" data-popup=".popup-edit" class="open-popup"><img class="circle responsive-img resume" style=" width: 120px; height: 120px; border:2px; border-style: solid; border-color: #2b9c9b" src="./img/profile/avatar.png"></a></div>
+                <ul>
                    <li class="item-content">
                        <div class="item-inner">
                         <div class="item-input">
@@ -90,11 +108,7 @@
                         </div>
                        </div>
                    </li>
-               </ul> 
+               </ul>  
             </form>
-            <div class="toolbar toolbar-bottom center" style="height: 59px; background-color: white;margin-top: -117px;">
-                <a href="#" class="saveAccount btn btn-large white-text waves-effect waves-purple waves-light" style="border-radius: 30px;width: 90%;height: 49px; font-size: 20px; background-color: #7a5578;"><strong class="">Save</strong></a>
-            </div>
-        </div>
-    </div>
+      </div>
 </div>

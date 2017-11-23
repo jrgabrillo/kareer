@@ -2795,9 +2795,10 @@ html:not(.watch-active-state) .list-block .item-link:active {
 }
 
 .list-block .item-content {
-	box-sizing: border-box;
-	padding-left: 16px;
-	min-height: 48px;
+	padding-right: 16px;
+    box-sizing: border-box;
+    padding-left: 16px;
+    min-height: 35px;
 	display: -webkit-box;
 	display: -ms-flexbox;
 	display: -webkit-flex;
@@ -4882,9 +4883,9 @@ input.modal-text-input+input.modal-text-input {
 	background: #fff;
 	z-index: 13500;
 	margin: 0;
-	top: 170px;
+	/*top: 170px;*/
 	opacity: 0;
-	left: 20px;
+	/*left: 20px;*/
 	border-radius: 3px;
 	position: absolute;
 	display: none;
@@ -4904,8 +4905,8 @@ input.modal-text-input+input.modal-text-input {
 .popover.popover-on-bottom {
 	-webkit-transform-origin: center top;
 	transform-origin: center top;
-	top: 230px !important;
-	left: 17px !important;
+	/*top: 230px;
+	left: 17px;*/
 }
 
 .popover.modal-in {
