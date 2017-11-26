@@ -418,7 +418,7 @@ Framework7.prototype.plugins.kareer = function (app, params) {
             $("a.next").on('click',function(){ 
                 var data = $(this).data('load');
                 view.router.loadPage("pages/admin/"+data+".html");
-                $("a.career").addClass('disabled');
+                // $("a.career").addClass('disabled');
                 var id = accData[0];
                 var storedData = app.formGetData('account');
                 console.log(storedData);
@@ -1188,7 +1188,7 @@ Framework7.prototype.plugins.kareer = function (app, params) {
             career.show(list);
             career.delete(list);
 
-            $("a.home").on('click',function(){
+            $("a.index").on('click',function(){
                 var data = $(this).data('load');
                 view.router.loadPage("pages/admin/"+data+".html");
                 account.controller(data);
@@ -1202,14 +1202,12 @@ Framework7.prototype.plugins.kareer = function (app, params) {
             console.log("othan");
             $("a.career").addClass('hidden');
             $("a.add").addClass('hidden');
-            $("a.save").removeClass('hidden');
-            $("a.cancel").removeClass('hidden');
             $("div.list").addClass('hidden');
             $("div.add").removeClass('hidden');
             $("a.add").addClass('hidden');
-            $("a.home").addClass('hidden');
             $("a.goback").removeClass('hidden');
-            // $("div.toolbar").addClass('hidden');
+            // $("a.cancel").addClass('hidden');
+            $("div.toolbar").addClass('hidden');
 
             let content =`<div class="center">
                            <form action="" method="POST" id='form_career'>
@@ -1259,21 +1257,23 @@ Framework7.prototype.plugins.kareer = function (app, params) {
                                             </div>
                                         </li>
                                         <li style="margin-top: 70% !important;">
-                                            <button class="btn-flat waves-effect waves-teal waves-light teal color-white" style="width:100%; border-radius: 30px !important;">Save</button>
+                                            <button class="btn-flat btn-large waves-effect waves-teal waves-light purple color-white" style="width: 80%; margin-left: -15px !important; border-radius: 30px !important; height: 49px; background-color: #7a5578; font-size: 20px;">Save</button>
+                                            <a href="#" class="cancel btn-floating btn-small red waves-effect waves-teal waves-light right" style="right: 5px; height: 50px; width: 50px;"><i class="icon f7-icons" style="top: 7px;">close</i></a>
                                         </li>
                                     </ul>
                                 </div>
                             </form>
                           </div>`;
-             $$("#addCareer").html(content);
+            $$("#addCareer").html(content);
 
             $("a.cancel").on('click',function(){
                 $("div.list").removeClass('hidden');
                 $("div.add").addClass('hidden');
                 $("a.career").removeClass('hidden');
                 $("a.add").removeClass('hidden');
-                $("a.save").addClass('hidden');
-                $("a.cancel").addClass('hidden');
+                $("div.toolbar").removeClass('hidden');
+                // $("a.save").addClass('hidden');
+                // $("a.cancel").addClass('hidden');
             });
 
             $("a.goback").on('click',function(){
@@ -1282,10 +1282,17 @@ Framework7.prototype.plugins.kareer = function (app, params) {
                 $("a.add").removeClass('hidden');
                 $("a.goback").addClass('hidden');
                 $("a.home").removeClass('hidden');
+                // $("a.index").removeClass('hidden');
                 var data = $(this).data('load');
                 view.router.loadPage("pages/admin/"+data+".html");
             });
-
+            $("a.home").on('click',function(){
+                var data = $(this).data('load');
+                view.router.loadPage("pages/admin/"+data+".html");
+            });
+            app.onPageInit('builderCareer',function(page){
+                career.ini();
+            });
             app.onPageInit('career',function(page){
                 career.ini();
             });
@@ -1346,7 +1353,7 @@ Framework7.prototype.plugins.kareer = function (app, params) {
         },
         show:function(list){
             console.log(list);
-            var content = "";
+            var content = "";       
             $.each(list,function(i,v){
                 content += "<li class='collection-item'>"+
                             "   <a class='secondary-content right btn btn-floating btn-flat waves-effect waves-teal waves-light' href='#' data-cmd='edit' data-node='"+v[0]+"'><i class='icon f7-icons color-black'>chevron_right</i></a>"+
@@ -1357,16 +1364,20 @@ Framework7.prototype.plugins.kareer = function (app, params) {
                             // "   <div class ='color-teal'>Status: <strong class ='color-black'>"+v[7]+"</strong></div>"+
                             "</li>";
                 $("a.career").removeClass('disabled');
-                console.log(v[0]);
             });
+
             $$("#display_career").html("<ul class='collection'>"+content+"</ul");
             $$("a[data-cmd='edit']").on('click',function(){
+                
                 var data = $(this).data();
                 var id = data.node;
                 var c = career.get(id);
-                career.edit(c);
+                var store = JSON.parse(localStorage.getItem('f7form-form_career'));
+                console.log(c);
+                career.edit(c,store);
                 
             });
+
         },
         delete:function(data){
             $("a[data-cmd='delete']").on('click',function(){
@@ -1391,7 +1402,7 @@ Framework7.prototype.plugins.kareer = function (app, params) {
                                 system.notification("Kareer","Success. Please wait.",false,2000,true,false,function(){
                                     app.closeModal('.popover-delete', true);
                                     app.closeModal('.popup career', true);
-                                    $("a.career").addClass('disabled');
+                                    // $("a.career").addClass('disabled');
                                     career.ini();
                                 });
 
@@ -1403,17 +1414,12 @@ Framework7.prototype.plugins.kareer = function (app, params) {
                 });
             });
         },
-        edit:function(data){
-            console.log(data);
-            var storedData = app.formStoreData('form_career', {
-                'field_dateFirst' : data[0][2],
-                'field_dateLast' : data[0][3],
-                'field_position' : data[0][4],
-                'field_agency' : data[0][5],
-                'field_salary' : data[0][6],
-                'field_appointment' : data[0][7],
-                'field_govt_service' : data[0][8]
-            }); 
+        edit:function(c,store){
+            console.log(store);
+            console.log(c);
+            var storedData = app.formStoreData('form_career',store); 
+            // console.log(JSON.parse(localStorage.getItem('f7form-form_career')));
+            $("div.toolbar").addClass('hidden');
             $("a.career").addClass('hidden');
             $("a.add").addClass('hidden');
             $("a.save").removeClass('hidden');
@@ -1425,16 +1431,19 @@ Framework7.prototype.plugins.kareer = function (app, params) {
             $("label").addClass('active');
 
             $("a.cancel").on('click',function(){
-                $("div.list").removeClass('hidden');
+
                 $("div.edit").addClass('hidden');
                 $("div.add").addClass('hidden');
+                $("a.save").addClass('hidden');
+                $("a.cancel").addClass('hidden');                
                 $("a.career").removeClass('hidden');
                 $("a.add").removeClass('hidden');
-                $("a.save").addClass('hidden');
-                $("a.cancel").addClass('hidden');
-                var list = career.getAll(data[0][1]);
+                $("div.list").removeClass('hidden');
+                $("div.toolbar").removeClass('hidden');
+                var list = career.getAll(c[0][1]);
                 career.show(list);
-                // var storedData = app.formDeleteData('form_career');
+                // localStorage.removeItem('f7form-form_career','');
+
                 // // if(storedData){
                 // console.log(storedData);
                 // // }
@@ -1446,50 +1455,6 @@ Framework7.prototype.plugins.kareer = function (app, params) {
                 console.log(storedData);
                 }
             });
-
-            // var data = system.xml("pages/admin/pages.xml");
-            // $(data.responseText).find("div.popup.career").each(function(i,content){
-            //     app.popup(content);
-            // $("a.save").on('click',function(){
-            //     console.log("sdsa");
-            //     $("#form_career").validate({
-            //         rules: {
-            //             field_dateFirst: {required: true,maxlength:20},
-            //             field_dateLast: {required: true,maxlength:20},
-            //             field_position: {required: true,maxlength:100},
-            //             field_agency: {required: true,maxlength:100},
-            //             field_salary: {required: true,maxlength:100},
-            //             field_appointment: {required: true,maxlength:100},
-            //         },
-            //         errorElement : 'div',
-            //         errorPlacement: function(error, element) {
-            //             var placement = $(element).data('error');
-            //             if(placement){
-            //                 $(placement).append(error)
-            //             } 
-            //             else{
-            //                 error.insertAfter(element);
-            //             }
-            //         },
-            //         submitHandler: function (form) {
-            //             var _form = $(form).serializeArray();
-            //             // var data = system.ajax(processor+'do-career',[id,_form]);
-            //             // data.done(function(data){
-            //             //     console.log(data);
-            //             //     if(data != 0){
-            //             //         $$("input").val("");
-            //             //         system.notification("Kareer","Career Added.",false,2000,true,false,function(){
-            //             //             app.closeModal('.career', true);
-            //             //             career.ini();
-            //             //         });
-            //             //     }
-            //             //     else{
-            //             //         system.notification("Kareer","Failed.",false,3000,true,false,false);
-            //             //     }
-            //             // })
-            //         }
-            //     }); 
-            // });
         }
     }
 
