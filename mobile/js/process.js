@@ -1355,27 +1355,41 @@ Framework7.prototype.plugins.kareer = function (app, params) {
             console.log(list);
             var content = "";       
             $.each(list,function(i,v){
-                content += "<li class='collection-item'>"+
-                            "   <a class='secondary-content right btn btn-floating btn-flat waves-effect waves-teal waves-light' href='#' data-cmd='edit' data-node='"+v[0]+"'><i class='icon f7-icons color-black'>chevron_right</i></a>"+
-                            "   <div class='title color-teal' style='margin-left: 50px !important;'><strong class ='color-black'>"+v[4]+"</strong></div>"+
-                            "   <div class ='color-teal' style='margin-left: 50px !important;'><small class ='color-black'>"+v[2]+" - "+v[3]+"</small></div>"+
-                            // "   <div class ='color-teal'>Agency: <strong class ='color-black'>"+v[5]+"</strong></div>"+
-                            // "   <div class ='color-teal'>Salary: <strong class ='color-black'>"+v[6]+"</strong></div>"+
-                            // "   <div class ='color-teal'>Status: <strong class ='color-black'>"+v[7]+"</strong></div>"+
+                content += "<li class='collection-item row'>"+
+                            "   <div class='chip' style = 'width: 10%;'>"+
+                            "   <div class='chip-media bg-blue' style = 'width: 50px !important; height: 50px !important; font-size: 24px;'>G</div>"+
+                            "   </div>"+
+                            "   <div class = 'col 33'>"+
+                            "   <div class='title color-teal' ><strong class ='color-black'>"+v[4]+"</strong></div>"+
+                            "   <div class ='color-teal' ><small class ='color-black'>"+v[2]+" - "+v[3]+"</small></div>"+
+                            "   </div>"+
+                            "   <a class='col 33 right btn btn-floating btn-flat waves-effect waves-teal waves-light' href='#' data-cmd='edit' data-node='"+v[0]+"'><i class='icon small f7-icons color-gray'>chevron_right</i></a>"+
                             "</li>";
                 $("a.career").removeClass('disabled');
             });
 
             $$("#display_career").html("<ul class='collection'>"+content+"</ul");
-            $$("a[data-cmd='edit']").on('click',function(){
+            // $$("a[data-cmd='edit']").on('click',function(){
+            //     var data = $(this).data();
+            //     var id = data.node;
+            //     var c = career.get(id);
+            //     var store = JSON.parse(localStorage.getItem('f7form-form_career'));
+            //     var careerData = $.map(store, function(value, index) {
+            //         return [value];
+            //     });
+            //     console.log(c);
+            //     console.log(store);
+            //     console.log(careerData);
+            //     career.edit(c,careerData);
                 
-                var data = $(this).data();
-                var id = data.node;
-                var c = career.get(id);
-                var store = JSON.parse(localStorage.getItem('f7form-form_career'));
-                console.log(c);
-                career.edit(c,store);
-                
+            // });
+            $("a.career").on('click',function(){
+                var data = $(this).data('load');
+                view.router.loadPage("pages/admin/"+data+".html");
+            });
+
+            app.onPageInit('builderAcademic',function(page){
+                academic.ini();
             });
 
         },
@@ -1414,11 +1428,19 @@ Framework7.prototype.plugins.kareer = function (app, params) {
                 });
             });
         },
-        edit:function(c,store){
-            console.log(store);
+        edit:function(c,careerData){
             console.log(c);
-            var storedData = app.formStoreData('form_career',store); 
-            // console.log(JSON.parse(localStorage.getItem('f7form-form_career')));
+            var initial = c;
+            var current = careerData;
+            var storedData = app.formStoreData('form_career',{
+                    'field_dateFirst' : c[0][2],
+                    'field_dateLast' : c[0][3],
+                    'field_position' : c[0][4],
+                    'field_agency' : c[0][5],
+                    'field_salary' : c[0][6],
+                    'field_appointment' : c[0][7],
+                    'field_govt_service' : c[0][8]
+            }); 
             $("div.toolbar").addClass('hidden');
             $("a.career").addClass('hidden');
             $("a.add").addClass('hidden');
@@ -1462,7 +1484,7 @@ Framework7.prototype.plugins.kareer = function (app, params) {
         ini:function(){
             var applicantData = JSON.parse(localStorage.getItem('applicant'));
             var list = academic.get(applicantData[0][0]);
-            $$("a[data-cmd='add-career']").on('click',function(){
+            $$("a[data-cmd='add-academic']").on('click',function(){
                 academic.add(applicantData[0][0]);
             });
             academic.show(list);
@@ -1479,48 +1501,121 @@ Framework7.prototype.plugins.kareer = function (app, params) {
             });
         },
         add:function(id){
-            var data = system.xml("pages/admin/pages.xml");
-            $(data.responseText).find("div.popup.academic").each(function(i,content){
-                app.popup(content);
-                $('select').material_select();
-                $("#form_academic").validate({
-                    rules: {
-                        field_yearLevel: {required: true,maxlength:20},
-                        field_school: {required: true,maxlength:100},
-                        field_degree: {required: true,maxlength:100},
-                        field_dateFirst: {required: true,maxlength:100},
-                        field_dateLast: {required: true,maxlength:100},
-                    },
-                    errorElement : 'div',
-                    errorPlacement: function(error, element) {
-                        var placement = $(element).data('error');
-                        if(placement){
-                            $(placement).append(error)
-                        } 
-                        else{
-                            error.insertAfter(element);
-                        }
-                    },
-                    submitHandler: function (form) {
-                        var _form = $(form).serializeArray();
-                        console.log(_form);
-                        var data = system.ajax(processor+'do-academic',[id,_form]);
-                        data.done(function(data){
-                            console.log(data);
-                            if(data != 0){
-                                $$("input").val("");
-                                system.notification("Kareer","Academic Added.",false,2000,true,false,function(){
-                                    app.closeModal('.academic', true);
-                                    academic.ini();
-                                });
-                            }
-                            else{
-                                system.notification("Kareer","Failed.",false,3000,true,false,false);
-                            }
-                        })
-                    }
-                }); 
+            console.log("sdfsd");
+            $("a.career").addClass('hidden');
+            $("a.add").addClass('hidden');
+            $("div.list").addClass('hidden');
+            $("div.add").removeClass('hidden');
+            $("a.add").addClass('hidden');
+            $("a.goback").removeClass('hidden');
+            // $("a.cancel").addClass('hidden');
+            $("div.toolbar").addClass('hidden');
+
+            let content = `<div class="center">
+                            <form action="" method="POST" id='form_academic'>
+                                <div class="list-block">
+                                    <ul>
+                                        <li>
+                                            <div class="input-field center" style='border: gray; border-width: 1px; background-color: rgba(238, 238, 238, 0.15); border-style: solid; border-radius: 15px;'>
+                                                <select id="field_yearLevel" name="field_yearLevel">
+                                                    <option value="Elementary">ELEMENTARY</option>
+                                                    <option value="High School">HIGH SCHOOL</option>
+                                                    <option value="Vocational">VOCATIONAL</option>
+                                                    <option value="College">COLLEGE</option>
+                                                    <option value="Masteral">MASTERAL</option>
+                                                    <option value="Doctoral">DOCTORAL</option>
+                                                </select>
+                                            </div>
+                                        </li>
+
+                                        <li>
+                                            <div class="input-field">
+                                                <input type='text' id="field_school" name="field_school" class="form-control">
+                                                <label class="" for="field_school" style="top: -2px !important; left: 0px !important;">Name of Schools</label>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <div class="input-field">
+                                                <input type='text' id="field_degree" name="field_degree" class="form-control">
+                                                <label class="" for="field_degree" style="top: -2px !important; left: 0px !important;">Basic Education/Degree/Course</label>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <div class="input-field">
+                                                <input type='text' id="field_units" name="field_units" class="form-control">
+                                                <label class="" for="field_units" style="top: -2px !important; left: 0px !important;">Units Earned</label>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <div class="row">
+                                                <div class="input-field">
+                                                    <label class="active">Period of Attendance</label>
+                                                    <div class="col s6">
+                                                        <input type='date' id="field_dateFirst" name="field_dateFirst" class="form-control" placeholder="From">
+                                                    </div>
+                                                    <div class="col s6">
+                                                        <input type='date' id="field_dateLast" name="field_dateLast" class="form-control" placeholder="To">
+                                                    </div>
+                                                </div>                                            
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <button class="btn-flat waves-effect waves-teal waves-light teal color-white" style="width:100%;">Save</button>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </form>
+                          </div>`;
+
+            $$("#addAcademic").html(content);
+            $('select').material_select();
+            $("a.cancel").on('click',function(){
+                $("div.list").removeClass('hidden');
+                $("div.add").addClass('hidden');
+                $("a.career").removeClass('hidden');
+                $("a.add").removeClass('hidden');
+                $("div.toolbar").removeClass('hidden');
+                // $("a.save").addClass('hidden');
+                // $("a.cancel").addClass('hidden');
             });
+
+            $("#form_academic").validate({
+                rules: {
+                    field_yearLevel: {required: true,maxlength:20},
+                    field_school: {required: true,maxlength:100},
+                    field_degree: {required: true,maxlength:100},
+                    field_dateFirst: {required: true,maxlength:100},
+                    field_dateLast: {required: true,maxlength:100},
+                },
+                errorElement : 'div',
+                errorPlacement: function(error, element) {
+                    var placement = $(element).data('error');
+                    if(placement){
+                        $(placement).append(error)
+                    } 
+                    else{
+                        error.insertAfter(element);
+                    }
+                },
+                submitHandler: function (form) {
+                    var _form = $(form).serializeArray();
+                    console.log(_form);
+                    var data = system.ajax(processor+'do-academic',[id,_form]);
+                    data.done(function(data){
+                        console.log(data);
+                        if(data != 0){
+                            $$("input").val("");
+                            system.notification("Kareer","Academic Added.",false,2000,true,false,function(){
+                                app.closeModal('.academic', true);
+                                academic.ini();
+                            });
+                        }
+                        else{
+                            system.notification("Kareer","Failed.",false,3000,true,false,false);
+                        }
+                    })
+                }
+            }); 
         },
         get:function(id){
             var $data = "";
@@ -1533,15 +1628,18 @@ Framework7.prototype.plugins.kareer = function (app, params) {
         show:function(list){
             var content = "";
             $.each(list,function(i,v){
-                content += "<li class='collection-item'>"+
-                            "   <a class='secondary-content right btn btn-floating btn-flat open-popover waves-effect waves-teal waves-light' href='#' data-cmd='delete' data-node='"+v[0]+"' data-popover='.popover-delete'><i class='icon f7-icons color-teal'>close_round</i></a>"+
-                            "   <span class='title color-teal'><strong class ='color-black'>"+v[2]+"</strong></span>"+
-                            "   <div class ='color-teal'class ='color-teal'>Name of School: <strong class ='color-black'>"+v[3]+"</strong></div>"+
-                            "   <div class ='color-teal'>Degree: <strong class ='color-black'>"+v[4]+"</strong></div>"+
-                            "   <div class ='color-teal'>Units Earned: <strong class ='color-black'>"+v[6]+"</strong></div>"+
-                            "   <div class ='color-teal'>Period of Attendance: <strong class ='color-black'>"+v[5]+"</strong></div>"+
-                            "   <div class ='color-teal'>Year Graduated: <strong class ='color-black'>"+v[7]+"</strong></div>"+
+                content += "<li class='collection-item row'>"+
+                            "   <div class='chip' style = 'width: 10%;'>"+
+                            "   <div class='chip-media bg-blue' style = 'width: 50px !important; height: 50px !important; font-size: 24px;'>E</div>"+
+                            "   </div>"+
+                            "   <div class = 'col 33'>"+
+                            "   <div class='title color-teal' ><strong class ='color-black'>"+v[2]+"</strong></div>"+
+                            "   <div class ='color-teal' ><small class ='color-black'>"+v[5]+"</small></div>"+
+                            "   </div>"+
+                            "   <a class='col 33 right btn btn-floating btn-flat waves-effect waves-teal waves-light' href='#' data-cmd='edit' data-node='"+v[0]+"'><i class='icon small f7-icons color-gray'>chevron_right</i></a>"+
                             "</li>";
+
+                    $("a.academic").removeClass('disabled');
             });
             $$("#display_academic").html("<ul class='collection'>"+content+"</ul");
 
@@ -1639,6 +1737,7 @@ Framework7.prototype.plugins.kareer = function (app, params) {
                 resume.ini();
             });
         }
+
     }
 
     var logIn = {

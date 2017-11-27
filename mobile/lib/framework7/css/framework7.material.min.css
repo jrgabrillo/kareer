@@ -3196,7 +3196,8 @@ html.pixel-ratio-3 .list-block li:last-child li .item-inner:after {
 	height: 36px;
 	color: #212121;
 	font-size: 16px;
-	font-family: inherit
+	font-family: inherit;
+	left: 35%
 }
 
 .list-block input[type=time]::-webkit-input-placeholder,
