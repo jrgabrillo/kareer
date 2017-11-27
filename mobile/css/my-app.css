@@ -163,3 +163,11 @@ body {
 #jobs .swiper-wrapper, .swiper-slide, {
     width:100% !important;
 }
+
+#form_academic .select-dropdown{
+  text-align: center;
+}
+
+#form_academic .dropdown-content li>span {
+  color: #000000 !important;
+}

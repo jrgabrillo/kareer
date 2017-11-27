@@ -1516,7 +1516,7 @@ Framework7.prototype.plugins.kareer = function (app, params) {
                                 <div class="list-block">
                                     <ul>
                                         <li>
-                                            <div class="input-field center" style='border: gray; border-width: 1px; background-color: rgba(238, 238, 238, 0.15); border-style: solid; border-radius: 15px;'>
+                                            <div class="input-field" style='border: gray; border-width: 1px; background-color: rgba(238, 238, 238, 0.15); border-style: solid; border-radius: 15px;'>
                                                 <select id="field_yearLevel" name="field_yearLevel">
                                                     <option value="Elementary">ELEMENTARY</option>
                                                     <option value="High School">HIGH SCHOOL</option>
@@ -1559,8 +1559,9 @@ Framework7.prototype.plugins.kareer = function (app, params) {
                                                 </div>                                            
                                             </div>
                                         </li>
-                                        <li>
-                                            <button class="btn-flat waves-effect waves-teal waves-light teal color-white" style="width:100%;">Save</button>
+                                        <li style="margin-top: 70% !important;">
+                                            <button class="btn-flat btn-large waves-effect waves-teal waves-light purple color-white" style="width: 80%; margin-left: -15px !important; border-radius: 30px !important; height: 49px; background-color: #7a5578; font-size: 20px;">Save</button>
+                                            <a href="#" class="cancel btn-floating btn-small red waves-effect waves-teal waves-light right" style="right: 5px; height: 50px; width: 50px;"><i class="icon f7-icons" style="top: 7px;">close</i></a>
                                         </li>
                                     </ul>
                                 </div>
@@ -1568,16 +1569,18 @@ Framework7.prototype.plugins.kareer = function (app, params) {
                           </div>`;
 
             $$("#addAcademic").html(content);
-            $('select').material_select();
+            $('select').material_select('close');
             $("a.cancel").on('click',function(){
                 $("div.list").removeClass('hidden');
                 $("div.add").addClass('hidden');
-                $("a.career").removeClass('hidden');
+                $("a.academic").removeClass('hidden');
                 $("a.add").removeClass('hidden');
                 $("div.toolbar").removeClass('hidden');
                 // $("a.save").addClass('hidden');
                 // $("a.cancel").addClass('hidden');
             });
+
+
 
             $("#form_academic").validate({
                 rules: {
@@ -1606,7 +1609,6 @@ Framework7.prototype.plugins.kareer = function (app, params) {
                         if(data != 0){
                             $$("input").val("");
                             system.notification("Kareer","Academic Added.",false,2000,true,false,function(){
-                                app.closeModal('.academic', true);
                                 academic.ini();
                             });
                         }
@@ -1643,6 +1645,16 @@ Framework7.prototype.plugins.kareer = function (app, params) {
             });
             $$("#display_academic").html("<ul class='collection'>"+content+"</ul");
 
+
+            $("a.academic").on('click',function(){
+                var data = $(this).data('load');
+                view.router.loadPage("pages/admin/"+data+".html");
+            });
+
+            app.onPageInit('builderSkills',function(page){
+                skills.ini();
+            });
+
         },
         delete:function(data){
             $("a[data-cmd='delete']").on('click',function(){
@@ -1678,6 +1690,153 @@ Framework7.prototype.plugins.kareer = function (app, params) {
             });
         }
     }
+
+    let skills = {
+        ini:function(){
+            var applicantData = JSON.parse(localStorage.getItem('applicant'));
+            var list = skills.get(applicantData[0][0]);
+            $$("a[data-cmd='add-skills']").on('click',function(){
+                skills.add(applicantData[0][0]);
+            });
+            skills.show(list);
+            // skills.delete(list);
+
+            $("a.home").on('click',function(){
+                var data = $(this).data('load');
+                view.router.loadPage("pages/admin/"+data+".html");
+                account.controller(data);
+            });
+
+            app.onPageInit('index',function(page){
+                account.controller();
+            });
+        },
+        get:function(id){
+            var $data = "";
+            var jobs = system.ajax(processor+'get-skills',id);
+            jobs.done(function(data){
+                $data = data;
+            });
+            return JSON.parse($data);
+        },
+        add:function(id){
+            console.log("sdfsd");
+            $("a.skills").addClass('hidden');
+            $("a.add").addClass('hidden');
+            $("div.list").addClass('hidden');
+            $("div.add").removeClass('hidden');
+            $("a.add").addClass('hidden');
+            $("a.goback").removeClass('hidden');
+            // $("a.cancel").addClass('hidden');
+            $("div.toolbar").addClass('hidden');
+
+            let content = `<div class="center">
+                            <form action="" method="POST" id='form_skills'>
+                                <div class="list-block">
+                                    <ul>
+                                        <li>
+                                            <div class="input-field">
+                                                <input type='text' id="field_skill" name="field_skill" class="form-control">
+                                                <label class="" for="field_skill" style="top: -2px !important; left: 0px !important;">Name of Schools</label>
+                                            </div>
+                                        </li>                                        
+                                        <li>
+                                            <div class="input-field" style='border: gray; border-width: 1px; background-color: rgba(238, 238, 238, 0.15); border-style: solid; border-radius: 15px;'>
+                                                <select id="field_level" name="field_level">
+                                                    <option value="BEGINNER">BEGINNER</option>
+                                                    <option value="INTERMEDIATE">INTERMEDIATE</option>
+                                                    <option value="ADVANCE">ADVANCE</option>
+                                                    <option value="EXPERT">EXPERT</option>
+                                                </select>
+                                            </div>
+                                        </li>
+                                        <li style="margin-top: 70% !important;">
+                                            <button class="btn-flat btn-large waves-effect waves-teal waves-light purple color-white" style="width: 80%; margin-left: -15px !important; border-radius: 30px !important; height: 49px; background-color: #7a5578; font-size: 20px;">Save</button>
+                                            <a href="#" class="cancel btn-floating btn-small red waves-effect waves-teal waves-light right" style="right: 5px; height: 50px; width: 50px;"><i class="icon f7-icons" style="top: 7px;">close</i></a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </form>
+                          </div>`;
+
+            $$("#addSkills").html(content);
+            $('select').material_select('close');
+            $("a.cancel").on('click',function(){
+                $("div.list").removeClass('hidden');
+                $("div.add").addClass('hidden');
+                $("a.skills").removeClass('hidden');
+                $("a.add").removeClass('hidden');
+                $("div.toolbar").removeClass('hidden');
+                // $("a.save").addClass('hidden');
+                // $("a.cancel").addClass('hidden');
+            });
+
+
+
+            $("#form_skills").validate({
+                rules: {
+                    field_skill: {required: true,maxlength:100},
+                    field_level: {required: true,maxlength:50}
+                },
+                errorElement : 'div',
+                errorPlacement: function(error, element) {
+                    var placement = $(element).data('error');
+                    if(placement){
+                        $(placement).append(error)
+                    } 
+                    else{
+                        error.insertAfter(element);
+                    }
+                },
+                submitHandler: function (form) {
+                    var _form = $(form).serializeArray();
+                    console.log(_form);
+                    var data = system.ajax(processor+'do-academic',[id,_form]);
+                    data.done(function(data){
+                        console.log(data);
+                        if(data != 0){
+                            $$("input").val("");
+                            system.notification("Kareer","Academic Added.",false,2000,true,false,function(){
+                                academic.ini();
+                            });
+                        }
+                        else{
+                            system.notification("Kareer","Failed.",false,3000,true,false,false);
+                        }
+                    })
+                }
+            }); 
+        },
+
+        show:function(list){
+            var content = "";
+            $.each(list,function(i,v){
+                content += "<li class='collection-item row'>"+
+                            "   <div class='chip' style = 'width: 10%;'>"+
+                            "   <div class='chip-media bg-blue' style = 'width: 50px !important; height: 50px !important; font-size: 24px;'>E</div>"+
+                            "   </div>"+
+                            "   <div class = 'col 33'>"+
+                            "   <div class='title color-teal' ><strong class ='color-black'>"+v[2]+"</strong></div>"+
+                            "   <div class ='color-teal' ><small class ='color-black'>"+v[5]+"</small></div>"+
+                            "   </div>"+
+                            "   <a class='col 33 right btn btn-floating btn-flat waves-effect waves-teal waves-light' href='#' data-cmd='edit' data-node='"+v[0]+"'><i class='icon small f7-icons color-gray'>chevron_right</i></a>"+
+                            "</li>";
+
+                    $("a.skills").removeClass('disabled');
+            });
+            $$("#display_skills").html("<ul class='collection'>"+content+"</ul");
+
+            $("a.skills").on('click',function(){
+                var data = $(this).data('load');
+                view.router.loadPage("pages/admin/"+data+".html");
+            });
+            app.onPageInit('builderSkills',function(page){
+                skills.ini();
+            });
+        },
+
+    }
+
     let resume ={
         ini:function(){
             var applicantData = JSON.parse(localStorage.getItem('applicant'));

@@ -353,6 +353,12 @@ $Functions = new DatabaseClasses;
         print_r(json_encode($query));
     }
 
+    if (isset($_GET['get-skills'])){
+        $data = $_POST['data'];
+        $query = $Functions->PDO("SELECT * FROM tbl_acadinfo WHERE applicant_id = '{$data}'");
+        print_r(json_encode($query));
+    }
+
     if (isset($_GET['get-career'])){
         $data = $_POST['data'];
         $query = $Functions->PDO("SELECT * FROM tbl_career WHERE applicant_id = '{$data}'");
