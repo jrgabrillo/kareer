@@ -1364,7 +1364,7 @@ Framework7.prototype.plugins.kareer = function (app, params) {
                 $("a.career").removeClass('disabled');
             });
 
-            $$("#display_career").html("<ul class='collection'>"+content+"</ul");
+            $$("#display_career").html("");
             // $$("a[data-cmd='edit']").on('click',function(){
             //     var data = $(this).data();
             //     var id = data.node;
