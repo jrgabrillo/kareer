@@ -1,7 +1,7 @@
-<div class="page no-navbar" data-page="builderSkills">
+<div class="page no-navbar" data-page="builderLanguage">
         <div class="card card-header-pic" style="height: auto !important; margin-top: 0px !important; margin-left: auto; margin-bottom: auto;">
             <div class="card-header" style="width: 51% !important;">
-                <a href="#" data-load='builderAcademic' class="btn btn-floating btn-flat white waves-effect waves-teal waves-light home color-gray"><i class="icon f7-icons">chevron_left</i></a>Skills
+                <a href="#" data-load='builderSkills' class="btn btn-floating btn-flat white waves-effect waves-teal waves-light home color-gray"><i class="icon f7-icons">chevron_left</i></a>Language
             </div>
             <div class="navbar" style="background-color: #4DB6AC; height: 45px !important; ">
                 <div class="navbar-inner rows">
@@ -18,30 +18,30 @@
             </div>
         </div>
         <div class="toolbar toolbar-bottom center" style="height: 59px; background-color: white;">
-                <a href="#" data-load='builderLanguage' class="skills disabled btn btn-large white-text waves-effect waves-purple waves-light" style="margin-left: -25px; border-radius: 30px;width: 70%;height: 49px; font-size: 20px; background-color: #7a5578;"><strong class="">Next</strong></a> 
-                <a data-cmd='add-skills' class="add btn-floating btn-small teal waves-effect waves-teal waves-light right" style="right: 26px; height: 50px; width: 50px;"><i class="icon f7-icons" style="top: 7px;">add</i></a>
+                <a href="#" data-load='builderReferences' class="language disabled btn btn-large white-text waves-effect waves-purple waves-light" style="margin-left: -25px; border-radius: 30px;width: 70%;height: 49px; font-size: 20px; background-color: #7a5578;"><strong class="">Next</strong></a> 
+                <a data-cmd='add-language' class="add btn-floating btn-small teal waves-effect waves-teal waves-light right" style="right: 26px; height: 50px; width: 50px;"><i class="icon f7-icons" style="top: 7px;">add</i></a>
         </div>
           <div class="page-content infinite-scroll toolbar-fixed" style="white-space: normal;">
-            <div class='list content-block' id="display_skills" style="margin-bottom: 100% !important; padding: inherit !important; margin-top: auto !important;">
+            <div class='list content-block' id="display_language" style="margin-bottom: 100% !important; padding: inherit !important; margin-top: auto !important;">
             </div>
             <div class='add hidden content-block' style="margin-bottom: 16% !important;">
                 <div class="center">
-                    <form action="" method="POST" id='form_skills'>
+                    <form action="" method="POST" id='form_language'>
                         <div class="list-block">
                             <ul>
                                 <li>
                                     <div class="input-field">
-                                        <input type='text' id="field_skill" name="field_skill" class="form-control">
-                                        <label class="" for="field_skill" style="color: black !important; top: -2px !important; left: 0px !important;">Skills</label>
+                                        <input type='text' id="field_language" name="field_skill" class="form-control">
+                                        <label class="" for="field_language" style="color: black !important; top: -2px !important; left: 0px !important;">Language</label>
                                     </div>
                                 </li>                                        
                                 <li>
                                     <div class="input-field" >
                                         <select id="field_level" name="field_level">
                                             <option value="Beginner">Beginner</option>
-                                            <option value="Intermediate">Intermediate</option>
-                                            <option value="Advance">Advance</option>
-                                            <option value="Expert">Expert</option>
+                                            <option value="Conversational">Conversational</option>
+                                            <option value="Fluent">Fluent</option>
+                                            <option value="Native">Native</option>
                                         </select>
                                     </div>
                                 </li>

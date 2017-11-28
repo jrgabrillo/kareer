@@ -56,7 +56,7 @@ Framework7.prototype.plugins.kareer = function (app, params) {
         html:function(url){
             return $.ajax({
                 type: "GET",
-                url: url,
+                url: url,   
                 crossDomain: true,
                 dataType:'jsonp',
                 jsonp:true,
@@ -245,7 +245,7 @@ Framework7.prototype.plugins.kareer = function (app, params) {
                 var applicantData = JSON.parse(localStorage.getItem('applicant'));
                 var data = account.get(applicantData[0][0]);
                 account.account(data);
-                account.edit(data);
+                // account.edit(data);
                 account.show(data);
             });
 
@@ -382,7 +382,6 @@ Framework7.prototype.plugins.kareer = function (app, params) {
             $("a.saveAccount").on('click',function(){
                  var id = accData[0];
                 var storedData = app.formGetData('account');
-                console.log(storedData);
                 var accountData = $.map(storedData, function(value, index) {
                     return [value];
                 });
@@ -395,9 +394,7 @@ Framework7.prototype.plugins.kareer = function (app, params) {
                             account.account(update);
                         });                        
                     }
-
                 })
-                console.log(accountData); 
             });
             
             $("a.home").on('click',function(){
@@ -406,12 +403,12 @@ Framework7.prototype.plugins.kareer = function (app, params) {
             });
 
             app.onPageInit('resume',function(page){
-                account.controller();
+                // account.controller();
                 resume.ini();
             });
 
-            app.onPageInit('index',function(page){
-                account.controller();
+            app.onPageBack('index',function(page){
+                // account.controller();
                 account.ini();
             });
 
@@ -421,7 +418,7 @@ Framework7.prototype.plugins.kareer = function (app, params) {
                 // $("a.career").addClass('disabled');
                 var id = accData[0];
                 var storedData = app.formGetData('account');
-                console.log(storedData);
+                // console.log(storedData);
                 var accountData = $.map(storedData, function(value, index) {
                     return [value];
                 });
@@ -435,7 +432,7 @@ Framework7.prototype.plugins.kareer = function (app, params) {
                     }
 
                 })
-                console.log(accountData); 
+                // console.log(accountData); 
 
             });
             app.onPageInit('builderCareer',function(page){
@@ -453,729 +450,729 @@ Framework7.prototype.plugins.kareer = function (app, params) {
         show:function(data){
             $("a[data-cmd='view']").on('click',function(){
                 var data = $(this).data();
-                console.log(data);
+                // console.log(data);
             });
         },
-        edit:function(data){
-            $("a[data-cmd='edit']").on('click',function(){
-                var data = $(this).data();
-                var id = data.node;
-                if(data.prop == "GivenName"){
-                    var content =   "<form action='' method='POST' id='form_edit'>"+
-                                    "    <div class='list-block'>"+
-                                    "        <ul>"+
-                                    "            <li>"+
-                                    "                <div class='input-field'>"+
-                                    "                    <input type='text' id='field_"+data.prop+"' value ='"+data.value+"' name='field_"+data.prop+"' class='form-control black-text'>"+
-                                    "                    <label class='black-text-text' for='field_"+data.prop+"'></label>"+
-                                    "                </div>"+
-                                    "            </li>"+
-                                    "            <li>"+
-                                    "                <a href='#' class='close-popover btn waves-effect waves-teal waves-light btn btn-flat grey-text white'>Cancel</a>"+
-                                    "                <button type ='submit' class='waves-effect waves-teal waves-light btn btn-flat grey-text white'>Save</button>"+
-                                    "            </li>"+
-                                    "        </ul>"+
-                                    "    </div>"+
-                                    "</form> ";
-                    $("#editPopover").html(content);               
-                    $("#form_edit").validate({
-                        rules: {
-                            field_GivenName: {required: true,maxlength:100}
-                        },
-                        errorElement : 'div',
-                        errorPlacement: function(error, element) {
-                            var placement = $(element).data('error');
-                            if(placement){
-                                $(placement).append(error)
-                            } 
-                            else{
-                                error.insertAfter(element);
-                            }
-                        },
-                        messages: {
-                            field_email: {
-                                required: "<i data-error ='Field is required' class='icon f7-icons  color red' style='margin:5px;'>info</i>",
-                                maxlength: "<i data-error ='Name is too long' class='icon f7-icons color red' style='margin:5px;'>info</i>",
-                            },
-                        },
-                        submitHandler: function (form) {
-                            var _form = $(form).serializeArray();
-                            var data = system.ajax(processor+'do-update',[id,_form]);
-                            data.done(function(data){
-                                console.log(data);
-                                if(data != 0){
-                                    system.notification("Update","Success. Please wait.",false,2000,true,false,function(){
-                                        app.closeModal('.popover-edit', true);
-                                        var newdata = account.get(id);
-                                        account.account(newdata);
-                                        account.edit(newdata);
-                                    });
+        // edit:function(data){
+        //     $("a[data-cmd='edit']").on('click',function(){
+        //         var data = $(this).data();
+        //         var id = data.node;
+        //         if(data.prop == "GivenName"){
+        //             var content =   "<form action='' method='POST' id='form_edit'>"+
+        //                             "    <div class='list-block'>"+
+        //                             "        <ul>"+
+        //                             "            <li>"+
+        //                             "                <div class='input-field'>"+
+        //                             "                    <input type='text' id='field_"+data.prop+"' value ='"+data.value+"' name='field_"+data.prop+"' class='form-control black-text'>"+
+        //                             "                    <label class='black-text-text' for='field_"+data.prop+"'></label>"+
+        //                             "                </div>"+
+        //                             "            </li>"+
+        //                             "            <li>"+
+        //                             "                <a href='#' class='close-popover btn waves-effect waves-teal waves-light btn btn-flat grey-text white'>Cancel</a>"+
+        //                             "                <button type ='submit' class='waves-effect waves-teal waves-light btn btn-flat grey-text white'>Save</button>"+
+        //                             "            </li>"+
+        //                             "        </ul>"+
+        //                             "    </div>"+
+        //                             "</form> ";
+        //             $("#editPopover").html(content);               
+        //             $("#form_edit").validate({
+        //                 rules: {
+        //                     field_GivenName: {required: true,maxlength:100}
+        //                 },
+        //                 errorElement : 'div',
+        //                 errorPlacement: function(error, element) {
+        //                     var placement = $(element).data('error');
+        //                     if(placement){
+        //                         $(placement).append(error)
+        //                     } 
+        //                     else{
+        //                         error.insertAfter(element);
+        //                     }
+        //                 },
+        //                 messages: {
+        //                     field_email: {
+        //                         required: "<i data-error ='Field is required' class='icon f7-icons  color red' style='margin:5px;'>info</i>",
+        //                         maxlength: "<i data-error ='Name is too long' class='icon f7-icons color red' style='margin:5px;'>info</i>",
+        //                     },
+        //                 },
+        //                 submitHandler: function (form) {
+        //                     var _form = $(form).serializeArray();
+        //                     var data = system.ajax(processor+'do-update',[id,_form]);
+        //                     data.done(function(data){
+        //                         console.log(data);
+        //                         if(data != 0){
+        //                             system.notification("Update","Success. Please wait.",false,2000,true,false,function(){
+        //                                 app.closeModal('.popover-edit', true);
+        //                                 var newdata = account.get(id);
+        //                                 account.account(newdata);
+        //                                 account.edit(newdata);
+        //                             });
 
-                                }
-                                else{
-                                    system.notification("Update","Failed.",false,3000,true,false,false);
-                                }
-                            })
-                        }
-                    });
-                }
-                else if(data.prop == "MiddleName"){  
-                    var content =   "<form action='' method='POST' id='form_edit'>"+
-                                    "    <div class='list-block'>"+
-                                    "        <ul>"+
-                                    "            <li>"+
-                                    "                <div class='input-field'>"+
-                                    "                    <input type='text' id='field_"+data.prop+"' value ='"+data.value+"' name='field_"+data.prop+"' class='form-control black-text'>"+
-                                    "                    <label class='black-text-text' for='field_"+data.prop+"'></label>"+
-                                    "                </div>"+
-                                    "            </li>"+
-                                    "            <li>"+
-                                    "                <a href='#' class='close-popover btn waves-effect waves-teal waves-light btn btn-flat grey-text white'>Cancel</a>"+
-                                    "                <button type ='submit' class='waves-effect waves-teal waves-light btn btn-flat grey-text white'>Save</button>"+
-                                    "            </li>"+
-                                    "        </ul>"+
-                                    "    </div>"+
-                                    "</form> ";
-                    $("#editPopover").html(content);             
-                    $("#form_edit").validate({
-                        rules: {
-                            field_MiddleName: {required: true,maxlength:100}
-                        },
-                        errorElement : 'div',
-                        errorPlacement: function(error, element) {
-                            var placement = $(element).data('error');
-                            if(placement){
-                                $(placement).append(error)
-                            } 
-                            else{
-                                error.insertAfter(element);
-                            }
-                        },
-                        messages: {
-                            field_email: {
-                                required: "<i data-error ='Field is required' class='icon f7-icons  color red' style='margin:5px;'>info</i>",
-                                maxlength: "<i data-error ='Name is too long' class='icon f7-icons color red' style='margin:5px;'>info</i>",
-                            },
-                        },
-                        submitHandler: function (form) {
-                            var _form = $(form).serializeArray();
-                            var data = system.ajax(processor+'do-update',[id,_form]);
-                            data.done(function(data){
-                                console.log(data);
-                                if(data != 0){
-                                    system.notification("Update","Success. Please wait.",false,2000,true,false,function(){
-                                        app.closeModal('.popover-edit', true);
-                                        var newdata = account.get(id);
-                                        account.account(newdata);
-                                        account.edit(newdata);
-                                    });
+        //                         }
+        //                         else{
+        //                             system.notification("Update","Failed.",false,3000,true,false,false);
+        //                         }
+        //                     })
+        //                 }
+        //             });
+        //         }
+        //         else if(data.prop == "MiddleName"){  
+        //             var content =   "<form action='' method='POST' id='form_edit'>"+
+        //                             "    <div class='list-block'>"+
+        //                             "        <ul>"+
+        //                             "            <li>"+
+        //                             "                <div class='input-field'>"+
+        //                             "                    <input type='text' id='field_"+data.prop+"' value ='"+data.value+"' name='field_"+data.prop+"' class='form-control black-text'>"+
+        //                             "                    <label class='black-text-text' for='field_"+data.prop+"'></label>"+
+        //                             "                </div>"+
+        //                             "            </li>"+
+        //                             "            <li>"+
+        //                             "                <a href='#' class='close-popover btn waves-effect waves-teal waves-light btn btn-flat grey-text white'>Cancel</a>"+
+        //                             "                <button type ='submit' class='waves-effect waves-teal waves-light btn btn-flat grey-text white'>Save</button>"+
+        //                             "            </li>"+
+        //                             "        </ul>"+
+        //                             "    </div>"+
+        //                             "</form> ";
+        //             $("#editPopover").html(content);             
+        //             $("#form_edit").validate({
+        //                 rules: {
+        //                     field_MiddleName: {required: true,maxlength:100}
+        //                 },
+        //                 errorElement : 'div',
+        //                 errorPlacement: function(error, element) {
+        //                     var placement = $(element).data('error');
+        //                     if(placement){
+        //                         $(placement).append(error)
+        //                     } 
+        //                     else{
+        //                         error.insertAfter(element);
+        //                     }
+        //                 },
+        //                 messages: {
+        //                     field_email: {
+        //                         required: "<i data-error ='Field is required' class='icon f7-icons  color red' style='margin:5px;'>info</i>",
+        //                         maxlength: "<i data-error ='Name is too long' class='icon f7-icons color red' style='margin:5px;'>info</i>",
+        //                     },
+        //                 },
+        //                 submitHandler: function (form) {
+        //                     var _form = $(form).serializeArray();
+        //                     var data = system.ajax(processor+'do-update',[id,_form]);
+        //                     data.done(function(data){
+        //                         console.log(data);
+        //                         if(data != 0){
+        //                             system.notification("Update","Success. Please wait.",false,2000,true,false,function(){
+        //                                 app.closeModal('.popover-edit', true);
+        //                                 var newdata = account.get(id);
+        //                                 account.account(newdata);
+        //                                 account.edit(newdata);
+        //                             });
 
-                                }
-                                else{
-                                    system.notification("Update","Failed.",false,3000,true,false,false);
-                                }
-                            })
-                        }
-                    });
-                }
-                else if(data.prop == "LastName"){
-                    var content =   "<form action='' method='POST' id='form_edit'>"+
-                                    "    <div class='list-block'>"+
-                                    "        <ul>"+
-                                    "            <li>"+
-                                    "                <div class='input-field'>"+
-                                    "                    <input type='text' id='field_"+data.prop+"' value ='"+data.value+"' name='field_"+data.prop+"' class='form-control black-text'>"+
-                                    "                    <label class='black-text-text' for='field_"+data.prop+"'></label>"+
-                                    "                </div>"+
-                                    "            </li>"+
-                                    "            <li>"+
-                                    "                <a href='#' class='close-popover btn waves-effect waves-teal waves-light btn btn-flat grey-text white'>Cancel</a>"+
-                                    "                <button type ='submit' class='waves-effect waves-teal waves-light btn btn-flat grey-text white'>Save</button>"+
-                                    "            </li>"+
-                                    "        </ul>"+
-                                    "    </div>"+
-                                    "</form> ";
-                    $("#editPopover").html(content);               
-                    $("#form_edit").validate({
-                        rules: {
-                            field_LastName: {required: true,maxlength:100}
-                        },
-                        errorElement : 'div',
-                        errorPlacement: function(error, element) {
-                            var placement = $(element).data('error');
-                            if(placement){
-                                $(placement).append(error)
-                            } 
-                            else{
-                                error.insertAfter(element);
-                            }
-                        },
-                        messages: {
-                            field_email: {
-                                required: "<i data-error ='Field is required' class='icon f7-icons  color red' style='margin:5px;'>info</i>",
-                                maxlength: "<i data-error ='Name is too long' class='icon f7-icons color red' style='margin:5px;'>info</i>",
-                            },
-                        },
-                        submitHandler: function (form) {
-                            var _form = $(form).serializeArray();
-                            var data = system.ajax(processor+'do-update',[id,_form]);
-                            data.done(function(data){
-                                console.log(data);
-                                if(data != 0){
-                                    system.notification("Update","Success. Please wait.",false,2000,true,false,function(){
-                                        app.closeModal('.popover-edit', true);
-                                        account.ini();
-                                    });
+        //                         }
+        //                         else{
+        //                             system.notification("Update","Failed.",false,3000,true,false,false);
+        //                         }
+        //                     })
+        //                 }
+        //             });
+        //         }
+        //         else if(data.prop == "LastName"){
+        //             var content =   "<form action='' method='POST' id='form_edit'>"+
+        //                             "    <div class='list-block'>"+
+        //                             "        <ul>"+
+        //                             "            <li>"+
+        //                             "                <div class='input-field'>"+
+        //                             "                    <input type='text' id='field_"+data.prop+"' value ='"+data.value+"' name='field_"+data.prop+"' class='form-control black-text'>"+
+        //                             "                    <label class='black-text-text' for='field_"+data.prop+"'></label>"+
+        //                             "                </div>"+
+        //                             "            </li>"+
+        //                             "            <li>"+
+        //                             "                <a href='#' class='close-popover btn waves-effect waves-teal waves-light btn btn-flat grey-text white'>Cancel</a>"+
+        //                             "                <button type ='submit' class='waves-effect waves-teal waves-light btn btn-flat grey-text white'>Save</button>"+
+        //                             "            </li>"+
+        //                             "        </ul>"+
+        //                             "    </div>"+
+        //                             "</form> ";
+        //             $("#editPopover").html(content);               
+        //             $("#form_edit").validate({
+        //                 rules: {
+        //                     field_LastName: {required: true,maxlength:100}
+        //                 },
+        //                 errorElement : 'div',
+        //                 errorPlacement: function(error, element) {
+        //                     var placement = $(element).data('error');
+        //                     if(placement){
+        //                         $(placement).append(error)
+        //                     } 
+        //                     else{
+        //                         error.insertAfter(element);
+        //                     }
+        //                 },
+        //                 messages: {
+        //                     field_email: {
+        //                         required: "<i data-error ='Field is required' class='icon f7-icons  color red' style='margin:5px;'>info</i>",
+        //                         maxlength: "<i data-error ='Name is too long' class='icon f7-icons color red' style='margin:5px;'>info</i>",
+        //                     },
+        //                 },
+        //                 submitHandler: function (form) {
+        //                     var _form = $(form).serializeArray();
+        //                     var data = system.ajax(processor+'do-update',[id,_form]);
+        //                     data.done(function(data){
+        //                         console.log(data);
+        //                         if(data != 0){
+        //                             system.notification("Update","Success. Please wait.",false,2000,true,false,function(){
+        //                                 app.closeModal('.popover-edit', true);
+        //                                 account.ini();
+        //                             });
 
-                                }
-                                else{
-                                    system.notification("Update","Failed.",false,3000,true,false,false);
-                                }
-                            })
-                        }
-                    });
-                }
-                else if(data.prop == "Gender"){
-                    var content =   "<form action='' method='POST' id='form_edit'>"+
-                                    "    <div class='list-block'>"+
-                                    "        <ul>"+
-                                    "            <li>"+
-                                    "                 <div class='input-field'>"+
-                                    "                   <select id='field_"+data.prop+"' value ='"+data.value+"' name='field_"+data.prop+"'>"+
-                                    "                     <option value='' disabled selected>Select Gender</option>"+
-                                    "                     <option value ='Male'>Male</option>"+
-                                    "                     <option value ='Female'>Female</option>"+
-                                    "                   </select>"+
-                                    "                    <label class='black-text-text' for='field_"+data.prop+"'></label>"+
-                                    "                 </div>"+
-                                    "            </li>"+
-                                    "            <li>"+
-                                    "                <a href='#' class='close-popover btn waves-effect waves-teal waves-light btn btn-flat grey-text white'>Cancel</a>"+
-                                    "                <button type ='submit' class='waves-effect waves-teal waves-light btn btn-flat grey-text white'>Save</button>"+
-                                    "            </li>"+
-                                    "        </ul>"+
-                                    "    </div>"+
-                                    "</form> ";
-                    $("#editPopover").html(content);  
-                    $('select').material_select();             
-                    $("#form_edit").validate({
-                        rules: {
-                            field_Gender: {required: true,maxlength:100}
-                        },
-                        errorElement : 'div',
-                        errorPlacement: function(error, element) {
-                            var placement = $(element).data('error');
-                            if(placement){
-                                $(placement).append(error)
-                            } 
-                            else{
-                                error.insertAfter(element);
-                            }
-                        },
-                        messages: {
-                            field_email: {
-                                required: "<i data-error ='Field is required' class='icon f7-icons  color red' style='margin:5px;'>info</i>",
-                                maxlength: "<i data-error ='Name is too long' class='icon f7-icons color red' style='margin:5px;'>info</i>",
-                            },
-                        },
-                        submitHandler: function (form) {
-                            var _form = $(form).serializeArray();
-                            console.log(_form);
-                            var data = system.ajax(processor+'do-update',[id,_form]);
-                            data.done(function(data){
-                                console.log(data);
-                                if(data != 0){
-                                    system.notification("Update","Success. Please wait.",false,2000,true,false,function(){
-                                        app.closeModal('.popover-edit', true);
-                                         var newdata = account.get(id);
-                                        account.account(newdata);
-                                        account.edit(newdata);
-                                    });
+        //                         }
+        //                         else{
+        //                             system.notification("Update","Failed.",false,3000,true,false,false);
+        //                         }
+        //                     })
+        //                 }
+        //             });
+        //         }
+        //         else if(data.prop == "Gender"){
+        //             var content =   "<form action='' method='POST' id='form_edit'>"+
+        //                             "    <div class='list-block'>"+
+        //                             "        <ul>"+
+        //                             "            <li>"+
+        //                             "                 <div class='input-field'>"+
+        //                             "                   <select id='field_"+data.prop+"' value ='"+data.value+"' name='field_"+data.prop+"'>"+
+        //                             "                     <option value='' disabled selected>Select Gender</option>"+
+        //                             "                     <option value ='Male'>Male</option>"+
+        //                             "                     <option value ='Female'>Female</option>"+
+        //                             "                   </select>"+
+        //                             "                    <label class='black-text-text' for='field_"+data.prop+"'></label>"+
+        //                             "                 </div>"+
+        //                             "            </li>"+
+        //                             "            <li>"+
+        //                             "                <a href='#' class='close-popover btn waves-effect waves-teal waves-light btn btn-flat grey-text white'>Cancel</a>"+
+        //                             "                <button type ='submit' class='waves-effect waves-teal waves-light btn btn-flat grey-text white'>Save</button>"+
+        //                             "            </li>"+
+        //                             "        </ul>"+
+        //                             "    </div>"+
+        //                             "</form> ";
+        //             $("#editPopover").html(content);  
+        //             $('select').material_select();             
+        //             $("#form_edit").validate({
+        //                 rules: {
+        //                     field_Gender: {required: true,maxlength:100}
+        //                 },
+        //                 errorElement : 'div',
+        //                 errorPlacement: function(error, element) {
+        //                     var placement = $(element).data('error');
+        //                     if(placement){
+        //                         $(placement).append(error)
+        //                     } 
+        //                     else{
+        //                         error.insertAfter(element);
+        //                     }
+        //                 },
+        //                 messages: {
+        //                     field_email: {
+        //                         required: "<i data-error ='Field is required' class='icon f7-icons  color red' style='margin:5px;'>info</i>",
+        //                         maxlength: "<i data-error ='Name is too long' class='icon f7-icons color red' style='margin:5px;'>info</i>",
+        //                     },
+        //                 },
+        //                 submitHandler: function (form) {
+        //                     var _form = $(form).serializeArray();
+        //                     console.log(_form);
+        //                     var data = system.ajax(processor+'do-update',[id,_form]);
+        //                     data.done(function(data){
+        //                         console.log(data);
+        //                         if(data != 0){
+        //                             system.notification("Update","Success. Please wait.",false,2000,true,false,function(){
+        //                                 app.closeModal('.popover-edit', true);
+        //                                  var newdata = account.get(id);
+        //                                 account.account(newdata);
+        //                                 account.edit(newdata);
+        //                             });
 
-                                }
-                                else{
-                                    system.notification("Update","Failed.",false,3000,true,false,false);
-                                }
-                            })
-                        }
-                    });
-                }
-                else if(data.prop == "DateOfBirth"){
-                    var content =   "<form action='' method='POST' id='form_edit'>"+
-                                    "    <div class='list-block'>"+
-                                    "        <ul>"+
-                                    "            <li>"+
-                                    "                 <label class='active'>Date of Birth</label>"+
-                                    "                    <div>"+
-                                    "                        <input type='date' id='field_"+data.prop+"' value ='"+data.value+"' name='field_"+data.prop+"' class='form-control' placeholder='From'>"+
-                                    "                    </div>"+
-                                    "            </li>"+
-                                    "            <li>"+
-                                    "                <a href='#' class='close-popover btn waves-effect waves-teal waves-light btn btn-flat grey-text white'>Cancel</a>"+
-                                    "                <button type ='submit' class='waves-effect waves-teal waves-light btn btn-flat grey-text white'>Save</button>"+
-                                    "            </li>"+
-                                    "        </ul>"+
-                                    "    </div>"+
-                                    "</form> ";
-                    $("#editPopover").html(content);           
-                    $("#form_edit").validate({
-                        rules: {
-                            field_DateOfBirth: {required: true,maxlength:100}
-                        },
-                        errorElement : 'div',
-                        errorPlacement: function(error, element) {
-                            var placement = $(element).data('error');
-                            if(placement){
-                                $(placement).append(error)
-                            } 
-                            else{
-                                error.insertAfter(element);
-                            }
-                        },
-                        messages: {
-                            field_email: {
-                                required: "<i data-error ='Field is required' class='icon f7-icons  color red' style='margin:5px;'>info</i>",
-                                maxlength: "<i data-error ='Name is too long' class='icon f7-icons color red' style='margin:5px;'>info</i>",
-                            },
-                        },
-                        submitHandler: function (form) {
-                            var _form = $(form).serializeArray();
-                            console.log(_form);
-                            var data = system.ajax(processor+'do-update',[id,_form]);
-                            data.done(function(data){
-                                console.log(data);
-                                if(data != 0){
-                                    system.notification("Update","Success. Please wait.",false,2000,true,false,function(){
-                                        app.closeModal('.popover-edit', true);
-                                         var newdata = account.get(id);
-                                        account.account(newdata);
-                                        account.edit(newdata);
-                                    });
+        //                         }
+        //                         else{
+        //                             system.notification("Update","Failed.",false,3000,true,false,false);
+        //                         }
+        //                     })
+        //                 }
+        //             });
+        //         }
+        //         else if(data.prop == "DateOfBirth"){
+        //             var content =   "<form action='' method='POST' id='form_edit'>"+
+        //                             "    <div class='list-block'>"+
+        //                             "        <ul>"+
+        //                             "            <li>"+
+        //                             "                 <label class='active'>Date of Birth</label>"+
+        //                             "                    <div>"+
+        //                             "                        <input type='date' id='field_"+data.prop+"' value ='"+data.value+"' name='field_"+data.prop+"' class='form-control' placeholder='From'>"+
+        //                             "                    </div>"+
+        //                             "            </li>"+
+        //                             "            <li>"+
+        //                             "                <a href='#' class='close-popover btn waves-effect waves-teal waves-light btn btn-flat grey-text white'>Cancel</a>"+
+        //                             "                <button type ='submit' class='waves-effect waves-teal waves-light btn btn-flat grey-text white'>Save</button>"+
+        //                             "            </li>"+
+        //                             "        </ul>"+
+        //                             "    </div>"+
+        //                             "</form> ";
+        //             $("#editPopover").html(content);           
+        //             $("#form_edit").validate({
+        //                 rules: {
+        //                     field_DateOfBirth: {required: true,maxlength:100}
+        //                 },
+        //                 errorElement : 'div',
+        //                 errorPlacement: function(error, element) {
+        //                     var placement = $(element).data('error');
+        //                     if(placement){
+        //                         $(placement).append(error)
+        //                     } 
+        //                     else{
+        //                         error.insertAfter(element);
+        //                     }
+        //                 },
+        //                 messages: {
+        //                     field_email: {
+        //                         required: "<i data-error ='Field is required' class='icon f7-icons  color red' style='margin:5px;'>info</i>",
+        //                         maxlength: "<i data-error ='Name is too long' class='icon f7-icons color red' style='margin:5px;'>info</i>",
+        //                     },
+        //                 },
+        //                 submitHandler: function (form) {
+        //                     var _form = $(form).serializeArray();
+        //                     console.log(_form);
+        //                     var data = system.ajax(processor+'do-update',[id,_form]);
+        //                     data.done(function(data){
+        //                         console.log(data);
+        //                         if(data != 0){
+        //                             system.notification("Update","Success. Please wait.",false,2000,true,false,function(){
+        //                                 app.closeModal('.popover-edit', true);
+        //                                  var newdata = account.get(id);
+        //                                 account.account(newdata);
+        //                                 account.edit(newdata);
+        //                             });
 
-                                }
-                                else{
-                                    system.notification("Update","Failed.",false,3000,true,false,false);
-                                }
-                            })
-                        }
-                    });
-                }
-                else if(data.prop == "PlaceOfBirth"){  
-                    var content =   "<form action='' method='POST' id='form_edit'>"+
-                                    "    <div class='list-block'>"+
-                                    "        <ul>"+
-                                    "            <li>"+
-                                    "                <div class='input-field'>"+
-                                    "                    <input type='text' id='field_"+data.prop+"' value ='"+data.value+"' name='field_"+data.prop+"' class='form-control black-text'>"+
-                                    "                    <label class='black-text-text' for='field_"+data.prop+"'></label>"+
-                                    "                </div>"+
-                                    "            </li>"+
-                                    "            <li>"+
-                                    "                <a href='#' class='close-popover btn waves-effect waves-teal waves-light btn btn-flat grey-text white'>Cancel</a>"+
-                                    "                <button type ='submit' class='waves-effect waves-teal waves-light btn btn-flat grey-text white'>Save</button>"+
-                                    "            </li>"+
-                                    "        </ul>"+
-                                    "    </div>"+
-                                    "</form> ";
-                    $("#editPopover").html(content);             
-                    $("#form_edit").validate({
-                        rules: {
-                            field_PlaceOfBirth: {required: true,maxlength:100}
-                        },
-                        errorElement : 'div',
-                        errorPlacement: function(error, element) {
-                            var placement = $(element).data('error');
-                            if(placement){
-                                $(placement).append(error)
-                            } 
-                            else{
-                                error.insertAfter(element);
-                            }
-                        },
-                        messages: {
-                            field_email: {
-                                required: "<i data-error ='Field is required' class='icon f7-icons  color red' style='margin:5px;'>info</i>",
-                                maxlength: "<i data-error ='Name is too long' class='icon f7-icons color red' style='margin:5px;'>info</i>",
-                            },
-                        },
-                        submitHandler: function (form) {
-                            var _form = $(form).serializeArray();
-                            var data = system.ajax(processor+'do-update',[id,_form]);
-                            data.done(function(data){
-                                console.log(data);
-                                if(data != 0){
-                                    system.notification("Update","Success. Please wait.",false,2000,true,false,function(){
-                                        app.closeModal('.popover-edit', true);
-                                         var newdata = account.get(id);
-                                        account.account(newdata);
-                                        account.edit(newdata);
-                                    });
+        //                         }
+        //                         else{
+        //                             system.notification("Update","Failed.",false,3000,true,false,false);
+        //                         }
+        //                     })
+        //                 }
+        //             });
+        //         }
+        //         else if(data.prop == "PlaceOfBirth"){  
+        //             var content =   "<form action='' method='POST' id='form_edit'>"+
+        //                             "    <div class='list-block'>"+
+        //                             "        <ul>"+
+        //                             "            <li>"+
+        //                             "                <div class='input-field'>"+
+        //                             "                    <input type='text' id='field_"+data.prop+"' value ='"+data.value+"' name='field_"+data.prop+"' class='form-control black-text'>"+
+        //                             "                    <label class='black-text-text' for='field_"+data.prop+"'></label>"+
+        //                             "                </div>"+
+        //                             "            </li>"+
+        //                             "            <li>"+
+        //                             "                <a href='#' class='close-popover btn waves-effect waves-teal waves-light btn btn-flat grey-text white'>Cancel</a>"+
+        //                             "                <button type ='submit' class='waves-effect waves-teal waves-light btn btn-flat grey-text white'>Save</button>"+
+        //                             "            </li>"+
+        //                             "        </ul>"+
+        //                             "    </div>"+
+        //                             "</form> ";
+        //             $("#editPopover").html(content);             
+        //             $("#form_edit").validate({
+        //                 rules: {
+        //                     field_PlaceOfBirth: {required: true,maxlength:100}
+        //                 },
+        //                 errorElement : 'div',
+        //                 errorPlacement: function(error, element) {
+        //                     var placement = $(element).data('error');
+        //                     if(placement){
+        //                         $(placement).append(error)
+        //                     } 
+        //                     else{
+        //                         error.insertAfter(element);
+        //                     }
+        //                 },
+        //                 messages: {
+        //                     field_email: {
+        //                         required: "<i data-error ='Field is required' class='icon f7-icons  color red' style='margin:5px;'>info</i>",
+        //                         maxlength: "<i data-error ='Name is too long' class='icon f7-icons color red' style='margin:5px;'>info</i>",
+        //                     },
+        //                 },
+        //                 submitHandler: function (form) {
+        //                     var _form = $(form).serializeArray();
+        //                     var data = system.ajax(processor+'do-update',[id,_form]);
+        //                     data.done(function(data){
+        //                         console.log(data);
+        //                         if(data != 0){
+        //                             system.notification("Update","Success. Please wait.",false,2000,true,false,function(){
+        //                                 app.closeModal('.popover-edit', true);
+        //                                  var newdata = account.get(id);
+        //                                 account.account(newdata);
+        //                                 account.edit(newdata);
+        //                             });
 
-                                }
-                                else{
-                                    system.notification("Update","Failed.",false,3000,true,false,false);
-                                }
-                            })
-                        }
-                    });
-                }
-                else if(data.prop == "PermanentAddress"){  
-                    var content =   "<form action='' method='POST' id='form_edit'>"+
-                                    "    <div class='list-block'>"+
-                                    "        <ul>"+
-                                    "            <li>"+
-                                    "                <div class='input-field'>"+
-                                    "                    <input type='text' id='field_"+data.prop+"' value ='"+data.value+"' name='field_"+data.prop+"' class='form-control black-text'>"+
-                                    "                    <label class='black-text-text' for='field_"+data.prop+"'></label>"+
-                                    "                </div>"+
-                                    "            </li>"+
-                                    "            <li>"+
-                                    "                <a href='#' class='close-popover btn waves-effect waves-teal waves-light btn btn-flat grey-text white'>Cancel</a>"+
-                                    "                <button type ='submit' class='waves-effect waves-teal waves-light btn btn-flat grey-text white'>Save</button>"+
-                                    "            </li>"+
-                                    "        </ul>"+
-                                    "    </div>"+
-                                    "</form> ";
-                    $("#editPopover").html(content);             
-                    $("#form_edit").validate({
-                        rules: {
-                            field_PermanentAddress: {required: true,maxlength:100}
-                        },
-                        errorElement : 'div',
-                        errorPlacement: function(error, element) {
-                            var placement = $(element).data('error');
-                            if(placement){
-                                $(placement).append(error)
-                            } 
-                            else{
-                                error.insertAfter(element);
-                            }
-                        },
-                        messages: {
-                            field_email: {
-                                required: "<i data-error ='Field is required' class='icon f7-icons  color red' style='margin:5px;'>info</i>",
-                                maxlength: "<i data-error ='Name is too long' class='icon f7-icons color red' style='margin:5px;'>info</i>",
-                            },
-                        },
-                        submitHandler: function (form) {
-                            var _form = $(form).serializeArray();
-                            var data = system.ajax(processor+'do-update',[id,_form]);
-                            data.done(function(data){
-                                console.log(data);
-                                if(data != 0){
-                                    system.notification("Update","Success. Please wait.",false,2000,true,false,function(){
-                                        app.closeModal('.popover-edit', true);
-                                         var newdata = account.get(id);
-                                        account.account(newdata);
-                                        account.edit(newdata);
-                                    });
+        //                         }
+        //                         else{
+        //                             system.notification("Update","Failed.",false,3000,true,false,false);
+        //                         }
+        //                     })
+        //                 }
+        //             });
+        //         }
+        //         else if(data.prop == "PermanentAddress"){  
+        //             var content =   "<form action='' method='POST' id='form_edit'>"+
+        //                             "    <div class='list-block'>"+
+        //                             "        <ul>"+
+        //                             "            <li>"+
+        //                             "                <div class='input-field'>"+
+        //                             "                    <input type='text' id='field_"+data.prop+"' value ='"+data.value+"' name='field_"+data.prop+"' class='form-control black-text'>"+
+        //                             "                    <label class='black-text-text' for='field_"+data.prop+"'></label>"+
+        //                             "                </div>"+
+        //                             "            </li>"+
+        //                             "            <li>"+
+        //                             "                <a href='#' class='close-popover btn waves-effect waves-teal waves-light btn btn-flat grey-text white'>Cancel</a>"+
+        //                             "                <button type ='submit' class='waves-effect waves-teal waves-light btn btn-flat grey-text white'>Save</button>"+
+        //                             "            </li>"+
+        //                             "        </ul>"+
+        //                             "    </div>"+
+        //                             "</form> ";
+        //             $("#editPopover").html(content);             
+        //             $("#form_edit").validate({
+        //                 rules: {
+        //                     field_PermanentAddress: {required: true,maxlength:100}
+        //                 },
+        //                 errorElement : 'div',
+        //                 errorPlacement: function(error, element) {
+        //                     var placement = $(element).data('error');
+        //                     if(placement){
+        //                         $(placement).append(error)
+        //                     } 
+        //                     else{
+        //                         error.insertAfter(element);
+        //                     }
+        //                 },
+        //                 messages: {
+        //                     field_email: {
+        //                         required: "<i data-error ='Field is required' class='icon f7-icons  color red' style='margin:5px;'>info</i>",
+        //                         maxlength: "<i data-error ='Name is too long' class='icon f7-icons color red' style='margin:5px;'>info</i>",
+        //                     },
+        //                 },
+        //                 submitHandler: function (form) {
+        //                     var _form = $(form).serializeArray();
+        //                     var data = system.ajax(processor+'do-update',[id,_form]);
+        //                     data.done(function(data){
+        //                         console.log(data);
+        //                         if(data != 0){
+        //                             system.notification("Update","Success. Please wait.",false,2000,true,false,function(){
+        //                                 app.closeModal('.popover-edit', true);
+        //                                  var newdata = account.get(id);
+        //                                 account.account(newdata);
+        //                                 account.edit(newdata);
+        //                             });
 
-                                }
-                                else{
-                                    system.notification("Update","Failed.",false,3000,true,false,false);
-                                }
-                            })
-                        }
-                    });
-                }
-                else if(data.prop == "Citizenship"){  
-                    var content =   "<form action='' method='POST' id='form_edit'>"+
-                                    "    <div class='list-block'>"+
-                                    "        <ul>"+
-                                    "            <li>"+
-                                    "                <div class='input-field'>"+
-                                    "                    <input type='text' id='field_"+data.prop+"' value ='"+data.value+"' name='field_"+data.prop+"' class='form-control black-text'>"+
-                                    "                    <label class='black-text-text' for='field_"+data.prop+"'></label>"+
-                                    "                </div>"+
-                                    "            </li>"+
-                                    "            <li>"+
-                                    "                <a href='#' class='close-popover btn waves-effect waves-teal waves-light btn btn-flat grey-text white'>Cancel</a>"+
-                                    "                <button type ='submit' class='waves-effect waves-teal waves-light btn btn-flat grey-text white'>Save</button>"+
-                                    "            </li>"+
-                                    "        </ul>"+
-                                    "    </div>"+
-                                    "</form> ";
-                    $("#editPopover").html(content);             
-                    $("#form_edit").validate({
-                        rules: {
-                            field_Citizenship: {required: true,maxlength:100}
-                        },
-                        errorElement : 'div',
-                        errorPlacement: function(error, element) {
-                            var placement = $(element).data('error');
-                            if(placement){
-                                $(placement).append(error)
-                            } 
-                            else{
-                                error.insertAfter(element);
-                            }
-                        },
-                        messages: {
-                            field_email: {
-                                required: "<i data-error ='Field is required' class='icon f7-icons  color red' style='margin:5px;'>info</i>",
-                                maxlength: "<i data-error ='Name is too long' class='icon f7-icons color red' style='margin:5px;'>info</i>",
-                            },
-                        },
-                        submitHandler: function (form) {
-                            var _form = $(form).serializeArray();
-                            var data = system.ajax(processor+'do-update',[id,_form]);
-                            data.done(function(data){
-                                console.log(data);
-                                if(data != 0){
-                                    system.notification("Update","Success. Please wait.",false,2000,true,false,function(){
-                                        app.closeModal('.popover-edit', true);
-                                         var newdata = account.get(id);
-                                        account.account(newdata);
-                                        account.edit(newdata);
-                                    });
+        //                         }
+        //                         else{
+        //                             system.notification("Update","Failed.",false,3000,true,false,false);
+        //                         }
+        //                     })
+        //                 }
+        //             });
+        //         }
+        //         else if(data.prop == "Citizenship"){  
+        //             var content =   "<form action='' method='POST' id='form_edit'>"+
+        //                             "    <div class='list-block'>"+
+        //                             "        <ul>"+
+        //                             "            <li>"+
+        //                             "                <div class='input-field'>"+
+        //                             "                    <input type='text' id='field_"+data.prop+"' value ='"+data.value+"' name='field_"+data.prop+"' class='form-control black-text'>"+
+        //                             "                    <label class='black-text-text' for='field_"+data.prop+"'></label>"+
+        //                             "                </div>"+
+        //                             "            </li>"+
+        //                             "            <li>"+
+        //                             "                <a href='#' class='close-popover btn waves-effect waves-teal waves-light btn btn-flat grey-text white'>Cancel</a>"+
+        //                             "                <button type ='submit' class='waves-effect waves-teal waves-light btn btn-flat grey-text white'>Save</button>"+
+        //                             "            </li>"+
+        //                             "        </ul>"+
+        //                             "    </div>"+
+        //                             "</form> ";
+        //             $("#editPopover").html(content);             
+        //             $("#form_edit").validate({
+        //                 rules: {
+        //                     field_Citizenship: {required: true,maxlength:100}
+        //                 },
+        //                 errorElement : 'div',
+        //                 errorPlacement: function(error, element) {
+        //                     var placement = $(element).data('error');
+        //                     if(placement){
+        //                         $(placement).append(error)
+        //                     } 
+        //                     else{
+        //                         error.insertAfter(element);
+        //                     }
+        //                 },
+        //                 messages: {
+        //                     field_email: {
+        //                         required: "<i data-error ='Field is required' class='icon f7-icons  color red' style='margin:5px;'>info</i>",
+        //                         maxlength: "<i data-error ='Name is too long' class='icon f7-icons color red' style='margin:5px;'>info</i>",
+        //                     },
+        //                 },
+        //                 submitHandler: function (form) {
+        //                     var _form = $(form).serializeArray();
+        //                     var data = system.ajax(processor+'do-update',[id,_form]);
+        //                     data.done(function(data){
+        //                         console.log(data);
+        //                         if(data != 0){
+        //                             system.notification("Update","Success. Please wait.",false,2000,true,false,function(){
+        //                                 app.closeModal('.popover-edit', true);
+        //                                  var newdata = account.get(id);
+        //                                 account.account(newdata);
+        //                                 account.edit(newdata);
+        //                             });
 
-                                }
-                                else{
-                                    system.notification("Update","Failed.",false,3000,true,false,false);
-                                }
-                            })
-                        }
-                    });
-                }
-                else if(data.prop == "Weight"){  
-                    var content =   "<form action='' method='POST' id='form_edit'>"+
-                                    "    <div class='list-block'>"+
-                                    "        <ul>"+
-                                    "            <li>"+
-                                    "                <div class='input-field'>"+
-                                    "                    <input type='text' id='field_"+data.prop+"' value ='"+data.value+"' name='field_"+data.prop+"' class='form-control black-text'>"+
-                                    "                    <label class='black-text-text' for='field_"+data.prop+"'></label>"+
-                                    "                </div>"+
-                                    "            </li>"+
-                                    "            <li>"+
-                                    "                <a href='#' class='close-popover btn waves-effect waves-teal waves-light btn btn-flat grey-text white'>Cancel</a>"+
-                                    "                <button type ='submit' class='waves-effect waves-teal waves-light btn btn-flat grey-text white'>Save</button>"+
-                                    "            </li>"+
-                                    "        </ul>"+
-                                    "    </div>"+
-                                    "</form> ";
-                    $("#editPopover").html(content);             
-                    $("#form_edit").validate({
-                        rules: {
-                            field_Weight: {required: true,maxlength:100}
-                        },
-                        errorElement : 'div',
-                        errorPlacement: function(error, element) {
-                            var placement = $(element).data('error');
-                            if(placement){
-                                $(placement).append(error)
-                            } 
-                            else{
-                                error.insertAfter(element);
-                            }
-                        },
-                        messages: {
-                            field_email: {
-                                required: "<i data-error ='Field is required' class='icon f7-icons  color red' style='margin:5px;'>info</i>",
-                                maxlength: "<i data-error ='Name is too long' class='icon f7-icons color red' style='margin:5px;'>info</i>",
-                            },
-                        },
-                        submitHandler: function (form) {
-                            var _form = $(form).serializeArray();
-                            var data = system.ajax(processor+'do-update',[id,_form]);
-                            data.done(function(data){
-                                console.log(data);
-                                if(data != 0){
-                                    system.notification("Update","Success. Please wait.",false,2000,true,false,function(){
-                                        app.closeModal('.popover-edit', true);
-                                         var newdata = account.get(id);
-                                        account.account(newdata);
-                                        account.edit(newdata);
-                                    });
+        //                         }
+        //                         else{
+        //                             system.notification("Update","Failed.",false,3000,true,false,false);
+        //                         }
+        //                     })
+        //                 }
+        //             });
+        //         }
+        //         else if(data.prop == "Weight"){  
+        //             var content =   "<form action='' method='POST' id='form_edit'>"+
+        //                             "    <div class='list-block'>"+
+        //                             "        <ul>"+
+        //                             "            <li>"+
+        //                             "                <div class='input-field'>"+
+        //                             "                    <input type='text' id='field_"+data.prop+"' value ='"+data.value+"' name='field_"+data.prop+"' class='form-control black-text'>"+
+        //                             "                    <label class='black-text-text' for='field_"+data.prop+"'></label>"+
+        //                             "                </div>"+
+        //                             "            </li>"+
+        //                             "            <li>"+
+        //                             "                <a href='#' class='close-popover btn waves-effect waves-teal waves-light btn btn-flat grey-text white'>Cancel</a>"+
+        //                             "                <button type ='submit' class='waves-effect waves-teal waves-light btn btn-flat grey-text white'>Save</button>"+
+        //                             "            </li>"+
+        //                             "        </ul>"+
+        //                             "    </div>"+
+        //                             "</form> ";
+        //             $("#editPopover").html(content);             
+        //             $("#form_edit").validate({
+        //                 rules: {
+        //                     field_Weight: {required: true,maxlength:100}
+        //                 },
+        //                 errorElement : 'div',
+        //                 errorPlacement: function(error, element) {
+        //                     var placement = $(element).data('error');
+        //                     if(placement){
+        //                         $(placement).append(error)
+        //                     } 
+        //                     else{
+        //                         error.insertAfter(element);
+        //                     }
+        //                 },
+        //                 messages: {
+        //                     field_email: {
+        //                         required: "<i data-error ='Field is required' class='icon f7-icons  color red' style='margin:5px;'>info</i>",
+        //                         maxlength: "<i data-error ='Name is too long' class='icon f7-icons color red' style='margin:5px;'>info</i>",
+        //                     },
+        //                 },
+        //                 submitHandler: function (form) {
+        //                     var _form = $(form).serializeArray();
+        //                     var data = system.ajax(processor+'do-update',[id,_form]);
+        //                     data.done(function(data){
+        //                         console.log(data);
+        //                         if(data != 0){
+        //                             system.notification("Update","Success. Please wait.",false,2000,true,false,function(){
+        //                                 app.closeModal('.popover-edit', true);
+        //                                  var newdata = account.get(id);
+        //                                 account.account(newdata);
+        //                                 account.edit(newdata);
+        //                             });
 
-                                }
-                                else{
-                                    system.notification("Update","Failed.",false,3000,true,false,false);
-                                }
-                            })
-                        }
-                    });
-                }
-                else if(data.prop == "Height"){  
-                    var content =   "<form action='' method='POST' id='form_edit'>"+
-                                    "    <div class='list-block'>"+
-                                    "        <ul>"+
-                                    "            <li>"+
-                                    "                <div class='input-field'>"+
-                                    "                    <input type='text' id='field_"+data.prop+"' value ='"+data.value+"' name='field_"+data.prop+"' class='form-control black-text'>"+
-                                    "                    <label class='black-text-text' for='field_"+data.prop+"'></label>"+
-                                    "                </div>"+
-                                    "            </li>"+
-                                    "            <li>"+
-                                    "                <a href='#' class='close-popover btn waves-effect waves-teal waves-light btn btn-flat grey-text white'>Cancel</a>"+
-                                    "                <button type ='submit' class='waves-effect waves-teal waves-light btn btn-flat grey-text white'>Save</button>"+
-                                    "            </li>"+
-                                    "        </ul>"+
-                                    "    </div>"+
-                                    "</form> ";
-                    $("#editPopover").html(content);             
-                    $("#form_edit").validate({
-                        rules: {
-                            field_Height: {required: true,maxlength:100}
-                        },
-                        errorElement : 'div',
-                        errorPlacement: function(error, element) {
-                            var placement = $(element).data('error');
-                            if(placement){
-                                $(placement).append(error)
-                            } 
-                            else{
-                                error.insertAfter(element);
-                            }
-                        },
-                        messages: {
-                            field_email: {
-                                required: "<i data-error ='Field is required' class='icon f7-icons  color red' style='margin:5px;'>info</i>",
-                                maxlength: "<i data-error ='Name is too long' class='icon f7-icons color red' style='margin:5px;'>info</i>",
-                            },
-                        },
-                        submitHandler: function (form) {
-                            var _form = $(form).serializeArray();
-                            var data = system.ajax(processor+'do-update',[id,_form]);
-                            data.done(function(data){
-                                console.log(data);
-                                if(data != 0){
-                                    system.notification("Update","Success. Please wait.",false,2000,true,false,function(){
-                                        app.closeModal('.popover-edit', true);
-                                        var newdata = account.get(id);
-                                        account.account(newdata);
-                                        account.edit(newdata);
-                                    });
+        //                         }
+        //                         else{
+        //                             system.notification("Update","Failed.",false,3000,true,false,false);
+        //                         }
+        //                     })
+        //                 }
+        //             });
+        //         }
+        //         else if(data.prop == "Height"){  
+        //             var content =   "<form action='' method='POST' id='form_edit'>"+
+        //                             "    <div class='list-block'>"+
+        //                             "        <ul>"+
+        //                             "            <li>"+
+        //                             "                <div class='input-field'>"+
+        //                             "                    <input type='text' id='field_"+data.prop+"' value ='"+data.value+"' name='field_"+data.prop+"' class='form-control black-text'>"+
+        //                             "                    <label class='black-text-text' for='field_"+data.prop+"'></label>"+
+        //                             "                </div>"+
+        //                             "            </li>"+
+        //                             "            <li>"+
+        //                             "                <a href='#' class='close-popover btn waves-effect waves-teal waves-light btn btn-flat grey-text white'>Cancel</a>"+
+        //                             "                <button type ='submit' class='waves-effect waves-teal waves-light btn btn-flat grey-text white'>Save</button>"+
+        //                             "            </li>"+
+        //                             "        </ul>"+
+        //                             "    </div>"+
+        //                             "</form> ";
+        //             $("#editPopover").html(content);             
+        //             $("#form_edit").validate({
+        //                 rules: {
+        //                     field_Height: {required: true,maxlength:100}
+        //                 },
+        //                 errorElement : 'div',
+        //                 errorPlacement: function(error, element) {
+        //                     var placement = $(element).data('error');
+        //                     if(placement){
+        //                         $(placement).append(error)
+        //                     } 
+        //                     else{
+        //                         error.insertAfter(element);
+        //                     }
+        //                 },
+        //                 messages: {
+        //                     field_email: {
+        //                         required: "<i data-error ='Field is required' class='icon f7-icons  color red' style='margin:5px;'>info</i>",
+        //                         maxlength: "<i data-error ='Name is too long' class='icon f7-icons color red' style='margin:5px;'>info</i>",
+        //                     },
+        //                 },
+        //                 submitHandler: function (form) {
+        //                     var _form = $(form).serializeArray();
+        //                     var data = system.ajax(processor+'do-update',[id,_form]);
+        //                     data.done(function(data){
+        //                         console.log(data);
+        //                         if(data != 0){
+        //                             system.notification("Update","Success. Please wait.",false,2000,true,false,function(){
+        //                                 app.closeModal('.popover-edit', true);
+        //                                 var newdata = account.get(id);
+        //                                 account.account(newdata);
+        //                                 account.edit(newdata);
+        //                             });
 
-                                }
-                                else{
-                                    system.notification("Update","Failed.",false,3000,true,false,false);
-                                }
-                            })
-                        }
-                    });
-                }
-                else if(data.prop == "MotherName"){  
-                    var content =   "<form action='' method='POST' id='form_edit'>"+
-                                    "    <div class='list-block'>"+
-                                    "        <ul>"+
-                                    "            <li>"+
-                                    "                <div class='input-field'>"+
-                                    "                    <input type='text' id='field_"+data.prop+"' value ='"+data.value+"' name='field_"+data.prop+"' class='form-control black-text'>"+
-                                    "                    <label class='black-text-text' for='field_"+data.prop+"'></label>"+
-                                    "                </div>"+
-                                    "            </li>"+
-                                    "            <li>"+
-                                    "                <a href='#' class='close-popover btn waves-effect waves-teal waves-light btn btn-flat grey-text white'>Cancel</a>"+
-                                    "                <button type ='submit' class='waves-effect waves-teal waves-light btn btn-flat grey-text white'>Save</button>"+
-                                    "            </li>"+
-                                    "        </ul>"+
-                                    "    </div>"+
-                                    "</form> ";
-                    $("#editPopover").html(content);             
-                    $("#form_edit").validate({
-                        rules: {
-                            field_MotherName: {required: true,maxlength:100}
-                        },
-                        errorElement : 'div',
-                        errorPlacement: function(error, element) {
-                            var placement = $(element).data('error');
-                            if(placement){
-                                $(placement).append(error)
-                            } 
-                            else{
-                                error.insertAfter(element);
-                            }
-                        },
-                        messages: {
-                            field_email: {
-                                required: "<i data-error ='Field is required' class='icon f7-icons  color red' style='margin:5px;'>info</i>",
-                                maxlength: "<i data-error ='Name is too long' class='icon f7-icons color red' style='margin:5px;'>info</i>",
-                            },
-                        },
-                        submitHandler: function (form) {
-                            var _form = $(form).serializeArray();
-                            var data = system.ajax(processor+'do-update',[id,_form]);
-                            data.done(function(data){
-                                console.log(data);
-                                if(data != 0){
-                                    system.notification("Update","Success. Please wait.",false,2000,true,false,function(){
-                                        app.closeModal('.popover-edit', true);
-                                        var newdata = account.get(id);
-                                        account.account(newdata);
-                                        account.edit(newdata);
-                                    });
+        //                         }
+        //                         else{
+        //                             system.notification("Update","Failed.",false,3000,true,false,false);
+        //                         }
+        //                     })
+        //                 }
+        //             });
+        //         }
+        //         else if(data.prop == "MotherName"){  
+        //             var content =   "<form action='' method='POST' id='form_edit'>"+
+        //                             "    <div class='list-block'>"+
+        //                             "        <ul>"+
+        //                             "            <li>"+
+        //                             "                <div class='input-field'>"+
+        //                             "                    <input type='text' id='field_"+data.prop+"' value ='"+data.value+"' name='field_"+data.prop+"' class='form-control black-text'>"+
+        //                             "                    <label class='black-text-text' for='field_"+data.prop+"'></label>"+
+        //                             "                </div>"+
+        //                             "            </li>"+
+        //                             "            <li>"+
+        //                             "                <a href='#' class='close-popover btn waves-effect waves-teal waves-light btn btn-flat grey-text white'>Cancel</a>"+
+        //                             "                <button type ='submit' class='waves-effect waves-teal waves-light btn btn-flat grey-text white'>Save</button>"+
+        //                             "            </li>"+
+        //                             "        </ul>"+
+        //                             "    </div>"+
+        //                             "</form> ";
+        //             $("#editPopover").html(content);             
+        //             $("#form_edit").validate({
+        //                 rules: {
+        //                     field_MotherName: {required: true,maxlength:100}
+        //                 },
+        //                 errorElement : 'div',
+        //                 errorPlacement: function(error, element) {
+        //                     var placement = $(element).data('error');
+        //                     if(placement){
+        //                         $(placement).append(error)
+        //                     } 
+        //                     else{
+        //                         error.insertAfter(element);
+        //                     }
+        //                 },
+        //                 messages: {
+        //                     field_email: {
+        //                         required: "<i data-error ='Field is required' class='icon f7-icons  color red' style='margin:5px;'>info</i>",
+        //                         maxlength: "<i data-error ='Name is too long' class='icon f7-icons color red' style='margin:5px;'>info</i>",
+        //                     },
+        //                 },
+        //                 submitHandler: function (form) {
+        //                     var _form = $(form).serializeArray();
+        //                     var data = system.ajax(processor+'do-update',[id,_form]);
+        //                     data.done(function(data){
+        //                         console.log(data);
+        //                         if(data != 0){
+        //                             system.notification("Update","Success. Please wait.",false,2000,true,false,function(){
+        //                                 app.closeModal('.popover-edit', true);
+        //                                 var newdata = account.get(id);
+        //                                 account.account(newdata);
+        //                                 account.edit(newdata);
+        //                             });
 
-                                }
-                                else{
-                                    system.notification("Update","Failed.",false,3000,true,false,false);
-                                }
-                            })
-                        }
-                    });
-                }
-                else if(data.prop == "FatherName"){  
-                    var content =   "<form action='' method='POST' id='form_edit'>"+
-                                    "    <div class='list-block'>"+
-                                    "        <ul>"+
-                                    "            <li>"+
-                                    "                <div class='input-field'>"+
-                                    "                    <input type='text' id='field_"+data.prop+"' value ='"+data.value+"' name='field_"+data.prop+"' class='form-control black-text'>"+
-                                    "                    <label class='black-text-text' for='field_"+data.prop+"'></label>"+
-                                    "                </div>"+
-                                    "            </li>"+
-                                    "            <li>"+
-                                    "                <a href='#' class='close-popover btn waves-effect waves-teal waves-light btn btn-flat grey-text white'>Cancel</a>"+
-                                    "                <button type ='submit' class='waves-effect waves-teal waves-light btn btn-flat grey-text white'>Save</button>"+
-                                    "            </li>"+
-                                    "        </ul>"+
-                                    "    </div>"+
-                                    "</form> ";
-                    $("#editPopover").html(content);             
-                    $("#form_edit").validate({
-                        rules: {
-                            field_FatherName: {required: true,maxlength:100}
-                        },
-                        errorElement : 'div',
-                        errorPlacement: function(error, element) {
-                            var placement = $(element).data('error');
-                            if(placement){
-                                $(placement).append(error)
-                            } 
-                            else{
-                                error.insertAfter(element);
-                            }
-                        },
-                        messages: {
-                            field_email: {
-                                required: "<i data-error ='Field is required' class='icon f7-icons  color red' style='margin:5px;'>info</i>",
-                                maxlength: "<i data-error ='Name is too long' class='icon f7-icons color red' style='margin:5px;'>info</i>",
-                            },
-                        },
-                        submitHandler: function (form) {
-                            var _form = $(form).serializeArray();
-                            var data = system.ajax(processor+'do-update',[id,_form]);
-                            data.done(function(data){
-                                console.log(data);
-                                if(data != 0){
-                                    system.notification("Update","Success. Please wait.",false,2000,true,false,function(){
-                                        app.closeModal('.popover-edit', true);
-                                        var newdata = account.get(id);
-                                        account.account(newdata);
-                                        account.edit(newdata);
-                                    });
+        //                         }
+        //                         else{
+        //                             system.notification("Update","Failed.",false,3000,true,false,false);
+        //                         }
+        //                     })
+        //                 }
+        //             });
+        //         }
+        //         else if(data.prop == "FatherName"){  
+        //             var content =   "<form action='' method='POST' id='form_edit'>"+
+        //                             "    <div class='list-block'>"+
+        //                             "        <ul>"+
+        //                             "            <li>"+
+        //                             "                <div class='input-field'>"+
+        //                             "                    <input type='text' id='field_"+data.prop+"' value ='"+data.value+"' name='field_"+data.prop+"' class='form-control black-text'>"+
+        //                             "                    <label class='black-text-text' for='field_"+data.prop+"'></label>"+
+        //                             "                </div>"+
+        //                             "            </li>"+
+        //                             "            <li>"+
+        //                             "                <a href='#' class='close-popover btn waves-effect waves-teal waves-light btn btn-flat grey-text white'>Cancel</a>"+
+        //                             "                <button type ='submit' class='waves-effect waves-teal waves-light btn btn-flat grey-text white'>Save</button>"+
+        //                             "            </li>"+
+        //                             "        </ul>"+
+        //                             "    </div>"+
+        //                             "</form> ";
+        //             $("#editPopover").html(content);             
+        //             $("#form_edit").validate({
+        //                 rules: {
+        //                     field_FatherName: {required: true,maxlength:100}
+        //                 },
+        //                 errorElement : 'div',
+        //                 errorPlacement: function(error, element) {
+        //                     var placement = $(element).data('error');
+        //                     if(placement){
+        //                         $(placement).append(error)
+        //                     } 
+        //                     else{
+        //                         error.insertAfter(element);
+        //                     }
+        //                 },
+        //                 messages: {
+        //                     field_email: {
+        //                         required: "<i data-error ='Field is required' class='icon f7-icons  color red' style='margin:5px;'>info</i>",
+        //                         maxlength: "<i data-error ='Name is too long' class='icon f7-icons color red' style='margin:5px;'>info</i>",
+        //                     },
+        //                 },
+        //                 submitHandler: function (form) {
+        //                     var _form = $(form).serializeArray();
+        //                     var data = system.ajax(processor+'do-update',[id,_form]);
+        //                     data.done(function(data){
+        //                         console.log(data);
+        //                         if(data != 0){
+        //                             system.notification("Update","Success. Please wait.",false,2000,true,false,function(){
+        //                                 app.closeModal('.popover-edit', true);
+        //                                 var newdata = account.get(id);
+        //                                 account.account(newdata);
+        //                                 account.edit(newdata);
+        //                             });
 
-                                }
-                                else{
-                                    system.notification("Update","Failed.",false,3000,true,false,false);
-                                }
-                            })
-                        }
-                    });
-                }
+        //                         }
+        //                         else{
+        //                             system.notification("Update","Failed.",false,3000,true,false,false);
+        //                         }
+        //                     })
+        //                 }
+        //             });
+        //         }
 
-            });
-        }
+        //     });
+        // }
 	}
 
     var career = {
@@ -1199,7 +1196,7 @@ Framework7.prototype.plugins.kareer = function (app, params) {
             });
         },
         add:function(id){
-            console.log("othan");
+            // console.log("othan");
             $("a.career").addClass('hidden');
             $("a.add").addClass('hidden');
             $("div.list").addClass('hidden');
@@ -1352,12 +1349,11 @@ Framework7.prototype.plugins.kareer = function (app, params) {
             return JSON.parse($data);
         },
         show:function(list){
-            console.log(list);
             var content = "";       
             $.each(list,function(i,v){
                 content += "<li class='collection-item row'>"+
                             "   <div class='chip' style = 'width: 10%;'>"+
-                            "   <div class='chip-media bg-blue' style = 'width: 50px !important; height: 50px !important; font-size: 24px;'>G</div>"+
+                            "   <div class='chip-media bg-blue' style = 'width: 50px !important; height: 50px !important; font-size: 24px;'>"+v[4][0]+"</div>"+
                             "   </div>"+
                             "   <div class = 'col 33'>"+
                             "   <div class='title color-teal' ><strong class ='color-black'>"+v[4]+"</strong></div>"+
@@ -1429,7 +1425,7 @@ Framework7.prototype.plugins.kareer = function (app, params) {
             });
         },
         edit:function(c,careerData){
-            console.log(c);
+            // console.log(c);
             var initial = c;
             var current = careerData;
             var storedData = app.formStoreData('form_career',{
@@ -1474,7 +1470,7 @@ Framework7.prototype.plugins.kareer = function (app, params) {
             $("a.save").on('click',function(){              
                 var storedData = app.formGetData('form_career');
                 if(storedData){
-                console.log(storedData);
+                // console.log(storedData);
                 }
             });
         }
@@ -1501,7 +1497,7 @@ Framework7.prototype.plugins.kareer = function (app, params) {
             });
         },
         add:function(id){
-            console.log("sdfsd");
+            // console.log("sdfsd");
             $("a.career").addClass('hidden');
             $("a.add").addClass('hidden');
             $("div.list").addClass('hidden');
@@ -1632,7 +1628,7 @@ Framework7.prototype.plugins.kareer = function (app, params) {
             $.each(list,function(i,v){
                 content += "<li class='collection-item row'>"+
                             "   <div class='chip' style = 'width: 10%;'>"+
-                            "   <div class='chip-media bg-blue' style = 'width: 50px !important; height: 50px !important; font-size: 24px;'>E</div>"+
+                            "   <div class='chip-media bg-blue' style = 'width: 50px !important; height: 50px !important; font-size: 24px;'>"+v[2][0]+"</div>"+
                             "   </div>"+
                             "   <div class = 'col 33'>"+
                             "   <div class='title color-teal' ><strong class ='color-black'>"+v[2]+"</strong></div>"+
@@ -1720,46 +1716,14 @@ Framework7.prototype.plugins.kareer = function (app, params) {
             return JSON.parse($data);
         },
         add:function(id){
-            console.log("sdfsd");
             $("a.skills").addClass('hidden');
             $("a.add").addClass('hidden');
             $("div.list").addClass('hidden');
             $("div.add").removeClass('hidden');
             $("a.add").addClass('hidden');
             $("a.goback").removeClass('hidden');
-            // $("a.cancel").addClass('hidden');
             $("div.toolbar").addClass('hidden');
 
-            let content = `<div class="center">
-                            <form action="" method="POST" id='form_skills'>
-                                <div class="list-block">
-                                    <ul>
-                                        <li>
-                                            <div class="input-field">
-                                                <input type='text' id="field_skill" name="field_skill" class="form-control">
-                                                <label class="" for="field_skill" style="top: -2px !important; left: 0px !important;">Name of Schools</label>
-                                            </div>
-                                        </li>                                        
-                                        <li>
-                                            <div class="input-field" style='border: gray; border-width: 1px; background-color: rgba(238, 238, 238, 0.15); border-style: solid; border-radius: 15px;'>
-                                                <select id="field_level" name="field_level">
-                                                    <option value="BEGINNER">BEGINNER</option>
-                                                    <option value="INTERMEDIATE">INTERMEDIATE</option>
-                                                    <option value="ADVANCE">ADVANCE</option>
-                                                    <option value="EXPERT">EXPERT</option>
-                                                </select>
-                                            </div>
-                                        </li>
-                                        <li style="margin-top: 70% !important;">
-                                            <button class="btn-flat btn-large waves-effect waves-teal waves-light purple color-white" style="width: 80%; margin-left: -15px !important; border-radius: 30px !important; height: 49px; background-color: #7a5578; font-size: 20px;">Save</button>
-                                            <a href="#" class="cancel btn-floating btn-small red waves-effect waves-teal waves-light right" style="right: 5px; height: 50px; width: 50px;"><i class="icon f7-icons" style="top: 7px;">close</i></a>
-                                        </li>
-                                    </ul>
-                                </div>
-                            </form>
-                          </div>`;
-
-            $$("#addSkills").html(content);
             $('select').material_select('close');
             $("a.cancel").on('click',function(){
                 $("div.list").removeClass('hidden');
@@ -1767,11 +1731,7 @@ Framework7.prototype.plugins.kareer = function (app, params) {
                 $("a.skills").removeClass('hidden');
                 $("a.add").removeClass('hidden');
                 $("div.toolbar").removeClass('hidden');
-                // $("a.save").addClass('hidden');
-                // $("a.cancel").addClass('hidden');
             });
-
-
 
             $("#form_skills").validate({
                 rules: {
@@ -1791,13 +1751,13 @@ Framework7.prototype.plugins.kareer = function (app, params) {
                 submitHandler: function (form) {
                     var _form = $(form).serializeArray();
                     console.log(_form);
-                    var data = system.ajax(processor+'do-academic',[id,_form]);
+                    var data = system.ajax(processor+'do-skill',[id,_form]);
                     data.done(function(data){
                         console.log(data);
                         if(data != 0){
                             $$("input").val("");
-                            system.notification("Kareer","Academic Added.",false,2000,true,false,function(){
-                                academic.ini();
+                            system.notification("Kareer","Skill Added.",false,2000,true,false,function(){
+                                skills.ini();
                             });
                         }
                         else{
@@ -1807,17 +1767,17 @@ Framework7.prototype.plugins.kareer = function (app, params) {
                 }
             }); 
         },
-
         show:function(list){
             var content = "";
+            console.log(list);
             $.each(list,function(i,v){
                 content += "<li class='collection-item row'>"+
                             "   <div class='chip' style = 'width: 10%;'>"+
-                            "   <div class='chip-media bg-blue' style = 'width: 50px !important; height: 50px !important; font-size: 24px;'>E</div>"+
+                            "   <div class='chip-media bg-blue' style = 'width: 50px !important; height: 50px !important; font-size: 24px;'>"+v[2][0]+"</div>"+
                             "   </div>"+
                             "   <div class = 'col 33'>"+
                             "   <div class='title color-teal' ><strong class ='color-black'>"+v[2]+"</strong></div>"+
-                            "   <div class ='color-teal' ><small class ='color-black'>"+v[5]+"</small></div>"+
+                            "   <div class ='color-teal' ><small class ='color-black'>"+v[3]+"</small></div>"+
                             "   </div>"+
                             "   <a class='col 33 right btn btn-floating btn-flat waves-effect waves-teal waves-light' href='#' data-cmd='edit' data-node='"+v[0]+"'><i class='icon small f7-icons color-gray'>chevron_right</i></a>"+
                             "</li>";
@@ -1830,18 +1790,238 @@ Framework7.prototype.plugins.kareer = function (app, params) {
                 var data = $(this).data('load');
                 view.router.loadPage("pages/admin/"+data+".html");
             });
-            app.onPageInit('builderSkills',function(page){
-                skills.ini();
+            app.onPageInit('builderLanguage',function(page){
+                language.ini();
             });
         },
+    }
 
+    let language = {
+        ini:function(){
+            var applicantData = JSON.parse(localStorage.getItem('applicant'));
+            var list = language.get(applicantData[0][0]);
+            $$("a[data-cmd='add-language']").on('click',function(){
+                language.add(applicantData[0][0]);
+            });
+            language.show(list);
+            // skills.delete(list);
+
+            $("a.home").on('click',function(){
+                var data = $(this).data('load');
+                view.router.loadPage("pages/admin/"+data+".html");
+                account.controller(data);
+            });
+
+            app.onPageInit('index',function(page){
+                account.controller();
+            });
+        },
+        get:function(id){
+            var $data = "";
+            var jobs = system.ajax(processor+'get-language',id);
+            jobs.done(function(data){
+                $data = data;
+            });
+            return JSON.parse($data);
+        },
+        add:function(id){
+            $("a.language").addClass('hidden');
+            $("a.add").addClass('hidden');
+            $("div.list").addClass('hidden');
+            $("div.add").removeClass('hidden');
+            $("a.add").addClass('hidden');
+            $("a.goback").removeClass('hidden');
+            $("div.toolbar").addClass('hidden');
+
+            $('select').material_select('close');
+            $("a.cancel").on('click',function(){
+                $("div.list").removeClass('hidden');
+                $("div.add").addClass('hidden');
+                $("a.language").removeClass('hidden');
+                $("a.add").removeClass('hidden');
+                $("div.toolbar").removeClass('hidden');
+            });
+
+            $("#form_language").validate({
+                rules: {
+                    field_skill: {required: true,maxlength:100},
+                    field_level: {required: true,maxlength:50}
+                },
+                errorElement : 'div',
+                errorPlacement: function(error, element) {
+                    var placement = $(element).data('error');
+                    if(placement){
+                        $(placement).append(error)
+                    } 
+                    else{
+                        error.insertAfter(element);
+                    }
+                },
+                submitHandler: function (form) {
+                    var _form = $(form).serializeArray();
+                    console.log(_form);
+                    var data = system.ajax(processor+'do-language',[id,_form]);
+                    data.done(function(data){
+                        console.log(data);
+                        if(data != 0){
+                            $$("input").val("");
+                            system.notification("Kareer","Language Added.",false,2000,true,false,function(){
+                                language.ini();
+                            });
+                        }
+                        else{
+                            system.notification("Kareer","Failed.",false,3000,true,false,false);
+                        }
+                    })
+                }
+            }); 
+        },
+        show:function(list){
+            var content = "";
+            console.log(list);
+            $.each(list,function(i,v){
+                content += "<li class='collection-item row'>"+
+                            "   <div class='chip' style = 'width: 10%;'>"+
+                            "   <div class='chip-media bg-blue' style = 'width: 50px !important; height: 50px !important; font-size: 24px;'>"+v[2][0]+"</div>"+
+                            "   </div>"+
+                            "   <div class = 'col 33'>"+
+                            "   <div class='title color-teal' ><strong class ='color-black'>"+v[2]+"</strong></div>"+
+                            "   <div class ='color-teal' ><small class ='color-black'>"+v[3]+"</small></div>"+
+                            "   </div>"+
+                            "   <a class='col 33 right btn btn-floating btn-flat waves-effect waves-teal waves-light' href='#' data-cmd='edit' data-node='"+v[0]+"'><i class='icon small f7-icons color-gray'>chevron_right</i></a>"+
+                            "</li>";
+
+                    $("a.language").removeClass('disabled');
+            });
+            $$("#display_language").html("<ul class='collection'>"+content+"</ul");
+
+            $("a.language").on('click',function(){
+                var data = $(this).data('load');
+                view.router.loadPage("pages/admin/"+data+".html");
+            });
+            app.onPageInit('builderReferences',function(page){
+                references.ini();
+            });
+        },
+    }
+
+    let references = {
+        ini:function(){
+            var applicantData = JSON.parse(localStorage.getItem('applicant'));
+            var list = references.get(applicantData[0][0]);
+            $$("a[data-cmd='add-references']").on('click',function(){
+                references.add(applicantData[0][0]);
+            });
+            references.show(list);
+
+            $("a.home").on('click',function(){
+                var data = $(this).data('load');
+                view.router.loadPage("pages/admin/"+data+".html");
+                account.controller(data);
+            });
+
+            app.onPageInit('index',function(page){
+                account.controller();
+            });
+        },
+        get:function(id){
+            var $data = "";
+            var jobs = system.ajax(processor+'get-references',id);
+            jobs.done(function(data){
+                $data = data;
+            });
+            return JSON.parse($data);
+        },
+        add:function(id){
+            $("a.references").addClass('hidden');
+            $("a.add").addClass('hidden');
+            $("div.list").addClass('hidden');
+            $("div.add").removeClass('hidden');
+            $("a.add").addClass('hidden');
+            $("a.goback").removeClass('hidden');
+            $("div.toolbar").addClass('hidden');
+
+
+            $("a.cancel").on('click',function(){
+                $("div.list").removeClass('hidden');
+                $("div.add").addClass('hidden');
+                $("a.references").removeClass('hidden');
+                $("a.add").removeClass('hidden');
+                $("div.toolbar").removeClass('hidden');
+            });
+
+            $("#form_references").validate({
+                rules: {
+                    field_name: {required: true,maxlength:100},
+                    field_relationship: {required: true,maxlength:100},
+                    field_profession: {required: true,maxlength:100},
+                    field_email: {required: true,maxlength:100},
+                    field_phone: {required: true,maxlength:100},
+                    field_address1: {required: true,maxlength:100},
+                    // field_address2: {maxlength:100}
+                },
+                errorElement : 'div',
+                errorPlacement: function(error, element) {
+                    var placement = $(element).data('error');
+                    if(placement){
+                        $(placement).append(error)
+                    } 
+                    else{
+                        error.insertAfter(element);
+                    }
+                },
+                submitHandler: function (form) {
+                    var _form = $(form).serializeArray();
+                    console.log(_form);
+                    var data = system.ajax(processor+'do-references',[id,_form]);
+                    data.done(function(data){
+                        console.log(data);
+                        if(data != 0){
+                            $$("input").val("");
+                            system.notification("Kareer","References Added.",false,2000,true,false,function(){
+                                references.ini();
+                            });
+                        }
+                        else{
+                            system.notification("Kareer","Failed.",false,3000,true,false,false);
+                        }
+                    })
+                }
+            }); 
+        },
+        show:function(list){
+            var content = "";
+            console.log(list);
+            $.each(list,function(i,v){
+                content += "<li class='collection-item row'>"+
+                            "   <div class='chip' style = 'width: 10%;'>"+
+                            "   <div class='chip-media bg-blue' style = 'width: 50px !important; height: 50px !important; font-size: 24px;'></div>"+
+                            "   </div>"+
+                            "   <div class = 'col 33'>"+
+                            "   <div class='title color-teal' ><strong class ='color-black'>"+v[2]+"</strong></div>"+
+                            "   <div class ='color-teal' ><small class ='color-black'>"+v[7]+"</small></div>"+
+                            "   </div>"+
+                            "   <a class='col 33 right btn btn-floating btn-flat waves-effect waves-teal waves-light' href='#' data-cmd='edit' data-node='"+v[0]+"'><i class='icon small f7-icons color-gray'>chevron_right</i></a>"+
+                            "</li>";
+
+                    $("a.references").removeClass('disabled');
+            });
+            $$("#display_references").html("<ul class='collection'>"+content+"</ul");
+
+            $("a.references").on('click',function(){
+                var data = $(this).data('load');
+                view.router.loadPage("pages/admin/"+data+".html");
+            });
+            app.onPageInit('resumePreview',function(page){
+                resume.preview();
+            });
+        },
     }
 
     let resume ={
         ini:function(){
             var applicantData = JSON.parse(localStorage.getItem('applicant'));
             var data = resume.get(applicantData[0][0]);
-
             let content =   `<div><img src="./img/RES.png" style="width: 200px; position: relative; margin-top: 80px;" ></div>
                             <p style="font-size: 17px">Make my Resume</p>
                             <div class="center">
@@ -1888,13 +2068,26 @@ Framework7.prototype.plugins.kareer = function (app, params) {
             $("a.home").on('click',function(){
                 var data = $(this).data('load');
                 view.router.loadPage("pages/admin/"+data+".html");
-                console.log("dfdfdd");
+                // console.log("dfdfdd");
             });
 
             app.onPageInit('resume',function(page){
                 account.controller();
                 resume.ini();
             });
+        },
+        preview:function(){
+            $("a.preview").on('click',function(){
+                var data = $(this).data('load');
+                view.router.loadPage("pages/admin/"+data+".html");
+            });
+
+            app.onPageInit('builderReferences',function(page){
+                references.ini();
+            });
+
+            
+
         }
 
     }
@@ -2247,7 +2440,7 @@ Framework7.prototype.plugins.kareer = function (app, params) {
                 submitHandler: function (form) {
                     var _form = $(form).serializeArray();
                     var career = ajax(processor+'do-career-info',_form);
-                    console.log(career.responseText);
+                    // console.log(career.responseText);
                     system.notification("Kareer","Success",false,3000,true,function(){
                     },false);
                 }

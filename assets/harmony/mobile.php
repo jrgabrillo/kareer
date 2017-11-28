@@ -84,6 +84,66 @@ $Functions = new DatabaseClasses;
         }
     }
 
+    if (isset($_GET['do-skill'])){
+        $data = $_POST['data'];
+        
+        $id = $Functions->PDO_IDGenerator('tbl_skills','id');
+        $date = $Functions->PDO_DateAndTime();
+        $skill = $Functions->escape($data[1][0]['value']);
+        $level = $Functions->escape($data[1][1]['value']);
+
+        $query = $Functions->PDO("INSERT INTO tbl_skills(id,applicant_id,skill,level,date) VALUES('{$id}','{$data[0]}',{$skill},{$level},'{$date}')");
+        if($query->execute()){
+            echo 1;
+        }
+        else{
+            $Data = $query->errorInfo();
+            print_r($Data);
+        }
+    }
+
+    if (isset($_GET['do-language'])){
+        $data = $_POST['data'];
+        
+        $id = $Functions->PDO_IDGenerator('tbl_language','id');
+        $date = $Functions->PDO_DateAndTime();
+        $language = $Functions->escape($data[1][0]['value']);
+        $level = $Functions->escape($data[1][1]['value']);
+
+        $query = $Functions->PDO("INSERT INTO tbl_language(id,applicant_id,language,level,date) VALUES('{$id}','{$data[0]}',{$language},{$level},'{$date}')");
+        if($query->execute()){
+            echo 1;
+        }
+        else{
+            $Data = $query->errorInfo();
+            print_r($Data);
+        }
+    }
+
+    if (isset($_GET['do-references'])){
+        $data = $_POST['data'];
+        
+        $id = $Functions->PDO_IDGenerator('tbl_references','id');
+        $date = $Functions->PDO_DateAndTime();
+        $name = $Functions->escape($data[1][0]['value']);
+        $relationship = $Functions->escape($data[1][1]['value']);
+        $profession = $Functions->escape($data[1][2]['value']);
+        $email = $Functions->escape($data[1][3]['value']);
+        $phone = $Functions->escape($data[1][4]['value']);
+        $address = $Functions->escape($data[1][5]['value']);
+        // $address2 = $Functions->escape($data[1][6]['value']);
+
+        $query = $Functions->PDO("INSERT INTO tbl_references(id,applicant_id,name,relationship,profession,email,phone,address,date) VALUES('{$id}','{$data[0]}',{$name},{$relationship},{$profession},{$email},{$phone},{$address},'{$date}')");
+
+        if($query->execute()){
+            echo 1;
+        }
+        else{
+            $Data = $query->errorInfo();
+            print_r($Data);
+        }
+    }
+
     if (isset($_GET['do-deleteAcad'])){
         $data = $_POST['data'];
         $query = $Functions->PDO("DELETE FROM tbl_acadinfo WHERE id = '{$data}';");
@@ -355,7 +415,19 @@ $Functions = new DatabaseClasses;
 
     if (isset($_GET['get-skills'])){
         $data = $_POST['data'];
-        $query = $Functions->PDO("SELECT * FROM tbl_acadinfo WHERE applicant_id = '{$data}'");
+        $query = $Functions->PDO("SELECT * FROM tbl_skills WHERE applicant_id = '{$data}'");
+        print_r(json_encode($query));
+    }
+
+    if (isset($_GET['get-references'])){
+        $data = $_POST['data'];
+        $query = $Functions->PDO("SELECT * FROM tbl_references WHERE applicant_id = '{$data}'");
+        print_r(json_encode($query));
+    }
+
+    if (isset($_GET['get-language'])){
+        $data = $_POST['data'];
+        $query = $Functions->PDO("SELECT * FROM tbl_language WHERE applicant_id = '{$data}'");
         print_r(json_encode($query));
     }
 
