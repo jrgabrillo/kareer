@@ -15,9 +15,9 @@ Framework7.prototype.plugins.kareer = function (app, params) {
     var system = {
     	ini:function(){
         	// var deviceSize = system.getDeviceSize();
-        	// console.log(deviceSize);
-            // logIn.ini();
+        	// console.log(deviceSize);          
         	// signUp.ini();
+             logIn.ini();
         	content.ini();
     	},
         notification:function(title,message,button,timeout,loader,_functionOpen,_functionClose){
@@ -196,24 +196,24 @@ Framework7.prototype.plugins.kareer = function (app, params) {
 							"<div class='content-block'>"+
 							"    <div class='row rows'>"+
 							"        <div class='col-33'>"+
-							"            <a data-load='account'  class='account btn-floating btn-large waves-effect waves-light waves-teal grey lighten-4 btn-flat'><i class='icon f7-icons color-gray' style='font-size: 30px; margin-top: 6px;'>person</i></a><div class='grey-text' style = 'font-size: xx-small'>ACCOUNT</div>"+
+							"            <a data-load='account'  class='account btn-floating btn-large waves-effect waves-light waves-teal grey lighten-3 btn-flat'><i class='icon f7-icons color-gray' style='font-size: 30px; margin-top: 6px;color:grey'>person</i></a><div class='grey-text' style = 'font-size: xx-small'>ACCOUNT</div>"+
 							"        </div>"+
 							"        <div class='col-33'>"+
-							"            <a data-load='career' class='account btn-floating btn-large waves-effect waves-light waves-teal grey lighten-4 btn-flat'><i class='icon f7-icons color-gray' style='font-size: 30px; margin-top: 6px;'>briefcase_fill</i></a><div class='grey-text' style = 'font-size: xx-small'>CAREER</div>"+
+							"            <a data-load='career' class='account btn-floating btn-large waves-effect waves-light waves-teal grey lighten-3 btn-flat'><i class='icon f7-icons color-gray' style='font-size: 30px; margin-top: 6px;color:grey'>briefcase_fill</i></a><div class='grey-text' style = 'font-size: xx-small'>CAREER</div>"+
 							"        </div>"+
 							"        <div class='col-33'>"+
-							"            <a data-load='academic' class='account btn-floating btn-large waves-effect waves-light waves-teal grey lighten-4 btn-flat'><i class='icon f7-icons color-gray' style='font-size: 30px; margin-top: 6px;'>folder_fill</i></a><div class='grey-text' style = 'font-size: xx-small'>ACADEMIC</div>"+
+							"            <a data-load='academic' class='account btn-floating btn-large waves-effect waves-light waves-teal grey lighten-3 btn-flat'><i class='icon f7-icons color-gray' style='font-size: 30px; margin-top: 6px;color:grey'>folder_fill</i></a><div class='grey-text' style = 'font-size: xx-small'>ACADEMIC</div>"+
 							"        </div>"+
                             "    </div>"+
                             "    <div class='row rows'>"+
                             "        <div class='col-33'>"+
-                            "            <a data-load='' class='account btn-floating btn-large waves-effect waves-light waves-teal grey lighten-4 btn-flat'><i class='icon f7-icons color-gray' style='font-size: 30px; margin-top: 6px;'>bookmark_fill</i></a><div class='grey-text' style = 'font-size: xx-small'>BOOKMARKS</div>"+
+                            "            <a data-load='' class='account btn-floating btn-large waves-effect waves-light waves-teal grey lighten-3 btn-flat'><i class='icon f7-icons color-gray' style='font-size: 30px; margin-top: 6px;color:grey'>bookmark_fill</i></a><div class='grey-text' style = 'font-size: xx-small'>BOOKMARKS</div>"+
                             "        </div>"+
                             "        <div class='col-33'>"+
-                            "            <a data-load='' class='account btn-floating btn-large waves-effect waves-light waves-teal grey lighten-4 btn-flat'><i class='icon f7-icons color-gray' style='font-size: 30px; margin-top: 6px;'>gear_fill</i></a><div class='grey-text' style = 'font-size: xx-small'>SETTINGS</div>"+
+                            "            <a data-load='' class='account btn-floating btn-large waves-effect waves-light waves-teal grey lighten-3 btn-flat'><i class='icon f7-icons color-gray' style='font-size: 30px; margin-top: 6px;color:grey'>gear_fill</i></a><div class='grey-text' style = 'font-size: xx-small'>SETTINGS</div>"+
                             "        </div>"+
                             "        <div class='col-33'>"+
-                            "            <a data-load='resume' class='account btn-floating btn-large waves-effect waves-light waves-teal grey lighten-4 btn-flat'><i class='icon f7-icons color-gray' style='font-size: 30px; margin-top: 6px;'>document_text_fill</i></a><div class='grey-text' style = 'font-size: xx-small'>RESUME</div>"+
+                            "            <a data-load='resume' class='account btn-floating btn-large waves-effect waves-light waves-teal grey lighten-3 btn-flat'><i class='icon f7-icons color-gray' style='font-size: 30px; margin-top: 6px;color:grey'>document_text_fill</i></a><div class='grey-text' style = 'font-size: xx-small'>RESUME</div>"+
                             "      </div>"+
 							"    </div>"+
                             "</div>";
