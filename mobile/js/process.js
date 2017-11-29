@@ -1575,8 +1575,11 @@ Framework7.prototype.plugins.kareer = function (app, params) {
           
                 $('#create_pdf').on('click', function () {  
                     $('body').scrollTop(0);  
+                    var data = $(this).data('load');
+                    view.router.loadPage("pages/admin/"+data+".html");
                     createPDF();
                     upload();
+
                 });  
                 //create pdf  
                 function createPDF() {  
@@ -1588,7 +1591,7 @@ Framework7.prototype.plugins.kareer = function (app, params) {
                              format: 'legal'  
                          });  
                         doc.addImage(img, 'JPEG', 3, 3);  
-                        // doc.save('resume.pdf');
+                        doc.save('resume.pdf');
                         form.width(cache_width);
                     });  
                 }  
@@ -1609,7 +1612,9 @@ Framework7.prototype.plugins.kareer = function (app, params) {
                         console.log(data);
                         if(data != 0){
                             system.notification("Kareer","Resume Published.",false,2000,true,false,function(){
-                                // content.ini();
+                                 app.onPageInit('index',function(page){
+                                    content.ini();
+                                });
                             });
                             // console.log(data);
                         }
