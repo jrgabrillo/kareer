@@ -165,7 +165,7 @@
 #index .card-header-pic .responsive-img{
     width: 130px;
     border-radius: 50%;
-    border: 2px solid #009688;
+    border: 2px solid grey;
     margin: 0 auto;
     top: 35px;
     position: relative;    

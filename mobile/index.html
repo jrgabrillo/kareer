@@ -21,14 +21,14 @@
         <link rel="stylesheet" href="css/main.css">
         <link rel="stylesheet" href="css/welcomescreen.css">
     </head>
-    <body class='theme-teal'>
+    <body class='theme-white'>
         <div class="views">
             <div class="view view-main">
                 <div class="pages navbar-through toolbar-through">
                     <div class="navbar white hidden" style="border-bottom: 1px solid #ccc;">
-                        <div class="navbar-inner rows">
+                        <div class="navbar-inner rows" style="box-shadow: 0px 2px 5px #f3f3f3;">
                             <div class="left">
-                                <a href="#" data-page="index" class=" white btn btn-floating btn-flat color-teal waves-effect waves-teal waves-light"><i class="icon f7-icons">person</i></a> <!-- pages/admin/account.html -->
+                                <a href="#" data-page="index" class=" white btn btn-floating btn-flat color-teal waves-effect waves-teal waves-light"><i class="icon f7-icons size-50">person</i></a> <!-- pages/admin/account.html -->
                             </div>
                             <div class="center" style="margin:0 auto;">
                                 <a href="#" data-page="jobs" class=" white btn btn-floating btn-flat color-gray waves-effect waves-teal waves-light"><i class="icon f7-icons">briefcase_fill</i></a>
@@ -38,17 +38,19 @@
                             </div>
                         </div>
                     </div>
-                    <div data-page='index' class="page hidden" data-node="page-initialization" style="background-image: url(img/kareer_bg.png);">
+                    <div data-page='index' class="page hidden" data-node="page-initialization" style="background-image: url(img/kareer_bg1.png);">
                         <div class="page-content">
                             <div class="button-row" id="splashScreen">  
-                                <img id='displayLogo' src="img/kareer_logo.png" class="animated fadeInUp" style="position:relative; top:0px;">
+                                <img id='displayLogo' src="img/kareer_new_logo_2.png" class="animated fadeInUp" style="position:relative; margin-top:35%;width:80%;">
                             </div>
                         </div>
                         <div class="toolbar" style="background: transparent; height: 80px;">
-                            <div class="toolbar-inner">
+                            <div class="toolbar-inner" style="position: fixed;">
                                 <div class="collection" style="width: 100%; margin-top: 20px; border:none;">
-                                    <a href="#" data-popup=".popup-login" class="white-text collection-item open-popup teal waves-effect waves-teal waves-light btn" style="opacity: 0.8;border:none;border-radius: 0px;">Log In</a>
-                                    <a href="#" data-popup=".popup-sign-up" class="white-text collection-item open-popup purple waves-effect waves-teal waves-light btn" style="opacity: 0.8;border:none;border-radius: 0px;">Sign Up</a>
+                                    <div style="margin-top: 105%;"></div> 
+                                   <center><a href="#" data-popup=".popup-login" class="next btn btn-large white-text waves-effect waves-purple waves-light open-popup" style="border-radius: 30px;width: 90%;height: 56px;font-size: 18px;background-color: #54b3af;text-transform: none;"><strong class="">Login</strong></a></center>
+                                   <div style="margin-top: 5%;"></div>
+                                 <center><a href="#" data-popup=".popup-sign-up" class="next btn btn-large white-text waves-effect waves-purple waves-light open-popup" style="border-radius: 30px;width: 90%;height: 56px;font-size: 18px;background-color: #7a5578;text-transform: none;"><strong class="">Register</strong></a></center>
                                 </div>
                             </div>
                         </div>
@@ -85,101 +87,101 @@
             </div>                          
         </div>
         <div class="popup popup-login">
-            <div class="page-content login-screen-content" style="background: transparent;">
+            <div class="page-content login-screen-content" style="background-image: url(img/login_bg.png);background-repeat: no-repeat;background-attachment: fixed;background-position: center;">
                 <div class="login-screen-title color-white">
-                    Log In 
-                    <a class="close-popup"><i class="icon f7-icons color-white" style="width: 25px; position: absolute;right: 5%;">close_round</i></a>
+                    Login 
+                    <a class="close-popup"><i class="icon f7-icons color-white" style="width: 25px; position: absolute;right: 5%;">down</i></a>
                 </div>
+                <div style="margin-top: 17%;"></div>
                 <div class="content-block">
                     <form action="" method="POST" id='form_logIn' autocomplete="off">
                         <div class="list-block">
                             <ul>
                                 <li style="margin-bottom: 10px;">
                                     <div class="input-field">
-                                        <input type='email' id="field_email" name="field_email" class="form-control white-text" value="">
-                                        <label class="white-text" for="field_email" style="margin-top: -10px">Email</label>
+                                        <input type='email' id="field_email" name="field_email" class="form-control white-text" value="" style="font-size:18px;border-bottom:1px solid white;">
+                                        <label class="white-text" for="field_email" style="font-size:18px;margin-top: -10px">Email</label>
                                     </div>
-                                </li>
+                                </li><br />
                                 <li style="margin-bottom: 10px;">
                                     <div class="input-field">
-                                        <input type='password' id="field_password" name="field_password" class="form-control white-text" value="" style="padding-right: 45px;">
-                                        <a style="position: absolute; right: 0px; top: 50%; margin-top: -8px;">show</a>
-                                        <label class="white-text" for="field_password" style="margin-top: -10px">Password</label>
+                                        <input type='password' id="field_password" name="field_password" class="form-control white-text" value="" style="font-size:18px;padding-right: 45px;border-bottom:1px solid white;">
+                                        <a style="position: absolute; right: 0px; top: 50%; margin-top: -8px;"><i class="icon f7-icons color-white" style=''>eye</i></a>
+                                        <label class="white-text" for="field_password" style="font-size:18px;margin-top: -10px">Password</label>
                                     </div>
+                                </li><br />
+                                <li style="margin-bottom: 10px;">
+                                     <center><button href="#" data-popup=".popup-login" class="next btn btn-large white-text waves-effect waves-purple waves-light open-popup" style="border-radius: 30px;width: 100%;height: 56px;font-size: 18px;background-color: #54b3af;text-transform: none;"><strong class="">Login</strong></button></center>
                                 </li>
                                 <li style="margin-bottom: 10px;">
-                                    <button class="waves-effect waves-teal waves-light btn btn-flat grey-text white" style="width: 100%;">Login</button>
+                                    <div class="row" style='margin-top:20px;'>
+                                        <div class="col-100" style='background: transparent;'>
+                                            <center><span class="hr color-white"> or login using </span></center>
+                                            <div style="margin-top: 5%;"></div>
+                                            <a href="#" data-popup=".popup-sign-up" class="next btn btn-large white-text waves-effect waves-purple waves-light open-popup left" style="border-radius: 30px;width: 48%;height: 53px;font-size: 15px;background-color: #4267b2;text-transform: none;"><strong class=""><i class="icon f7-icons color-white" style=''>social_facebook_fill</i>&nbsp;&nbsp;Facebook</strong></a>
+                                            <a href="#" data-popup=".popup-sign-up" class="next btn btn-large white-text waves-effect waves-purple waves-light open-popup right" style="border-radius: 30px;width: 48%;height: 53px;font-size: 18px;color:black;background-color: white;text-transform: none;"><strong class=""><i class="icon f7-icons black-text" style=''>social_googleplus</i>&nbsp;&nbsp;<font color="black">Gmail</font></strong></a>
+                                        </div>
+                                        <div class="col-100" style='background: transparent;'>
+                                            <!-- <img src="img/icons/fb.png" width="30px" /> -->
+                                            <!-- <img src="img/icons/gp.png" width="30px" /> -->
+                                        </div>
+                                    </div>
                                 </li>
                             </ul>
-                        </div>
-                        <div class="list-block hidden">
-                            <div class="list-block-label">
-                                <div class="col-50" style='background: transparent; color: #fff; line-height: 2;'>
-                                    Forget password?
-                                </div>
-                                <div class="row" style='margin-top:50px;'>
-                                    <div class="col-100" style='background: transparent;'>
-                                        <span class="hr color-white"> or Sign up using </span>
-                                    </div>
-                                    <div class="col-100" style='background: transparent;'>
-                                        <!-- <img src="img/icons/fb.png" width="30px" /> -->
-                                        <!-- <img src="img/icons/gp.png" width="30px" /> -->
-                                    </div>
-                                </div>
-                            </div>
                         </div>
                     </form>
                 </div>
             </div>
         </div>
         <div class="popup popup-sign-up">
-            <div class="page-content login-screen-content infinite-scroll" style="background: transparent;">
-                <div class="login-screen-title close-popup" style="color: white">Sign Up<i class="icon f7-icons" style="width: 25px; position: absolute;right: 5%;">close_round</i></div>
+            <div class="page-content login-screen-content infinite-scroll" style="background-image: url(img/login_bg.png);background-repeat: no-repeat;background-attachment: fixed;background-position: center;">
+                <div class="login-screen-title close-popup" style="color: white">Register<i class="icon f7-icons" style="width: 25px; position: absolute;right: 5%;">down</i></div>
                 <div class="content-block">
                     <form action="" method="POST" id='form_signUp'>
                         <div class="list-block">
                             <ul>
-                                <li>
+                                <li style="margin-bottom: 10px;">
                                     <div class="input-field">
-                                        <input type='text' id="field_firstname" name="field_firstname" class="form-control white-text">
-                                        <label class="white-text" for="field_firstname">First Name</label>
+                                        <input type='text' id="field_firstname" name="field_firstname" class="form-control white-text" style="font-size: 18px;">
+                                        <label class="white-text" for="field_firstname" style="margin-top: -10px;font-size: 18px;">First Name</label>
                                     </div>
                                 </li>
-                                <li>
+                                <li style="margin-bottom: 10px;margin-top: 7%;">
                                     <div class="input-field">
-                                        <input type='text' id="field_lastname" name="field_lastname" class="form-control white-text">
-                                        <label class="white-text" for="field_lastname">Last Name</label>
+                                        <input type='text' id="field_lastname" name="field_lastname" class="form-control white-text" style="font-size: 18px;">
+                                        <label class="white-text" for="field_lastname" style="margin-top: -10px;font-size: 18px;">Last Name</label>
                                     </div>
                                 </li>
-                                <li>
+                                <li style="margin-bottom: 10px;margin-top: 7%;">
                                     <div class="input-field">
-                                        <input type='email' id="field_email" name="field_email" class="form-control white-text">
-                                        <label class="white-text" for="field_email">Email</label>
+                                        <input type='email' id="field_email" name="field_email" class="form-control white-text" style="font-size: 18px;">
+                                        <label class="white-text" for="field_email" style="margin-top: -10px;font-size: 18px;">Email</label>
                                     </div>
                                 </li>
-                                <li>
+                                <li style="margin-bottom: 10px;margin-top: 7%;">
                                     <div class="input-field">
-                                        <input type='password' id="field_password" name="field_password" class="form-control white-text">
-                                        <label class="white-text" for="field_password">Password</label>
+                                        <input type='password' id="field_password" name="field_password" class="form-control white-text" style="font-size: 18px;">
+                                        <label class="white-text" for="field_password" style="margin-top: -10px;font-size: 18px;">Password</label>
                                     </div>
                                 </li>
-                                <li>
-                                    <button class="waves-effect waves-teal waves-light btn btn-flat grey-text white" style="width:100%;">Sign Up</button>
+                                <li style="margin-bottom: 10px;margin-top: 7%;">
+                                     <center><a href="#" data-popup=".popup-login" class="next btn btn-large white-text waves-effect waves-purple waves-light open-popup" style="border-radius: 30px;width: 100%;height: 56px;font-size: 18px;background-color: #7a5578;text-transform: none;"><strong class="">Register</strong></a></center>
+                                </li>
+                                <li style="margin-bottom: 10px;">
+                                    <div class="row" style='margin-top:20px;'>
+                                        <div class="col-100" style='background: transparent;'>
+                                            <center><span class="hr color-white"> or SignUp using </span></center>
+                                            <div style="margin-top: 5%;"></div>
+                                            <a href="#" data-popup=".popup-sign-up" class="next btn btn-large white-text waves-effect waves-purple waves-light open-popup left" style="border-radius: 30px;width: 48%;height: 53px;font-size: 15px;background-color: #4267b2;text-transform: none;"><strong class=""><i class="icon f7-icons color-white" style=''>social_facebook_fill</i>&nbsp;&nbsp;Facebook</strong></a>
+                                            <a href="#" data-popup=".popup-sign-up" class="next btn btn-large white-text waves-effect waves-purple waves-light open-popup right" style="border-radius: 30px;width: 48%;height: 53px;font-size: 18px;color:black;background-color: white;text-transform: none;"><strong class=""><i class="icon f7-icons black-text" style=''>social_googleplus</i>&nbsp;&nbsp;<font color="black">Gmail</font></strong></a>
+                                        </div>
+                                        <div class="col-100" style='background: transparent;'>
+                                            <!-- <img src="img/icons/fb.png" width="30px" /> -->
+                                            <!-- <img src="img/icons/gp.png" width="30px" /> -->
+                                        </div>
+                                    </div>
                                 </li>
                             </ul>
-                        </div>
-                        <div class="list-block">`
-                            <div class="list-block-label">
-                                <div class="row hidden" style='margin-top:50px;'>
-                                    <div class="col-100" style='background: transparent;'>
-                                        <span class="hr color-white"> or Sign up using </span>
-                                    </div>
-                                    <div class="col-100" style='background: transparent;'>
-                                        <!-- <img src="img/icons/fb.png" width="30px"/> -->
-                                        <!-- <img src="img/icons/gp.png" width="30px"/> -->
-                                    </div>
-                                </div>
-                            </div>
                         </div>
                     </form>
                 </div>
