@@ -144,6 +144,25 @@ $Functions = new DatabaseClasses;
         }
     }
 
+    if (isset($_GET['do-seminar'])){
+        $data = $_POST['data'];
+        
+        $id = $Functions->PDO_IDGenerator('tbl_seminars','id');
+        $event = $Functions->escape($data[1][0]['value']);
+        $location = $Functions->escape($data[1][1]['value']);
+        $date = $Functions->escape($data[1][2]['value']);
+
+        $query = $Functions->PDO("INSERT INTO tbl_seminars(id,applicant_id,event,location,date) VALUES('{$id}','{$data[0]}',{$event},{$location},{$date})");
+
+        if($query->execute()){
+            echo 1;
+        }
+        else{
+            $Data = $query->errorInfo();
+            print_r($Data);
+        }
+    }
+
     if (isset($_GET['do-deleteAcad'])){
         $data = $_POST['data'];
         $query = $Functions->PDO("DELETE FROM tbl_acadinfo WHERE id = '{$data}';");
@@ -238,7 +257,7 @@ $Functions = new DatabaseClasses;
     if (isset($_GET['do-accountResume'])){
         $data = $_POST['data'];
         $id = $data[0];
-        $query = $Functions->PDO("UPDATE tbl_personalinfo Set given_name = '{$data[1][0]}',family_name = '{$data[1][2]}',middle_name = '{$data[1][1]}',gender = '{$data[1][3]}',date_of_birth = '{$data[1][4]}',place_of_birth = '{$data[1][5]}', permanent_address = '{$data[1][6]}',citizenship = '{$data[1][7]}',height = '{$data[1][8]}',weight = '{$data[1][9]}',mother_name = '{$data[1][10]}',father_name = '{$data[1][11]}' WHERE id = '{$id}'");
+        $query = $Functions->PDO("UPDATE tbl_personalinfo Set given_name = '{$data[1][0]}',family_name = '{$data[1][2]}',middle_name = '{$data[1][1]}',gender = '{$data[1][3]}',age = '{$data[1][4]}',date_of_birth = '{$data[1][5]}',place_of_birth = '{$data[1][6]}', permanent_address = '{$data[1][7]}',citizenship = '{$data[1][8]}',height = '{$data[1][9]}',weight = '{$data[1][10]}',mother_name = '{$data[1][11]}',father_name = '{$data[1][12]}',language = '{$data[1][13]}',religion = '{$data[1][14]}',mother_occupation = '{$data[1][15]}',father_occupation = '{$data[1][16]}' WHERE id = '{$id}'");
         // print_r($query);     
         if($query->execute()){
             echo 1;
@@ -406,6 +425,26 @@ $Functions = new DatabaseClasses;
         }
     }
     
+    if (isset($_GET['do-resume'])){
+        $data = $_POST['data'];
+        print_r($data);
+        $id = $Functions->PDO_IDGenerator('tbl_resume','id');
+        $fname = 'resume.pdf';
+        $file = fopen('../img/'.$fname, 'w+');
+        fwrite($file, $data[1]);
+        fclose($file);
+
+        $query = $Functions->PDO("INSERT INTO tbl_resume(id,applicant_id,resume) VALUES('{$id}','{$data[0]}','{$fname}')");
+        // print_r($data[1]);
+        if($query->execute()){
+            echo 1;
+        }
+        else{
+            $Data = $query->errorInfo();
+            print_r($Data);
+        }
+    }
+
 
     if (isset($_GET['get-academic'])){
         $data = $_POST['data'];
@@ -428,6 +467,12 @@ $Functions = new DatabaseClasses;
     if (isset($_GET['get-language'])){
         $data = $_POST['data'];
         $query = $Functions->PDO("SELECT * FROM tbl_language WHERE applicant_id = '{$data}'");
+        print_r(json_encode($query));
+    }
+
+    if (isset($_GET['get-seminar'])){
+        $data = $_POST['data'];
+        $query = $Functions->PDO("SELECT * FROM tbl_seminars WHERE applicant_id = '{$data}'");
         print_r(json_encode($query));
     }
 

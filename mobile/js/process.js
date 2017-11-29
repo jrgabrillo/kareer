@@ -186,7 +186,7 @@ Framework7.prototype.plugins.kareer = function (app, params) {
             var data = account.get(applicantData[0][0]);
 			jobs.bookmarked(applicantData[0][0]);
 
-			$("#index img.responsive-img").attr({"src":"img/profile/"+data[18]});
+			$("#index img.responsive-img").attr({"src":"img/profile/"+data[23]});
 			var content = "<div class='content-block'>"+
 							"    <p class='color-gray'><h5>"+data[6]+" "+data[7]+"</h5></p>"+
                             // "    <a data-cmd='account-logout' class='btn-floating btn-flat'>"+
@@ -207,7 +207,7 @@ Framework7.prototype.plugins.kareer = function (app, params) {
                             "    </div>"+
                             "    <div class='row rows'>"+
                             "        <div class='col-33'>"+
-                            "            <a data-load='' class='account btn-floating btn-large waves-effect waves-light waves-teal grey lighten-4 btn-flat'><i class='icon f7-icons color-gray' style='font-size: 30px; margin-top: 6px;'>bookmark_fill</i></a><div class='grey-text' style = 'font-size: xx-small'>BOOKMARKS</div>"+
+                            "            <a data-load='bookmarks' class='account btn-floating btn-large waves-effect waves-light waves-teal grey lighten-4 btn-flat'><i class='icon f7-icons color-gray' style='font-size: 30px; margin-top: 6px;'>bookmark_fill</i></a><div class='grey-text' style = 'font-size: xx-small'>BOOKMARKS</div>"+
                             "        </div>"+
                             "        <div class='col-33'>"+
                             "            <a data-load='' class='account btn-floating btn-large waves-effect waves-light waves-teal grey lighten-4 btn-flat'><i class='icon f7-icons color-gray' style='font-size: 30px; margin-top: 6px;'>gear_fill</i></a><div class='grey-text' style = 'font-size: xx-small'>SETTINGS</div>"+
@@ -238,6 +238,11 @@ Framework7.prototype.plugins.kareer = function (app, params) {
                 console.log('page'); 
                 resume.ini();
 
+            });
+
+            app.onPageInit('bookmarks',function(page){
+                console.log('page');
+                bookmarks.ini();
             });       
 
             app.onPageInit('account',function(page){
@@ -255,7 +260,7 @@ Framework7.prototype.plugins.kareer = function (app, params) {
             });
              
 
-            var picture = "img/profile/"+data[18];
+            var picture = "img/profile/"+data[23];
             $("a[data-cmd='update']").on('click',function(){
                 console.log("content");
                 var content =   "<div class='card-content'>"+
@@ -361,22 +366,28 @@ Framework7.prototype.plugins.kareer = function (app, params) {
             });
         },   
         account:function(data){
+            console.log(data);
             var accData = data;
-            $("img.resume").attr({"src":"img/profile/"+accData[18]});
+            $("img.resume").attr({"src":"img/profile/"+accData[23]});
             // console.log(data);
             var storedData = app.formStoreData('account', {
                 'GivenName' : accData[6],
                 'MiddleName' : accData[8],
                 'LastName' : accData[7],
                 'Gender' : accData[9],
-                'DateOfBirth' : accData[10],
-                'PlaceOfBirth' : accData[11],
-                'Address' : accData[12],
-                'Citizenship' : accData[13],
-                'Weight' : accData[14],
-                'Height' : accData[15],
-                'Mother' : accData[16],
-                'Father' : accData[17]
+                'Age' : accData[10],
+                'DateOfBirth' : accData[11],
+                'PlaceOfBirth' : accData[12],
+                'Address' : accData[13],
+                'Citizenship' : accData[14],
+                'Weight' : accData[15],
+                'Height' : accData[16],
+                'Mother' : accData[17],
+                'Father' : accData[18],
+                'Language' : accData[19],
+                'Religion' : accData[20],
+                'Mother_Occupation' : accData[21],
+                'Father_Occupation' : accData[22]
             });
 
             $("a.saveAccount").on('click',function(){
@@ -432,7 +443,6 @@ Framework7.prototype.plugins.kareer = function (app, params) {
                     }
 
                 })
-                // console.log(accountData); 
 
             });
             app.onPageInit('builderCareer',function(page){
@@ -452,727 +462,7 @@ Framework7.prototype.plugins.kareer = function (app, params) {
                 var data = $(this).data();
                 // console.log(data);
             });
-        },
-        // edit:function(data){
-        //     $("a[data-cmd='edit']").on('click',function(){
-        //         var data = $(this).data();
-        //         var id = data.node;
-        //         if(data.prop == "GivenName"){
-        //             var content =   "<form action='' method='POST' id='form_edit'>"+
-        //                             "    <div class='list-block'>"+
-        //                             "        <ul>"+
-        //                             "            <li>"+
-        //                             "                <div class='input-field'>"+
-        //                             "                    <input type='text' id='field_"+data.prop+"' value ='"+data.value+"' name='field_"+data.prop+"' class='form-control black-text'>"+
-        //                             "                    <label class='black-text-text' for='field_"+data.prop+"'></label>"+
-        //                             "                </div>"+
-        //                             "            </li>"+
-        //                             "            <li>"+
-        //                             "                <a href='#' class='close-popover btn waves-effect waves-teal waves-light btn btn-flat grey-text white'>Cancel</a>"+
-        //                             "                <button type ='submit' class='waves-effect waves-teal waves-light btn btn-flat grey-text white'>Save</button>"+
-        //                             "            </li>"+
-        //                             "        </ul>"+
-        //                             "    </div>"+
-        //                             "</form> ";
-        //             $("#editPopover").html(content);               
-        //             $("#form_edit").validate({
-        //                 rules: {
-        //                     field_GivenName: {required: true,maxlength:100}
-        //                 },
-        //                 errorElement : 'div',
-        //                 errorPlacement: function(error, element) {
-        //                     var placement = $(element).data('error');
-        //                     if(placement){
-        //                         $(placement).append(error)
-        //                     } 
-        //                     else{
-        //                         error.insertAfter(element);
-        //                     }
-        //                 },
-        //                 messages: {
-        //                     field_email: {
-        //                         required: "<i data-error ='Field is required' class='icon f7-icons  color red' style='margin:5px;'>info</i>",
-        //                         maxlength: "<i data-error ='Name is too long' class='icon f7-icons color red' style='margin:5px;'>info</i>",
-        //                     },
-        //                 },
-        //                 submitHandler: function (form) {
-        //                     var _form = $(form).serializeArray();
-        //                     var data = system.ajax(processor+'do-update',[id,_form]);
-        //                     data.done(function(data){
-        //                         console.log(data);
-        //                         if(data != 0){
-        //                             system.notification("Update","Success. Please wait.",false,2000,true,false,function(){
-        //                                 app.closeModal('.popover-edit', true);
-        //                                 var newdata = account.get(id);
-        //                                 account.account(newdata);
-        //                                 account.edit(newdata);
-        //                             });
-
-        //                         }
-        //                         else{
-        //                             system.notification("Update","Failed.",false,3000,true,false,false);
-        //                         }
-        //                     })
-        //                 }
-        //             });
-        //         }
-        //         else if(data.prop == "MiddleName"){  
-        //             var content =   "<form action='' method='POST' id='form_edit'>"+
-        //                             "    <div class='list-block'>"+
-        //                             "        <ul>"+
-        //                             "            <li>"+
-        //                             "                <div class='input-field'>"+
-        //                             "                    <input type='text' id='field_"+data.prop+"' value ='"+data.value+"' name='field_"+data.prop+"' class='form-control black-text'>"+
-        //                             "                    <label class='black-text-text' for='field_"+data.prop+"'></label>"+
-        //                             "                </div>"+
-        //                             "            </li>"+
-        //                             "            <li>"+
-        //                             "                <a href='#' class='close-popover btn waves-effect waves-teal waves-light btn btn-flat grey-text white'>Cancel</a>"+
-        //                             "                <button type ='submit' class='waves-effect waves-teal waves-light btn btn-flat grey-text white'>Save</button>"+
-        //                             "            </li>"+
-        //                             "        </ul>"+
-        //                             "    </div>"+
-        //                             "</form> ";
-        //             $("#editPopover").html(content);             
-        //             $("#form_edit").validate({
-        //                 rules: {
-        //                     field_MiddleName: {required: true,maxlength:100}
-        //                 },
-        //                 errorElement : 'div',
-        //                 errorPlacement: function(error, element) {
-        //                     var placement = $(element).data('error');
-        //                     if(placement){
-        //                         $(placement).append(error)
-        //                     } 
-        //                     else{
-        //                         error.insertAfter(element);
-        //                     }
-        //                 },
-        //                 messages: {
-        //                     field_email: {
-        //                         required: "<i data-error ='Field is required' class='icon f7-icons  color red' style='margin:5px;'>info</i>",
-        //                         maxlength: "<i data-error ='Name is too long' class='icon f7-icons color red' style='margin:5px;'>info</i>",
-        //                     },
-        //                 },
-        //                 submitHandler: function (form) {
-        //                     var _form = $(form).serializeArray();
-        //                     var data = system.ajax(processor+'do-update',[id,_form]);
-        //                     data.done(function(data){
-        //                         console.log(data);
-        //                         if(data != 0){
-        //                             system.notification("Update","Success. Please wait.",false,2000,true,false,function(){
-        //                                 app.closeModal('.popover-edit', true);
-        //                                 var newdata = account.get(id);
-        //                                 account.account(newdata);
-        //                                 account.edit(newdata);
-        //                             });
-
-        //                         }
-        //                         else{
-        //                             system.notification("Update","Failed.",false,3000,true,false,false);
-        //                         }
-        //                     })
-        //                 }
-        //             });
-        //         }
-        //         else if(data.prop == "LastName"){
-        //             var content =   "<form action='' method='POST' id='form_edit'>"+
-        //                             "    <div class='list-block'>"+
-        //                             "        <ul>"+
-        //                             "            <li>"+
-        //                             "                <div class='input-field'>"+
-        //                             "                    <input type='text' id='field_"+data.prop+"' value ='"+data.value+"' name='field_"+data.prop+"' class='form-control black-text'>"+
-        //                             "                    <label class='black-text-text' for='field_"+data.prop+"'></label>"+
-        //                             "                </div>"+
-        //                             "            </li>"+
-        //                             "            <li>"+
-        //                             "                <a href='#' class='close-popover btn waves-effect waves-teal waves-light btn btn-flat grey-text white'>Cancel</a>"+
-        //                             "                <button type ='submit' class='waves-effect waves-teal waves-light btn btn-flat grey-text white'>Save</button>"+
-        //                             "            </li>"+
-        //                             "        </ul>"+
-        //                             "    </div>"+
-        //                             "</form> ";
-        //             $("#editPopover").html(content);               
-        //             $("#form_edit").validate({
-        //                 rules: {
-        //                     field_LastName: {required: true,maxlength:100}
-        //                 },
-        //                 errorElement : 'div',
-        //                 errorPlacement: function(error, element) {
-        //                     var placement = $(element).data('error');
-        //                     if(placement){
-        //                         $(placement).append(error)
-        //                     } 
-        //                     else{
-        //                         error.insertAfter(element);
-        //                     }
-        //                 },
-        //                 messages: {
-        //                     field_email: {
-        //                         required: "<i data-error ='Field is required' class='icon f7-icons  color red' style='margin:5px;'>info</i>",
-        //                         maxlength: "<i data-error ='Name is too long' class='icon f7-icons color red' style='margin:5px;'>info</i>",
-        //                     },
-        //                 },
-        //                 submitHandler: function (form) {
-        //                     var _form = $(form).serializeArray();
-        //                     var data = system.ajax(processor+'do-update',[id,_form]);
-        //                     data.done(function(data){
-        //                         console.log(data);
-        //                         if(data != 0){
-        //                             system.notification("Update","Success. Please wait.",false,2000,true,false,function(){
-        //                                 app.closeModal('.popover-edit', true);
-        //                                 account.ini();
-        //                             });
-
-        //                         }
-        //                         else{
-        //                             system.notification("Update","Failed.",false,3000,true,false,false);
-        //                         }
-        //                     })
-        //                 }
-        //             });
-        //         }
-        //         else if(data.prop == "Gender"){
-        //             var content =   "<form action='' method='POST' id='form_edit'>"+
-        //                             "    <div class='list-block'>"+
-        //                             "        <ul>"+
-        //                             "            <li>"+
-        //                             "                 <div class='input-field'>"+
-        //                             "                   <select id='field_"+data.prop+"' value ='"+data.value+"' name='field_"+data.prop+"'>"+
-        //                             "                     <option value='' disabled selected>Select Gender</option>"+
-        //                             "                     <option value ='Male'>Male</option>"+
-        //                             "                     <option value ='Female'>Female</option>"+
-        //                             "                   </select>"+
-        //                             "                    <label class='black-text-text' for='field_"+data.prop+"'></label>"+
-        //                             "                 </div>"+
-        //                             "            </li>"+
-        //                             "            <li>"+
-        //                             "                <a href='#' class='close-popover btn waves-effect waves-teal waves-light btn btn-flat grey-text white'>Cancel</a>"+
-        //                             "                <button type ='submit' class='waves-effect waves-teal waves-light btn btn-flat grey-text white'>Save</button>"+
-        //                             "            </li>"+
-        //                             "        </ul>"+
-        //                             "    </div>"+
-        //                             "</form> ";
-        //             $("#editPopover").html(content);  
-        //             $('select').material_select();             
-        //             $("#form_edit").validate({
-        //                 rules: {
-        //                     field_Gender: {required: true,maxlength:100}
-        //                 },
-        //                 errorElement : 'div',
-        //                 errorPlacement: function(error, element) {
-        //                     var placement = $(element).data('error');
-        //                     if(placement){
-        //                         $(placement).append(error)
-        //                     } 
-        //                     else{
-        //                         error.insertAfter(element);
-        //                     }
-        //                 },
-        //                 messages: {
-        //                     field_email: {
-        //                         required: "<i data-error ='Field is required' class='icon f7-icons  color red' style='margin:5px;'>info</i>",
-        //                         maxlength: "<i data-error ='Name is too long' class='icon f7-icons color red' style='margin:5px;'>info</i>",
-        //                     },
-        //                 },
-        //                 submitHandler: function (form) {
-        //                     var _form = $(form).serializeArray();
-        //                     console.log(_form);
-        //                     var data = system.ajax(processor+'do-update',[id,_form]);
-        //                     data.done(function(data){
-        //                         console.log(data);
-        //                         if(data != 0){
-        //                             system.notification("Update","Success. Please wait.",false,2000,true,false,function(){
-        //                                 app.closeModal('.popover-edit', true);
-        //                                  var newdata = account.get(id);
-        //                                 account.account(newdata);
-        //                                 account.edit(newdata);
-        //                             });
-
-        //                         }
-        //                         else{
-        //                             system.notification("Update","Failed.",false,3000,true,false,false);
-        //                         }
-        //                     })
-        //                 }
-        //             });
-        //         }
-        //         else if(data.prop == "DateOfBirth"){
-        //             var content =   "<form action='' method='POST' id='form_edit'>"+
-        //                             "    <div class='list-block'>"+
-        //                             "        <ul>"+
-        //                             "            <li>"+
-        //                             "                 <label class='active'>Date of Birth</label>"+
-        //                             "                    <div>"+
-        //                             "                        <input type='date' id='field_"+data.prop+"' value ='"+data.value+"' name='field_"+data.prop+"' class='form-control' placeholder='From'>"+
-        //                             "                    </div>"+
-        //                             "            </li>"+
-        //                             "            <li>"+
-        //                             "                <a href='#' class='close-popover btn waves-effect waves-teal waves-light btn btn-flat grey-text white'>Cancel</a>"+
-        //                             "                <button type ='submit' class='waves-effect waves-teal waves-light btn btn-flat grey-text white'>Save</button>"+
-        //                             "            </li>"+
-        //                             "        </ul>"+
-        //                             "    </div>"+
-        //                             "</form> ";
-        //             $("#editPopover").html(content);           
-        //             $("#form_edit").validate({
-        //                 rules: {
-        //                     field_DateOfBirth: {required: true,maxlength:100}
-        //                 },
-        //                 errorElement : 'div',
-        //                 errorPlacement: function(error, element) {
-        //                     var placement = $(element).data('error');
-        //                     if(placement){
-        //                         $(placement).append(error)
-        //                     } 
-        //                     else{
-        //                         error.insertAfter(element);
-        //                     }
-        //                 },
-        //                 messages: {
-        //                     field_email: {
-        //                         required: "<i data-error ='Field is required' class='icon f7-icons  color red' style='margin:5px;'>info</i>",
-        //                         maxlength: "<i data-error ='Name is too long' class='icon f7-icons color red' style='margin:5px;'>info</i>",
-        //                     },
-        //                 },
-        //                 submitHandler: function (form) {
-        //                     var _form = $(form).serializeArray();
-        //                     console.log(_form);
-        //                     var data = system.ajax(processor+'do-update',[id,_form]);
-        //                     data.done(function(data){
-        //                         console.log(data);
-        //                         if(data != 0){
-        //                             system.notification("Update","Success. Please wait.",false,2000,true,false,function(){
-        //                                 app.closeModal('.popover-edit', true);
-        //                                  var newdata = account.get(id);
-        //                                 account.account(newdata);
-        //                                 account.edit(newdata);
-        //                             });
-
-        //                         }
-        //                         else{
-        //                             system.notification("Update","Failed.",false,3000,true,false,false);
-        //                         }
-        //                     })
-        //                 }
-        //             });
-        //         }
-        //         else if(data.prop == "PlaceOfBirth"){  
-        //             var content =   "<form action='' method='POST' id='form_edit'>"+
-        //                             "    <div class='list-block'>"+
-        //                             "        <ul>"+
-        //                             "            <li>"+
-        //                             "                <div class='input-field'>"+
-        //                             "                    <input type='text' id='field_"+data.prop+"' value ='"+data.value+"' name='field_"+data.prop+"' class='form-control black-text'>"+
-        //                             "                    <label class='black-text-text' for='field_"+data.prop+"'></label>"+
-        //                             "                </div>"+
-        //                             "            </li>"+
-        //                             "            <li>"+
-        //                             "                <a href='#' class='close-popover btn waves-effect waves-teal waves-light btn btn-flat grey-text white'>Cancel</a>"+
-        //                             "                <button type ='submit' class='waves-effect waves-teal waves-light btn btn-flat grey-text white'>Save</button>"+
-        //                             "            </li>"+
-        //                             "        </ul>"+
-        //                             "    </div>"+
-        //                             "</form> ";
-        //             $("#editPopover").html(content);             
-        //             $("#form_edit").validate({
-        //                 rules: {
-        //                     field_PlaceOfBirth: {required: true,maxlength:100}
-        //                 },
-        //                 errorElement : 'div',
-        //                 errorPlacement: function(error, element) {
-        //                     var placement = $(element).data('error');
-        //                     if(placement){
-        //                         $(placement).append(error)
-        //                     } 
-        //                     else{
-        //                         error.insertAfter(element);
-        //                     }
-        //                 },
-        //                 messages: {
-        //                     field_email: {
-        //                         required: "<i data-error ='Field is required' class='icon f7-icons  color red' style='margin:5px;'>info</i>",
-        //                         maxlength: "<i data-error ='Name is too long' class='icon f7-icons color red' style='margin:5px;'>info</i>",
-        //                     },
-        //                 },
-        //                 submitHandler: function (form) {
-        //                     var _form = $(form).serializeArray();
-        //                     var data = system.ajax(processor+'do-update',[id,_form]);
-        //                     data.done(function(data){
-        //                         console.log(data);
-        //                         if(data != 0){
-        //                             system.notification("Update","Success. Please wait.",false,2000,true,false,function(){
-        //                                 app.closeModal('.popover-edit', true);
-        //                                  var newdata = account.get(id);
-        //                                 account.account(newdata);
-        //                                 account.edit(newdata);
-        //                             });
-
-        //                         }
-        //                         else{
-        //                             system.notification("Update","Failed.",false,3000,true,false,false);
-        //                         }
-        //                     })
-        //                 }
-        //             });
-        //         }
-        //         else if(data.prop == "PermanentAddress"){  
-        //             var content =   "<form action='' method='POST' id='form_edit'>"+
-        //                             "    <div class='list-block'>"+
-        //                             "        <ul>"+
-        //                             "            <li>"+
-        //                             "                <div class='input-field'>"+
-        //                             "                    <input type='text' id='field_"+data.prop+"' value ='"+data.value+"' name='field_"+data.prop+"' class='form-control black-text'>"+
-        //                             "                    <label class='black-text-text' for='field_"+data.prop+"'></label>"+
-        //                             "                </div>"+
-        //                             "            </li>"+
-        //                             "            <li>"+
-        //                             "                <a href='#' class='close-popover btn waves-effect waves-teal waves-light btn btn-flat grey-text white'>Cancel</a>"+
-        //                             "                <button type ='submit' class='waves-effect waves-teal waves-light btn btn-flat grey-text white'>Save</button>"+
-        //                             "            </li>"+
-        //                             "        </ul>"+
-        //                             "    </div>"+
-        //                             "</form> ";
-        //             $("#editPopover").html(content);             
-        //             $("#form_edit").validate({
-        //                 rules: {
-        //                     field_PermanentAddress: {required: true,maxlength:100}
-        //                 },
-        //                 errorElement : 'div',
-        //                 errorPlacement: function(error, element) {
-        //                     var placement = $(element).data('error');
-        //                     if(placement){
-        //                         $(placement).append(error)
-        //                     } 
-        //                     else{
-        //                         error.insertAfter(element);
-        //                     }
-        //                 },
-        //                 messages: {
-        //                     field_email: {
-        //                         required: "<i data-error ='Field is required' class='icon f7-icons  color red' style='margin:5px;'>info</i>",
-        //                         maxlength: "<i data-error ='Name is too long' class='icon f7-icons color red' style='margin:5px;'>info</i>",
-        //                     },
-        //                 },
-        //                 submitHandler: function (form) {
-        //                     var _form = $(form).serializeArray();
-        //                     var data = system.ajax(processor+'do-update',[id,_form]);
-        //                     data.done(function(data){
-        //                         console.log(data);
-        //                         if(data != 0){
-        //                             system.notification("Update","Success. Please wait.",false,2000,true,false,function(){
-        //                                 app.closeModal('.popover-edit', true);
-        //                                  var newdata = account.get(id);
-        //                                 account.account(newdata);
-        //                                 account.edit(newdata);
-        //                             });
-
-        //                         }
-        //                         else{
-        //                             system.notification("Update","Failed.",false,3000,true,false,false);
-        //                         }
-        //                     })
-        //                 }
-        //             });
-        //         }
-        //         else if(data.prop == "Citizenship"){  
-        //             var content =   "<form action='' method='POST' id='form_edit'>"+
-        //                             "    <div class='list-block'>"+
-        //                             "        <ul>"+
-        //                             "            <li>"+
-        //                             "                <div class='input-field'>"+
-        //                             "                    <input type='text' id='field_"+data.prop+"' value ='"+data.value+"' name='field_"+data.prop+"' class='form-control black-text'>"+
-        //                             "                    <label class='black-text-text' for='field_"+data.prop+"'></label>"+
-        //                             "                </div>"+
-        //                             "            </li>"+
-        //                             "            <li>"+
-        //                             "                <a href='#' class='close-popover btn waves-effect waves-teal waves-light btn btn-flat grey-text white'>Cancel</a>"+
-        //                             "                <button type ='submit' class='waves-effect waves-teal waves-light btn btn-flat grey-text white'>Save</button>"+
-        //                             "            </li>"+
-        //                             "        </ul>"+
-        //                             "    </div>"+
-        //                             "</form> ";
-        //             $("#editPopover").html(content);             
-        //             $("#form_edit").validate({
-        //                 rules: {
-        //                     field_Citizenship: {required: true,maxlength:100}
-        //                 },
-        //                 errorElement : 'div',
-        //                 errorPlacement: function(error, element) {
-        //                     var placement = $(element).data('error');
-        //                     if(placement){
-        //                         $(placement).append(error)
-        //                     } 
-        //                     else{
-        //                         error.insertAfter(element);
-        //                     }
-        //                 },
-        //                 messages: {
-        //                     field_email: {
-        //                         required: "<i data-error ='Field is required' class='icon f7-icons  color red' style='margin:5px;'>info</i>",
-        //                         maxlength: "<i data-error ='Name is too long' class='icon f7-icons color red' style='margin:5px;'>info</i>",
-        //                     },
-        //                 },
-        //                 submitHandler: function (form) {
-        //                     var _form = $(form).serializeArray();
-        //                     var data = system.ajax(processor+'do-update',[id,_form]);
-        //                     data.done(function(data){
-        //                         console.log(data);
-        //                         if(data != 0){
-        //                             system.notification("Update","Success. Please wait.",false,2000,true,false,function(){
-        //                                 app.closeModal('.popover-edit', true);
-        //                                  var newdata = account.get(id);
-        //                                 account.account(newdata);
-        //                                 account.edit(newdata);
-        //                             });
-
-        //                         }
-        //                         else{
-        //                             system.notification("Update","Failed.",false,3000,true,false,false);
-        //                         }
-        //                     })
-        //                 }
-        //             });
-        //         }
-        //         else if(data.prop == "Weight"){  
-        //             var content =   "<form action='' method='POST' id='form_edit'>"+
-        //                             "    <div class='list-block'>"+
-        //                             "        <ul>"+
-        //                             "            <li>"+
-        //                             "                <div class='input-field'>"+
-        //                             "                    <input type='text' id='field_"+data.prop+"' value ='"+data.value+"' name='field_"+data.prop+"' class='form-control black-text'>"+
-        //                             "                    <label class='black-text-text' for='field_"+data.prop+"'></label>"+
-        //                             "                </div>"+
-        //                             "            </li>"+
-        //                             "            <li>"+
-        //                             "                <a href='#' class='close-popover btn waves-effect waves-teal waves-light btn btn-flat grey-text white'>Cancel</a>"+
-        //                             "                <button type ='submit' class='waves-effect waves-teal waves-light btn btn-flat grey-text white'>Save</button>"+
-        //                             "            </li>"+
-        //                             "        </ul>"+
-        //                             "    </div>"+
-        //                             "</form> ";
-        //             $("#editPopover").html(content);             
-        //             $("#form_edit").validate({
-        //                 rules: {
-        //                     field_Weight: {required: true,maxlength:100}
-        //                 },
-        //                 errorElement : 'div',
-        //                 errorPlacement: function(error, element) {
-        //                     var placement = $(element).data('error');
-        //                     if(placement){
-        //                         $(placement).append(error)
-        //                     } 
-        //                     else{
-        //                         error.insertAfter(element);
-        //                     }
-        //                 },
-        //                 messages: {
-        //                     field_email: {
-        //                         required: "<i data-error ='Field is required' class='icon f7-icons  color red' style='margin:5px;'>info</i>",
-        //                         maxlength: "<i data-error ='Name is too long' class='icon f7-icons color red' style='margin:5px;'>info</i>",
-        //                     },
-        //                 },
-        //                 submitHandler: function (form) {
-        //                     var _form = $(form).serializeArray();
-        //                     var data = system.ajax(processor+'do-update',[id,_form]);
-        //                     data.done(function(data){
-        //                         console.log(data);
-        //                         if(data != 0){
-        //                             system.notification("Update","Success. Please wait.",false,2000,true,false,function(){
-        //                                 app.closeModal('.popover-edit', true);
-        //                                  var newdata = account.get(id);
-        //                                 account.account(newdata);
-        //                                 account.edit(newdata);
-        //                             });
-
-        //                         }
-        //                         else{
-        //                             system.notification("Update","Failed.",false,3000,true,false,false);
-        //                         }
-        //                     })
-        //                 }
-        //             });
-        //         }
-        //         else if(data.prop == "Height"){  
-        //             var content =   "<form action='' method='POST' id='form_edit'>"+
-        //                             "    <div class='list-block'>"+
-        //                             "        <ul>"+
-        //                             "            <li>"+
-        //                             "                <div class='input-field'>"+
-        //                             "                    <input type='text' id='field_"+data.prop+"' value ='"+data.value+"' name='field_"+data.prop+"' class='form-control black-text'>"+
-        //                             "                    <label class='black-text-text' for='field_"+data.prop+"'></label>"+
-        //                             "                </div>"+
-        //                             "            </li>"+
-        //                             "            <li>"+
-        //                             "                <a href='#' class='close-popover btn waves-effect waves-teal waves-light btn btn-flat grey-text white'>Cancel</a>"+
-        //                             "                <button type ='submit' class='waves-effect waves-teal waves-light btn btn-flat grey-text white'>Save</button>"+
-        //                             "            </li>"+
-        //                             "        </ul>"+
-        //                             "    </div>"+
-        //                             "</form> ";
-        //             $("#editPopover").html(content);             
-        //             $("#form_edit").validate({
-        //                 rules: {
-        //                     field_Height: {required: true,maxlength:100}
-        //                 },
-        //                 errorElement : 'div',
-        //                 errorPlacement: function(error, element) {
-        //                     var placement = $(element).data('error');
-        //                     if(placement){
-        //                         $(placement).append(error)
-        //                     } 
-        //                     else{
-        //                         error.insertAfter(element);
-        //                     }
-        //                 },
-        //                 messages: {
-        //                     field_email: {
-        //                         required: "<i data-error ='Field is required' class='icon f7-icons  color red' style='margin:5px;'>info</i>",
-        //                         maxlength: "<i data-error ='Name is too long' class='icon f7-icons color red' style='margin:5px;'>info</i>",
-        //                     },
-        //                 },
-        //                 submitHandler: function (form) {
-        //                     var _form = $(form).serializeArray();
-        //                     var data = system.ajax(processor+'do-update',[id,_form]);
-        //                     data.done(function(data){
-        //                         console.log(data);
-        //                         if(data != 0){
-        //                             system.notification("Update","Success. Please wait.",false,2000,true,false,function(){
-        //                                 app.closeModal('.popover-edit', true);
-        //                                 var newdata = account.get(id);
-        //                                 account.account(newdata);
-        //                                 account.edit(newdata);
-        //                             });
-
-        //                         }
-        //                         else{
-        //                             system.notification("Update","Failed.",false,3000,true,false,false);
-        //                         }
-        //                     })
-        //                 }
-        //             });
-        //         }
-        //         else if(data.prop == "MotherName"){  
-        //             var content =   "<form action='' method='POST' id='form_edit'>"+
-        //                             "    <div class='list-block'>"+
-        //                             "        <ul>"+
-        //                             "            <li>"+
-        //                             "                <div class='input-field'>"+
-        //                             "                    <input type='text' id='field_"+data.prop+"' value ='"+data.value+"' name='field_"+data.prop+"' class='form-control black-text'>"+
-        //                             "                    <label class='black-text-text' for='field_"+data.prop+"'></label>"+
-        //                             "                </div>"+
-        //                             "            </li>"+
-        //                             "            <li>"+
-        //                             "                <a href='#' class='close-popover btn waves-effect waves-teal waves-light btn btn-flat grey-text white'>Cancel</a>"+
-        //                             "                <button type ='submit' class='waves-effect waves-teal waves-light btn btn-flat grey-text white'>Save</button>"+
-        //                             "            </li>"+
-        //                             "        </ul>"+
-        //                             "    </div>"+
-        //                             "</form> ";
-        //             $("#editPopover").html(content);             
-        //             $("#form_edit").validate({
-        //                 rules: {
-        //                     field_MotherName: {required: true,maxlength:100}
-        //                 },
-        //                 errorElement : 'div',
-        //                 errorPlacement: function(error, element) {
-        //                     var placement = $(element).data('error');
-        //                     if(placement){
-        //                         $(placement).append(error)
-        //                     } 
-        //                     else{
-        //                         error.insertAfter(element);
-        //                     }
-        //                 },
-        //                 messages: {
-        //                     field_email: {
-        //                         required: "<i data-error ='Field is required' class='icon f7-icons  color red' style='margin:5px;'>info</i>",
-        //                         maxlength: "<i data-error ='Name is too long' class='icon f7-icons color red' style='margin:5px;'>info</i>",
-        //                     },
-        //                 },
-        //                 submitHandler: function (form) {
-        //                     var _form = $(form).serializeArray();
-        //                     var data = system.ajax(processor+'do-update',[id,_form]);
-        //                     data.done(function(data){
-        //                         console.log(data);
-        //                         if(data != 0){
-        //                             system.notification("Update","Success. Please wait.",false,2000,true,false,function(){
-        //                                 app.closeModal('.popover-edit', true);
-        //                                 var newdata = account.get(id);
-        //                                 account.account(newdata);
-        //                                 account.edit(newdata);
-        //                             });
-
-        //                         }
-        //                         else{
-        //                             system.notification("Update","Failed.",false,3000,true,false,false);
-        //                         }
-        //                     })
-        //                 }
-        //             });
-        //         }
-        //         else if(data.prop == "FatherName"){  
-        //             var content =   "<form action='' method='POST' id='form_edit'>"+
-        //                             "    <div class='list-block'>"+
-        //                             "        <ul>"+
-        //                             "            <li>"+
-        //                             "                <div class='input-field'>"+
-        //                             "                    <input type='text' id='field_"+data.prop+"' value ='"+data.value+"' name='field_"+data.prop+"' class='form-control black-text'>"+
-        //                             "                    <label class='black-text-text' for='field_"+data.prop+"'></label>"+
-        //                             "                </div>"+
-        //                             "            </li>"+
-        //                             "            <li>"+
-        //                             "                <a href='#' class='close-popover btn waves-effect waves-teal waves-light btn btn-flat grey-text white'>Cancel</a>"+
-        //                             "                <button type ='submit' class='waves-effect waves-teal waves-light btn btn-flat grey-text white'>Save</button>"+
-        //                             "            </li>"+
-        //                             "        </ul>"+
-        //                             "    </div>"+
-        //                             "</form> ";
-        //             $("#editPopover").html(content);             
-        //             $("#form_edit").validate({
-        //                 rules: {
-        //                     field_FatherName: {required: true,maxlength:100}
-        //                 },
-        //                 errorElement : 'div',
-        //                 errorPlacement: function(error, element) {
-        //                     var placement = $(element).data('error');
-        //                     if(placement){
-        //                         $(placement).append(error)
-        //                     } 
-        //                     else{
-        //                         error.insertAfter(element);
-        //                     }
-        //                 },
-        //                 messages: {
-        //                     field_email: {
-        //                         required: "<i data-error ='Field is required' class='icon f7-icons  color red' style='margin:5px;'>info</i>",
-        //                         maxlength: "<i data-error ='Name is too long' class='icon f7-icons color red' style='margin:5px;'>info</i>",
-        //                     },
-        //                 },
-        //                 submitHandler: function (form) {
-        //                     var _form = $(form).serializeArray();
-        //                     var data = system.ajax(processor+'do-update',[id,_form]);
-        //                     data.done(function(data){
-        //                         console.log(data);
-        //                         if(data != 0){
-        //                             system.notification("Update","Success. Please wait.",false,2000,true,false,function(){
-        //                                 app.closeModal('.popover-edit', true);
-        //                                 var newdata = account.get(id);
-        //                                 account.account(newdata);
-        //                                 account.edit(newdata);
-        //                             });
-
-        //                         }
-        //                         else{
-        //                             system.notification("Update","Failed.",false,3000,true,false,false);
-        //                         }
-        //                     })
-        //                 }
-        //             });
-        //         }
-
-        //     });
-        // }
+        }
 	}
 
     var career = {
@@ -1769,7 +1059,6 @@ Framework7.prototype.plugins.kareer = function (app, params) {
         },
         show:function(list){
             var content = "";
-            console.log(list);
             $.each(list,function(i,v){
                 content += "<li class='collection-item row'>"+
                             "   <div class='chip' style = 'width: 10%;'>"+
@@ -1878,7 +1167,6 @@ Framework7.prototype.plugins.kareer = function (app, params) {
         },
         show:function(list){
             var content = "";
-            console.log(list);
             $.each(list,function(i,v){
                 content += "<li class='collection-item row'>"+
                             "   <div class='chip' style = 'width: 10%;'>"+
@@ -1991,7 +1279,6 @@ Framework7.prototype.plugins.kareer = function (app, params) {
         },
         show:function(list){
             var content = "";
-            console.log(list);
             $.each(list,function(i,v){
                 content += "<li class='collection-item row'>"+
                             "   <div class='chip' style = 'width: 10%;'>"+
@@ -2012,8 +1299,116 @@ Framework7.prototype.plugins.kareer = function (app, params) {
                 var data = $(this).data('load');
                 view.router.loadPage("pages/admin/"+data+".html");
             });
+            app.onPageInit('builderSeminar',function(page){
+                seminar.ini();
+            });
+        },
+    }
+
+    let seminar = {
+        ini:function(){
+            var applicantData = JSON.parse(localStorage.getItem('applicant'));
+            var list = seminar.get(applicantData[0][0]);
+            $$("a[data-cmd='add-seminar']").on('click',function(){
+                seminar.add(applicantData[0][0]);
+            });
+            seminar.show(list);
+
+            $("a.home").on('click',function(){
+                var data = $(this).data('load');
+                view.router.loadPage("pages/admin/"+data+".html");
+                account.controller(data);
+            });
+
+            app.onPageInit('index',function(page){
+                account.controller();
+            });
+        },
+        get:function(id){
+            var $data = "";
+            var jobs = system.ajax(processor+'get-seminar',id);
+            jobs.done(function(data){
+                $data = data;
+            });
+            return JSON.parse($data);
+        },
+        add:function(id){
+            $("a.seminar").addClass('hidden');
+            $("a.add").addClass('hidden');
+            $("div.list").addClass('hidden');
+            $("div.add").removeClass('hidden');
+            $("a.add").addClass('hidden');
+            $("a.goback").removeClass('hidden');
+            $("div.toolbar").addClass('hidden');
+
+
+            $("a.cancel").on('click',function(){
+                $("div.list").removeClass('hidden');
+                $("div.add").addClass('hidden');
+                $("a.seminar").removeClass('hidden');
+                $("a.add").removeClass('hidden');
+                $("div.toolbar").removeClass('hidden');
+            });
+
+            $("#form_seminars").validate({
+                rules: {
+                    field_event: {required: true,maxlength:100},
+                    field_location: {required: true,maxlength:100},
+                    field_date: {required: true,maxlength:100}
+                },
+                errorElement : 'div',
+                errorPlacement: function(error, element) {
+                    var placement = $(element).data('error');
+                    if(placement){
+                        $(placement).append(error)
+                    } 
+                    else{
+                        error.insertAfter(element);
+                    }
+                },
+                submitHandler: function (form) {
+                    var _form = $(form).serializeArray();
+                    console.log(_form);
+                    var data = system.ajax(processor+'do-seminar',[id,_form]);
+                    data.done(function(data){
+                        console.log(data);
+                        if(data != 0){
+                            $$("input").val("");
+                            system.notification("Kareer","seminar Added.",false,2000,true,false,function(){
+                                seminar.ini();
+                            });
+                        }
+                        else{
+                            system.notification("Kareer","Failed.",false,3000,true,false,false);
+                        }
+                    })
+                }
+            }); 
+        },
+        show:function(list){
+            var content = "";
+            $.each(list,function(i,v){
+                content += "<li class='collection-item row'>"+
+                            "   <div class='chip' style = 'width: 10%;'>"+
+                            "   <div class='chip-media bg-blue' style = 'width: 50px !important; height: 50px !important; font-size: 24px;'></div>"+
+                            "   </div>"+
+                            "   <div class = 'col 33'>"+
+                            "   <div class='title color-teal' ><strong class ='color-black'>"+v[2]+"</strong></div>"+
+                            "   <div class ='color-teal' ><small class ='color-black'>"+v[3]+"</small></div>"+
+                            "   </div>"+
+                            "   <a class='col 33 right btn btn-floating btn-flat waves-effect waves-teal waves-light' href='#' data-cmd='edit' data-node='"+v[0]+"'><i class='icon small f7-icons color-gray'>chevron_right</i></a>"+
+                            "</li>";
+
+                    $("a.seminar").removeClass('disabled');
+            });
+            $$("#display_seminars").html("<ul class='collection'>"+content+"</ul");
+
+            $("a.seminar").on('click',function(){
+                var data = $(this).data('load');
+                view.router.loadPage("pages/admin/"+data+".html");
+            });
             app.onPageInit('resumePreview',function(page){
-                resume.preview();
+                resume.page();
             });
         },
     }
@@ -2076,19 +1471,159 @@ Framework7.prototype.plugins.kareer = function (app, params) {
                 resume.ini();
             });
         },
-        preview:function(){
+        page:function(){
             $("a.preview").on('click',function(){
                 var data = $(this).data('load');
                 view.router.loadPage("pages/admin/"+data+".html");
             });
 
-            app.onPageInit('builderReferences',function(page){
-                references.ini();
+            app.onPageInit('builderSeminar',function(page){
+                seminar.ini();
+            });
+            app.onPageInit('Preview',function(page){
+                resume.preview();
+            });
+        },
+        preview:function(){
+            $("a.home").on('click',function(){
+                var data = $(this).data('load');
+                view.router.loadPage("pages/admin/"+data+".html");
+            });
+            app.onPageInit('resumePreview',function(page){
+                resume.page();
             });
 
-            
+            var applicantData = JSON.parse(localStorage.getItem('applicant'));
+            var personalInfo = account.get(applicantData[0][0]);
 
+            $$("#display_fullname strong").html(personalInfo[7]+","+personalInfo[6]+" "+personalInfo[8]);
+            $$("#display_address small").html(personalInfo[12]);
+            $$("#display_phone small").html("09123456789");
+            $$("#display_email small").html(personalInfo[3]);
+
+            var personalcontent = "<div class='col s6'>"+
+                                  "   <div >Date of Birth: <span class ='color-black'>"+personalInfo[10]+"</span></div>"+
+                                  "   <div >Age: <span class ='color-black'></span></div>"+
+                                  "   <div >Mother: <span class ='color-black'>"+personalInfo[16]+"</span></div>"+
+                                  "   <div >Father: <span class ='color-black'>"+personalInfo[17]+"</span></div>"+
+                                  "   <div >Religion: <span class ='color-black'></span></div>"+
+                                  "   <div >Citizenship: <span class ='color-black'>"+personalInfo[13]+"</span></div>"+
+                                  "</div>"+
+                                  "<div class='col s6'>"+
+                                  "   <div >Place of Birth: <span class ='color-black'>"+personalInfo[11]+"</span></div>"+
+                                  "   <div >Gender: <span class ='color-black'>"+personalInfo[9]+"</span></div>"+
+                                  "   <div >Occupation: <span class ='color-black'></span></div>"+
+                                  "   <div >Occupation: <span class ='color-black'></span></div>"+
+                                  "   <div >Language: <span class ='color-black'>"+personalInfo[18]+"</span></div>"+
+                                  "   <div >Height: <span class ='color-black'>"+personalInfo[14]+"</span></div>"+
+                                  "   <div >Weight: <span class ='color-black'>"+personalInfo[15]+"</span></div>"+
+                                  "</div>";
+            $$("#display_personalInfo").html(personalcontent);
+
+            var acad = academic.get(applicantData[0][0]);
+            var acadcontent = "";
+            $.each(acad,function(i,v){
+                acadcontent +=  "<span class='title'><strong class ='color-black'>"+v[2]+"</strong></span>"+
+                            "   <div >Name of School: <span class ='color-black'>"+v[3]+"</span></div>"+
+                            "   <div >Period of Attendance: <span class ='color-black'>"+v[5]+"</span></div>"+
+                            "   <div >Year Graduated: <span class ='color-black'>"+v[7]+"</span></div>";
+            });
+            $$("#display_academic").html(acadcontent);
+
+            var car = career.getAll(applicantData[0][0]);
+            var carcontent = "";
+            $.each(car,function(i,v){
+                carcontent +=   "   <span class='title'><strong class ='color-black'>"+v[4]+"</strong></span>"+
+                                "   <div><span class ='color-black'>"+v[2]+" - "+v[3]+"</span></div>"+
+                                "   <div><span class ='color-black'>"+v[5]+"</span></div>";
+            });
+            $$("#display_career").html(carcontent);
+
+            var skill = skills.get(applicantData[0][0]);
+            var skillcontent = "";
+            $.each(skill,function(i,v){
+                skillcontent += "   <span class='title'><strong class ='color-black'>"+v[2]+"</strong></span>"+
+                                "   <div><span class ='color-black'>"+v[3]+"</span></div>";
+            });
+            $$("#display_skills").html(skillcontent);
+
+            var sem = seminar.get(applicantData[0][0]);
+            var semcontent = "";
+            $.each(sem,function(i,v){
+                semcontent +=  "<span class='title'><strong class ='color-black'>"+v[2]+"</strong></span>"+
+                            "   <div><span class ='color-black'>"+v[3]+"</span></div>"+
+                            "   <div><span class ='color-black'>"+v[4]+"</span></div>";
+            });
+            $$("#display_seminar").html(semcontent);
+
+            var reference = references.get(applicantData[0][0]);
+            var refcontent = "";
+            $.each(reference,function(i,v){
+                refcontent += "   <span class='title'><strong class ='color-black'>"+v[2]+"</strong></span>"+
+                              "   <div><span class ='color-black'>"+v[4]+"</span></div>"+
+                              "   <div><span class ='color-black'>"+v[5]+"</span></div>"+
+                              "   <div><span class ='color-black'>"+v[7]+"</span></div>";
+            });
+            $$("#display_references").html(refcontent);
+
+            //PDF generation function
+            (function () {  
+                var  
+                 form = $('.list-block'),  
+                 cache_width = form.width(),  
+                 legal = [595.28, 975]; // for legal size paper width and height  
+          
+                $('#create_pdf').on('click', function () {  
+                    $('body').scrollTop(0);  
+                    createPDF();
+                    upload();
+                });  
+                //create pdf  
+                function createPDF() {  
+                    getCanvas().then(function (canvas) {  
+                        var  
+                         img = canvas.toDataURL("image/png"),  
+                         doc = new jsPDF({  
+                             unit: 'px',  
+                             format: 'legal'  
+                         });  
+                        doc.addImage(img, 'JPEG', 3, 3);  
+                        // doc.save('resume.pdf');
+                        form.width(cache_width);
+                    });  
+                }  
+          
+                // create canvas object  
+                function getCanvas() {  
+                    form.width((legal[0] * 1.33333) - 80).css('max-width', 'none');  
+                    return html2canvas(form, {  
+                        imageTimeout: 1000,  
+                        removeContainer: true  
+                    });  
+                }  
+                function upload(){
+                    var doc = new jsPDF();
+                    var pdf = doc.output(); 
+                    var ajax = system.ajax(processor+'do-resume',[applicantData[0][0],pdf]);
+                    ajax.done(function(data){
+                        console.log(data);
+                        if(data != 0){
+                            system.notification("Kareer","Resume Published.",false,2000,true,false,function(){
+                                // content.ini();
+                            });
+                            // console.log(data);
+                        }
+                        else{
+                           system.notification("Kareer","Failed.",false,3000,true,false,false);
+                            // console.log(data);
+                        }
+                    });
+                }    
+
+
+            }());  
         }
+
 
     }
 
@@ -2460,6 +1995,7 @@ Framework7.prototype.plugins.kareer = function (app, params) {
             var content = "";
             var height = $(window).height();
             $.each(list,function(i,v){
+                console.log(v);
             	var skills = "", bookmarkButtonSettings = "";
                 bookmarkButtonSettings = ($.inArray(v[0],bookmarks)>=0)?"disabled":"";
                 v[5] = JSON.parse(v[5]);
@@ -2487,6 +2023,7 @@ Framework7.prototype.plugins.kareer = function (app, params) {
                             "               <h5 class='color-teal'>"+v[3]+"<br/>"+
                             "                   "+skills+""+
                             "               </h5>"+
+                            "               <div class='left'>"+v[3]+"</div>"+
                             "               <p>"+
                             "                   <div class='description' style='white-space: normal;'>"+
                             "                       "+v[4]+""+
@@ -2496,8 +2033,8 @@ Framework7.prototype.plugins.kareer = function (app, params) {
                             "       </div>"+
                             "       <div class='card-footer'>"+
                             "           <a class='waves-effect waves-teal btn-flat hidden' href='#'>Read More</a>"+
-                            "           <button data-node='"+(JSON.stringify([v[0],applicantData[0][0]]))+"' data-cmd='apply' class='waves-effect waves-light btn btn-floating icon f7-icons color-white' style='background: rgb(0, 150, 136); margin: 0;'>"+
-                            "               paper_plane_fill"+
+                            "           <button data-node='"+(JSON.stringify([v[0],applicantData[0][0]]))+"' data-cmd='apply' class='waves-effect waves-light btn color-white' style='background: rgb(0, 150, 136); margin: 0;'>"+
+                            "               Submit Resume"+
                             "           </button>"+
                             "       </div>"+
                             "   </div>"+
