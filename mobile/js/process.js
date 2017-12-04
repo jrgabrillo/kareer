@@ -18,6 +18,7 @@ Framework7.prototype.plugins.kareer = function (app, params) {
         	// console.log(deviceSize);
             logIn.ini();
         	// signUp.ini();
+        	signUp.ini();
         	content.ini();
     	},
         notification:function(title,message,button,timeout,loader,_functionOpen,_functionClose){
@@ -787,73 +788,82 @@ Framework7.prototype.plugins.kareer = function (app, params) {
         },
         add:function(id){
             console.log("sdfsd");
-            $("a.career").addClass('hidden');
+            // $("a.career").addClass('hidden');
             $("a.add").addClass('hidden');
-            $("div.list").addClass('hidden');
+            $("div.lists").addClass('hidden');
             $("div.add").removeClass('hidden');
-            $("a.add").addClass('hidden');
             $("a.goback").removeClass('hidden');
-            $("a.cancel").addClass('hidden');
-            $("div.toolbar").addClass('hidden');
+            // $("a.cancel").addClass('hidden');
+            // $("div.toolbar").addClass('hidden');
 
             let content = `<div class="center">
                             <form action="" method="POST" id='form_academic'>
                                 <div class="list-block">
                                     <ul>
                                         <li>
-                                            <div class="input-field" style='border: gray; border-width: 1px; background-color: rgba(238, 238, 238, 0.15); border-style: solid; border-radius: 15px;'>
-                                                <select id="field_yearLevel" name="field_yearLevel">
-                                                    <option value="Elementary">ELEMENTARY</option>
-                                                    <option value="High School">HIGH SCHOOL</option>
-                                                    <option value="Vocational">VOCATIONAL</option>
+                                            <div class="input-field" style='border:1px solid black;border-radius:15px;margin-top:10%;'>
+                                                <center><select id="field_yearLevel" name="field_yearLevel">
+                                                    <option active> </option>
+                                                    <option value="Elementary" style='background-color:blue;'>ELEMENTARY</option>
+                                                    <option value="High School" style='background-color:blue;'>HIGH SCHOOL</option>
+                                                    <option value="Vocational" style='background-color:blue;'>VOCATIONAL</option>
                                                     <option value="College">COLLEGE</option>
                                                     <option value="Masteral">MASTERAL</option>
                                                     <option value="Doctoral">DOCTORAL</option>
-                                                </select>
+                                                </select></center>
                                             </div>
                                         </li>
 
-                                        <li>
+                                        <li style='margin-top:10%;'>
                                             <div class="input-field">
-                                                <input type='text' id="field_school" name="field_school" class="form-control">
-                                                <label class="" for="field_school" style="top: -2px !important; left: 0px !important;">Name of Schools</label>
+                                                <input type='text' id="field_school" name="field_school" class="form-control" style='border-bottom:1px solid #f3f3f3;'>
+                                                <label class="" for="field_school" style="top: -2px !important; left: 0px !important;color:black;">Name of Schools</label>
                                             </div>
                                         </li>
-                                        <li>
+                                        <li style='margin-top:10%;'>
                                             <div class="input-field">
-                                                <input type='text' id="field_degree" name="field_degree" class="form-control">
-                                                <label class="" for="field_degree" style="top: -2px !important; left: 0px !important;">Basic Education/Degree/Course</label>
+                                                <input type='text' id="field_degree" name="field_degree" class="form-control" style='border-bottom:1px solid #f3f3f3;'>
+                                                <label class="" for="field_degree" style="top: -2px !important; left: 0px !important;color:black;">Basic Education/Degree/Course</label>
                                             </div>
                                         </li>
-                                        <li>
-                                            <div class="input-field">
-                                                <input type='text' id="field_units" name="field_units" class="form-control">
-                                                <label class="" for="field_units" style="top: -2px !important; left: 0px !important;">Units Earned</label>
-                                            </div>
-                                        </li>
-                                        <li>
+                                         <li style='margin-top:5%;'>
                                             <div class="row">
+                                             <span class="active">Period of Attendance</span>
                                                 <div class="input-field">
-                                                    <label class="active">Period of Attendance</label>
-                                                    <div class="col s6">
-                                                        <input type='date' id="field_dateFirst" name="field_dateFirst" class="form-control" placeholder="From">
+                                                   
+                                                    <div class="col s5">
+                                                        <input type='date' id="field_dateFirst" name="field_dateFirst" class="form-control" placeholder="From" style='border-bottom:1px solid #f3f3f3;font-size:14px;'>
                                                     </div>
-                                                    <div class="col s6">
-                                                        <input type='date' id="field_dateLast" name="field_dateLast" class="form-control" placeholder="To">
+                                                    <div class="col s2">
+                                                        <span style='border:none;font-size:15px;'><center>to</center></span>
+                                                    </div>
+                                                    <div class="col s5">
+                                                        <input type='date' id="field_dateLast" name="field_dateLast" class="form-control" placeholder="To" style='border-bottom:1px solid #f3f3f3;font-size:14px;'>
                                                     </div>
                                                 </div>                                            
                                             </div>
                                         </li>
-                                        <li style="margin-top: 70% !important;">
-                                            <button class="btn-flat btn-large waves-effect waves-teal waves-light purple color-white" style="width: 80%; margin-left: -15px !important; border-radius: 30px !important; height: 49px; background-color: #7a5578; font-size: 20px;">Save</button>
-                                            <a href="#" class="cancel btn-floating btn-small red waves-effect waves-teal waves-light right" style="right: 5px; height: 50px; width: 50px;"><i class="icon f7-icons" style="top: 7px;">close</i></a>
+                                        <li style='margin-top:10%;'>
+                                            <div class="input-field">
+                                                <input type='text' id="field_units" name="field_units" class="form-control" style='border-bottom:1px solid #f3f3f3;'>
+                                                <label class="" for="field_units" style="top: -2px !important; left: 0px !important;color:black;">Highest Level</label>
+                                            </div>
+                                        </li>
+                                        <li style='margin-top:10%;'>
+                                            <div class="input-field">
+                                                <input type='text' id="field_units" name="field_units" class="form-control" style='border-bottom:1px solid #f3f3f3;'>
+                                                <label class="" for="field_units" style="top: -2px !important; left: 0px !important;color:black;">Year Graduated</label>
+                                            </div>
+                                        </li>
+                                        <li style="margin-top: 7% !important;">
+                                            <center><button href="#" class='btn-flat btn-large waves-effect waves-teal waves-light color-white' style="margin-top:20%;border-radius: 30px;width: 100%;height: 56px;font-size: 18px;background-color: #7a5578;text-transform: none;"><strong class="">Save</strong></button></center>
                                         </li>
                                     </ul>
                                 </div>
                             </form>
                           </div>`;
 
-            $$("#addAcademic").html(content);
+            $$("#display_academic").html(content);
             $('select').material_select('close');
             $("a.cancel").on('click',function(){
                 $("div.list").removeClass('hidden');
@@ -1683,12 +1693,23 @@ Framework7.prototype.plugins.kareer = function (app, params) {
 	                    }
 	                })
 	            }
-	        }); 
+	        });
+            $$("a[data-cmd='showPassword']").on('click',function(){
+                $("#password input").attr({"type":"text"});
+                $("a.x").addClass('hidden');
+                $("a.y").removeClass('hidden');
+
+            }); 
+            $$("a[data-cmd='hidePassword']").on('click',function(){
+                $("#password input").attr({"type":"password"});
+                $("a.y").addClass('hidden');
+                $("a.x").removeClass('hidden');
+
+            });
 	        $$(".log-error-icon").on('click',function(){
 	            var data= $(this).find('i');
 	            system.notification("Kareer",data[0].dataset.error,false,3000,true,false,false);
-	        });
-            		
+	        });		
     	},
     	logout:function(){
     		$$("a[data-cmd='account-logout']").on('click',function(){
@@ -1741,8 +1762,10 @@ Framework7.prototype.plugins.kareer = function (app, params) {
                 },
                 submitHandler: function (form) {
                     var _form = $(form).serializeArray();
+                    console.log(_form);
                     var data = system.ajax(processor+'do-signUp',_form);
                     data.done(function(data){
+                        console.log(data);
                         if(data == 1){
                         	$$("input").val("");
                             system.notification("Kareer","Success. You can now Sign In to your account. ",false,2000,true,false,function(){
@@ -1855,7 +1878,24 @@ Framework7.prototype.plugins.kareer = function (app, params) {
                         }
                     })
                 }
-            });  //CED pop-up error in info(icon)
+            }); 
+            $$("a[data-cmd='showPassword']").on('click',function(){
+                $("#password input").attr({"type":"text"});
+                $("a.x").addClass('hidden');
+                $("a.y").removeClass('hidden');
+
+            }); 
+            $$("a[data-cmd='hidePassword']").on('click',function(){
+                $("#password input").attr({"type":"password"});
+                $("a.y").addClass('hidden');
+                $("a.x").removeClass('hidden');
+
+            });
+            $$(".log-error-icon").on('click',function(){
+                var data= $(this).find('i');
+                system.notification("Kareer",data[0].dataset.error,false,3000,true,false,false);
+            });     
+             //CED pop-up error in info(icon)
             $$(".error-icon").on('click',function(){
                 var data= $(this).find('i');
                 system.notification("Kareer",data[0].dataset.error,false,3000,true,function(){

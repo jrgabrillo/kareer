@@ -47,7 +47,7 @@ $Functions = new DatabaseClasses;
         if($query[0][0]<=0){
             $date = $Functions->PDO_DateAndTime();
             $id = $Functions->PDO_IDGenerator('tbl_applicant','id');
-            $query = $Functions->PDO("INSERT INTO tbl_applicant(id,description,resume,email,password) VALUES('{$id}','','',{$email},'{$password}'); INSERT INTO tbl_personalinfo(id, family_name, given_name, middle_name, gender, date_of_birth, place_of_birth, permanent_address, citizenship, height, weight, mother_name, father_name, picture, date) VALUES ('{$id}',{$firstname},{$lastname},'','','','','','','','','','','avatar.png','{$date}')");
+            $query = $Functions->PDO("INSERT INTO tbl_applicant(id,description,resume,email,password) VALUES('{$id}','','',{$email},'{$password}'); INSERT INTO tbl_personalinfo(id, given_name, family_name, middle_name, gender, age, date_of_birth, place_of_birth, permanent_address, citizenship, height, weight, mother_name, father_name, language, religion, mother_occupation, father_occupation, picture, date) VALUES('{$id}',{$firstname},{$lastname},'','','','','','','','','','','','','','','','avatar.png','{$date}')");
             if($query->execute()){
                 echo 1;
             }

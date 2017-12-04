@@ -104,9 +104,10 @@
                                     </div>
                                 </li><br />
                                 <li style="margin-bottom: 10px;">
-                                    <div class="input-field">
+                                    <div class="input-field" id="password">
                                         <input type='password' id="field_password" name="field_password" class="form-control white-text" value="" style="font-size:18px;padding-right: 45px;border-bottom:1px solid white;">
-                                        <a style="position: absolute; right: 0px; top: 50%; margin-top: -8px;"><i class="icon f7-icons color-white" style=''>eye</i></a>
+                                        <a class="x btn btn-flat" data-cmd="showPassword" style="width: 0%;position: absolute; right: 0px; top: 50%; margin-top: -8px;"><i class="icon f7-icons color-white" style=''>eye</i></a>
+                                        <a class="y hidden btn btn-flat" data-cmd="hidePassword" style="width: 0%;position: absolute; right: 0px; top: 50%; margin-top: -8px;"><i class="icon f7-icons color-white" style=''>eye</i></a>
                                         <label class="white-text" for="field_password" style="font-size:18px;margin-top: -10px">Password</label>
                                     </div>
                                 </li><br />
@@ -118,8 +119,8 @@
                                         <div class="col-100" style='background: transparent;'>
                                             <center><span class="hr color-white"> or login using </span></center>
                                             <div style="margin-top: 5%;"></div>
-                                            <a href="#" data-popup=".popup-sign-up" class="next btn btn-large white-text waves-effect waves-purple waves-light open-popup left" style="border-radius: 30px;width: 48%;height: 53px;font-size: 15px;background-color: #4267b2;text-transform: none;"><strong class=""><i class="icon f7-icons color-white" style=''>social_facebook_fill</i>&nbsp;&nbsp;Facebook</strong></a>
-                                            <a href="#" data-popup=".popup-sign-up" class="next btn btn-large white-text waves-effect waves-purple waves-light open-popup right" style="border-radius: 30px;width: 48%;height: 53px;font-size: 18px;color:black;background-color: white;text-transform: none;"><strong class=""><i class="icon f7-icons black-text" style=''>social_googleplus</i>&nbsp;&nbsp;<font color="black">Gmail</font></strong></a>
+                                            <a href="#" class=" btn btn-large white-text waves-effect waves-purple waves-light  left" style="border-radius: 30px;width: 48%;height: 53px;font-size: 15px;background-color: #4267b2;text-transform: none;"><strong class=""><i class="icon f7-icons color-white" style=''>social_facebook_fill</i>&nbsp;&nbsp;Facebook</strong></a>
+                                            <a href="#" class=" btn btn-large white-text waves-effect waves-purple waves-light  right" style="border-radius: 30px;width: 48%;height: 53px;font-size: 18px;color:black;background-color: white;text-transform: none;"><strong class=""><i class="icon f7-icons black-text" style=''>social_googleplus</i>&nbsp;&nbsp;<font color="black">Gmail</font></strong></a>
                                         </div>
                                         <div class="col-100" style='background: transparent;'>
                                             <!-- <img src="img/icons/fb.png" width="30px" /> -->
@@ -159,25 +160,25 @@
                                     </div>
                                 </li>
                                 <li style="margin-bottom: 10px;margin-top: 7%;">
-                                    <div class="input-field">
-                                        <input type='password' id="field_password" name="field_password" class="form-control white-text" style="font-size: 18px;">
-                                        <label class="white-text" for="field_password" style="margin-top: -10px;font-size: 18px;">Password</label>
+                                    <div class="input-field" id="password">
+                                        <input type='password' id="field_password" name="field_password" class="form-control white-text" value="" style="font-size:18px;padding-right: 45px;border-bottom:1px solid white;">
+                                        <a class="x btn btn-flat" data-cmd="showPassword" style="width: 0%;position: absolute; right: 0px; top: 50%; margin-top: -8px;"><i class="icon f7-icons color-white" style=''>eye</i></a>
+                                        <a class="y hidden btn btn-flat" data-cmd="hidePassword" style="width: 0%;position: absolute; right: 0px; top: 50%; margin-top: -8px;"><i class="icon f7-icons color-white" style=''>eye</i></a>
+                                        <label class="white-text" for="field_password" style="font-size:18px;margin-top: -10px">Password</label>
                                     </div>
                                 </li>
                                 <li style="margin-bottom: 10px;margin-top: 7%;">
-                                     <center><a href="#" data-popup=".popup-login" class="next btn btn-large white-text waves-effect waves-purple waves-light open-popup" style="border-radius: 30px;width: 100%;height: 56px;font-size: 18px;background-color: #7a5578;text-transform: none;"><strong class="">Register</strong></a></center>
+                                     <center><button href="#" data-popup=".popup-sign-up" class="next btn btn-large white-text waves-effect waves-purple waves-light open-popup" style="border-radius: 30px;width: 100%;height: 56px;font-size: 18px;background-color: #7a5578;text-transform: none;"><strong class="">Register</strong></button></center>
                                 </li>
                                 <li style="margin-bottom: 10px;">
                                     <div class="row" style='margin-top:20px;'>
                                         <div class="col-100" style='background: transparent;'>
                                             <center><span class="hr color-white"> or SignUp using </span></center>
                                             <div style="margin-top: 5%;"></div>
-                                            <a href="#" data-popup=".popup-sign-up" class="next btn btn-large white-text waves-effect waves-purple waves-light open-popup left" style="border-radius: 30px;width: 48%;height: 53px;font-size: 15px;background-color: #4267b2;text-transform: none;"><strong class=""><i class="icon f7-icons color-white" style=''>social_facebook_fill</i>&nbsp;&nbsp;Facebook</strong></a>
-                                            <a href="#" data-popup=".popup-sign-up" class="next btn btn-large white-text waves-effect waves-purple waves-light open-popup right" style="border-radius: 30px;width: 48%;height: 53px;font-size: 18px;color:black;background-color: white;text-transform: none;"><strong class=""><i class="icon f7-icons black-text" style=''>social_googleplus</i>&nbsp;&nbsp;<font color="black">Gmail</font></strong></a>
+                                            <a href="#" class=" btn btn-large white-text waves-effect waves-purple waves-light  left" style="border-radius: 30px;width: 48%;height: 53px;font-size: 15px;background-color: #4267b2;text-transform: none;"><strong class=""><i class="icon f7-icons color-white" style=''>social_facebook_fill</i>&nbsp;&nbsp;Facebook</strong></a>
+                                            <a href="#" class="btn btn-large white-text waves-effect waves-purple waves-light right" style="border-radius: 30px;width: 48%;height: 53px;font-size: 18px;color:black;background-color: white;text-transform: none;"><strong class=""><i class="icon f7-icons black-text" style=''>social_googleplus</i>&nbsp;&nbsp;<font color="black">Gmail</font></strong></a>
                                         </div>
                                         <div class="col-100" style='background: transparent;'>
-                                            <!-- <img src="img/icons/fb.png" width="30px" /> -->
-                                            <!-- <img src="img/icons/gp.png" width="30px" /> -->
                                         </div>
                                     </div>
                                 </li>
