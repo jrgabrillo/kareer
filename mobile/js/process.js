@@ -16,8 +16,8 @@ Framework7.prototype.plugins.kareer = function (app, params) {
     	ini:function(){
         	// var deviceSize = system.getDeviceSize();
         	// console.log(deviceSize);
-            // logIn.ini();
-        	// signUp.ini();
+            logIn.ini();
+        	signUp.ini();
         	content.ini();
     	},
         notification:function(title,message,button,timeout,loader,_functionOpen,_functionClose){
@@ -1680,12 +1680,23 @@ Framework7.prototype.plugins.kareer = function (app, params) {
 	                    }
 	                })
 	            }
-	        }); 
+	        });
+            $$("a[data-cmd='showPassword']").on('click',function(){
+                $("#password input").attr({"type":"text"});
+                $("a.x").addClass('hidden');
+                $("a.y").removeClass('hidden');
+
+            }); 
+            $$("a[data-cmd='hidePassword']").on('click',function(){
+                $("#password input").attr({"type":"password"});
+                $("a.y").addClass('hidden');
+                $("a.x").removeClass('hidden');
+
+            });
 	        $$(".log-error-icon").on('click',function(){
 	            var data= $(this).find('i');
 	            system.notification("Kareer",data[0].dataset.error,false,3000,true,false,false);
-	        });
-            		
+	        });		
     	},
     	logout:function(){
     		$$("a[data-cmd='account-logout']").on('click',function(){
@@ -1738,8 +1749,10 @@ Framework7.prototype.plugins.kareer = function (app, params) {
                 },
                 submitHandler: function (form) {
                     var _form = $(form).serializeArray();
+                    console.log(_form);
                     var data = system.ajax(processor+'do-signUp',_form);
                     data.done(function(data){
+                        console.log(data);
                         if(data == 1){
                         	$$("input").val("");
                             system.notification("Kareer","Success. You can now Sign In to your account. ",false,2000,true,false,function(){
@@ -1852,7 +1865,24 @@ Framework7.prototype.plugins.kareer = function (app, params) {
                         }
                     })
                 }
-            });  //CED pop-up error in info(icon)
+            }); 
+            $$("a[data-cmd='showPassword']").on('click',function(){
+                $("#password input").attr({"type":"text"});
+                $("a.x").addClass('hidden');
+                $("a.y").removeClass('hidden');
+
+            }); 
+            $$("a[data-cmd='hidePassword']").on('click',function(){
+                $("#password input").attr({"type":"password"});
+                $("a.y").addClass('hidden');
+                $("a.x").removeClass('hidden');
+
+            });
+            $$(".log-error-icon").on('click',function(){
+                var data= $(this).find('i');
+                system.notification("Kareer",data[0].dataset.error,false,3000,true,false,false);
+            });     
+             //CED pop-up error in info(icon)
             $$(".error-icon").on('click',function(){
                 var data= $(this).find('i');
                 system.notification("Kareer",data[0].dataset.error,false,3000,true,function(){
