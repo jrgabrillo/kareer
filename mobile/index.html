@@ -119,12 +119,10 @@
                                         <div class="col-100" style='background: transparent;'>
                                             <center><span class="hr color-white"> or login using </span></center>
                                             <div style="margin-top: 5%;"></div>
-                                            <a href="#" class=" btn btn-large white-text waves-effect waves-purple waves-light  left" style="border-radius: 30px;width: 48%;height: 53px;font-size: 15px;background-color: #4267b2;text-transform: none;"><strong class=""><i class="icon f7-icons color-white" style=''>social_facebook_fill</i>&nbsp;&nbsp;Facebook</strong></a>
+                                            <button href="#"  onclick="login()" class=" btn btn-large white-text waves-effect waves-purple waves-light  left" style="border-radius: 30px;width: 48%;height: 53px;font-size: 15px;background-color: #4267b2;text-transform: none;"><strong class=""><i class="icon f7-icons color-white" style=''>social_facebook_fill</i>&nbsp;&nbsp;Facebook</strong></button>
                                             <a href="#" class=" btn btn-large white-text waves-effect waves-purple waves-light  right" style="border-radius: 30px;width: 48%;height: 53px;font-size: 18px;color:black;background-color: white;text-transform: none;"><strong class=""><i class="icon f7-icons black-text" style=''>social_googleplus</i>&nbsp;&nbsp;<font color="black">Gmail</font></strong></a>
                                         </div>
                                         <div class="col-100" style='background: transparent;'>
-                                            <!-- <img src="img/icons/fb.png" width="30px" /> -->
-                                            <!-- <img src="img/icons/gp.png" width="30px" /> -->
                                         </div>
                                     </div>
                                 </li>
@@ -175,7 +173,7 @@
                                         <div class="col-100" style='background: transparent;'>
                                             <center><span class="hr color-white"> or SignUp using </span></center>
                                             <div style="margin-top: 5%;"></div>
-                                            <a href="#" class=" btn btn-large white-text waves-effect waves-purple waves-light  left" style="border-radius: 30px;width: 48%;height: 53px;font-size: 15px;background-color: #4267b2;text-transform: none;"><strong class=""><i class="icon f7-icons color-white" style=''>social_facebook_fill</i>&nbsp;&nbsp;Facebook</strong></a>
+                                            <button href="#" class="btn btn-large white-text waves-effect waves-purple waves-light  left" style="border-radius: 30px;width: 48%;height: 53px;font-size: 15px;background-color: #4267b2;text-transform: none;"><strong class=""><i class="icon f7-icons color-white" style=''>social_facebook_fill</i>&nbsp;&nbsp;Facebook</strong></button>
                                             <a href="#" class="btn btn-large white-text waves-effect waves-purple waves-light right" style="border-radius: 30px;width: 48%;height: 53px;font-size: 18px;color:black;background-color: white;text-transform: none;"><strong class=""><i class="icon f7-icons black-text" style=''>social_googleplus</i>&nbsp;&nbsp;<font color="black">Gmail</font></strong></a>
                                         </div>
                                         <div class="col-100" style='background: transparent;'>
@@ -204,4 +202,63 @@
     <script src="js/process.js"></script>
     <script src="js/jspdf.min.js"></script>
     <script src="js/jspdf.debug.js"></script>
+
+    <script>
+        // initialize and setup facebook js sdk
+        window.fbAsyncInit = function() {
+            FB.init({
+              appId            : '134413893925132',
+              autoLogAppEvents : true,
+              xfbml            : true,
+              version          : 'v2.11'
+            });
+          FB.getLoginStatus(function(response) {
+                if (response.status === 'connected') {
+                    console.log(response.status);
+                } else if (response.status === 'not_authorized') {
+                    console.log(response.status);
+                } else {
+                    console.log(response.status);
+                }
+            });
+        };
+        (function(d, s, id){
+            var js, fjs = d.getElementsByTagName(s)[0];
+            if (d.getElementById(id)) {return;}
+            js = d.createElement(s); js.id = id;
+            js.src = "//connect.facebook.net/en_US/sdk.js";
+            fjs.parentNode.insertBefore(js, fjs);
+        }(document, 'script', 'facebook-jssdk'));
+        
+        // login with facebook with extra permissions
+        function login() {
+            FB.login(function(response) {
+                if (response.status === 'connected') {
+                    console.log(response.status);
+                    getInfo();
+                } else if (response.status === 'not_authorized') {
+                    console.log(response.status);
+                } else {
+                    console.log(response.status);
+                }
+            }, {scope: 'email'});
+        }
+        function logout(){
+            FB.logout(function(response) {
+                if (response.status === 'unknown') {
+                    console.log(response.status);
+                } else if (response.status === 'not_authorized') {
+                    console.log(response.status);
+                } else {
+                    console.log(response.status);
+                }
+            });
+        }
+        // getting basic user info
+        function getInfo() {    
+            FB.api('/me', 'GET', {fields: 'first_name,last_name,name,id,email'}, function(response) {
+                console.log(response);
+            });
+        }
+    </script>
 </html>
