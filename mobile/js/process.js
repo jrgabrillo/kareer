@@ -18,6 +18,7 @@ Framework7.prototype.plugins.kareer = function (app, params) {
         	// console.log(deviceSize);
             // fb.ini();
             logIn.ini();
+        	// signUp.ini();
         	signUp.ini();
         	content.ini();
     	},
@@ -187,7 +188,7 @@ Framework7.prototype.plugins.kareer = function (app, params) {
             var data = account.get(applicantData[0][0]);
 			jobs.bookmarked(applicantData[0][0]);
 
-			$("#index img.responsive-img").attr({"src":"img/profile/"+data[23]});
+			$("#index img.responsive-img").attr({"src":"img/profile/"+data[18]});
 			var content = "<div class='content-block'>"+
 							"    <p class='color-gray'><h5>"+data[6]+" "+data[7]+"</h5></p>"+
                             // "    <a data-cmd='account-logout' class='btn-floating btn-flat'>"+
@@ -197,24 +198,24 @@ Framework7.prototype.plugins.kareer = function (app, params) {
 							"<div class='content-block'>"+
 							"    <div class='row rows'>"+
 							"        <div class='col-33'>"+
-							"            <a data-load='account'  class='account btn-floating btn-large waves-effect waves-light waves-teal grey lighten-4 btn-flat'><i class='icon f7-icons color-gray' style='font-size: 30px; margin-top: 6px;'>person</i></a><div class='grey-text' style = 'font-size: xx-small'>ACCOUNT</div>"+
+							"            <a data-load='account'  class='account btn-floating btn-large waves-effect waves-light waves-teal grey lighten-2 btn-flat'><i class='icon f7-icons color-gray' style='font-size: 30px; margin-top: 6px;color:grey;'>person</i></a><div class='grey-text' style = 'font-size: xx-small'>ACCOUNT</div>"+
 							"        </div>"+
 							"        <div class='col-33'>"+
-							"            <a data-load='career' class='account btn-floating btn-large waves-effect waves-light waves-teal grey lighten-4 btn-flat'><i class='icon f7-icons color-gray' style='font-size: 30px; margin-top: 6px;'>briefcase_fill</i></a><div class='grey-text' style = 'font-size: xx-small'>CAREER</div>"+
+							"            <a data-load='career' class='account btn-floating btn-large waves-effect waves-light waves-teal grey lighten-2 btn-flat'><i class='icon f7-icons color-gray' style='font-size: 30px; margin-top: 6px;color:grey;'>briefcase_fill</i></a><div class='grey-text' style = 'font-size: xx-small'>CAREER</div>"+
 							"        </div>"+
 							"        <div class='col-33'>"+
-							"            <a data-load='academic' class='account btn-floating btn-large waves-effect waves-light waves-teal grey lighten-4 btn-flat'><i class='icon f7-icons color-gray' style='font-size: 30px; margin-top: 6px;'>folder_fill</i></a><div class='grey-text' style = 'font-size: xx-small'>ACADEMIC</div>"+
+							"            <a data-load='academic' class='account btn-floating btn-large waves-effect waves-light waves-teal grey lighten-2 btn-flat'><i class='icon f7-icons color-gray' style='font-size: 30px; margin-top: 6px;color:grey;'>folder_fill</i></a><div class='grey-text' style = 'font-size: xx-small'>ACADEMIC</div>"+
 							"        </div>"+
                             "    </div>"+
                             "    <div class='row rows'>"+
                             "        <div class='col-33'>"+
-                            "            <a data-load='bookmarks' class='account btn-floating btn-large waves-effect waves-light waves-teal grey lighten-4 btn-flat'><i class='icon f7-icons color-gray' style='font-size: 30px; margin-top: 6px;'>bookmark_fill</i></a><div class='grey-text' style = 'font-size: xx-small'>BOOKMARKS</div>"+
+                            "            <a data-load='bookmarks' class='account btn-floating btn-large waves-effect waves-light waves-teal grey lighten-2 btn-flat'><i class='icon f7-icons color-gray' style='font-size: 30px; margin-top: 6px;color:grey;'>bookmark_fill</i></a><div class='grey-text' style = 'font-size: xx-small'>BOOKMARKS</div>"+
                             "        </div>"+
                             "        <div class='col-33'>"+
-                            "            <a data-load='' class='account btn-floating btn-large waves-effect waves-light waves-teal grey lighten-4 btn-flat'><i class='icon f7-icons color-gray' style='font-size: 30px; margin-top: 6px;'>gear_fill</i></a><div class='grey-text' style = 'font-size: xx-small'>SETTINGS</div>"+
+                            "            <a data-load='' class='account btn-floating btn-large waves-effect waves-light waves-teal grey lighten-2 btn-flat'><i class='icon f7-icons color-gray' style='font-size: 30px; margin-top: 6px;color:grey;'>gear_fill</i></a><div class='grey-text' style = 'font-size: xx-small'>SETTINGS</div>"+
                             "        </div>"+
                             "        <div class='col-33'>"+
-                            "            <a data-load='resume' class='account btn-floating btn-large waves-effect waves-light waves-teal grey lighten-4 btn-flat'><i class='icon f7-icons color-gray' style='font-size: 30px; margin-top: 6px;'>document_text_fill</i></a><div class='grey-text' style = 'font-size: xx-small'>RESUME</div>"+
+                            "            <a data-load='resume' class='account btn-floating btn-large waves-effect waves-light waves-teal grey lighten-2 btn-flat'><i class='icon f7-icons color-gray' style='font-size: 30px; margin-top: 6px;color:grey;'>document_text_fill</i></a><div class='grey-text' style = 'font-size: xx-small'>RESUME</div>"+
                             "      </div>"+
 							"    </div>"+
                             "</div>";
@@ -500,52 +501,51 @@ Framework7.prototype.plugins.kareer = function (app, params) {
                            <form action="" method="POST" id='form_career'>
                                 <div class="list-block">
                                     <ul>
-                                        <li>
+                                        <li style='margin-bottom: 10px;margin-top: 10%;'>
                                             <div class="row center">
                                                 <div class="input-field">
-                                                    <label class="active" style="top: auto; left: 0px; font-size: 17px;">Inclusive dates</label>
+                                                    <label class="active black-text" style="top: auto; left: 0px; font-size: 17px;">Inclusive dates</label>
                                                     <div class="col s6">
-                                                        <input type='date' id="field_dateFirst" name="field_dateFirst" class="form-control" placeholder="From">
+                                                        <input type='date' id="field_dateFirst" name="field_dateFirst" class="form-control" placeholder="From" style='border-bottom:1px solid grey;'>
                                                     </div>
                                                     <div class="col s6">
-                                                        <input type='date' id="field_dateLast" name="field_dateLast" class="form-control" placeholder="To">
+                                                        <input type='date' 'id="field_dateLast" name="field_dateLast" class="form-control" placeholder="To" style='border-bottom:1px solid grey;'>
                                                     </div>
                                                 </div>                                            
                                             </div>
                                         </li>
-                                        <li>
+                                        <li style='margin-bottom: 10px;margin-top: 10%;'>
                                             <div class="input-field">
-                                                <input type='text' id="field_position" name="field_position" class="form-control">
-                                                <label class="" for="field_position" style="top: -2px; left: 0px;">Position Title</label>
+                                                <input type='text' id="field_position" name="field_position" class="form-control" style='border-bottom:1px solid grey;'>
+                                                <label class="black-text" for="field_position" style="top: -2px; left: 0px;">Position Title</label>
                                             </div>
                                         </li>
-                                        <li>
+                                        <li style='margin-bottom: 10px;margin-top: 10%;'>
                                             <div class="input-field">
-                                                <input type='text' id="field_agency" name="field_agency" class="form-control">
-                                                <label class="" for="field_agency" style="top: -2px !important; left: 0px !important;">Department/Company/Office/Agency</label>
+                                                <input type='text' id="field_agency" name="field_agency" class="form-control" style='border-bottom:1px solid grey;'>
+                                                <label class="black-text" for="field_agency" style="top: -2px !important; left: 0px !important;">Department/Company/Office/Agency</label>
                                             </div>
                                         </li>
-                                        <li>
+                                         <li style='margin-bottom: 10px;margin-top: 10%;'>
                                             <div class="input-field">
-                                                <input type='text' id="field_salary" name="field_salary" class="form-control">
-                                                <label class="" for="field_salary" style="top: -2px !important; left: 0px !important;">Monthly Salary</label>
+                                                <input type='text' id="field_salary" name="field_salary" class="form-control" style='border-bottom:1px solid grey;'>
+                                                <label class="black-text" for="field_salary" style="top: -2px !important; left: 0px !important;">Monthly Salary</label>
                                             </div>
                                         </li>
-                                        <li>
+                                        <li style='margin-bottom: 10px;margin-top: 10%;'>
                                             <div class="input-field">
-                                                <input type='text' id="field_appointment" name="field_appointment" class="form-control">
-                                                <label class="" for="field_appointment" style="top: -2px !important; left: 0px !important;">Status of Appointment</label>
+                                                <input type='text' id="field_appointment" name="field_appointment" class="form-control" style='border-bottom:1px solid grey;'>
+                                                <label class="black-text" for="field_appointment" style="top: -2px !important; left: 0px !important;">Status of Appointment</label>
                                             </div>
                                         </li>
-                                        <li>
+                                        <li style='margin-bottom: 10px;margin-top: 10%;'>
                                             <div class="input-field">
-                                                <input type='text' id="field_govt_service" name="field_govt_service" class="form-control">
-                                                <label class="" for="field_govt_service" style="top: -2px !important; left: 0px !important;">Gov't Service</label>
+                                                <input type='text' id="field_govt_service" name="field_govt_service" class="form-control" style='border-bottom:1px solid grey;'>
+                                                <label class="black-text" for="field_govt_service" style="top: -2px !important; left: 0px !important;">Gov't Service</label>
                                             </div>
                                         </li>
-                                        <li style="margin-top: 70% !important;">
-                                            <button class="btn-flat btn-large waves-effect waves-teal waves-light purple color-white" style="width: 80%; margin-left: -15px !important; border-radius: 30px !important; height: 49px; background-color: #7a5578; font-size: 20px;">Save</button>
-                                            <a href="#" class="cancel btn-floating btn-small red waves-effect waves-teal waves-light right" style="right: 5px; height: 50px; width: 50px;"><i class="icon f7-icons" style="top: 7px;">close</i></a>
+                                        <li style='margin-bottom: 10px;margin-top: 10%;'>
+                                            <center><button href="#" class='btn-flat btn-large waves-effect waves-teal waves-light color-white' style="border-radius: 30px;width: 100%;height: 56px;font-size: 18px;background-color: #7a5578;text-transform: none;"><strong class="">Save</strong></button></center>
                                         </li>
                                     </ul>
                                 </div>
@@ -657,7 +657,7 @@ Framework7.prototype.plugins.kareer = function (app, params) {
 
             });
 
-            $$("#display_career").html("<ul class='collection'>"+content+"</ul");
+            $$("#display_career").html("");
             // $$("a[data-cmd='edit']").on('click',function(){
             //     var data = $(this).data();
             //     var id = data.node;
@@ -790,74 +790,83 @@ Framework7.prototype.plugins.kareer = function (app, params) {
             });
         },
         add:function(id){
-            // console.log("sdfsd");
-            $("a.career").addClass('hidden');
+            console.log("sdfsd");
+            // $("a.career").addClass('hidden');
             $("a.add").addClass('hidden');
-            $("div.list").addClass('hidden');
+            $("div.lists").addClass('hidden');
             $("div.add").removeClass('hidden');
-            $("a.add").addClass('hidden');
             $("a.goback").removeClass('hidden');
             // $("a.cancel").addClass('hidden');
-            $("div.toolbar").addClass('hidden');
+            // $("div.toolbar").addClass('hidden');
 
             let content = `<div class="center">
                             <form action="" method="POST" id='form_academic'>
                                 <div class="list-block">
                                     <ul>
                                         <li>
-                                            <div class="input-field" style='border: gray; border-width: 1px; background-color: rgba(238, 238, 238, 0.15); border-style: solid; border-radius: 15px;'>
-                                                <select id="field_yearLevel" name="field_yearLevel">
-                                                    <option value="Elementary">ELEMENTARY</option>
-                                                    <option value="High School">HIGH SCHOOL</option>
-                                                    <option value="Vocational">VOCATIONAL</option>
+                                            <div class="input-field" style='border:1px solid black;border-radius:15px;margin-top:10%;'>
+                                                <center><select id="field_yearLevel" name="field_yearLevel">
+                                                    <option active> </option>
+                                                    <option value="Elementary" style='background-color:blue;'>ELEMENTARY</option>
+                                                    <option value="High School" style='background-color:blue;'>HIGH SCHOOL</option>
+                                                    <option value="Vocational" style='background-color:blue;'>VOCATIONAL</option>
                                                     <option value="College">COLLEGE</option>
                                                     <option value="Masteral">MASTERAL</option>
                                                     <option value="Doctoral">DOCTORAL</option>
-                                                </select>
+                                                </select></center>
                                             </div>
                                         </li>
 
-                                        <li>
+                                        <li style='margin-top:10%;'>
                                             <div class="input-field">
-                                                <input type='text' id="field_school" name="field_school" class="form-control">
-                                                <label class="" for="field_school" style="top: -2px !important; left: 0px !important;">Name of Schools</label>
+                                                <input type='text' id="field_school" name="field_school" class="form-control" style='border-bottom:1px solid #f3f3f3;'>
+                                                <label class="" for="field_school" style="top: -2px !important; left: 0px !important;color:black;">Name of Schools</label>
                                             </div>
                                         </li>
-                                        <li>
+                                        <li style='margin-top:10%;'>
                                             <div class="input-field">
-                                                <input type='text' id="field_degree" name="field_degree" class="form-control">
-                                                <label class="" for="field_degree" style="top: -2px !important; left: 0px !important;">Basic Education/Degree/Course</label>
+                                                <input type='text' id="field_degree" name="field_degree" class="form-control" style='border-bottom:1px solid #f3f3f3;'>
+                                                <label class="" for="field_degree" style="top: -2px !important; left: 0px !important;color:black;">Basic Education/Degree/Course</label>
                                             </div>
                                         </li>
-                                        <li>
-                                            <div class="input-field">
-                                                <input type='text' id="field_units" name="field_units" class="form-control">
-                                                <label class="" for="field_units" style="top: -2px !important; left: 0px !important;">Units Earned</label>
-                                            </div>
-                                        </li>
-                                        <li>
+                                         <li style='margin-top:5%;'>
                                             <div class="row">
+                                             <span class="active">Period of Attendance</span>
                                                 <div class="input-field">
-                                                    <label class="active">Period of Attendance</label>
-                                                    <div class="col s6">
-                                                        <input type='date' id="field_dateFirst" name="field_dateFirst" class="form-control" placeholder="From">
+                                                   
+                                                    <div class="col s5">
+                                                        <input type='date' id="field_dateFirst" name="field_dateFirst" class="form-control" placeholder="From" style='border-bottom:1px solid #f3f3f3;font-size:14px;'>
                                                     </div>
-                                                    <div class="col s6">
-                                                        <input type='date' id="field_dateLast" name="field_dateLast" class="form-control" placeholder="To">
+                                                    <div class="col s2">
+                                                        <span style='border:none;font-size:15px;'><center>to</center></span>
+                                                    </div>
+                                                    <div class="col s5">
+                                                        <input type='date' id="field_dateLast" name="field_dateLast" class="form-control" placeholder="To" style='border-bottom:1px solid #f3f3f3;font-size:14px;'>
                                                     </div>
                                                 </div>                                            
                                             </div>
                                         </li>
-                                        <li style="margin-top: 70% !important;">
-                                            <button class="btn-flat btn-large waves-effect waves-teal waves-light purple color-white" style="width: 80%; margin-left: -15px !important; border-radius: 30px !important; height: 49px; background-color: #7a5578; font-size: 20px;">Save</button>
-                                            <a href="#" class="cancel btn-floating btn-small red waves-effect waves-teal waves-light right" style="right: 5px; height: 50px; width: 50px;"><i class="icon f7-icons" style="top: 7px;">close</i></a>
+                                        <li style='margin-top:10%;'>
+                                            <div class="input-field">
+                                                <input type='text' id="field_units" name="field_units" class="form-control" style='border-bottom:1px solid #f3f3f3;'>
+                                                <label class="" for="field_units" style="top: -2px !important; left: 0px !important;color:black;">Highest Level</label>
+                                            </div>
+                                        </li>
+                                        <li style='margin-top:10%;'>
+                                            <div class="input-field">
+                                                <input type='text' id="field_units" name="field_units" class="form-control" style='border-bottom:1px solid #f3f3f3;'>
+                                                <label class="" for="field_units" style="top: -2px !important; left: 0px !important;color:black;">Year Graduated</label>
+                                            </div>
+                                        </li>
+                                        <li style="margin-top: 7% !important;">
+                                            <center><button href="#" class='btn-flat btn-large waves-effect waves-teal waves-light color-white' style="margin-top:20%;border-radius: 30px;width: 100%;height: 56px;font-size: 18px;background-color: #7a5578;text-transform: none;"><strong class="">Save</strong></button></center>
                                         </li>
                                     </ul>
                                 </div>
                             </form>
                           </div>`;
 
-            $$("#addAcademic").html(content);
+            $$("#display_academic").html(content);
             $('select').material_select('close');
             $("a.cancel").on('click',function(){
                 $("div.list").removeClass('hidden');
@@ -865,8 +874,8 @@ Framework7.prototype.plugins.kareer = function (app, params) {
                 $("a.academic").removeClass('hidden');
                 $("a.add").removeClass('hidden');
                 $("div.toolbar").removeClass('hidden');
-                // $("a.save").addClass('hidden');
-                // $("a.cancel").addClass('hidden');
+                $("a.save").addClass('hidden');
+                $("a.cancel").addClass('hidden');
             });
 
 
@@ -932,7 +941,7 @@ Framework7.prototype.plugins.kareer = function (app, params) {
 
                     $("a.academic").removeClass('disabled');
             });
-            $$("#display_academic").html("<ul class='collection'>"+content+"</ul");
+            $$("#display_academic").html("");
 
 
             $("a.academic").on('click',function(){
@@ -1420,11 +1429,15 @@ Framework7.prototype.plugins.kareer = function (app, params) {
         ini:function(){
             var applicantData = JSON.parse(localStorage.getItem('applicant'));
             var data = resume.get(applicantData[0][0]);
-            let content =   `<div><img src="./img/RES.png" style="width: 200px; position: relative; margin-top: 80px;" ></div>
-                            <p style="font-size: 17px">Make my Resume</p>
+            let content =   `<div><img src="./img/015-test.png" style="width: 200px; position: relative; margin-top: 80px;" ></div>
+                            <br /><p><center style="font-size: 18px;">Make my Resume</center></p>
                             <div class="center">
-                                <a data-load ='builderAccount' class="resume btn btn-large white-text waves-effect waves-teal waves-light" style="border-radius: 30px; width: 90%; height: 55px; font-size: 20px; margin-top: 97px; background-color: #5cb0a8;">Create Resume</a>
-                                <a data-load ='SavedResume' class="resume btn btn-large white-text waves-effect waves-purple waves-light" style="border-radius: 30px;width: 90%;height: 55px; font-size: 20px; margin-top: 15px; background-color: #7a5578;"><p>Saved Resume</p></a>
+                                <div style='margin-top:14%;'></div>
+                                <center><a href="#" data-load ='builderAccount' class="resume btn btn-large white-text waves-effect waves-teal waves-light" style="border-radius: 30px;width: 90%;height: 56px;font-size: 18px;background-color: #54b3af;text-transform: none;"><strong class="">Create Rusume</strong></a></center>
+                                <div style='margin-top:3%;'></div>
+                                <center><a href="#" data-load ='SavedResume' class="resume btn btn-large white-text waves-effect waves-purple waves-light" style="border-radius: 30px;width: 90%;height: 56px;font-size: 18px;background-color: #7a5578;text-transform: none;"><strong class="">Saved Resume</strong></a></center>
+                                <div style='margin-top:3%;'></div>
+                                <center><a href="#" data-load ='UploadResume' class="resume btn btn-large black-text waves-effect waves-purple waves-light" style="border-radius: 30px;width: 90%;height: 56px;font-size: 18px;background-color: white;text-transform: none;border:1px solid black;"><strong class="">Upload Resume</strong></a></center>
                             </div>`;
             $$("#resume_builder").html(content);
 
