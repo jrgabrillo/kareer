@@ -5,7 +5,8 @@ Framework7.prototype.plugins.kareer = function (app, params) {
     'use strict';
     if (!params) return;
     var self = this;
-    var processor = 'http://localhost/kareer/kareer/assets/harmony/mobile.php?';
+    // var processor = 'http://192.168.1.20/kareer/assets/harmony/mobile.php?';
+    var processor = 'http://localhost/kareer/assets/harmony/mobile.php?';
     // var processor = 'http://kareerserver.rnrdigitalconsultancy.com/assets/harmony/mobile.php?';
     var directory = '/';
 	var $$ = Dom7;
@@ -16,8 +17,9 @@ Framework7.prototype.plugins.kareer = function (app, params) {
         	// var deviceSize = system.getDeviceSize();
         	// console.log(deviceSize);
             logIn.ini();
+        	// signUp.ini();
         	signUp.ini();
-        	// content.ini();
+        	content.ini();
     	},
         notification:function(title,message,button,timeout,loader,_functionOpen,_functionClose){
             var timeout = (timeout == "")?false:timeout;
@@ -55,7 +57,7 @@ Framework7.prototype.plugins.kareer = function (app, params) {
         html:function(url){
             return $.ajax({
                 type: "GET",
-                url: url,
+                url: url,   
                 crossDomain: true,
                 dataType:'jsonp',
                 jsonp:true,
@@ -182,65 +184,271 @@ Framework7.prototype.plugins.kareer = function (app, params) {
 	var account = {
 		ini:function(){
 			var applicantData = JSON.parse(localStorage.getItem('applicant'));
+            var data = account.get(applicantData[0][0]);
 			jobs.bookmarked(applicantData[0][0]);
-			$("#index img.responsive-img").attr({"src":"img/profile/"+applicantData[0][18]});
 
+			$("#index img.responsive-img").attr({"src":"img/profile/"+data[18]});
 			var content = "<div class='content-block'>"+
-							"    <p class='color-gray'><h5>"+applicantData[0][6]+" "+applicantData[0][7]+"</h5></p>"+
-							// "    <p>"+
-							// "        <span><strong>Chief Technology Officer</strong> Pangasinan</span>"+
-							// "    </p>"+
+							"    <p class='color-gray'><h5>"+data[6]+" "+data[7]+"</h5></p>"+
+                            // "    <a data-cmd='account-logout' class='btn-floating btn-flat'>"+
+                            // "      <i class='f7-icons color grey'>logout</i>"+
+                            // "    </a>"+
 							"</div>"+
 							"<div class='content-block'>"+
-							"    <div class='row'>"+
+							"    <div class='row rows'>"+
 							"        <div class='col-33'>"+
-							"            <a data-load='account' class='account btn-floating btn-large waves-effect waves-light waves-teal grey lighten-4 btn-flat'><i class='icon f7-icons color-gray'>list</i></a>Account"+
+							"            <a data-load='account'  class='account btn-floating btn-large waves-effect waves-light waves-teal grey lighten-2 btn-flat'><i class='icon f7-icons color-gray' style='font-size: 30px; margin-top: 6px;color:grey;'>person</i></a><div class='grey-text' style = 'font-size: xx-small'>ACCOUNT</div>"+
 							"        </div>"+
 							"        <div class='col-33'>"+
-							"            <a data-load='career' class='account btn-floating btn-large waves-effect waves-light waves-teal grey lighten-4 btn-flat'><i class='icon f7-icons color-gray'>briefcase</i></a>Career"+
+							"            <a data-load='career' class='account btn-floating btn-large waves-effect waves-light waves-teal grey lighten-2 btn-flat'><i class='icon f7-icons color-gray' style='font-size: 30px; margin-top: 6px;color:grey;'>briefcase_fill</i></a><div class='grey-text' style = 'font-size: xx-small'>CAREER</div>"+
 							"        </div>"+
 							"        <div class='col-33'>"+
-							"            <a data-load='academic' class='account btn-floating btn-large waves-effect waves-light waves-teal grey lighten-4 btn-flat'><i class='icon f7-icons color-gray'>folder</i></a>Academic"+
+							"            <a data-load='academic' class='account btn-floating btn-large waves-effect waves-light waves-teal grey lighten-2 btn-flat'><i class='icon f7-icons color-gray' style='font-size: 30px; margin-top: 6px;color:grey;'>folder_fill</i></a><div class='grey-text' style = 'font-size: xx-small'>ACADEMIC</div>"+
 							"        </div>"+
+                            "    </div>"+
+                            "    <div class='row rows'>"+
+                            "        <div class='col-33'>"+
+                            "            <a data-load='bookmarks' class='account btn-floating btn-large waves-effect waves-light waves-teal grey lighten-2 btn-flat'><i class='icon f7-icons color-gray' style='font-size: 30px; margin-top: 6px;color:grey;'>bookmark_fill</i></a><div class='grey-text' style = 'font-size: xx-small'>BOOKMARKS</div>"+
+                            "        </div>"+
+                            "        <div class='col-33'>"+
+                            "            <a data-load='' class='account btn-floating btn-large waves-effect waves-light waves-teal grey lighten-2 btn-flat'><i class='icon f7-icons color-gray' style='font-size: 30px; margin-top: 6px;color:grey;'>gear_fill</i></a><div class='grey-text' style = 'font-size: xx-small'>SETTINGS</div>"+
+                            "        </div>"+
+                            "        <div class='col-33'>"+
+                            "            <a data-load='resume' class='account btn-floating btn-large waves-effect waves-light waves-teal grey lighten-2 btn-flat'><i class='icon f7-icons color-gray' style='font-size: 30px; margin-top: 6px;color:grey;'>document_text_fill</i></a><div class='grey-text' style = 'font-size: xx-small'>RESUME</div>"+
+                            "      </div>"+
 							"    </div>"+
-							"</div>";
+                            "</div>";
 			$("#display_account").html(content);
 
 			$("a.account").on('click',function(){
 				var data = $(this).data('load');
                 view.router.loadPage("pages/admin/"+data+".html");
 			});
-
+            $("a[data-cmd='account-logout']").on('click',function(){
+                console.log("uwian na");
+                localStorage.removeItem('applicant','');
+                localStorage.removeItem('applications','');
+                localStorage.removeItem('bookmarks','');
+                window.location.reload();
+            }) 
             app.onPageInit('academic',function(page){
                 console.log('page');
                 academic.ini();
-            });         
+            }); 
+            app.onPageInit('resume',function(page){
+                console.log('page'); 
+                resume.ini();
+
+            });
+
+            app.onPageInit('bookmarks',function(page){
+                console.log('page');
+                bookmarks.ini();
+            });       
 
             app.onPageInit('account',function(page){
                 console.log('page');
                 var applicantData = JSON.parse(localStorage.getItem('applicant'));
                 var data = account.get(applicantData[0][0]);
                 account.account(data);
+                // account.edit(data);
+                account.show(data);
             });
 
             app.onPageInit('career',function(page){
                 console.log('page');
                 career.ini();
             });
-		},
+             
+
+            var picture = "img/profile/"+data[23];
+            $("a[data-cmd='update']").on('click',function(){
+                console.log("content");
+                var content =   "<div class='card-content'>"+
+                                "<div class=' center image-crop'>"+
+                                "   <img class='circle responsive-img' style='width: 145px; height: 145px; border:2px; border-style: solid; border-color: #2b9c9b' src='"+picture+"'>"+
+                                "</div>"+
+                                "<div class='center btn-group'>"+
+                                "<label for='inputImage' class='btn-flat btn-xs btn-primary'>"+
+                                "   <input type='file' accept='image/*' name='file' id='inputImage' class='hide'>"+
+                                "   <i class='icon f7-icons'>add_round</i>"+
+                                "</label>"+
+                                "<button class='btn-flat btn-warning btn-xs close-popup' data-load='index' data-cmd='cancel' type='button'>"+
+                                "   <i class='icon f7-icons'>close_round</i>"+
+                                "</button>"+
+                                "<button class='btn-flat btn-info btn-xs hidden' data-cmd='rotate' data-option='-90' type='button' title='Rotate Left'>"+
+                                "   <i class='icon f7-icons'>undo</i>"+
+                                "</button>"+
+                                "<button class='btn-flat btn-info btn-xs hidden' data-cmd='rotate' data-option='90' type='button' title='Rotate Right'>"+
+                                "   <i class='icon f7-icons'>redo</i>"+
+                                "</button>"+
+                                "<button class='btn-flat btn-danger btn-xs hidden' data-cmd='save' type='button'>"+
+                                "   <i class='icon f7-icons'>check</i>"+
+                                "</button>"+
+                                "</div>"+
+                                "</div>";
+                                console.log("sdsd");
+                $("#profile_picture2").html(content);
+                $('.tooltipped').tooltip({delay: 50});
+              
+                var $inputImage = $("#inputImage");
+                if(window.FileReader){
+                    $inputImage.change(function() {
+                        var fileReader = new FileReader(),
+                                files = this.files,
+                                file;
+
+                        file = files[0];
+
+                        if (/^image\/\w+$/.test(file.type)) {
+                            fileReader.readAsDataURL(file);
+                            fileReader.onload = function () {
+                                $inputImage.val("");
+
+                                var $image = $(".image-crop > img")
+                                $($image).cropper({
+                                    aspectRatio: 1/1,
+                                    autoCropArea: 0.80,
+                                    preview: ".avatar-preview",
+                                    built: function () {
+                                        $("button[data-cmd='save']").removeClass('hidden');
+                                        $("button[data-cmd='rotate']").removeClass('hidden');
+                                        $("button[data-cmd='save']").click(function(){                                          
+                                            $(this).html('Loading..').addClass('disabled');
+                                            console.log("palitan na");
+                                            var ajax = system.ajax(processor+'do-update-image',[data[0],$image.cropper("getDataURL")]);
+                                            ajax.done(function(data){
+                                                if(data == 1){
+                                                    system.notification("Update","Success. Please wait.",false,2000,true,false,function(){
+                                                        app.closeModal('.popup-edit', true);
+                                                        account.ini();
+                                                    });
+                                                    console.log(data);
+                                                }
+                                                else{
+                                                   system.notification("Update","Failed.",false,3000,true,false,false);
+                                                    console.log(data);
+                                                }
+                                            });
+                                        });
+                                    }
+                                });
+
+                                $image.cropper("reset", true).cropper("replace", this.result);
+
+                                $("button[data-cmd='rotate']").click(function(){
+                                    var data = $(this).data('option');
+                                    $image.cropper('rotate', data);
+                                });
+
+                            };
+                        }
+                        else{
+                            showMessage("Please choose an image file.");
+                        }
+                    });
+                }
+                else{
+                    $inputImage.addClass("hide");
+                }
+                $("button[data-cmd='cancel']").click(function(){
+                    app.onPageInit('index',function(page){
+                        console.log('index');
+                        account.ini();
+                    });
+                });
+            });
+		}, 
+        controller:function(data){
+            $$(".card-header a").on('click',function(){
+                console.log(data);
+                $("a").removeClass('color-teal').addClass('color-gray');
+                $(this).removeClass('color-gray').addClass('color-teal');
+            });
+        },   
         account:function(data){
-            $$("#display_givenName").html(data[6]);
-            $$("#display_middleName").html(data[8]);
-            $$("#display_lastName").html(data[7]);
-            $$("#display_gender").html(data[9]);
-            $$("#display_dateOfBirth").html(data[10]);
-            $$("#display_placeOfBirth").html(data[11]);
-            $$("#display_address").html(data[12]);
-            $$("#display_citizenship").html(data[13]);
-            $$("#display_weight").html(data[15]);
-            $$("#display_height").html(data[14]);
-            $$("#display_mother").html(data[16]);
-            $$("#display_father").html(data[17]);
+            console.log(data);
+            var accData = data;
+            $("img.resume").attr({"src":"img/profile/"+accData[23]});
+            // console.log(data);
+            var storedData = app.formStoreData('account', {
+                'GivenName' : accData[6],
+                'MiddleName' : accData[8],
+                'LastName' : accData[7],
+                'Gender' : accData[9],
+                'Age' : accData[10],
+                'DateOfBirth' : accData[11],
+                'PlaceOfBirth' : accData[12],
+                'Address' : accData[13],
+                'Citizenship' : accData[14],
+                'Weight' : accData[15],
+                'Height' : accData[16],
+                'Mother' : accData[17],
+                'Father' : accData[18],
+                'Language' : accData[19],
+                'Religion' : accData[20],
+                'Mother_Occupation' : accData[21],
+                'Father_Occupation' : accData[22]
+            });
+
+            $("a.saveAccount").on('click',function(){
+                 var id = accData[0];
+                var storedData = app.formGetData('account');
+                var accountData = $.map(storedData, function(value, index) {
+                    return [value];
+                });
+                var data = system.ajax(processor+'do-accountResume',[id,accountData]);
+                data.done(function(data){
+                    console.log(data);
+                    if(data != 0){
+                        system.notification("Kareer","Saved",false,2000,true,false,function(){
+                            var update = account.get(id);
+                            account.account(update);
+                        });                        
+                    }
+                })
+            });
+            
+            $("a.home").on('click',function(){
+                var data = $(this).data('load');
+                view.router.loadPage("pages/admin/"+data+".html");
+            });
+
+            app.onPageInit('resume',function(page){
+                // account.controller();
+                resume.ini();
+            });
+
+            app.onPageBack('index',function(page){
+                // account.controller();
+                account.ini();
+            });
+
+            $("a.next").on('click',function(){ 
+                var data = $(this).data('load');
+                view.router.loadPage("pages/admin/"+data+".html");
+                // $("a.career").addClass('disabled');
+                var id = accData[0];
+                var storedData = app.formGetData('account');
+                // console.log(storedData);
+                var accountData = $.map(storedData, function(value, index) {
+                    return [value];
+                });
+                var data = system.ajax(processor+'do-accountResume',[id,accountData]);
+                data.done(function(data){
+                    console.log(data);
+                    if(data != 0){
+                            var update = account.get(id);
+                            account.account(update);
+                            resume.ini();
+                    }
+
+                })
+
+            });
+            app.onPageInit('builderCareer',function(page){
+                career.ini();
+            });
         },
         get:function(id){
             var $data = "";
@@ -249,62 +457,172 @@ Framework7.prototype.plugins.kareer = function (app, params) {
                 $data = data;
             });
             return JSON.parse($data);
+        },
+        show:function(data){
+            $("a[data-cmd='view']").on('click',function(){
+                var data = $(this).data();
+                // console.log(data);
+            });
         }
 	}
 
     var career = {
         ini:function(){
-            console.log("xx");
             var applicantData = JSON.parse(localStorage.getItem('applicant'));
-            var list = career.get(applicantData[0][0]);
+            var list = career.getAll(applicantData[0][0]);
             $$("a[data-cmd='add-career']").on('click',function(){
                 career.add(applicantData[0][0]);
             });
             career.show(list);
-        },
-        add:function(id){
-            var data = system.xml("pages/admin/pages.xml");
-            $(data.responseText).find("div.popup.career").each(function(i,content){
-                app.popup(content);
+            career.delete(list);
 
-                $("#form_career").validate({
-                    rules: {
-                        field_dateFirst: {required: true,maxlength:20},
-                        field_dateLast: {required: true,maxlength:20},
-                        field_position: {required: true,maxlength:100},
-                        field_agency: {required: true,maxlength:100},
-                        field_salary: {required: true,maxlength:100},
-                        field_appointment: {required: true,maxlength:100},
-                    },
-                    errorElement : 'div',
-                    errorPlacement: function(error, element) {
-                        var placement = $(element).data('error');
-                        if(placement){
-                            $(placement).append(error)
-                        } 
-                        else{
-                            error.insertAfter(element);
-                        }
-                    },
-                    submitHandler: function (form) {
-                        var _form = $(form).serializeArray();
-                        var data = system.ajax(processor+'do-career',[id,_form]);
-                        data.done(function(data){
-                            if(data != 0){
-                                $$("input").val("");
-                                system.notification("Kareer","Career Added.",false,2000,true,false,function(){
-                                    app.closeModal('.career', true);
-                                });
-                            }
-                            else{
-                                system.notification("Kareer","Failed.",false,3000,true,false,false);
-                            }
-                        })
-                    }
-                }); 
+            $("a.index").on('click',function(){
+                var data = $(this).data('load');
+                view.router.loadPage("pages/admin/"+data+".html");
+                account.controller(data);
+            });
+
+            app.onPageInit('index',function(page){
+                account.controller();
             });
         },
-        get:function(id){
+        add:function(id){
+            // console.log("othan");
+            $("a.career").addClass('hidden');
+            $("a.add").addClass('hidden');
+            $("div.list").addClass('hidden');
+            $("div.add").removeClass('hidden');
+            $("a.add").addClass('hidden');
+            $("a.goback").removeClass('hidden');
+            // $("a.cancel").addClass('hidden');
+            $("div.toolbar").addClass('hidden');
+
+            let content =`<div class="center">
+                           <form action="" method="POST" id='form_career'>
+                                <div class="list-block">
+                                    <ul>
+                                        <li style='margin-bottom: 10px;margin-top: 10%;'>
+                                            <div class="row center">
+                                                <div class="input-field">
+                                                    <label class="active black-text" style="top: auto; left: 0px; font-size: 17px;">Inclusive dates</label>
+                                                    <div class="col s6">
+                                                        <input type='date' id="field_dateFirst" name="field_dateFirst" class="form-control" placeholder="From" style='border-bottom:1px solid grey;'>
+                                                    </div>
+                                                    <div class="col s6">
+                                                        <input type='date' 'id="field_dateLast" name="field_dateLast" class="form-control" placeholder="To" style='border-bottom:1px solid grey;'>
+                                                    </div>
+                                                </div>                                            
+                                            </div>
+                                        </li>
+                                        <li style='margin-bottom: 10px;margin-top: 10%;'>
+                                            <div class="input-field">
+                                                <input type='text' id="field_position" name="field_position" class="form-control" style='border-bottom:1px solid grey;'>
+                                                <label class="black-text" for="field_position" style="top: -2px; left: 0px;">Position Title</label>
+                                            </div>
+                                        </li>
+                                        <li style='margin-bottom: 10px;margin-top: 10%;'>
+                                            <div class="input-field">
+                                                <input type='text' id="field_agency" name="field_agency" class="form-control" style='border-bottom:1px solid grey;'>
+                                                <label class="black-text" for="field_agency" style="top: -2px !important; left: 0px !important;">Department/Company/Office/Agency</label>
+                                            </div>
+                                        </li>
+                                         <li style='margin-bottom: 10px;margin-top: 10%;'>
+                                            <div class="input-field">
+                                                <input type='text' id="field_salary" name="field_salary" class="form-control" style='border-bottom:1px solid grey;'>
+                                                <label class="black-text" for="field_salary" style="top: -2px !important; left: 0px !important;">Monthly Salary</label>
+                                            </div>
+                                        </li>
+                                        <li style='margin-bottom: 10px;margin-top: 10%;'>
+                                            <div class="input-field">
+                                                <input type='text' id="field_appointment" name="field_appointment" class="form-control" style='border-bottom:1px solid grey;'>
+                                                <label class="black-text" for="field_appointment" style="top: -2px !important; left: 0px !important;">Status of Appointment</label>
+                                            </div>
+                                        </li>
+                                        <li style='margin-bottom: 10px;margin-top: 10%;'>
+                                            <div class="input-field">
+                                                <input type='text' id="field_govt_service" name="field_govt_service" class="form-control" style='border-bottom:1px solid grey;'>
+                                                <label class="black-text" for="field_govt_service" style="top: -2px !important; left: 0px !important;">Gov't Service</label>
+                                            </div>
+                                        </li>
+                                        <li style='margin-bottom: 10px;margin-top: 10%;'>
+                                            <center><button href="#" class='btn-flat btn-large waves-effect waves-teal waves-light color-white' style="border-radius: 30px;width: 100%;height: 56px;font-size: 18px;background-color: #7a5578;text-transform: none;"><strong class="">Save</strong></button></center>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </form>
+                          </div>`;
+            $$("#addCareer").html(content);
+
+            $("a.cancel").on('click',function(){
+                $("div.list").removeClass('hidden');
+                $("div.add").addClass('hidden');
+                $("a.career").removeClass('hidden');
+                $("a.add").removeClass('hidden');
+                $("div.toolbar").removeClass('hidden');
+                // $("a.save").addClass('hidden');
+                // $("a.cancel").addClass('hidden');
+            });
+
+            $("a.goback").on('click',function(){
+                $("div.list").removeClass('hidden');
+                $("div.add").addClass('hidden');
+                $("a.add").removeClass('hidden');
+                $("a.goback").addClass('hidden');
+                $("a.home").removeClass('hidden');
+                // $("a.index").removeClass('hidden');
+                var data = $(this).data('load');
+                view.router.loadPage("pages/admin/"+data+".html");
+            });
+            $("a.home").on('click',function(){
+                var data = $(this).data('load');
+                view.router.loadPage("pages/admin/"+data+".html");
+            });
+            app.onPageInit('builderCareer',function(page){
+                career.ini();
+            });
+            app.onPageInit('career',function(page){
+                career.ini();
+            });
+                
+            $("#form_career").validate({
+                rules: {
+                    field_dateFirst: {required: true,maxlength:20},
+                    field_dateLast: {required: true,maxlength:20},
+                    field_position: {required: true,maxlength:100},
+                    field_agency: {required: true,maxlength:100},
+                    field_salary: {required: true,maxlength:100},
+                    field_appointment: {required: true,maxlength:100},
+                    field_govt_service: {required: true,maxlength:100},
+                },
+                errorElement : 'div',
+                errorPlacement: function(error, element) {
+                    var placement = $(element).data('error');
+                    if(placement){
+                        $(placement).append(error)
+                    } 
+                    else{
+                        error.insertAfter(element);
+                    }
+                },
+                submitHandler: function (form) {
+                    var _form = $(form).serializeArray();
+                    var data = system.ajax(processor+'do-career',[id,_form]);
+                    data.done(function(data){
+                        console.log(data);
+                        if(data != 0){
+                            $$("input").val("");
+                            system.notification("Kareer","Career Added.",false,2000,true,false,function(){
+                                career.ini();
+                            });
+                        }
+                        else{
+                            system.notification("Kareer","Failed.",false,3000,true,false,false);
+                        }
+                    })
+                }
+            });
+        },
+        getAll:function(id){
             var $data = "";
             var jobs = system.ajax(processor+'get-career',id);
             jobs.done(function(data){
@@ -312,20 +630,139 @@ Framework7.prototype.plugins.kareer = function (app, params) {
             });
             return JSON.parse($data);
         },
-        show:function(list){
-            console.log(list);
-            var content = "";
-            $.each(list,function(i,v){
-                content += "<li class='collection-item'>"+
-                            "   <a class='secondary-content' href='#!'><i class='icon f7-icons'>close_round</i></a>"+
-                            "   <span class='title'><strong>"+v[4]+"</strong></span>"+
-                            "   <p>Inclusive Date: "+v[2]+" - "+v[3]+"</p>"+
-                            "   <p>Agency: "+v[5]+"</p>"+
-                            "   <p>Salary: "+v[6]+"</p>"+
-                            "   <p>Status: "+v[7]+"</p>"+
-                            "</li>";
+        get:function(id){
+            var $data = "";
+            var jobs = system.ajax(processor+'do-editCareer',id);
+            jobs.done(function(data){
+                $data = data;
             });
-            $$("#display_career").html("<ul class='collection'>"+content+"</ul");
+            return JSON.parse($data);
+        },
+        show:function(list){
+            var content = "";       
+            $.each(list,function(i,v){
+                content += "<li class='collection-item row'>"+
+                            "   <div class='chip' style = 'width: 10%;'>"+
+                            "   <div class='chip-media bg-blue' style = 'width: 50px !important; height: 50px !important; font-size: 24px;'>"+v[4][0]+"</div>"+
+                            "   </div>"+
+                            "   <div class = 'col 33'>"+
+                            "   <div class='title color-teal' ><strong class ='color-black'>"+v[4]+"</strong></div>"+
+                            "   <div class ='color-teal' ><small class ='color-black'>"+v[2]+" - "+v[3]+"</small></div>"+
+                            "   </div>"+
+                            "   <a class='col 33 right btn btn-floating btn-flat waves-effect waves-teal waves-light' href='#' data-cmd='edit' data-node='"+v[0]+"'><i class='icon small f7-icons color-gray'>chevron_right</i></a>"+
+                            "</li>";
+                $("a.career").removeClass('disabled');
+            });
+
+            $$("#display_career").html("");
+            // $$("a[data-cmd='edit']").on('click',function(){
+            //     var data = $(this).data();
+            //     var id = data.node;
+            //     var c = career.get(id);
+            //     var store = JSON.parse(localStorage.getItem('f7form-form_career'));
+            //     var careerData = $.map(store, function(value, index) {
+            //         return [value];
+            //     });
+            //     console.log(c);
+            //     console.log(store);
+            //     console.log(careerData);
+            //     career.edit(c,careerData);
+                
+            // });
+            $("a.career").on('click',function(){
+                var data = $(this).data('load');
+                view.router.loadPage("pages/admin/"+data+".html");
+            });
+
+            app.onPageInit('builderAcademic',function(page){
+                academic.ini();
+            });
+
+        },
+        delete:function(data){
+            $("a[data-cmd='delete']").on('click',function(){
+                var data = $(this).data();
+                var id = data.node;
+                var content =   "        <ul>"+
+                                "            <li>"+
+                                "                <h5 class = 'center'>Are you sure?"+
+                                "                </h5>"+
+                                "            </li>"+
+                                "            <li>"+
+                                "                <a href='#' class='close-popover btn waves-effect waves-teal waves-light btn btn-flat grey-text white'>Cancel</a>"+
+                                "                <a data-cmd='proceed' class='waves-effect waves-teal waves-light btn btn-flat grey-text white'>Yes</a>"+
+                                "            </li>"+
+                                "        </ul>";
+                $("#deletePopover").html(content);
+                $("a[data-cmd='proceed']").on('click',function(){
+                    var acad = system.ajax(processor+'do-deleteCareer',id);
+                    acad.done(function(data){
+                        console.log(acad);
+                            if(data != 0){
+                                system.notification("Kareer","Success. Please wait.",false,2000,true,false,function(){
+                                    app.closeModal('.popover-delete', true);
+                                    app.closeModal('.popup career', true);
+                                    // $("a.career").addClass('disabled');
+                                    career.ini();
+                                });
+
+                            }
+                            else{
+                                system.notification("Kareer","Failed.",false,3000,true,false,false);
+                            }
+                    });
+                });
+            });
+        },
+        edit:function(c,careerData){
+            // console.log(c);
+            var initial = c;
+            var current = careerData;
+            var storedData = app.formStoreData('form_career',{
+                    'field_dateFirst' : c[0][2],
+                    'field_dateLast' : c[0][3],
+                    'field_position' : c[0][4],
+                    'field_agency' : c[0][5],
+                    'field_salary' : c[0][6],
+                    'field_appointment' : c[0][7],
+                    'field_govt_service' : c[0][8]
+            }); 
+            $("div.toolbar").addClass('hidden');
+            $("a.career").addClass('hidden');
+            $("a.add").addClass('hidden');
+            $("a.save").removeClass('hidden');
+            $("a.cancel").removeClass('hidden');
+            $("div.list").addClass('hidden');
+            $("div.edit").removeClass('hidden');
+            $("div.input-field").addClass('not-empty-state');
+            $("input.form-control").addClass('not-empty-state');
+            $("label").addClass('active');
+
+            $("a.cancel").on('click',function(){
+
+                $("div.edit").addClass('hidden');
+                $("div.add").addClass('hidden');
+                $("a.save").addClass('hidden');
+                $("a.cancel").addClass('hidden');                
+                $("a.career").removeClass('hidden');
+                $("a.add").removeClass('hidden');
+                $("div.list").removeClass('hidden');
+                $("div.toolbar").removeClass('hidden');
+                var list = career.getAll(c[0][1]);
+                career.show(list);
+                // localStorage.removeItem('f7form-form_career','');
+
+                // // if(storedData){
+                // console.log(storedData);
+                // // }
+            });
+
+            $("a.save").on('click',function(){              
+                var storedData = app.formGetData('form_career');
+                if(storedData){
+                // console.log(storedData);
+                }
+            });
         }
     }
 
@@ -333,52 +770,149 @@ Framework7.prototype.plugins.kareer = function (app, params) {
         ini:function(){
             var applicantData = JSON.parse(localStorage.getItem('applicant'));
             var list = academic.get(applicantData[0][0]);
-            $$("a[data-cmd='add-career']").on('click',function(){
+            $$("a[data-cmd='add-academic']").on('click',function(){
                 academic.add(applicantData[0][0]);
             });
             academic.show(list);
+            academic.delete(list);
+
+            $("a.home").on('click',function(){
+                var data = $(this).data('load');
+                view.router.loadPage("pages/admin/"+data+".html");
+                account.controller(data);
+            });
+
+            app.onPageInit('index',function(page){
+                account.controller();
+            });
         },
         add:function(id){
-            var data = system.xml("pages/admin/pages.xml");
-            $(data.responseText).find("div.popup.academic").each(function(i,content){
-                app.popup(content);
-                $('select').material_select();
-                $("#form_academic").validate({
-                    rules: {
-                        field_yearLevel: {required: true,maxlength:20},
-                        field_school: {required: true,maxlength:20},
-                        field_degree: {required: true,maxlength:100},
-                        field_dateFirst: {required: true,maxlength:100},
-                        field_dateLast: {required: true,maxlength:100},
-                    },
-                    errorElement : 'div',
-                    errorPlacement: function(error, element) {
-                        var placement = $(element).data('error');
-                        if(placement){
-                            $(placement).append(error)
-                        } 
-                        else{
-                            error.insertAfter(element);
-                        }
-                    },
-                    submitHandler: function (form) {
-                        var _form = $(form).serializeArray();
-                        var data = system.ajax(processor+'do-academic',[id,_form]);
-                        data.done(function(data){
-                            console.log(data);
-                            if(data != 0){
-                                $$("input").val("");
-                                system.notification("Kareer","Academic Added.",false,2000,true,false,function(){
-                                    app.closeModal('.academic', true);
-                                });
-                            }
-                            else{
-                                system.notification("Kareer","Failed.",false,3000,true,false,false);
-                            }
-                        })
-                    }
-                }); 
+            console.log("sdfsd");
+            // $("a.career").addClass('hidden');
+            $("a.add").addClass('hidden');
+            $("div.lists").addClass('hidden');
+            $("div.add").removeClass('hidden');
+            $("a.goback").removeClass('hidden');
+            // $("a.cancel").addClass('hidden');
+            // $("div.toolbar").addClass('hidden');
+
+            let content = `<div class="center">
+                            <form action="" method="POST" id='form_academic'>
+                                <div class="list-block">
+                                    <ul>
+                                        <li>
+                                            <div class="input-field" style='border:1px solid black;border-radius:15px;margin-top:10%;'>
+                                                <center><select id="field_yearLevel" name="field_yearLevel">
+                                                    <option active> </option>
+                                                    <option value="Elementary" style='background-color:blue;'>ELEMENTARY</option>
+                                                    <option value="High School" style='background-color:blue;'>HIGH SCHOOL</option>
+                                                    <option value="Vocational" style='background-color:blue;'>VOCATIONAL</option>
+                                                    <option value="College">COLLEGE</option>
+                                                    <option value="Masteral">MASTERAL</option>
+                                                    <option value="Doctoral">DOCTORAL</option>
+                                                </select></center>
+                                            </div>
+                                        </li>
+
+                                        <li style='margin-top:10%;'>
+                                            <div class="input-field">
+                                                <input type='text' id="field_school" name="field_school" class="form-control" style='border-bottom:1px solid #f3f3f3;'>
+                                                <label class="" for="field_school" style="top: -2px !important; left: 0px !important;color:black;">Name of Schools</label>
+                                            </div>
+                                        </li>
+                                        <li style='margin-top:10%;'>
+                                            <div class="input-field">
+                                                <input type='text' id="field_degree" name="field_degree" class="form-control" style='border-bottom:1px solid #f3f3f3;'>
+                                                <label class="" for="field_degree" style="top: -2px !important; left: 0px !important;color:black;">Basic Education/Degree/Course</label>
+                                            </div>
+                                        </li>
+                                         <li style='margin-top:5%;'>
+                                            <div class="row">
+                                             <span class="active">Period of Attendance</span>
+                                                <div class="input-field">
+                                                   
+                                                    <div class="col s5">
+                                                        <input type='date' id="field_dateFirst" name="field_dateFirst" class="form-control" placeholder="From" style='border-bottom:1px solid #f3f3f3;font-size:14px;'>
+                                                    </div>
+                                                    <div class="col s2">
+                                                        <span style='border:none;font-size:15px;'><center>to</center></span>
+                                                    </div>
+                                                    <div class="col s5">
+                                                        <input type='date' id="field_dateLast" name="field_dateLast" class="form-control" placeholder="To" style='border-bottom:1px solid #f3f3f3;font-size:14px;'>
+                                                    </div>
+                                                </div>                                            
+                                            </div>
+                                        </li>
+                                        <li style='margin-top:10%;'>
+                                            <div class="input-field">
+                                                <input type='text' id="field_units" name="field_units" class="form-control" style='border-bottom:1px solid #f3f3f3;'>
+                                                <label class="" for="field_units" style="top: -2px !important; left: 0px !important;color:black;">Highest Level</label>
+                                            </div>
+                                        </li>
+                                        <li style='margin-top:10%;'>
+                                            <div class="input-field">
+                                                <input type='text' id="field_units" name="field_units" class="form-control" style='border-bottom:1px solid #f3f3f3;'>
+                                                <label class="" for="field_units" style="top: -2px !important; left: 0px !important;color:black;">Year Graduated</label>
+                                            </div>
+                                        </li>
+                                        <li style="margin-top: 7% !important;">
+                                            <center><button href="#" class='btn-flat btn-large waves-effect waves-teal waves-light color-white' style="margin-top:20%;border-radius: 30px;width: 100%;height: 56px;font-size: 18px;background-color: #7a5578;text-transform: none;"><strong class="">Save</strong></button></center>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </form>
+                          </div>`;
+
+            $$("#display_academic").html(content);
+            $('select').material_select('close');
+            $("a.cancel").on('click',function(){
+                $("div.list").removeClass('hidden');
+                $("div.add").addClass('hidden');
+                $("a.academic").removeClass('hidden');
+                $("a.add").removeClass('hidden');
+                $("div.toolbar").removeClass('hidden');
+                $("a.save").addClass('hidden');
+                $("a.cancel").addClass('hidden');
             });
+
+
+
+            $("#form_academic").validate({
+                rules: {
+                    field_yearLevel: {required: true,maxlength:20},
+                    field_school: {required: true,maxlength:100},
+                    field_degree: {required: true,maxlength:100},
+                    field_dateFirst: {required: true,maxlength:100},
+                    field_dateLast: {required: true,maxlength:100},
+                },
+                errorElement : 'div',
+                errorPlacement: function(error, element) {
+                    var placement = $(element).data('error');
+                    if(placement){
+                        $(placement).append(error)
+                    } 
+                    else{
+                        error.insertAfter(element);
+                    }
+                },
+                submitHandler: function (form) {
+                    var _form = $(form).serializeArray();
+                    console.log(_form);
+                    var data = system.ajax(processor+'do-academic',[id,_form]);
+                    data.done(function(data){
+                        console.log(data);
+                        if(data != 0){
+                            $$("input").val("");
+                            system.notification("Kareer","Academic Added.",false,2000,true,false,function(){
+                                academic.ini();
+                            });
+                        }
+                        else{
+                            system.notification("Kareer","Failed.",false,3000,true,false,false);
+                        }
+                    })
+                }
+            }); 
         },
         get:function(id){
             var $data = "";
@@ -391,19 +925,724 @@ Framework7.prototype.plugins.kareer = function (app, params) {
         show:function(list){
             var content = "";
             $.each(list,function(i,v){
-                content += "<li class='collection-item'>"+
-                            "   <a class='secondary-content' href='#!'><i class='icon f7-icons'>close_round</i></a>"+
-                            "   <span class='title'><strong>"+v[2]+"</strong></span>"+
-                            "   <p>Name of School: "+v[3]+"</p>"+
-                            "   <p>Degree: "+v[4]+"</p>"+
-                            "   <p>Units Earned: "+v[6]+"</p>"+
-                            "   <p>Period of Attendance: "+v[5]+"</p>"+
-                            "   <p>Year Graduated: "+v[7]+"</p>"+
+                content += "<li class='collection-item row'>"+
+                            "   <div class='chip' style = 'width: 10%;'>"+
+                            "   <div class='chip-media bg-blue' style = 'width: 50px !important; height: 50px !important; font-size: 24px;'>"+v[2][0]+"</div>"+
+                            "   </div>"+
+                            "   <div class = 'col 33'>"+
+                            "   <div class='title color-teal' ><strong class ='color-black'>"+v[2]+"</strong></div>"+
+                            "   <div class ='color-teal' ><small class ='color-black'>"+v[5]+"</small></div>"+
+                            "   </div>"+
+                            "   <a class='col 33 right btn btn-floating btn-flat waves-effect waves-teal waves-light' href='#' data-cmd='edit' data-node='"+v[0]+"'><i class='icon small f7-icons color-gray'>chevron_right</i></a>"+
                             "</li>";
+
+                    $("a.academic").removeClass('disabled');
             });
-            console.log(content);
-            $("#display_academic").html("<ul class='collection'>"+content+"</ul");
+            $$("#display_academic").html("");
+
+
+            $("a.academic").on('click',function(){
+                var data = $(this).data('load');
+                view.router.loadPage("pages/admin/"+data+".html");
+            });
+
+            app.onPageInit('builderSkills',function(page){
+                skills.ini();
+            });
+
+        },
+        delete:function(data){
+            $("a[data-cmd='delete']").on('click',function(){
+                var data = $(this).data();
+                var id = data.node;
+                var content =   "        <ul>"+
+                                "            <li>"+
+                                "                <h5 class = 'center'>Are you sure?"+
+                                "                </h5>"+
+                                "            </li>"+
+                                "            <li>"+
+                                "                <a href='#' class='close-popover btn waves-effect waves-teal waves-light btn btn-flat grey-text white'>Cancel</a>"+
+                                "                <a data-cmd='proceed' class='waves-effect waves-teal waves-light btn btn-flat grey-text white'>Yes</a>"+
+                                "            </li>"+
+                                "        </ul>";
+                $("#deletePopover").html(content);
+                $("a[data-cmd='proceed']").on('click',function(){
+                    var acad = system.ajax(processor+'do-deleteAcad',id);
+                    acad.done(function(data){
+                        console.log(acad);
+                            if(data != 0){
+                                system.notification("Kareer","Success. Please wait.",false,2000,true,false,function(){
+                                    app.closeModal('.popover-delete', true);
+                                    academic.ini();
+                                });
+
+                            }
+                            else{
+                                system.notification("Kareer","Failed.",false,3000,true,false,false);
+                            }
+                    });
+                });
+            });
         }
+    }
+
+    let skills = {
+        ini:function(){
+            var applicantData = JSON.parse(localStorage.getItem('applicant'));
+            var list = skills.get(applicantData[0][0]);
+            $$("a[data-cmd='add-skills']").on('click',function(){
+                skills.add(applicantData[0][0]);
+            });
+            skills.show(list);
+            // skills.delete(list);
+
+            $("a.home").on('click',function(){
+                var data = $(this).data('load');
+                view.router.loadPage("pages/admin/"+data+".html");
+                account.controller(data);
+            });
+
+            app.onPageInit('index',function(page){
+                account.controller();
+            });
+        },
+        get:function(id){
+            var $data = "";
+            var jobs = system.ajax(processor+'get-skills',id);
+            jobs.done(function(data){
+                $data = data;
+            });
+            return JSON.parse($data);
+        },
+        add:function(id){
+            $("a.skills").addClass('hidden');
+            $("a.add").addClass('hidden');
+            $("div.list").addClass('hidden');
+            $("div.add").removeClass('hidden');
+            $("a.add").addClass('hidden');
+            $("a.goback").removeClass('hidden');
+            $("div.toolbar").addClass('hidden');
+
+            $('select').material_select('close');
+            $("a.cancel").on('click',function(){
+                $("div.list").removeClass('hidden');
+                $("div.add").addClass('hidden');
+                $("a.skills").removeClass('hidden');
+                $("a.add").removeClass('hidden');
+                $("div.toolbar").removeClass('hidden');
+            });
+
+            $("#form_skills").validate({
+                rules: {
+                    field_skill: {required: true,maxlength:100},
+                    field_level: {required: true,maxlength:50}
+                },
+                errorElement : 'div',
+                errorPlacement: function(error, element) {
+                    var placement = $(element).data('error');
+                    if(placement){
+                        $(placement).append(error)
+                    } 
+                    else{
+                        error.insertAfter(element);
+                    }
+                },
+                submitHandler: function (form) {
+                    var _form = $(form).serializeArray();
+                    console.log(_form);
+                    var data = system.ajax(processor+'do-skill',[id,_form]);
+                    data.done(function(data){
+                        console.log(data);
+                        if(data != 0){
+                            $$("input").val("");
+                            system.notification("Kareer","Skill Added.",false,2000,true,false,function(){
+                                skills.ini();
+                            });
+                        }
+                        else{
+                            system.notification("Kareer","Failed.",false,3000,true,false,false);
+                        }
+                    })
+                }
+            }); 
+        },
+        show:function(list){
+            var content = "";
+            $.each(list,function(i,v){
+                content += "<li class='collection-item row'>"+
+                            "   <div class='chip' style = 'width: 10%;'>"+
+                            "   <div class='chip-media bg-blue' style = 'width: 50px !important; height: 50px !important; font-size: 24px;'>"+v[2][0]+"</div>"+
+                            "   </div>"+
+                            "   <div class = 'col 33'>"+
+                            "   <div class='title color-teal' ><strong class ='color-black'>"+v[2]+"</strong></div>"+
+                            "   <div class ='color-teal' ><small class ='color-black'>"+v[3]+"</small></div>"+
+                            "   </div>"+
+                            "   <a class='col 33 right btn btn-floating btn-flat waves-effect waves-teal waves-light' href='#' data-cmd='edit' data-node='"+v[0]+"'><i class='icon small f7-icons color-gray'>chevron_right</i></a>"+
+                            "</li>";
+
+                    $("a.skills").removeClass('disabled');
+            });
+            $$("#display_skills").html("<ul class='collection'>"+content+"</ul");
+
+            $("a.skills").on('click',function(){
+                var data = $(this).data('load');
+                view.router.loadPage("pages/admin/"+data+".html");
+            });
+            app.onPageInit('builderLanguage',function(page){
+                language.ini();
+            });
+        },
+    }
+
+    let language = {
+        ini:function(){
+            var applicantData = JSON.parse(localStorage.getItem('applicant'));
+            var list = language.get(applicantData[0][0]);
+            $$("a[data-cmd='add-language']").on('click',function(){
+                language.add(applicantData[0][0]);
+            });
+            language.show(list);
+            // skills.delete(list);
+
+            $("a.home").on('click',function(){
+                var data = $(this).data('load');
+                view.router.loadPage("pages/admin/"+data+".html");
+                account.controller(data);
+            });
+
+            app.onPageInit('index',function(page){
+                account.controller();
+            });
+        },
+        get:function(id){
+            var $data = "";
+            var jobs = system.ajax(processor+'get-language',id);
+            jobs.done(function(data){
+                $data = data;
+            });
+            return JSON.parse($data);
+        },
+        add:function(id){
+            $("a.language").addClass('hidden');
+            $("a.add").addClass('hidden');
+            $("div.list").addClass('hidden');
+            $("div.add").removeClass('hidden');
+            $("a.add").addClass('hidden');
+            $("a.goback").removeClass('hidden');
+            $("div.toolbar").addClass('hidden');
+
+            $('select').material_select('close');
+            $("a.cancel").on('click',function(){
+                $("div.list").removeClass('hidden');
+                $("div.add").addClass('hidden');
+                $("a.language").removeClass('hidden');
+                $("a.add").removeClass('hidden');
+                $("div.toolbar").removeClass('hidden');
+            });
+
+            $("#form_language").validate({
+                rules: {
+                    field_skill: {required: true,maxlength:100},
+                    field_level: {required: true,maxlength:50}
+                },
+                errorElement : 'div',
+                errorPlacement: function(error, element) {
+                    var placement = $(element).data('error');
+                    if(placement){
+                        $(placement).append(error)
+                    } 
+                    else{
+                        error.insertAfter(element);
+                    }
+                },
+                submitHandler: function (form) {
+                    var _form = $(form).serializeArray();
+                    console.log(_form);
+                    var data = system.ajax(processor+'do-language',[id,_form]);
+                    data.done(function(data){
+                        console.log(data);
+                        if(data != 0){
+                            $$("input").val("");
+                            system.notification("Kareer","Language Added.",false,2000,true,false,function(){
+                                language.ini();
+                            });
+                        }
+                        else{
+                            system.notification("Kareer","Failed.",false,3000,true,false,false);
+                        }
+                    })
+                }
+            }); 
+        },
+        show:function(list){
+            var content = "";
+            $.each(list,function(i,v){
+                content += "<li class='collection-item row'>"+
+                            "   <div class='chip' style = 'width: 10%;'>"+
+                            "   <div class='chip-media bg-blue' style = 'width: 50px !important; height: 50px !important; font-size: 24px;'>"+v[2][0]+"</div>"+
+                            "   </div>"+
+                            "   <div class = 'col 33'>"+
+                            "   <div class='title color-teal' ><strong class ='color-black'>"+v[2]+"</strong></div>"+
+                            "   <div class ='color-teal' ><small class ='color-black'>"+v[3]+"</small></div>"+
+                            "   </div>"+
+                            "   <a class='col 33 right btn btn-floating btn-flat waves-effect waves-teal waves-light' href='#' data-cmd='edit' data-node='"+v[0]+"'><i class='icon small f7-icons color-gray'>chevron_right</i></a>"+
+                            "</li>";
+
+                    $("a.language").removeClass('disabled');
+            });
+            $$("#display_language").html("<ul class='collection'>"+content+"</ul");
+
+            $("a.language").on('click',function(){
+                var data = $(this).data('load');
+                view.router.loadPage("pages/admin/"+data+".html");
+            });
+            app.onPageInit('builderReferences',function(page){
+                references.ini();
+            });
+        },
+    }
+
+    let references = {
+        ini:function(){
+            var applicantData = JSON.parse(localStorage.getItem('applicant'));
+            var list = references.get(applicantData[0][0]);
+            $$("a[data-cmd='add-references']").on('click',function(){
+                references.add(applicantData[0][0]);
+            });
+            references.show(list);
+
+            $("a.home").on('click',function(){
+                var data = $(this).data('load');
+                view.router.loadPage("pages/admin/"+data+".html");
+                account.controller(data);
+            });
+
+            app.onPageInit('index',function(page){
+                account.controller();
+            });
+        },
+        get:function(id){
+            var $data = "";
+            var jobs = system.ajax(processor+'get-references',id);
+            jobs.done(function(data){
+                $data = data;
+            });
+            return JSON.parse($data);
+        },
+        add:function(id){
+            $("a.references").addClass('hidden');
+            $("a.add").addClass('hidden');
+            $("div.list").addClass('hidden');
+            $("div.add").removeClass('hidden');
+            $("a.add").addClass('hidden');
+            $("a.goback").removeClass('hidden');
+            $("div.toolbar").addClass('hidden');
+
+
+            $("a.cancel").on('click',function(){
+                $("div.list").removeClass('hidden');
+                $("div.add").addClass('hidden');
+                $("a.references").removeClass('hidden');
+                $("a.add").removeClass('hidden');
+                $("div.toolbar").removeClass('hidden');
+            });
+
+            $("#form_references").validate({
+                rules: {
+                    field_name: {required: true,maxlength:100},
+                    field_relationship: {required: true,maxlength:100},
+                    field_profession: {required: true,maxlength:100},
+                    field_email: {required: true,maxlength:100},
+                    field_phone: {required: true,maxlength:100},
+                    field_address1: {required: true,maxlength:100},
+                    // field_address2: {maxlength:100}
+                },
+                errorElement : 'div',
+                errorPlacement: function(error, element) {
+                    var placement = $(element).data('error');
+                    if(placement){
+                        $(placement).append(error)
+                    } 
+                    else{
+                        error.insertAfter(element);
+                    }
+                },
+                submitHandler: function (form) {
+                    var _form = $(form).serializeArray();
+                    console.log(_form);
+                    var data = system.ajax(processor+'do-references',[id,_form]);
+                    data.done(function(data){
+                        console.log(data);
+                        if(data != 0){
+                            $$("input").val("");
+                            system.notification("Kareer","References Added.",false,2000,true,false,function(){
+                                references.ini();
+                            });
+                        }
+                        else{
+                            system.notification("Kareer","Failed.",false,3000,true,false,false);
+                        }
+                    })
+                }
+            }); 
+        },
+        show:function(list){
+            var content = "";
+            $.each(list,function(i,v){
+                content += "<li class='collection-item row'>"+
+                            "   <div class='chip' style = 'width: 10%;'>"+
+                            "   <div class='chip-media bg-blue' style = 'width: 50px !important; height: 50px !important; font-size: 24px;'></div>"+
+                            "   </div>"+
+                            "   <div class = 'col 33'>"+
+                            "   <div class='title color-teal' ><strong class ='color-black'>"+v[2]+"</strong></div>"+
+                            "   <div class ='color-teal' ><small class ='color-black'>"+v[7]+"</small></div>"+
+                            "   </div>"+
+                            "   <a class='col 33 right btn btn-floating btn-flat waves-effect waves-teal waves-light' href='#' data-cmd='edit' data-node='"+v[0]+"'><i class='icon small f7-icons color-gray'>chevron_right</i></a>"+
+                            "</li>";
+
+                    $("a.references").removeClass('disabled');
+            });
+            $$("#display_references").html("<ul class='collection'>"+content+"</ul");
+
+            $("a.references").on('click',function(){
+                var data = $(this).data('load');
+                view.router.loadPage("pages/admin/"+data+".html");
+            });
+            app.onPageInit('builderSeminar',function(page){
+                seminar.ini();
+            });
+        },
+    }
+
+    let seminar = {
+        ini:function(){
+            var applicantData = JSON.parse(localStorage.getItem('applicant'));
+            var list = seminar.get(applicantData[0][0]);
+            $$("a[data-cmd='add-seminar']").on('click',function(){
+                seminar.add(applicantData[0][0]);
+            });
+            seminar.show(list);
+
+            $("a.home").on('click',function(){
+                var data = $(this).data('load');
+                view.router.loadPage("pages/admin/"+data+".html");
+                account.controller(data);
+            });
+
+            app.onPageInit('index',function(page){
+                account.controller();
+            });
+        },
+        get:function(id){
+            var $data = "";
+            var jobs = system.ajax(processor+'get-seminar',id);
+            jobs.done(function(data){
+                $data = data;
+            });
+            return JSON.parse($data);
+        },
+        add:function(id){
+            $("a.seminar").addClass('hidden');
+            $("a.add").addClass('hidden');
+            $("div.list").addClass('hidden');
+            $("div.add").removeClass('hidden');
+            $("a.add").addClass('hidden');
+            $("a.goback").removeClass('hidden');
+            $("div.toolbar").addClass('hidden');
+
+
+            $("a.cancel").on('click',function(){
+                $("div.list").removeClass('hidden');
+                $("div.add").addClass('hidden');
+                $("a.seminar").removeClass('hidden');
+                $("a.add").removeClass('hidden');
+                $("div.toolbar").removeClass('hidden');
+            });
+
+            $("#form_seminars").validate({
+                rules: {
+                    field_event: {required: true,maxlength:100},
+                    field_location: {required: true,maxlength:100},
+                    field_date: {required: true,maxlength:100}
+                },
+                errorElement : 'div',
+                errorPlacement: function(error, element) {
+                    var placement = $(element).data('error');
+                    if(placement){
+                        $(placement).append(error)
+                    } 
+                    else{
+                        error.insertAfter(element);
+                    }
+                },
+                submitHandler: function (form) {
+                    var _form = $(form).serializeArray();
+                    console.log(_form);
+                    var data = system.ajax(processor+'do-seminar',[id,_form]);
+                    data.done(function(data){
+                        console.log(data);
+                        if(data != 0){
+                            $$("input").val("");
+                            system.notification("Kareer","seminar Added.",false,2000,true,false,function(){
+                                seminar.ini();
+                            });
+                        }
+                        else{
+                            system.notification("Kareer","Failed.",false,3000,true,false,false);
+                        }
+                    })
+                }
+            }); 
+        },
+        show:function(list){
+            var content = "";
+            $.each(list,function(i,v){
+                content += "<li class='collection-item row'>"+
+                            "   <div class='chip' style = 'width: 10%;'>"+
+                            "   <div class='chip-media bg-blue' style = 'width: 50px !important; height: 50px !important; font-size: 24px;'></div>"+
+                            "   </div>"+
+                            "   <div class = 'col 33'>"+
+                            "   <div class='title color-teal' ><strong class ='color-black'>"+v[2]+"</strong></div>"+
+                            "   <div class ='color-teal' ><small class ='color-black'>"+v[3]+"</small></div>"+
+                            "   </div>"+
+                            "   <a class='col 33 right btn btn-floating btn-flat waves-effect waves-teal waves-light' href='#' data-cmd='edit' data-node='"+v[0]+"'><i class='icon small f7-icons color-gray'>chevron_right</i></a>"+
+                            "</li>";
+
+                    $("a.seminar").removeClass('disabled');
+            });
+            $$("#display_seminars").html("<ul class='collection'>"+content+"</ul");
+
+            $("a.seminar").on('click',function(){
+                var data = $(this).data('load');
+                view.router.loadPage("pages/admin/"+data+".html");
+            });
+            app.onPageInit('resumePreview',function(page){
+                resume.page();
+            });
+        },
+    }
+
+    let resume ={
+        ini:function(){
+            var applicantData = JSON.parse(localStorage.getItem('applicant'));
+            var data = resume.get(applicantData[0][0]);
+            let content =   `<div><img src="./img/015-test.png" style="width: 200px; position: relative; margin-top: 80px;" ></div>
+                            <br /><p><center style="font-size: 18px;">Make my Resume</center></p>
+                            <div class="center">
+                                <div style='margin-top:14%;'></div>
+                                <center><a href="#" data-load ='builderAccount' class="resume btn btn-large white-text waves-effect waves-teal waves-light" style="border-radius: 30px;width: 90%;height: 56px;font-size: 18px;background-color: #54b3af;text-transform: none;"><strong class="">Create Rusume</strong></a></center>
+                                <div style='margin-top:3%;'></div>
+                                <center><a href="#" data-load ='SavedResume' class="resume btn btn-large white-text waves-effect waves-purple waves-light" style="border-radius: 30px;width: 90%;height: 56px;font-size: 18px;background-color: #7a5578;text-transform: none;"><strong class="">Saved Resume</strong></a></center>
+                                <div style='margin-top:3%;'></div>
+                                <center><a href="#" data-load ='UploadResume' class="resume btn btn-large black-text waves-effect waves-purple waves-light" style="border-radius: 30px;width: 90%;height: 56px;font-size: 18px;background-color: white;text-transform: none;border:1px solid black;"><strong class="">Upload Resume</strong></a></center>
+                            </div>`;
+            $$("#resume_builder").html(content);
+
+            $("a.resume").on('click',function(){
+                var data = $(this).data('load');
+                view.router.loadPage("pages/admin/"+data+".html");
+            });
+
+            $("a.home").on('click',function(){
+                var data = $(this).data('load');
+                view.router.loadPage("pages/admin/"+data+".html");
+            });
+
+            app.onPageInit('builderAccount',function(page){
+                console.log('page'); 
+                $("a.acc").removeClass('color-grey').addClass('color-white');
+                account.account(data);
+
+            });
+            app.onPageInit('SavedResume',function(page){
+                console.log('page');
+                resume.savedResume();
+            });
+
+
+            app.onPageInit('index',function(page){
+                account.controller();
+            });
+        },
+        get:function(id){
+            var $data = "";
+            var jobs = system.ajax(processor+'get-applicant',id);
+            jobs.done(function(data){
+                $data = data;
+            });
+            return JSON.parse($data);
+        },
+        savedResume:function(){
+            $("a.home").on('click',function(){
+                var data = $(this).data('load');
+                view.router.loadPage("pages/admin/"+data+".html");
+                // console.log("dfdfdd");
+            });
+
+            app.onPageInit('resume',function(page){
+                account.controller();
+                resume.ini();
+            });
+        },
+        page:function(){
+            $("a.preview").on('click',function(){
+                var data = $(this).data('load');
+                view.router.loadPage("pages/admin/"+data+".html");
+            });
+
+            app.onPageInit('builderSeminar',function(page){
+                seminar.ini();
+            });
+            app.onPageInit('Preview',function(page){
+                resume.preview();
+            });
+        },
+        preview:function(){
+            $("a.home").on('click',function(){
+                var data = $(this).data('load');
+                view.router.loadPage("pages/admin/"+data+".html");
+            });
+            app.onPageInit('resumePreview',function(page){
+                resume.page();
+            });
+
+            var applicantData = JSON.parse(localStorage.getItem('applicant'));
+            var personalInfo = account.get(applicantData[0][0]);
+
+            $$("#display_fullname strong").html(personalInfo[7]+","+personalInfo[6]+" "+personalInfo[8]);
+            $$("#display_address small").html(personalInfo[12]);
+            $$("#display_phone small").html("09123456789");
+            $$("#display_email small").html(personalInfo[3]);
+
+            var personalcontent = "<div class='col s6'>"+
+                                  "   <div >Date of Birth: <span class ='color-black'>"+personalInfo[10]+"</span></div>"+
+                                  "   <div >Age: <span class ='color-black'></span></div>"+
+                                  "   <div >Mother: <span class ='color-black'>"+personalInfo[16]+"</span></div>"+
+                                  "   <div >Father: <span class ='color-black'>"+personalInfo[17]+"</span></div>"+
+                                  "   <div >Religion: <span class ='color-black'></span></div>"+
+                                  "   <div >Citizenship: <span class ='color-black'>"+personalInfo[13]+"</span></div>"+
+                                  "</div>"+
+                                  "<div class='col s6'>"+
+                                  "   <div >Place of Birth: <span class ='color-black'>"+personalInfo[11]+"</span></div>"+
+                                  "   <div >Gender: <span class ='color-black'>"+personalInfo[9]+"</span></div>"+
+                                  "   <div >Occupation: <span class ='color-black'></span></div>"+
+                                  "   <div >Occupation: <span class ='color-black'></span></div>"+
+                                  "   <div >Language: <span class ='color-black'>"+personalInfo[18]+"</span></div>"+
+                                  "   <div >Height: <span class ='color-black'>"+personalInfo[14]+"</span></div>"+
+                                  "   <div >Weight: <span class ='color-black'>"+personalInfo[15]+"</span></div>"+
+                                  "</div>";
+            $$("#display_personalInfo").html(personalcontent);
+
+            var acad = academic.get(applicantData[0][0]);
+            var acadcontent = "";
+            $.each(acad,function(i,v){
+                acadcontent +=  "<span class='title'><strong class ='color-black'>"+v[2]+"</strong></span>"+
+                            "   <div >Name of School: <span class ='color-black'>"+v[3]+"</span></div>"+
+                            "   <div >Period of Attendance: <span class ='color-black'>"+v[5]+"</span></div>"+
+                            "   <div >Year Graduated: <span class ='color-black'>"+v[7]+"</span></div>";
+            });
+            $$("#display_academic").html(acadcontent);
+
+            var car = career.getAll(applicantData[0][0]);
+            var carcontent = "";
+            $.each(car,function(i,v){
+                carcontent +=   "   <span class='title'><strong class ='color-black'>"+v[4]+"</strong></span>"+
+                                "   <div><span class ='color-black'>"+v[2]+" - "+v[3]+"</span></div>"+
+                                "   <div><span class ='color-black'>"+v[5]+"</span></div>";
+            });
+            $$("#display_career").html(carcontent);
+
+            var skill = skills.get(applicantData[0][0]);
+            var skillcontent = "";
+            $.each(skill,function(i,v){
+                skillcontent += "   <span class='title'><strong class ='color-black'>"+v[2]+"</strong></span>"+
+                                "   <div><span class ='color-black'>"+v[3]+"</span></div>";
+            });
+            $$("#display_skills").html(skillcontent);
+
+            var sem = seminar.get(applicantData[0][0]);
+            var semcontent = "";
+            $.each(sem,function(i,v){
+                semcontent +=  "<span class='title'><strong class ='color-black'>"+v[2]+"</strong></span>"+
+                            "   <div><span class ='color-black'>"+v[3]+"</span></div>"+
+                            "   <div><span class ='color-black'>"+v[4]+"</span></div>";
+            });
+            $$("#display_seminar").html(semcontent);
+
+            var reference = references.get(applicantData[0][0]);
+            var refcontent = "";
+            $.each(reference,function(i,v){
+                refcontent += "   <span class='title'><strong class ='color-black'>"+v[2]+"</strong></span>"+
+                              "   <div><span class ='color-black'>"+v[4]+"</span></div>"+
+                              "   <div><span class ='color-black'>"+v[5]+"</span></div>"+
+                              "   <div><span class ='color-black'>"+v[7]+"</span></div>";
+            });
+            $$("#display_references").html(refcontent);
+
+            //PDF generation function
+            (function () {  
+                var  
+                 form = $('.list-block'),  
+                 cache_width = form.width(),  
+                 legal = [595.28, 975]; // for legal size paper width and height  
+          
+                $('#create_pdf').on('click', function () {  
+                    $('body').scrollTop(0);  
+                    var data = $(this).data('load');
+                    view.router.loadPage("pages/admin/"+data+".html");
+                    createPDF();
+                    upload();
+
+                });  
+                //create pdf  
+                function createPDF() {  
+                    getCanvas().then(function (canvas) {  
+                        var  
+                         img = canvas.toDataURL("image/png"),  
+                         doc = new jsPDF({  
+                             unit: 'px',  
+                             format: 'legal'  
+                         });  
+                        doc.addImage(img, 'JPEG', 3, 3);  
+                        doc.save('resume.pdf');
+                        form.width(cache_width);
+                    });  
+                }  
+          
+                // create canvas object  
+                function getCanvas() {  
+                    form.width((legal[0] * 1.33333) - 80).css('max-width', 'none');  
+                    return html2canvas(form, {  
+                        imageTimeout: 1000,  
+                        removeContainer: true  
+                    });  
+                }  
+                function upload(){
+                    var doc = new jsPDF();
+                    var pdf = doc.output(); 
+                    var ajax = system.ajax(processor+'do-resume',[applicantData[0][0],pdf]);
+                    ajax.done(function(data){
+                        console.log(data);
+                        if(data != 0){
+                            system.notification("Kareer","Resume Published.",false,2000,true,false,function(){
+                                 app.onPageInit('index',function(page){
+                                    content.ini();
+                                });
+                            });
+                            // console.log(data);
+                        }
+                        else{
+                           system.notification("Kareer","Failed.",false,3000,true,false,false);
+                            // console.log(data);
+                        }
+                    });
+                }    
+
+
+            }());  
+        }
+
+
     }
 
     var logIn = {
@@ -445,8 +1684,8 @@ Framework7.prototype.plugins.kareer = function (app, params) {
                         	$$("input").val("");
                             system.notification("Kareer","Success. Please wait.",false,2000,true,false,function(){
 			                	app.closeModal('.popup-login', true);
-					        	content.ini();
 					        	localStorage.setItem('applicant',data);
+                                content.ini();
                             });
 	                    }
 	                    else{
@@ -454,11 +1693,23 @@ Framework7.prototype.plugins.kareer = function (app, params) {
 	                    }
 	                })
 	            }
-	        }); 
+	        });
+            $$("a[data-cmd='showPassword']").on('click',function(){
+                $("#password input").attr({"type":"text"});
+                $("a.x").addClass('hidden');
+                $("a.y").removeClass('hidden');
+
+            }); 
+            $$("a[data-cmd='hidePassword']").on('click',function(){
+                $("#password input").attr({"type":"password"});
+                $("a.y").addClass('hidden');
+                $("a.x").removeClass('hidden');
+
+            });
 	        $$(".log-error-icon").on('click',function(){
 	            var data= $(this).find('i');
 	            system.notification("Kareer",data[0].dataset.error,false,3000,true,false,false);
-	        });    		
+	        });		
     	},
     	logout:function(){
     		$$("a[data-cmd='account-logout']").on('click',function(){
@@ -511,8 +1762,10 @@ Framework7.prototype.plugins.kareer = function (app, params) {
                 },
                 submitHandler: function (form) {
                     var _form = $(form).serializeArray();
+                    console.log(_form);
                     var data = system.ajax(processor+'do-signUp',_form);
                     data.done(function(data){
+                        console.log(data);
                         if(data == 1){
                         	$$("input").val("");
                             system.notification("Kareer","Success. You can now Sign In to your account. ",false,2000,true,false,function(){
@@ -537,9 +1790,9 @@ Framework7.prototype.plugins.kareer = function (app, params) {
         personal:function(){
             $("#form_personal_info").validate({
                 rules: {
-                    field_last_name: {required: true, maxlength:50},
                     field_given_name: {required: true, maxlength:50},
                     field_middle_name: {required: true, maxlength:50},
+                    field_last_name: {required: true, maxlength:50},
                     field_gender: {required: true, maxlength:50},
                     field_date_of_birth: {required: true, maxlength:50},
                     field_place_of_birth: {required: true, maxlength:50},
@@ -625,7 +1878,24 @@ Framework7.prototype.plugins.kareer = function (app, params) {
                         }
                     })
                 }
-            });  //CED pop-up error in info(icon)
+            }); 
+            $$("a[data-cmd='showPassword']").on('click',function(){
+                $("#password input").attr({"type":"text"});
+                $("a.x").addClass('hidden');
+                $("a.y").removeClass('hidden');
+
+            }); 
+            $$("a[data-cmd='hidePassword']").on('click',function(){
+                $("#password input").attr({"type":"password"});
+                $("a.y").addClass('hidden');
+                $("a.x").removeClass('hidden');
+
+            });
+            $$(".log-error-icon").on('click',function(){
+                var data= $(this).find('i');
+                system.notification("Kareer",data[0].dataset.error,false,3000,true,false,false);
+            });     
+             //CED pop-up error in info(icon)
             $$(".error-icon").on('click',function(){
                 var data= $(this).find('i');
                 system.notification("Kareer",data[0].dataset.error,false,3000,true,function(){
@@ -753,7 +2023,7 @@ Framework7.prototype.plugins.kareer = function (app, params) {
                 submitHandler: function (form) {
                     var _form = $(form).serializeArray();
                     var career = ajax(processor+'do-career-info',_form);
-                    console.log(career.responseText);
+                    // console.log(career.responseText);
                     system.notification("Kareer","Success",false,3000,true,function(){
                     },false);
                 }
@@ -770,17 +2040,16 @@ Framework7.prototype.plugins.kareer = function (app, params) {
         show:function(list){
 			var applicantData = JSON.parse(localStorage.getItem('applicant'));
 			var bookmarks = JSON.parse(localStorage.getItem('bookmarks'));
-
             var content = "";
             var height = $(window).height();
             $.each(list,function(i,v){
+                console.log(v);
             	var skills = "", bookmarkButtonSettings = "";
                 bookmarkButtonSettings = ($.inArray(v[0],bookmarks)>=0)?"disabled":"";
-
                 v[5] = JSON.parse(v[5]);
             	$.each(v[5],function(i2,v2){
                     if(v2 != "null")
-            		skills += "<div class='chip'><div class='chip-media bg-teal'>J</div><div class='chip-label'>"+v2+"</div></div>";
+            		skills += "<div class='chip'><div class='chip-media bg-teal'></div><div class='chip-label'>"+v2+"</div></div>";
             	});
 
                 content = "<div class='swiper-slide'>"+
@@ -802,6 +2071,7 @@ Framework7.prototype.plugins.kareer = function (app, params) {
                             "               <h5 class='color-teal'>"+v[3]+"<br/>"+
                             "                   "+skills+""+
                             "               </h5>"+
+                            "               <div class='left'>"+v[3]+"</div>"+
                             "               <p>"+
                             "                   <div class='description' style='white-space: normal;'>"+
                             "                       "+v[4]+""+
@@ -811,8 +2081,8 @@ Framework7.prototype.plugins.kareer = function (app, params) {
                             "       </div>"+
                             "       <div class='card-footer'>"+
                             "           <a class='waves-effect waves-teal btn-flat hidden' href='#'>Read More</a>"+
-                            "           <button data-node='"+(JSON.stringify([v[0],applicantData[0][0]]))+"' data-cmd='apply' class='waves-effect waves-light btn icon f7-icons color-white' style='background: rgb(0, 150, 136); margin: 0;'>"+
-                            "               paper_plane_fill"+
+                            "           <button data-node='"+(JSON.stringify([v[0],applicantData[0][0]]))+"' data-cmd='apply' class='waves-effect waves-light btn color-white' style='background: rgb(0, 150, 136); margin: 0;'>"+
+                            "               Submit Resume"+
                             "           </button>"+
                             "       </div>"+
                             "   </div>"+
@@ -836,6 +2106,7 @@ Framework7.prototype.plugins.kareer = function (app, params) {
 	                    if(e == 1){
                             system.notification("Kareer","Done.",false,2000,true,false,function(){
 								$(_this).attr({"disabled":true});
+
                             });
 	                    }
 	                    else{

@@ -1,5 +1,5 @@
 #main-functions .content-block{
-    margin:40px 0px;
+    margin:40px -29px;
 }
 .tutorialicon {
     font-size: 250px;
@@ -158,16 +158,16 @@
 
 .card-header-pic{
     width: 100%;
-    margin: 55px 0;
+    margin: 57px 0;
     height: 100%;
 }
 
 #index .card-header-pic .responsive-img{
-    width: 100px;
+    width: 130px;
     border-radius: 50%;
-    border: 2px solid #009688;
+    border: 2px solid grey;
     margin: 0 auto;
-    top: 65px;
+    top: 35px;
     position: relative;    
 }
 

@@ -1,0 +1,54 @@
+<div class="page no-navbar" data-page="builderSeminar">
+        <div class="card card-header-pic" style="height: auto !important; margin-top: 0px !important; margin-left: auto; margin-bottom: auto;">
+            <div class="card-header" style="width: 51% !important;">
+                <a href="#" data-load='builderReferences' class="btn btn-floating btn-flat white waves-effect waves-teal waves-light home color-gray"><i class="icon f7-icons">chevron_left</i></a>Seminars Attended
+            </div>
+            <div class="navbar" style="background-color: #4DB6AC; height: 45px !important; ">
+                <div class="navbar-inner rows">
+                    <div class="center" style="margin:auto; margin-top: -6px;">
+                        <a class="car btn btn-flat color-grey " style ="padding: 0px; font-size: 12px;">SEMINARS</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="toolbar toolbar-bottom center" style="height: 59px; background-color: white;">
+                <a href="#" data-load='resumePreview' class="seminar disabled btn btn-large white-text waves-effect waves-purple waves-light" style="margin-left: -25px; border-radius: 30px;width: 70%;height: 49px; font-size: 20px; background-color: #7a5578;"><strong class="">Next</strong></a> 
+                <a data-cmd='add-seminar' class="add btn-floating btn-small teal waves-effect waves-teal waves-light right" style="right: 26px; height: 50px; width: 50px;"><i class="icon f7-icons" style="top: 7px;">add</i></a>
+        </div>
+          <div class="page-content infinite-scroll toolbar-fixed" style="white-space: normal;">
+            <div class='list content-block' id="display_seminars" style="margin-bottom: 100% !important; padding: inherit !important; margin-top: auto !important;">
+            </div>
+            <div class='add hidden content-block' style="margin-bottom: 16% !important;">
+                <div class="center">
+                    <form action="" method="POST" id='form_seminars'>
+                        <div class="list-block">
+                            <ul>
+                                <li>
+                                    <div class="input-field">
+                                        <input type='text' id="field_event" name="field_event" class="form-control">
+                                        <label class="" for="field_event" style="color: black !important; top: -2px !important; left: 0px !important;">Event</label>
+                                    </div>
+                                </li>                                        
+                                <li>
+                                    <div class="input-field">
+                                        <input type='text' id="field_location" name="field_location" class="form-control">
+                                        <label class="" for="field_location" style="color: black !important; top: -2px !important; left: 0px !important;">Location</label>
+                                    </div>
+                                </li>
+                                <li>
+                                    <div class="input-field">
+                                        <input type='date' id="field_date" name="field_date" class="form-control">
+                                        <label class="active" for="field_date" style="color: black !important; top: -2px !important; left: 0px !important;">Date</label>
+                                    </div>
+                                </li>
+                                <li style="margin-top: 70% !important;">
+                                    <button class="btn-flat btn-large waves-effect waves-teal waves-light purple color-white" style="width: 80%; margin-left: -15px !important; border-radius: 30px !important; height: 49px; background-color: #7a5578; font-size: 20px;">Save</button>
+                                    <a href="#" class="cancel btn-floating btn-small red waves-effect waves-teal waves-light right" style="right: 5px; height: 50px; width: 50px;"><i class="icon f7-icons" style="top: 7px;">close</i></a>
+                                </li>
+                            </ul>
+                        </div>
+                    </form>
+                </div>
+            </div>
+      </div>
+</div>

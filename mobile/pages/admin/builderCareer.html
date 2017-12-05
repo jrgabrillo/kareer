@@ -1,0 +1,84 @@
+<div class="page no-navbar" data-page="builderCareer">
+        <div class="card card-header-pic" style="height: auto !important; margin-top: 0px !important; margin-left: auto; margin-bottom: auto;">
+            <div class="card-header" style="width: 51% !important;">
+                <a href="#" data-load='builderAccount' class="btn btn-floating btn-flat white waves-effect waves-teal waves-light index color-gray"><i class="icon f7-icons">chevron_left</i></a>Career
+            </div>
+            <div class="navbar" style="background-color: #4DB6AC; height: 45px !important; ">
+                <div class="navbar-inner rows">
+                    <div class="left">
+                        <a class="acc btn btn-flat color-grey " style ="padding: 0px; font-size: 12px;">ACCOUNT</a>
+                    </div>
+                    <div class="center" style="margin:auto; margin-top: -6px;">
+                        <a class="car btn btn-flat color-grey " style ="padding: 0px; font-size: 12px;">CAREER</a>
+                    </div>
+                    <div class="right" style="margin-left:unset;">
+                        <a class="aca btn btn-flat color-grey " style ="padding: 0px; font-size: 12px;">ACADEMIC</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="toolbar toolbar-bottom center" style="height: 59px; background-color: white;">
+                <a href="#" data-load='builderAcademic' class="career disabled btn btn-large white-text waves-effect waves-purple waves-light" style="margin-left: -25px; border-radius: 30px;width: 70%;height: 49px; font-size: 20px; background-color: #7a5578;"><strong class="">Next</strong></a> 
+                <a data-cmd='add-career' class="add btn-floating btn-small teal waves-effect waves-teal waves-light right" style="right: 26px; height: 50px; width: 50px;"><i class="icon f7-icons" style="top: 7px;">add</i></a>
+        </div>
+          <div class="page-content infinite-scroll toolbar-fixed" style="white-space: normal;">
+            <div class='list content-block' id="display_career" style="margin-bottom: 100% !important;">
+            </div>
+            <div class='add hidden content-block' id="addCareer" style="margin-bottom: 16% !important;">
+            </div>
+            <div class='edit hidden content-block'>
+                <form id='form_career' class="list-block store-data">
+                    <ul>
+                        <li>
+                            <div class="right">Edit mode</div>
+                            <div class="row center">
+                                <div class="input-field">
+                                    <label class="active" style="top: auto; left: 0px; font-size: 17px;">Inclusive dates</label>
+                                    <div class="col s6">
+                                        <input type='date'  name="field_dateFirst" class="form-control" placeholder="From">
+                                    </div>
+                                    <div class="col s6">
+                                        <input type='date'  name="field_dateLast" class="form-control" placeholder="To">
+                                    </div>
+                                </div>                                            
+                            </div>
+                        </li>
+                        <li>
+                            <div class="input-field">
+                                <label class=""  style="top: -2px !important; left: 0px !important;">Position Title</label>
+                                <input type='text' name="field_position" class="form-control">
+                            </div>
+                        </li>
+                        <li>
+                            <div class="input-field">
+                                <label class=""  style="top: -2px !important; left: 0px !important;">Department/Company/Office/Agency</label>
+                                <input type='text' name="field_agency" class="form-control">
+                            </div>
+                        </li>
+                        <li>
+                            <div class="input-field">
+                                <label class=""  style="top: -2px !important; left: 0px !important;">Monthly Salary</label>
+                                <input type='text' name="field_salary" class="form-control">
+                            </div>
+                        </li>
+                        <li>
+                            <div class="input-field">
+                                <label class=""  style="top: -2px !important; left: 0px !important;">Status of Appointment</label>
+                                <input type='text'  name="field_appointment" class="form-control">
+                            </div>
+                        </li>
+                        <li>
+                            <div class="input-field">
+                                <label class=""  style="top: -2px !important; left: 0px !important;">Gov't Service</label>
+                                <input type='text'  name="field_govt_service" class="form-control">
+                            </div>
+                        </li>
+                        <li style="margin-top: 47% !important;">
+                            <button class="btn-flat btn-large waves-effect waves-teal waves-light purple color-white" style="width: 80%; margin-left: 0px !important; border-radius: 30px !important; height: 49px; background-color: #7a5578; font-size: 20px;">Save</button>
+                            <a href="#" class="cancel btn-floating btn-small red waves-effect waves-teal waves-light right" style="right: 5px; height: 50px; width: 50px;"><i class="icon f7-icons" style="top: 7px;">close</i></a>
+                        </li>
+                    </ul>
+                </form>
+            </div>
+      </div>
+</div>

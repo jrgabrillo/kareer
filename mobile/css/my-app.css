@@ -9,7 +9,14 @@ div[class*="col1-"] {
 }
 .row {
     margin-bottom: 2px;
+
 }
+.rows {
+    margin-bottom: 20px;
+    padding-left: 40px;
+    padding-right: 30px;
+}
+
 
 /* label color */
 #splashScreen a.button {
@@ -155,4 +162,44 @@ body {
 
 #jobs .swiper-wrapper, .swiper-slide, {
     width:100% !important;
+}
+
+#form_academic .select-dropdown{
+  text-align: center;
+}
+
+#form_academic .dropdown-content li>span {
+  color: #000000 !important;
+}
+
+#form_skills .select-dropdown{
+  text-align: left;
+}
+
+#form_skills .dropdown-content li>span {
+  color: #000000 !important;
+}
+
+#form_skills .select-wrapper span.caret {
+    color: initial;
+    position: absolute;
+    right: 10px;
+    top: 0px;
+    font-size: 20px;
+}
+
+#form_language .select-dropdown{
+  text-align: left;
+}
+
+#form_language .dropdown-content li>span {
+  color: #000000 !important;
+}
+
+#form_language .select-wrapper span.caret {
+    color: initial;
+    position: absolute;
+    right: 10px;
+    top: 0px;
+    font-size: 20px;
 }
