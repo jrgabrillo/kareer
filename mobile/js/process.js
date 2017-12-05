@@ -1650,6 +1650,29 @@ Framework7.prototype.plugins.kareer = function (app, params) {
 
     var logIn = {
     	ini:function(){
+            window.fbAsyncInit = function() {
+                FB.init({
+                    appId      : '134413893925132', // FB App ID
+                    cookie     : true,  // enable cookies to allow the server to access the session
+                    xfbml      : true,  // parse social plugins on this page
+                    version    : 'v2.8' // use graph api version 2.8
+                });
+                FB.getLoginStatus(function(response) {
+                    if (response.status === 'connected') {
+                        //display user data
+                        console.log(response);
+                        fb.getFbUserData();
+                    }
+                });
+            };
+            // (function(d, s, id) {
+            //     var js, fjs = d.getElementsByTagName(s)[0];
+            //     if (d.getElementById(id)) return;
+            //     js = d.createElement(s); js.id = id;
+            //     js.src = "//connect.facebook.net/en_US/sdk.js";
+            //     fjs.parentNode.insertBefore(js, fjs);
+            // }(document, 'script', 'facebook-jssdk'));
+            
 	        $("#form_logIn").validate({
 	            rules: {
 	                field_email: {required: true,email:true,maxlength:100},
@@ -1722,62 +1745,62 @@ Framework7.prototype.plugins.kareer = function (app, params) {
     		})    		
     	}
     }
-    // var fb ={
-    //     ini:function(){
-    //         window.fbAsyncInit = function() {
-    //             FB.init({
-    //                 appId      : 'IsertYourFacebookAppId', // FB App ID
-    //                 cookie     : true,  // enable cookies to allow the server to access the session
-    //                 xfbml      : true,  // parse social plugins on this page
-    //                 version    : 'v2.8' // use graph api version 2.8
-    //             });
-    //             FB.getLoginStatus(function(response) {
-    //                 if (response.status === 'connected') {
-    //                     //display user data
-    //                     console.log(response);
-    //                     fb.getFbUserData();
-    //                 }
-    //             });
-    //         };
-    //         (function(d, s, id) {
-    //             var js, fjs = d.getElementsByTagName(s)[0];
-    //             if (d.getElementById(id)) return;
-    //             js = d.createElement(s); js.id = id;
-    //             js.src = "//connect.facebook.net/en_US/sdk.js";
-    //             fjs.parentNode.insertBefore(js, fjs);
-    //         }(document, 'script', 'facebook-jssdk'));
-    //     },
-    //     login:function(){
-    //         FB.login(function (response) {
-    //             if (response.authResponse) {
-    //                 // Get and display the user profile data
-    //                 console.log(response.authResponse);
-    //                 // fb.getFbUserData();
-    //             } else {
-    //                 console.log("User cancelled login or did not fully authorize.");
-    //             }
-    //         }, {scope: 'email'});
-    //     },
-    //     getUserData:function(){
-    //         FB.api('/me', {locale: 'en_US', fields: 'id,first_name,last_name,email,link,gender,locale,picture'}, function (response) {
-    //                 console.log(response);
-    //                 // fb.saveUserData(response);
-    //         });
-    //     },
-    //     saveUserData:function(userData){
-    //         $.post('userData.php', 
-    //             {
-    //                 oauth_provider:'facebook',
-    //             userData: JSON.stringify(userData)
-    //         }, function(data){ return true; });
-    //     },
-    //     logout:function(){
-    //         FB.logout(function(response) {
-    //             console.log(response);
-    //         });
-    //     }
+    var fb ={
+        ini:function(){
+            window.fbAsyncInit = function() {
+                FB.init({
+                    appId      : 'IsertYourFacebookAppId', // FB App ID
+                    cookie     : true,  // enable cookies to allow the server to access the session
+                    xfbml      : true,  // parse social plugins on this page
+                    version    : 'v2.8' // use graph api version 2.8
+                });
+                FB.getLoginStatus(function(response) {
+                    if (response.status === 'connected') {
+                        //display user data
+                        console.log(response);
+                        fb.getFbUserData();
+                    }
+                });
+            };
+            (function(d, s, id) {
+                var js, fjs = d.getElementsByTagName(s)[0];
+                if (d.getElementById(id)) return;
+                js = d.createElement(s); js.id = id;
+                js.src = "//connect.facebook.net/en_US/sdk.js";
+                fjs.parentNode.insertBefore(js, fjs);
+            }(document, 'script', 'facebook-jssdk'));
+        },
+        login:function(){
+            FB.login(function (response) {
+                if (response.authResponse) {
+                    // Get and display the user profile data
+                    console.log(response.authResponse);
+                    // fb.getFbUserData();
+                } else {
+                    console.log("User cancelled login or did not fully authorize.");
+                }
+            }, {scope: 'email'});
+        },
+        getUserData:function(){
+            FB.api('/me', {locale: 'en_US', fields: 'id,first_name,last_name,email,link,gender,locale,picture'}, function (response) {
+                    console.log(response);
+                    // fb.saveUserData(response);
+            });
+        },
+        saveUserData:function(userData){
+            $.post('userData.php', 
+                {
+                    oauth_provider:'facebook',
+                userData: JSON.stringify(userData)
+            }, function(data){ return true; });
+        },
+        logout:function(){
+            FB.logout(function(response) {
+                console.log(response);
+            });
+        }
 
-    // }
+    }
 
     var signUp = {
         ini:function(){

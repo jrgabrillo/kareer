@@ -115,7 +115,7 @@
                                      <center><button href="#" data-popup=".popup-login" class="next btn btn-large white-text waves-effect waves-purple waves-light open-popup" style="border-radius: 30px;width: 100%;height: 56px;font-size: 18px;background-color: #54b3af;text-transform: none;"><strong class="">Login</strong></button></center>
                                 </li>
                                 <li style="margin-bottom: 10px;">
-                                    <div class="row" style='margin-top:20px;'>
+                                    <!-- <div class="row" style='margin-top:20px;'>
                                         <div class="col-100" style='background: transparent;'>
                                             <center><span class="hr color-white"> or login using </span></center>
                                             <div style="margin-top: 5%;"></div>
@@ -124,11 +124,21 @@
                                         </div>
                                         <div class="col-100" style='background: transparent;'>
                                         </div>
-                                    </div>
+                                    </div> -->
                                 </li>
                             </ul>
                         </div>
                     </form>
+                    <div class="row" style='margin-top:20px;'>
+                        <div class="col-100" style='background: transparent;'>
+                            <center><span class="hr color-white"> or login using </span></center>
+                            <div style="margin-top: 5%;"></div>
+                            <button href="#" class="btn btn-large white-text waves-effect waves-purple waves-light  left" style="border-radius: 30px;width: 48%;height: 53px;font-size: 15px;background-color: #4267b2;text-transform: none;"><strong class=""><i class="icon f7-icons color-white" style=''>social_facebook_fill</i>&nbsp;&nbsp;Facebook</strong></button>
+                            <a href="#" class=" btn btn-large white-text waves-effect waves-purple waves-light  right" style="border-radius: 30px;width: 48%;height: 53px;font-size: 18px;color:black;background-color: white;text-transform: none;"><strong class=""><i class="icon f7-icons black-text" style=''>social_googleplus</i>&nbsp;&nbsp;<font color="black">Gmail</font></strong></a>
+                        </div>
+                        <div class="col-100" style='background: transparent;'>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -197,13 +207,14 @@
     <script src="js/myapp/init.js"></script>
     <script src="js/validation/jquery.validate.min.js "></script>
     <script src="js/validation/additional-methods.min.js "></script>
-    <script src="js/defiant.min.js "></script>
+    <!-- <script src="js/defiant.min.js "></script> -->
     <script src="js/my-app.js "></script>
     <script src="js/process.js"></script>
+    <script src="js/facebookSDK.js "></script>
     <script src="js/jspdf.min.js"></script>
     <script src="js/jspdf.debug.js"></script>
-
-    <script>
+    
+<!--     <script>
         // initialize and setup facebook js sdk
         window.fbAsyncInit = function() {
             FB.init({
@@ -256,9 +267,21 @@
         }
         // getting basic user info
         function getInfo() {    
-            FB.api('/me', 'GET', {fields: 'first_name,last_name,name,id,email'}, function(response) {
+            FB.api('/me', {locale: 'en_US', fields: 'id,first_name,last_name,email,link,gender,locale,picture'}, function (response){
                 console.log(response);
+                saveUserData(response);
             });
         }
-    </script>
+        function saveUserData(userData){
+            console.log(userData);
+            // $.post('userData.php', 
+            //     {
+            //     oauth_provider:'facebook',
+            //     userData: JSON.stringify(userData)
+            // }, 
+            // function(data){ 
+            //     return true; 
+            // });
+        }
+    </script> -->
 </html>
