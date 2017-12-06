@@ -4,17 +4,16 @@
         <meta charset="utf-8">
         <!-- <meta http-equiv="Content-Security-Policy" content="default-src *; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; media-src *; img-src 'self' data:"> -->
         <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui">
+        <meta name="google-signin-client_id" content="188371648097-epn7dfrqagvpilftjnamvm1eiaeh1hv9.apps.googleusercontent.com">
         <meta name="apple-mobile-web-app-capable" content="yes">
         <meta name="apple-mobile-web-app-status-bar-style" content="black">
         <title>Kareer</title>
         <link rel="shortcut icon" type="image/png" href="res/icon/android/icon.png">
         <link rel="stylesheet" href="css/original.materialize.min.css">
         <link rel="stylesheet" href="css/material.min.css">
-        <link rel="stylesheet" href="css/dropify.css">
         <link rel="stylesheet" href="css/cropper.min.css">
         <link rel="stylesheet" href="lib/framework7/css/framework7.material.min.css">
         <link rel="stylesheet" href="lib/framework7/css/framework7.material.colors.min.css">
-        <link rel="stylesheet" href="css/framework7.3dpanels.min.css">
         <link rel="stylesheet" href="css/framework7-icons.css">
         <link rel="stylesheet" href="css/animate.css">
         <link rel="stylesheet" href="css/my-app.css">
@@ -133,7 +132,7 @@
                         <div class="col-100" style='background: transparent;'>
                             <center><span class="hr color-white"> or login using </span></center>
                             <div style="margin-top: 5%;"></div>
-                            <button href="#" class="btn btn-large white-text waves-effect waves-purple waves-light  left" style="border-radius: 30px;width: 48%;height: 53px;font-size: 15px;background-color: #4267b2;text-transform: none;"><strong class=""><i class="icon f7-icons color-white" style=''>social_facebook_fill</i>&nbsp;&nbsp;Facebook</strong></button>
+                            <button href="#" class="LOGINfb btn btn-large white-text waves-effect waves-purple waves-light  left" style="border-radius: 30px;width: 48%;height: 53px;font-size: 15px;background-color: #4267b2;text-transform: none;"><strong class=""><i class="icon f7-icons color-white" style=''>social_facebook_fill</i>&nbsp;&nbsp;Facebook</strong></button>
                             <a href="#" class=" btn btn-large white-text waves-effect waves-purple waves-light  right" style="border-radius: 30px;width: 48%;height: 53px;font-size: 18px;color:black;background-color: white;text-transform: none;"><strong class=""><i class="icon f7-icons black-text" style=''>social_googleplus</i>&nbsp;&nbsp;<font color="black">Gmail</font></strong></a>
                         </div>
                         <div class="col-100" style='background: transparent;'>
@@ -179,24 +178,25 @@
                                      <center><button href="#" data-popup=".popup-sign-up" class="next btn btn-large white-text waves-effect waves-purple waves-light open-popup" style="border-radius: 30px;width: 100%;height: 56px;font-size: 18px;background-color: #7a5578;text-transform: none;"><strong class="">Register</strong></button></center>
                                 </li>
                                 <li style="margin-bottom: 10px;">
-                                    <div class="row" style='margin-top:20px;'>
-                                        <div class="col-100" style='background: transparent;'>
-                                            <center><span class="hr color-white"> or SignUp using </span></center>
-                                            <div style="margin-top: 5%;"></div>
-                                            <button href="#" class="btn btn-large white-text waves-effect waves-purple waves-light  left" style="border-radius: 30px;width: 48%;height: 53px;font-size: 15px;background-color: #4267b2;text-transform: none;"><strong class=""><i class="icon f7-icons color-white" style=''>social_facebook_fill</i>&nbsp;&nbsp;Facebook</strong></button>
-                                            <a href="#" class="btn btn-large white-text waves-effect waves-purple waves-light right" style="border-radius: 30px;width: 48%;height: 53px;font-size: 18px;color:black;background-color: white;text-transform: none;"><strong class=""><i class="icon f7-icons black-text" style=''>social_googleplus</i>&nbsp;&nbsp;<font color="black">Gmail</font></strong></a>
-                                        </div>
-                                        <div class="col-100" style='background: transparent;'>
-                                        </div>
-                                    </div>
+                                    
                                 </li>
                             </ul>
                         </div>
                     </form>
+                    <div class="row" style='margin-top:20px;'>
+                        <div class="col-100" style='background: transparent;'>
+                            <center><span class="hr color-white"> or SignUp using </span></center>
+                            <div style="margin-top: 5%;"></div>
+                            <button href="#" class="fb btn btn-large white-text waves-effect waves-purple waves-light  left" style="border-radius: 30px;width: 48%;height: 53px;font-size: 15px;background-color: #4267b2;text-transform: none;"><strong class=""><i class="icon f7-icons color-white" style=''>social_facebook_fill</i>&nbsp;&nbsp;Facebook</strong></button>
+                            <button href="#" data-onsuccess="onSignIn" class="g-signin2 right" style="border-radius: 30px;width: 48%;height: 53px;font-size: 18px;color:black;background-color: white;text-transform: none;"><strong class=""><i class="icon f7-icons black-text" style=''>social_googleplus</i>&nbsp;&nbsp;<font color="black">Gmail</font></strong></button>
+                        </div>
+                        <!-- <div class="g-signin2" data-onsuccess="onSignIn"></div> -->
+                        <div class="col-100" style='background: transparent;'>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
-        <!-- <div class="panel-overlay" style=""></div> -->
     </body>
     <script src="js/jquery.js "></script>
     <script src="js/cropper.min.js"></script>
@@ -207,81 +207,31 @@
     <script src="js/myapp/init.js"></script>
     <script src="js/validation/jquery.validate.min.js "></script>
     <script src="js/validation/additional-methods.min.js "></script>
-    <!-- <script src="js/defiant.min.js "></script> -->
     <script src="js/my-app.js "></script>
     <script src="js/process.js"></script>
-    <script src="js/facebookSDK.js "></script>
+    <script src="https://apis.google.com/js/platform.js" async defer></script>
     <script src="js/jspdf.min.js"></script>
     <script src="js/jspdf.debug.js"></script>
-    
-<!--     <script>
-        // initialize and setup facebook js sdk
-        window.fbAsyncInit = function() {
-            FB.init({
-              appId            : '134413893925132',
-              autoLogAppEvents : true,
-              xfbml            : true,
-              version          : 'v2.11'
-            });
-          FB.getLoginStatus(function(response) {
-                if (response.status === 'connected') {
-                    console.log(response.status);
-                } else if (response.status === 'not_authorized') {
-                    console.log(response.status);
-                } else {
-                    console.log(response.status);
-                }
-            });
-        };
-        (function(d, s, id){
-            var js, fjs = d.getElementsByTagName(s)[0];
-            if (d.getElementById(id)) {return;}
-            js = d.createElement(s); js.id = id;
-            js.src = "//connect.facebook.net/en_US/sdk.js";
-            fjs.parentNode.insertBefore(js, fjs);
-        }(document, 'script', 'facebook-jssdk'));
-        
-        // login with facebook with extra permissions
-        function login() {
-            FB.login(function(response) {
-                if (response.status === 'connected') {
-                    console.log(response.status);
-                    getInfo();
-                } else if (response.status === 'not_authorized') {
-                    console.log(response.status);
-                } else {
-                    console.log(response.status);
-                }
-            }, {scope: 'email'});
+
+    <script type="text/javascript">
+        function onSignIn(googleUser) {
+            // if (auth2.isSignedIn.get()) {
+              var profile = googleUser.getBasicProfile();
+              console.log('ID: ' + profile.getId());
+              console.log('Full Name: ' + profile.getName());
+              console.log('Given Name: ' + profile.getGivenName());
+              console.log('Family Name: ' + profile.getFamilyName());
+              console.log('Image URL: ' + profile.getImageUrl());
+              console.log('Email: ' + profile.getEmail());
+              var id_token = googleUser.getAuthResponse().id_token;
+              console.log(id_token);
+            // }
+          // var profile = googleUser.getBasicProfile();
+          // console.log(profile);
+          // console.log('ID: ' + profile.getId()); // Do not send to your backend! Use an ID token instead.
+          // console.log('Name: ' + profile.getName());
+          // console.log('Image URL: ' + profile.getImageUrl());
+          // console.log('Email: ' + profile.getEmail()); // This is null if the 'email' scope is not present.
         }
-        function logout(){
-            FB.logout(function(response) {
-                if (response.status === 'unknown') {
-                    console.log(response.status);
-                } else if (response.status === 'not_authorized') {
-                    console.log(response.status);
-                } else {
-                    console.log(response.status);
-                }
-            });
-        }
-        // getting basic user info
-        function getInfo() {    
-            FB.api('/me', {locale: 'en_US', fields: 'id,first_name,last_name,email,link,gender,locale,picture'}, function (response){
-                console.log(response);
-                saveUserData(response);
-            });
-        }
-        function saveUserData(userData){
-            console.log(userData);
-            // $.post('userData.php', 
-            //     {
-            //     oauth_provider:'facebook',
-            //     userData: JSON.stringify(userData)
-            // }, 
-            // function(data){ 
-            //     return true; 
-            // });
-        }
-    </script> -->
+    </script>
 </html>

@@ -9,18 +9,42 @@ Framework7.prototype.plugins.kareer = function (app, params) {
     var processor = 'http://localhost/kareer/assets/harmony/mobile.php?';
     // var processor = 'http://kareerserver.rnrdigitalconsultancy.com/assets/harmony/mobile.php?';
     var directory = '/';
-	var $$ = Dom7;
-	var view = app.addView('.view-main');
+    var $$ = Dom7;
+    var view = app.addView('.view-main');
 
     var system = {
-    	ini:function(){
-        	// var deviceSize = system.getDeviceSize();
-        	// console.log(deviceSize);
-            // fb.ini();
+        ini:function(){
+            console.log("sasa");
+            window.fbAsyncInit = function() {
+                FB.init({
+                  appId            : '134413893925132',
+                  autoLogAppEvents : true,
+                  xfbml            : true,
+                  version          : 'v2.11'
+                });
+              FB.getLoginStatus(function(response) {
+                    if (response.status === 'connected') {
+                        console.log(response.status);
+                    } else if (response.status === 'not_authorized') {
+                        console.log(response.status);
+                    } else {
+                        console.log(response.status);
+                    }
+                });
+            };
+            (function(d, s, id){
+                var js, fjs = d.getElementsByTagName(s)[0];
+                if (d.getElementById(id)) {return;}
+                js = d.createElement(s); js.id = id;
+                js.src = "//connect.facebook.net/en_US/sdk.js";
+                fjs.parentNode.insertBefore(js, fjs);
+            }(document, 'script', 'facebook-jssdk'));
+            // var deviceSize = system.getDeviceSize();
+            // console.log(deviceSize);
             logIn.ini();
-        	signUp.ini();
-        	content.ini();
-    	},
+            signUp.ini();
+            content.ini();
+        },
         notification:function(title,message,button,timeout,loader,_functionOpen,_functionClose){
             var timeout = (timeout == "")?false:timeout;
             app.addNotification({
@@ -77,53 +101,63 @@ Framework7.prototype.plugins.kareer = function (app, params) {
                 cache:false
             });
         },
-		popover:function(title,message){
-			var mainView = app.addView('.view-main');			 
-		    app.addNotification({
-		        title: title,
-		        message: message
-		    });
-		},
-		preloader:function(status){
-			if(status){
-			    var container = $$('body');
-			    if (container.children('.progressbar, .progressbar-infinite').length) return; //don't run all this if there is a current progressbar loading
-			    app.showProgressbar(container, 'multi');
-			}
-			else{
-		        app.hideProgressbar();				
-			}
-		},
-		block:function(status){
-			if(status){
-		        app.popup('.loader');
-			}
-			else{
-		        app.closeModal('.loader');
-			}
-		},
-		logoHandler:function(){
-			var bg = 'img/img-bg.jpg';
-			var logo = 'img/logo.png';
-			bg = (localStorage.getItem('bg')!=null)?localStorage.getItem('bg'):bg;
-			logo = (localStorage.getItem('logo')!=null)?localStorage.getItem('logo'):logo;
+        popover:function(title,message){
+            var mainView = app.addView('.view-main');            
+            app.addNotification({
+                title: title,
+                message: message
+            });
+        },
+        preloader:function(status){
+            if(status){
+                var container = $$('body');
+                if (container.children('.progressbar, .progressbar-infinite').length) return; //don't run all this if there is a current progressbar loading
+                app.showProgressbar(container, 'multi');
+            }
+            else{
+                app.hideProgressbar();              
+            }
+        },
+        block:function(status){
+            if(status){
+                app.popup('.loader');
+            }
+            else{
+                app.closeModal('.loader');
+            }
+        },
+        logoHandler:function(){
+            var bg = 'img/img-bg.jpg';
+            var logo = 'img/logo.png';
+            bg = (localStorage.getItem('bg')!=null)?localStorage.getItem('bg'):bg;
+            logo = (localStorage.getItem('logo')!=null)?localStorage.getItem('logo'):logo;
 
-			$("img[src='img/logo.png']").attr({'src':logo});
-			$(".panel .panel-bg").attr({'style':'background-image:url('+bg+');'});
-		},		
-		getDeviceSize:function(){
-			var device = window;
-			return window.innerWidth;
-		}
+            $("img[src='img/logo.png']").attr({'src':logo});
+            $(".panel .panel-bg").attr({'style':'background-image:url('+bg+');'});
+        },      
+        getDeviceSize:function(){
+            var device = window;
+            return window.innerWidth;
+        }
     };
 
-	var content = {
-		ini:function(){
+    var content = {
+        ini:function(){
+            // if(localStorage.getItem() == 'FBUSer'){
+            //     console.log("FB");
+            // }
+            // else{
+            //     console.log("AP");
+            // }
+            // console.log(localStorage.getItem('FBUSer'));
+            // var FacebookUser = JSON.parse(localStorage.getItem('FBUSer'));
             var applicantData = JSON.parse(localStorage.getItem('applicant'));
+            // console.log(FacebookUser);
             if((applicantData == null) || (applicantData == "")){
                 view.router.loadPage("index.html");
             }
             else{
+
                 view.router.loadPage("pages/admin/index.html");
                 // view.router.loadPage("index.html");
                 $$(".navbar").removeClass('hidden');
@@ -135,6 +169,7 @@ Framework7.prototype.plugins.kareer = function (app, params) {
 
                 app.onPageInit('job',function(page){
                     content.controller();
+
                     var applicant = JSON.parse(localStorage.getItem('applicant'));
                     var jobList = jobs.get(applicant[0][0]);
                     var appliedList = jobs.applied(applicant[0][0]);
@@ -162,49 +197,49 @@ Framework7.prototype.plugins.kareer = function (app, params) {
                     jobs.search(applicantData[0][0],salarySlider);
                 });
             }
-		},
-		controller:function(){
-			$$(".navbar a").on('click',function(){
-				var data = $$(this).data('page');
-				console.log(data);
-				view.router.loadPage("pages/admin/"+data+".html");
-				$("a").removeClass('color-teal').addClass('color-gray');
-				$(this).removeClass('color-gray').addClass('color-teal')
-				// content.pageContent(page+'.html');
-			});
-		},
-		pageContent:function(url){
-			var pageContent = system.ajax('pages/admin/'+url,'');
-			pageContent.done(function(data){
-				$$('body .views .view').html(data);
-			})
-		}
-	}
+        },
+        controller:function(){
+            $$(".navbar a").on('click',function(){
+                var data = $$(this).data('page');
+                console.log(data);
+                view.router.loadPage("pages/admin/"+data+".html");
+                $("a").removeClass('color-teal').addClass('color-gray');
+                $(this).removeClass('color-gray').addClass('color-teal')
+                // content.pageContent(page+'.html');
+            });
+        },
+        pageContent:function(url){
+            var pageContent = system.ajax('pages/admin/'+url,'');
+            pageContent.done(function(data){
+                $$('body .views .view').html(data);
+            })
+        }
+    }
 
-	var account = {
-		ini:function(){
-			var applicantData = JSON.parse(localStorage.getItem('applicant'));
+    var account = {
+        ini:function(){
+            var applicantData = JSON.parse(localStorage.getItem('applicant'));
             var data = account.get(applicantData[0][0]);
-			jobs.bookmarked(applicantData[0][0]);
-
-			$("#index img.responsive-img").attr({"src":"img/profile/"+data[23]});
-			var content = "<div class='content-block'>"+
-							"    <p class='color-gray'><h5>"+data[6]+" "+data[7]+"</h5></p>"+
+            jobs.bookmarked(applicantData[0][0]);
+            console.log(data);
+            $("#index img.responsive-img").attr({"src":"img/profile/"+data[23]});
+            var content = "<div class='content-block'>"+
+                            "    <p class='color-gray'><h5>"+data[6]+" "+data[7]+"</h5></p>"+
                             // "    <a data-cmd='account-logout' class='btn-floating btn-flat'>"+
                             // "      <i class='f7-icons color grey'>logout</i>"+
                             // "    </a>"+
-							"</div>"+
-							"<div class='content-block'>"+
-							"    <div class='row rows'>"+
-							"        <div class='col-33'>"+
-							"            <a data-load='account'  class='account btn-floating btn-large waves-effect waves-light waves-teal grey lighten-4 btn-flat'><i class='icon f7-icons color-gray' style='font-size: 30px; margin-top: 6px;'>person</i></a><div class='grey-text' style = 'font-size: xx-small'>ACCOUNT</div>"+
-							"        </div>"+
-							"        <div class='col-33'>"+
-							"            <a data-load='career' class='account btn-floating btn-large waves-effect waves-light waves-teal grey lighten-4 btn-flat'><i class='icon f7-icons color-gray' style='font-size: 30px; margin-top: 6px;'>briefcase_fill</i></a><div class='grey-text' style = 'font-size: xx-small'>CAREER</div>"+
-							"        </div>"+
-							"        <div class='col-33'>"+
-							"            <a data-load='academic' class='account btn-floating btn-large waves-effect waves-light waves-teal grey lighten-4 btn-flat'><i class='icon f7-icons color-gray' style='font-size: 30px; margin-top: 6px;'>folder_fill</i></a><div class='grey-text' style = 'font-size: xx-small'>ACADEMIC</div>"+
-							"        </div>"+
+                            "</div>"+
+                            "<div class='content-block'>"+
+                            "    <div class='row rows'>"+
+                            "        <div class='col-33'>"+
+                            "            <a data-load='account'  class='account btn-floating btn-large waves-effect waves-light waves-teal grey lighten-4 btn-flat'><i class='icon f7-icons color-gray' style='font-size: 30px; margin-top: 6px;'>person</i></a><div class='grey-text' style = 'font-size: xx-small'>ACCOUNT</div>"+
+                            "        </div>"+
+                            "        <div class='col-33'>"+
+                            "            <a data-load='career' class='account btn-floating btn-large waves-effect waves-light waves-teal grey lighten-4 btn-flat'><i class='icon f7-icons color-gray' style='font-size: 30px; margin-top: 6px;'>briefcase_fill</i></a><div class='grey-text' style = 'font-size: xx-small'>CAREER</div>"+
+                            "        </div>"+
+                            "        <div class='col-33'>"+
+                            "            <a data-load='academic' class='account btn-floating btn-large waves-effect waves-light waves-teal grey lighten-4 btn-flat'><i class='icon f7-icons color-gray' style='font-size: 30px; margin-top: 6px;'>folder_fill</i></a><div class='grey-text' style = 'font-size: xx-small'>ACADEMIC</div>"+
+                            "        </div>"+
                             "    </div>"+
                             "    <div class='row rows'>"+
                             "        <div class='col-33'>"+
@@ -216,14 +251,14 @@ Framework7.prototype.plugins.kareer = function (app, params) {
                             "        <div class='col-33'>"+
                             "            <a data-load='resume' class='account btn-floating btn-large waves-effect waves-light waves-teal grey lighten-4 btn-flat'><i class='icon f7-icons color-gray' style='font-size: 30px; margin-top: 6px;'>document_text_fill</i></a><div class='grey-text' style = 'font-size: xx-small'>RESUME</div>"+
                             "      </div>"+
-							"    </div>"+
+                            "    </div>"+
                             "</div>";
-			$("#display_account").html(content);
+            $("#display_account").html(content);
 
-			$("a.account").on('click',function(){
-				var data = $(this).data('load');
+            $("a.account").on('click',function(){
+                var data = $(this).data('load');
                 view.router.loadPage("pages/admin/"+data+".html");
-			});
+            });
             $("a[data-cmd='account-logout']").on('click',function(){
                 console.log("uwian na");
                 localStorage.removeItem('applicant','');
@@ -261,7 +296,7 @@ Framework7.prototype.plugins.kareer = function (app, params) {
             });
              
 
-            var picture = "img/profile/"+data[23];
+            var picture = "img/profile/profile.png";
             $("a[data-cmd='update']").on('click',function(){
                 console.log("content");
                 var content =   "<div class='card-content'>"+
@@ -358,7 +393,7 @@ Framework7.prototype.plugins.kareer = function (app, params) {
                     });
                 });
             });
-		}, 
+        }, 
         controller:function(data){
             $$(".card-header a").on('click',function(){
                 console.log(data);
@@ -453,6 +488,7 @@ Framework7.prototype.plugins.kareer = function (app, params) {
             var $data = "";
             var jobs = system.ajax(processor+'get-applicant',id);
             jobs.done(function(data){
+                console.log(data);
                 $data = data;
             });
             return JSON.parse($data);
@@ -463,7 +499,7 @@ Framework7.prototype.plugins.kareer = function (app, params) {
                 // console.log(data);
             });
         }
-	}
+    }
 
     var career = {
         ini:function(){
@@ -800,73 +836,27 @@ Framework7.prototype.plugins.kareer = function (app, params) {
             // $("a.cancel").addClass('hidden');
             $("div.toolbar").addClass('hidden');
 
-            let content = `<div class="center">
-                            <form action="" method="POST" id='form_academic'>
-                                <div class="list-block">
-                                    <ul>
-                                        <li>
-                                            <div class="input-field" style='border: gray; border-width: 1px; background-color: rgba(238, 238, 238, 0.15); border-style: solid; border-radius: 15px;'>
-                                                <select id="field_yearLevel" name="field_yearLevel">
-                                                    <option value="Elementary">ELEMENTARY</option>
-                                                    <option value="High School">HIGH SCHOOL</option>
-                                                    <option value="Vocational">VOCATIONAL</option>
-                                                    <option value="College">COLLEGE</option>
-                                                    <option value="Masteral">MASTERAL</option>
-                                                    <option value="Doctoral">DOCTORAL</option>
-                                                </select>
-                                            </div>
-                                        </li>
+            
+            $('#field_yearLevel').material_select();
 
-                                        <li>
-                                            <div class="input-field">
-                                                <input type='text' id="field_school" name="field_school" class="form-control">
-                                                <label class="" for="field_school" style="top: -2px !important; left: 0px !important;">Name of Schools</label>
-                                            </div>
-                                        </li>
-                                        <li>
-                                            <div class="input-field">
-                                                <input type='text' id="field_degree" name="field_degree" class="form-control">
-                                                <label class="" for="field_degree" style="top: -2px !important; left: 0px !important;">Basic Education/Degree/Course</label>
-                                            </div>
-                                        </li>
-                                        <li>
-                                            <div class="input-field">
-                                                <input type='text' id="field_units" name="field_units" class="form-control">
-                                                <label class="" for="field_units" style="top: -2px !important; left: 0px !important;">Units Earned</label>
-                                            </div>
-                                        </li>
-                                        <li>
-                                            <div class="row">
-                                                <div class="input-field">
-                                                    <label class="active">Period of Attendance</label>
-                                                    <div class="col s6">
-                                                        <input type='date' id="field_dateFirst" name="field_dateFirst" class="form-control" placeholder="From">
-                                                    </div>
-                                                    <div class="col s6">
-                                                        <input type='date' id="field_dateLast" name="field_dateLast" class="form-control" placeholder="To">
-                                                    </div>
-                                                </div>                                            
-                                            </div>
-                                        </li>
-                                        <li style="margin-top: 70% !important;">
-                                            <button class="btn-flat btn-large waves-effect waves-teal waves-light purple color-white" style="width: 80%; margin-left: -15px !important; border-radius: 30px !important; height: 49px; background-color: #7a5578; font-size: 20px;">Save</button>
-                                            <a href="#" class="cancel btn-floating btn-small red waves-effect waves-teal waves-light right" style="right: 5px; height: 50px; width: 50px;"><i class="icon f7-icons" style="top: 7px;">close</i></a>
-                                        </li>
-                                    </ul>
-                                </div>
-                            </form>
-                          </div>`;
+            $("#field_yearLevel").on('change', function() {
+                var value = $(this).val();
+                if ((value == 'Elementary') || (value == 'High School')){
+                    $('#degree div').addClass('hidden');
+                    $('#units div').addClass('hidden');
+                }
+                else if ((value == 'Tech Voc') || (value == 'College') || (value == 'Masteral') || (value == 'Doctorate')){
+                    $('#degree div').removeClass('hidden');
+                    $('#units div').removeClass('hidden');
+                }
+            });
 
-            $$("#addAcademic").html(content);
-            $('select').material_select('close');
             $("a.cancel").on('click',function(){
                 $("div.list").removeClass('hidden');
                 $("div.add").addClass('hidden');
                 $("a.academic").removeClass('hidden');
                 $("a.add").removeClass('hidden');
                 $("div.toolbar").removeClass('hidden');
-                // $("a.save").addClass('hidden');
-                // $("a.cancel").addClass('hidden');
             });
 
 
@@ -875,7 +865,8 @@ Framework7.prototype.plugins.kareer = function (app, params) {
                 rules: {
                     field_yearLevel: {required: true,maxlength:20},
                     field_school: {required: true,maxlength:100},
-                    field_degree: {required: true,maxlength:100},
+                    field_degree: {required: false,maxlength:100},
+                    field_units: {required: false,maxlength:100},
                     field_dateFirst: {required: true,maxlength:100},
                     field_dateLast: {required: true,maxlength:100},
                 },
@@ -1649,77 +1640,100 @@ Framework7.prototype.plugins.kareer = function (app, params) {
     }
 
     var logIn = {
-    	ini:function(){
-            window.fbAsyncInit = function() {
-                FB.init({
-                    appId      : '134413893925132', // FB App ID
-                    cookie     : true,  // enable cookies to allow the server to access the session
-                    xfbml      : true,  // parse social plugins on this page
-                    version    : 'v2.8' // use graph api version 2.8
-                });
-                FB.getLoginStatus(function(response) {
+        ini:function(){
+            $("button.LOGINfb").on('click',function(){
+                FB.login(function(response) {
                     if (response.status === 'connected') {
-                        //display user data
-                        console.log(response);
-                        fb.getFbUserData();
+                        console.log(response.status);
+                        getData();
+                    } else if (response.status === 'not_authorized') {
+                        console.log(response.status);
+                    } else {
+                        console.log(response.status);
                     }
-                });
-            };
-            // (function(d, s, id) {
-            //     var js, fjs = d.getElementsByTagName(s)[0];
-            //     if (d.getElementById(id)) return;
-            //     js = d.createElement(s); js.id = id;
-            //     js.src = "//connect.facebook.net/en_US/sdk.js";
-            //     fjs.parentNode.insertBefore(js, fjs);
-            // }(document, 'script', 'facebook-jssdk'));
-            
-	        $("#form_logIn").validate({
-	            rules: {
-	                field_email: {required: true,email:true,maxlength:100},
-	                field_password: {required: true},
-	            },
-	            errorElement : 'div',
-	            errorPlacement: function(error, element) {
-	                var placement = $(element).data('error');
-	                if(placement){
-	                    $(placement).append(error)
-	                } 
-	                else{
-	                    error.insertAfter(element);
-	                }
-	            },
-	            messages: {
-	                field_email: {
-	                    required: "<i data-error ='Field is required' class='icon f7-icons  color red' style='margin:5px;'>info</i>",
-	                    maxlength: "<i data-error ='Name is too long' class='icon f7-icons color red' style='margin:5px;'>info</i>",
-	                    email: "<i data-error ='Email is invalid' class='icon f7-icons color red' style='margin:5px;'>info</i>",
-	                    validateEmail: "<i data-error ='Email already in use.' class='icon f7-icons color red' style='margin:5px;'>info</i>",
-	                },
-	                field_password: {
-	                    required: "<i data-error ='Field is required' class='icon f7-icons color red' style='margin:5px;'>info</i>",
-	                    maxlength: "<i data-error ='Name is too long' class='icon f7-icons color red' style='margin:5px;'>info</i>",
-	                    checkPassword: "<i data-error ='Password is weak' class='icon f7-icons color red' style='margin:5px;'>info</i>",
-	                },
-	            },
-	            submitHandler: function (form) {
-	                var _form = $(form).serializeArray();
-	                var data = system.ajax(processor+'do-logIn',_form);
-	                data.done(function(data){
+                }, {scope: 'email'});
+                function getData(){
+                    FB.api('/me', {fields: 'id,first_name,last_name,email,gender'}, function (response){
+                        var data = $.map(response, function(value, index) {
+                            return [value];
+                        });
+                        var LogData = JSON.stringify(data);
+                        console.log(LogData);
+                        if(LogData == localStorage.getItem('fb')){
+                            console.log("same");
+                            var fbData = JSON.parse(LogData);
+                            var data = system.ajax(processor+'do-logInFB',fbData);
+                            data.done(function(data){
+                                console.log(data);
+                                if(data != 0){
+                                    $$("input").val("");
+                                    system.notification("Kareer","Success. Please wait.",false,2000,true,false,function(){
+                                        app.closeModal('.popup-login', true);
+                                        localStorage.setItem('applicant',data);
+                                        content.ini();
+                                    });
+                                }
+                                else{
+                                    system.notification("Kareer","Failed.",false,3000,true,false,false);
+                                }
+                            })
+                        }
+                        else{
+                            console.log("not");
+                            system.notification("Kareer","Failed. Please Register Again",false,3000,true,false,false);
+
+                        }
+                        // localStorage.getItem('fb',fbData);
+                    });
+                }
+            });
+            $("#form_logIn").validate({
+                rules: {
+                    field_email: {required: true,email:true,maxlength:100},
+                    field_password: {required: true},
+                },
+                errorElement : 'div',
+                errorPlacement: function(error, element) {
+                    var placement = $(element).data('error');
+                    if(placement){
+                        $(placement).append(error)
+                    } 
+                    else{
+                        error.insertAfter(element);
+                    }
+                },
+                messages: {
+                    field_email: {
+                        required: "<i data-error ='Field is required' class='icon f7-icons  color red' style='margin:5px;'>info</i>",
+                        maxlength: "<i data-error ='Name is too long' class='icon f7-icons color red' style='margin:5px;'>info</i>",
+                        email: "<i data-error ='Email is invalid' class='icon f7-icons color red' style='margin:5px;'>info</i>",
+                        validateEmail: "<i data-error ='Email already in use.' class='icon f7-icons color red' style='margin:5px;'>info</i>",
+                    },
+                    field_password: {
+                        required: "<i data-error ='Field is required' class='icon f7-icons color red' style='margin:5px;'>info</i>",
+                        maxlength: "<i data-error ='Name is too long' class='icon f7-icons color red' style='margin:5px;'>info</i>",
+                        checkPassword: "<i data-error ='Password is weak' class='icon f7-icons color red' style='margin:5px;'>info</i>",
+                    },
+                },
+                submitHandler: function (form) {
+                    var _form = $(form).serializeArray();
+                    var data = system.ajax(processor+'do-logIn',_form);
+                    data.done(function(data){
                         console.log(data);
-	                    if(data != 0){
-                        	$$("input").val("");
+                        if(data != 0){
+                            $$("input").val("");
                             system.notification("Kareer","Success. Please wait.",false,2000,true,false,function(){
-			                	app.closeModal('.popup-login', true);
-					        	localStorage.setItem('applicant',data);
+                                app.closeModal('.popup-login', true);
+                                localStorage.setItem('applicant',data);
                                 content.ini();
                             });
-	                    }
-	                    else{
-	                        system.notification("Kareer","Failed.",false,3000,true,false,false);
-	                    }
-	                })
-	            }
-	        });
+                        }
+                        else{
+                            system.notification("Kareer","Failed.",false,3000,true,false,false);
+                        }
+                    })
+                }
+            });
             $$("a[data-cmd='showPassword']").on('click',function(){
                 $("#password input").attr({"type":"text"});
                 $("a.x").addClass('hidden');
@@ -1732,18 +1746,18 @@ Framework7.prototype.plugins.kareer = function (app, params) {
                 $("a.x").removeClass('hidden');
 
             });
-	        $$(".log-error-icon").on('click',function(){
-	            var data= $(this).find('i');
-	            system.notification("Kareer",data[0].dataset.error,false,3000,true,false,false);
-	        });		
-    	},
-    	logout:function(){
-    		$$("a[data-cmd='account-logout']").on('click',function(){
-    			localStorage.removeItem('saved-login','');
-    			localStorage.removeItem('user-details','');
-    			window.location.reload();
-    		})    		
-    	}
+            $$(".log-error-icon").on('click',function(){
+                var data= $(this).find('i');
+                system.notification("Kareer",data[0].dataset.error,false,3000,true,false,false);
+            });     
+        },
+        logout:function(){
+            $$("a[data-cmd='account-logout']").on('click',function(){
+                localStorage.removeItem('saved-login','');
+                localStorage.removeItem('user-details','');
+                window.location.reload();
+            })          
+        }
     }
     var fb ={
         ini:function(){
@@ -1804,6 +1818,46 @@ Framework7.prototype.plugins.kareer = function (app, params) {
 
     var signUp = {
         ini:function(){
+            // Register using FB ACCOUNT
+            $("button.fb").on('click',function(){
+                FB.login(function(response) {
+                    if (response.status === 'connected') {
+                        console.log(response.status);
+                        saveUserData();
+                    } else if (response.status === 'not_authorized') {
+                        console.log(response.status);
+                    } else {
+                        console.log(response.status);
+                    }
+                }, {scope: 'email'});
+
+                function saveUserData() {    
+                    FB.api('/me', {fields: 'id,first_name,last_name,email,gender'}, function (response){
+                        var data = $.map(response, function(value, index) {
+                            return [value];
+                        });
+                        var FbData = JSON.stringify(data);
+                        console.log(FbData);
+                        localStorage.setItem('fb',FbData);
+                        var data = system.ajax(processor+'do-signUpFB',data);
+                        data.done(function(data){
+                            console.log(data);
+                            if(data == 1){
+                                system.notification("Kareer","Success. You can now Sign In to your account. ",false,2000,true,false,function(){
+                                    app.closeModal('.popup-sign-up', true);
+                                    app.popup('popup-login');
+                                });
+                            }
+                            else if(data == 2){
+                                system.notification("Kareer","Try other email address.",false,3000,true,function(){},false);
+                            }
+                            else{
+                                system.notification("Kareer","Failed.",false,3000,true,function(){},false);
+                            }
+                        })
+                    });
+                }
+            });
             $("#form_signUp").validate({
                 rules: {
                     field_firstname: {required: true, maxlength:50},
@@ -1849,10 +1903,10 @@ Framework7.prototype.plugins.kareer = function (app, params) {
                     data.done(function(data){
                         console.log(data);
                         if(data == 1){
-                        	$$("input").val("");
+                            $$("input").val("");
                             system.notification("Kareer","Success. You can now Sign In to your account. ",false,2000,true,false,function(){
-			                	app.closeModal('.popup-sign-up', true);
-			                	app.popup('popup-login');
+                                app.closeModal('.popup-sign-up', true);
+                                app.popup('popup-login');
                             });
                         }
                         else if(data == 2){
@@ -1952,8 +2006,8 @@ Framework7.prototype.plugins.kareer = function (app, params) {
                     data.done(function(data){
                         if(data == 1){
                             system.notification("Kareer","Success.",false,2000,true,function(){},false);
-                        	$$("input").val("");
-				        	content.controller();
+                            $$("input").val("");
+                            content.controller();
                         }
                         else{
                             system.notification("Kareer","Failed.",false,3000,true,function(){},false);
@@ -2025,8 +2079,8 @@ Framework7.prototype.plugins.kareer = function (app, params) {
                     data.done(function(data){
                         if(data == 1){
                             system.notification("Kareer","Success",false,3000,true,function(){},false);
-                        	$$("input").val("");
-				        	content.controller();
+                            $$("input").val("");
+                            content.controller();
                         }
                         else{
                             system.notification("Kareer","Failed.",false,3000,true,function(){},false);
@@ -2120,19 +2174,19 @@ Framework7.prototype.plugins.kareer = function (app, params) {
 
     var jobs = {
         show:function(list){
-			var applicantData = JSON.parse(localStorage.getItem('applicant'));
-			var bookmarks = JSON.parse(localStorage.getItem('bookmarks'));
+            var applicantData = JSON.parse(localStorage.getItem('applicant'));
+            var bookmarks = JSON.parse(localStorage.getItem('bookmarks'));
             var content = "";
             var height = $(window).height();
             $.each(list,function(i,v){
                 console.log(v);
-            	var skills = "", bookmarkButtonSettings = "";
+                var skills = "", bookmarkButtonSettings = "";
                 bookmarkButtonSettings = ($.inArray(v[0],bookmarks)>=0)?"disabled":"";
                 v[5] = JSON.parse(v[5]);
-            	$.each(v[5],function(i2,v2){
+                $.each(v[5],function(i2,v2){
                     if(v2 != "null")
-            		skills += "<div class='chip'><div class='chip-media bg-teal'></div><div class='chip-label'>"+v2+"</div></div>";
-            	});
+                    skills += "<div class='chip'><div class='chip-media bg-teal'></div><div class='chip-label'>"+v2+"</div></div>";
+                });
 
                 content = "<div class='swiper-slide'>"+
                             "   <div class='card demo-card-header-pic'>"+
@@ -2170,48 +2224,48 @@ Framework7.prototype.plugins.kareer = function (app, params) {
                             "   </div>"+
                             "</div>";
 
-	            $("#jobs .swiper-wrapper").append(content);
-				// if($('#jobs .card-content-inner')[i].scrollHeight > $('#jobs .card-content-inner').innerHeight()){
-				//     console.log("x");
-				// }
+                $("#jobs .swiper-wrapper").append(content);
+                // if($('#jobs .card-content-inner')[i].scrollHeight > $('#jobs .card-content-inner').innerHeight()){
+                //     console.log("x");
+                // }
             });
 
-			$("button.icon").on('click',function(){
-				var _this = this;
-				var data = $(this).data();
-				var node = data.node;
-				if(data.cmd == "bookmark"){
+            $("button.icon").on('click',function(){
+                var _this = this;
+                var data = $(this).data();
+                var node = data.node;
+                if(data.cmd == "bookmark"){
                     console.log(data.cmd);
-					var apply = system.ajax(processor+'do-bookmark',node);
-					apply.done(function(e){
+                    var apply = system.ajax(processor+'do-bookmark',node);
+                    apply.done(function(e){
                         console.log(e);
-	                    if(e == 1){
+                        if(e == 1){
                             system.notification("Kareer","Done.",false,2000,true,false,function(){
-								$(_this).attr({"disabled":true});
+                                $(_this).attr({"disabled":true});
 
                             });
-	                    }
-	                    else{
-	                        system.notification("Kareer","Failed.",false,3000,true,false,false);
-	                    }
-					})
-				}
+                        }
+                        else{
+                            system.notification("Kareer","Failed.",false,3000,true,false,false);
+                        }
+                    })
+                }
 
-				if(data.cmd == "apply"){
-					var apply = system.ajax(processor+'do-apply',node);
-					apply.done(function(e){
+                if(data.cmd == "apply"){
+                    var apply = system.ajax(processor+'do-apply',node);
+                    apply.done(function(e){
                         console.log(e);
-	                    if(e == 1){
+                        if(e == 1){
                             system.notification("Kareer","Success. Application sent.",false,2000,true,false,function(){
-								$(_this).attr({"disabled":true});
+                                $(_this).attr({"disabled":true});
                             });
-	                    }
-	                    else{
-	                        system.notification("Kareer","Failed.",false,3000,true,false,false);
-	                    }
-					})
-				}
-			})
+                        }
+                        else{
+                            system.notification("Kareer","Failed.",false,3000,true,false,false);
+                        }
+                    })
+                }
+            })
 
             var swiper = app.swiper(".swiper-container", {
                 loop: false,
@@ -2234,20 +2288,20 @@ Framework7.prototype.plugins.kareer = function (app, params) {
         },
         applied:function(id){
             var $data = "";
-	        var applications = system.ajax(processor+'get-applcation',id);
+            var applications = system.ajax(processor+'get-applcation',id);
             applications.done(function(data){
                 localStorage.setItem('applications',data);
             });            
         },
         bookmarked:function(id){
-	        var bookmark = system.ajax(processor+'get-bookmarks',id);
+            var bookmark = system.ajax(processor+'get-bookmarks',id);
             bookmark.done(function(data){
             localStorage.setItem('bookmarks',data);
             });
         },
         get:function(id){
             var $data = "";
-	        var jobs = system.ajax(processor+'get-jobs',id);
+            var jobs = system.ajax(processor+'get-jobs',id);
             jobs.done(function(data){
                 $data = data;
             });
@@ -2286,14 +2340,14 @@ Framework7.prototype.plugins.kareer = function (app, params) {
         }
     }
 
-	return {
+    return {
         hooks: {
             appInit:system.ini
         }
-	}
+    }
 };
 
 var kareer_app = new Framework7({
-	kareer:true,
-	material:true,
+    kareer:true,
+    material:true,
 });
