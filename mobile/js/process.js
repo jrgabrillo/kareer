@@ -14,14 +14,6 @@ Framework7.prototype.plugins.kareer = function (app, params) {
 
     var system = {
         ini:function(){
-            //GMAIL
-            // gapi.load('auth2', function(){
-            //     auth2 = gapi.auth2.init({
-            //         clientId: '188371648097-epn7dfrqagvpilftjnamvm1eiaeh1hv9.apps.googleusercontent.com',
-            //         scope: 'profile email'
-            //     });
-            //     console.log("sdsdsds");
-            // });
             //FB
             window.fbAsyncInit = function() {
                 FB.init({
@@ -30,15 +22,15 @@ Framework7.prototype.plugins.kareer = function (app, params) {
                   xfbml            : true,
                   version          : 'v2.11'
                 });
-              FB.getLoginStatus(function(response) {
-                    if (response.status === 'connected') {
-                        console.log(response.status);
-                    } else if (response.status === 'not_authorized') {
-                        console.log(response.status);
-                    } else {
-                        console.log(response.status);
-                    }
-                });
+                // FB.getLoginStatus(function(response) {
+                //     if (response.status === 'connected') {
+                //         console.log(response.status);
+                //     } else if (response.status === 'not_authorized') {
+                //         console.log(response.status);
+                //     } else {
+                //         console.log(response.status);
+                //     }
+                // });
             };
             (function(d, s, id){
                 var js, fjs = d.getElementsByTagName(s)[0];
@@ -1642,17 +1634,15 @@ Framework7.prototype.plugins.kareer = function (app, params) {
     var logIn = {
         ini:function(){
             $("button.LOGINfb").on('click',function(){
-                FB.login(function(response) {
-                    if (response.status === 'connected') {
-                        console.log(response.status);
-                        getData();
-                    } else if (response.status === 'not_authorized') {
-                        console.log(response.status);
-                    } else {
-                        console.log(response.status);
-                    }
-                }, {scope: 'email'});
-                function getData(){
+                    FB.getLoginStatus(function(response) {
+                        if (response.status === 'connected') {
+                            console.log(response.status);
+                        } else if (response.status === 'not_authorized') {
+                            console.log(response.status);
+                        } else {
+                            console.log(response.status);
+                        }
+                    });
                     FB.api('/me', {fields: 'id,first_name,last_name,email,gender'}, function (response){
                         var data = $.map(response, function(value, index) {
                             return [value];
@@ -1681,11 +1671,8 @@ Framework7.prototype.plugins.kareer = function (app, params) {
                         else{
                             console.log("not");
                             system.notification("Kareer","Failed. Please Register Again",false,3000,true,false,false);
-
                         }
-                        // localStorage.getItem('fb',fbData);
                     });
-                }
             });
             $("#form_logIn").validate({
                 rules: {
