@@ -533,7 +533,15 @@ $Functions = new DatabaseClasses;
         $data = $_POST['data'];
 
         $queryApplicant = $Functions->PDO("SELECT * FROM tbl_applicant RIGHT JOIN tbl_personalinfo ON tbl_applicant.id = tbl_personalinfo.id WHERE tbl_applicant.id = '{$data}' ");
-            print_r(json_encode($queryApplicant[0]));
+        // if($queryApplicant->errorInfo()){
+        //     echo 1;
+        //     // $queryFB = $Functions->PDO("SELECT * FROM tbl_fbaccount RIGHT JOIN tbl_personalinfo ON tbl_applicant.id = tbl_personalinfo.id WHERE tbl_fbaccount.id = '{$data}' ");
+        //     // print_r(json_encode($queryFB[0]));
+        // }
+        // else{
+        //       echo 2; 
+        // }
+        print_r(json_encode($queryApplicant[0]));
     }
 
     if (isset($_GET['get-FacebookUser'])){

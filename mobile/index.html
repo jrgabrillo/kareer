@@ -187,8 +187,10 @@
                         <div class="col-100" style='background: transparent;'>
                             <center><span class="hr color-white"> or SignUp using </span></center>
                             <div style="margin-top: 5%;"></div>
+                            <!-- <div class="fb-login-button fb" data-width="325" data-max-rows="1" data-size="large" data-button-type="continue_with" data-show-faces="false" data-auto-logout-link="false" data-use-continue-as="false"></div><br> -->
                             <button href="#" class="fb btn btn-large white-text waves-effect waves-purple waves-light  left" style="border-radius: 30px;width: 48%;height: 53px;font-size: 15px;background-color: #4267b2;text-transform: none;"><strong class=""><i class="icon f7-icons color-white" style=''>social_facebook_fill</i>&nbsp;&nbsp;Facebook</strong></button>
-                            <button href="#" data-onsuccess="onSignIn" class="g-signin2 right" style="border-radius: 30px;width: 48%;height: 53px;font-size: 18px;color:black;background-color: white;text-transform: none;"><strong class=""><i class="icon f7-icons black-text" style=''>social_googleplus</i>&nbsp;&nbsp;<font color="black">Gmail</font></strong></button>
+                            <div class="g-signin2 right" data-width="160" data-height="50" data-longtitle="true" data-onsuccess="onSignIn"></div>
+                            <!-- <button href="#" data-onsuccess="onSignIn" class="g-signin2 btn btn-large white-text waves-effect waves-purple waves-light right" style="border-radius: 30px;width: 48%;height: 53px;font-size: 18px;color:black;background-color: white;text-transform: none;"><strong class=""><i class="icon f7-icons black-text" style=''>social_googleplus</i>&nbsp;&nbsp;<font color="black">Gmail</font></strong></button> -->
                         </div>
                         <!-- <div class="g-signin2" data-onsuccess="onSignIn"></div> -->
                         <div class="col-100" style='background: transparent;'>
@@ -209,29 +211,32 @@
     <script src="js/validation/additional-methods.min.js "></script>
     <script src="js/my-app.js "></script>
     <script src="js/process.js"></script>
-    <script src="https://apis.google.com/js/platform.js" async defer></script>
+    <script src="js/google.js"></script>
     <script src="js/jspdf.min.js"></script>
     <script src="js/jspdf.debug.js"></script>
 
     <script type="text/javascript">
-        function onSignIn(googleUser) {
-            // if (auth2.isSignedIn.get()) {
-              var profile = googleUser.getBasicProfile();
-              console.log('ID: ' + profile.getId());
-              console.log('Full Name: ' + profile.getName());
-              console.log('Given Name: ' + profile.getGivenName());
-              console.log('Family Name: ' + profile.getFamilyName());
-              console.log('Image URL: ' + profile.getImageUrl());
-              console.log('Email: ' + profile.getEmail());
-              var id_token = googleUser.getAuthResponse().id_token;
-              console.log(id_token);
-            // }
-          // var profile = googleUser.getBasicProfile();
-          // console.log(profile);
-          // console.log('ID: ' + profile.getId()); // Do not send to your backend! Use an ID token instead.
-          // console.log('Name: ' + profile.getName());
-          // console.log('Image URL: ' + profile.getImageUrl());
-          // console.log('Email: ' + profile.getEmail()); // This is null if the 'email' scope is not present.
-        }
+            //  gapi.load('auth2', function(){
+            //     auth2 = gapi.auth2.init({
+            //         clientId: '188371648097-epn7dfrqagvpilftjnamvm1eiaeh1hv9.apps.googleusercontent.com',
+            //         scope: 'profile email'
+            //     });
+            //     console.log("sdsdsds");
+            // });
+        // gapi.load('auth2', function(){
+        //     gapi.auth2.init();
+        // })
+        // function onSignIn(googleUser) {
+        //   var profile = googleUser.getBasicProfile();
+        //   console.log('ID: ' + profile.getId()); // Do not send to your backend! Use an ID token instead.
+        //   console.log('Full Name: ' + profile.getName());
+        //   console.log('Given Name: ' + profile.getGivenName());
+        //   console.log('Family Name: ' + profile.getFamilyName());
+        //   console.log('Image URL: ' + profile.getImageUrl());
+        //   console.log('Email: ' + profile.getEmail());
+        //   var id_token = googleUser.getAuthResponse().id_token;
+        //     console.log(id_token)
+        // }
+        
     </script>
 </html>

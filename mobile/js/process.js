@@ -14,7 +14,15 @@ Framework7.prototype.plugins.kareer = function (app, params) {
 
     var system = {
         ini:function(){
-            console.log("sasa");
+            //GMAIL
+            // gapi.load('auth2', function(){
+            //     auth2 = gapi.auth2.init({
+            //         clientId: '188371648097-epn7dfrqagvpilftjnamvm1eiaeh1hv9.apps.googleusercontent.com',
+            //         scope: 'profile email'
+            //     });
+            //     console.log("sdsdsds");
+            // });
+            //FB
             window.fbAsyncInit = function() {
                 FB.init({
                   appId            : '134413893925132',
@@ -36,7 +44,8 @@ Framework7.prototype.plugins.kareer = function (app, params) {
                 var js, fjs = d.getElementsByTagName(s)[0];
                 if (d.getElementById(id)) {return;}
                 js = d.createElement(s); js.id = id;
-                js.src = "//connect.facebook.net/en_US/sdk.js";
+                // js.src = "//connect.facebook.net/en_US/sdk.js";
+                js.src = 'https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.11&appId=134413893925132';
                 fjs.parentNode.insertBefore(js, fjs);
             }(document, 'script', 'facebook-jssdk'));
             // var deviceSize = system.getDeviceSize();
@@ -143,16 +152,7 @@ Framework7.prototype.plugins.kareer = function (app, params) {
 
     var content = {
         ini:function(){
-            // if(localStorage.getItem() == 'FBUSer'){
-            //     console.log("FB");
-            // }
-            // else{
-            //     console.log("AP");
-            // }
-            // console.log(localStorage.getItem('FBUSer'));
-            // var FacebookUser = JSON.parse(localStorage.getItem('FBUSer'));
             var applicantData = JSON.parse(localStorage.getItem('applicant'));
-            // console.log(FacebookUser);
             if((applicantData == null) || (applicantData == "")){
                 view.router.loadPage("index.html");
             }
@@ -1818,6 +1818,19 @@ Framework7.prototype.plugins.kareer = function (app, params) {
 
     var signUp = {
         ini:function(){
+            $("div.g-signin2").on('Success',function(){
+                function onSignIn(googleUser) {
+                  var profile = googleUser.getBasicProfile();
+                  console.log('ID: ' + profile.getId()); // Do not send to your backend! Use an ID token instead.
+                  console.log('Full Name: ' + profile.getName());
+                  console.log('Given Name: ' + profile.getGivenName());
+                  console.log('Family Name: ' + profile.getFamilyName());
+                  console.log('Image URL: ' + profile.getImageUrl());
+                  console.log('Email: ' + profile.getEmail());
+                  var id_token = googleUser.getAuthResponse().id_token;
+                    console.log(id_token)
+                }
+            });
             // Register using FB ACCOUNT
             $("button.fb").on('click',function(){
                 FB.login(function(response) {
