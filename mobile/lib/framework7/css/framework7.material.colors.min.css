@@ -5864,7 +5864,7 @@ a.color-white {
 }
 
 .theme-white .button:not(.button-fill) {
-	color: #fff
+	color: #000
 }
 
 .theme-white .navbar .button:not(.button-fill),
@@ -6061,20 +6061,20 @@ label.label-radio.theme-white input[type=radio]:checked~.item-inner i.icon-form-
 }
 
 .theme-white .picker-calendar-day.picker-calendar-day-today span {
-	color: #fff
+	color: #f00
 }
 
 .theme-white .picker-calendar-day.picker-calendar-day-selected span {
-	background-color: #fff;
-	color: #fff
-}
+	background-color: #3fcbbe;
+	color: #000;
 
 .theme-white .picker-calendar-day.picker-calendar-day-has-events span:after {
 	background-color: #fff
 }
 
 .theme-white .picker-header {
-	background-color: #fff
+	background-color: #fff;
+	height: 0;
 }
 
 .theme-white .modal-button {

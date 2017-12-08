@@ -19,7 +19,55 @@
                             <span style="color:blue;font-size: 16px;"><center>Create Career Information</center></span>
                         </div>
                     </div>
-                    <div class='add hidden content-block' id="addCareer">
+                    <div class='add hidden content-block'>
+                        <div class="center">
+                           <form action="" method="POST" id='form_career'>
+                                <div class="list-block">
+                                    <ul>
+                                        <li>
+                                            <div class="row center">
+                                                <label class="active" style="top: auto; left: 0px; font-size: 17px;">Inclusive dates</label>
+                                                <input type="text" placeholder="From   -  To" readonly id="field_date" name = "field_date">                                           
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <div class="input-field">
+                                                <input type='text' id="field_position" name="field_position" class="form-control">
+                                                <label class="" for="field_position" style="top: -2px; left: 0px;">Position Title</label>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <div class="input-field">
+                                                <input type='text' id="field_agency" name="field_agency" class="form-control">
+                                                <label class="" for="field_agency" style="top: -2px !important; left: 0px !important;">Department/Company/Office/Agency</label>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <div class="input-field">
+                                                <input type='number' id="field_salary" name="field_salary" class="form-control">
+                                                <label class="" for="field_salary" style="top: -2px !important; left: 0px !important;">Monthly Salary</label>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <div class="input-field">
+                                                <input type='text' id="field_appointment" name="field_appointment" class="form-control">
+                                                <label class="" for="field_appointment" style="top: -2px !important; left: 0px !important;">Status of Appointment</label>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <div class="input-field">
+                                                <input type='text' id="field_govt_service" name="field_govt_service" class="form-control">
+                                                <label class="" for="field_govt_service" style="top: -2px !important; left: 0px !important;">Gov't Service</label>
+                                            </div>
+                                        </li>
+                                        <li style="margin-top: 70% !important;">
+                                            <button id="" class="btn-flat btn-large waves-effect waves-teal waves-light purple color-white" style="width: 80%; margin-left: -15px !important; border-radius: 30px !important; height: 49px; background-color: #7a5578; font-size: 20px;">Save</button>
+                                            <a href="#" class="cancel btn-floating btn-small red waves-effect waves-teal waves-light right" style="right: 5px; height: 50px; width: 50px;"><i class="icon f7-icons" style="top: 7px;">close</i></a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </form>
+                          </div>
                     </div>
                     <div class="fixed-action-btn" style="bottom: 45px; right: 24px;">
                         <a data-cmd='add-career' class="add btn-floating btn-small teal waves-effect waves-teal waves-light" style="right: -4px; height: 50px; width: 50px; top: 15px;"><i class="icon f7-icons" style="top: 5px;">add</i></a>

@@ -20,6 +20,16 @@ $Functions = new DatabaseClasses;
         $query = $Functions->PDO("SELECT count(*) FROM tbl_applicant WHERE email = '{$data}'");
         print_r($query[0][0]);
     }
+
+    if(isset($_GET['send-mail'])){
+        $data = $_POST['data'];
+        $message = "<div style='text-align: center;width: 500px;position: relative;margin: 0 auto;border-radius: 3px;background: #4485F4;color: #fff;padding: 30px;border-top: yellow solid 10px;top: 50px;box-shadow: 0px 0px 50px #ccc;margin-top: 50px;margin-bottom: 50px;'><b><font size='6'>Welcome to Kareer</font></b><br/><br/><br/>Thank you for registering to Kareer. Here is your&nbsp;system generated password: {$data[1]}&nbsp;<br/><br/><br/>Please change your password as soon as you get in to your account. <br/><br/><br/><br/>Thanks and God bless.</div> ";
+        $headers  = 'MIME-Version: 1.0' . "\r\n";
+        $headers .= 'Content-type: text/html; charset=iso-8859-1' . "\r\n";
+        $headers .= 'From: Kareer' . "\r\n";
+        $subject = 'Kareer - Applicant Account Registration';
+        $result = mail($data[0],$subject,$message,$headers);
+    }
     
     if (isset($_GET['do-logIn'])){
         $data = $_POST["data"];
@@ -226,13 +236,14 @@ $Functions = new DatabaseClasses;
         $id = $Functions->PDO_IDGenerator('tbl_career','id');
         $date = $Functions->PDO_DateAndTime();
         $fromDate = $Functions->escape($data[1][0]['value']);
-        $toDate = $Functions->escape($data[1][1]['value']);
-        $position = $Functions->escape($data[1][2]['value']);
-        $agency = $Functions->escape($data[1][3]['value']);
-        $salary = $Functions->escape($data[1][4]['value']);
-        $appointment = $Functions->escape($data[1][5]['value']);
-
-        $query = $Functions->PDO("INSERT INTO tbl_career(id,applicant_id,inclusive_fromdate,inclusive_todate,position_title,agency,monthly_salary,appointment_status,govt_service,date) VALUES('{$id}','{$data[0]}',{$fromDate},{$toDate},{$position},{$agency},{$salary},{$appointment},'','$date')");
+        $FROM = substr(($fromDate), 1,12);
+        $TO = substr(($fromDate), 15,-1);
+        $position = $Functions->escape($data[1][1]['value']);
+        $agency = $Functions->escape($data[1][2]['value']);
+        $salary = $Functions->escape($data[1][3]['value']);
+        $appointment = $Functions->escape($data[1][4]['value']);
+        $gov = $Functions->escape($data[1][5]['value']);
+        $query = $Functions->PDO("INSERT INTO tbl_career(id,applicant_id,inclusive_fromdate,inclusive_todate,position_title,agency,monthly_salary,appointment_status,govt_service,date) VALUES('{$id}','{$data[0]}','{$FROM}','{$TO}',{$position},{$agency},{$salary},{$appointment},{$gov},'$date')");
         if($query->execute()){
             echo 1;
         }

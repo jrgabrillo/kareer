@@ -524,62 +524,11 @@ Framework7.prototype.plugins.kareer = function (app, params) {
             // $("a.cancel").addClass('hidden');
             $("div.toolbar").addClass('hidden');
 
-            let content =`<div class="center">
-                           <form action="" method="POST" id='form_career'>
-                                <div class="list-block">
-                                    <ul>
-                                        <li>
-                                            <div class="row center">
-                                                <div class="input-field">
-                                                    <label class="active" style="top: auto; left: 0px; font-size: 17px;">Inclusive dates</label>
-                                                    <div class="col s6">
-                                                        <input type='date' id="field_dateFirst" name="field_dateFirst" class="form-control" placeholder="From">
-                                                    </div>
-                                                    <div class="col s6">
-                                                        <input type='date' id="field_dateLast" name="field_dateLast" class="form-control" placeholder="To">
-                                                    </div>
-                                                </div>                                            
-                                            </div>
-                                        </li>
-                                        <li>
-                                            <div class="input-field">
-                                                <input type='text' id="field_position" name="field_position" class="form-control">
-                                                <label class="" for="field_position" style="top: -2px; left: 0px;">Position Title</label>
-                                            </div>
-                                        </li>
-                                        <li>
-                                            <div class="input-field">
-                                                <input type='text' id="field_agency" name="field_agency" class="form-control">
-                                                <label class="" for="field_agency" style="top: -2px !important; left: 0px !important;">Department/Company/Office/Agency</label>
-                                            </div>
-                                        </li>
-                                        <li>
-                                            <div class="input-field">
-                                                <input type='text' id="field_salary" name="field_salary" class="form-control">
-                                                <label class="" for="field_salary" style="top: -2px !important; left: 0px !important;">Monthly Salary</label>
-                                            </div>
-                                        </li>
-                                        <li>
-                                            <div class="input-field">
-                                                <input type='text' id="field_appointment" name="field_appointment" class="form-control">
-                                                <label class="" for="field_appointment" style="top: -2px !important; left: 0px !important;">Status of Appointment</label>
-                                            </div>
-                                        </li>
-                                        <li>
-                                            <div class="input-field">
-                                                <input type='text' id="field_govt_service" name="field_govt_service" class="form-control">
-                                                <label class="" for="field_govt_service" style="top: -2px !important; left: 0px !important;">Gov't Service</label>
-                                            </div>
-                                        </li>
-                                        <li style="margin-top: 70% !important;">
-                                            <button class="btn-flat btn-large waves-effect waves-teal waves-light purple color-white" style="width: 80%; margin-left: -15px !important; border-radius: 30px !important; height: 49px; background-color: #7a5578; font-size: 20px;">Save</button>
-                                            <a href="#" class="cancel btn-floating btn-small red waves-effect waves-teal waves-light right" style="right: 5px; height: 50px; width: 50px;"><i class="icon f7-icons" style="top: 7px;">close</i></a>
-                                        </li>
-                                    </ul>
-                                </div>
-                            </form>
-                          </div>`;
-            $$("#addCareer").html(content);
+            app.calendar({
+                input: '#field_date',
+                dateFormat: 'M dd yyyy',
+                rangePicker: true
+            });
 
             $("a.cancel").on('click',function(){
                 $("div.list").removeClass('hidden');
@@ -612,11 +561,11 @@ Framework7.prototype.plugins.kareer = function (app, params) {
             app.onPageInit('career',function(page){
                 career.ini();
             });
-                
+
             $("#form_career").validate({
                 rules: {
-                    field_dateFirst: {required: true,maxlength:20},
-                    field_dateLast: {required: true,maxlength:20},
+                    // field_dateFirst: {required: true,maxlength:20},
+                    field_date: {required: true,maxlength:30},
                     field_position: {required: true,maxlength:100},
                     field_agency: {required: true,maxlength:100},
                     field_salary: {required: true,maxlength:100},
