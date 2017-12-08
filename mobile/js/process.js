@@ -522,7 +522,7 @@ Framework7.prototype.plugins.kareer = function (app, params) {
             $("a.add").addClass('hidden');
             $("a.goback").removeClass('hidden');
             // $("a.cancel").addClass('hidden');
-            $("div.toolbar").addClass('hidden');
+            $("div.toolbar").addClass('hidden');    
 
             app.calendar({
                 input: '#field_date',
