@@ -2182,11 +2182,14 @@ i.icon.icon-prev {
 }
 
 i.icon.icon-next {
-	background-image: url("data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D'http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg'%20fill%3D'%23ffffff'%20width%3D'24'%20height%3D'24'%20viewBox%3D'0%200%2024%2024'%3E%3Cpath%20d%3D'M10%206L8.59%207.41%2013.17%2012l-4.58%204.59L10%2018l6-6z'%2F%3E%3Cpath%20d%3D'M0%200h24v24H0z'%20fill%3D'none'%2F%3E%3C%2Fsvg%3E")
+	background-image: url("data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D'http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg'%20fill%3D'%23ffffff'%20width%3D'24'%20height%3D'24'%20viewBox%3D'0%200%2024%2024'%3E%3Cpath%20d%3D'M10%206L8.59%207.41%2013.17%2012l-4.58%204.59L10%2018l6-6z'%2F%3E%3Cpath%20d%3D'M0%200h24v24H0z'%20fill%3D'none'%2F%3E%3C%2Fsvg%3E");
+	background-color: #009688;
 }
 
 i.icon.icon-prev {
-	background-image: url("data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D'http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg'%20fill%3D'%23ffffff'%20width%3D'24'%20height%3D'24'%20viewBox%3D'0%200%2024%2024'%3E%3Cpath%20d%3D'M15.41%207.41L14%206l-6%206%206%206%201.41-1.41L10.83%2012z'%2F%3E%3Cpath%20d%3D'M0%200h24v24H0z'%20fill%3D'none'%2F%3E%3C%2Fsvg%3E")
+
+	background-image: url("data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D'http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg'%20fill%3D'%23ffffff'%20width%3D'24'%20height%3D'24'%20viewBox%3D'0%200%2024%2024'%3E%3Cpath%20d%3D'M15.41%207.41L14%206l-6%206%206%206%201.41-1.41L10.83%2012z'%2F%3E%3Cpath%20d%3D'M0%200h24v24H0z'%20fill%3D'none'%2F%3E%3C%2Fsvg%3E");
+	background-color: #009688;
 }
 
 i.icon.icon-plus {
@@ -5295,6 +5298,7 @@ html.with-statusbar-overlay .popup.tablet-fullscreen {
 	-webkit-flex-shrink: 0;
 	-ms-flex: 0 0 auto;
 	flex-shrink: 0
+	background-color: #67356f;
 }
 
 .picker-modal .picker-footer,
@@ -5303,7 +5307,8 @@ html.with-statusbar-overlay .popup.tablet-fullscreen {
 }
 
 .picker-modal .picker-header {
-	background: #2196f3
+	background: #2196f3;
+	height: 0;
 }
 
 .picker-modal .picker-header+.toolbar .toolbar-inner {
@@ -7711,7 +7716,7 @@ html.pixel-ratio-3 .picker-center-highlight:after {
 
 .picker-calendar-selected-date {
 	line-height: 48px;
-	color: #fff;
+	color: #000000;
 	padding: 0 24px;
 	font-size: 20px;
 	position: relative;
@@ -7729,7 +7734,8 @@ html.pixel-ratio-3 .picker-center-highlight:after {
 	font-size: 12px;
 	box-sizing: border-box;
 	position: relative;
-	color: rgba(0, 0, 0, .54)
+	/*color: rgba(0, 0, 0, .54)*/
+	background-color: rgba(36, 187, 255, 0.37);
 }
 
 .picker-calendar-week-days .picker-calendar-week-day {
@@ -7760,6 +7766,7 @@ html.pixel-ratio-3 .picker-center-highlight:after {
 	height: -webkit-calc(100% - 100% / 7);
 	height: -moz-calc(100% - 100% / 7);
 	height: calc(100% - 100% / 7)
+	background: #bfddf5;
 }
 
 .picker-calendar-months {
@@ -7907,6 +7914,7 @@ html.pixel-ratio-3 .picker-center-highlight:after {
 	-webkit-flex-shrink: 10;
 	-ms-flex: 0 10 auto;
 	flex-shrink: 10
+	color: #000000;
 }
 
 .picker-calendar-month-picker span,
@@ -7919,7 +7927,8 @@ html.pixel-ratio-3 .picker-center-highlight:after {
 	overflow: hidden;
 	text-overflow: ellipsis;
 	width: 100%;
-	text-align: center
+	text-align: center;
+	color: black;
 }
 
 .notifications {

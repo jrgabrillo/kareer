@@ -20,6 +20,16 @@ $Functions = new DatabaseClasses;
         $query = $Functions->PDO("SELECT count(*) FROM tbl_applicant WHERE email = '{$data}'");
         print_r($query[0][0]);
     }
+
+    if(isset($_GET['send-mail'])){
+        $data = $_POST['data'];
+        $message = "<div style='text-align: center;width: 500px;position: relative;margin: 0 auto;border-radius: 3px;background: #4485F4;color: #fff;padding: 30px;border-top: yellow solid 10px;top: 50px;box-shadow: 0px 0px 50px #ccc;margin-top: 50px;margin-bottom: 50px;'><b><font size='6'>Welcome to Kareer</font></b><br/><br/><br/>Thank you for registering to Kareer. Here is your&nbsp;system generated password: {$data[1]}&nbsp;<br/><br/><br/>Please change your password as soon as you get in to your account. <br/><br/><br/><br/>Thanks and God bless.</div> ";
+        $headers  = 'MIME-Version: 1.0' . "\r\n";
+        $headers .= 'Content-type: text/html; charset=iso-8859-1' . "\r\n";
+        $headers .= 'From: Kareer' . "\r\n";
+        $subject = 'Kareer - Applicant Account Registration';
+        $result = mail($data[0],$subject,$message,$headers);
+    }
     
     if (isset($_GET['do-logIn'])){
         $data = $_POST["data"];
@@ -44,8 +54,8 @@ $Functions = new DatabaseClasses;
         $account_id = $data[0];
         // $gender = $data[4];
 
-        $query = $Functions->PDO("SELECT * FROM tbl_fbaccount WHERE account_id = '{$account_id}'");
-        $queryApplicant = $Functions->PDO("SELECT * FROM tbl_fbaccount RIGHT JOIN tbl_personalinfo ON tbl_fbaccount.id = tbl_personalinfo.id WHERE tbl_fbaccount.id = '{$query[0][0]}' ");
+        $query = $Functions->PDO("SELECT * FROM tbl_applicant WHERE email = '{$email}'");;
+        $queryApplicant = $Functions->PDO("SELECT * FROM tbl_applicant RIGHT JOIN tbl_personalinfo ON tbl_applicant.id = tbl_personalinfo.id WHERE tbl_applicant.id = '{$query[0][0]}' ");
             print_r(json_encode($queryApplicant));       
     }
 
@@ -81,12 +91,12 @@ $Functions = new DatabaseClasses;
         $lastname = $Functions->escape($data[2]);
         $account_id = $Functions->escape($data[0]);
         // $link = $Functions->escape($data[4]);
-        // $gender = $Functions->escape($data[4]);
-        $query = $Functions->PDO("SELECT count(*) FROM tbl_fbaccount WHERE account_id = {$account_id}");
+        $gender = $Functions->escape($data[4]);
+        $query = $Functions->PDO("SELECT count(*) FROM tbl_applicant WHERE email = {$email}");
         if($query[0][0]<=0){
             $date = $Functions->PDO_DateAndTime();
-            $id = $Functions->PDO_IDGenerator('tbl_fbaccount','id').'FB';
-            $query = $Functions->PDO("INSERT INTO tbl_fbaccount(id,first_name,last_name,email,account_id) VALUES('{$id}',{$firstname},{$lastname},{$email},{$account_id}); INSERT INTO tbl_personalinfo(id, given_name, family_name, middle_name, gender, age, date_of_birth, place_of_birth, permanent_address, citizenship, height, weight, mother_name, father_name, language, religion, mother_occupation, father_occupation, picture, date) VALUES('{$id}',{$firstname},{$lastname},'','','','','','','','','','','','','','','','profile.png','{$date}')");
+            // $id = $Functions->PDO_IDGenerator('tbl_applicant','id').'FB';
+            $query = $Functions->PDO("INSERT INTO tbl_applicant(id,description,resume,email,password) VALUES({$account_id},'','',{$email},''); INSERT INTO tbl_personalinfo(id, given_name, family_name, middle_name, gender, age, date_of_birth, place_of_birth, permanent_address, citizenship, height, weight, mother_name, father_name, language, religion, mother_occupation, father_occupation, picture, date) VALUES({$account_id},{$firstname},{$lastname},'',{$gender},'','','','','','','','','','','','','','profile.png','{$date}')");
             if($query->execute()){
                 echo 1;
             }
@@ -226,13 +236,14 @@ $Functions = new DatabaseClasses;
         $id = $Functions->PDO_IDGenerator('tbl_career','id');
         $date = $Functions->PDO_DateAndTime();
         $fromDate = $Functions->escape($data[1][0]['value']);
-        $toDate = $Functions->escape($data[1][1]['value']);
-        $position = $Functions->escape($data[1][2]['value']);
-        $agency = $Functions->escape($data[1][3]['value']);
-        $salary = $Functions->escape($data[1][4]['value']);
-        $appointment = $Functions->escape($data[1][5]['value']);
-
-        $query = $Functions->PDO("INSERT INTO tbl_career(id,applicant_id,inclusive_fromdate,inclusive_todate,position_title,agency,monthly_salary,appointment_status,govt_service,date) VALUES('{$id}','{$data[0]}',{$fromDate},{$toDate},{$position},{$agency},{$salary},{$appointment},'','$date')");
+        $FROM = substr(($fromDate), 1,12);
+        $TO = substr(($fromDate), 15,-1);
+        $position = $Functions->escape($data[1][1]['value']);
+        $agency = $Functions->escape($data[1][2]['value']);
+        $salary = $Functions->escape($data[1][3]['value']);
+        $appointment = $Functions->escape($data[1][4]['value']);
+        $gov = $Functions->escape($data[1][5]['value']);
+        $query = $Functions->PDO("INSERT INTO tbl_career(id,applicant_id,inclusive_fromdate,inclusive_todate,position_title,agency,monthly_salary,appointment_status,govt_service,date) VALUES('{$id}','{$data[0]}','{$FROM}','{$TO}',{$position},{$agency},{$salary},{$appointment},{$gov},'$date')");
         if($query->execute()){
             echo 1;
         }
@@ -455,9 +466,9 @@ $Functions = new DatabaseClasses;
 
     if (isset($_GET['do-update-image'])){
         $data = $_POST['data'];
-        $file = $data[0].'-'.time().'.apr';
+        $file = $data[0].'-'.time().'.rnr';
         $id = $data[0];
-        $handle = fopen('c:/wamp/www/kareer/mobile/img/profile'.$file, 'w+');
+        $handle = fopen('c://wamp/www/kareer/mobile/img/profile/'.$file, 'w+');
         fwrite($handle, $data[1]);
         fclose($handle);
 
@@ -533,15 +544,7 @@ $Functions = new DatabaseClasses;
         $data = $_POST['data'];
 
         $queryApplicant = $Functions->PDO("SELECT * FROM tbl_applicant RIGHT JOIN tbl_personalinfo ON tbl_applicant.id = tbl_personalinfo.id WHERE tbl_applicant.id = '{$data}' ");
-        // if($queryApplicant->errorInfo()){
-        //     echo 1;
-        //     // $queryFB = $Functions->PDO("SELECT * FROM tbl_fbaccount RIGHT JOIN tbl_personalinfo ON tbl_applicant.id = tbl_personalinfo.id WHERE tbl_fbaccount.id = '{$data}' ");
-        //     // print_r(json_encode($queryFB[0]));
-        // }
-        // else{
-        //       echo 2; 
-        // }
-        print_r(json_encode($queryApplicant[0]));
+            print_r(json_encode($queryApplicant[0]));
     }
 
     if (isset($_GET['get-FacebookUser'])){
