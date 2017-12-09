@@ -36,6 +36,19 @@ $Functions = new DatabaseClasses;
         }
     }
 
+    if (isset($_GET['do-logInFB'])){
+        $data = $_POST['data'];
+        $email = $data[3];
+        $firstname = $data[1];
+        $lastname = $data[2];
+        $account_id = $data[0];
+        // $gender = $data[4];
+
+        $query = $Functions->PDO("SELECT * FROM tbl_fbaccount WHERE account_id = '{$account_id}'");
+        $queryApplicant = $Functions->PDO("SELECT * FROM tbl_fbaccount RIGHT JOIN tbl_personalinfo ON tbl_fbaccount.id = tbl_personalinfo.id WHERE tbl_fbaccount.id = '{$query[0][0]}' ");
+            print_r(json_encode($queryApplicant));       
+    }
+
     if (isset($_GET['do-signUp'])){
         $data = $_POST['data'];
         $email = $Functions->escape($data[2]['value']);
@@ -61,6 +74,32 @@ $Functions = new DatabaseClasses;
         }
     }
 
+    if (isset($_GET['do-signUpFB'])){
+        $data = $_POST['data'];
+        $email = $Functions->escape($data[3]);
+        $firstname = $Functions->escape($data[1]);
+        $lastname = $Functions->escape($data[2]);
+        $account_id = $Functions->escape($data[0]);
+        // $link = $Functions->escape($data[4]);
+        // $gender = $Functions->escape($data[4]);
+        $query = $Functions->PDO("SELECT count(*) FROM tbl_fbaccount WHERE account_id = {$account_id}");
+        if($query[0][0]<=0){
+            $date = $Functions->PDO_DateAndTime();
+            $id = $Functions->PDO_IDGenerator('tbl_fbaccount','id').'FB';
+            $query = $Functions->PDO("INSERT INTO tbl_fbaccount(id,first_name,last_name,email,account_id) VALUES('{$id}',{$firstname},{$lastname},{$email},{$account_id}); INSERT INTO tbl_personalinfo(id, given_name, family_name, middle_name, gender, age, date_of_birth, place_of_birth, permanent_address, citizenship, height, weight, mother_name, father_name, language, religion, mother_occupation, father_occupation, picture, date) VALUES('{$id}',{$firstname},{$lastname},'','','','','','','','','','','','','','','','profile.png','{$date}')");
+            if($query->execute()){
+                echo 1;
+            }
+            else{
+                $Data = $query->errorInfo();
+                print_r($Data);
+            }
+        }
+        else{
+            echo 2;
+        }
+    }
+
     if (isset($_GET['do-academic'])){
         $data = $_POST['data'];
         
@@ -71,10 +110,17 @@ $Functions = new DatabaseClasses;
         $degree = $Functions->escape($data[1][2]['value']);
         $units = $Functions->escape($data[1][3]['value']);
         $periodofattendance = $Functions->escape($data[1][4]['value']." : ".$data[1][5]['value']);
-        $year = substr(json_encode($data[1][5]['value']),1,4);
-        $yearGraduated = $Functions->escape($year);
-
-        $query = $Functions->PDO("INSERT INTO tbl_acadinfo(id,applicant_id,level,schoolattended,degree,periodofattendance,highestlevel,yeargraduated,date) VALUES('{$id}','{$data[0]}',{$yearLevel},{$school},{$degree},{$periodofattendance},{$units},{$yearGraduated},'{$date}')");
+        // $year = substr(json_encode($data[1][5]['value']),1,4);
+        // $yearGraduated = $Functions->escape($year);
+        $yearGraduated = $Functions->escape($data[1][5]['value']);
+        
+        if(($yearLevel == 'Elementary') || ($yearLevel == 'High School')){
+            $query = $Functions->PDO("INSERT INTO tbl_acadinfo(id,applicant_id,level,schoolattended,degree,periodofattendance,highestlevel,yeargraduated,date) VALUES('{$id}','{$data[0]}',{$yearLevel},{$school},'',{$periodofattendance},'',{$yearGraduated},'{$date}')");
+        }
+        else{
+            $query = $Functions->PDO("INSERT INTO tbl_acadinfo(id,applicant_id,level,schoolattended,degree,periodofattendance,highestlevel,yeargraduated,date) VALUES('{$id}','{$data[0]}',{$yearLevel},{$school},{$degree},{$periodofattendance},{$units},{$yearGraduated},'{$date}')");
+        }
+        
         if($query->execute()){
             echo 1;
         }
@@ -207,6 +253,7 @@ $Functions = new DatabaseClasses;
             print_r($Data);
         }
     }
+
     if (isset($_GET['do-editCareer'])){
         $data = $_POST['data'];
         $query = $Functions->PDO("SELECT * FROM tbl_career WHERE id = '{$data}';");
@@ -254,6 +301,7 @@ $Functions = new DatabaseClasses;
             print_r($Data);
         }
     }
+
     if (isset($_GET['do-accountResume'])){
         $data = $_POST['data'];
         $id = $data[0];
@@ -267,7 +315,6 @@ $Functions = new DatabaseClasses;
             print_r($Data);
         }
     }
-
 
     if (isset($_GET['do-update'])){
         $data = $_POST['data'];
@@ -410,7 +457,7 @@ $Functions = new DatabaseClasses;
         $data = $_POST['data'];
         $file = $data[0].'-'.time().'.apr';
         $id = $data[0];
-        $handle = fopen('../img/'.$file, 'w+');
+        $handle = fopen('c:/wamp/www/kareer/mobile/img/profile'.$file, 'w+');
         fwrite($handle, $data[1]);
         fclose($handle);
 
@@ -484,9 +531,31 @@ $Functions = new DatabaseClasses;
 
     if (isset($_GET['get-applicant'])){
         $data = $_POST['data'];
+
         $queryApplicant = $Functions->PDO("SELECT * FROM tbl_applicant RIGHT JOIN tbl_personalinfo ON tbl_applicant.id = tbl_personalinfo.id WHERE tbl_applicant.id = '{$data}' ");
+        // if($queryApplicant->errorInfo()){
+        //     echo 1;
+        //     // $queryFB = $Functions->PDO("SELECT * FROM tbl_fbaccount RIGHT JOIN tbl_personalinfo ON tbl_applicant.id = tbl_personalinfo.id WHERE tbl_fbaccount.id = '{$data}' ");
+        //     // print_r(json_encode($queryFB[0]));
+        // }
+        // else{
+        //       echo 2; 
+        // }
         print_r(json_encode($queryApplicant[0]));
+    }
+
+    if (isset($_GET['get-FacebookUser'])){
+        $data = $_POST['data'];
+
+        $queryApplicant = $Functions->PDO("SELECT * FROM tbl_fbaccount RIGHT JOIN tbl_personalinfo ON tbl_applicant.id = tbl_personalinfo.id WHERE tbl_fbaccount.id = '{$data}' ");
+            print_r(json_encode($queryApplicant[0]));
     }    
+
+    if (isset($_GET['get-FacebookUser'])){
+        $data = $_POST['data'];
+        $queryApplicant = $Functions->PDO("SELECT * FROM tbl_fbaccount RIGHT JOIN tbl_personalinfo ON tbl_applicant.id = tbl_personalinfo.id WHERE tbl_applicant.id = '{$data}' ");
+        print_r(json_encode($queryApplicant[0]));
+    }
 
     if (isset($_GET['get-jobs'])){
         $data = $_POST['data'];

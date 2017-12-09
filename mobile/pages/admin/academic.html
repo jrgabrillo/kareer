@@ -10,7 +10,64 @@
                             <div class="indeterminate"></div>
                         </div>
                     </div>
-                    <div class='add hidden content-block' id="addAcademic">
+                    <div class='add hidden content-block'>
+                        <div class="center">
+                            <form action="" method="POST" id='form_academic'>
+                                <div class="list-block">
+                                    <ul>
+                                        <li>
+                                            <div class="input-field" style='border: gray; border-width: 1px; background-color: rgba(238, 238, 238, 0.15); border-style: solid; border-radius: 15px;'>
+                                                <select id="field_yearLevel" name="field_yearLevel">
+                                                    <!-- <option value="" disabled selected></option> -->
+                                                    <option value="Elementary">ELEMENTARY</option>
+                                                    <option value="High School">HIGH SCHOOL</option>
+                                                    <option value="Tech Voc">TECH VOC</option>
+                                                    <option value="College">COLLEGE</option>
+                                                    <option value="Masteral">MASTERAL</option>
+                                                    <option value="Doctorate">DOCTORATE</option>
+                                                </select>
+                                            </div>
+                                        </li>
+
+                                        <li>
+                                            <div class="input-field">
+                                                <input type='text' id="field_school" name="field_school" class="form-control">
+                                                <label class="" for="field_school" style="color: black; top: -2px !important; left: 0px !important;">Name of Schools</label>
+                                            </div>
+                                        </li>
+                                        <li id="degree">
+                                            <div class="input-field hidden">
+                                                <input type='text' id="field_degree" name="field_degree" class="form-control">
+                                                <label class="" for="field_degree" style="color: black; top: -2px !important; left: 0px !important;">Basic Education/Degree/Course</label>
+                                            </div>
+                                        </li>
+                                        <li id ="units">
+                                            <div class="input-field hidden">
+                                                <input type='text' id="field_units" name="field_units" class="form-control">
+                                                <label class="" for="field_units" style="color: black; top: -2px !important; left: 0px !important;">Units Earned</label>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <div class="row">
+                                                <div class="input-field">
+                                                    <label class="active" style="color: black;">Period of Attendance</label>
+                                                    <div class="col s6">
+                                                        <input type='number' id="field_dateFirst" name="field_dateFirst" class="form-control" placeholder="From">
+                                                    </div>
+                                                    <div class="col s6">
+                                                        <input type='number' id="field_dateLast" name="field_dateLast" class="form-control" placeholder="To">
+                                                    </div>
+                                                </div>                                            
+                                            </div>
+                                        </li>
+                                        <li style="margin-top: 70% !important;">
+                                            <button class="btn-flat btn-large waves-effect waves-teal waves-light purple color-white" style="width: 80%; margin-left: -15px !important; border-radius: 30px !important; height: 49px; background-color: #7a5578; font-size: 20px;">Save</button>
+                                            <a href="#" class="cancel btn-floating btn-small red waves-effect waves-teal waves-light right" style="right: 5px; height: 50px; width: 50px;"><i class="icon f7-icons" style="top: 7px;">close</i></a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </form>
+                          </div>
                     </div>
                     <div class="fixed-action-btn" style="bottom: 45px; right: 24px;">
                         <a data-cmd='add-academic' class="add btn-floating btn-small teal waves-effect waves-teal waves-light" style="right: -4px; height: 50px; width: 50px; top: 33px;"><i class="icon f7-icons" style="top: 5px;">add</i></a>
