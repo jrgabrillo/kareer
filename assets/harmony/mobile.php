@@ -36,13 +36,15 @@ $Functions = new DatabaseClasses;
         $email = $data[0]['value'];
         $password = $data[1]['value'];
 
-        $query = $Functions->PDO("SELECT * FROM tbl_applicant WHERE email = '{$email}'");
-        if($Functions->testPassword($password,$query[0][4])){
-            $queryApplicant = $Functions->PDO("SELECT * FROM tbl_applicant RIGHT JOIN tbl_personalinfo ON tbl_applicant.id = tbl_personalinfo.id WHERE tbl_applicant.id = '{$query[0][0]}' ");
-            print_r(json_encode($queryApplicant));
-        }
-        else{
-            echo 0;
+        $query = $Functions->PDO("SELECT * FROM tbl_applicant WHERE email = '{$email}' AND status = '1'");
+        if($query[0][5] == '1'){
+            if($Functions->testPassword($password,$query[0][4])){
+                $queryApplicant = $Functions->PDO("SELECT * FROM tbl_applicant RIGHT JOIN tbl_personalinfo ON tbl_applicant.id = tbl_personalinfo.id WHERE tbl_applicant.id = '{$query[0][0]}' ");
+                print_r(json_encode($queryApplicant));
+            }
+            else{
+                echo 0;
+            }
         }
     }
 
@@ -70,8 +72,14 @@ $Functions = new DatabaseClasses;
         if($query[0][0]<=0){
             $date = $Functions->PDO_DateAndTime();
             $id = $Functions->PDO_IDGenerator('tbl_applicant','id');
-            $query = $Functions->PDO("INSERT INTO tbl_applicant(id,description,resume,email,password) VALUES('{$id}','','',{$email},'{$password}'); INSERT INTO tbl_personalinfo(id, given_name, family_name, middle_name, gender, age, date_of_birth, place_of_birth, permanent_address, citizenship, height, weight, mother_name, father_name, language, religion, mother_occupation, father_occupation, picture, date) VALUES('{$id}',{$firstname},{$lastname},'','','','','','','','','','','','','','','','profile.png','{$date}')");
+            $query = $Functions->PDO("INSERT INTO tbl_applicant(id,description,resume,email,password,status) VALUES('{$id}','','',{$email},'{$password}','1'); INSERT INTO tbl_personalinfo(id, given_name, family_name, middle_name, gender, age, date_of_birth, place_of_birth, permanent_address, citizenship, height, weight, mother_name, father_name, language, religion, mother_occupation, father_occupation, picture, date) VALUES('{$id}',{$firstname},{$lastname},'','','','','','','','','','','','','','','','profile.png','{$date}')");
             if($query->execute()){
+                // $message = "<div style='text-align: center;width: 500px;position: relative;margin: 0 auto;border-radius: 3px;background: #4485F4;color: #fff;padding: 30px;border-top: yellow solid 10px;top: 50px;box-shadow: 0px 0px 50px #ccc;margin-top: 50px;margin-bottom: 50px;'><b><font size='6'>Welcome to Kareer</font></b><br/><br/><br/>Thank you for registering to Kareer.<br/><br/><br/>You may now login to your account. <br/><br/><br/><br/>Thanks and God bless.</div> ";
+                // // $headers  = 'MIME-Version: 1.0' . "\r\n";
+                // // $headers .= 'Content-type: text/html; charset=iso-8859-1' . "\r\n";
+                // // $headers .= 'From: Kareer' . "\r\n";
+                // $subject = 'Kareer - Applicant Account Registration';
+                // $mail = $Functions->mail('othanmillet@gmail.com',$subject,$message);
                 echo 1;
             }
             else{
@@ -96,7 +104,7 @@ $Functions = new DatabaseClasses;
         if($query[0][0]<=0){
             $date = $Functions->PDO_DateAndTime();
             // $id = $Functions->PDO_IDGenerator('tbl_applicant','id').'FB';
-            $query = $Functions->PDO("INSERT INTO tbl_applicant(id,description,resume,email,password) VALUES({$account_id},'','',{$email},''); INSERT INTO tbl_personalinfo(id, given_name, family_name, middle_name, gender, age, date_of_birth, place_of_birth, permanent_address, citizenship, height, weight, mother_name, father_name, language, religion, mother_occupation, father_occupation, picture, date) VALUES({$account_id},{$firstname},{$lastname},'',{$gender},'','','','','','','','','','','','','','profile.png','{$date}')");
+            $query = $Functions->PDO("INSERT INTO tbl_applicant(id,description,resume,email,password,status) VALUES({$account_id},'','',{$email},'','2'); INSERT INTO tbl_personalinfo(id, given_name, family_name, middle_name, gender, age, date_of_birth, place_of_birth, permanent_address, citizenship, height, weight, mother_name, father_name, language, religion, mother_occupation, father_occupation, picture, date) VALUES({$account_id},{$firstname},{$lastname},'',{$gender},'','','','','','','','','','','','','','profile.png','{$date}')");
             if($query->execute()){
                 echo 1;
             }
@@ -464,20 +472,35 @@ $Functions = new DatabaseClasses;
         }
     }
 
-    if (isset($_GET['do-update-image'])){
+    // if (isset($_GET['do-update-image'])){
+    //     $data = $_POST['data'];
+    //     $file = $data[0].'-'.time().'.rnr';
+    //     $id = $data[0];
+    //     $handle = fopen('c://wamp/www/kareer/mobile/img/profile/'.$file, 'w+');
+    //     fwrite($handle, $data[1]);
+    //     fclose($handle);
+
+    //     $query = $Functions->PDO("UPDATE tbl_personalinfo SET picture = '{$file}' WHERE id = '{$id}';");
+
+    //     if($query->execute()){
+    //         echo 1;
+    //     }
+    //     else{
+    //         $Data = $query->errorInfo();
+    //         print_r($Data);
+    //     }
+    // }
+    if(isset($_GET['do-update-image'])){
         $data = $_POST['data'];
-        $file = $data[0].'-'.time().'.rnr';
-        $id = $data[0];
-        $handle = fopen('c://wamp/www/kareer/mobile/img/profile/'.$file, 'w+');
-        fwrite($handle, $data[1]);
-        fclose($handle);
-
-        $query = $Functions->PDO("UPDATE tbl_personalinfo SET picture = '{$file}' WHERE id = '{$id}';");
-
+        $user = $data[0];
+        // $session = $_SESSION['kaboom'];
+        $picture = $Functions->saveImage($user,$data[1]);
+        $query = $Functions->PDO("UPDATE tbl_personalinfo SET picture = '{$picture}' WHERE id = '{$user}';");
         if($query->execute()){
             echo 1;
         }
         else{
+            unlink('c://wamp/www/kareer/mobile/img/profile/'.$picture);
             $Data = $query->errorInfo();
             print_r($Data);
         }
