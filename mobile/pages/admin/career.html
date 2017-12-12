@@ -29,10 +29,10 @@
                                                 <div class="input-field">
                                                     <label class="active" style="top: auto; left: 0px; font-size: 17px;">Inclusive dates</label>
                                                     <div class="col s6">
-                                                        <input type='date'  name="field_dateFirst" class="form-control" placeholder="From">
+                                                        <input type='date' id="field_dateFirst"  name="field_dateFirst" class="form-control" placeholder="From">
                                                     </div>
                                                     <div class="col s6">
-                                                        <input type='date'  name="field_dateLast" class="form-control" placeholder="To">
+                                                        <input type='date' id="field_dateLast" name="field_dateLast" class="form-control" placeholder="To">
                                                     </div>
                                                 </div>                                            
                                             </div>
@@ -63,8 +63,11 @@
                                         </li>
                                         <li>
                                             <div class="input-field">
-                                                <input type='text' id="field_govt_service" placeholder = "Yes/No" name="field_govt_service" class="form-control">
-                                                <label class="active" for="field_govt_service" style="top: -2px !important; left: 0px !important;">Gov't Service</label>
+                                                <select id="field_govt_service" name="field_govt_service">
+                                                    <option value="Yes">Yes</option>
+                                                    <option value="No">No</option>
+                                                </select>
+                                                <label class="active" for="field_govt_service" style="font-size: 17px; top: -2px !important; left: 0px !important;">Gov't Service</label>
                                             </div>
                                         </li>
                                         <li style="margin-top: 70% !important;">

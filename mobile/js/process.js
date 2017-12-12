@@ -17,29 +17,24 @@ Framework7.prototype.plugins.kareer = function (app, params) {
             //FB
             window.fbAsyncInit = function() {
                 FB.init({
-                  appId            : '134413893925132',
-                  autoLogAppEvents : true,
-                  xfbml            : true,
-                  version          : 'v2.11'
+                  appId      : '134413893925132',
+                  cookie     : true,
+                  xfbml      : true,
+                  version    : 'v2.11'
                 });
-                // FB.getLoginStatus(function(response) {
-                //     if (response.status === 'connected') {
-                //         console.log(response.status);
-                //     } else if (response.status === 'not_authorized') {
-                //         console.log(response.status);
-                //     } else {
-                //         console.log(response.status);
-                //     }
-                // });
-            };
-            (function(d, s, id){
-                var js, fjs = d.getElementsByTagName(s)[0];
-                if (d.getElementById(id)) {return;}
-                js = d.createElement(s); js.id = id;
-                // js.src = "//connect.facebook.net/en_US/sdk.js";
-                js.src = 'https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.11&appId=134413893925132';
-                fjs.parentNode.insertBefore(js, fjs);
-            }(document, 'script', 'facebook-jssdk'));
+                  
+                FB.AppEvents.logPageView();   
+                  
+              };
+
+              (function(d, s, id){
+                 var js, fjs = d.getElementsByTagName(s)[0];
+                 if (d.getElementById(id)) {return;}
+                 js = d.createElement(s); js.id = id;
+                 js.src = "https://connect.facebook.net/en_US/sdk.js";
+                 fjs.parentNode.insertBefore(js, fjs);
+               }(document, 'script', 'facebook-jssdk'));
+        
             // var deviceSize = system.getDeviceSize();
             // console.log(deviceSize);
             logIn.ini();
@@ -269,8 +264,11 @@ Framework7.prototype.plugins.kareer = function (app, params) {
             });
 
             app.onPageInit('bookmarks',function(page){
-                console.log('page');
-                bookmarks.ini();
+                console.log(page);
+                var applicant  = JSON.parse(localStorage.getItem('applicant'));
+                var bookmarkedList = bookmark.get(applicant[0][0]);
+                bookmark.show(bookmarkedList);
+                console.log(bookmarkedList);
             });       
 
             app.onPageInit('account',function(page){
@@ -491,7 +489,137 @@ Framework7.prototype.plugins.kareer = function (app, params) {
             });
         }
     }
+    let bookmark ={
+        get:function(id){
+            var $data = "";
+            var jobs = system.ajax(processor+'get-Bjobs',id);
+            jobs.done(function(data){
+                $data = data;
+            });
+            return JSON.parse($data);
+        },
+        show:function(list){
+            var applicantData = JSON.parse(localStorage.getItem('applicant'));
+            var bookmarks = JSON.parse(localStorage.getItem('bookmarks'));
+            var content = "";
+            var height = $(window).height();
+            $.each(list,function(i,v){
+                var skills = "", bookmarkButtonSettings = "";
+                bookmarkButtonSettings = ($.inArray(v[0],bookmarks)>=0)?"disabled":"";
+                v[5] = JSON.parse(v[5]);
+                $.each(v[5],function(i2,v2){
+                    if(v2 != "null")
+                    skills += "<div class='chip'><div class='chip-media bg-teal'></div><div class='chip-label'>"+v2+"</div></div>";
+                });
 
+                content = "<div class='swiper-slide'>"+
+                            "   <div class='card demo-card-header-pic'>"+
+                            "       <div class='card-header color-white no-border' valign='bottom' style='background-image:url(img/kareer_bg.png); height: 150px;'>"+
+                            "           <div class='col s8 m8 l8'>"+
+                            "               <h4>"+v[1]+"<br/><small>"+v[2]+"</small>"+
+                            "               </h4>"+
+                            "           </div>"+
+                            "           <div class='col s4 m4 l4'>"+
+                            "               <button "+bookmarkButtonSettings+" data-node='"+(JSON.stringify([v[0],applicantData[0][0]]))+"' data-cmd='bookmark' class='btn-floating btn-large waves-effect waves-light purple icon f7-icons color-white' style='top: 30px;opacity:1;'>"+
+                            "                   bookmark"+
+                            "               </button>"+
+                            "           </div>"+
+                            "       </div>"+
+                            "       <div class='card-content'>"+
+                            "           <div class='card-content-inner' style='height:"+(height-300)+"px; overflow:hidden;'>"+
+                            "               <p class='color-gray'>is in need of:</p>"+
+                            "               <h5 class='color-teal'>"+v[3]+"<br/>"+
+                            "                   "+skills+""+
+                            "               </h5>"+
+                            "               <div class='left'>"+v[3]+"</div>"+
+                            "               <p>"+
+                            "                   <div class='description' style='white-space: normal;'>"+
+                            "                       "+v[4]+""+
+                            "                   </div>"+
+                            "               </p>"+
+                            "           </div>"+
+                            "       </div>"+
+                            "       <div class='card-footer'>"+
+                            "           <a class='waves-effect waves-teal btn-flat hidden' href='#'>Read More</a>"+
+                            "           <button data-node='"+(JSON.stringify([v[0],applicantData[0][0]]))+"' data-cmd='apply' class='waves-effect waves-light btn icon f7-icons color-white' style='background: rgb(0, 150, 136); margin: 0;'>"+
+                            "               paper_plane_fill"+
+                            "           </button>"+
+                            "       </div>"+
+                            "   </div>"+
+                            "</div>";
+
+                $("#jobs .swiper-wrapper").append(content);
+                // if($('#jobs .card-content-inner')[i].scrollHeight > $('#jobs .card-content-inner').innerHeight()){
+                //     console.log("x");
+                // }
+            });
+            $("a.home").on('click',function(){
+                var data = $(this).data('load');
+                view.router.loadPage("pages/admin/"+data+".html");
+            });
+
+            app.onPageBack('index',function(page){
+                // account.controller();
+                account.ini();
+            });
+
+            $("button.icon").on('click',function(){
+                var _this = this;
+                var data = $(this).data();
+                var node = data.node;
+                // if(data.cmd == "bookmark"){
+                //     console.log(data.cmd);
+                //     var apply = system.ajax(processor+'do-bookmark',node);
+                //     apply.done(function(e){
+                //         console.log(e);
+                //         if(e == 1){
+                //             system.notification("Kareer","Done.",false,2000,true,false,function(){
+                //                 $(_this).attr({"disabled":true});
+
+                //             });
+                //         }
+                //         else{
+                //             system.notification("Kareer","Failed.",false,3000,true,false,false);
+                //         }
+                //     })
+                // }
+
+                if(data.cmd == "apply"){
+                    var apply = system.ajax(processor+'do-apply',node);
+                    apply.done(function(e){
+                        console.log(e);
+                        if(e == 1){
+                            system.notification("Kareer","Success. Application sent.",false,2000,true,false,function(){
+                                $(_this).attr({"disabled":true});
+                            });
+                        }
+                        else{
+                            system.notification("Kareer","Failed.",false,3000,true,false,false);
+                        }
+                    })
+                }
+            })
+
+            var swiper = app.swiper(".swiper-container", {
+                loop: false,
+                speed: 400,
+                grabCursor: true,
+                effect: 'coverflow',
+                coverflow: {
+                    rotate: 50,
+                    stretch: 0,
+                    depth: 100,
+                    modifier: 1,
+                    slideShadows: true
+                },
+                shortSwipes: true,
+                mousewheelControl: true,
+            });
+
+            var documentHeight = $(window).height();
+            $("#content .card-content").attr({"style":"height:"+(documentHeight-310)+"px; overflow:hidden; text-overflow: ellipsis;"});
+        },
+    }
     var career = {
         ini:function(){
             var applicantData = JSON.parse(localStorage.getItem('applicant'));
@@ -544,7 +672,8 @@ Framework7.prototype.plugins.kareer = function (app, params) {
             //         alert("invalid");
             //     }
             // });
-            // $('#field_govt_service').material_select();
+            $('#field_govt_service').material_select('close');
+
 
             $("a.cancel").on('click',function(){
                 $("div.list").removeClass('hidden');
@@ -577,6 +706,7 @@ Framework7.prototype.plugins.kareer = function (app, params) {
             app.onPageInit('career',function(page){
                 career.ini();
             });
+
 
             $("#form_career").validate({
                 rules: {
@@ -1795,7 +1925,7 @@ Framework7.prototype.plugins.kareer = function (app, params) {
                     } else {
                         console.log(response.status);
                     }
-                }, {scope: 'email'});
+                }, {scope: 'public_profile,email'});
 
                 function saveUserData() {    
                     FB.api('/me', {fields: 'id,first_name,last_name,email,gender'}, function (response){
@@ -1805,22 +1935,22 @@ Framework7.prototype.plugins.kareer = function (app, params) {
                         var FbData = JSON.stringify(data);
                         console.log(FbData);
                         localStorage.setItem('fb',FbData);
-                        var data = system.ajax(processor+'do-signUpFB',data);
-                        data.done(function(data){
-                            console.log(data);
-                            if(data == 1){
-                                system.notification("Kareer","Success. You can now Sign In to your account. ",false,2000,true,false,function(){
-                                    app.closeModal('.popup-sign-up', true);
-                                    app.popup('popup-login');
-                                });
-                            }
-                            else if(data == 2){
-                                system.notification("Kareer","Try other email address.",false,3000,true,function(){},false);
-                            }
-                            else{
-                                system.notification("Kareer","Failed.",false,3000,true,function(){},false);
-                            }
-                        })
+                        // var data = system.ajax(processor+'do-signUpFB',data);
+                        // data.done(function(data){
+                        //     console.log(data);
+                        //     if(data == 1){
+                        //         system.notification("Kareer","Success. You can now Sign In to your account. ",false,2000,true,false,function(){
+                        //             app.closeModal('.popup-sign-up', true);
+                        //             app.popup('popup-login');
+                        //         });
+                        //     }
+                        //     else if(data == 2){
+                        //         system.notification("Kareer","Try other email address.",false,3000,true,function(){},false);
+                        //     }
+                        //     else{
+                        //         system.notification("Kareer","Failed.",false,3000,true,function(){},false);
+                        //     }
+                        // })
                     });
                 }
             });
@@ -2183,8 +2313,8 @@ Framework7.prototype.plugins.kareer = function (app, params) {
                             "       </div>"+
                             "       <div class='card-footer'>"+
                             "           <a class='waves-effect waves-teal btn-flat hidden' href='#'>Read More</a>"+
-                            "           <button data-node='"+(JSON.stringify([v[0],applicantData[0][0]]))+"' data-cmd='apply' class='waves-effect waves-light btn color-white' style='background: rgb(0, 150, 136); margin: 0;'>"+
-                            "               Submit Resume"+
+                            "           <button data-node='"+(JSON.stringify([v[0],applicantData[0][0]]))+"' data-cmd='apply' class='waves-effect waves-light btn icon f7-icons color-white' style='background: rgb(0, 150, 136); margin: 0;'>"+
+                            "               paper_plane_fill"+
                             "           </button>"+
                             "       </div>"+
                             "   </div>"+
@@ -2218,6 +2348,7 @@ Framework7.prototype.plugins.kareer = function (app, params) {
                 }
 
                 if(data.cmd == "apply"){
+                    console.log("chu");
                     var apply = system.ajax(processor+'do-apply',node);
                     apply.done(function(e){
                         console.log(e);
@@ -2277,6 +2408,8 @@ Framework7.prototype.plugins.kareer = function (app, params) {
             $("#form_search").validate({
                 rules: {
                     field_location: {required: true,maxlength:100},
+                    // field_skill: {required: true,maxlength:100},
+
                 },
                 errorElement : 'div',
                 errorPlacement: function(error, element) {
@@ -2290,16 +2423,17 @@ Framework7.prototype.plugins.kareer = function (app, params) {
                 },
                 submitHandler: function (form) {
                     var _form = $(form).serializeArray();
-                    var data = system.ajax(processor+'do-searchJob',[_form[0],range.noUiSlider.get()]);
+                    console.log(_form);
+                    var data = system.ajax(processor+'do-searchJob',[_form[0],range.noUiSlider.get(),_form[1]]);
                     data.done(function(data){
                         console.log(data);
-                        var display = system.xml("pages/admin/pages.xml");
-                        $(display.responseText).find("div.popup.search").each(function(i,content){
-                            app.popup(content);
-                            data = JSON.parse(data);
-                            console.log(data);
-                            jobs.show(data);
-                        });
+                        // var display = system.xml("pages/admin/pages.xml");
+                        // $(display.responseText).find("div.popup.search").each(function(i,content){
+                        //     app.popup(content);
+                        //     data = JSON.parse(data);
+                        //     console.log(data);
+                        //     jobs.show(data);
+                        // });
                     })
                 }
             });

@@ -500,7 +500,7 @@ $Functions = new DatabaseClasses;
             echo 1;
         }
         else{
-            unlink('c://wamp/www/kareer/mobile/img/profile/'.$picture);
+            unlink('../img/profile/'.$picture);
             $Data = $query->errorInfo();
             print_r($Data);
         }
@@ -594,6 +594,19 @@ $Functions = new DatabaseClasses;
         }
         print_r(json_encode($temp));
     }
+
+    if (isset($_GET['get-Bjobs'])){
+        $data = $_POST['data'];
+        $temp = [];
+        $query = $Functions->PDO("SELECT * FROM tbl_vacancies WHERE status = 1 AND id IN (SELECT vacancy_id FROM tbl_bookmark WHERE applicant_id = '{$data}')");
+        foreach ($query as $key => $value) {
+            $queryEmployer = $Functions->PDO("SELECT * FROM tbl_employer WHERE id ='{$value[1]}'");
+            $skills = (is_array(json_decode($value[5])))?$value[5]:($value[5]=="[null]")?:json_encode([$value[5]]);
+            $temp[] = [$value[0],$queryEmployer[0][5],$queryEmployer[0][3],$value[4],$value[2],$skills];
+        }
+        print_r(json_encode($temp));
+    }
+
 
     if (isset($_GET['get-applcation'])){
         $data = $_POST['data'];

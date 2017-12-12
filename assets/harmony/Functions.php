@@ -211,7 +211,7 @@ class DatabaseClasses{
 		$time = $date->getTimestamp();
 		$filename = $id."_".$time.'.rnr';
 		$file = base64_decode(preg_replace('#^data:image/\w+;base64,#i', '', $file));
-        $handle = fopen('c://wamp/www/kareer/mobile/img/profile/'.$filename, 'w+');
+        $handle = fopen('../img/profile/'.$filename, 'w+');
         if(fwrite($handle, $file) && fclose($handle)){
 			return $filename;
         }
