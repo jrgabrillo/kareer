@@ -26,8 +26,15 @@
                                     <ul>
                                         <li>
                                             <div class="row center">
-                                                <label class="active" style="top: auto; left: 0px; font-size: 17px;">Inclusive dates</label>
-                                                <input type="text" placeholder="From   -  To" readonly id="field_date" name = "field_date">                                           
+                                                <div class="input-field">
+                                                    <label class="active" style="top: auto; left: 0px; font-size: 17px;">Inclusive dates</label>
+                                                    <div class="col s6">
+                                                        <input type='date' id="field_dateFirst"  name="field_dateFirst" class="form-control" placeholder="From">
+                                                    </div>
+                                                    <div class="col s6">
+                                                        <input type='date' id="field_dateLast" name="field_dateLast" class="form-control" placeholder="To">
+                                                    </div>
+                                                </div>                                            
                                             </div>
                                         </li>
                                         <li>
@@ -44,7 +51,7 @@
                                         </li>
                                         <li>
                                             <div class="input-field">
-                                                <input type='number' id="field_salary" name="field_salary" class="form-control">
+                                                <input type='number' id="field_salary" name="field_salary" min="1" max="50000" class="form-control">
                                                 <label class="" for="field_salary" style="top: -2px !important; left: 0px !important;">Monthly Salary</label>
                                             </div>
                                         </li>
@@ -56,8 +63,11 @@
                                         </li>
                                         <li>
                                             <div class="input-field">
-                                                <input type='text' id="field_govt_service" name="field_govt_service" class="form-control">
-                                                <label class="" for="field_govt_service" style="top: -2px !important; left: 0px !important;">Gov't Service</label>
+                                                <select id="field_govt_service" name="field_govt_service">
+                                                    <option value="Yes">Yes</option>
+                                                    <option value="No">No</option>
+                                                </select>
+                                                <label class="active" for="field_govt_service" style="font-size: 17px; top: -2px !important; left: 0px !important;">Gov't Service</label>
                                             </div>
                                         </li>
                                         <li style="margin-top: 70% !important;">

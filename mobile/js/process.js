@@ -17,29 +17,24 @@ Framework7.prototype.plugins.kareer = function (app, params) {
             //FB
             window.fbAsyncInit = function() {
                 FB.init({
-                  appId            : '134413893925132',
-                  autoLogAppEvents : true,
-                  xfbml            : true,
-                  version          : 'v2.11'
+                  appId      : '134413893925132',
+                  cookie     : true,
+                  xfbml      : true,
+                  version    : 'v2.11'
                 });
-                // FB.getLoginStatus(function(response) {
-                //     if (response.status === 'connected') {
-                //         console.log(response.status);
-                //     } else if (response.status === 'not_authorized') {
-                //         console.log(response.status);
-                //     } else {
-                //         console.log(response.status);
-                //     }
-                // });
-            };
-            (function(d, s, id){
-                var js, fjs = d.getElementsByTagName(s)[0];
-                if (d.getElementById(id)) {return;}
-                js = d.createElement(s); js.id = id;
-                // js.src = "//connect.facebook.net/en_US/sdk.js";
-                js.src = 'https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.11&appId=134413893925132';
-                fjs.parentNode.insertBefore(js, fjs);
-            }(document, 'script', 'facebook-jssdk'));
+                  
+                FB.AppEvents.logPageView();   
+                  
+              };
+
+              (function(d, s, id){
+                 var js, fjs = d.getElementsByTagName(s)[0];
+                 if (d.getElementById(id)) {return;}
+                 js = d.createElement(s); js.id = id;
+                 js.src = "https://connect.facebook.net/en_US/sdk.js";
+                 fjs.parentNode.insertBefore(js, fjs);
+               }(document, 'script', 'facebook-jssdk'));
+        
             // var deviceSize = system.getDeviceSize();
             // console.log(deviceSize);
             logIn.ini();
@@ -213,10 +208,10 @@ Framework7.prototype.plugins.kareer = function (app, params) {
             var applicantData = JSON.parse(localStorage.getItem('applicant'));
             var data = account.get(applicantData[0][0]);
             jobs.bookmarked(applicantData[0][0]);
-            console.log(data);
-            $("#index img.responsive-img").attr({"src":"img/profile/"+data[23]});
+            // console.log(data);
+            $("#index img.responsive-img").attr({"src":"img/profile/"+data[24]});
             var content = "<div class='content-block'>"+
-                            "    <p class='color-gray'><h5>"+data[6]+" "+data[7]+"</h5></p>"+
+                            "    <p class='color-gray'><h5>"+data[7]+" "+data[8]+"</h5></p>"+
                             // "    <a data-cmd='account-logout' class='btn-floating btn-flat'>"+
                             // "      <i class='f7-icons color grey'>logout</i>"+
                             // "    </a>"+
@@ -269,8 +264,11 @@ Framework7.prototype.plugins.kareer = function (app, params) {
             });
 
             app.onPageInit('bookmarks',function(page){
-                console.log('page');
-                bookmarks.ini();
+                console.log(page);
+                var applicant  = JSON.parse(localStorage.getItem('applicant'));
+                var bookmarkedList = bookmark.get(applicant[0][0]);
+                bookmark.show(bookmarkedList);
+                console.log(bookmarkedList);
             });       
 
             app.onPageInit('account',function(page){
@@ -290,7 +288,6 @@ Framework7.prototype.plugins.kareer = function (app, params) {
 
             var picture = "img/profile/profile.png";
             $("a[data-cmd='update']").on('click',function(){
-                console.log("content");
                 var content =   "<div class='card-content'>"+
                                 "<div class=' center image-crop'>"+
                                 "   <img class='circle responsive-img' style='width: 145px; height: 145px; border:2px; border-style: solid; border-color: #2b9c9b' src='"+picture+"'>"+
@@ -342,19 +339,19 @@ Framework7.prototype.plugins.kareer = function (app, params) {
                                         $("button[data-cmd='rotate']").removeClass('hidden');
                                         $("button[data-cmd='save']").click(function(){                                          
                                             $(this).html('Loading..').addClass('disabled');
-                                            console.log("palitan na");
                                             var ajax = system.ajax(processor+'do-update-image',[data[0],$image.cropper("getDataURL")]);
                                             ajax.done(function(data){
+                                                console.log(data);
                                                 if(data == 1){
                                                     system.notification("Update","Success. Please wait.",false,2000,true,false,function(){
                                                         app.closeModal('.popup-edit', true);
                                                         account.ini();
                                                     });
-                                                    console.log(data);
+                                                    // console.log(data);
                                                 }
                                                 else{
                                                    system.notification("Update","Failed.",false,3000,true,false,false);
-                                                    console.log(data);
+                                                    // console.log(data);
                                                 }
                                             });
                                         });
@@ -367,7 +364,6 @@ Framework7.prototype.plugins.kareer = function (app, params) {
                                     var data = $(this).data('option');
                                     $image.cropper('rotate', data);
                                 });
-
                             };
                         }
                         else{
@@ -392,29 +388,30 @@ Framework7.prototype.plugins.kareer = function (app, params) {
                 $("a").removeClass('color-teal').addClass('color-gray');
                 $(this).removeClass('color-gray').addClass('color-teal');
             });
-        },   
+        },
+
         account:function(data){
             var accData = data;
-            $("img.resume").attr({"src":"img/profile/"+accData[23]});
+            $("img.resume").attr({"src":"img/profile/"+accData[24]});
             // console.log(data);
             var storedData = app.formStoreData('account', {
-                'GivenName' : accData[6],
-                'MiddleName' : accData[8],
-                'LastName' : accData[7],
-                'Gender' : accData[9],
-                'Age' : accData[10],
-                'DateOfBirth' : accData[11],
-                'PlaceOfBirth' : accData[12],
-                'Address' : accData[13],
-                'Citizenship' : accData[14],
-                'Weight' : accData[15],
-                'Height' : accData[16],
-                'Mother' : accData[17],
-                'Father' : accData[18],
-                'Language' : accData[19],
-                'Religion' : accData[20],
-                'Mother_Occupation' : accData[21],
-                'Father_Occupation' : accData[22]
+                'GivenName' : accData[7],
+                'MiddleName' : accData[9],
+                'LastName' : accData[8],
+                'Gender' : accData[10],
+                'Age' : accData[11],
+                'DateOfBirth' : accData[12],
+                'PlaceOfBirth' : accData[13],
+                'Address' : accData[14],
+                'Citizenship' : accData[15],
+                'Weight' : accData[16],
+                'Height' : accData[17],
+                'Mother' : accData[18],
+                'Father' : accData[19],
+                'Language' : accData[20],
+                'Religion' : accData[21],
+                'Mother_Occupation' : accData[22],
+                'Father_Occupation' : accData[23]
             });
 
             $("a.saveAccount").on('click',function(){
@@ -492,7 +489,137 @@ Framework7.prototype.plugins.kareer = function (app, params) {
             });
         }
     }
+    let bookmark ={
+        get:function(id){
+            var $data = "";
+            var jobs = system.ajax(processor+'get-Bjobs',id);
+            jobs.done(function(data){
+                $data = data;
+            });
+            return JSON.parse($data);
+        },
+        show:function(list){
+            var applicantData = JSON.parse(localStorage.getItem('applicant'));
+            var bookmarks = JSON.parse(localStorage.getItem('bookmarks'));
+            var content = "";
+            var height = $(window).height();
+            $.each(list,function(i,v){
+                var skills = "", bookmarkButtonSettings = "";
+                bookmarkButtonSettings = ($.inArray(v[0],bookmarks)>=0)?"disabled":"";
+                v[5] = JSON.parse(v[5]);
+                $.each(v[5],function(i2,v2){
+                    if(v2 != "null")
+                    skills += "<div class='chip'><div class='chip-media bg-teal'></div><div class='chip-label'>"+v2+"</div></div>";
+                });
 
+                content = "<div class='swiper-slide'>"+
+                            "   <div class='card demo-card-header-pic'>"+
+                            "       <div class='card-header color-white no-border' valign='bottom' style='background-image:url(img/kareer_bg.png); height: 150px;'>"+
+                            "           <div class='col s8 m8 l8'>"+
+                            "               <h4>"+v[1]+"<br/><small>"+v[2]+"</small>"+
+                            "               </h4>"+
+                            "           </div>"+
+                            "           <div class='col s4 m4 l4'>"+
+                            "               <button "+bookmarkButtonSettings+" data-node='"+(JSON.stringify([v[0],applicantData[0][0]]))+"' data-cmd='bookmark' class='btn-floating btn-large waves-effect waves-light purple icon f7-icons color-white' style='top: 30px;opacity:1;'>"+
+                            "                   bookmark"+
+                            "               </button>"+
+                            "           </div>"+
+                            "       </div>"+
+                            "       <div class='card-content'>"+
+                            "           <div class='card-content-inner' style='height:"+(height-300)+"px; overflow:hidden;'>"+
+                            "               <p class='color-gray'>is in need of:</p>"+
+                            "               <h5 class='color-teal'>"+v[3]+"<br/>"+
+                            "                   "+skills+""+
+                            "               </h5>"+
+                            "               <div class='left'>"+v[3]+"</div>"+
+                            "               <p>"+
+                            "                   <div class='description' style='white-space: normal;'>"+
+                            "                       "+v[4]+""+
+                            "                   </div>"+
+                            "               </p>"+
+                            "           </div>"+
+                            "       </div>"+
+                            "       <div class='card-footer'>"+
+                            "           <a class='waves-effect waves-teal btn-flat hidden' href='#'>Read More</a>"+
+                            "           <button data-node='"+(JSON.stringify([v[0],applicantData[0][0]]))+"' data-cmd='apply' class='waves-effect waves-light btn icon f7-icons color-white' style='background: rgb(0, 150, 136); margin: 0;'>"+
+                            "               paper_plane_fill"+
+                            "           </button>"+
+                            "       </div>"+
+                            "   </div>"+
+                            "</div>";
+
+                $("#jobs .swiper-wrapper").append(content);
+                // if($('#jobs .card-content-inner')[i].scrollHeight > $('#jobs .card-content-inner').innerHeight()){
+                //     console.log("x");
+                // }
+            });
+            $("a.home").on('click',function(){
+                var data = $(this).data('load');
+                view.router.loadPage("pages/admin/"+data+".html");
+            });
+
+            app.onPageBack('index',function(page){
+                // account.controller();
+                account.ini();
+            });
+
+            $("button.icon").on('click',function(){
+                var _this = this;
+                var data = $(this).data();
+                var node = data.node;
+                // if(data.cmd == "bookmark"){
+                //     console.log(data.cmd);
+                //     var apply = system.ajax(processor+'do-bookmark',node);
+                //     apply.done(function(e){
+                //         console.log(e);
+                //         if(e == 1){
+                //             system.notification("Kareer","Done.",false,2000,true,false,function(){
+                //                 $(_this).attr({"disabled":true});
+
+                //             });
+                //         }
+                //         else{
+                //             system.notification("Kareer","Failed.",false,3000,true,false,false);
+                //         }
+                //     })
+                // }
+
+                if(data.cmd == "apply"){
+                    var apply = system.ajax(processor+'do-apply',node);
+                    apply.done(function(e){
+                        console.log(e);
+                        if(e == 1){
+                            system.notification("Kareer","Success. Application sent.",false,2000,true,false,function(){
+                                $(_this).attr({"disabled":true});
+                            });
+                        }
+                        else{
+                            system.notification("Kareer","Failed.",false,3000,true,false,false);
+                        }
+                    })
+                }
+            })
+
+            var swiper = app.swiper(".swiper-container", {
+                loop: false,
+                speed: 400,
+                grabCursor: true,
+                effect: 'coverflow',
+                coverflow: {
+                    rotate: 50,
+                    stretch: 0,
+                    depth: 100,
+                    modifier: 1,
+                    slideShadows: true
+                },
+                shortSwipes: true,
+                mousewheelControl: true,
+            });
+
+            var documentHeight = $(window).height();
+            $("#content .card-content").attr({"style":"height:"+(documentHeight-310)+"px; overflow:hidden; text-overflow: ellipsis;"});
+        },
+    }
     var career = {
         ini:function(){
             var applicantData = JSON.parse(localStorage.getItem('applicant'));
@@ -524,11 +651,29 @@ Framework7.prototype.plugins.kareer = function (app, params) {
             // $("a.cancel").addClass('hidden');
             $("div.toolbar").addClass('hidden');    
 
-            app.calendar({
-                input: '#field_date',
-                dateFormat: 'M dd yyyy',
-                rangePicker: true
-            });
+            // app.calendar({
+            //     input: '#field_date',
+            //     dateFormat: 'M dd yyyy',
+            //     rangePicker: true
+            // });
+            // $("#field_govt_service").on('change',function(){
+            //     var input = $(this).val();
+            //     console.log(input);
+            //     if(input == 'Yes'){
+            //        document.getElementById("field_govt_service").value = input;
+            //         console.log(input);
+            //     }
+            //     else if(input == 'No'){
+            //         document.getElementById("field_govt_service").value = input;
+            //         console.log(input);
+            //     }
+            //     else{
+            //         document.getElementById("field_govt_service").value = "";
+            //         alert("invalid");
+            //     }
+            // });
+            $('#field_govt_service').material_select('close');
+
 
             $("a.cancel").on('click',function(){
                 $("div.list").removeClass('hidden');
@@ -562,15 +707,16 @@ Framework7.prototype.plugins.kareer = function (app, params) {
                 career.ini();
             });
 
+
             $("#form_career").validate({
                 rules: {
-                    // field_dateFirst: {required: true,maxlength:20},
-                    field_date: {required: true,maxlength:30},
-                    field_position: {required: true,maxlength:100},
-                    field_agency: {required: true,maxlength:100},
-                    field_salary: {required: true,maxlength:100},
-                    field_appointment: {required: true,maxlength:100},
-                    field_govt_service: {required: true,maxlength:100},
+                    field_dateFirst: {required: true, maxlength:20},
+                    field_dateLast: {required: true, maxlength:20},
+                    field_position: {required: true, maxlength:100},
+                    field_agency: {required: true, maxlength:100},
+                    field_salary: {required: true, maxlength:5},
+                    field_appointment: {required: true, maxlength:100},
+                    field_govt_service: {required: true, maxlength:100},
                 },
                 errorElement : 'div',
                 errorPlacement: function(error, element) {
@@ -584,19 +730,20 @@ Framework7.prototype.plugins.kareer = function (app, params) {
                 },
                 submitHandler: function (form) {
                     var _form = $(form).serializeArray();
-                    var data = system.ajax(processor+'do-career',[id,_form]);
-                    data.done(function(data){
-                        console.log(data);
-                        if(data != 0){
-                            $$("input").val("");
-                            system.notification("Kareer","Career Added.",false,2000,true,false,function(){
-                                career.ini();
-                            });
-                        }
-                        else{
-                            system.notification("Kareer","Failed.",false,3000,true,false,false);
-                        }
-                    })
+                    console.log(_form);
+                    // var data = system.ajax(processor+'do-career',[id,_form]);
+                    // data.done(function(data){
+                    //     console.log(data);
+                    //     if(data != 0){
+                    //         $$("input").val("");
+                    //         system.notification("Kareer","Career Added.",false,2000,true,false,function(){
+                    //             career.ini();
+                    //         });
+                    //     }
+                    //     else{
+                    //         system.notification("Kareer","Failed.",false,3000,true,false,false);
+                    //     }
+                    // })
                 }
             });
         },
@@ -1754,7 +1901,7 @@ Framework7.prototype.plugins.kareer = function (app, params) {
 
     var signUp = {
         ini:function(){
-            $("div.g-signin2").on('Success',function(){
+            // $("div.g-signin2").on('Success',function(){
                 function onSignIn(googleUser) {
                   var profile = googleUser.getBasicProfile();
                   console.log('ID: ' + profile.getId()); // Do not send to your backend! Use an ID token instead.
@@ -1766,7 +1913,7 @@ Framework7.prototype.plugins.kareer = function (app, params) {
                   var id_token = googleUser.getAuthResponse().id_token;
                     console.log(id_token)
                 }
-            });
+            // });
             // Register using FB ACCOUNT
             $("button.fb").on('click',function(){
                 FB.login(function(response) {
@@ -1778,7 +1925,7 @@ Framework7.prototype.plugins.kareer = function (app, params) {
                     } else {
                         console.log(response.status);
                     }
-                }, {scope: 'email'});
+                }, {scope: 'public_profile,email'});
 
                 function saveUserData() {    
                     FB.api('/me', {fields: 'id,first_name,last_name,email,gender'}, function (response){
@@ -1788,22 +1935,22 @@ Framework7.prototype.plugins.kareer = function (app, params) {
                         var FbData = JSON.stringify(data);
                         console.log(FbData);
                         localStorage.setItem('fb',FbData);
-                        var data = system.ajax(processor+'do-signUpFB',data);
-                        data.done(function(data){
-                            console.log(data);
-                            if(data == 1){
-                                system.notification("Kareer","Success. You can now Sign In to your account. ",false,2000,true,false,function(){
-                                    app.closeModal('.popup-sign-up', true);
-                                    app.popup('popup-login');
-                                });
-                            }
-                            else if(data == 2){
-                                system.notification("Kareer","Try other email address.",false,3000,true,function(){},false);
-                            }
-                            else{
-                                system.notification("Kareer","Failed.",false,3000,true,function(){},false);
-                            }
-                        })
+                        // var data = system.ajax(processor+'do-signUpFB',data);
+                        // data.done(function(data){
+                        //     console.log(data);
+                        //     if(data == 1){
+                        //         system.notification("Kareer","Success. You can now Sign In to your account. ",false,2000,true,false,function(){
+                        //             app.closeModal('.popup-sign-up', true);
+                        //             app.popup('popup-login');
+                        //         });
+                        //     }
+                        //     else if(data == 2){
+                        //         system.notification("Kareer","Try other email address.",false,3000,true,function(){},false);
+                        //     }
+                        //     else{
+                        //         system.notification("Kareer","Failed.",false,3000,true,function(){},false);
+                        //     }
+                        // })
                     });
                 }
             });
@@ -2166,8 +2313,8 @@ Framework7.prototype.plugins.kareer = function (app, params) {
                             "       </div>"+
                             "       <div class='card-footer'>"+
                             "           <a class='waves-effect waves-teal btn-flat hidden' href='#'>Read More</a>"+
-                            "           <button data-node='"+(JSON.stringify([v[0],applicantData[0][0]]))+"' data-cmd='apply' class='waves-effect waves-light btn color-white' style='background: rgb(0, 150, 136); margin: 0;'>"+
-                            "               Submit Resume"+
+                            "           <button data-node='"+(JSON.stringify([v[0],applicantData[0][0]]))+"' data-cmd='apply' class='waves-effect waves-light btn icon f7-icons color-white' style='background: rgb(0, 150, 136); margin: 0;'>"+
+                            "               paper_plane_fill"+
                             "           </button>"+
                             "       </div>"+
                             "   </div>"+
@@ -2201,6 +2348,7 @@ Framework7.prototype.plugins.kareer = function (app, params) {
                 }
 
                 if(data.cmd == "apply"){
+                    console.log("chu");
                     var apply = system.ajax(processor+'do-apply',node);
                     apply.done(function(e){
                         console.log(e);
@@ -2260,6 +2408,8 @@ Framework7.prototype.plugins.kareer = function (app, params) {
             $("#form_search").validate({
                 rules: {
                     field_location: {required: true,maxlength:100},
+                    // field_skill: {required: true,maxlength:100},
+
                 },
                 errorElement : 'div',
                 errorPlacement: function(error, element) {
@@ -2273,16 +2423,17 @@ Framework7.prototype.plugins.kareer = function (app, params) {
                 },
                 submitHandler: function (form) {
                     var _form = $(form).serializeArray();
-                    var data = system.ajax(processor+'do-searchJob',[_form[0],range.noUiSlider.get()]);
+                    console.log(_form);
+                    var data = system.ajax(processor+'do-searchJob',[_form[0],range.noUiSlider.get(),_form[1]]);
                     data.done(function(data){
                         console.log(data);
-                        var display = system.xml("pages/admin/pages.xml");
-                        $(display.responseText).find("div.popup.search").each(function(i,content){
-                            app.popup(content);
-                            data = JSON.parse(data);
-                            console.log(data);
-                            jobs.show(data);
-                        });
+                        // var display = system.xml("pages/admin/pages.xml");
+                        // $(display.responseText).find("div.popup.search").each(function(i,content){
+                        //     app.popup(content);
+                        //     data = JSON.parse(data);
+                        //     console.log(data);
+                        //     jobs.show(data);
+                        // });
                     })
                 }
             });
