@@ -6,7 +6,8 @@ Framework7.prototype.plugins.kareer = function (app, params) {
     if (!params) return;
     var self = this;
     // var processor = 'http://192.168.1.20/kareer/assets/harmony/mobile.php?';
-    var processor = 'http://localhost/kareer/assets/harmony/mobile.php?';
+    // var processor = 'http://localhost/kareer/assets/harmony/mobile.php?';
+    var processor = 'http://localhost/kareer/mobile/harmony/mobile.php?';
     // var processor = 'http://kareerserver.rnrdigitalconsultancy.com/assets/harmony/mobile.php?';
     var directory = '/';
     var $$ = Dom7;
@@ -208,7 +209,6 @@ Framework7.prototype.plugins.kareer = function (app, params) {
             var applicantData = JSON.parse(localStorage.getItem('applicant'));
             var data = account.get(applicantData[0][0]);
             jobs.bookmarked(applicantData[0][0]);
-            // console.log(data);
             $("#index img.responsive-img").attr({"src":"img/profile/"+data[24]});
             var content = "<div class='content-block'>"+
                             "    <p class='color-gray'><h5>"+data[7]+" "+data[8]+"</h5></p>"+
@@ -489,6 +489,7 @@ Framework7.prototype.plugins.kareer = function (app, params) {
             });
         }
     }
+
     let bookmark ={
         get:function(id){
             var $data = "";
@@ -620,6 +621,7 @@ Framework7.prototype.plugins.kareer = function (app, params) {
             $("#content .card-content").attr({"style":"height:"+(documentHeight-310)+"px; overflow:hidden; text-overflow: ellipsis;"});
         },
     }
+
     var career = {
         ini:function(){
             var applicantData = JSON.parse(localStorage.getItem('applicant'));
@@ -651,30 +653,14 @@ Framework7.prototype.plugins.kareer = function (app, params) {
             // $("a.cancel").addClass('hidden');
             $("div.toolbar").addClass('hidden');    
 
-            // app.calendar({
-            //     input: '#field_date',
-            //     dateFormat: 'M dd yyyy',
-            //     rangePicker: true
-            // });
-            // $("#field_govt_service").on('change',function(){
-            //     var input = $(this).val();
-            //     console.log(input);
-            //     if(input == 'Yes'){
-            //        document.getElementById("field_govt_service").value = input;
-            //         console.log(input);
-            //     }
-            //     else if(input == 'No'){
-            //         document.getElementById("field_govt_service").value = input;
-            //         console.log(input);
-            //     }
-            //     else{
-            //         document.getElementById("field_govt_service").value = "";
-            //         alert("invalid");
-            //     }
-            // });
+            
             $('#field_govt_service').material_select('close');
 
-
+            // $("#field_dateFirst").on('change',function(){
+            //     var date1 = document.getElementById('field_dateFirst');
+            //     var date2 = document.getElementById('field_dateLast');
+            //     console.log(date1+"-"+date2);
+            // });
             $("a.cancel").on('click',function(){
                 $("div.list").removeClass('hidden');
                 $("div.add").addClass('hidden');
@@ -1842,62 +1828,6 @@ Framework7.prototype.plugins.kareer = function (app, params) {
             })          
         }
     }
-    var fb ={
-        ini:function(){
-            window.fbAsyncInit = function() {
-                FB.init({
-                    appId      : 'IsertYourFacebookAppId', // FB App ID
-                    cookie     : true,  // enable cookies to allow the server to access the session
-                    xfbml      : true,  // parse social plugins on this page
-                    version    : 'v2.8' // use graph api version 2.8
-                });
-                FB.getLoginStatus(function(response) {
-                    if (response.status === 'connected') {
-                        //display user data
-                        console.log(response);
-                        fb.getFbUserData();
-                    }
-                });
-            };
-            (function(d, s, id) {
-                var js, fjs = d.getElementsByTagName(s)[0];
-                if (d.getElementById(id)) return;
-                js = d.createElement(s); js.id = id;
-                js.src = "//connect.facebook.net/en_US/sdk.js";
-                fjs.parentNode.insertBefore(js, fjs);
-            }(document, 'script', 'facebook-jssdk'));
-        },
-        login:function(){
-            FB.login(function (response) {
-                if (response.authResponse) {
-                    // Get and display the user profile data
-                    console.log(response.authResponse);
-                    // fb.getFbUserData();
-                } else {
-                    console.log("User cancelled login or did not fully authorize.");
-                }
-            }, {scope: 'email'});
-        },
-        getUserData:function(){
-            FB.api('/me', {locale: 'en_US', fields: 'id,first_name,last_name,email,link,gender,locale,picture'}, function (response) {
-                    console.log(response);
-                    // fb.saveUserData(response);
-            });
-        },
-        saveUserData:function(userData){
-            $.post('userData.php', 
-                {
-                    oauth_provider:'facebook',
-                userData: JSON.stringify(userData)
-            }, function(data){ return true; });
-        },
-        logout:function(){
-            FB.logout(function(response) {
-                console.log(response);
-            });
-        }
-
-    }
 
     var signUp = {
         ini:function(){
@@ -2407,8 +2337,8 @@ Framework7.prototype.plugins.kareer = function (app, params) {
         search:function(id,range){
             $("#form_search").validate({
                 rules: {
-                    field_location: {required: true,maxlength:100},
-                    // field_skill: {required: true,maxlength:100},
+                    field_location: {required: true,maxlength:100, minlength:4},
+                    field_skill: {required: true,maxlength:100, minlength:3},
 
                 },
                 errorElement : 'div',
@@ -2426,14 +2356,24 @@ Framework7.prototype.plugins.kareer = function (app, params) {
                     console.log(_form);
                     var data = system.ajax(processor+'do-searchJob',[_form[0],range.noUiSlider.get(),_form[1]]);
                     data.done(function(data){
+                        console.log(data.length);
                         console.log(data);
-                        // var display = system.xml("pages/admin/pages.xml");
-                        // $(display.responseText).find("div.popup.search").each(function(i,content){
-                        //     app.popup(content);
-                        //     data = JSON.parse(data);
-                        //     console.log(data);
-                        //     jobs.show(data);
-                        // });
+                        if(data.length > 3){
+                            var display = system.xml("pages/admin/pages.xml");
+                            $(display.responseText).find("div.popup.search").each(function(i,content){
+                                app.popup(content);
+                                data = JSON.parse(data);
+                                console.log(data);
+                                jobs.show(data);
+                            });
+                        }
+                        else{
+                            var display = system.xml("pages/admin/pages.xml");
+                            $(display.responseText).find("div.popup.search").each(function(i,content){
+                                app.popup(content);
+                                $("div.x").removeClass('hidden');
+                            });
+                        }
                     })
                 }
             });

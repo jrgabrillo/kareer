@@ -124,7 +124,7 @@
                 <div class="content-block">
                     <div class="close-popup">Search Result<i class="icon f7-icons" style="width: 25px; position: absolute;right: 5%;">close_round</i></div>
                     <div class="page-content tabs" id="jobs" style="overflow:hidden;">
-                        <div class="swiper-container" style="margin:55px 0;">
+                        <div class="swiper-container" style="margin:auto;">
                             <div class="swiper-wrapper">
                                 <div class="progress">
                                     <div class="indeterminate"></div>
@@ -132,6 +132,7 @@
                             </div>
                         </div>
                     </div>
+                    <div class="x center hidden">NO RESULT!</div>
                 </div>
             </div>
         </div>
