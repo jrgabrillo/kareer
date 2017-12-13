@@ -206,6 +206,22 @@ class DatabaseClasses{
         $String = str_replace("\r","<33>  ",$String);
         return $String;
     }
+<<<<<<< HEAD
+=======
+ //    function saveImage($id,$file){
+	// 	$date = new DateTime();
+	// 	$time = $date->getTimestamp();
+	// 	$filename = $id."_".$time.'.rnr';
+	// 	$file = base64_decode(preg_replace('#^data:image/\w+;base64,#i', '', $file));
+ //        $handle = fopen('../img/profile/'.$filename, 'w+');
+ //        if(fwrite($handle, $file) && fclose($handle)){
+	// 		return $filename;
+ //        }
+	// 	else{
+	// 		return 0;
+	// 	}
+	// }
+>>>>>>> 0d034d4f8f1787d973aa4e862113c0681b62177c
 	function db_buckup(){
 		$sql=""; $createsql=""; $dropsql="DROP TABLE IF EXISTS "; $subcreatesql=""; $insertsql=""; $subinsertsql="";
 		$q1 = DatabaseClasses::PDO(true,"SHOW TABLES");
