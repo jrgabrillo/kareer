@@ -477,11 +477,13 @@ $Functions = new DatabaseClasses;
         $user = $data[0];
         $picture = $Functions->saveImage($user,$data[1]);
         $query = $Functions->PDO("UPDATE tbl_personalinfo SET picture = '{$picture}' WHERE id = '{$user}';");
+        // print_r($picture);
+        // print_r($query);
         if($query->execute()){
             echo 1;
         }
         else{
-            unlink('../img/profile/'.$picture);
+            // unlink('../img/profile/'.$picture);
             $Data = $query->errorInfo();
             print_r($Data);
         }

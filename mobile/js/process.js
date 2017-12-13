@@ -264,11 +264,11 @@ Framework7.prototype.plugins.kareer = function (app, params) {
             });
 
             app.onPageInit('bookmarks',function(page){
-                console.log(page);
+                // console.log(page);
                 var applicant  = JSON.parse(localStorage.getItem('applicant'));
                 var bookmarkedList = bookmark.get(applicant[0][0]);
                 bookmark.show(bookmarkedList);
-                console.log(bookmarkedList);
+                // console.log(bookmarkedList);
             });       
 
             app.onPageInit('account',function(page){
@@ -588,7 +588,7 @@ Framework7.prototype.plugins.kareer = function (app, params) {
                 if(data.cmd == "apply"){
                     var apply = system.ajax(processor+'do-apply',node);
                     apply.done(function(e){
-                        console.log(e);
+                        // console.log(e);
                         if(e == 1){
                             system.notification("Kareer","Success. Application sent.",false,2000,true,false,function(){
                                 $(_this).attr({"disabled":true});
@@ -2205,7 +2205,7 @@ Framework7.prototype.plugins.kareer = function (app, params) {
             var content = "";
             var height = $(window).height();
             $.each(list,function(i,v){
-                console.log(v);
+                // console.log(v);
                 var skills = "", bookmarkButtonSettings = "";
                 bookmarkButtonSettings = ($.inArray(v[0],bookmarks)>=0)?"disabled":"";
                 v[5] = JSON.parse(v[5]);
