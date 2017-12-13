@@ -114,8 +114,12 @@ class DatabaseClasses{
 		$Query = DatabaseClasses::PDO_Query("SELECT * FROM $Table WHERE $Column = '$Condition'");
 		return $Query->rowCount();
 	}
+	// function password($string){
+	// 	$options = ['cost' => 11,'salt' => mcrypt_create_iv(22, MCRYPT_DEV_URANDOM)];
+	// 	return password_hash($string,PASSWORD_BCRYPT, $options);		
+	// }
 	function password($string){
-		$options = ['cost' => 11,'salt' => mcrypt_create_iv(22, MCRYPT_DEV_URANDOM)];
+		$options = ['cost' => 11];
 		return password_hash($string,PASSWORD_BCRYPT, $options);		
 	}
 	function testPassword($string,$hash){
@@ -206,19 +210,6 @@ class DatabaseClasses{
         $String = str_replace("\r","<33>  ",$String);
         return $String;
     }
-    function saveImage($id,$file){
-		$date = new DateTime();
-		$time = $date->getTimestamp();
-		$filename = $id."_".$time.'.rnr';
-		$file = base64_decode(preg_replace('#^data:image/\w+;base64,#i', '', $file));
-        $handle = fopen('../img/profile/'.$filename, 'w+');
-        if(fwrite($handle, $file) && fclose($handle)){
-			return $filename;
-        }
-		else{
-			return 0;
-		}
-	}
 	function db_buckup(){
 		$sql=""; $createsql=""; $dropsql="DROP TABLE IF EXISTS "; $subcreatesql=""; $insertsql=""; $subinsertsql="";
 		$q1 = DatabaseClasses::PDO(true,"SHOW TABLES");
@@ -259,8 +250,22 @@ class DatabaseClasses{
 	function mail($receiver,$subject,$message){
         $headers  = 'MIME-Version: 1.0' . "\r\n";
         $headers .= 'Content-type: text/html; charset=iso-8859-1' . "\r\n";
-        $headers .= 'From: Kareer' . "\r\n";
+        $headers .= 'From: KAREER <kareer.com>' . "\r\n";
+
         $result = mail($receiver,$subject,$message,$headers);
+        return $result;
+	}
+	function mailTemplate($receiver,$subject,$message){
+        $headers  = 'MIME-Version: 1.0' . "\r\n";
+        $headers .= 'Content-type: text/html; charset=iso-8859-1' . "\r\n";
+        $headers .= 'From: KAREER <kareer.com>' . "\r\n";
+
+        $template = "<div style='margin:0 auto; padding:20px; text-align:center;font-family:helvetica neue,helvetica,arial,sans-serif; width:500px; border:dashed 1px #ccc;'>
+            <div>{$message}</div><br/><br/><br/>
+            <a style='font-size: 10px; color:#333' href='http://kareer.com'>Kareer</a>
+        </div>";
+
+        $result = mail($receiver,$subject,$template,$headers);
         return $result;
 	}
 }

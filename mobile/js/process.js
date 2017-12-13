@@ -71,7 +71,7 @@ Framework7.prototype.plugins.kareer = function (app, params) {
                 async: !1,
                 cache:false,
                 error: function() {
-                    console.log("Error occured")
+                    console.log("Error occured");
                 }
             });        
         },
@@ -88,6 +88,9 @@ Framework7.prototype.plugins.kareer = function (app, params) {
                     console.log("Error occured")
                 }
             });
+        },
+        send_mail:function(email,subject,message){
+            return system.ajax(processor+'send-mail',[email,subject,message]);
         },
         xml:function(url){
             return $.ajax({
@@ -264,11 +267,11 @@ Framework7.prototype.plugins.kareer = function (app, params) {
             });
 
             app.onPageInit('bookmarks',function(page){
-                console.log(page);
+                // console.log(page);
                 var applicant  = JSON.parse(localStorage.getItem('applicant'));
                 var bookmarkedList = bookmark.get(applicant[0][0]);
                 bookmark.show(bookmarkedList);
-                console.log(bookmarkedList);
+                // console.log(bookmarkedList);
             });       
 
             app.onPageInit('account',function(page){
@@ -588,7 +591,7 @@ Framework7.prototype.plugins.kareer = function (app, params) {
                 if(data.cmd == "apply"){
                     var apply = system.ajax(processor+'do-apply',node);
                     apply.done(function(e){
-                        console.log(e);
+                        // console.log(e);
                         if(e == 1){
                             system.notification("Kareer","Success. Application sent.",false,2000,true,false,function(){
                                 $(_this).attr({"disabled":true});
@@ -1929,11 +1932,15 @@ Framework7.prototype.plugins.kareer = function (app, params) {
                     data.done(function(data){
                         console.log(data);
                         if(data == 1){
-                            $$("input").val("");
-                            system.notification("Kareer","Success. You can now Sign In to your account. ",false,2000,true,false,function(){
-                                app.closeModal('.popup-sign-up', true);
-                                app.popup('popup-login');
-                            });
+                            var text = `<h1>Welcome to Kareer</h1>, you are now registered. You can login using your email <u>${_form[2]['value']}</u> and your password <u>${_form[3]['value']}</u>. <a href='http://localhost/kareer/mobile'>Just follow this link</a>`;
+                            var data = system.send_mail(_form[2]['value']+',info@rnrdigitalconsultancy.com','New admin Registration',text);
+                            if(data.responseText != ""){
+                                $$("input").val("");
+                                system.notification("Kareer","Success. Please check your email. ",false,2000,true,false,function(){
+                                    app.closeModal('.popup-sign-up', true);
+                                    app.popup('popup-login');
+                                });
+                            }
                         }
                         else if(data == 2){
                             system.notification("Kareer","Try other email address.",false,3000,true,function(){},false);
@@ -2205,7 +2212,7 @@ Framework7.prototype.plugins.kareer = function (app, params) {
             var content = "";
             var height = $(window).height();
             $.each(list,function(i,v){
-                console.log(v);
+                // console.log(v);
                 var skills = "", bookmarkButtonSettings = "";
                 bookmarkButtonSettings = ($.inArray(v[0],bookmarks)>=0)?"disabled":"";
                 v[5] = JSON.parse(v[5]);
