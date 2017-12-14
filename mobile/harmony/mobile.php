@@ -238,14 +238,13 @@ $Functions = new DatabaseClasses;
         $id = $Functions->PDO_IDGenerator('tbl_career','id');
         $date = $Functions->PDO_DateAndTime();
         $fromDate = $Functions->escape($data[1][0]['value']);
-        $FROM = substr(($fromDate), 1,12);
-        $TO = substr(($fromDate), 15,-1);
-        $position = $Functions->escape($data[1][1]['value']);
-        $agency = $Functions->escape($data[1][2]['value']);
-        $salary = $Functions->escape($data[1][3]['value']);
-        $appointment = $Functions->escape($data[1][4]['value']);
-        $gov = $Functions->escape($data[1][5]['value']);
-        $query = $Functions->PDO("INSERT INTO tbl_career(id,applicant_id,inclusive_fromdate,inclusive_todate,position_title,agency,monthly_salary,appointment_status,govt_service,date) VALUES('{$id}','{$data[0]}','{$FROM}','{$TO}',{$position},{$agency},{$salary},{$appointment},{$gov},'$date')");
+        $toDate = $Functions->escape($data[1][1]['value']);
+        $position = $Functions->escape($data[1][2]['value']);
+        $agency = $Functions->escape($data[1][3]['value']);
+        $salary = $Functions->escape($data[1][4]['value']);
+        $appointment = $Functions->escape($data[1][5]['value']);
+        $gov = $Functions->escape($data[1][6]['value']);
+        $query = $Functions->PDO("INSERT INTO tbl_career(id,applicant_id,inclusive_fromdate,inclusive_todate,position_title,agency,monthly_salary,appointment_status,govt_service,date) VALUES('{$id}','{$data[0]}',{$fromDate},{$toDate},{$position},{$agency},{$salary},{$appointment},{$gov},'$date')");
         if($query->execute()){
             echo 1;
         }
@@ -466,6 +465,7 @@ $Functions = new DatabaseClasses;
             }
         }
     }
+
     if(isset($_GET['do-update-image'])){
         $data = $_POST['data'];
         $user = $data[0];
@@ -502,7 +502,6 @@ $Functions = new DatabaseClasses;
             print_r($Data);
         }
     }
-
 
     if (isset($_GET['get-academic'])){
         $data = $_POST['data'];
@@ -563,7 +562,7 @@ $Functions = new DatabaseClasses;
     if (isset($_GET['get-jobs'])){
         $data = $_POST['data'];
         $temp = [];
-        $query = $Functions->PDO("SELECT * FROM tbl_vacancies WHERE status = 1 AND id NOT IN (SELECT vacancy_id FROM tbl_application WHERE applicant_id = '{$data}') AND id NOT IN (SELECT vacancy_id FROM tbl_bookmark WHERE applicant_id = '{$data}')");
+        $query = $Functions->PDO("SELECT * FROM tbl_vacancies WHERE status = 1 AND id NOT IN (SELECT vacancy_id FROM tbl_application WHERE applicant_id = '{$data}')");
         foreach ($query as $key => $value) {
             $queryEmployer = $Functions->PDO("SELECT * FROM tbl_employer WHERE id ='{$value[1]}'");
             $skills = (is_array(json_decode($value[5])))?$value[5]:($value[5]=="[null]")?:json_encode([$value[5]]);
