@@ -326,7 +326,18 @@ $Functions = new DatabaseClasses;
     if (isset($_GET['do-update'])){
         $data = $_POST['data'];
         $id = $data[0];
-        if($data[1][0]['name'] == "field_GivenName"){
+        if($data[1][0]['name'] == "field_Email"){
+            $email = $Functions->escape($data[1][0]['value']);
+            $query = $Functions->PDO("UPDATE tbl_applicant SET email = {$email} WHERE id = '{$id}';");
+            if($query->execute()){
+                echo 1;
+            }
+            else{
+                $Data = $query->errorInfo();
+                print_r($Data);
+            }
+        }
+        else if($data[1][0]['name'] == "field_GivenName"){
             $name = $data[1][0]['value'];
             $query = $Functions->PDO("UPDATE tbl_personalinfo SET given_name = '{$name}' WHERE id = '{$id}';");
             if($query->execute()){
@@ -392,7 +403,7 @@ $Functions = new DatabaseClasses;
                 print_r($Data);
             }
         }
-         else if($data[1][0]['name'] == "field_PlaceOfBirth"){
+        else if($data[1][0]['name'] == "field_PlaceOfBirth"){
             $name = $data[1][0]['value'];
             $query = $Functions->PDO("UPDATE tbl_personalinfo SET place_of_birth = '{$name}' WHERE id = '{$id}';");
             if($query->execute()){
@@ -776,8 +787,16 @@ $Functions = new DatabaseClasses;
     if (isset($_GET['get-jobs'])){
         $data = $_POST['data'];
         $temp = [];
-        $query = $Functions->PDO("SELECT * FROM tbl_vacancies WHERE status = 1 AND id NOT IN (SELECT vacancy_id FROM tbl_application WHERE applicant_id = '{$data}')");
-        foreach ($query as $key => $value) {
+        $jobs = [];
+        $queryskill = $Functions->PDO("SELECT skill FROM tbl_skills WHERE applicant_id = '{$data}'");
+        foreach ($queryskill as $key => $value) {
+            $query = $Functions->PDO("SELECT * FROM tbl_vacancies WHERE status = 1 AND id NOT IN (SELECT vacancy_id FROM tbl_application WHERE applicant_id = '{$data}') AND skills IN (SELECT skills FROM tbl_vacancies WHERE skills LIKE '%{$value[0]}%')");
+            foreach ($query as $key => $value) {
+                $jobs [] = $value;
+            }
+        }
+        $filtered = array_unique($jobs,SORT_REGULAR);
+        foreach ($filtered as $key => $value) {
             $queryEmployer = $Functions->PDO("SELECT * FROM tbl_employer WHERE id ='{$value[1]}'");
             $skills = (is_array(json_decode($value[5])))?$value[5]:($value[5]=="[null]")?:json_encode([$value[5]]);
             $temp[] = [$value[0],$queryEmployer[0][5],$queryEmployer[0][3],$value[4],$value[2],$skills];

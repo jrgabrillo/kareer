@@ -236,7 +236,7 @@ Framework7.prototype.plugins.kareer = function (app, params) {
                             "            <a data-load='bookmarks' class='account btn-floating btn-large waves-effect waves-light waves-teal grey lighten-4 btn-flat'><i class='icon f7-icons color-gray' style='font-size: 30px; margin-top: 6px;'>bookmark_fill</i></a><div class='grey-text' style = 'font-size: xx-small'>BOOKMARKS</div>"+
                             "        </div>"+
                             "        <div class='col-33'>"+
-                            "            <a data-load='' class='disabled account btn-floating btn-large waves-effect waves-light waves-teal grey lighten-4 btn-flat'><i class='icon f7-icons color-gray' style='font-size: 30px; margin-top: 6px;'>gear_fill</i></a><div class='grey-text' style = 'font-size: xx-small'>SETTINGS</div>"+
+                            "            <a data-load='settings' class=' account btn-floating btn-large waves-effect waves-light waves-teal grey lighten-4 btn-flat'><i class='icon f7-icons color-gray' style='font-size: 30px; margin-top: 6px;'>gear_fill</i></a><div class='grey-text' style = 'font-size: xx-small'>SETTINGS</div>"+
                             "        </div>"+
                             "        <div class='col-33'>"+
                             "            <a data-load='resume' class=' account btn-floating btn-large waves-effect waves-light waves-teal grey lighten-4 btn-flat'><i class='icon f7-icons color-gray' style='font-size: 30px; margin-top: 6px;'>document_text_fill</i></a><div class='grey-text' style = 'font-size: xx-small'>RESUME</div>"+
@@ -282,6 +282,12 @@ Framework7.prototype.plugins.kareer = function (app, params) {
                 account.edit(data);
                 account.display(data);
                 account.show(data);
+            });
+            app.onPageInit('settings',function(page){
+                console.log('page');
+                var applicantData = JSON.parse(localStorage.getItem('applicant'));
+                var data = account.get(applicantData[0][0]);
+                account.settings(data);
             });
 
             app.onPageInit('career',function(page){
@@ -394,7 +400,85 @@ Framework7.prototype.plugins.kareer = function (app, params) {
                 $(this).removeClass('color-gray').addClass('color-teal');
             });
         },
+        settings:function(data){
+            console.log(data);
+            $$("#display_email strong").html(data[3]);
+            $$("#display_email a").attr({"data-node":data[0]});
+            $$("#display_password strong").html("*******");
+            $$("#display_password a").attr({"data-node":data[0]});
 
+            $("a.home").on('click',function(){
+                var data = $(this).data('load');
+                view.router.loadPage("pages/admin/"+data+".html");
+            });
+            app.onPageBack('index',function(page){
+                // account.controller();
+                account.ini();
+            });
+            $("a[data-cmd='edit']").on('click',function(){
+                var data = $(this).data();
+                var id = data.node;
+                if(data.prop == "Email"){
+                    var content =   `<form action="" method="POST" id='form_edit'>
+                                        <div class="list-block">
+                                            <ul>
+                                                <li>
+                                                    <div class="input-field" style="margin-top: 50px; !importan">
+                                                        <label class="a" for='field_${data.prop}'>Email</label>
+                                                        <input type='text' id='field_${data.prop}' value = '${data.value}' name='field_${data.prop}' class=" form-control color-white">
+                                                    </div>
+                                                </li>
+                                                <li>
+                                                    <button class="btn teal waves-effect waves-teal waves-light" style="width: 100%; top: 20px;">Save</button>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </form>`;
+                    $("#editpopup").html(content);
+                    if(data.value != ""){
+                        $('label.a').addClass("active");
+                        console.log(data.value);
+                    }               
+                    $("#form_edit").validate({
+                        rules: {
+                            field_Email: {required: true,email:true,maxlength:100}
+                        },
+                        errorElement : 'div',
+                        errorPlacement: function(error, element) {
+                            var placement = $(element).data('error');
+                            if(placement){
+                                $(placement).append(error)
+                            } 
+                            else{
+                                error.insertAfter(element);
+                            }
+                        },
+                        submitHandler: function (form) {
+                            var _form = $(form).serializeArray();
+                            console.log(_form);
+                            // var data = system.ajax(processor+'do-update',[id,_form]);
+                            // data.done(function(data){
+                            //     console.log(data);
+                            //     if(data != 0){
+                            //         system.notification("Update","Success. Please wait.",false,2000,true,false,function(){
+                            //             app.closeModal('.popup-edit', true);
+                            //             var newdata = account.get(id);
+                            //             localStorage.setItem('applicant',newdata);
+                            //             account.settings(newdata);
+                            //             account.ini();
+                            //         });
+
+                            //     }
+                            //     else{
+                            //         system.notification("Update","Failed.",false,3000,true,false,false);
+                            //     }
+                            // })
+                        }
+                    });
+                }
+            });
+
+        },
         account:function(data){
             var accData = data;
             $("img.resume").attr({"src":"img/profile/"+accData[24]});
