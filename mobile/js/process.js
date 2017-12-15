@@ -215,9 +215,6 @@ Framework7.prototype.plugins.kareer = function (app, params) {
             $("#index img.responsive-img").attr({"src":"img/profile/"+data[24]});
             var content = "<div class='content-block'>"+
                             "    <p class='color-gray'><h5>"+data[7]+" "+data[8]+"</h5></p>"+
-                            // "    <a data-cmd='account-logout' class='btn-floating btn-flat'>"+
-                            // "      <i class='f7-icons color grey'>logout</i>"+
-                            // "    </a>"+
                             "</div>"+
                             "<div class='content-block'>"+
                             "    <div class='row rows'>"+
@@ -249,13 +246,6 @@ Framework7.prototype.plugins.kareer = function (app, params) {
                 var data = $(this).data('load');
                 view.router.loadPage("pages/admin/"+data+".html");
             });
-            $("a[data-cmd='account-logout']").on('click',function(){
-                console.log("uwian na");
-                localStorage.removeItem('applicant','');
-                localStorage.removeItem('applications','');
-                localStorage.removeItem('bookmarks','');
-                window.location.reload();
-            }) 
             app.onPageInit('academic',function(page){
                 console.log('page');
                 academic.ini();
@@ -401,7 +391,28 @@ Framework7.prototype.plugins.kareer = function (app, params) {
             });
         },
         settings:function(data){
-            console.log(data);
+            $("a[data-cmd='account-logout']").on('click',function(){
+                app.popup('.popup-logout');
+                var content =   "        <ul>"+
+                                "            <li>"+
+                                "                <h5 class = 'center'>Are you sure?"+
+                                "                </h5>"+
+                                "            </li>"+
+                                "            <li>"+
+                                "                <a href='#' class='close-popup btn waves-effect waves-teal waves-light btn btn-flat grey-text white'>No</a>"+
+                                "                <a data-cmd='proceed' class='waves-effect waves-teal waves-light btn btn-flat grey-text white'>Yes</a>"+
+                                "            </li>"+
+                                "        </ul>";
+                $("#logoutPopup").html(content);
+                $("a[data-cmd='proceed']").on('click',function(){
+                    console.log("uwian na");
+                    localStorage.removeItem('applicant','');
+                    localStorage.removeItem('applications','');
+                    localStorage.removeItem('bookmarks','');
+                    window.location.reload();
+                });                
+            });
+
             $$("#display_email strong").html(data[3]);
             $$("#display_email a").attr({"data-node":data[0]});
             $$("#display_password strong").html("*******");
@@ -412,7 +423,6 @@ Framework7.prototype.plugins.kareer = function (app, params) {
                 view.router.loadPage("pages/admin/"+data+".html");
             });
             app.onPageBack('index',function(page){
-                // account.controller();
                 account.ini();
             });
             $("a[data-cmd='edit']").on('click',function(){
@@ -456,24 +466,94 @@ Framework7.prototype.plugins.kareer = function (app, params) {
                         submitHandler: function (form) {
                             var _form = $(form).serializeArray();
                             console.log(_form);
-                            // var data = system.ajax(processor+'do-update',[id,_form]);
-                            // data.done(function(data){
-                            //     console.log(data);
-                            //     if(data != 0){
-                            //         system.notification("Update","Success. Please wait.",false,2000,true,false,function(){
-                            //             app.closeModal('.popup-edit', true);
-                            //             var newdata = account.get(id);
-                            //             localStorage.setItem('applicant',newdata);
-                            //             account.settings(newdata);
-                            //             account.ini();
-                            //         });
+                            var data = system.ajax(processor+'do-update',[id,_form]);
+                            data.done(function(data){
+                                console.log(data);
+                                if(data != 0){
+                                    system.notification("Update","Success. Please wait.",false,2000,true,false,function(){
+                                        app.closeModal('.popup-edit', true);
+                                        var newdata = account.get(id);
+                                        account.settings(newdata);
+                                        account.ini();
+                                    });
 
-                            //     }
-                            //     else{
-                            //         system.notification("Update","Failed.",false,3000,true,false,false);
-                            //     }
-                            // })
+                                }
+                                else{
+                                    system.notification("Update","Failed.",false,3000,true,false,false);
+                                }
+                            })
                         }
+                    });
+                }
+                if(data.prop == "Password"){
+                    var content =   `<form action="" method="POST" id='form_edit'>
+                                        <div class="list-block">
+                                            <ul>
+                                                <li>
+                                                    <div class="input-field" id="password" style="margin-top: 50px; !importan">
+                                                        <input type='password' id='field_password' name='field_password' class=" form-control color-white">
+                                                        <a class="x btn btn-flat" data-cmd="showPassword" style="width: 0%;position: absolute; right: 0px; top: 50%; margin-top: -8px;"><i class="icon f7-icons color-teal">eye</i></a>
+                                                        <a class="y hidden btn btn-flat" data-cmd="hidePassword" style="width: 0%;position: absolute; right: 0px; top: 50%; margin-top: -8px;"><i class="icon f7-icons color-teal" style=''>eye</i></a>
+                                                        <label class="grey-text" for='field_password' style="font-size:18px;margin-top: -10px">Password</label>
+                                                    </div>
+                                                </li>
+                                                <li>
+                                                    <button class="btn teal waves-effect waves-teal waves-light" style="width: 100%; top: 20px;">Save</button>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </form>`;
+                    $("#editpopup").html(content);
+                    if(data.value != ""){
+                        $('label.a').addClass("active");
+                        console.log(data.value);
+                    }               
+                    $("#form_edit").validate({
+                        rules: {
+                            field_password: {required: true, maxlength: 50,checkPassword:true}
+                        },
+                        errorElement : 'div',
+                        errorPlacement: function(error, element) {
+                            var placement = $(element).data('error');
+                            if(placement){
+                                $(placement).append(error)
+                            } 
+                            else{
+                                error.insertAfter(element);
+                            }
+                        },
+                        submitHandler: function (form) {
+                            var _form = $(form).serializeArray();
+                            console.log(_form);
+                            var data = system.ajax(processor+'do-update',[id,_form]);
+                            data.done(function(data){
+                                console.log(data);
+                                if(data != 0){
+                                    system.notification("Update","Success. Please wait.",false,2000,true,false,function(){
+                                        app.closeModal('.popup-edit', true);
+                                        var newdata = account.get(id);
+                                        account.settings(newdata);
+                                        account.ini();
+                                    });
+
+                                }
+                                else{
+                                    system.notification("Update","Failed.",false,3000,true,false,false);
+                                }
+                            })
+                        }
+                    });
+                    $$("a[data-cmd='showPassword']").on('click',function(){
+                        $("#password input").attr({"type":"text"});
+                        $("a.x").addClass('hidden');
+                        $("a.y").removeClass('hidden');
+
+                    }); 
+                    $$("a[data-cmd='hidePassword']").on('click',function(){
+                        $("#password input").attr({"type":"password"});
+                        $("a.y").addClass('hidden');
+                        $("a.x").removeClass('hidden');
+
                     });
                 }
             });
@@ -626,7 +706,6 @@ Framework7.prototype.plugins.kareer = function (app, params) {
             var $data = "";
             var jobs = system.ajax(processor+'get-applicant',id);
             jobs.done(function(data){
-                console.log(data);
                 $data = data;
             });
             return JSON.parse($data);

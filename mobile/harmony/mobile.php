@@ -337,6 +337,17 @@ $Functions = new DatabaseClasses;
                 print_r($Data);
             }
         }
+        if($data[1][0]['name'] == "field_password"){
+            $password = $Functions->password($data[1][0]['value']);
+            $query = $Functions->PDO("UPDATE tbl_applicant SET password = '{$password}' WHERE id = '{$id}';");
+            if($query->execute()){
+                echo 1;
+            }
+            else{
+                $Data = $query->errorInfo();
+                print_r($Data);
+            }
+        }
         else if($data[1][0]['name'] == "field_GivenName"){
             $name = $data[1][0]['value'];
             $query = $Functions->PDO("UPDATE tbl_personalinfo SET given_name = '{$name}' WHERE id = '{$id}';");
