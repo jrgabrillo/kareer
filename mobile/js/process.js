@@ -239,7 +239,7 @@ Framework7.prototype.plugins.kareer = function (app, params) {
                             "            <a data-load='' class='disabled account btn-floating btn-large waves-effect waves-light waves-teal grey lighten-4 btn-flat'><i class='icon f7-icons color-gray' style='font-size: 30px; margin-top: 6px;'>gear_fill</i></a><div class='grey-text' style = 'font-size: xx-small'>SETTINGS</div>"+
                             "        </div>"+
                             "        <div class='col-33'>"+
-                            "            <a data-load='resume' class='disabled account btn-floating btn-large waves-effect waves-light waves-teal grey lighten-4 btn-flat'><i class='icon f7-icons color-gray' style='font-size: 30px; margin-top: 6px;'>document_text_fill</i></a><div class='grey-text' style = 'font-size: xx-small'>RESUME</div>"+
+                            "            <a data-load='resume' class=' account btn-floating btn-large waves-effect waves-light waves-teal grey lighten-4 btn-flat'><i class='icon f7-icons color-gray' style='font-size: 30px; margin-top: 6px;'>document_text_fill</i></a><div class='grey-text' style = 'font-size: xx-small'>RESUME</div>"+
                             "      </div>"+
                             "    </div>"+
                             "</div>";
@@ -3283,32 +3283,38 @@ Framework7.prototype.plugins.kareer = function (app, params) {
 
             var applicantData = JSON.parse(localStorage.getItem('applicant'));
             var personalInfo = account.get(applicantData[0][0]);
-
-            $$("#display_fullname strong").html(personalInfo[7]+","+personalInfo[6]+" "+personalInfo[8]);
-            $$("#display_address small").html(personalInfo[12]);
+            console.log(personalInfo);
+            var Ldata = language.get(personalInfo[0]);
+            console.log(Ldata);
+            var L ="";
+            $.each(Ldata,function(i,v){
+                L +=""+v[2]+", ";
+            });
+            $$("#display_fullname strong").html(personalInfo[8]+","+personalInfo[7]+" "+personalInfo[9]);
+            $$("#display_address small").html(personalInfo[14]);
             $$("#display_phone small").html("09123456789");
             $$("#display_email small").html(personalInfo[3]);
-
-            var personalcontent = "<div class='col s6'>"+
-                                  "   <div >Date of Birth: <span class ='color-black'>"+personalInfo[10]+"</span></div>"+
-                                  "   <div >Age: <span class ='color-black'></span></div>"+
-                                  "   <div >Mother: <span class ='color-black'>"+personalInfo[16]+"</span></div>"+
-                                  "   <div >Father: <span class ='color-black'>"+personalInfo[17]+"</span></div>"+
-                                  "   <div >Religion: <span class ='color-black'></span></div>"+
-                                  "   <div >Citizenship: <span class ='color-black'>"+personalInfo[13]+"</span></div>"+
-                                  "</div>"+
-                                  "<div class='col s6'>"+
-                                  "   <div >Place of Birth: <span class ='color-black'>"+personalInfo[11]+"</span></div>"+
-                                  "   <div >Gender: <span class ='color-black'>"+personalInfo[9]+"</span></div>"+
-                                  "   <div >Occupation: <span class ='color-black'></span></div>"+
-                                  "   <div >Occupation: <span class ='color-black'></span></div>"+
-                                  "   <div >Language: <span class ='color-black'>"+personalInfo[18]+"</span></div>"+
+            $$("#Preview img.responsive-img").attr({"src":"img/profile/"+personalInfo[24]});
+            var personalcontent = "<div class='col s12'>"+
+                                  "   <div >Date of Birth: <span class ='color-black'>"+personalInfo[12]+"</span></div>"+
+                                  "   <div >Age: <span class ='color-black'>"+personalInfo[11]+"</span></div>"+
+                                  "   <div >Mother: <span class ='color-black'>"+personalInfo[18]+"</span></div>"+
+                                  "   <div >Father: <span class ='color-black'>"+personalInfo[19]+"</span></div>"+
+                                  "   <div >Religion: <span class ='color-black'>"+personalInfo[21]+"</span></div>"+
+                                  "   <div >Citizenship: <span class ='color-black'>"+personalInfo[15]+"</span></div>"+
+                                  // "</div>"+
+                                  // "<div class='col s6'>"+
+                                  "   <div >Place of Birth: <span class ='color-black'>"+personalInfo[13]+"</span></div>"+
+                                  "   <div >Gender: <span class ='color-black'>"+personalInfo[10]+"</span></div>"+
+                                  "   <div >Mother's Occupation: <span class ='color-black'>"+personalInfo[22]+"</span></div>"+
+                                  "   <div >Father's Occupation: <span class ='color-black'>"+personalInfo[23]+"</span></div>"+
+                                  "   <div >Language: <span class ='color-black'>"+L+"</span></div>"+
                                   "   <div >Height: <span class ='color-black'>"+personalInfo[14]+"</span></div>"+
                                   "   <div >Weight: <span class ='color-black'>"+personalInfo[15]+"</span></div>"+
                                   "</div>";
             $$("#display_personalInfo").html(personalcontent);
 
-            var acad = academic.get(applicantData[0][0]);
+            var acad = academic.getAll(applicantData[0][0]);
             var acadcontent = "";
             $.each(acad,function(i,v){
                 acadcontent +=  "<span class='title'><strong class ='color-black'>"+v[2]+"</strong></span>"+
