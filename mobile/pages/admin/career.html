@@ -4,7 +4,6 @@
             <div class="card-header">
                 <a href="#" data-load="index" class="btn btn-floating btn-flat white waves-effect waves-teal waves-light index color-black"><i class="icon f7-icons black-text">arrow_left</i></a>
                 <div style="padding-right: 75% ! important;">Career</div>
-                <!-- <a href="#" data-load="career" class="hidden btn btn-floating btn-flat white waves-effect waves-teal waves-light goback color-gray"><i class="icon f7-icons">arrow_left</i></a> -->
             </div>
             <div class="card-content">
                     <div class='list content-block' id="display_career">
@@ -12,93 +11,146 @@
                             <div class="indeterminate"></div>
                         </div>
                     </div>
-                    <div class='list empty content-block'>
+                    <div class='empty content-block'>
                         <div class="" style="margin-top: 30%;">
                             <center><img width="150px" src="img/016-stairs.png"/></center>
                             <div style="margin-top: 20%;"></div>
                             <span style="color:blue;font-size: 16px;"><center>Create Career Information</center></span>
                         </div>
                     </div>
-                    <div class='add hidden content-block'>
-                        <div class="center">
-                           <form action="" method="POST" id='form_career'>
-                                <div class="list-block">
-                                    <ul>
-                                        <li>
-                                            <div>
-                                                <div class="input-field">
-                                                    <label class="active" style="top: auto; left: 0px; font-size: 17px;">Inclusive dates (From - To)</label>
-                                                    <div>
-                                                        <input type='month' id="field_dateFirst"  name="field_dateFirst" class="form-control" style="width: 100%;">
-                                                    </div>
-                                                    <div>
-                                                        <input type='month' id="field_dateLast" name="field_dateLast" class="form-control" style="width: 100%;">
-                                                    </div>
-                                                </div>                                            
-                                            </div>
-                                            <!-- <div class="row">
-                                                <div class="input-field">
-                                                    <label class="active" style="color: black; top: auto; left: 0px; font-size: 17px;">Inclusive dates</label>
-                                                    <div class="col s6">
-                                                        <input type='month' id="field_dateFirst" name="field_dateFirst" class="form-control" placeholder="From">
-                                                    </div>
-                                                    <div class="col s6">
-                                                        <input type='month' id="field_dateLast" name="field_dateLast" class="form-control" placeholder="To">
-                                                    </div>
-                                                </div>                                            
-                                            </div> -->
-                                        </li>
-                                        <li>
-                                            <div class="input-field">
-                                                <input type='text' id="field_position" name="field_position" class="form-control">
-                                                <label class="" for="field_position" style="top: -2px; left: 0px;">Position Title</label>
-                                            </div>
-                                        </li>
-                                        <li>
-                                            <div class="input-field">
-                                                <input type='text' id="field_agency" name="field_agency" class="form-control">
-                                                <label class="" for="field_agency" style="top: -2px !important; left: 0px !important;">Department/Company/Office/Agency</label>
-                                            </div>
-                                        </li>
-                                        <li>
-                                            <div class="input-field">
-                                                <input type='number' id="field_salary" name="field_salary" min="1" max="50000" class="form-control">
-                                                <label class="" for="field_salary" style="top: -2px !important; left: 0px !important;">Monthly Salary</label>
-                                            </div>
-                                        </li>
-                                        <li>
-                                            <div class="input-field">
-                                                <input type='text' id="field_appointment" name="field_appointment" class="form-control">
-                                                <label class="" for="field_appointment" style="top: -2px !important; left: 0px !important;">Status of Appointment</label>
-                                            </div>
-                                        </li>
-                                        <li>
-                                            <div class="input-field">
-                                                <select id="field_govt_service" name="field_govt_service">
-                                                    <option value="Yes">Yes</option>
-                                                    <option value="No">No</option>
-                                                </select>
-                                                <label class="active" for="field_govt_service" style="font-size: 17px; top: -2px !important; left: 0px !important;">Gov't Service</label>
-                                            </div>
-                                        </li>
-                                        <li style="margin-top: 70% !important;">
-                                            <button id="" class="btn-flat btn-large waves-effect waves-teal waves-light purple color-white" style="width: 80%; margin-left: -15px !important; border-radius: 30px !important; height: 49px; background-color: #7a5578; font-size: 20px;">Save</button>
-                                            <a href="#" class="cancel btn-floating btn-small red waves-effect waves-teal waves-light right" style="right: 5px; height: 50px; width: 50px;"><i class="icon f7-icons" style="top: 7px;">close</i></a>
-                                        </li>
-                                    </ul>
+
+                    <div class='c hidden content-block'>
+                        <ul>
+                            <li class="item-content row">
+                                <div class="item-title col s12">Inclusive dates </div>
+                                <div class="item-inner col s6 row" id="display_fromdate">
+                                   <div class="item-after "><small>From: </small><strong></strong></div>
                                 </div>
-                            </form>
-                          </div>
+                                <div class="item-inner col s6 row" id="display_todate">
+                                   <div class="item-after"><small>To: </small><strong></strong></div>
+                                   <a href="#" data-popup=".popup-edit" data-cmd = "edit" data-value='' data-node ='' data-prop='Dates' class="btn btn-floating btn-flat open-popup waves-effect waves-teal waves-light" style="top: -10px;"><i class="icon f7-icons color-gray">compose</i></a>
+                                </div>
+                           </li>
+                            <li class="item-content row">
+                                <div class="item-title col s12">Position Title </div>
+                                <div class="item-inner col s12 row" id="display_position">
+                                   <div class="item-after"><strong></strong></div>
+                                   <a href="#" data-popup=".popup-edit" data-cmd = "edit" data-value='' data-node ='' data-prop='Position' class="btn btn-floating btn-flat open-popup waves-effect waves-teal waves-light" style="top: -10px; left: 72px;"><i class="icon f7-icons color-gray">compose</i></a>
+                                </div>
+                            </li>
+                            <li class="item-content row">
+                                <div class="item-title col s12">Department/Company/Office/Agency </div>
+                                <div class="item-inner col s12 row" id="display_agency">
+                                   <div class="item-after"><strong></strong></div>
+                                   <a href="#" data-popup=".popup-edit" data-cmd = "edit" data-value='' data-node ='' data-prop='Agency' class="btn btn-floating btn-flat open-popup waves-effect waves-teal waves-light" style="top: -10px; left: 72px;"><i class="icon f7-icons color-gray">compose</i></a>
+                                </div>
+                            </li>
+                            <li class="item-content row">
+                                <div class="item-title col s12">Monthly Salary </div>
+                                <div class="item-inner col s12 row" id="display_salary">
+                                   <div class="item-after"><strong></strong></div>
+                                   <a href="#" data-popup=".popup-edit" data-cmd = "edit" data-value='' data-node ='' data-prop='Salary' class="btn btn-floating btn-flat open-popup waves-effect waves-teal waves-light" style="top: -10px; left: 72px;"><i class="icon f7-icons color-gray">compose</i></a>
+                                </div>
+                            </li>
+                            <li class="item-content row">
+                                <div class="item-title col s12">Status of Appointment </div>
+                                <div class="item-inner col s12 row" id="display_appointment">
+                                   <div class="item-after"><strong></strong></div>
+                                   <a href="#" data-popup=".popup-edit" data-cmd = "edit" data-value='' data-node ='' data-prop='Appointment' class="btn btn-floating btn-flat open-popup waves-effect waves-teal waves-light" style="top: -10px; left: 72px;"><i class="icon f7-icons color-gray">compose</i></a>
+                                </div>
+                            </li>
+                            <li class="item-content row">
+                                <div class="item-title col s12">Gov't Service </div>
+                                <div class="item-inner col s12 row" id="display_govt_service">
+                                   <div class="item-after"><strong></strong></div>
+                                   <a href="#" data-popup=".popup-edit" data-cmd = "edit" data-value='' data-node ='' data-prop='Gov' class="btn btn-floating btn-flat open-popup waves-effect waves-teal waves-light" style="top: -10px; left: 72px;"><i class="icon f7-icons color-gray">compose</i></a>
+                                </div>
+                            </li>
+                            <li class="item-content">
+                                <a data-cmd = "delete" data-popup="popup-delete" class="open-popup btn-flat waves-effect waves-red waves-light red color-white center" style="width:100%;">Delete</a>
+                                <a class="back btn-flat waves-effect waves-teal waves-light teal color-white center" style="width:100%;">Back</a>
+                            </li>
+                        </ul>
                     </div>
                     <div class="fixed-action-btn" style="bottom: 45px; right: 24px;">
-                        <a data-cmd='add-career' class="add btn-floating btn-small teal waves-effect waves-teal waves-light" style="right: -4px; height: 50px; width: 50px; top: 15px;"><i class="icon f7-icons" style="top: 5px;">add</i></a>
+                        <a data-cmd='add-career' data-popup="popup-career" class="open-popup btn-floating btn-small teal waves-effect waves-teal waves-light" style="right: -4px; height: 50px; width: 50px; top: 15px;"><i class="icon f7-icons" style="top: 5px;">add</i></a>
                     </div>
+            </div>
+        </div> 
+    </div>
+    <div class='popup popup-career'>
+        <div class="page-content login-screen-content infinite-scroll" style="background: transparent;">
+            <div class="content-block">
+                <div class="close-popup">Add Career<i class="icon f7-icons" style="width: 25px; position: absolute;right: 5%;">close_round</i></div>
+                <form action="" method="POST" id='form_career'>
+                    <div class="list-block">
+                        <ul>
+                            <li>
+                                <div>
+                                    <div class="input-field">
+                                        <label class="active" style="top: auto; left: 0px; font-size: 17px;">Inclusive dates (From - To)</label>
+                                        <div>
+                                            <input type='month' id="field_dateFirst"  name="field_dateFirst" class="form-control" style="width: 100%;">
+                                        </div>
+                                        <div>
+                                            <input type='month' id="field_dateLast" name="field_dateLast" class="form-control" style="width: 100%;">
+                                        </div>
+                                    </div>                                            
+                                </div>
+                            </li>
+                            <li>
+                                <div class="input-field">
+                                    <input type='text' id="field_position" name="field_position" class="form-control">
+                                    <label class="" for="field_position" style="top: -2px; left: 0px;">Position Title</label>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="input-field">
+                                    <input type='text' id="field_agency" name="field_agency" class="form-control">
+                                    <label class="" for="field_agency" style="top: -2px !important; left: 0px !important;">Department/Company/Office/Agency</label>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="input-field">
+                                    <input type='number' id="field_salary" name="field_salary" min="1" max="50000" class="form-control">
+                                    <label class="" for="field_salary" style="top: -2px !important; left: 0px !important;">Monthly Salary</label>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="input-field">
+                                    <input type='text' id="field_appointment" name="field_appointment" class="form-control">
+                                    <label class="" for="field_appointment" style="top: -2px !important; left: 0px !important;">Status of Appointment</label>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="input-field">
+                                    <select id="field_govt_service" name="field_govt_service">
+                                        <option value="Yes">Yes</option>
+                                        <option value="No">No</option>
+                                    </select>
+                                    <label class="active" for="field_govt_service" style="font-size: 17px; top: -2px !important; left: 0px !important;">Gov't Service</label>
+                                </div>
+                            </li>
+                            <li style="margin-top: 5% !important;">
+                                <button class="btn-flat waves-effect waves-teal waves-light teal color-white" style="width:100%;">Save</button>
+                            </li>
+                        </ul>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <div class="popup popup-delete">
+        <div class="content-block " id ="deletePopup">
+        </div>
+    </div>
+    <div class="popup popup-edit">
+        <div class="page-content login-screen-content infinite-scroll" style="background: transparent;">
+            <div class="content-block">
+                <div class="close-popup">Update<i class="icon f7-icons" style="width: 25px; position: absolute;right: 5%;">close_round</i></div>
+                <div class="page-content" id="editpopup" style="overflow:hidden;">
+                </div>
             </div>
         </div>
     </div>
 </div>
-<!-- <script>
-    career.ini();
-    career.add();
-    career.show();
-</script> -->

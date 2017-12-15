@@ -122,9 +122,9 @@ $Functions = new DatabaseClasses;
         $degree = $Functions->escape($data[1][2]['value']);
         $units = $Functions->escape($data[1][3]['value']);
         $periodofattendance = $Functions->escape($data[1][4]['value']." : ".$data[1][5]['value']);
-        // $year = substr(json_encode($data[1][5]['value']),1,4);
-        // $yearGraduated = $Functions->escape($year);
-        $yearGraduated = $Functions->escape($data[1][5]['value']);
+        $year = substr(json_encode($data[1][5]['value']),1,4);
+        $yearGraduated = $Functions->escape($year);
+        // $yearGraduated = $Functions->escape($data[1][5]['value']);
         
         if(($yearLevel == 'Elementary') || ($yearLevel == 'High School')){
             $query = $Functions->PDO("INSERT INTO tbl_acadinfo(id,applicant_id,level,schoolattended,degree,periodofattendance,highestlevel,yeargraduated,date) VALUES('{$id}','{$data[0]}',{$yearLevel},{$school},'',{$periodofattendance},'',{$yearGraduated},'{$date}')");
@@ -266,12 +266,6 @@ $Functions = new DatabaseClasses;
         }
     }
 
-    if (isset($_GET['do-editCareer'])){
-        $data = $_POST['data'];
-        $query = $Functions->PDO("SELECT * FROM tbl_career WHERE id = '{$data}';");
-        print_r(json_encode($query));
-    }
-
     if (isset($_GET['do-apply'])){
         $data = $_POST['data'];
         $date = $Functions->PDO_DateAndTime();
@@ -376,6 +370,17 @@ $Functions = new DatabaseClasses;
                 print_r($Data);
             }
         }
+        else if($data[1][0]['name'] == "field_Age"){
+            $name = $data[1][0]['value'];
+            $query = $Functions->PDO("UPDATE tbl_personalinfo SET age = '{$name}' WHERE id = '{$id}';");
+            if($query->execute()){
+                echo 1;
+            }
+            else{
+                $Data = $query->errorInfo();
+                print_r($Data);
+            }
+        }
         else if($data[1][0]['name'] == "field_DateOfBirth"){
             $name = $data[1][0]['value'];
             $query = $Functions->PDO("UPDATE tbl_personalinfo SET date_of_birth = '{$name}' WHERE id = '{$id}';");
@@ -464,6 +469,203 @@ $Functions = new DatabaseClasses;
                 print_r($Data);
             }
         }
+        else if($data[1][0]['name'] == "field_Language"){
+            $language = $Functions->PDO_IDGenerator('tbl_language','id');
+            $date = $Functions->PDO_DateAndTime();
+            $level = $data[1][1]['value'];
+            $name = $data[1][0]['value'];
+            $query = $Functions->PDO("UPDATE tbl_personalinfo SET language = '{$name}' WHERE id = '{$id}';");
+            if($query->execute()){
+                $queryLanguage = $Functions->PDO("INSERT INTO tbl_language(id,applicant_id,language,level,date) VALUES('{$language}','{$id}','{$name}','{$level}','{$date}')");
+                if($queryLanguage->execute()){
+                    echo 1;
+                }
+                else{
+                    $Data = $queryLanguage->errorInfo();
+                    print_r($Data);
+                }
+            }
+            else{
+                $Data = $query->errorInfo();
+                print_r($Data);
+            }
+        }
+        else if($data[1][0]['name'] == "field_Religion"){
+            $name = $data[1][0]['value'];
+            $query = $Functions->PDO("UPDATE tbl_personalinfo SET religion = '{$name}' WHERE id = '{$id}';");
+            if($query->execute()){
+                echo 1;
+            }
+            else{
+                $Data = $query->errorInfo();
+                print_r($Data);
+            }
+        }
+        else if($data[1][0]['name'] == "field_Mother_Occupation"){
+            $name = $data[1][0]['value'];
+            $query = $Functions->PDO("UPDATE tbl_personalinfo SET mother_occupation = '{$name}' WHERE id = '{$id}';");
+            if($query->execute()){
+                echo 1;
+            }
+            else{
+                $Data = $query->errorInfo();
+                print_r($Data);
+            }
+        }
+        else if($data[1][0]['name'] == "field_Father_Occupation"){
+            $name = $data[1][0]['value'];
+            $query = $Functions->PDO("UPDATE tbl_personalinfo SET father_occupation = '{$name}' WHERE id = '{$id}';");
+            if($query->execute()){
+                echo 1;
+            }
+            else{
+                $Data = $query->errorInfo();
+                print_r($Data);
+            }
+        }
+    }
+
+    if (isset($_GET['do-updateCareer'])){
+        $data = $_POST['data'];
+        $id = $data[0];
+        if($data[1][0]['name'] == "field_dateFirst"){
+            $from = $data[1][0]['value'];
+            $to = $data[1][1]['value'];
+            $query = $Functions->PDO("UPDATE tbl_career SET inclusive_fromdate = '{$from}', inclusive_todate = '{$to}' WHERE id = '{$id}';");
+            // print_r($query);
+            if($query->execute()){
+                echo 1;
+            }
+            else{
+                $Data = $query->errorInfo();
+                print_r($Data);
+            }
+        }
+        else if($data[1][0]['name'] == "field_position"){
+            $name = $data[1][0]['value'];
+            $query = $Functions->PDO("UPDATE tbl_career SET position_title = '{$name}' WHERE id = '{$id}';");
+            // print_r($query);
+            if($query->execute()){
+                echo 1;
+            }
+            else{
+                $Data = $query->errorInfo();
+                print_r($Data);
+            }
+        }
+        else if($data[1][0]['name'] == "field_agency"){
+            $name = $data[1][0]['value'];
+            $query = $Functions->PDO("UPDATE tbl_career SET agency = '{$name}' WHERE id = '{$id}';");
+            // print_r($query);
+            if($query->execute()){
+                echo 1;
+            }
+            else{
+                $Data = $query->errorInfo();
+                print_r($Data);
+            }
+        }
+        else if($data[1][0]['name'] == "field_salary"){
+            $name = $data[1][0]['value'];
+            $query = $Functions->PDO("UPDATE tbl_career SET monthly_salary = '{$name}' WHERE id = '{$id}';");
+            // print_r($query);
+            if($query->execute()){
+                echo 1;
+            }
+            else{
+                $Data = $query->errorInfo();
+                print_r($Data);
+            }
+        }
+        else if($data[1][0]['name'] == "field_appointment"){
+            $name = $data[1][0]['value'];
+            $query = $Functions->PDO("UPDATE tbl_career SET appointment_status = '{$name}' WHERE id = '{$id}';");
+            // print_r($query);
+            if($query->execute()){
+                echo 1;
+            }
+            else{
+                $Data = $query->errorInfo();
+                print_r($Data);
+            }
+        }
+        else if($data[1][0]['name'] == "field_govt_service"){
+            $name = $data[1][0]['value'];
+            $query = $Functions->PDO("UPDATE tbl_career SET govt_service = '{$name}' WHERE id = '{$id}';");
+            // print_r($query);
+            if($query->execute()){
+                echo 1;
+            }
+            else{
+                $Data = $query->errorInfo();
+                print_r($Data);
+            }
+        }
+    }
+
+    if (isset($_GET['do-updateAcad'])){
+        $data = $_POST['data'];
+        $id = $data[0];
+       if($data[1][0]['name'] == "field_yearLevel"){
+            $name = $data[1][0]['value'];
+            $query = $Functions->PDO("UPDATE tbl_acadinfo SET level = '{$name}' WHERE id = '{$id}';");
+            // print_r($query);
+            if($query->execute()){
+                echo 1;
+            }
+            else{
+                $Data = $query->errorInfo();
+                print_r($Data);
+            }
+        }
+        else if($data[1][0]['name'] == "field_school"){
+            $name = $data[1][0]['value'];
+            $query = $Functions->PDO("UPDATE tbl_acadinfo SET schoolattended = '{$name}' WHERE id = '{$id}';");
+            // print_r($query);
+            if($query->execute()){
+                echo 1;
+            }
+            else{
+                $Data = $query->errorInfo();
+                print_r($Data);
+            }
+        }
+        else if($data[1][0]['name'] == "field_degree"){
+            $name = $data[1][0]['value'];
+            $query = $Functions->PDO("UPDATE tbl_acadinfo SET degree = '{$name}' WHERE id = '{$id}';");
+            // print_r($query);
+            if($query->execute()){
+                echo 1;
+            }
+            else{
+                $Data = $query->errorInfo();
+                print_r($Data);
+            }
+        }
+        else if($data[1][0]['name'] == "field_units"){
+            $name = $data[1][0]['value'];
+            $query = $Functions->PDO("UPDATE tbl_acadinfo SET highestlevel = '{$name}' WHERE id = '{$id}';");
+            // print_r($query);
+            if($query->execute()){
+                echo 1;
+            }
+            else{
+                $Data = $query->errorInfo();
+                print_r($Data);
+            }
+        }
+        else if($data[1][0]['name'] == "field_dateFirst"){
+            $name = $data[1][0]['value']." : ".$data[1][1]['value'];
+            $query = $Functions->PDO("UPDATE tbl_acadinfo SET periodofattendance = '{$name}' WHERE id = '{$id}';");
+            // print_r($query);
+            if($query->execute()){
+                echo 1;
+            }
+            else{
+                $Data = $query->errorInfo();
+                print_r($Data);
+            }
+        }
     }
 
     if(isset($_GET['do-update-image'])){
@@ -503,9 +705,15 @@ $Functions = new DatabaseClasses;
         }
     }
 
-    if (isset($_GET['get-academic'])){
+    if (isset($_GET['get-academicAll'])){
         $data = $_POST['data'];
         $query = $Functions->PDO("SELECT * FROM tbl_acadinfo WHERE applicant_id = '{$data}'");
+        print_r(json_encode($query));
+    }
+    
+    if (isset($_GET['get-academic'])){
+        $data = $_POST['data'];
+        $query = $Functions->PDO("SELECT * FROM tbl_acadinfo WHERE id = '{$data}';");
         print_r(json_encode($query));
     }
 
@@ -532,8 +740,14 @@ $Functions = new DatabaseClasses;
         $query = $Functions->PDO("SELECT * FROM tbl_seminars WHERE applicant_id = '{$data}'");
         print_r(json_encode($query));
     }
-
+    
     if (isset($_GET['get-career'])){
+        $data = $_POST['data'];
+        $query = $Functions->PDO("SELECT * FROM tbl_career WHERE id = '{$data}';");
+        print_r(json_encode($query));
+    }
+
+    if (isset($_GET['get-careerAll'])){
         $data = $_POST['data'];
         $query = $Functions->PDO("SELECT * FROM tbl_career WHERE applicant_id = '{$data}'");
         print_r(json_encode($query));

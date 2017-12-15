@@ -218,3 +218,20 @@ body {
     top: 0px;
     font-size: 20px;
 }
+#form_edit .select-dropdown{
+  text-align: left;
+  background: white;
+  position: inherit !important;
+}
+
+#form_edit .dropdown-content li>span {
+  color: #000000 !important;
+}
+
+#form_edit .select-wrapper span.caret {
+    color: initial;
+    position: absolute;
+    right: 10px;
+    top: 0px;
+    font-size: 20px;
+}

@@ -1,4 +1,4 @@
-// do not delete
+    // do not delete
 console.log('%cDeveloped By: RNR Digital Consultancy (2017)', 'background:#000;color:#ccc;');
 
 Framework7.prototype.plugins.kareer = function (app, params) {
@@ -101,7 +101,7 @@ Framework7.prototype.plugins.kareer = function (app, params) {
                 cache:false
             });
         },
-        popover:function(title,message){
+        popup:function(title,message){
             var mainView = app.addView('.view-main');            
             app.addNotification({
                 title: title,
@@ -236,10 +236,10 @@ Framework7.prototype.plugins.kareer = function (app, params) {
                             "            <a data-load='bookmarks' class='account btn-floating btn-large waves-effect waves-light waves-teal grey lighten-4 btn-flat'><i class='icon f7-icons color-gray' style='font-size: 30px; margin-top: 6px;'>bookmark_fill</i></a><div class='grey-text' style = 'font-size: xx-small'>BOOKMARKS</div>"+
                             "        </div>"+
                             "        <div class='col-33'>"+
-                            "            <a data-load='' class='account btn-floating btn-large waves-effect waves-light waves-teal grey lighten-4 btn-flat'><i class='icon f7-icons color-gray' style='font-size: 30px; margin-top: 6px;'>gear_fill</i></a><div class='grey-text' style = 'font-size: xx-small'>SETTINGS</div>"+
+                            "            <a data-load='' class='disabled account btn-floating btn-large waves-effect waves-light waves-teal grey lighten-4 btn-flat'><i class='icon f7-icons color-gray' style='font-size: 30px; margin-top: 6px;'>gear_fill</i></a><div class='grey-text' style = 'font-size: xx-small'>SETTINGS</div>"+
                             "        </div>"+
                             "        <div class='col-33'>"+
-                            "            <a data-load='resume' class='account btn-floating btn-large waves-effect waves-light waves-teal grey lighten-4 btn-flat'><i class='icon f7-icons color-gray' style='font-size: 30px; margin-top: 6px;'>document_text_fill</i></a><div class='grey-text' style = 'font-size: xx-small'>RESUME</div>"+
+                            "            <a data-load='resume' class='disabled account btn-floating btn-large waves-effect waves-light waves-teal grey lighten-4 btn-flat'><i class='icon f7-icons color-gray' style='font-size: 30px; margin-top: 6px;'>document_text_fill</i></a><div class='grey-text' style = 'font-size: xx-small'>RESUME</div>"+
                             "      </div>"+
                             "    </div>"+
                             "</div>";
@@ -279,7 +279,8 @@ Framework7.prototype.plugins.kareer = function (app, params) {
                 var applicantData = JSON.parse(localStorage.getItem('applicant'));
                 var data = account.get(applicantData[0][0]);
                 account.account(data);
-                // account.edit(data);
+                account.edit(data);
+                account.display(data);
                 account.show(data);
             });
 
@@ -290,7 +291,8 @@ Framework7.prototype.plugins.kareer = function (app, params) {
              
 
             var picture = "img/profile/profile.png";
-            $("a[data-cmd='update']").on('click',function(){
+            $$('.open-edit').on('click', function () {
+                app.popup('.popup-edit');
                 var content =   "<div class='card-content'>"+
                                 "<div class=' center image-crop'>"+
                                 "   <img class='circle responsive-img' style='width: 145px; height: 145px; border:2px; border-style: solid; border-color: #2b9c9b' src='"+picture+"'>"+
@@ -476,6 +478,66 @@ Framework7.prototype.plugins.kareer = function (app, params) {
                 career.ini();
             });
         },
+
+        display:function(data){
+            var Ldata = language.get(data[0]);
+            console.log(Ldata);
+            var L ="";
+            $.each(Ldata,function(i,v){
+                L +=""+v[2]+", ";
+            });
+            $$("#display_language strong").html(L);
+            $$("#display_language a").attr({"data-value":data[2]});
+            $$("#display_language a").attr({"data-node":data[0]});
+            $$("#display_givenName strong").html(data[7]);
+            $$("#display_givenName a").attr({"data-value":data[7]});
+            $$("#display_givenName a").attr({"data-node":data[0]});
+            $$("#display_middleName strong").html(data[9]);
+            $$("#display_middleName a").attr({"data-value":data[9]});
+            $$("#display_middleName a").attr({"data-node":data[0]});
+            $$("#display_lastName strong").html(data[8]);
+            $$("#display_lastName a").attr({"data-value":data[8]});
+            $$("#display_lastName a").attr({"data-node":data[0]});
+            $$("#display_gender strong").html(data[10]);
+            $$("#display_gender a").attr({"data-value":data[10]});
+            $$("#display_gender a").attr({"data-node":data[0]});
+            $$("#display_age strong").html(data[11]);
+            $$("#display_age a").attr({"data-value":data[11]});
+            $$("#display_age a").attr({"data-node":data[0]});
+            $$("#display_dateOfBirth strong").html(data[12]);
+            $$("#display_dateOfBirth a").attr({"data-value":data[12]});
+            $$("#display_dateOfBirth a").attr({"data-node":data[0]});
+            $$("#display_placeOfBirth strong").html(data[13]);
+            $$("#display_placeOfBirth a").attr({"data-value":data[13]});
+            $$("#display_placeOfBirth a").attr({"data-node":data[0]});
+            $$("#display_address strong").html(data[14]);
+            $$("#display_address a").attr({"data-value":data[14]});
+            $$("#display_address a").attr({"data-node":data[0]});
+            $$("#display_citizenship strong").html(data[15]);
+            $$("#display_citizenship a").attr({"data-value":data[15]});
+            $$("#display_citizenship a").attr({"data-node":data[0]});
+            $$("#display_height strong").html(data[16]);
+            $$("#display_height a").attr({"data-value":data[16]});
+            $$("#display_height a").attr({"data-node":data[0]});
+            $$("#display_weight strong").html(data[17]);
+            $$("#display_weight a").attr({"data-value":data[17]});
+            $$("#display_weight a").attr({"data-node":data[0]});
+            $$("#display_mother strong").html(data[18]);
+            $$("#display_mother a").attr({"data-value":data[18]});
+            $$("#display_mother a").attr({"data-node":data[0]});
+            $$("#display_father strong").html(data[19]);
+            $$("#display_father a").attr({"data-value":data[19]});
+            $$("#display_father a").attr({"data-node":data[0]});
+            $$("#display_religion strong").html(data[21]);
+            $$("#display_religion a").attr({"data-value":data[21]});
+            $$("#display_religion a").attr({"data-node":data[0]});
+            $$("#display_mother_occupation strong").html(data[22]);
+            $$("#display_mother_occupation a").attr({"data-value":data[22]});
+            $$("#display_mother_occupation a").attr({"data-node":data[0]});
+            $$("#display_father_occupation strong").html(data[23]);
+            $$("#display_father_occupation a").attr({"data-value":data[23]});
+            $$("#display_father_occupation a").attr({"data-node":data[0]});
+        },
         get:function(id){
             var $data = "";
             var jobs = system.ajax(processor+'get-applicant',id);
@@ -488,7 +550,1105 @@ Framework7.prototype.plugins.kareer = function (app, params) {
         show:function(data){
             $("a[data-cmd='view']").on('click',function(){
                 var data = $(this).data();
-                // console.log(data);
+            });
+        },
+        edit:function(data){
+            $("a[data-cmd='edit']").on('click',function(){
+                var data = $(this).data();
+                var id = data.node;
+                if(data.prop == "GivenName"){
+                    var content =   `<form action="" method="POST" id='form_edit'>
+                                        <div class="list-block">
+                                            <ul>
+                                                <li>
+                                                    <div class="input-field" style="margin-top: 50px; !importan">
+                                                        <label class="a" for='field_${data.prop}'>Given Name</label>
+                                                        <input type='text' id='field_${data.prop}' value = '${data.value}' name='field_${data.prop}' class=" form-control color-white">
+                                                    </div>
+                                                </li>
+                                                <li>
+                                                    <button class="btn teal waves-effect waves-teal waves-light" style="width: 100%; top: 20px;">Save</button>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </form>`;
+                    $("#editpopup").html(content);
+                    if(data.value != ""){
+                        $('label.a').addClass("active");
+                        console.log(data.value);
+                    }               
+                    $("#form_edit").validate({
+                        rules: {
+                            field_GivenName: {required: true,maxlength:50}
+                        },
+                        errorElement : 'div',
+                        errorPlacement: function(error, element) {
+                            var placement = $(element).data('error');
+                            if(placement){
+                                $(placement).append(error)
+                            } 
+                            else{
+                                error.insertAfter(element);
+                            }
+                        },
+                        messages: {
+                            field_GivenName: {
+                                required: "<i data-error ='Field is required' class='icon f7-icons  color red' style='margin:5px;'>info</i>",
+                                maxlength: "<i data-error ='Name is too long' class='icon f7-icons color red' style='margin:5px;'>info</i>",
+                            },
+                        },
+                        submitHandler: function (form) {
+                            var _form = $(form).serializeArray();
+                            console.log(_form);
+                            var data = system.ajax(processor+'do-update',[id,_form]);
+                            data.done(function(data){
+                                console.log(data);
+                                if(data != 0){
+                                    system.notification("Update","Success. Please wait.",false,2000,true,false,function(){
+                                        app.closeModal('.popup-edit', true);
+                                        var newdata = account.get(id);
+                                        account.account(newdata);
+                                        account.edit(newdata);
+                                        account.display(newdata);
+                                    });
+
+                                }
+                                else{
+                                    system.notification("Update","Failed.",false,3000,true,false,false);
+                                }
+                            })
+                        }
+                    });
+                }
+                else if(data.prop == "MiddleName"){  
+                    var content =   `<form action="" method="POST" id='form_edit'>
+                                        <div class="list-block">
+                                            <ul>
+                                                <li>
+                                                    <div class="input-field" style="margin-top: 50px; !importan">
+                                                        <label class="a" for='field_${data.prop}'>Middle Name</label>
+                                                        <input type='text' id='field_${data.prop}' value = '${data.value}' name='field_${data.prop}' class=" form-control color-white">
+                                                    </div>
+                                                </li>
+                                                <li>
+                                                    <button class="btn teal waves-effect waves-teal waves-light" style="width: 100%; top: 20px;">Save</button>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </form>`;
+                    $("#editpopup").html(content);
+                    if(data.value != ""){
+                        $('label.a').addClass("active");
+                        console.log(data.value);
+                    }             
+                    $("#form_edit").validate({
+                        rules: {
+                            field_MiddleName: {required: true,maxlength:100}
+                        },
+                        errorElement : 'div',
+                        errorPlacement: function(error, element) {
+                            var placement = $(element).data('error');
+                            if(placement){
+                                $(placement).append(error)
+                            } 
+                            else{
+                                error.insertAfter(element);
+                            }
+                        },
+                        messages: {
+                            field_MiddleName: {
+                                required: "<i data-error ='Field is required' class='icon f7-icons  color red' style='margin:5px;'>info</i>",
+                                maxlength: "<i data-error ='Name is too long' class='icon f7-icons color red' style='margin:5px;'>info</i>",
+                            },
+                        },
+                        submitHandler: function (form) {
+                            var _form = $(form).serializeArray();
+                            console.log(_form);
+                            var data = system.ajax(processor+'do-update',[id,_form]);
+                            data.done(function(data){
+                                console.log(data);
+                                if(data != 0){
+                                    system.notification("Update","Success. Please wait.",false,2000,true,false,function(){
+                                        app.closeModal('.popup-edit', true);
+                                        var newdata = account.get(id);
+                                        account.account(newdata);
+                                        account.edit(newdata);
+                                        account.display(newdata);
+                                    });
+
+                                }
+                                else{
+                                    system.notification("Update","Failed.",false,3000,true,false,false);
+                                }
+                            })
+                        }
+                    });
+                }
+                else if(data.prop == "LastName"){
+                    var content =   `<form action="" method="POST" id='form_edit'>
+                                        <div class="list-block">
+                                            <ul>
+                                                <li>
+                                                    <div class="input-field" style="margin-top: 50px; !importan">
+                                                        <label class="a" for='field_${data.prop}'>Last Name</label>
+                                                        <input type='text' id='field_${data.prop}' value = '${data.value}' name='field_${data.prop}' class=" form-control color-white">
+                                                    </div>
+                                                </li>
+                                                <li>
+                                                    <button class="btn teal waves-effect waves-teal waves-light" style="width: 100%; top: 20px;">Save</button>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </form>`;
+                    $("#editpopup").html(content);
+                    if(data.value != ""){
+                        $('label.a').addClass("active");
+                        console.log(data.value);
+                    }               
+                    $("#form_edit").validate({
+                        rules: {
+                            field_LastName: {required: true,maxlength:100}
+                        },
+                        errorElement : 'div',
+                        errorPlacement: function(error, element) {
+                            var placement = $(element).data('error');
+                            if(placement){
+                                $(placement).append(error)
+                            } 
+                            else{
+                                error.insertAfter(element);
+                            }
+                        },
+                        messages: {
+                            field_LastName: {
+                                required: "<i data-error ='Field is required' class='icon f7-icons  color red' style='margin:5px;'>info</i>",
+                                maxlength: "<i data-error ='Name is too long' class='icon f7-icons color red' style='margin:5px;'>info</i>",
+                            },
+                        },
+                        submitHandler: function (form) {
+                            var _form = $(form).serializeArray();
+                            console.log(_form);
+                            var data = system.ajax(processor+'do-update',[id,_form]);
+                            data.done(function(data){
+                                console.log(data);
+                                if(data != 0){
+                                    system.notification("Update","Success. Please wait.",false,2000,true,false,function(){
+                                        app.closeModal('.popup-edit', true);
+                                        var newdata = account.get(id);
+                                        account.account(newdata);
+                                        account.edit(newdata);
+                                        account.display(newdata);
+                                    });
+
+                                }
+                                else{
+                                    system.notification("Update","Failed.",false,3000,true,false,false);
+                                }
+                            })
+                        }
+                    });
+                }
+                else if(data.prop == "Gender"){
+                    var content =   `<form action="" method="POST" id='form_edit'>
+                                        <div class="list-block">
+                                            <ul>
+                                                <li>
+                                                    <div class="input-field" style="margin-top: 50px; !importan">
+                                                        <label class="active" style ="top: auto;" for='field_${data.prop}'>Gender</label>
+                                                        <select id='field_${data.prop}' value = '${data.value}' name='field_${data.prop}'>
+                                                            <option value ='Male'>Male</option>
+                                                            <option value ='Female'>Female</option>
+                                                        </select>
+                                                    </div>
+                                                </li>
+                                                <li>
+                                                    <button class="btn teal waves-effect waves-teal waves-light" style="width: 100%; top: 20px;">Save</button>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </form>`;
+                    $("#editpopup").html(content);
+                    if(data.value != ""){
+                        console.log(data.value);
+                    }        
+                    $('select').material_select();             
+                    $("#form_edit").validate({
+                        rules: {
+                            field_Gender: {required: true,maxlength:100}
+                        },
+                        errorElement : 'div',
+                        errorPlacement: function(error, element) {
+                            var placement = $(element).data('error');
+                            if(placement){
+                                $(placement).append(error)
+                            } 
+                            else{
+                                error.insertAfter(element);
+                            }
+                        },
+                        messages: {
+                            field_Gender: {
+                                required: "<i data-error ='Field is required' class='icon f7-icons  color red' style='margin:5px;'>info</i>",
+                                maxlength: "<i data-error ='Name is too long' class='icon f7-icons color red' style='margin:5px;'>info</i>",
+                            },
+                        },
+                        submitHandler: function (form) {
+                            var _form = $(form).serializeArray();
+                            console.log(_form);
+                            var data = system.ajax(processor+'do-update',[id,_form]);
+                            data.done(function(data){
+                                console.log(data);
+                                if(data != 0){
+                                    system.notification("Update","Success. Please wait.",false,2000,true,false,function(){
+                                        app.closeModal('.popup-edit', true);
+                                        var newdata = account.get(id);
+                                        account.account(newdata);
+                                        account.edit(newdata);
+                                        account.display(newdata);
+                                    });
+
+                                }
+                                else{
+                                    system.notification("Update","Failed.",false,3000,true,false,false);
+                                }
+                            })
+                        }
+                    });
+                }
+                else if(data.prop == "Age"){
+                    var content =   `<form action="" method="POST" id='form_edit'>
+                                        <div class="list-block">
+                                            <ul>
+                                                <li>
+                                                    <div class="input-field" style="margin-top: 50px; !importan">
+                                                        <label class="a" for='field_${data.prop}'>Age</label>
+                                                        <input type='number' id='field_${data.prop}' value = '${data.value}' name='field_${data.prop}' class=" form-control color-white">
+                                                    </div>
+                                                </li>
+                                                <li>
+                                                    <button class="btn teal waves-effect waves-teal waves-light" style="width: 100%; top: 20px;">Save</button>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </form>`;
+                    $("#editpopup").html(content);
+                    if(data.value != ""){
+                        $('label.a').addClass("active");
+                        console.log(data.value);
+                    }           
+                    $("#form_edit").validate({
+                        rules: {
+                            field_Age: {required: true,maxlength:100}
+                        },
+                        errorElement : 'div',
+                        errorPlacement: function(error, element) {
+                            var placement = $(element).data('error');
+                            if(placement){
+                                $(placement).append(error)
+                            } 
+                            else{
+                                error.insertAfter(element);
+                            }
+                        },
+                        messages: {
+                            field_Age: {
+                                required: "<i data-error ='Field is required' class='icon f7-icons  color red' style='margin:5px;'>info</i>",
+                                maxlength: "<i data-error ='Name is too long' class='icon f7-icons color red' style='margin:5px;'>info</i>",
+                            },
+                        },
+                        submitHandler: function (form) {
+                            var _form = $(form).serializeArray();
+                            console.log(_form);
+                            var data = system.ajax(processor+'do-update',[id,_form]);
+                            data.done(function(data){
+                                console.log(data);
+                                if(data != 0){
+                                    system.notification("Update","Success. Please wait.",false,2000,true,false,function(){
+                                        app.closeModal('.popup-edit', true);
+                                        var newdata = account.get(id);
+                                        account.account(newdata);
+                                        account.edit(newdata);
+                                        account.display(newdata);
+                                    });
+
+                                }
+                                else{
+                                    system.notification("Update","Failed.",false,3000,true,false,false);
+                                }
+                            })
+                        }
+                    });
+                }
+                else if(data.prop == "DateOfBirth"){
+                    var content =   `<form action="" method="POST" id='form_edit'>
+                                        <div class="list-block">
+                                            <ul>
+                                                <li>
+                                                    <div class="input-field" style="margin-top: 50px; !importan">
+                                                        <label class="active" for='field_${data.prop}'>Date Of Birth</label>
+                                                        <input type='date' id='field_${data.prop}' value = '${data.value}' name='field_${data.prop}' class=" form-control color-white">
+                                                    </div>
+                                                </li>
+                                                <li>
+                                                    <button class="btn teal waves-effect waves-teal waves-light" style="width: 100%; top: 20px;">Save</button>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </form>`;
+                    $("#editpopup").html(content);
+                    if(data.value != ""){
+                        console.log(data.value);
+                    }           
+                    $("#form_edit").validate({
+                        rules: {
+                            field_DateOfBirth: {required: true,maxlength:100}
+                        },
+                        errorElement : 'div',
+                        errorPlacement: function(error, element) {
+                            var placement = $(element).data('error');
+                            if(placement){
+                                $(placement).append(error)
+                            } 
+                            else{
+                                error.insertAfter(element);
+                            }
+                        },
+                        messages: {
+                            field_DateOfBirth: {
+                                required: "<i data-error ='Field is required' class='icon f7-icons  color red' style='margin:5px;'>info</i>",
+                                maxlength: "<i data-error ='Name is too long' class='icon f7-icons color red' style='margin:5px;'>info</i>",
+                            },
+                        },
+                        submitHandler: function (form) {
+                            var _form = $(form).serializeArray();
+                            console.log(_form);
+                            var data = system.ajax(processor+'do-update',[id,_form]);
+                            data.done(function(data){
+                                console.log(data);
+                                if(data != 0){
+                                    system.notification("Update","Success. Please wait.",false,2000,true,false,function(){
+                                        app.closeModal('.popup-edit', true);
+                                         var newdata = account.get(id);
+                                        account.account(newdata);
+                                        account.edit(newdata);
+                                        account.display(newdata);
+                                    });
+
+                                }
+                                else{
+                                    system.notification("Update","Failed.",false,3000,true,false,false);
+                                }
+                            })
+                        }
+                    });
+                }
+                else if(data.prop == "PlaceOfBirth"){  
+                    var content =   `<form action="" method="POST" id='form_edit'>
+                                        <div class="list-block">
+                                            <ul>
+                                                <li>
+                                                    <div class="input-field" style="margin-top: 50px; !importan">
+                                                        <label class="a" for='field_${data.prop}'>Place Of Birth</label>
+                                                        <input type='text' id='field_${data.prop}' value = '${data.value}' name='field_${data.prop}' class=" form-control color-white">
+                                                    </div>
+                                                </li>
+                                                <li>
+                                                    <button class="btn teal waves-effect waves-teal waves-light" style="width: 100%; top: 20px;">Save</button>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </form>`;
+                    $("#editpopup").html(content);
+                    if(data.value != ""){
+                        $('label.a').addClass("active");
+                        console.log(data.value);
+                    }             
+                    $("#form_edit").validate({
+                        rules: {
+                            field_PlaceOfBirth: {required: true,maxlength:100}
+                        },
+                        errorElement : 'div',
+                        errorPlacement: function(error, element) {
+                            var placement = $(element).data('error');
+                            if(placement){
+                                $(placement).append(error)
+                            } 
+                            else{
+                                error.insertAfter(element);
+                            }
+                        },
+                        messages: {
+                            field_PlaceOfBirth: {
+                                required: "<i data-error ='Field is required' class='icon f7-icons  color red' style='margin:5px;'>info</i>",
+                                maxlength: "<i data-error ='Name is too long' class='icon f7-icons color red' style='margin:5px;'>info</i>",
+                            },
+                        },
+                        submitHandler: function (form) {
+                            var _form = $(form).serializeArray();
+                            var data = system.ajax(processor+'do-update',[id,_form]);
+                            data.done(function(data){
+                                console.log(data);
+                                if(data != 0){
+                                    system.notification("Update","Success. Please wait.",false,2000,true,false,function(){
+                                        app.closeModal('.popup-edit', true);
+                                         var newdata = account.get(id);
+                                        account.account(newdata);
+                                        account.edit(newdata);
+                                        account.display(newdata);
+                                    });
+
+                                }
+                                else{
+                                    system.notification("Update","Failed.",false,3000,true,false,false);
+                                }
+                            })
+                        }
+                    });
+                }
+                else if(data.prop == "PermanentAddress"){  
+                    var content =   `<form action="" method="POST" id='form_edit'>
+                                        <div class="list-block">
+                                            <ul>
+                                                <li>
+                                                    <div class="input-field" style="margin-top: 50px; !importan">
+                                                        <label class="a" for='field_${data.prop}'>Permanent Address</label>
+                                                        <input type='text' id='field_${data.prop}' value = '${data.value}' name='field_${data.prop}' class=" form-control color-white">
+                                                    </div>
+                                                </li>
+                                                <li>
+                                                    <button class="btn teal waves-effect waves-teal waves-light" style="width: 100%; top: 20px;">Save</button>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </form>`;
+                    $("#editpopup").html(content);
+                    if(data.value != ""){
+                        $('label.a').addClass("active");
+                        console.log(data.value);
+                    }             
+                    $("#form_edit").validate({
+                        rules: {
+                            field_PermanentAddress: {required: true,maxlength:100}
+                        },
+                        errorElement : 'div',
+                        errorPlacement: function(error, element) {
+                            var placement = $(element).data('error');
+                            if(placement){
+                                $(placement).append(error)
+                            } 
+                            else{
+                                error.insertAfter(element);
+                            }
+                        },
+                        messages: {
+                            field_PermanentAddress: {
+                                required: "<i data-error ='Field is required' class='icon f7-icons  color red' style='margin:5px;'>info</i>",
+                                maxlength: "<i data-error ='Name is too long' class='icon f7-icons color red' style='margin:5px;'>info</i>",
+                            },
+                        },
+                        submitHandler: function (form) {
+                            var _form = $(form).serializeArray();
+                            var data = system.ajax(processor+'do-update',[id,_form]);
+                            data.done(function(data){
+                                console.log(data);
+                                if(data != 0){
+                                    system.notification("Update","Success. Please wait.",false,2000,true,false,function(){
+                                        app.closeModal('.popup-edit', true);
+                                         var newdata = account.get(id);
+                                        account.account(newdata);
+                                        account.edit(newdata);
+                                        account.display(newdata);
+                                    });
+
+                                }
+                                else{
+                                    system.notification("Update","Failed.",false,3000,true,false,false);
+                                }
+                            })
+                        }
+                    });
+                }
+                else if(data.prop == "Citizenship"){  
+                    var content =   `<form action="" method="POST" id='form_edit'>
+                                        <div class="list-block">
+                                            <ul>
+                                                <li>
+                                                    <div class="input-field" style="margin-top: 50px; !importan">
+                                                        <label class="a" for='field_${data.prop}'>Citizenship</label>
+                                                        <input type='text' id='field_${data.prop}' value = '${data.value}' name='field_${data.prop}' class=" form-control color-white">
+                                                    </div>
+                                                </li>
+                                                <li>
+                                                    <button class="btn teal waves-effect waves-teal waves-light" style="width: 100%; top: 20px;">Save</button>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </form>`;
+                    $("#editpopup").html(content);
+                    if(data.value != ""){
+                        $('label.a').addClass("active");
+                        console.log(data.value);
+                    }             
+                    $("#form_edit").validate({
+                        rules: {
+                            field_Citizenship: {required: true,maxlength:100}
+                        },
+                        errorElement : 'div',
+                        errorPlacement: function(error, element) {
+                            var placement = $(element).data('error');
+                            if(placement){
+                                $(placement).append(error)
+                            } 
+                            else{
+                                error.insertAfter(element);
+                            }
+                        },
+                        messages: {
+                            field_Citizenship: {
+                                required: "<i data-error ='Field is required' class='icon f7-icons  color red' style='margin:5px;'>info</i>",
+                                maxlength: "<i data-error ='Name is too long' class='icon f7-icons color red' style='margin:5px;'>info</i>",
+                            },
+                        },
+                        submitHandler: function (form) {
+                            var _form = $(form).serializeArray();
+                            var data = system.ajax(processor+'do-update',[id,_form]);
+                            data.done(function(data){
+                                console.log(data);
+                                if(data != 0){
+                                    system.notification("Update","Success. Please wait.",false,2000,true,false,function(){
+                                        app.closeModal('.popup-edit', true);
+                                         var newdata = account.get(id);
+                                        account.account(newdata);
+                                        account.edit(newdata);
+                                        account.display(newdata);
+                                    });
+
+                                }
+                                else{
+                                    system.notification("Update","Failed.",false,3000,true,false,false);
+                                }
+                            })
+                        }
+                    });
+                }
+                else if(data.prop == "Height"){  
+                    var content =   `<form action="" method="POST" id='form_edit'>
+                                        <div class="list-block">
+                                            <ul>
+                                                <li>
+                                                    <div class="input-field" style="margin-top: 50px; !importan">
+                                                        <label class="a" for='field_${data.prop}'>Height</label>
+                                                        <input type='text' id='field_${data.prop}' value = '${data.value}' name='field_${data.prop}' class=" form-control color-white">
+                                                    </div>
+                                                </li>
+                                                <li>
+                                                    <button class="btn teal waves-effect waves-teal waves-light" style="width: 100%; top: 20px;">Save</button>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </form>`;
+                    $("#editpopup").html(content);
+                    if(data.value != ""){
+                        $('label.a').addClass("active");
+                        console.log(data.value);
+                    }             
+                    $("#form_edit").validate({
+                        rules: {
+                            field_Height: {required: true,maxlength:100}
+                        },
+                        errorElement : 'div',
+                        errorPlacement: function(error, element) {
+                            var placement = $(element).data('error');
+                            if(placement){
+                                $(placement).append(error)
+                            } 
+                            else{
+                                error.insertAfter(element);
+                            }
+                        },
+                        messages: {
+                            field_Height: {
+                                required: "<i data-error ='Field is required' class='icon f7-icons  color red' style='margin:5px;'>info</i>",
+                                maxlength: "<i data-error ='Name is too long' class='icon f7-icons color red' style='margin:5px;'>info</i>",
+                            },
+                        },
+                        submitHandler: function (form) {
+                            var _form = $(form).serializeArray();
+                            var data = system.ajax(processor+'do-update',[id,_form]);
+                            data.done(function(data){
+                                console.log(data);
+                                if(data != 0){
+                                    system.notification("Update","Success. Please wait.",false,2000,true,false,function(){
+                                        app.closeModal('.popup-edit', true);
+                                        var newdata = account.get(id);
+                                        account.account(newdata);
+                                        account.edit(newdata);
+                                        account.display(newdata);
+                                    });
+
+                                }
+                                else{
+                                    system.notification("Update","Failed.",false,3000,true,false,false);
+                                }
+                            })
+                        }
+                    });
+                }
+                else if(data.prop == "Weight"){  
+                    var content =   `<form action="" method="POST" id='form_edit'>
+                                        <div class="list-block">
+                                            <ul>
+                                                <li>
+                                                    <div class="input-field" style="margin-top: 50px; !importan">
+                                                        <label class="a" for='field_${data.prop}'>Weight</label>
+                                                        <input type='text' id='field_${data.prop}' value = '${data.value}' name='field_${data.prop}' class=" form-control color-white">
+                                                    </div>
+                                                </li>
+                                                <li>
+                                                    <button class="btn teal waves-effect waves-teal waves-light" style="width: 100%; top: 20px;">Save</button>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </form>`;
+                    $("#editpopup").html(content);
+                    if(data.value != ""){
+                        $('label.a').addClass("active");
+                        console.log(data.value);
+                    }              
+                    $("#form_edit").validate({
+                        rules: {
+                            field_Weight: {required: true,maxlength:100}
+                        },
+                        errorElement : 'div',
+                        errorPlacement: function(error, element) {
+                            var placement = $(element).data('error');
+                            if(placement){
+                                $(placement).append(error)
+                            } 
+                            else{
+                                error.insertAfter(element);
+                            }
+                        },
+                        messages: {
+                            field_Weight: {
+                                required: "<i data-error ='Field is required' class='icon f7-icons  color red' style='margin:5px;'>info</i>",
+                                maxlength: "<i data-error ='Name is too long' class='icon f7-icons color red' style='margin:5px;'>info</i>",
+                            },
+                        },
+                        submitHandler: function (form) {
+                            var _form = $(form).serializeArray();
+                            var data = system.ajax(processor+'do-update',[id,_form]);
+                            data.done(function(data){
+                                console.log(data);
+                                if(data != 0){
+                                    system.notification("Update","Success. Please wait.",false,2000,true,false,function(){
+                                        app.closeModal('.popup-edit', true);
+                                         var newdata = account.get(id);
+                                        account.account(newdata);
+                                        account.edit(newdata);
+                                        account.display(newdata);
+                                    });
+
+                                }
+                                else{
+                                    system.notification("Update","Failed.",false,3000,true,false,false);
+                                }
+                            })
+                        }
+                    });
+                }
+                else if(data.prop == "MotherName"){  
+                    var content =   `<form action="" method="POST" id='form_edit'>
+                                        <div class="list-block">
+                                            <ul>
+                                                <li>
+                                                    <div class="input-field" style="margin-top: 50px; !importan">
+                                                        <label class="a" for='field_${data.prop}'>Mother's Name</label>
+                                                        <input type='text' id='field_${data.prop}' value = '${data.value}' name='field_${data.prop}' class=" form-control color-white">
+                                                    </div>
+                                                </li>
+                                                <li>
+                                                    <button class="btn teal waves-effect waves-teal waves-light" style="width: 100%; top: 20px;">Save</button>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </form>`;
+                    $("#editpopup").html(content);
+                    if(data.value != ""){
+                        $('label.a').addClass("active");
+                        console.log(data.value);
+                    }             
+                    $("#form_edit").validate({
+                        rules: {
+                            field_MotherName: {required: true,maxlength:100}
+                        },
+                        errorElement : 'div',
+                        errorPlacement: function(error, element) {
+                            var placement = $(element).data('error');
+                            if(placement){
+                                $(placement).append(error)
+                            } 
+                            else{
+                                error.insertAfter(element);
+                            }
+                        },
+                        messages: {
+                            field_MotherName: {
+                                required: "<i data-error ='Field is required' class='icon f7-icons  color red' style='margin:5px;'>info</i>",
+                                maxlength: "<i data-error ='Name is too long' class='icon f7-icons color red' style='margin:5px;'>info</i>",
+                            },
+                        },
+                        submitHandler: function (form) {
+                            var _form = $(form).serializeArray();
+                            var data = system.ajax(processor+'do-update',[id,_form]);
+                            data.done(function(data){
+                                console.log(data);
+                                if(data != 0){
+                                    system.notification("Update","Success. Please wait.",false,2000,true,false,function(){
+                                        app.closeModal('.popup-edit', true);
+                                        var newdata = account.get(id);
+                                        account.account(newdata);
+                                        account.edit(newdata);
+                                        account.display(newdata);
+                                    });
+
+                                }
+                                else{
+                                    system.notification("Update","Failed.",false,3000,true,false,false);
+                                }
+                            })
+                        }
+                    });
+                }
+                else if(data.prop == "FatherName"){  
+                    var content =   `<form action="" method="POST" id='form_edit'>
+                                        <div class="list-block">
+                                            <ul>
+                                                <li>
+                                                    <div class="input-field" style="margin-top: 50px; !importan">
+                                                        <label class="a" for='field_${data.prop}'>Father's Name</label>
+                                                        <input type='text' id='field_${data.prop}' value = '${data.value}' name='field_${data.prop}' class=" form-control color-white">
+                                                    </div>
+                                                </li>
+                                                <li>
+                                                    <button class="btn teal waves-effect waves-teal waves-light" style="width: 100%; top: 20px;">Save</button>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </form>`;
+                    $("#editpopup").html(content);
+                    if(data.value != ""){
+                        $('label.a').addClass("active");
+                        console.log(data.value);
+                    }             
+                    $("#form_edit").validate({
+                        rules: {
+                            field_FatherName: {required: true,maxlength:100}
+                        },
+                        errorElement : 'div',
+                        errorPlacement: function(error, element) {
+                            var placement = $(element).data('error');
+                            if(placement){
+                                $(placement).append(error)
+                            } 
+                            else{
+                                error.insertAfter(element);
+                            }
+                        },
+                        messages: {
+                            field_FatherName: {
+                                required: "<i data-error ='Field is required' class='icon f7-icons  color red' style='margin:5px;'>info</i>",
+                                maxlength: "<i data-error ='Name is too long' class='icon f7-icons color red' style='margin:5px;'>info</i>",
+                            },
+                        },
+                        submitHandler: function (form) {
+                            var _form = $(form).serializeArray();
+                            var data = system.ajax(processor+'do-update',[id,_form]);
+                            data.done(function(data){
+                                console.log(data);
+                                if(data != 0){
+                                    system.notification("Update","Success. Please wait.",false,2000,true,false,function(){
+                                        app.closeModal('.popup-edit', true);
+                                        var newdata = account.get(id);
+                                        account.account(newdata);
+                                        account.edit(newdata);
+                                        account.display(newdata);
+                                    });
+
+                                }
+                                else{
+                                    system.notification("Update","Failed.",false,3000,true,false,false);
+                                }
+                            })
+                        }
+                    });
+                }
+                else if(data.prop == "Language"){  
+                    var content =   `<form action="" method="POST" id='form_edit'>
+                                        <div class="list-block">
+                                            <ul>
+                                                <li>
+                                                    <div class="input-field" style="margin-top: 50px; !importan">
+                                                        <label class="a" for='field_${data.prop}'>Language</label>
+                                                        <input type='text' id='field_${data.prop}' value = '${data.value}' name='field_${data.prop}' class=" form-control color-white">
+                                                    </div>
+                                                </li>
+                                                <li>
+                                                    <div class="input-field">
+                                                        <label class="active" style ="top: auto;" for='field_level'>Level</label>
+                                                        <select id="field_level" name="field_level">
+                                                            <option value="Beginner">Beginner</option>
+                                                            <option value="Conversational">Conversational</option>
+                                                            <option value="Fluent">Fluent</option>
+                                                            <option value="Native">Native</option>
+                                                        </select>
+                                                    </div>
+                                                </li>
+                                                <li>
+                                                    <button class="btn teal waves-effect waves-teal waves-light" style="width: 100%; top: 20px;">Save</button>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </form>`;
+                    $("#editpopup").html(content);
+                    if(data.value != ""){
+                        $('label.a').addClass("active");
+                        console.log(data.value);
+                    }             
+                    $('select').material_select();
+                    $("#form_edit").validate({
+                        rules: {
+                            field_Language: {required: true,maxlength:100}
+
+                        },
+                        errorElement : 'div',
+                        errorPlacement: function(error, element) {
+                            var placement = $(element).data('error');
+                            if(placement){
+                                $(placement).append(error)
+                            } 
+                            else{
+                                error.insertAfter(element);
+                            }
+                        },
+                        messages: {
+                            field_Language: {
+                                required: "<i data-error ='Field is required' class='icon f7-icons  color red' style='margin:5px;'>info</i>",
+                                maxlength: "<i data-error ='Name is too long' class='icon f7-icons color red' style='margin:5px;'>info</i>",
+                            },
+                        },
+                        submitHandler: function (form) {
+                            var _form = $(form).serializeArray();
+                            var data = system.ajax(processor+'do-update',[id,_form]);
+                            data.done(function(data){
+                                console.log(data);
+                                if(data != 0){
+                                    system.notification("Update","Success. Please wait.",false,2000,true,false,function(){
+                                        app.closeModal('.popup-edit', true);
+                                        var newdata = account.get(id);
+                                        account.account(newdata);
+                                        account.edit(newdata);
+                                        account.display(newdata);
+                                    });
+
+                                }
+                                else{
+                                    system.notification("Update","Failed.",false,3000,true,false,false);
+                                }
+                            })
+                        }
+                    });
+                }
+                else if(data.prop == "Religion"){  
+                    var content =   `<form action="" method="POST" id='form_edit'>
+                                        <div class="list-block">
+                                            <ul>
+                                                <li>
+                                                    <div class="input-field" style="margin-top: 50px; !importan">
+                                                        <label class="a" for='field_${data.prop}'>Religion</label>
+                                                        <input type='text' id='field_${data.prop}' value = '${data.value}' name='field_${data.prop}' class=" form-control color-white">
+                                                    </div>
+                                                </li>
+                                                <li>
+                                                    <button class="btn teal waves-effect waves-teal waves-light" style="width: 100%; top: 20px;">Save</button>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </form>`;
+                    $("#editpopup").html(content);
+                    if(data.value != ""){
+                        $('label.a').addClass("active");
+                        console.log(data.value);
+                    }             
+                    $("#form_edit").validate({
+                        rules: {
+                            field_Religion: {required: true,maxlength:100}
+                        },
+                        errorElement : 'div',
+                        errorPlacement: function(error, element) {
+                            var placement = $(element).data('error');
+                            if(placement){
+                                $(placement).append(error)
+                            } 
+                            else{
+                                error.insertAfter(element);
+                            }
+                        },
+                        messages: {
+                            field_Religion: {
+                                required: "<i data-error ='Field is required' class='icon f7-icons  color red' style='margin:5px;'>info</i>",
+                                maxlength: "<i data-error ='Name is too long' class='icon f7-icons color red' style='margin:5px;'>info</i>",
+                            },
+                        },
+                        submitHandler: function (form) {
+                            var _form = $(form).serializeArray();
+                            var data = system.ajax(processor+'do-update',[id,_form]);
+                            data.done(function(data){
+                                console.log(data);
+                                if(data != 0){
+                                    system.notification("Update","Success. Please wait.",false,2000,true,false,function(){
+                                        app.closeModal('.popup-edit', true);
+                                        var newdata = account.get(id);
+                                        account.account(newdata);
+                                        account.edit(newdata);
+                                        account.display(newdata);
+                                    });
+
+                                }
+                                else{
+                                    system.notification("Update","Failed.",false,3000,true,false,false);
+                                }
+                            })
+                        }
+                    });
+                }
+                else if(data.prop == "Mother_Occupation"){  
+                    var content =   `<form action="" method="POST" id='form_edit'>
+                                        <div class="list-block">
+                                            <ul>
+                                                <li>
+                                                    <div class="input-field" style="margin-top: 50px; !importan">
+                                                        <label class="a" for='field_${data.prop}'>Mother's Occupation</label>
+                                                        <input type='text' id='field_${data.prop}' value = '${data.value}' name='field_${data.prop}' class=" form-control color-white">
+                                                    </div>
+                                                </li>
+                                                <li>
+                                                    <button class="btn teal waves-effect waves-teal waves-light" style="width: 100%; top: 20px;">Save</button>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </form>`;
+                    $("#editpopup").html(content);
+                    if(data.value != ""){
+                        $('label.a').addClass("active");
+                        console.log(data.value);
+                    }             
+                    $("#form_edit").validate({
+                        rules: {
+                            field_Mother_Occupation: {required: true,maxlength:100}
+                        },
+                        errorElement : 'div',
+                        errorPlacement: function(error, element) {
+                            var placement = $(element).data('error');
+                            if(placement){
+                                $(placement).append(error)
+                            } 
+                            else{
+                                error.insertAfter(element);
+                            }
+                        },
+                        messages: {
+                            field_Mother_Occupation: {
+                                required: "<i data-error ='Field is required' class='icon f7-icons  color red' style='margin:5px;'>info</i>",
+                                maxlength: "<i data-error ='Name is too long' class='icon f7-icons color red' style='margin:5px;'>info</i>",
+                            },
+                        },
+                        submitHandler: function (form) {
+                            var _form = $(form).serializeArray();
+                            var data = system.ajax(processor+'do-update',[id,_form]);
+                            data.done(function(data){
+                                console.log(data);
+                                if(data != 0){
+                                    system.notification("Update","Success. Please wait.",false,2000,true,false,function(){
+                                        app.closeModal('.popup-edit', true);
+                                        var newdata = account.get(id);
+                                        account.account(newdata);
+                                        account.edit(newdata);
+                                        account.display(newdata);
+                                    });
+
+                                }
+                                else{
+                                    system.notification("Update","Failed.",false,3000,true,false,false);
+                                }
+                            })
+                        }
+                    });
+                }
+                else if(data.prop == "Father_Occupation"){  
+                    var content =   `<form action="" method="POST" id='form_edit'>
+                                        <div class="list-block">
+                                            <ul>
+                                                <li>
+                                                    <div class="input-field" style="margin-top: 50px; !importan">
+                                                        <label class="a" for='field_${data.prop}'>Father's Occupation</label>
+                                                        <input type='text' id='field_${data.prop}' value = '${data.value}' name='field_${data.prop}' class=" form-control color-white">
+                                                    </div>
+                                                </li>
+                                                <li>
+                                                    <button class="btn teal waves-effect waves-teal waves-light" style="width: 100%; top: 20px;">Save</button>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </form>`;
+                    $("#editpopup").html(content);
+                    if(data.value != ""){
+                        $('label.a').addClass("active");
+                        console.log(data.value);
+                    }             
+                    $("#form_edit").validate({
+                        rules: {
+                            field_Father_Occupation: {required: true,maxlength:100}
+                        },
+                        errorElement : 'div',
+                        errorPlacement: function(error, element) {
+                            var placement = $(element).data('error');
+                            if(placement){
+                                $(placement).append(error)
+                            } 
+                            else{
+                                error.insertAfter(element);
+                            }
+                        },
+                        messages: {
+                            field_Father_Occupation: {
+                                required: "<i data-error ='Field is required' class='icon f7-icons  color red' style='margin:5px;'>info</i>",
+                                maxlength: "<i data-error ='Name is too long' class='icon f7-icons color red' style='margin:5px;'>info</i>",
+                            },
+                        },
+                        submitHandler: function (form) {
+                            var _form = $(form).serializeArray();
+                            var data = system.ajax(processor+'do-update',[id,_form]);
+                            data.done(function(data){
+                                console.log(data);
+                                if(data != 0){
+                                    system.notification("Update","Success. Please wait.",false,2000,true,false,function(){
+                                        app.closeModal('.popup-edit', true);
+                                        var newdata = account.get(id);
+                                        account.account(newdata);
+                                        account.edit(newdata);
+                                        account.display(newdata);
+                                    });
+
+                                }
+                                else{
+                                    system.notification("Update","Failed.",false,3000,true,false,false);
+                                }
+                            })
+                        }
+                    });
+                }
+
             });
         }
     }
@@ -501,7 +1661,6 @@ Framework7.prototype.plugins.kareer = function (app, params) {
                 career.add(applicantData[0][0]);
             });
             career.show(list);
-            career.delete(list);
 
             $("a.index").on('click',function(){
                 var data = $(this).data('load');
@@ -514,27 +1673,9 @@ Framework7.prototype.plugins.kareer = function (app, params) {
             });
         },
         add:function(id){
-            // console.log("othan");
-            $("a.career").addClass('hidden');
-            $("a.add").addClass('hidden');
-            $("div.list").addClass('hidden');
-            $("div.add").removeClass('hidden');
-            $("a.add").addClass('hidden');
-            $("a.goback").removeClass('hidden');
-            // $("a.cancel").addClass('hidden');
-            $("div.toolbar").addClass('hidden');    
-
+            app.popup('.popup-career');
             
-            $('#field_govt_service').material_select('close');
-
-            $("a.cancel").on('click',function(){
-                $("div.list").removeClass('hidden');
-                $("div.add").addClass('hidden');
-                $("a.career").removeClass('hidden');
-                $("a.add").removeClass('hidden');
-                $("div.toolbar").removeClass('hidden');
-                $("div.empty").addClass('hidden');
-            });
+            $('#field_govt_service').material_select();
 
             $("a.goback").on('click',function(){
                 $("div.list").removeClass('hidden');
@@ -586,6 +1727,7 @@ Framework7.prototype.plugins.kareer = function (app, params) {
                         if(data != 0){
                             $$("input").val("");
                             system.notification("Kareer","Career Added.",false,2000,true,false,function(){
+                                app.closeModal('.popup-career', true);
                                 career.ini();
                             });
                         }
@@ -598,7 +1740,7 @@ Framework7.prototype.plugins.kareer = function (app, params) {
         },
         getAll:function(id){
             var $data = "";
-            var jobs = system.ajax(processor+'get-career',id);
+            var jobs = system.ajax(processor+'get-careerAll',id);
             jobs.done(function(data){
                 $data = data;
             });
@@ -606,7 +1748,7 @@ Framework7.prototype.plugins.kareer = function (app, params) {
         },
         get:function(id){
             var $data = "";
-            var jobs = system.ajax(processor+'do-editCareer',id);
+            var jobs = system.ajax(processor+'get-career',id);
             jobs.done(function(data){
                 $data = data;
             });
@@ -623,7 +1765,7 @@ Framework7.prototype.plugins.kareer = function (app, params) {
                             "   <div class='title color-teal' ><strong class ='color-black'>"+v[4]+"</strong></div>"+
                             "   <div class ='color-teal' ><small class ='color-black'>"+v[2]+" - "+v[3]+"</small></div>"+
                             "   </div>"+
-                            "   <a class='col 33 right btn btn-floating btn-flat waves-effect waves-teal waves-light' href='#' data-cmd='edit' data-node='"+v[0]+"'><i class='icon small f7-icons color-gray'>chevron_right</i></a>"+
+                            "   <a class='col 33 right btn btn-floating btn-flat waves-effect waves-teal waves-light' href='#' data-cmd='view' data-node='"+v[0]+"'><i class='icon small f7-icons color-gray'>chevron_right</i></a>"+
                             "</li>";
                 $("a.career").removeClass('disabled');
                 $("div.empty").addClass('hidden');
@@ -631,20 +1773,18 @@ Framework7.prototype.plugins.kareer = function (app, params) {
             });
 
             $$("#display_career").html("<ul class='collection'>"+content+"</ul");
-            // $$("a[data-cmd='edit']").on('click',function(){
-            //     var data = $(this).data();
-            //     var id = data.node;
-            //     var c = career.get(id);
-            //     var store = JSON.parse(localStorage.getItem('f7form-form_career'));
-            //     var careerData = $.map(store, function(value, index) {
-            //         return [value];
-            //     });
-            //     console.log(c);
-            //     console.log(store);
-            //     console.log(careerData);
-            //     career.edit(c,careerData);
-                
-            // });
+            $$("a[data-cmd='view']").on('click',function(){
+                var data = $(this).data();
+                var id = data.node;
+                var c = career.get(id);
+                console.log(c);
+                career.display(c);
+                career.delete(c);
+                career.edit(c);
+                $("div.c").removeClass('hidden');
+                $("div.list").addClass('hidden');
+                $("div.fixed-action-btn").addClass('hidden');
+            });
             $("a.career").on('click',function(){
                 var data = $(this).data('load');
                 view.router.loadPage("pages/admin/"+data+".html");
@@ -653,32 +1793,54 @@ Framework7.prototype.plugins.kareer = function (app, params) {
             app.onPageInit('builderAcademic',function(page){
                 academic.ini();
             });
-
         },
-        delete:function(data){
-            $("a[data-cmd='delete']").on('click',function(){
-                var data = $(this).data();
-                var id = data.node;
+        display:function(c){
+            $$("#display_fromdate strong").html(c[0][2]);
+            $$("#display_fromdate a").attr({"data-node":c[0][0]});
+            $$("#display_todate strong").html(c[0][3]);
+            $$("#display_todate a").attr({"data-node":c[0][0]});
+            $$("#display_position strong").html(c[0][4]);
+            $$("#display_position a").attr({"data-node":c[0][0]});
+            $$("#display_agency strong").html(c[0][5]);
+            $$("#display_agency a").attr({"data-node":c[0][0]});
+            $$("#display_salary strong").html(c[0][6]);
+            $$("#display_salary a").attr({"data-node":c[0][0]});
+            $$("#display_appointment strong").html(c[0][7]);
+            $$("#display_appointment a").attr({"data-node":c[0][0]});
+            $$("#display_govt_service strong").html(c[0][8]);
+            $$("#display_govt_service a").attr({"data-node":c[0][0]});
+            $("a.back").on('click',function(){
+                $("div.c").addClass('hidden');
+                $("div.list").removeClass('hidden');
+                $("div.fixed-action-btn").removeClass('hidden');
+            });
+        },
+        delete:function(c){
+            $$("a[data-cmd='delete']").on('click',function(){
+                console.log(c);
+                app.popup('.popup-delete');
+                var id = c[0][0];
                 var content =   "        <ul>"+
                                 "            <li>"+
                                 "                <h5 class = 'center'>Are you sure?"+
                                 "                </h5>"+
                                 "            </li>"+
                                 "            <li>"+
-                                "                <a href='#' class='close-popover btn waves-effect waves-teal waves-light btn btn-flat grey-text white'>Cancel</a>"+
+                                "                <a href='#' class='close-popup btn waves-effect waves-teal waves-light btn btn-flat grey-text white'>Cancel</a>"+
                                 "                <a data-cmd='proceed' class='waves-effect waves-teal waves-light btn btn-flat grey-text white'>Yes</a>"+
                                 "            </li>"+
                                 "        </ul>";
-                $("#deletePopover").html(content);
+                $("#deletePopup").html(content);
                 $("a[data-cmd='proceed']").on('click',function(){
                     var acad = system.ajax(processor+'do-deleteCareer',id);
                     acad.done(function(data){
                         console.log(acad);
                             if(data != 0){
                                 system.notification("Kareer","Success. Please wait.",false,2000,true,false,function(){
-                                    app.closeModal('.popover-delete', true);
-                                    app.closeModal('.popup career', true);
-                                    // $("a.career").addClass('disabled');
+                                    app.closeModal('.popup-delete', true);
+                                    $("div.c").addClass('hidden');
+                                    $("div.list").removeClass('hidden');
+                                    $("div.fixed-action-btn").removeClass('hidden');
                                     career.ini();
                                 });
 
@@ -690,53 +1852,353 @@ Framework7.prototype.plugins.kareer = function (app, params) {
                 });
             });
         },
-        edit:function(c,careerData){
-            // console.log(c);
-            var initial = c;
-            var current = careerData;
-            var storedData = app.formStoreData('form_career',{
-                    'field_dateFirst' : c[0][2],
-                    'field_dateLast' : c[0][3],
-                    'field_position' : c[0][4],
-                    'field_agency' : c[0][5],
-                    'field_salary' : c[0][6],
-                    'field_appointment' : c[0][7],
-                    'field_govt_service' : c[0][8]
-            }); 
-            $("div.toolbar").addClass('hidden');
-            $("a.career").addClass('hidden');
-            $("a.add").addClass('hidden');
-            $("a.save").removeClass('hidden');
-            $("a.cancel").removeClass('hidden');
-            $("div.list").addClass('hidden');
-            $("div.edit").removeClass('hidden');
-            $("div.input-field").addClass('not-empty-state');
-            $("input.form-control").addClass('not-empty-state');
-            $("label").addClass('active');
+        edit:function(c){
+            $$("a[data-cmd='edit']").on('click',function(){
+                app.popup('.popup-edit');
+                var data = $(this).data();
+                var id = data.node;
+                if(data.prop == "Dates"){
+                    var content =   `<form action="" method="POST" id='form_edit'>
+                                        <div class="list-block">
+                                            <ul>
+                                                <li>
+                                                    <div>
+                                                        <div class="input-field">
+                                                            <label class="active" style="top: auto; left: 0px; font-size: 17px;">Inclusive dates (From - To)</label>
+                                                            <div>
+                                                                <input type='month' id="field_dateFirst" name="field_dateFirst" class="form-control" style="width: 100%;">
+                                                            </div>
+                                                            <div>
+                                                                <input type='month' id="field_dateLast" name="field_dateLast" class="form-control" style="width: 100%;">
+                                                            </div>
+                                                        </div>                                            
+                                                    </div>
+                                                </li>
+                                                <li>
+                                                    <button class="btn teal waves-effect waves-teal waves-light" style="width: 100%; top: 20px;">Save</button>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </form>`;
+                    $("#editpopup").html(content);
+                    $("#form_edit").validate({
+                        rules: {
+                            field_dateFirst: {required: true, maxlength:20},
+                            field_dateLast: {required: true, maxlength:20},
+                            // field_dateLast: { greaterThan: "#field_dateFirst" },
+                        },
+                        errorElement : 'div',
+                        errorPlacement: function(error, element) {
+                            var placement = $(element).data('error');
+                            if(placement){
+                                $(placement).append(error)
+                            } 
+                            else{
+                                error.insertAfter(element);
+                            }
+                        },
+                        submitHandler: function (form) {
+                            var _form = $(form).serializeArray();
+                            console.log(_form);
+                            var data = system.ajax(processor+'do-updateCareer',[id,_form]);
+                            data.done(function(data){
+                                console.log(data);
+                                if(data != 0){
+                                    system.notification("Update","Success. Please wait.",false,2000,true,false,function(){
+                                        app.closeModal('.popup-edit', true);
+                                        var newdata = career.get(id);
+                                        career.ini(newdata);
+                                        career.edit(newdata);
+                                        career.display(newdata);
+                                        career.delete(newdata);
+                                    });
 
-            $("a.cancel").on('click',function(){
+                                }
+                                else{
+                                    system.notification("Update","Failed.",false,3000,true,false,false);
+                                }
+                            })
+                        }
+                    });
+                }
+                else if(data.prop == "Position"){
+                    var content =   `<form action="" method="POST" id='form_edit'>
+                                        <div class="list-block">
+                                            <ul>
+                                                <li>
+                                                    <div class="input-field">
+                                                        <input type='text' id="field_position" name="field_position" class="form-control">
+                                                        <label class="" for="field_position" style="top: -2px; left: 0px;">Position Title</label>
+                                                    </div>
+                                                </li>
+                                                <li>
+                                                    <button class="btn teal waves-effect waves-teal waves-light" style="width: 100%; top: 20px;">Save</button>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </form>`;
+                    $("#editpopup").html(content);
+                    $("#form_edit").validate({
+                        rules: {
+                            field_position: {required: true, maxlength:100},
+                        },
+                        errorElement : 'div',
+                        errorPlacement: function(error, element) {
+                            var placement = $(element).data('error');
+                            if(placement){
+                                $(placement).append(error)
+                            } 
+                            else{
+                                error.insertAfter(element);
+                            }
+                        },
+                        submitHandler: function (form) {
+                            var _form = $(form).serializeArray();
+                            console.log(_form);
+                            var data = system.ajax(processor+'do-updateCareer',[id,_form]);
+                            data.done(function(data){
+                                console.log(data);
+                                if(data != 0){
+                                    system.notification("Update","Success. Please wait.",false,2000,true,false,function(){
+                                        app.closeModal('.popup-edit', true);
+                                        var newdata = career.get(id);
+                                        career.ini(newdata);
+                                        career.edit(newdata);
+                                        career.display(newdata);
+                                        career.delete(newdata);
+                                    });
 
-                $("div.edit").addClass('hidden');
-                $("div.add").addClass('hidden');
-                $("a.save").addClass('hidden');
-                $("a.cancel").addClass('hidden');                
-                $("a.career").removeClass('hidden');
-                $("a.add").removeClass('hidden');
-                $("div.list").removeClass('hidden');
-                $("div.toolbar").removeClass('hidden');
-                var list = career.getAll(c[0][1]);
-                career.show(list);
-                // localStorage.removeItem('f7form-form_career','');
+                                }
+                                else{
+                                    system.notification("Update","Failed.",false,3000,true,false,false);
+                                }
+                            })
+                        }
+                    });
+                }
+                else if(data.prop == "Agency"){
+                    var content =   `<form action="" method="POST" id='form_edit'>
+                                        <div class="list-block">
+                                            <ul>
+                                                <li>
+                                                    <div class="input-field">
+                                                        <input type='text' id="field_agency" name="field_agency" class="form-control">
+                                                        <label class="" for="field_agency" style="top: -2px !important; left: 0px !important;">Department/Company/Office/Agency</label>
+                                                    </div>
+                                                </li>
+                                                <li>
+                                                    <button class="btn teal waves-effect waves-teal waves-light" style="width: 100%; top: 20px;">Save</button>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </form>`;
+                    $("#editpopup").html(content);
+                    $("#form_edit").validate({
+                        rules: {
+                            field_agency: {required: true, maxlength:100},
+                        },
+                        errorElement : 'div',
+                        errorPlacement: function(error, element) {
+                            var placement = $(element).data('error');
+                            if(placement){
+                                $(placement).append(error)
+                            } 
+                            else{
+                                error.insertAfter(element);
+                            }
+                        },
+                        submitHandler: function (form) {
+                            var _form = $(form).serializeArray();
+                            console.log(_form);
+                            var data = system.ajax(processor+'do-updateCareer',[id,_form]);
+                            data.done(function(data){
+                                console.log(data);
+                                if(data != 0){
+                                    system.notification("Update","Success. Please wait.",false,2000,true,false,function(){
+                                        app.closeModal('.popup-edit', true);
+                                        var newdata = career.get(id);
+                                        career.ini(newdata);
+                                        career.edit(newdata);
+                                        career.display(newdata);
+                                        career.delete(newdata);
+                                    });
 
-                // // if(storedData){
-                // console.log(storedData);
-                // // }
-            });
+                                }
+                                else{
+                                    system.notification("Update","Failed.",false,3000,true,false,false);
+                                }
+                            })
+                        }
+                    });
+                }
+                else if(data.prop == "Salary"){
+                    var content =   `<form action="" method="POST" id='form_edit'>
+                                        <div class="list-block">
+                                            <ul>
+                                                <li>
+                                                    <div class="input-field">
+                                                        <input type='number' id="field_salary" name="field_salary" min="1" max="50000" class="form-control">
+                                                        <label class="" for="field_salary" style="top: -2px !important; left: 0px !important;">Monthly Salary</label>
+                                                    </div>
+                                                </li>
+                                                <li>
+                                                    <button class="btn teal waves-effect waves-teal waves-light" style="width: 100%; top: 20px;">Save</button>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </form>`;
+                    $("#editpopup").html(content);
+                    $("#form_edit").validate({
+                        rules: {
+                            field_salary: {required: true, maxlength:5}
+                        },
+                        errorElement : 'div',
+                        errorPlacement: function(error, element) {
+                            var placement = $(element).data('error');
+                            if(placement){
+                                $(placement).append(error)
+                            } 
+                            else{
+                                error.insertAfter(element);
+                            }
+                        },
+                        submitHandler: function (form) {
+                            var _form = $(form).serializeArray();
+                            console.log(_form);
+                            var data = system.ajax(processor+'do-updateCareer',[id,_form]);
+                            data.done(function(data){
+                                console.log(data);
+                                if(data != 0){
+                                    system.notification("Update","Success. Please wait.",false,2000,true,false,function(){
+                                        app.closeModal('.popup-edit', true);
+                                        var newdata = career.get(id);
+                                        career.ini(newdata);
+                                        career.edit(newdata);
+                                        career.display(newdata);
+                                        career.delete(newdata);
+                                    });
 
-            $("a.save").on('click',function(){              
-                var storedData = app.formGetData('form_career');
-                if(storedData){
-                // console.log(storedData);
+                                }
+                                else{
+                                    system.notification("Update","Failed.",false,3000,true,false,false);
+                                }
+                            })
+                        }
+                    });
+                }
+                else if(data.prop == "Appointment"){
+                    var content =   `<form action="" method="POST" id='form_edit'>
+                                        <div class="list-block">
+                                            <ul>
+                                                <li>
+                                                    <div class="input-field">
+                                                        <input type='text' id="field_appointment" name="field_appointment" class="form-control">
+                                                        <label class="" for="field_appointment" style="top: -2px !important; left: 0px !important;">Status of Appointment</label>
+                                                    </div>
+                                                </li>
+                                                <li>
+                                                    <button class="btn teal waves-effect waves-teal waves-light" style="width: 100%; top: 20px;">Save</button>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </form>`;
+                    $("#editpopup").html(content);
+                    $("#form_edit").validate({
+                        rules: {
+                            field_appointment: {required: true, maxlength:100}
+                        },
+                        errorElement : 'div',
+                        errorPlacement: function(error, element) {
+                            var placement = $(element).data('error');
+                            if(placement){
+                                $(placement).append(error)
+                            } 
+                            else{
+                                error.insertAfter(element);
+                            }
+                        },
+                        submitHandler: function (form) {
+                            var _form = $(form).serializeArray();
+                            console.log(_form);
+                            var data = system.ajax(processor+'do-updateCareer',[id,_form]);
+                            data.done(function(data){
+                                console.log(data);
+                                if(data != 0){
+                                    system.notification("Update","Success. Please wait.",false,2000,true,false,function(){
+                                        app.closeModal('.popup-edit', true);
+                                        var newdata = career.get(id);
+                                        career.ini(newdata);
+                                        career.edit(newdata);
+                                        career.display(newdata);
+                                        career.delete(newdata);
+                                    });
+
+                                }
+                                else{
+                                    system.notification("Update","Failed.",false,3000,true,false,false);
+                                }
+                            })
+                        }
+                    });
+                }
+                else if(data.prop == "Gov"){
+                    var content =   `<form action="" method="POST" id='form_edit'>
+                                        <div class="list-block">
+                                            <ul>
+                                                <li>
+                                                    <div class="input-field">
+                                                        <select id="field_govt_service" name="field_govt_service">
+                                                            <option value="Yes">Yes</option>
+                                                            <option value="No">No</option>
+                                                        </select>
+                                                        <label class="active" for="field_govt_service" style="font-size: 17px; top: -2px !important; left: 0px !important;">Gov't Service</label>
+                                                    </div>
+                                                </li>
+                                                <li>
+                                                    <button class="btn teal waves-effect waves-teal waves-light" style="width: 100%; top: 20px;">Save</button>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </form>`;
+                    $("#editpopup").html(content);
+                    $('select').material_select();
+                    $("#form_edit").validate({
+                        rules: {
+                            field_govt_service: {required: true, maxlength:3},
+                        },
+                        errorElement : 'div',
+                        errorPlacement: function(error, element) {
+                            var placement = $(element).data('error');
+                            if(placement){
+                                $(placement).append(error)
+                            } 
+                            else{
+                                error.insertAfter(element);
+                            }
+                        },
+                        submitHandler: function (form) {
+                            var _form = $(form).serializeArray();
+                            console.log(_form);
+                            var data = system.ajax(processor+'do-updateCareer',[id,_form]);
+                            data.done(function(data){
+                                console.log(data);
+                                if(data != 0){
+                                    system.notification("Update","Success. Please wait.",false,2000,true,false,function(){
+                                        app.closeModal('.popup-edit', true);
+                                        var newdata = career.get(id);
+                                        career.ini(newdata);
+                                        career.edit(newdata);
+                                        career.display(newdata);
+                                        career.delete(newdata);
+                                    });
+
+                                }
+                                else{
+                                    system.notification("Update","Failed.",false,3000,true,false,false);
+                                }
+                            })
+                        }
+                    });
                 }
             });
         }
@@ -745,12 +2207,12 @@ Framework7.prototype.plugins.kareer = function (app, params) {
     var academic = {
         ini:function(){
             var applicantData = JSON.parse(localStorage.getItem('applicant'));
-            var list = academic.get(applicantData[0][0]);
+            var list = academic.getAll(applicantData[0][0]);
             $$("a[data-cmd='add-academic']").on('click',function(){
                 academic.add(applicantData[0][0]);
             });
             academic.show(list);
-            academic.delete(list);
+            // academic.delete(list);
 
             $("a.home").on('click',function(){
                 var data = $(this).data('load');
@@ -763,17 +2225,8 @@ Framework7.prototype.plugins.kareer = function (app, params) {
             });
         },
         add:function(id){
-            // console.log("sdfsd");
-            $("a.career").addClass('hidden');
-            $("a.add").addClass('hidden');
-            $("div.list").addClass('hidden');
-            $("div.add").removeClass('hidden');
-            $("a.add").addClass('hidden');
-            $("a.goback").removeClass('hidden');
-            // $("a.cancel").addClass('hidden');
-            $("div.toolbar").addClass('hidden');
+            app.popup('.popup-academic');
 
-            
             $('#field_yearLevel').material_select();
 
             $("#field_yearLevel").on('change', function() {
@@ -788,24 +2241,15 @@ Framework7.prototype.plugins.kareer = function (app, params) {
                 }
             });
 
-            $("a.cancel").on('click',function(){
-                $("div.list").removeClass('hidden');
-                $("div.add").addClass('hidden');
-                $("a.academic").removeClass('hidden');
-                $("a.add").removeClass('hidden');
-                $("div.toolbar").removeClass('hidden');
-            });
-
-
-
             $("#form_academic").validate({
                 rules: {
                     field_yearLevel: {required: true,maxlength:20},
                     field_school: {required: true,maxlength:100},
-                    field_degree: {required: false,maxlength:100},
-                    field_units: {required: false,maxlength:3, minlenght:1},
-                    field_dateFirst: {required: true,maxlength:4, minlength:4},
-                    field_dateLast: {required: true,maxlength:4, minlength:4},
+                    field_degree: {required: true,maxlength:100},
+                    field_units: {required: true,maxlength:3,},
+                    field_dateFirst: {required: true, maxlength:20},
+                    field_dateLast: {required: true, maxlength:20},
+                    field_dateLast: { greaterThan: "#field_dateFirst" },
                 },
                 errorElement : 'div',
                 errorPlacement: function(error, element) {
@@ -826,6 +2270,7 @@ Framework7.prototype.plugins.kareer = function (app, params) {
                         if(data != 0){
                             $$("input").val("");
                             system.notification("Kareer","Academic Added.",false,2000,true,false,function(){
+                                app.closeModal('.popup-academic', true);
                                 academic.ini();
                             });
                         }
@@ -835,6 +2280,14 @@ Framework7.prototype.plugins.kareer = function (app, params) {
                     })
                 }
             }); 
+        },
+        getAll:function(id){
+            var $data = "";
+            var jobs = system.ajax(processor+'get-academicAll',id);
+            jobs.done(function(data){
+                $data = data;
+            });
+            return JSON.parse($data);
         },
         get:function(id){
             var $data = "";
@@ -855,13 +2308,25 @@ Framework7.prototype.plugins.kareer = function (app, params) {
                             "   <div class='title color-teal' ><strong class ='color-black'>"+v[2]+"</strong></div>"+
                             "   <div class ='color-teal' ><small class ='color-black'>"+v[5]+"</small></div>"+
                             "   </div>"+
-                            "   <a class='col 33 right btn btn-floating btn-flat waves-effect waves-teal waves-light' href='#' data-cmd='edit' data-node='"+v[0]+"'><i class='icon small f7-icons color-gray'>chevron_right</i></a>"+
+                            "   <a class='col 33 right btn btn-floating btn-flat waves-effect waves-teal waves-light' href='#' data-cmd='view' data-node='"+v[0]+"'><i class='icon small f7-icons color-gray'>chevron_right</i></a>"+
                             "</li>";
 
                     $("a.academic").removeClass('disabled');
             });
             $$("#display_academic").html("<ul class='collection'>"+content+"</ul");
-
+            $$("a[data-cmd='view']").on('click',function(){
+                var data = $(this).data();
+                var id = data.node;
+                console.log(id);
+                var a = academic.get(id);
+                console.log(a);
+                academic.display(a);
+                academic.delete(a);
+                academic.edit(a);
+                $("div.a").removeClass('hidden');
+                $("div.list").addClass('hidden');
+                $("div.fixed-action-btn").addClass('hidden');
+            });
 
             $("a.academic").on('click',function(){
                 var data = $(this).data('load');
@@ -871,30 +2336,65 @@ Framework7.prototype.plugins.kareer = function (app, params) {
             app.onPageInit('builderSkills',function(page){
                 skills.ini();
             });
-
         },
-        delete:function(data){
-            $("a[data-cmd='delete']").on('click',function(){
-                var data = $(this).data();
-                var id = data.node;
+        display:function(a){
+            console.log(a);
+            var period = a[0][5];
+            console.log(period.substr(0,4));
+            if((a[0][2] == 'Elementary') || (a[0][2] == 'High School')){
+                $('li.degree').addClass('hidden');
+                $('li.units').addClass('hidden');
+                console.log(a[0][2]);
+            }
+            else if ((a[0][2] == 'Tech Voc') || (a[0][2] == 'College') || (a[0][2] == 'Masteral') || (a[0][2] == 'Doctorate')){
+                $('li.degree').removeClass('hidden');
+                $('li.units').removeClass('hidden');
+                console.log(a[0][2]);
+            }
+            $$("#display_Year_level strong").html(a[0][2]);
+            $$("#display_Year_level a").attr({"data-node":a[0][0]});
+            $$("#display_school strong").html(a[0][3]);
+            $$("#display_school a").attr({"data-node":a[0][0]});
+            $$("#display_degree strong").html(a[0][4]);
+            $$("#display_degree a").attr({"data-node":a[0][0]});
+            $$("#display_units strong").html(a[0][6]);
+            $$("#display_units a").attr({"data-node":a[0][0]});
+            $$("#display_fromdate strong").html(period.substr(0,8));
+            $$("#display_fromdate a").attr({"data-node":a[0][0]});
+            $$("#display_todate strong").html(period.substr(9));
+            $$("#display_todate a").attr({"data-node":a[0][0]});
+            $("a.back").on('click',function(){
+                $("div.a").addClass('hidden');
+                $("div.list").removeClass('hidden');
+                $("div.fixed-action-btn").removeClass('hidden');
+            });
+        },
+        delete:function(a){
+            $$("a[data-cmd='delete']").on('click',function(){
+                console.log(a);
+                app.popup('.popup-delete');
+                var id = a[0][0];
                 var content =   "        <ul>"+
                                 "            <li>"+
                                 "                <h5 class = 'center'>Are you sure?"+
                                 "                </h5>"+
                                 "            </li>"+
                                 "            <li>"+
-                                "                <a href='#' class='close-popover btn waves-effect waves-teal waves-light btn btn-flat grey-text white'>Cancel</a>"+
+                                "                <a href='#' class='close-popup btn waves-effect waves-teal waves-light btn btn-flat grey-text white'>Cancel</a>"+
                                 "                <a data-cmd='proceed' class='waves-effect waves-teal waves-light btn btn-flat grey-text white'>Yes</a>"+
                                 "            </li>"+
                                 "        </ul>";
-                $("#deletePopover").html(content);
+                $("#deletePopup").html(content);
                 $("a[data-cmd='proceed']").on('click',function(){
                     var acad = system.ajax(processor+'do-deleteAcad',id);
                     acad.done(function(data){
                         console.log(acad);
                             if(data != 0){
                                 system.notification("Kareer","Success. Please wait.",false,2000,true,false,function(){
-                                    app.closeModal('.popover-delete', true);
+                                    app.closeModal('.popup-delete', true);
+                                    $("div.a").addClass('hidden');
+                                    $("div.list").removeClass('hidden');
+                                    $("div.fixed-action-btn").removeClass('hidden');
                                     academic.ini();
                                 });
 
@@ -904,6 +2404,363 @@ Framework7.prototype.plugins.kareer = function (app, params) {
                             }
                     });
                 });
+            });
+        },
+        edit:function(a){
+            $$("a[data-cmd='edit']").on('click',function(){
+                app.popup('.popup-edit');
+                var data = $(this).data();
+                var id = data.node;
+                if(data.prop == "Year"){
+                    var content =   `<form action="" method="POST" id='form_edit'>
+                                        <div class="list-block">
+                                            <ul>
+                                                <li>
+                                                    <div class="input-field" style='border: gray; border-width: 1px; background-color: rgba(238, 238, 238, 0.15); border-style: solid; border-radius: 15px;'>
+                                                        <select id="field_yearLevel" name="field_yearLevel">
+                                                            <option value="Elementary">ELEMENTARY</option>
+                                                            <option value="High School">HIGH SCHOOL</option>
+                                                            <option value="Tech Voc">TECH VOC</option>
+                                                            <option value="College">COLLEGE</option>
+                                                            <option value="Masteral">MASTERAL</option>
+                                                            <option value="Doctorate">DOCTORATE</option>
+                                                        </select>
+                                                    </div>
+                                                </li>
+                                                <li>
+                                                    <button class="btn teal waves-effect waves-teal waves-light" style="width: 100%; top: 20px;">Save</button>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </form>`;
+                    $("#editpopup").html(content);
+                    $('select').material_select();
+                    $("#form_edit").validate({
+                        rules: {
+                            field_yearLevel: {required: true,maxlength:20},
+                        },
+                        errorElement : 'div',
+                        errorPlacement: function(error, element) {
+                            var placement = $(element).data('error');
+                            if(placement){
+                                $(placement).append(error)
+                            } 
+                            else{
+                                error.insertAfter(element);
+                            }
+                        },
+                        submitHandler: function (form) {
+                            var _form = $(form).serializeArray();
+                            console.log(_form);
+                            var data = system.ajax(processor+'do-updateAcad',[id,_form]);
+                            data.done(function(data){
+                                console.log(data);
+                                if(data != 0){
+                                    system.notification("Update","Success. Please wait.",false,2000,true,false,function(){
+                                        app.closeModal('.popup-edit', true);
+                                        var newdata = academic.get(id);
+                                        academic.ini(newdata);
+                                        academic.edit(newdata);
+                                        academic.display(newdata);
+                                        academic.delete(newdata);
+                                    });
+
+                                }
+                                else{
+                                    system.notification("Update","Failed.",false,3000,true,false,false);
+                                }
+                            })
+                        }
+                    });
+                }
+                else if(data.prop == "School"){
+                    var content =   `<form action="" method="POST" id='form_edit'>
+                                        <div class="list-block">
+                                            <ul>
+                                                <li>
+                                                    <div class="input-field">
+                                                        <input type='text' id="field_school" name="field_school" class="form-control">
+                                                        <label class="" for="field_school" style="color: black; top: -2px !important; left: 0px !important;">Name of Schools</label>
+                                                    </div>
+                                                </li>
+                                                <li>
+                                                    <button class="btn teal waves-effect waves-teal waves-light" style="width: 100%; top: 20px;">Save</button>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </form>`;
+                    $("#editpopup").html(content);
+                    $("#form_edit").validate({
+                        rules: {
+                            field_school: {required: true,maxlength:100}
+                        },
+                        errorElement : 'div',
+                        errorPlacement: function(error, element) {
+                            var placement = $(element).data('error');
+                            if(placement){
+                                $(placement).append(error)
+                            } 
+                            else{
+                                error.insertAfter(element);
+                            }
+                        },
+                        submitHandler: function (form) {
+                            var _form = $(form).serializeArray();
+                            console.log(_form);
+                            var data = system.ajax(processor+'do-updateAcad',[id,_form]);
+                            data.done(function(data){
+                                console.log(data);
+                                if(data != 0){
+                                    system.notification("Update","Success. Please wait.",false,2000,true,false,function(){
+                                        app.closeModal('.popup-edit', true);
+                                        var newdata = academic.get(id);
+                                        academic.ini(newdata);
+                                        academic.edit(newdata);
+                                        academic.display(newdata);
+                                        academic.delete(newdata);
+                                    });
+
+                                }
+                                else{
+                                    system.notification("Update","Failed.",false,3000,true,false,false);
+                                }
+                            })
+                        }
+                    });
+                }
+                else if(data.prop == "Degree"){
+                    var content =   `<form action="" method="POST" id='form_edit'>
+                                        <div class="list-block">
+                                            <ul>
+                                                <li>
+                                                     <div class="input-field">
+                                                        <input type='text' id="field_degree" name="field_degree" class="form-control">
+                                                        <label class="" for="field_degree" style="color: black; top: -2px !important; left: 0px !important;">Basic Education/Degree/Course</label>
+                                                    </div>
+                                                </li>
+                                                <li>
+                                                    <button class="btn teal waves-effect waves-teal waves-light" style="width: 100%; top: 20px;">Save</button>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </form>`;
+                    $("#editpopup").html(content);
+                    $("#form_edit").validate({
+                        rules: {
+                            field_degree: {required: true, maxlength:100},
+                        },
+                        errorElement : 'div',
+                        errorPlacement: function(error, element) {
+                            var placement = $(element).data('error');
+                            if(placement){
+                                $(placement).append(error)
+                            } 
+                            else{
+                                error.insertAfter(element);
+                            }
+                        },
+                        submitHandler: function (form) {
+                            var _form = $(form).serializeArray();
+                            console.log(_form);
+                            var data = system.ajax(processor+'do-updateAcad',[id,_form]);
+                            data.done(function(data){
+                                console.log(data);
+                                if(data != 0){
+                                    system.notification("Update","Success. Please wait.",false,2000,true,false,function(){
+                                        app.closeModal('.popup-edit', true);
+                                        var newdata = academic.get(id);
+                                        academic.ini(newdata);
+                                        academic.edit(newdata);
+                                        academic.display(newdata);
+                                        academic.delete(newdata);
+                                    });
+
+                                }
+                                else{
+                                    system.notification("Update","Failed.",false,3000,true,false,false);
+                                }
+                            })
+                        }
+                    });
+                }
+                else if(data.prop == "Units"){
+                    var content =   `<form action="" method="POST" id='form_edit'>
+                                        <div class="list-block">
+                                            <ul>
+                                                <li>
+                                                    <div class="input-field">
+                                                        <input type='number' id="field_units" name="field_units" class="form-control">
+                                                        <label class="" for="field_units" style="color: black; top: -2px !important; left: 0px !important;">Units Earned</label>
+                                                    </div>
+                                                </li>
+                                                <li>
+                                                    <button class="btn teal waves-effect waves-teal waves-light" style="width: 100%; top: 20px;">Save</button>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </form>`;
+                    $("#editpopup").html(content);
+                    $("#form_edit").validate({
+                        rules: {
+                            field_units: {required: true,maxlength:3},
+                        },
+                        errorElement : 'div',
+                        errorPlacement: function(error, element) {
+                            var placement = $(element).data('error');
+                            if(placement){
+                                $(placement).append(error)
+                            } 
+                            else{
+                                error.insertAfter(element);
+                            }
+                        },
+                        submitHandler: function (form) {
+                            var _form = $(form).serializeArray();
+                            console.log(_form);
+                            var data = system.ajax(processor+'do-updateAcad',[id,_form]);
+                            data.done(function(data){
+                                console.log(data);
+                                if(data != 0){
+                                    system.notification("Update","Success. Please wait.",false,2000,true,false,function(){
+                                        app.closeModal('.popup-edit', true);
+                                        var newdata = academic.get(id);
+                                        academic.ini(newdata);
+                                        academic.edit(newdata);
+                                        academic.display(newdata);
+                                        academic.delete(newdata);
+                                    });
+
+                                }
+                                else{
+                                    system.notification("Update","Failed.",false,3000,true,false,false);
+                                }
+                            })
+                        }
+                    });
+                }
+                else if(data.prop == "Dates"){
+                    var content =   `<form action="" method="POST" id='form_edit'>
+                                        <div class="list-block">
+                                            <ul>
+                                                <li>
+                                                    <div>
+                                                        <div class="input-field">
+                                                            <label class="active" style="top: auto; left: 0px; font-size: 17px; color: black;">Period of Attendance (From - To)</label>
+                                                            <div>
+                                                                <input type='month' id="field_dateFirst"  name="field_dateFirst" class="form-control" style="width: 100%;">
+                                                            </div>
+                                                            <div>
+                                                                <input type='month' id="field_dateLast" name="field_dateLast" class="form-control" style="width: 100%;">
+                                                            </div>
+                                                        </div>                                            
+                                                    </div>
+                                                </li>
+                                                <li>
+                                                    <button class="btn teal waves-effect waves-teal waves-light" style="width: 100%; top: 20px;">Save</button>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </form>`;
+                    $("#editpopup").html(content);
+                    $("#form_edit").validate({
+                        rules: {
+                            field_dateFirst: {required: true, maxlength:20},
+                            field_dateLast: {required: true, maxlength:20, },
+                            // field_dateLast: { greaterThan: "#field_dateFirst" },
+                        },
+                        errorElement : 'div',
+                        errorPlacement: function(error, element) {
+                            var placement = $(element).data('error');
+                            if(placement){
+                                $(placement).append(error)
+                            } 
+                            else{
+                                error.insertAfter(element);
+                            }
+                        },
+                        submitHandler: function (form) {
+                            var _form = $(form).serializeArray();
+                            console.log(_form);
+                            var data = system.ajax(processor+'do-updateAcad',[id,_form]);
+                            data.done(function(data){
+                                console.log(data);
+                                if(data != 0){
+                                    system.notification("Update","Success. Please wait.",false,2000,true,false,function(){
+                                        app.closeModal('.popup-edit', true);
+                                        var newdata = academic.get(id);
+                                        academic.ini(newdata);
+                                        academic.edit(newdata);
+                                        academic.display(newdata);
+                                        academic.delete(newdata);
+                                    });
+
+                                }
+                                else{
+                                    system.notification("Update","Failed.",false,3000,true,false,false);
+                                }
+                            })
+                        }
+                    });
+                }
+                else if(data.prop == "Gov"){
+                    var content =   `<form action="" method="POST" id='form_edit'>
+                                        <div class="list-block">
+                                            <ul>
+                                                <li>
+                                                    <div class="input-field">
+                                                        <select id="field_govt_service" name="field_govt_service">
+                                                            <option value="Yes">Yes</option>
+                                                            <option value="No">No</option>
+                                                        </select>
+                                                        <label class="active" for="field_govt_service" style="font-size: 17px; top: -2px !important; left: 0px !important;">Gov't Service</label>
+                                                    </div>
+                                                </li>
+                                                <li>
+                                                    <button class="btn teal waves-effect waves-teal waves-light" style="width: 100%; top: 20px;">Save</button>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </form>`;
+                    $("#editpopup").html(content);
+                    $('select').material_select();
+                    $("#form_edit").validate({
+                        rules: {
+                            field_govt_service: {required: true, maxlength:3},
+                        },
+                        errorElement : 'div',
+                        errorPlacement: function(error, element) {
+                            var placement = $(element).data('error');
+                            if(placement){
+                                $(placement).append(error)
+                            } 
+                            else{
+                                error.insertAfter(element);
+                            }
+                        },
+                        submitHandler: function (form) {
+                            var _form = $(form).serializeArray();
+                            console.log(_form);
+                            var data = system.ajax(processor+'do-updateCareer',[id,_form]);
+                            data.done(function(data){
+                                console.log(data);
+                                if(data != 0){
+                                    system.notification("Update","Success. Please wait.",false,2000,true,false,function(){
+                                        app.closeModal('.popup-edit', true);
+                                        var newdata = academic.get(id);
+                                        academic.ini(newdata);
+                                        academic.edit(newdata);
+                                        academic.display(newdata);
+                                        academic.delete(newdata);
+                                    });
+
+                                }
+                                else{
+                                    system.notification("Update","Failed.",false,3000,true,false,false);
+                                }
+                            })
+                        }
+                    });
+                }
             });
         }
     }
