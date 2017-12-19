@@ -550,7 +550,7 @@ $Functions = new DatabaseClasses;
     if (isset($_GET['do-updateCareer'])){
         $data = $_POST['data'];
         $id = $data[0];
-        if($data[1][0]['name'] == "field_dateFirst"){
+        if($data[1][0]['name'] == "field_date1"){
             $from = $data[1][0]['value'];
             $to = $data[1][1]['value'];
             $query = $Functions->PDO("UPDATE tbl_career SET inclusive_fromdate = '{$from}', inclusive_todate = '{$to}' WHERE id = '{$id}';");
@@ -676,7 +676,7 @@ $Functions = new DatabaseClasses;
                 print_r($Data);
             }
         }
-        else if($data[1][0]['name'] == "field_dateFirst"){
+        else if($data[1][0]['name'] == "field_dateF"){
             $name = $data[1][0]['value']." : ".$data[1][1]['value'];
             $query = $Functions->PDO("UPDATE tbl_acadinfo SET periodofattendance = '{$name}' WHERE id = '{$id}';");
             // print_r($query);
