@@ -10,31 +10,32 @@ Framework7.prototype.plugins.kareer = function (app, params) {
     var processor = 'http://localhost/kareer/mobile/harmony/mobile.php?';
     // var processor = 'http://kareerserver.rnrdigitalconsultancy.com/assets/harmony/mobile.php?';
     var directory = '/';
-    var $$ = Dom7;
+    var $$ = Dom7;  
     var view = app.addView('.view-main');
+
 
     var system = {
         ini:function(){
             //FB
-            window.fbAsyncInit = function() {
-                FB.init({
-                  appId      : '134413893925132',
-                  cookie     : true,
-                  xfbml      : true,
-                  version    : 'v2.11'
-                });
+            // window.fbAsyncInit = function() {
+            //     FB.init({
+            //       appId      : '134413893925132',
+            //       cookie     : true,
+            //       xfbml      : true,
+            //       version    : 'v2.11'
+            //     });
                   
-                FB.AppEvents.logPageView();   
+            //     FB.AppEvents.logPageView();   
                   
-              };
+            //   };
 
-              (function(d, s, id){
-                 var js, fjs = d.getElementsByTagName(s)[0];
-                 if (d.getElementById(id)) {return;}
-                 js = d.createElement(s); js.id = id;
-                 js.src = "https://connect.facebook.net/en_US/sdk.js";
-                 fjs.parentNode.insertBefore(js, fjs);
-               }(document, 'script', 'facebook-jssdk'));
+            //   (function(d, s, id){
+            //      var js, fjs = d.getElementsByTagName(s)[0];
+            //      if (d.getElementById(id)) {return;}
+            //      js = d.createElement(s); js.id = id;
+            //      js.src = "https://connect.facebook.net/en_US/sdk.js";
+            //      fjs.parentNode.insertBefore(js, fjs);
+            //    }(document, 'script', 'facebook-jssdk'));
         
             // var deviceSize = system.getDeviceSize();
             // console.log(deviceSize);
@@ -140,7 +141,6 @@ Framework7.prototype.plugins.kareer = function (app, params) {
             return window.innerWidth;
         }
     };
-
     var content = {
         ini:function(){
             var applicantData = JSON.parse(localStorage.getItem('applicant'));
@@ -268,7 +268,7 @@ Framework7.prototype.plugins.kareer = function (app, params) {
                 console.log('page');
                 var applicantData = JSON.parse(localStorage.getItem('applicant'));
                 var data = account.get(applicantData[0][0]);
-                account.account(data);
+                // account.account(data);
                 account.edit(data);
                 account.display(data);
                 account.show(data);
@@ -563,89 +563,89 @@ Framework7.prototype.plugins.kareer = function (app, params) {
             var accData = data;
             $("img.resume").attr({"src":"img/profile/"+accData[24]});
             // console.log(data);
-            var storedData = app.formStoreData('account', {
-                'GivenName' : accData[7],
-                'MiddleName' : accData[9],
-                'LastName' : accData[8],
-                'Gender' : accData[10],
-                'Age' : accData[11],
-                'DateOfBirth' : accData[12],
-                'PlaceOfBirth' : accData[13],
-                'Address' : accData[14],
-                'Citizenship' : accData[15],
-                'Weight' : accData[16],
-                'Height' : accData[17],
-                'Mother' : accData[18],
-                'Father' : accData[19],
-                'Language' : accData[20],
-                'Religion' : accData[21],
-                'Mother_Occupation' : accData[22],
-                'Father_Occupation' : accData[23]
-            });
+            // var storedData = app.formStoreData('account', {
+            //     'GivenName' : accData[7],
+            //     'MiddleName' : accData[9],
+            //     'LastName' : accData[8],
+            //     'Gender' : accData[10],
+            //     'Age' : accData[11],
+            //     'DateOfBirth' : accData[12],
+            //     'PlaceOfBirth' : accData[13],
+            //     'Address' : accData[14],
+            //     'Citizenship' : accData[15],
+            //     'Weight' : accData[16],
+            //     'Height' : accData[17],
+            //     'Mother' : accData[18],
+            //     'Father' : accData[19],
+            //     'Language' : accData[20],
+            //     'Religion' : accData[21],
+            //     'Mother_Occupation' : accData[22],
+            //     'Father_Occupation' : accData[23]
+            // });
 
-            $("a.saveAccount").on('click',function(){
-                 var id = accData[0];
-                var storedData = app.formGetData('account');
-                var accountData = $.map(storedData, function(value, index) {
-                    return [value];
-                });
-                var data = system.ajax(processor+'do-accountResume',[id,accountData]);
-                data.done(function(data){
-                    console.log(data);
-                    if(data != 0){
-                        system.notification("Kareer","Saved",false,2000,true,false,function(){
-                            var update = account.get(id);
-                            account.account(update);
-                        });                        
-                    }
-                })
-            });
+            // $("a.saveAccount").on('click',function(){
+            //      var id = accData[0];
+            //     var storedData = app.formGetData('account');
+            //     var accountData = $.map(storedData, function(value, index) {
+            //         return [value];
+            //     });
+            //     var data = system.ajax(processor+'do-accountResume',[id,accountData]);
+            //     data.done(function(data){
+            //         console.log(data);
+            //         if(data != 0){
+            //             system.notification("Kareer","Saved",false,2000,true,false,function(){
+            //                 var update = account.get(id);
+            //                 account.account(update);
+            //             });                        
+            //         }
+            //     })
+            // });
             
-            $("a.home").on('click',function(){
-                var data = $(this).data('load');
-                view.router.loadPage("pages/admin/"+data+".html");
-            });
+            // $("a.home").on('click',function(){
+            //     var data = $(this).data('load');
+            //     view.router.loadPage("pages/admin/"+data+".html");
+            // });
 
-            app.onPageInit('resume',function(page){
-                // account.controller();
-                resume.ini();
-            });
+            // app.onPageInit('resume',function(page){
+            //     // account.controller();
+            //     resume.ini();
+            // });
 
-            app.onPageBack('index',function(page){
-                // account.controller();
-                account.ini();
-            });
+            // app.onPageBack('index',function(page){
+            //     // account.controller();
+            //     account.ini();
+            // });
 
-            $("a.next").on('click',function(){ 
-                var data = $(this).data('load');
-                view.router.loadPage("pages/admin/"+data+".html");
-                // $("a.career").addClass('disabled');
-                var id = accData[0];
-                var storedData = app.formGetData('account');
-                // console.log(storedData);
-                var accountData = $.map(storedData, function(value, index) {
-                    return [value];
-                });
-                var data = system.ajax(processor+'do-accountResume',[id,accountData]);
-                data.done(function(data){
-                    console.log(data);
-                    if(data != 0){
-                            var update = account.get(id);
-                            account.account(update);
-                            resume.ini();
-                    }
+            // $("a.next").on('click',function(){ 
+            //     var data = $(this).data('load');
+            //     view.router.loadPage("pages/admin/"+data+".html");
+            //     // $("a.career").addClass('disabled');
+            //     var id = accData[0];
+            //     var storedData = app.formGetData('account');
+            //     // console.log(storedData);
+            //     var accountData = $.map(storedData, function(value, index) {
+            //         return [value];
+            //     });
+            //     var data = system.ajax(processor+'do-accountResume',[id,accountData]);
+            //     data.done(function(data){
+            //         console.log(data);
+            //         if(data != 0){
+            //                 var update = account.get(id);
+            //                 account.account(update);
+            //                 resume.ini();
+            //         }
 
-                })
+            //     })
 
-            });
-            app.onPageInit('builderCareer',function(page){
-                career.ini();
-            });
+            // });
+            // app.onPageInit('builderCareer',function(page){
+            //     career.ini();
+            // });
         },
 
         display:function(data){
+            $("img.resume").attr({"src":"img/profile/"+data[24]});
             var Ldata = language.get(data[0]);
-            console.log(Ldata);
             var L ="";
             $.each(Ldata,function(i,v){
                 L +=""+v[2]+", ";
@@ -701,6 +701,65 @@ Framework7.prototype.plugins.kareer = function (app, params) {
             $$("#display_father_occupation strong").html(data[23]);
             $$("#display_father_occupation a").attr({"data-value":data[23]});
             $$("#display_father_occupation a").attr({"data-node":data[0]});
+
+            $("a.saveAccount").on('click',function(){
+                //  var id = accData[0];
+                // var storedData = app.formGetData('account');
+                // var accountData = $.map(storedData, function(value, index) {
+                //     return [value];
+                // });
+                // var data = system.ajax(processor+'do-accountResume',[id,accountData]);
+                // data.done(function(data){
+                //     console.log(data);
+                //     if(data != 0){
+                //         system.notification("Kareer","Saved",false,2000,true,false,function(){
+                //             var update = account.get(id);
+                //             account.account(update);
+                //         });                        
+                //     }
+                // })
+            });
+            
+            $("a.home").on('click',function(){
+                var data = $(this).data('load');
+                view.router.loadPage("pages/admin/"+data+".html");
+            });
+
+            app.onPageInit('resume',function(page){
+                // account.controller();
+                resume.ini();
+            });
+
+            app.onPageBack('index',function(page){
+                // account.controller();
+                account.ini();
+            });
+
+            $("a.next").on('click',function(){ 
+                var data = $(this).data('load');
+                view.router.loadPage("pages/admin/"+data+".html");
+                // $("a.career").addClass('disabled');
+                // var id = accData[0];
+                // var storedData = app.formGetData('account');
+                // // console.log(storedData);
+                // var accountData = $.map(storedData, function(value, index) {
+                //     return [value];
+                // });
+                // var data = system.ajax(processor+'do-accountResume',[id,accountData]);
+                // data.done(function(data){
+                //     console.log(data);
+                //     if(data != 0){
+                //             var update = account.get(id);
+                //             account.account(update);
+                //             resume.ini();
+                //     }
+
+                // })
+
+            });
+            app.onPageInit('builderCareer',function(page){
+                career.ini();
+            });
         },
         get:function(id){
             var $data = "";
@@ -1947,6 +2006,7 @@ Framework7.prototype.plugins.kareer = function (app, params) {
                 $("div.c").removeClass('hidden');
                 $("div.list").addClass('hidden');
                 $("div.fixed-action-btn").addClass('hidden');
+                $("div.toolbar").addClass('hidden');
             });
             $("a.career").on('click',function(){
                 var data = $(this).data('load');
@@ -1976,11 +2036,11 @@ Framework7.prototype.plugins.kareer = function (app, params) {
                 $("div.c").addClass('hidden');
                 $("div.list").removeClass('hidden');
                 $("div.fixed-action-btn").removeClass('hidden');
+                $("div.toolbar").removeClass('hidden');
             });
         },
         delete:function(c){
             $$("a[data-cmd='delete']").on('click',function(){
-                console.log(c);
                 app.popup('.popup-delete');
                 var id = c[0][0];
                 var content =   "        <ul>"+
@@ -2004,6 +2064,7 @@ Framework7.prototype.plugins.kareer = function (app, params) {
                                     $("div.c").addClass('hidden');
                                     $("div.list").removeClass('hidden');
                                     $("div.fixed-action-btn").removeClass('hidden');
+                                    $("div.toolbar").removeClass('hidden');
                                     career.ini();
                                 });
 
@@ -3371,8 +3432,8 @@ Framework7.prototype.plugins.kareer = function (app, params) {
             let content =   `<div><img src="./img/RES.png" style="width: 200px; position: relative; margin-top: 80px;" ></div>
                             <p style="font-size: 17px">Make my Resume</p>
                             <div class="center">
-                                <a data-load ='builderAccount' class="resume btn btn-large white-text waves-effect waves-teal waves-light" style="border-radius: 30px; width: 90%; height: 55px; font-size: 20px; margin-top: 97px; background-color: #5cb0a8;">Create Resume</a>
-                                <a data-load ='SavedResume' class="resume btn btn-large white-text waves-effect waves-purple waves-light" style="border-radius: 30px;width: 90%;height: 55px; font-size: 20px; margin-top: 15px; background-color: #7a5578;"><p>Saved Resume</p></a>
+                                <a data-load ='builderAccount' class="resume btn btn-large white-text waves-effect waves-teal waves-light" style="border-radius: 30px; width: 90%; height: 55px; font-size: 20px; margin-top: 25px; background-color: #5cb0a8;">Create Resume</a>
+                                <a data-load ='SavedResume' class="resume btn btn-large white-text waves-effect waves-purple waves-light" style="border-radius: 30px;width: 90%;height: 55px; font-size: 20px; margin-top: 15px; background-color: #7a5578;">Saved Resume</a>
                             </div>`;
             $$("#resume_builder").html(content);
 
@@ -3389,7 +3450,10 @@ Framework7.prototype.plugins.kareer = function (app, params) {
             app.onPageInit('builderAccount',function(page){
                 console.log('page'); 
                 $("a.acc").removeClass('color-grey').addClass('color-white');
-                account.account(data);
+                // account.account(data);
+                account.edit(data);
+                account.display(data);
+                account.show(data);
 
             });
             app.onPageInit('SavedResume',function(page){
@@ -3446,9 +3510,9 @@ Framework7.prototype.plugins.kareer = function (app, params) {
 
             var applicantData = JSON.parse(localStorage.getItem('applicant'));
             var personalInfo = account.get(applicantData[0][0]);
-            console.log(personalInfo);
+            // console.log(personalInfo);
             var Ldata = language.get(personalInfo[0]);
-            console.log(Ldata);
+            // console.log(Ldata);
             var L ="";
             $.each(Ldata,function(i,v){
                 L +=""+v[2]+", ";
