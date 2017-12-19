@@ -124,7 +124,6 @@ $Functions = new DatabaseClasses;
         $periodofattendance = $Functions->escape($data[1][4]['value']." : ".$data[1][5]['value']);
         $year = substr(json_encode($data[1][5]['value']),1,4);
         $yearGraduated = $Functions->escape($year);
-        // $yearGraduated = $Functions->escape($data[1][5]['value']);
         
         if(($yearLevel == 'Elementary') || ($yearLevel == 'High School')){
             $query = $Functions->PDO("INSERT INTO tbl_acadinfo(id,applicant_id,level,schoolattended,degree,periodofattendance,highestlevel,yeargraduated,date) VALUES('{$id}','{$data[0]}',{$yearLevel},{$school},'',{$periodofattendance},'',{$yearGraduated},'{$date}')");
