@@ -206,19 +206,6 @@ class DatabaseClasses{
         $String = str_replace("\r","<33>  ",$String);
         return $String;
     }
-    function saveImage($id,$file){
-		$date = new DateTime();
-		$time = $date->getTimestamp();
-		$filename = $id."_".$time.'.rnr';
-		$file = base64_decode(preg_replace('#^data:image/\w+;base64,#i', '', $file));
-        $handle = fopen('../img/profile/'.$filename, 'w+');
-        if(fwrite($handle, $file) && fclose($handle)){
-			return $filename;
-        }
-		else{
-			return 0;
-		}
-	}
 	function db_buckup(){
 		$sql=""; $createsql=""; $dropsql="DROP TABLE IF EXISTS "; $subcreatesql=""; $insertsql=""; $subinsertsql="";
 		$q1 = DatabaseClasses::PDO(true,"SHOW TABLES");
@@ -256,12 +243,19 @@ class DatabaseClasses{
 		$sql = "SET SQL_MODE = \"NO_AUTO_VALUE_ON_ZERO\";\nSET time_zone = \"+00:00\";\n\n/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;\n/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;\n/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;\n/*!40101 SET NAMES utf8 */;\n\n{$dropsql};\n\n{$sql}\n/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;\n/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;\n/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;\n\n-- Buckup function --\n-- Developed by Rufo N. Gabrillo Jr. --";
 		return $sql;
 	}
-	function mail($receiver,$subject,$message){
-        $headers  = 'MIME-Version: 1.0' . "\r\n";
-        $headers .= 'Content-type: text/html; charset=iso-8859-1' . "\r\n";
-        $headers .= 'From: Kareer' . "\r\n";
-        $result = mail($receiver,$subject,$message,$headers);
-        return $result;
-	}
+	// function saveImage($id,$file){
+	// 	$date = new DateTime();
+	// 	$time = $date->getTimestamp();
+	// 	$filename = $id."_".$time.'.rnr';
+	// 	$file = base64_decode(preg_replace('#^data:image/\w+;base64,#i', '', $file));
+
+ //        $handle = fopen('../img/profile/'.$filename, 'w+');
+ //        if(fwrite($handle, $file) && fclose($handle)){
+	// 		return $filename;
+ //        }
+	// 	else{
+	// 		return 0;
+	// 	}
+	// }
 }
 ?>
