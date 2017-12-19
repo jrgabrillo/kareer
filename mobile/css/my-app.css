@@ -166,6 +166,8 @@ body {
 
 #form_academic .select-dropdown{
   text-align: center;
+  background: white;
+  position: inherit !important;
 }
 
 #form_academic .dropdown-content li>span {
@@ -174,6 +176,8 @@ body {
 
 #form_skills .select-dropdown{
   text-align: left;
+  background: white;
+  position: inherit !important;
 }
 
 #form_skills .dropdown-content li>span {
@@ -190,6 +194,8 @@ body {
 
 #form_language .select-dropdown{
   text-align: left;
+  background: white;
+  position: inherit !important;
 }
 
 #form_language .dropdown-content li>span {
@@ -205,6 +211,8 @@ body {
 }
 #form_career .select-dropdown{
   text-align: left;
+  background: white;
+  position: inherit !important;
 }
 
 #form_career .dropdown-content li>span {
