@@ -7,7 +7,7 @@
             <div class="toolbar toolbar-bottom center hidden" style="height: 59px; background-color: white;margin-top: -117px;">
                 <a href="#" class="saveAccount btn btn-large white-text waves-effect waves-purple waves-light" style="border-radius: 30px;width: 90%;height: 49px; font-size: 20px; background-color: #7a5578;"><strong class="">Save</strong></a>
             </div>
-            <div class="content-block" id="display_accountInfo">
+            <div class="content-block" id="display_accountInfo" style="padding: 0;">
                <ul>
                    <li class="item-content">
                        <div class="item-inner row" id="display_givenName">
@@ -144,7 +144,14 @@
                          </div>
                        </div>
                    </li>
-
+                   <li class="item-content">
+                       <div class="item-inner row"  id="display_skills">
+                           <div class="col s10"><small>Skills: </small><strong></strong></div>
+                           <div class="col s2">
+                            <a href="#" data-popup=".popup-edit" data-cmd = "edit" data-value='' data-node ='' data-prop='Skills' class="btn btn-floating btn-flat open-popup waves-effect waves-teal waves-light"><i class="icon f7-icons color-gray">compose</i></a>
+                         </div>
+                       </div>
+                   </li>
                </ul>
             </div>     
         </div>  

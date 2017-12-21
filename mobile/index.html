@@ -4,7 +4,7 @@
         <meta charset="utf-8">
         <!-- <meta http-equiv="Content-Security-Policy" content="default-src *; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; media-src *; img-src 'self' data:"> -->
         <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui">
-        <meta name="google-signin-client_id" content="188371648097-epn7dfrqagvpilftjnamvm1eiaeh1hv9.apps.googleusercontent.com">
+        <meta name="google-signin-client_id" content="915369297997-5shsmm9miju7n1c8pf59kj2ih2h9h68j.apps.googleusercontent.com">
         <meta name="apple-mobile-web-app-capable" content="yes">
         <meta name="apple-mobile-web-app-status-bar-style" content="black">
         <title>Kareer</title>
@@ -47,7 +47,7 @@
                             <div class="toolbar-inner" style="position: fixed;">
                                 <div class="collection" style="width: 100%; margin-top: 20px; border:none;">
                                     <div style="margin-top: 105%;"></div> 
-                                   <center><a href="#" data-popup=".popup-login" class="next btn btn-large white-text waves-effect waves-purple waves-light open-popup" style="border-radius: 30px;width: 90%;height: 56px;font-size: 18px;background-color: #54b3af;text-transform: none;"><strong class="">Login</strong></a></center>
+                                   <center><a href="#" data-popup=".popup-login" class="next btn btn-large white-text waves-effect waves-teal waves-light open-popup" style="border-radius: 30px;width: 90%;height: 56px;font-size: 18px;background-color: #54b3af;text-transform: none;"><strong class="">Login</strong></a></center>
                                    <div style="margin-top: 5%;"></div>
                                  <center><a href="#" data-popup=".popup-sign-up" class="next btn btn-large white-text waves-effect waves-purple waves-light open-popup" style="border-radius: 30px;width: 90%;height: 56px;font-size: 18px;background-color: #7a5578;text-transform: none;"><strong class="">Register</strong></a></center>
                                 </div>
@@ -111,7 +111,7 @@
                                     </div>
                                 </li><br />
                                 <li style="margin-bottom: 10px;">
-                                     <center><button href="#" data-popup=".popup-login" class="next btn btn-large white-text waves-effect waves-purple waves-light open-popup" style="border-radius: 30px;width: 100%;height: 56px;font-size: 18px;background-color: #54b3af;text-transform: none;"><strong class="">Login</strong></button></center>
+                                     <center><button href="#" data-popup=".popup-login" class="next btn btn-large white-text waves-effect waves-teal waves-light open-popup" style="border-radius: 30px;width: 100%;height: 56px;font-size: 18px;background-color: #54b3af;text-transform: none;"><strong class="">Login</strong></button></center>
                                 </li>
                             </ul>
                         </div>
@@ -121,9 +121,7 @@
                             <center><span class="hr color-white"> or login using </span></center>
                             <div style="margin-top: 5%;"></div>
                             <button href="#" class="LOGINfb btn btn-large white-text waves-effect waves-purple waves-light  left" style="border-radius: 30px;width: 48%;height: 53px;font-size: 15px;background-color: #4267b2;text-transform: none;"><strong class=""><i class="icon f7-icons color-white" style=''>social_facebook_fill</i>&nbsp;&nbsp;Facebook</strong></button>
-                            <a href="#" class=" btn btn-large white-text waves-effect waves-purple waves-light  right" style="border-radius: 30px;width: 48%;height: 53px;font-size: 18px;color:black;background-color: white;text-transform: none;"><strong class=""><i class="icon f7-icons black-text" style=''>social_googleplus</i>&nbsp;&nbsp;<font color="black">Gmail</font></strong></a>
-                        </div>
-                        <div class="col-100" style='background: transparent;'>
+                            <!-- <a href="#" class=" btn btn-large white-text waves-effect waves-purple waves-light  right" style="border-radius: 30px;width: 48%;height: 53px;font-size: 18px;color:black;background-color: white;text-transform: none;"><strong class=""><i class="icon f7-icons black-text" style=''>social_googleplus</i>&nbsp;&nbsp;<font color="black">Gmail</font></strong></a> -->
                         </div>
                     </div>
                 </div>
@@ -175,32 +173,45 @@
                         <div class="col-100" style='background: transparent;'>
                             <center><span class="hr color-white"> or SignUp using </span></center>
                             <div style="margin-top: 5%;"></div>
-                            <!-- <div class="fb-login-button fb" data-width="325" data-max-rows="1" data-size="large" data-button-type="continue_with" data-show-faces="false" data-auto-logout-link="false" data-use-continue-as="false"></div><br> -->
-                            <button href="#" class="fb btn btn-large white-text waves-effect waves-purple waves-light  left" style="border-radius: 30px;width: 48%;height: 53px;font-size: 15px;background-color: #4267b2;text-transform: none;"><strong class=""><i class="icon f7-icons color-white" style=''>social_facebook_fill</i>&nbsp;&nbsp;Facebook</strong></button>
+                            <button href="#" class="fb fb-login-button btn btn-large white-text waves-effect waves-purple waves-light  left" style="border-radius: 30px;width: 48%;height: 53px;font-size: 15px;background-color: #4267b2;text-transform: none;"><strong class=""><i class="icon f7-icons color-white" style=''>social_facebook_fill</i>&nbsp;&nbsp;Facebook</strong></button>
+                            <!-- <div class="g-signin2" data-onsuccess="onSignIn"></div> -->
                             <!-- <div class="g-signin2 right" data-width="160" data-height="50" data-onsuccess="onSignIn"></div> -->
-                            <button href="#" onclick="onSignIn()" class="btn btn-large white-text waves-effect waves-purple waves-light right" style="border-radius: 30px;width: 48%;height: 53px;font-size: 18px;color:black;background-color: white;text-transform: none;"><strong class=""><i class="icon f7-icons black-text" style=''>social_googleplus</i>&nbsp;&nbsp;<font color="black">Gmail</font></strong></button>
-                        </div>
-                        <!-- <div class="g-signin2" data-onsuccess="onSignIn"></div> -->
-                        <div class="col-100" style='background: transparent;'>
+                            <!-- <button href="#" class="btn btn-large white-text waves-effect waves-purple waves-light right" style="border-radius: 30px;width: 48%;height: 53px;font-size: 18px;color:black;background-color: white;text-transform: none;"><strong class=""><i class="icon f7-icons black-text" style=''>social_googleplus</i>&nbsp;&nbsp;<font color="black">Gmail</font></strong></button> -->
                         </div>
                     </div>
                 </div>
             </div>
         </div>
+        <div class="popup-overlay"></div>
     </body>
     <script src="js/jquery.js "></script>
     <script src="js/cropper.min.js"></script>
     <script src="js/materialize.min.js"></script>
     <script src="lib/framework7/js/framework7.js"></script>
+    <script src="lib/framework7/js/framework7.min.js"></script>
     <script src="js/welcomescreen.js "></script>
     <script src="js/myapp/pages/IndexPageController.js"></script>
     <script src="js/myapp/init.js"></script>
     <script src="js/validation/jquery.validate.min.js "></script>
     <script src="js/validation/additional-methods.min.js "></script>
-    <script src="js/my-app.js "></script>
+    <!-- <script src="js/my-app.js "></script> -->
     <script src="js/process.js"></script>
-    <!-- <script src="js/facebookSDK.js"></script> -->
     <script src="js/jspdf.min.js"></script>
     <script src="js/jspdf.debug.js"></script>
     <!-- <script src="https://apis.google.com/js/platform.js" async defer></script> -->
+    <!-- <script type="text/javascript">
+        function onSignIn(googleUser) {
+          var profile = googleUser.getBasicProfile();
+          console.log('ID: ' + profile.getId()); // Do not send to your backend! Use an ID token instead.
+          console.log('Name: ' + profile.getName());
+          console.log('Given Name: ' + profile.getGivenName());
+          console.log('Last Name: ' + profile.getFamilyName());
+          console.log('Image URL: ' + profile.getImageUrl());
+          console.log('Email: ' + profile.getEmail());
+          var id_token = googleUser.getAuthResponse().id_token;
+                    console.log(id_token);
+        }
+
+    </script> -->
+    
 </html>

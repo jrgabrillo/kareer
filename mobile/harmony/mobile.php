@@ -98,7 +98,7 @@ $Functions = new DatabaseClasses;
         if($query[0][0]<=0){
             $date = $Functions->PDO_DateAndTime();
             // $id = $Functions->PDO_IDGenerator('tbl_applicant','id').'FB';
-            $query = $Functions->PDO("INSERT INTO tbl_applicant(id,description,resume,email,password,status) VALUES({$account_id},'','',{$email},'','2'); INSERT INTO tbl_personalinfo(id, given_name, family_name, middle_name, gender, age, date_of_birth, place_of_birth, permanent_address, citizenship, height, weight, mother_name, father_name, language, religion, mother_occupation, father_occupation, picture, date) VALUES({$account_id},{$firstname},{$lastname},'',{$gender},'','','','','','','','','','','','','','profile.png','{$date}')");
+            $query = $Functions->PDO("INSERT INTO tbl_applicant(id,description,resume,email,password,status) VALUES({$account_id},'','',{$email},'','1'); INSERT INTO tbl_personalinfo(id, given_name, family_name, middle_name, gender, age, date_of_birth, place_of_birth, permanent_address, citizenship, height, weight, mother_name, father_name, language, religion, mother_occupation, father_occupation, picture, date) VALUES({$account_id},{$firstname},{$lastname},'',{$gender},'','','','','','','','','','','','','','profile.png','{$date}')");
             if($query->execute()){
                 echo 1;
             }
@@ -131,7 +131,6 @@ $Functions = new DatabaseClasses;
         else{
             $query = $Functions->PDO("INSERT INTO tbl_acadinfo(id,applicant_id,level,schoolattended,degree,periodofattendance,highestlevel,yeargraduated,date) VALUES('{$id}','{$data[0]}',{$yearLevel},{$school},{$degree},{$periodofattendance},{$units},{$yearGraduated},'{$date}')");
         }
-        
         if($query->execute()){
             echo 1;
         }
@@ -544,6 +543,20 @@ $Functions = new DatabaseClasses;
                 print_r($Data);
             }
         }
+        else if($data[1][0]['name'] == "field_Skills"){
+            $skill = $Functions->PDO_IDGenerator('tbl_skills','id');
+            $date = $Functions->PDO_DateAndTime();
+            $level = $data[1][1]['value'];
+            $name = $data[1][0]['value'];
+            $querySkills = $Functions->PDO("INSERT INTO tbl_skills(id,applicant_id,skill,level,date) VALUES('{$skill}','{$id}','{$name}','{$level}','{$date}')");
+            if($querySkills->execute()){
+                echo 1;
+            }
+            else{
+                $Data = $querySkills->errorInfo();
+                print_r($Data);
+            }
+        }
     }
 
     if (isset($_GET['do-updateCareer'])){
@@ -786,12 +799,6 @@ $Functions = new DatabaseClasses;
 
         $queryApplicant = $Functions->PDO("SELECT * FROM tbl_fbaccount RIGHT JOIN tbl_personalinfo ON tbl_applicant.id = tbl_personalinfo.id WHERE tbl_fbaccount.id = '{$data}' ");
             print_r(json_encode($queryApplicant[0]));
-    }    
-
-    if (isset($_GET['get-FacebookUser'])){
-        $data = $_POST['data'];
-        $queryApplicant = $Functions->PDO("SELECT * FROM tbl_fbaccount RIGHT JOIN tbl_personalinfo ON tbl_applicant.id = tbl_personalinfo.id WHERE tbl_applicant.id = '{$data}' ");
-        print_r(json_encode($queryApplicant[0]));
     }
 
     if (isset($_GET['get-jobs'])){

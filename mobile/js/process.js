@@ -16,27 +16,25 @@ Framework7.prototype.plugins.kareer = function (app, params) {
 
     var system = {
         ini:function(){
-            //FB
-            // window.fbAsyncInit = function() {
-            //     FB.init({
-            //       appId      : '134413893925132',
-            //       cookie     : true,
-            //       xfbml      : true,
-            //       version    : 'v2.11'
-            //     });
-                  
-            //     FB.AppEvents.logPageView();   
-                  
-            //   };
+            
+            (function(d, s, id) {
+                var js, fjs = d.getElementsByTagName(s)[0];
+                if (d.getElementById(id)) return;
+                js = d.createElement(s); js.id = id;
+                js.src = "https://connect.facebook.net/en_US/sdk.js";
+                fjs.parentNode.insertBefore(js, fjs);
+            }(document, 'script', 'facebook-jssdk'));
 
-            //   (function(d, s, id){
-            //      var js, fjs = d.getElementsByTagName(s)[0];
-            //      if (d.getElementById(id)) {return;}
-            //      js = d.createElement(s); js.id = id;
-            //      js.src = "https://connect.facebook.net/en_US/sdk.js";
-            //      fjs.parentNode.insertBefore(js, fjs);
-            //    }(document, 'script', 'facebook-jssdk'));
-        
+            window.fbAsyncInit = function() {
+                FB.init({
+                    appId      : '2045233702379585',
+                    cookie     : true,  // enable cookies to allow the server to access 
+                                        // the session
+                    xfbml      : true,  // parse social plugins on this page
+                    version    : 'v2.11' // use graph api version 2.8
+                });
+            }
+
             // var deviceSize = system.getDeviceSize();
             // console.log(deviceSize);
             logIn.ini();
@@ -236,7 +234,7 @@ Framework7.prototype.plugins.kareer = function (app, params) {
                             "            <a data-load='settings' class=' account btn-floating btn-large waves-effect waves-light waves-teal grey lighten-4 btn-flat'><i class='icon f7-icons color-gray' style='font-size: 30px; margin-top: 6px;'>gear_fill</i></a><div class='grey-text' style = 'font-size: xx-small'>SETTINGS</div>"+
                             "        </div>"+
                             "        <div class='col-33'>"+
-                            "            <a href='pages/admin/resume.html' class=' btn-floating btn-large waves-effect waves-light waves-teal grey lighten-4 btn-flat'><i class='icon f7-icons color-gray' style='font-size: 30px; margin-top: 6px;'>document_text_fill</i></a><div class='grey-text' style = 'font-size: xx-small'>RESUME</div>"+
+                            "            <a data-load='resume' class='account btn-floating btn-large waves-effect waves-light waves-teal grey lighten-4 btn-flat'><i class='icon f7-icons color-gray' style='font-size: 30px; margin-top: 6px;'>document_text_fill</i></a><div class='grey-text' style = 'font-size: xx-small'>RESUME</div>"+
                             "      </div>"+
                             "    </div>"+
                             "</div>";
@@ -250,11 +248,11 @@ Framework7.prototype.plugins.kareer = function (app, params) {
                 console.log('page');
                 academic.ini();
             }); 
-            // app.onPageInit('resume',function(page){
-            //     console.log('page'); 
-            //     resume.ini();
+            app.onPageInit('resume',function(page){
+                console.log('page'); 
+                resume.ini();
 
-            // });
+            });
 
             app.onPageInit('bookmarks',function(page){
                 // console.log(page);
@@ -287,34 +285,30 @@ Framework7.prototype.plugins.kareer = function (app, params) {
              
 
             var picture = "img/profile/profile.png";
-            $$('.open-edit').on('click', function () {
-                app.popup('.popup-edit');
-                var content =   "<div class='card-content'>"+
-                                "<div class=' center image-crop'>"+
-                                "   <img class='circle responsive-img' style='width: 145px; height: 145px; border:2px; border-style: solid; border-color: #2b9c9b' src='"+picture+"'>"+
-                                "</div>"+
-                                "<div class='center btn-group'>"+
-                                "<label for='inputImage' class='btn-flat btn-xs btn-primary'>"+
-                                "   <input type='file' accept='image/*' name='file' id='inputImage' class='hide'>"+
-                                "   <i class='icon f7-icons'>add_round</i>"+
-                                "</label>"+
-                                "<button class='btn-flat btn-warning btn-xs close-popup' data-load='index' data-cmd='cancel' type='button'>"+
-                                "   <i class='icon f7-icons'>close_round</i>"+
-                                "</button>"+
-                                "<button class='btn-flat btn-info btn-xs hidden' data-cmd='rotate' data-option='-90' type='button' title='Rotate Left'>"+
-                                "   <i class='icon f7-icons'>undo</i>"+
-                                "</button>"+
-                                "<button class='btn-flat btn-info btn-xs hidden' data-cmd='rotate' data-option='90' type='button' title='Rotate Right'>"+
-                                "   <i class='icon f7-icons'>redo</i>"+
-                                "</button>"+
-                                "<button class='btn-flat btn-danger btn-xs hidden' data-cmd='save' type='button'>"+
-                                "   <i class='icon f7-icons'>check</i>"+
-                                "</button>"+
-                                "</div>"+
-                                "</div>";
-                                console.log("sdsd");
+                var content =  ` <div class='card-content'>
+                                    <div class=' center image-crop'>
+                                       <img class='circle responsive-img' style='width: 145px; height: 145px; border:2px; border-style: solid; border-color: #2b9c9b' src='${picture}'>
+                                    </div>
+                                    <div class='center btn-group'>
+                                        <label for='inputImage' class='btn-flat btn-xs btn-primary'>
+                                           <input type='file' accept='image/*' name='file' id='inputImage' class='hide'>
+                                           <i class='icon f7-icons'>add_round</i>
+                                        </label>
+                                        <button class='btn-flat btn-warning btn-xs close-popup' data-load='index' data-cmd='cancel' type='button'>
+                                           <i class='icon f7-icons'>close_round</i>
+                                        </button>
+                                        <button class='btn-flat btn-info btn-xs hidden' data-cmd='rotate' data-option='-90' type='button' title='Rotate Left'>
+                                           <i class='icon f7-icons'>undo</i>
+                                        </button>
+                                        <button class='btn-flat btn-info btn-xs hidden' data-cmd='rotate' data-option='90' type='button' title='Rotate Right'>
+                                           <i class='icon f7-icons'>redo</i>
+                                        </button>
+                                        <button class='btn-flat btn-danger btn-xs hidden' data-cmd='save' type='button'>
+                                           <i class='icon f7-icons'>check</i>
+                                        </button>
+                                    </div>
+                                </div>`;
                 $("#profile_picture2").html(content);
-                $('.tooltipped').tooltip({delay: 50});
               
                 var $inputImage = $("#inputImage");
                 if(window.FileReader){
@@ -381,7 +375,6 @@ Framework7.prototype.plugins.kareer = function (app, params) {
                         account.ini();
                     });
                 });
-            });
         }, 
         controller:function(data){
             $$(".card-header a").on('click',function(){
@@ -562,6 +555,14 @@ Framework7.prototype.plugins.kareer = function (app, params) {
             $.each(Ldata,function(i,v){
                 L +=""+v[2]+", ";
             });
+            var Skilldata = skills.get(data[0]);
+            var skill ="";
+            $.each(Skilldata,function(i,v){
+                skill +=""+v[2]+", ";
+            });
+            $$("#display_skills strong").html(skill);
+            $$("#display_skills a").attr({"data-value":data[2]});
+            $$("#display_skills a").attr({"data-node":data[0]});
             $$("#display_language strong").html(L);
             $$("#display_language a").attr({"data-value":data[2]});
             $$("#display_language a").attr({"data-node":data[0]});
@@ -1742,6 +1743,81 @@ Framework7.prototype.plugins.kareer = function (app, params) {
                         }
                     });
                 }
+                else if(data.prop == "Skills"){  
+                    var content =   `<form action="" method="POST" id='form_edit'>
+                                        <div class="list-block">
+                                            <ul>
+                                                <li>
+                                                    <div class="input-field">
+                                                        <div class="input-field" style="margin-top: 50px; !importan">
+                                                        <label class="a" for='field_${data.prop}'>Skills</label>
+                                                        <input type='text' id='field_${data.prop}' value = '${data.value}' name='field_${data.prop}' class=" form-control color-white">
+                                                    </div>
+                                                    </div>
+                                                </li>                                        
+                                                <li>
+                                                    <div class="input-field" >
+                                                        <select id="field_level" name="field_level">
+                                                            <option value="Beginner">Beginner</option>
+                                                            <option value="Intermediate">Intermediate</option>
+                                                            <option value="Advance">Advance</option>
+                                                            <option value="Expert">Expert</option>
+                                                        </select>
+                                                    </div>
+                                                </li>
+                                                <li>
+                                                    <button class="btn teal waves-effect waves-teal waves-light" style="width: 100%; top: 20px;">Save</button>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </form>`;
+                    $("#editpopup").html(content);
+                    if(data.value != ""){
+                        $('label.a').addClass("active");
+                    }            
+                     $('select').material_select(); 
+                    $("#form_edit").validate({
+                        rules: {
+                            field_Skills: {required: true,maxlength:100}
+                            
+                        },
+                        errorElement : 'div',
+                        errorPlacement: function(error, element) {
+                            var placement = $(element).data('error');
+                            if(placement){
+                                $(placement).append(error)
+                            } 
+                            else{
+                                error.insertAfter(element);
+                            }
+                        },
+                        messages: {
+                            field_Skills: {
+                                required: "<i data-error ='Field is required' class='icon f7-icons  color red' style='margin:5px;'>info</i>",
+                                maxlength: "<i data-error ='Name is too long' class='icon f7-icons color red' style='margin:5px;'>info</i>",
+                            },
+                        },
+                        submitHandler: function (form) {
+                            var _form = $(form).serializeArray();
+                            var data = system.ajax(processor+'do-update',[id,_form]);
+                            data.done(function(data){
+                                console.log(data);
+                                if(data != 0){
+                                    system.notification("Update","Success. Please wait.",false,2000,true,false,function(){
+                                        app.closeModal('.popup-edit', true);
+                                        var newdata = account.get(id);
+                                        account.edit(newdata);
+                                        account.display(newdata);
+                                    });
+
+                                }
+                                else{
+                                    system.notification("Update","Failed.",false,3000,true,false,false);
+                                }
+                            })
+                        }
+                    });
+                }
 
             });
         }
@@ -1813,7 +1889,7 @@ Framework7.prototype.plugins.kareer = function (app, params) {
                     }
                 },
                 submitHandler: function (form) {
-                    var _form = $(form).serializeArr
+                    var _form = $(form).serializeArray();
                     var data = system.ajax(processor+'do-career',[id,_form]);
                     data.done(function(data){
                         console.log(data);
@@ -2348,7 +2424,7 @@ Framework7.prototype.plugins.kareer = function (app, params) {
                     }
                 },
                 submitHandler: function (form) {
-                    var _form = $(form).serializeArr
+                    var _form = $(form).serializeArray();
                     var data = system.ajax(processor+'do-academic',[id,_form]);
                     data.done(function(data){
                         console.log(data);
@@ -2446,6 +2522,7 @@ Framework7.prototype.plugins.kareer = function (app, params) {
             $$("#display_todate strong").html(period.substr(9));
             $$("#display_todate a").attr({"data-node":a[0][0]});
             $("a.back").on('click',function(){
+
                 $("div.a").addClass('hidden');
                 $("div.list").removeClass('hidden');
                 $("div.fixed-action-btn").removeClass('hidden');
@@ -2846,7 +2923,7 @@ Framework7.prototype.plugins.kareer = function (app, params) {
                     }
                 },
                 submitHandler: function (form) {
-                    var _form = $(form).serializeArr
+                    var _form = $(form).serializeArray();
                     var data = system.ajax(processor+'do-skill',[id,_form]);
                     data.done(function(data){
                         console.log(data);
@@ -2953,7 +3030,7 @@ Framework7.prototype.plugins.kareer = function (app, params) {
                     }
                 },
                 submitHandler: function (form) {
-                    var _form = $(form).serializeArr
+                    var _form = $(form).serializeArray();
                     var data = system.ajax(processor+'do-language',[id,_form]);
                     data.done(function(data){
                         console.log(data);
@@ -3064,7 +3141,7 @@ Framework7.prototype.plugins.kareer = function (app, params) {
                     }
                 },
                 submitHandler: function (form) {
-                    var _form = $(form).serializeArr
+                    var _form = $(form).serializeArray();
                     var data = system.ajax(processor+'do-references',[id,_form]);
                     data.done(function(data){
                         console.log(data);
@@ -3171,7 +3248,7 @@ Framework7.prototype.plugins.kareer = function (app, params) {
                     }
                 },
                 submitHandler: function (form) {
-                    var _form = $(form).serializeArr
+                    var _form = $(form).serializeArray();
                     var data = system.ajax(processor+'do-seminar',[id,_form]);
                     data.done(function(data){
                         console.log(data);
@@ -3463,20 +3540,20 @@ Framework7.prototype.plugins.kareer = function (app, params) {
                     FB.getLoginStatus(function(response) {
                         if (response.status === 'connected') {
                             console.log(response.status);
+                            Login();
                         } else if (response.status === 'not_authorized') {
                             console.log(response.status);
                         } else {
                             console.log(response.status);
                         }
                     });
-                    FB.api('/me', {fields: 'id,first_name,last_name,email,gender'}, function (response){
-                        var data = $.map(response, function(value, index) {
-                            return [value];
-                        });
-                        var LogData = JSON.stringify(data);
-                        console.log(LogData);
-                        if(LogData == localStorage.getItem('fb')){
-                            console.log("same");
+                    function Login() {  
+                        FB.api('/me', {fields: 'id,first_name,last_name,email,gender'}, function (response){
+                            var data = $.map(response, function(value, index) {
+                                return [value];
+                            });
+                            var LogData = JSON.stringify(data);
+                            console.log(LogData);
                             var fbData = JSON.parse(LogData);
                             var data = system.ajax(processor+'do-logInFB',fbData);
                             data.done(function(data){
@@ -3493,12 +3570,9 @@ Framework7.prototype.plugins.kareer = function (app, params) {
                                     system.notification("Kareer","Failed.",false,3000,true,false,false);
                                 }
                             })
-                        }
-                        else{
-                            console.log("not");
-                            system.notification("Kareer","Failed. Please Register Again",false,3000,true,false,false);
-                        }
-                    });
+                        });
+                    }
+
             });
             $("#form_logIn").validate({
                 rules: {
@@ -3575,7 +3649,7 @@ Framework7.prototype.plugins.kareer = function (app, params) {
 
     var signUp = {
         ini:function(){
-            // $("div.g-signin2").on('Success',function(){
+            $("button.g-signin2").on('Success',function(){
                 function onSignIn(googleUser) {
                   var profile = googleUser.getBasicProfile();
                   console.log('ID: ' + profile.getId()); // Do not send to your backend! Use an ID token instead.
@@ -3587,7 +3661,7 @@ Framework7.prototype.plugins.kareer = function (app, params) {
                   var id_token = googleUser.getAuthResponse().id_token;
                     console.log(id_token)
                 }
-            // });
+            });
             // Register using FB ACCOUNT
             $("button.fb").on('click',function(){
                 FB.login(function(response) {
@@ -3603,28 +3677,29 @@ Framework7.prototype.plugins.kareer = function (app, params) {
 
                 function saveUserData() {    
                     FB.api('/me', {fields: 'id,first_name,last_name,email,gender'}, function (response){
+                        // console.log(response);
                         var data = $.map(response, function(value, index) {
                             return [value];
                         });
                         var FbData = JSON.stringify(data);
                         console.log(FbData);
                         localStorage.setItem('fb',FbData);
-                        // var data = system.ajax(processor+'do-signUpFB',data);
-                        // data.done(function(data){
-                        //     console.log(data);
-                        //     if(data == 1){
-                        //         system.notification("Kareer","Success. You can now Sign In to your account. ",false,2000,true,false,function(){
-                        //             app.closeModal('.popup-sign-up', true);
-                        //             app.popup('popup-login');
-                        //         });
-                        //     }
-                        //     else if(data == 2){
-                        //         system.notification("Kareer","Try other email address.",false,3000,true,function(){},false);
-                        //     }
-                        //     else{
-                        //         system.notification("Kareer","Failed.",false,3000,true,function(){},false);
-                        //     }
-                        // })
+                        var data = system.ajax(processor+'do-signUpFB',data);
+                        data.done(function(data){
+                            console.log(data);
+                            if(data == 1){
+                                system.notification("Kareer","Success. You can now Sign In to your account. ",false,2000,true,false,function(){
+                                    app.closeModal('.popup-sign-up', true);
+                                    app.popup('popup-login');
+                                });
+                            }
+                            else if(data == 2){
+                                system.notification("Kareer","Try other email address.",false,3000,true,function(){},false);
+                            }
+                            else{
+                                system.notification("Kareer","Failed.",false,3000,true,function(){},false);
+                            }
+                        })
                     });
                 }
             });
@@ -3667,7 +3742,7 @@ Framework7.prototype.plugins.kareer = function (app, params) {
                     },
                 },
                 submitHandler: function (form) {
-                    var _form = $(form).serializeArr
+                    var _form = $(form).serializeArray();
                     var data = system.ajax(processor+'do-signUp',_form);
                     data.done(function(data){
                         console.log(data);
@@ -4115,16 +4190,14 @@ Framework7.prototype.plugins.kareer = function (app, params) {
                     }
                 },
                 submitHandler: function (form) {
-                    var _form = $(form).serializeArr
+                    var _form = $(form).serializeArray();
                     var data = system.ajax(processor+'do-searchJob',[_form[0],range.noUiSlider.get(),_form[1]]);
                     data.done(function(data){
-                        // console.log(data);
                         if(data.length > 3){
                             var display = system.xml("pages/admin/pages.xml");
                             $(display.responseText).find("div.popup.search").each(function(i,content){
                                 app.popup(content);
                                 data = JSON.parse(data);
-                                // console.log(data);
                                 jobs.show(data);
                             });
                         }
