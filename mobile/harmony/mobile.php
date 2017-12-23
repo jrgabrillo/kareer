@@ -46,6 +46,9 @@ $Functions = new DatabaseClasses;
                 echo 0;
             }
         }
+        else{
+            echo 0;
+        }
     }
 
     if (isset($_GET['do-logInFB'])){
@@ -263,7 +266,28 @@ $Functions = new DatabaseClasses;
             print_r($Data);
         }
     }
-
+    if (isset($_GET['do-deleteSkill'])){
+        $data = $_POST['data'];
+        $query = $Functions->PDO("DELETE FROM tbl_skills WHERE id = '{$data}';");
+        if($query->execute()){
+            echo 1;
+        }
+        else{
+            $Data = $query->errorInfo();
+            print_r($Data);
+        }
+    }
+    if (isset($_GET['do-deleteLanguage'])){
+        $data = $_POST['data'];
+        $query = $Functions->PDO("DELETE FROM tbl_language WHERE id = '{$data}';");
+        if($query->execute()){
+            echo 1;
+        }
+        else{
+            $Data = $query->errorInfo();
+            print_r($Data);
+        }
+    }
     if (isset($_GET['do-apply'])){
         $data = $_POST['data'];
         $date = $Functions->PDO_DateAndTime();
@@ -636,6 +660,34 @@ $Functions = new DatabaseClasses;
             }
         }
     }
+    if (isset($_GET['do-updateSkill'])){
+        $data = $_POST['data'];
+        $id = $data[0];
+        $level = $data[1][1]['value'];
+        $name = $data[1][0]['value'];
+        $querySkills = $Functions->PDO("UPDATE tbl_skills SET skill = '{$name}', level ='{$level}' WHERE id = '{$id}';");
+        if($querySkills->execute()){
+            echo 1;
+        }
+        else{
+            $Data = $querySkills->errorInfo();
+            print_r($Data);
+        }
+    }
+    if (isset($_GET['do-updateLanguage'])){
+        $data = $_POST['data'];
+        $id = $data[0];
+        $level = $data[1][1]['value'];
+        $name = $data[1][0]['value'];
+        $querySkills = $Functions->PDO("UPDATE tbl_language SET language = '{$name}', level ='{$level}' WHERE id = '{$id}';");
+        if($querySkills->execute()){
+            echo 1;
+        }
+        else{
+            $Data = $querySkills->errorInfo();
+            print_r($Data);
+        }
+    }
 
     if (isset($_GET['do-updateAcad'])){
         $data = $_POST['data'];
@@ -705,6 +757,7 @@ $Functions = new DatabaseClasses;
     if(isset($_GET['do-update-image'])){
         $data = $_POST['data'];
         $user = $data[0];
+
         $picture = $Functions->saveImage($user,$data[1]);
         $query = $Functions->PDO("UPDATE tbl_personalinfo SET picture = '{$picture}' WHERE id = '{$user}';");
         // print_r($picture);
@@ -751,9 +804,15 @@ $Functions = new DatabaseClasses;
         print_r(json_encode($query));
     }
 
-    if (isset($_GET['get-skills'])){
+    if (isset($_GET['get-skillsAll'])){
         $data = $_POST['data'];
         $query = $Functions->PDO("SELECT * FROM tbl_skills WHERE applicant_id = '{$data}'");
+        print_r(json_encode($query));
+    }
+
+    if (isset($_GET['get-skill'])){
+        $data = $_POST['data'];
+        $query = $Functions->PDO("SELECT * FROM tbl_skills WHERE id = '{$data}'");
         print_r(json_encode($query));
     }
 
@@ -763,9 +822,14 @@ $Functions = new DatabaseClasses;
         print_r(json_encode($query));
     }
 
-    if (isset($_GET['get-language'])){
+    if (isset($_GET['get-languageALL'])){
         $data = $_POST['data'];
         $query = $Functions->PDO("SELECT * FROM tbl_language WHERE applicant_id = '{$data}'");
+        print_r(json_encode($query));
+    }
+    if (isset($_GET['get-language'])){
+        $data = $_POST['data'];
+        $query = $Functions->PDO("SELECT * FROM tbl_language WHERE id = '{$data}'");
         print_r(json_encode($query));
     }
 

@@ -114,6 +114,10 @@ class DatabaseClasses{
 		$Query = DatabaseClasses::PDO_Query("SELECT * FROM $Table WHERE $Column = '$Condition'");
 		return $Query->rowCount();
 	}
+	// function password($string){
+	// 	$options = ['cost' => 11,'salt' => mcrypt_create_iv(22, MCRYPT_DEV_URANDOM)];
+	// 	return password_hash($string,PASSWORD_BCRYPT, $options);		
+	// }
 	function password($string){
 		$options = ['cost' => 11];
 		return password_hash($string,PASSWORD_BCRYPT, $options);		

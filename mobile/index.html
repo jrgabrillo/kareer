@@ -4,7 +4,7 @@
         <meta charset="utf-8">
         <!-- <meta http-equiv="Content-Security-Policy" content="default-src *; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; media-src *; img-src 'self' data:"> -->
         <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui">
-        <meta name="google-signin-client_id" content="915369297997-5shsmm9miju7n1c8pf59kj2ih2h9h68j.apps.googleusercontent.com">
+        <!-- <meta name="google-signin-client_id" content="915369297997-5shsmm9miju7n1c8pf59kj2ih2h9h68j.apps.googleusercontent.com"> -->
         <meta name="apple-mobile-web-app-capable" content="yes">
         <meta name="apple-mobile-web-app-status-bar-style" content="black">
         <title>Kareer</title>
@@ -121,7 +121,9 @@
                             <center><span class="hr color-white"> or login using </span></center>
                             <div style="margin-top: 5%;"></div>
                             <button href="#" class="LOGINfb btn btn-large white-text waves-effect waves-purple waves-light  left" style="border-radius: 30px;width: 48%;height: 53px;font-size: 15px;background-color: #4267b2;text-transform: none;"><strong class=""><i class="icon f7-icons color-white" style=''>social_facebook_fill</i>&nbsp;&nbsp;Facebook</strong></button>
-                            <!-- <a href="#" class=" btn btn-large white-text waves-effect waves-purple waves-light  right" style="border-radius: 30px;width: 48%;height: 53px;font-size: 18px;color:black;background-color: white;text-transform: none;"><strong class=""><i class="icon f7-icons black-text" style=''>social_googleplus</i>&nbsp;&nbsp;<font color="black">Gmail</font></strong></a> -->
+                            <a href="#" class=" btn btn-large white-text waves-effect waves-purple waves-light  right" style="border-radius: 30px;width: 48%;height: 53px;font-size: 18px;color:black;background-color: white;text-transform: none;"><strong class=""><i class="icon f7-icons black-text" style=''>social_googleplus</i>&nbsp;&nbsp;<font color="black">Gmail</font></strong></a>
+                        </div>
+                        <div class="col-100" style='background: transparent;'>
                         </div>
                     </div>
                 </div>
@@ -175,20 +177,24 @@
                             <div style="margin-top: 5%;"></div>
                             <button href="#" class="fb fb-login-button btn btn-large white-text waves-effect waves-purple waves-light  left" style="border-radius: 30px;width: 48%;height: 53px;font-size: 15px;background-color: #4267b2;text-transform: none;"><strong class=""><i class="icon f7-icons color-white" style=''>social_facebook_fill</i>&nbsp;&nbsp;Facebook</strong></button>
                             <!-- <div class="g-signin2" data-onsuccess="onSignIn"></div> -->
+                            <div id="fb-root"></div>
                             <!-- <div class="g-signin2 right" data-width="160" data-height="50" data-onsuccess="onSignIn"></div> -->
                             <!-- <button href="#" class="btn btn-large white-text waves-effect waves-purple waves-light right" style="border-radius: 30px;width: 48%;height: 53px;font-size: 18px;color:black;background-color: white;text-transform: none;"><strong class=""><i class="icon f7-icons black-text" style=''>social_googleplus</i>&nbsp;&nbsp;<font color="black">Gmail</font></strong></button> -->
+                        </div>
+                        <!-- <div class="g-signin2" data-onsuccess="onSignIn"></div> -->
+                        <div class="col-100" style='background: transparent;'>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-        <div class="popup-overlay"></div>
     </body>
+    <!-- <script src="cordova.js "></script> -->
+    <!-- <script src="js/index.js "></script> -->
     <script src="js/jquery.js "></script>
     <script src="js/cropper.min.js"></script>
     <script src="js/materialize.min.js"></script>
     <script src="lib/framework7/js/framework7.js"></script>
-    <script src="lib/framework7/js/framework7.min.js"></script>
     <script src="js/welcomescreen.js "></script>
     <script src="js/myapp/pages/IndexPageController.js"></script>
     <script src="js/myapp/init.js"></script>
@@ -198,20 +204,10 @@
     <script src="js/process.js"></script>
     <script src="js/jspdf.min.js"></script>
     <script src="js/jspdf.debug.js"></script>
+    <!-- <script src="js/facebookConnectPlugin.js"></script> -->
     <!-- <script src="https://apis.google.com/js/platform.js" async defer></script> -->
-    <!-- <script type="text/javascript">
-        function onSignIn(googleUser) {
-          var profile = googleUser.getBasicProfile();
-          console.log('ID: ' + profile.getId()); // Do not send to your backend! Use an ID token instead.
-          console.log('Name: ' + profile.getName());
-          console.log('Given Name: ' + profile.getGivenName());
-          console.log('Last Name: ' + profile.getFamilyName());
-          console.log('Image URL: ' + profile.getImageUrl());
-          console.log('Email: ' + profile.getEmail());
-          var id_token = googleUser.getAuthResponse().id_token;
-                    console.log(id_token);
-        }
-
-    </script> -->
+    <script type="text/javascript">
+        
+    </script>
     
 </html>

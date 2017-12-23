@@ -1,9 +1,9 @@
 <div class="page no-navbar" data-page="builderCareer">
     <div class="card-header-pic" style="height: auto !important; margin-top: 0px !important; margin-left: auto; margin-bottom: auto;">
         <div class="card-header" style="width: 51% !important;">
-            <a href="#" data-load='builderAccount' class="btn btn-floating btn-flat white waves-effect waves-teal waves-light index color-gray"><i class="icon f7-icons">chevron_left</i></a>Career
+            <a href="#" data-load='builderAccount' class="btn btn-floating btn-flat white waves-effect waves-teal waves-light home color-gray"><i class="icon f7-icons">chevron_left</i></a>Career
         </div>
-        <div class="navbar" style="background-color: #4DB6AC; height: 45px !important; ">
+        <div class="NAV navbar" style="background-color: #4DB6AC; height: 45px !important; ">
             <div class="navbar-inner rows">
                 <div class="left">
                     <a class="acc btn btn-flat color-grey " style ="padding: 0px; font-size: 12px;">ACCOUNT</a>
@@ -17,67 +17,78 @@
             </div>
         </div>
     </div>
-    <div class="toolbar toolbar-bottom center" style="height: 59px; background-color: white;">
+    <div class="TOOL toolbar toolbar-bottom center" style="height: 59px; background-color: white;">
             <a href="#" data-load='builderAcademic' class="career disabled btn btn-large white-text waves-effect waves-purple waves-light" style="margin-left: -25px; border-radius: 30px;width: 70%;height: 49px; font-size: 20px; background-color: #7a5578;"><strong class="">Next</strong></a> 
             <a data-cmd='add-career' data-popup="popup-career" class="open-popup add btn-floating btn-small teal waves-effect waves-teal waves-light right" style="right: 26px; height: 50px; width: 50px;"><i class="icon f7-icons" style="top: 7px;">add</i></a>
     </div>
-    <div class="page-content infinite-scroll toolbar-fixed" style="white-space: normal;">
-        <div class='list content-block' id="display_career" style="margin-bottom: 100% !important;">
+    <div class="display page-content infinite-scroll toolbar-fixed" style="white-space: normal;">
+        <div class='list content-block' id="display_career">
+            <div class="progress">
+                <div class="indeterminate"></div>
+            </div>
         </div>
-        <div class='c hidden content-block' style="margin-top: auto !important;">
-            <ul>
-                <li class="item-content row">
-                    <div class="item-title col s12">Inclusive dates </div>
-                    <div class="item-inner col s6 row" id="display_fromdate">
-                       <div class="item-after "><small>From: </small><strong></strong></div>
-                    </div>
-                    <div class="item-inner col s6 row" id="display_todate">
-                       <div class="item-after"><small>To: </small><strong></strong></div>
-                       <a href="#" data-popup=".popup-edit" data-cmd = "edit" data-value='' data-node ='' data-prop='Dates' class="btn btn-floating btn-flat open-popup waves-effect waves-teal waves-light" style="top: -10px;"><i class="icon f7-icons color-gray">compose</i></a>
-                    </div>
-               </li>
-                <li class="item-content row">
-                    <div class="item-title col s12">Position Title </div>
-                    <div class="item-inner col s12 row" id="display_position">
-                       <div class="item-after"><strong></strong></div>
-                       <a href="#" data-popup=".popup-edit" data-cmd = "edit" data-value='' data-node ='' data-prop='Position' class="btn btn-floating btn-flat open-popup waves-effect waves-teal waves-light" style="top: -10px; left: 72px;"><i class="icon f7-icons color-gray">compose</i></a>
-                    </div>
-                </li>
-                <li class="item-content row">
-                    <div class="item-title col s12">Department/Company/Office/Agency </div>
-                    <div class="item-inner col s12 row" id="display_agency">
-                       <div class="item-after"><strong></strong></div>
-                       <a href="#" data-popup=".popup-edit" data-cmd = "edit" data-value='' data-node ='' data-prop='Agency' class="btn btn-floating btn-flat open-popup waves-effect waves-teal waves-light" style="top: -10px; left: 72px;"><i class="icon f7-icons color-gray">compose</i></a>
-                    </div>
-                </li>
-                <li class="item-content row">
-                    <div class="item-title col s12">Monthly Salary </div>
-                    <div class="item-inner col s12 row" id="display_salary">
-                       <div class="item-after"><strong></strong></div>
-                       <a href="#" data-popup=".popup-edit" data-cmd = "edit" data-value='' data-node ='' data-prop='Salary' class="btn btn-floating btn-flat open-popup waves-effect waves-teal waves-light" style="top: -10px; left: 72px;"><i class="icon f7-icons color-gray">compose</i></a>
-                    </div>
-                </li>
-                <li class="item-content row">
-                    <div class="item-title col s12">Status of Appointment </div>
-                    <div class="item-inner col s12 row" id="display_appointment">
-                       <div class="item-after"><strong></strong></div>
-                       <a href="#" data-popup=".popup-edit" data-cmd = "edit" data-value='' data-node ='' data-prop='Appointment' class="btn btn-floating btn-flat open-popup waves-effect waves-teal waves-light" style="top: -10px; left: 72px;"><i class="icon f7-icons color-gray">compose</i></a>
-                    </div>
-                </li>
-                <li class="item-content row">
-                    <div class="item-title col s12">Gov't Service </div>
-                    <div class="item-inner col s12 row" id="display_govt_service">
-                       <div class="item-after"><strong></strong></div>
-                       <a href="#" data-popup=".popup-edit" data-cmd = "edit" data-value='' data-node ='' data-prop='Gov' class="btn btn-floating btn-flat open-popup waves-effect waves-teal waves-light" style="top: -10px; left: 72px;"><i class="icon f7-icons color-gray">compose</i></a>
-                    </div>
-                </li>
-                <li class="item-content">
-                    <a data-cmd = "delete" data-popup="popup-delete" class="open-popup btn-flat waves-effect waves-red waves-light red color-white center" style="width:100%;">Delete</a>
-                    <a class="back btn-flat waves-effect waves-teal waves-light teal color-white center" style="width:100%;">Back</a>
-                </li>
-            </ul>
+        <div class='empty content-block'>
+            <div class="" style="margin-top: 30%;">
+                <center><img width="150px" src="img/016-stairs.png"/></center>
+                <div style="margin-top: 20%;"></div>
+                <span style="color:blue;font-size: 16px;"><center>Create Career Information</center></span>
+            </div>
         </div>
     </div>
+    <div class="focus content-block hidden">
+        <ul>
+            <li class="item-content row">
+                <div class="item-title col s12">Inclusive dates </div>
+                <div class="item-inner col s6 row" id="display_fromdate">
+                   <div class="item-after "><small>From: </small><strong></strong></div>
+                </div>
+                <div class="item-inner col s6 row" id="display_todate">
+                   <div class="item-after"><small>To: </small><strong></strong></div>
+                   <a href="#" data-cmd = "update" data-load="updateCareer" data-value='' data-node ='' data-prop='Dates' class="btn btn-floating btn-flat waves-effect waves-teal waves-light" style="top: -10px;"><i class="icon f7-icons color-gray">compose</i></a>
+                </div>
+           </li>
+            <li class="item-content row">
+                <div class="item-title col s12">Position Title </div>
+                <div class="item-inner col s12 row" id="display_position">
+                   <div class="item-after"><strong></strong></div>
+                   <a href="#" data-cmd = "update" data-load="updateCareer" data-value='' data-node ='' data-prop='Position' class="btn btn-floating btn-flat waves-effect waves-teal waves-light" style="top: -10px; left: 72px;"><i class="icon f7-icons color-gray">compose</i></a>
+                </div>
+            </li>
+            <li class="item-content row">
+                <div class="item-title col s12">Department/Company/Office/Agency </div>
+                <div class="item-inner col s12 row" id="display_agency">
+                   <div class="item-after"><strong></strong></div>
+                   <a href="#" data-cmd = "update" data-load="updateCareer" data-value='' data-node ='' data-prop='Agency' class="btn btn-floating btn-flat waves-effect waves-teal waves-light" style="top: -10px; left: 72px;"><i class="icon f7-icons color-gray">compose</i></a>
+                </div>
+            </li>
+            <li class="item-content row">
+                <div class="item-title col s12">Monthly Salary </div>
+                <div class="item-inner col s12 row" id="display_salary">
+                   <div class="item-after"><strong></strong></div>
+                   <a href="#" data-cmd = "update" data-load="updateCareer" data-value='' data-node ='' data-prop='Salary' class="btn btn-floating btn-flat waves-effect waves-teal waves-light" style="top: -10px; left: 72px;"><i class="icon f7-icons color-gray">compose</i></a>
+                </div>
+            </li>
+            <li class="item-content row">
+                <div class="item-title col s12">Status of Appointment </div>
+                <div class="item-inner col s12 row" id="display_appointment">
+                   <div class="item-after"><strong></strong></div>
+                   <a href="#" data-cmd = "update" data-load="updateCareer" data-value='' data-node ='' data-prop='Appointment' class="btn btn-floating btn-flat waves-effect waves-teal waves-light" style="top: -10px; left: 72px;"><i class="icon f7-icons color-gray">compose</i></a>
+                </div>
+            </li>
+            <li class="item-content row">
+                <div class="item-title col s12">Gov't Service </div>
+                <div class="item-inner col s12 row" id="display_govt_service">
+                   <div class="item-after"><strong></strong></div>
+                   <a href="#" data-cmd = "update" data-load="updateCareer" data-value='' data-node ='' data-prop='Gov' class="btn btn-floating btn-flat waves-effect waves-teal waves-light" style="top: -10px; left: 72px;"><i class="icon f7-icons color-gray">compose</i></a>
+                </div>
+            </li>
+            <li class="item-content">
+                <a data-cmd = "delete" class="btn-flat waves-effect waves-red waves-light red color-white center" style="width:100%;">Delete</a>
+                <a data-cmd = "back" class="btn-flat waves-effect waves-teal waves-light teal color-white center" style="width:100%;">Back</a>
+            </li>
+        </ul>
+    </div>
+    <div class="popup-overlay"></div>
     <div class='popup popup-career'>
         <div class="page-content login-screen-content infinite-scroll" style="background: transparent;">
             <div class="content-block">
@@ -143,15 +154,19 @@
     <div class="popup popup-edit">
         <div class="page-content login-screen-content infinite-scroll" style="background: transparent;">
             <div class="content-block">
-                <div class="close-popup">Update<i class="icon f7-icons" style="width: 25px; position: absolute;right: 5%;">close_round</i></div>
-                <div class="page-content" id="editpopup" style="overflow:hidden;">
+                <div class="">Update Career<i class="icon f7-icons close-popup" style="width: 25px; position: absolute;right: 5%;">close_round</i></div>
+                <div class="page-content" id="update" style="overflow:hidden;">
                 </div>
             </div>
         </div>
     </div>    
     <div class="popup popup-delete">
-        <div class="content-block " id ="deletePopup">
+        <div class="page-content login-screen-content infinite-scroll" style="background: transparent;">
+            <div class="content-block">
+                <div class="close-popup">Delete<i class="icon f7-icons" style="width: 25px; position: absolute;right: 5%;">close_round</i></div>
+                <div class="page-content" id ="deletePopup" style="overflow:hidden;">
+                </div>
+            </div>
         </div>
     </div>
-    <div class="popup-overlay"></div>
 </div>

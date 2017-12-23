@@ -10,7 +10,7 @@
                        <div class="item-inner row" id="display_email">
                            <div class="col s10"><small>Email: </small><strong></strong></div>
                            <div class="col s2">
-                            <a href="#" data-popup=".popup-edit" data-cmd = "edit" data-value='' data-node ='' data-prop='Email' class="btn btn-floating btn-flat open-popup waves-effect waves-teal waves-light"><i class="icon f7-icons color-gray">compose</i></a>
+                            <a href="#" data-cmd = "update" data-load='updateAccount' data-value='' data-node ='' data-prop='Email' class="btn btn-floating btn-flat waves-effect waves-teal waves-light"><i class="icon f7-icons color-gray">compose</i></a>
                           </div>
                        </div>
                    </li>
@@ -18,28 +18,15 @@
                        <div class="item-inner row" id="display_password">
                            <div class="col s10"><small>Password: </small><strong></strong></div>
                            <div class="col s2">
-                            <a href="#" data-popup=".popup-edit" data-cmd = "edit" data-value='' data-node ='' data-prop='Password' class="btn btn-floating btn-flat open-popup waves-effect waves-teal waves-light"><i class="icon f7-icons color-gray">compose</i></a>
+                            <a href="#" data-cmd = "update" data-load='updateAccount' data-value='' data-node ='' data-prop='Password' class="btn btn-floating btn-flat waves-effect waves-teal waves-light"><i class="icon f7-icons color-gray">compose</i></a>
                           </div>
                        </div>
                    </li>
                </ul>
             </div>
             <div class="fixed-action-btn" style="bottom: 45px; right: 24px;">
-                <a data-cmd='account-logout' data-popup = "popup-logout" class="open-popup btn-floating btn-small red waves-effect waves-red waves-light" style="right: -4px; height: 50px; width: 50px; top: 15px;"><i class="icon f7-icons" style="top: 5px;">logout</i></a>
+                <a data-cmd='account-logout' data-load='logout' class="btn-floating btn-small red waves-effect waves-red waves-light" style="right: -4px; height: 50px; width: 50px; top: 15px;"><i class="icon f7-icons" style="top: 5px;">logout</i></a>
             </div>     
         </div>  
-    </div>
-    <div class="popup popup-edit">
-        <div class="page-content login-screen-content infinite-scroll" style="background: transparent;">
-            <div class="content-block">
-                <div class="close-popup">Update account<i class="icon f7-icons" style="width: 25px; position: absolute;right: 5%;">close_round</i></div>
-                <div class="page-content" id="editpopup" style="overflow:hidden;">
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="popup popup-logout">
-        <div class="content-block " id ="logoutPopup">
-        </div>
     </div>
 </div>

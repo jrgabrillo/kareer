@@ -3,7 +3,7 @@
         <div class="card-header" style="width: 51% !important;">
             <a href="#" data-load='builderCareer' class="btn btn-floating btn-flat white waves-effect waves-teal waves-light home color-gray"><i class="icon f7-icons">chevron_left</i></a>Academic
         </div>
-        <div class="navbar" style="background-color: #4DB6AC; height: 45px !important; ">
+        <div class="NAV navbar" style="background-color: #4DB6AC; height: 45px !important; ">
             <div class="navbar-inner rows">
                 <div class="left">
                     <a class="acc btn btn-flat color-grey " style ="padding: 0px; font-size: 12px;">ACCOUNT</a>
@@ -17,60 +17,37 @@
             </div>
         </div>
     </div>
-    <div class="toolbar toolbar-bottom center" style="height: 59px; background-color: white;">
+    <div class="TOOL toolbar toolbar-bottom center" style="height: 59px; background-color: white;">
             <a href="#" data-load='builderSkills' class="academic disabled btn btn-large white-text waves-effect waves-purple waves-light" style="margin-left: -25px; border-radius: 30px;width: 70%;height: 49px; font-size: 20px; background-color: #7a5578;"><strong class="">Next</strong></a> 
             <a data-cmd='add-academic' class="add btn-floating btn-small teal waves-effect waves-teal waves-light right" style="right: 26px; height: 50px; width: 50px;"><i class="icon f7-icons" style="top: 7px;">add</i></a>
     </div>
-    <div class="page-content infinite-scroll toolbar-fixed" style="white-space: normal;">
+    <div class="display page-content infinite-scroll toolbar-fixed" style="white-space: normal;">
         <div class='list content-block' id="display_academic" style="margin-bottom: 100% !important;">
         </div>
-        <div class='a hidden content-block'>
-            <ul>
-                <li class="item-content row">
-                    <div class="item-title col s12">Year Level </div>
-                    <div class="item-inner col s12 row" id="display_Year_level">
-                       <div class="item-after"><strong></strong></div>
-                       <a href="#" data-popup=".popup-edit" data-cmd = "edit" data-value='' data-node ='' data-prop='Year' class="btn btn-floating btn-flat open-popup waves-effect waves-teal waves-light" style="top: -10px; left: 72px;"><i class="icon f7-icons color-gray">compose</i></a>
-                    </div>
-               </li>
-                <li class="item-content row">
-                    <div class="item-title col s12">Name of School </div>
-                    <div class="item-inner col s12 row" id="display_school">
-                       <div class="item-after"><strong></strong></div>
-                       <a href="#" data-popup=".popup-edit" data-cmd = "edit" data-value='' data-node ='' data-prop='School' class="btn btn-floating btn-flat open-popup waves-effect waves-teal waves-light" style="top: -10px; left: 72px;"><i class="icon f7-icons color-gray">compose</i></a>
-                    </div>
-                </li>
-                <li class="degree item-content row">
-                    <div class="item-title col s12">Basic Education/Degree/Course</div>
-                    <div class="item-inner col s12 row" id="display_degree">
-                       <div class="item-after"><strong></strong></div>
-                       <a href="#" data-popup=".popup-edit" data-cmd = "edit" data-value='' data-node ='' data-prop='Degree' class="btn btn-floating btn-flat open-popup waves-effect waves-teal waves-light" style="top: -10px; left: 72px;"><i class="icon f7-icons color-gray">compose</i></a>
-                    </div>
-                </li>
-                <li class="units item-content row">
-                    <div class="item-title col s12">Units Earned</div>
-                    <div class="item-inner col s12 row" id="display_units">
-                       <div class="item-after"><strong></strong></div>
-                       <a href="#" data-popup=".popup-edit" data-cmd = "edit" data-value='' data-node ='' data-prop='Units' class="btn btn-floating btn-flat open-popup waves-effect waves-teal waves-light" style="top: -10px; left: 72px;"><i class="icon f7-icons color-gray">compose</i></a>
-                    </div>
-                </li>
-                <li class="item-content row">
-                    <div class="item-title col s12">Period of Attendance </div>
-                    <div class="item-inner col s6 row" id="display_fromdate">
-                       <div class="item-after "><small>From: </small><strong></strong></div>
-                    </div>
-                    <div class="item-inner col s6 row" id="display_todate">
-                       <div class="item-after"><small>To: </small><strong></strong></div>
-                       <a href="#" data-popup=".popup-edit" data-cmd = "edit" data-value='' data-node ='' data-prop='Dates' class="btn btn-floating btn-flat open-popup waves-effect waves-teal waves-light" style="top: -10px;"><i class="icon f7-icons color-gray">compose</i></a>
-                    </div>
-                </li>
-                <li class="item-content">
-                    <a data-cmd = "delete" data-popup="popup-delete" class="open-popup col s6 btn-flat waves-effect waves-red waves-light red color-white center" style="width:100%;">Delete</a>
-                    <a class="back col s6 btn-flat waves-effect waves-teal waves-light teal color-white center" style="width:100%;">Back</a>
-                </li>
-            </ul>
-        </div>
     </div>
+    <div class='focus content-block hidden'>
+        <ul>
+            <li class="item-content row">
+                <div class="item-title col s12">Year Level </div>
+                <div class="item-inner col s12 row" id="display_Year_level">
+                   <div class="item-after"><strong></strong></div>
+                   <a href="#" data-cmd = "update" data-value='' data-node ='' data-prop='Year' class="btn btn-floating btn-flat waves-effect waves-teal waves-light" style="top: -10px;"><i class="icon f7-icons color-gray">compose</i></a>
+                </div>
+           </li>
+            <li class="item-content row">
+                <div class="item-title col s12">Name of School </div>
+                <div class="item-inner col s12 row" id="display_school">
+                   <div class="item-after"><strong></strong></div>
+                   <a href="#" data-cmd = "update" data-value='' data-node ='' data-prop='School' class="btn btn-floating btn-flat waves-effect waves-teal waves-light" style="top: -10px;"><i class="icon f7-icons color-gray">compose</i></a>
+                </div>
+            </li>z
+            <li class="item-content">
+                <a data-cmd = "delete" data-load="deleteAcademic" class="col s6 btn-flat waves-effect waves-red waves-light red color-white center" style="width:100%;">Delete</a>
+                <a data-cmd = "back" class="btn-flat waves-effect waves-teal waves-light teal color-white center" style="width:100%;">Back</a>
+            </li>
+        </ul>
+    </div>
+    <div class="popup-overlay"></div>
     <div class='popup popup-academic'>
         <div class="page-content login-screen-content infinite-scroll" style="background: transparent;">
             <div class="content-block">
@@ -132,17 +109,21 @@
         </div>
     </div>
     <div class="popup popup-delete">
-        <div class="content-block " id ="deletePopup">
-        </div>
-    </div>
-    <div class="popup popup-edit">
         <div class="page-content login-screen-content infinite-scroll" style="background: transparent;">
             <div class="content-block">
-                <div class="close-popup">Update<i class="icon f7-icons" style="width: 25px; position: absolute;right: 5%;">close_round</i></div>
-                <div class="page-content" id="editpopup" style="overflow:hidden;">
+                <div class="close-popup">Delete<i class="icon f7-icons" style="width: 25px; position: absolute;right: 5%;">close_round</i></div>
+                <div class="page-content" id ="deletePopup" style="overflow:hidden;">
                 </div>
             </div>
         </div>
     </div>
-    <div class="popup-overlay"></div>
+    <div class="popup popup-update">
+        <div class="page-content login-screen-content infinite-scroll" style="background: transparent;">
+            <div class="content-block">
+                <div class="">Update Academic<i class="icon f7-icons close-popup" style="width: 25px; position: absolute;right: 5%;">close_round</i></div>
+                <div class="page-content" id="updateAcad" style="overflow:hidden;">
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
