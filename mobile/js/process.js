@@ -218,24 +218,24 @@ Framework7.prototype.plugins.kareer = function (app, params) {
                             "<div class='content-block'>"+
                             "    <div class='row rows'>"+
                             "        <div class='col-33'>"+
-                            "            <a data-load='account'  class='account btn-floating btn-large waves-effect waves-light waves-teal grey lighten-4 btn-flat'><i class='icon f7-icons color-gray' style='font-size: 30px; margin-top: 6px;'>person</i></a><div class='grey-text' style = 'font-size: xx-small'>ACCOUNT</div>"+
+                            "            <a data-load='account'  class='account btn-floating btn-large waves-effect waves-light waves-teal grey lighten-3 btn-flat'><i class='icon f7-icons color-gray' style='font-size: 30px; margin-top: 6px;color:grey;'>person</i></a><div class='grey-text' style = 'font-size: xx-small;color'>ACCOUNT</div>"+
                             "        </div>"+
                             "        <div class='col-33'>"+
-                            "            <a data-load='career' class='account btn-floating btn-large waves-effect waves-light waves-teal grey lighten-4 btn-flat'><i class='icon f7-icons color-gray' style='font-size: 30px; margin-top: 6px;'>briefcase_fill</i></a><div class='grey-text' style = 'font-size: xx-small'>CAREER</div>"+
+                            "            <a data-load='career' class='account btn-floating btn-large waves-effect waves-light waves-teal grey lighten-3 btn-flat'><i class='icon f7-icons color-gray' style='font-size: 30px; margin-top: 6px;color:grey;'>briefcase_fill</i></a><div class='grey-text' style = 'font-size: xx-small;color'>CAREER</div>"+
                             "        </div>"+
                             "        <div class='col-33'>"+
-                            "            <a data-load='academic' class='account btn-floating btn-large waves-effect waves-light waves-teal grey lighten-4 btn-flat'><i class='icon f7-icons color-gray' style='font-size: 30px; margin-top: 6px;'>folder_fill</i></a><div class='grey-text' style = 'font-size: xx-small'>ACADEMIC</div>"+
+                            "            <a data-load='academic' class='account btn-floating btn-large waves-effect waves-light waves-teal grey lighten-3 btn-flat'><i class='icon f7-icons color-gray' style='font-size: 30px; margin-top: 6px;color:grey;'>folder_fill</i></a><div class='grey-text' style = 'font-size: xx-small;color'>ACADEMIC</div>"+
                             "        </div>"+
                             "    </div>"+
                             "    <div class='row rows'>"+
                             "        <div class='col-33'>"+
-                            "            <a data-load='bookmarks' class='account btn-floating btn-large waves-effect waves-light waves-teal grey lighten-4 btn-flat'><i class='icon f7-icons color-gray' style='font-size: 30px; margin-top: 6px;'>bookmark_fill</i></a><div class='grey-text' style = 'font-size: xx-small'>BOOKMARKS</div>"+
+                            "            <a data-load='bookmarks' class='account btn-floating btn-large waves-effect waves-light waves-teal grey lighten-3 btn-flat'><i class='icon f7-icons color-gray' style='font-size: 30px; margin-top: 6px;color:grey;'>bookmark_fill</i></a><div class='grey-text' style = 'font-size: xx-small;color'>BOOKMARKS</div>"+
                             "        </div>"+
                             "        <div class='col-33'>"+
-                            "            <a data-load='settings' class='account btn-floating btn-large waves-effect waves-light waves-teal grey lighten-4 btn-flat'><i class='icon f7-icons color-gray' style='font-size: 30px; margin-top: 6px;'>gear_fill</i></a><div class='grey-text' style = 'font-size: xx-small'>SETTINGS</div>"+
+                            "            <a data-load='' class='account btn-floating btn-large waves-effect waves-light waves-teal grey lighten-3 btn-flat'><i class='icon f7-icons color-gray' style='font-size: 30px; margin-top: 6px;color:grey;'>gear_fill</i></a><div class='grey-text' style = 'font-size: xx-small;color'>SETTINGS</div>"+
                             "        </div>"+
                             "        <div class='col-33'>"+
-                            "            <a data-load='resume' class='account btn-floating btn-large waves-effect waves-light waves-teal grey lighten-4 btn-flat'><i class='icon f7-icons color-gray' style='font-size: 30px; margin-top: 6px;'>document_text_fill</i></a><div class='grey-text' style = 'font-size: xx-small'>RESUME</div>"+
+                            "            <a data-load='resume' class='account btn-floating btn-large waves-effect waves-light waves-teal grey lighten-3 btn-flat'><i class='icon f7-icons color-gray' style='font-size: 30px; margin-top: 6px;color:grey;'>document_text_fill</i></a><div class='grey-text' style = 'font-size: xx-small;color'>RESUME</div>"+
                             "      </div>"+
                             "    </div>"+
                             "</div>";
@@ -4412,15 +4412,15 @@ Framework7.prototype.plugins.kareer = function (app, params) {
                 },
                 messages: {
                     field_email: {
-                        required: "<i data-error ='Field is required' class='icon f7-icons  color red' style='margin:5px;'>info</i>",
-                        maxlength: "<i data-error ='Name is too long' class='icon f7-icons color red' style='margin:5px;'>info</i>",
-                        email: "<i data-error ='Email is invalid' class='icon f7-icons color red' style='margin:5px;'>info</i>",
-                        validateEmail: "<i data-error ='Email already in use.' class='icon f7-icons color red' style='margin:5px;'>info</i>",
+                        required: "<i data-error ='Field is required' class='' >Field is required</i>",
+                        maxlength: "<i data-error ='Name is too long' class='' >Name is too long</i>",
+                        email: "<i data-error ='Email is invalid' class='' >Email is invalid</i>",
+                        validateEmail: "<i data-error ='Email already in use.' class='icon f7-icons color red' >Email already in use.</i>",
                     },
                     field_password: {
-                        required: "<i data-error ='Field is required' class='icon f7-icons color red' style='margin:5px;'>info</i>",
-                        maxlength: "<i data-error ='Name is too long' class='icon f7-icons color red' style='margin:5px;'>info</i>",
-                        checkPassword: "<i data-error ='Password is weak' class='icon f7-icons color red' style='margin:5px;'>info</i>",
+                        required: "<div data-error ='Field is required' class='' >Field is required</div>",
+                        maxlength: "<div data-error ='Name is too long' class='' >Name is too long</div>",
+                        checkPassword: "<div data-error ='Password is weak' class='' >Password is weak</div>",
                     },
                 },
                 submitHandler: function (form) {
@@ -4536,23 +4536,23 @@ Framework7.prototype.plugins.kareer = function (app, params) {
                 },
                 messages: {
                     field_firstname: {
-                        required: "<i data-error ='Field is required' class='icon f7-icons color red' style='margin:5px;'>info</i>",
-                        maxlength: "<i data-error ='Name is too long' class='icon f7-icons color red' style='margin:5px;'>info</i>",
+                        required: "<i data-error ='Field is required' class='' '>Field is required</i>",
+                        maxlength: "<i data-error ='Name is too long' class='' '>'Name is too long</i>",
                     },
                     field_lastname: {
-                        required: "<i data-error ='Field is required' class='icon f7-icons color red' style='margin:5px;'>info</i>",
-                        maxlength: "<i data-error ='Name is too long' class='icon f7-icons color red' style='margin:5px;'>info</i>",
+                        required: "<i data-error ='Field is required' class='' '>Field is required</i>",
+                        maxlength: "<i data-error ='Name is too long' class='' '>'Name is too long</i>",
                     },
                     field_email: {
-                        required: "<i data-error ='Field is required' class='icon f7-icons  color red' style='margin:5px;'>info</i>",
-                        maxlength: "<i data-error ='Name is too long' class='icon f7-icons color red' style='margin:5px;'>info</i>",
-                        email: "<i data-error ='Email is invalid' class='icon f7-icons color red' style='margin:5px;'>info</i>",
-                        validateEmail: "<i data-error ='Email already in use.' class='icon f7-icons color red' style='margin:5px;'>info</i>",
+                        required: "<i data-error ='Field is required' class='' '>Field is required</i>",
+                        maxlength: "<i data-error ='Name is too long' class='' '>'Name is too long</i>",
+                        email: "<i data-error ='Email is invalid' class='' '>Email is invalid</i>",
+                        validateEmail: "<i data-error ='Email already in use' class='' '>Email already in use</i>",
                     },
                     field_password: {
-                        required: "<i data-error ='Field is required' class='icon f7-icons color red' style='margin:5px;'>info</i>",
-                        maxlength: "<i data-error ='Name is too long' class='icon f7-icons color red' style='margin:5px;'>info</i>",
-                        checkPassword: "<i data-error ='Password is weak' class='icon f7-icons color red' style='margin:5px;'>info</i>",
+                        required: "<i data-error ='Field is required' class='' '>Field is required</i>",
+                        maxlength: "<i data-error ='Name is too long' class='' '>'Name is too long</i>",
+                        checkPassword: "<i data-error ='Password is weak' class='' '>Password is weak</i>",
                     },
                 },
                 submitHandler: function (form) {
