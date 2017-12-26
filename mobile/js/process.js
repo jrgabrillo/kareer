@@ -274,6 +274,7 @@ Framework7.prototype.plugins.kareer = function (app, params) {
                 var applicantData = JSON.parse(localStorage.getItem('applicant'));
                 var data = account.get(applicantData[0][0]);
                 account.settings(data);
+                account.updateSettings(data);
             }); 
             app.onPageInit('resume',function(page){
                 console.log('resume');
@@ -289,14 +290,6 @@ Framework7.prototype.plugins.kareer = function (app, params) {
             });
         },
         settings:function(data){
-            $("a[data-cmd='account-logout']").on('click',function(){
-                var data = $(this).data();
-                view.router.loadPage("pages/admin/"+data.load+".html");            
-            });
-            app.onPageInit('logout',function(page){
-                account.logout();
-            });
-
             $$("#display_email strong").html(data[3]);
             $$("#display_email a").attr({"data-node":data[0]});
             $$("#display_password strong").html("*******");
@@ -309,179 +302,177 @@ Framework7.prototype.plugins.kareer = function (app, params) {
             app.onPageInit('index',function(page){
                 account.ini();
             });
-            $("a[data-cmd='update']").on('click',function(){
-                var data = $(this).data();
-                view.router.loadPage("pages/admin/"+data.load+".html");
-                app.onPageInit('updateAccount',function(page){
-                    account.updateSettings(data);
-                });
-            });
+            account.logout();
         },
         logout:function(){
-            $("a[data-cmd='proceed']").on('click',function(){
-                console.log("uwian na");
-                localStorage.removeItem('applicant','');
-                localStorage.removeItem('applications','');
-                localStorage.removeItem('bookmarks','');
-                window.location.reload();
-            });
-            $("a.home").on('click',function(){
-                var data = $(this).data();
-                view.router.loadPage("pages/admin/"+data.load+".html");
-            });
-            app.onPageInit('settings',function(page){
-                var applicantData = JSON.parse(localStorage.getItem('applicant'));
-                var data = account.get(applicantData[0][0]);
-                account.settings(data);
-            });          
+            $("a[data-cmd='account-logout']").on('click',function(){
+                app.popup('.popup-logout');           
+                var content =   `<ul>
+                                    <li>
+                                        <h5 class = 'center'>Are you sure?
+                                        </h5>
+                                    </li>
+                                    <li>
+                                        <a href='#' class='btn close-popup waves-effect waves-teal waves-light btn btn-flat grey-text white'>Cancel</a>
+                                        <a data-cmd='proceed' class='waves-effect waves-teal waves-light btn btn-flat grey-text white'>Yes</a>
+                                    </li>
+                                </ul>`;
+                $("#logout").html(`<div class="card-content">${content}</div>`);
+                $("a[data-cmd='proceed']").on('click',function(){
+                    console.log("uwian na");
+                    localStorage.removeItem('applicant','');
+                    localStorage.removeItem('applications','');
+                    localStorage.removeItem('bookmarks','');
+                    window.location.reload();
+                }); 
+            });           
         },
         updateSettings:function(data){
-            var id = data.node;
-            if(data.prop == "Email"){
-                var content =   `<form action="" method="POST" id='form_edit'>
-                                    <div class="list-block">
-                                        <ul>
-                                            <li>
-                                                <div class="input-field" style="margin-top: 50px; !important">
-                                                    <label class="a" for='field_${data.prop}'>Email</label>
-                                                    <input type='text' id='field_${data.prop}' value = '${data.value}' name='field_${data.prop}' class=" form-control color-white">
-                                                </div>
-                                            </li>
-                                            <li>
-                                                <button class="btn teal waves-effect waves-teal waves-light" style="width: 100%; top: 20px;">Save</button>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                </form>`;
-                $("#update").html(content);       
-                $("#form_edit").validate({
-                    rules: {
-                        field_Email: {required: true,email:true,maxlength:100}
-                    },
-                    errorElement : 'div',
-                    errorPlacement: function(error, element) {
-                        var placement = $(element).data('error');
-                        if(placement){
-                            $(placement).append(error)
-                        } 
-                        else{
-                            error.insertAfter(element);
-                        }
-                    },
-                    submitHandler: function (form) {
-                        var _form = $(form).serializeArray();
-                        var data = system.ajax(processor+'do-update',[id,_form]);
-                        data.done(function(data){
-                            console.log(data);
-                            if(data != 0){
-                                system.notification("Update","Success. Please wait.",false,2000,true,false,function(){
-                                    view.router.loadPage("pages/admin/settings.html");
-                                    var newdata = account.get(id);
-                                    account.settings(newdata);
-                                    account.ini();
-                                });
-
-                            }
-                            else{
-                                system.notification("Update","Failed.",false,3000,true,false,false);
-                            }
-                        })
-                    }
-                });
-            }
-            if(data.prop == "Password"){
-                var content =   `<form action="" method="POST" id='form_edit'>
-                                    <div class="list-block">
-                                        <ul>
-                                            <li>
-                                                <div class="input-field" id="password" style="margin-top: 50px; !important">
-                                                    <input type='password' id='field_password' name='field_password' class=" form-control color-white">
-                                                    <a class="x btn btn-flat" data-cmd="showPassword" style="width: 0%;position: absolute; right: 0px; top: 50%; margin-top: -8px;"><i class="icon f7-icons color-teal">eye</i></a>
-                                                    <a class="y hidden btn btn-flat" data-cmd="hidePassword" style="width: 0%;position: absolute; right: 0px; top: 50%; margin-top: -8px;"><i class="icon f7-icons color-teal" style=''>eye</i></a>
-                                                    <label class="grey-text" for='field_password' style="font-size:18px;margin-top: -10px">Password</label>
-                                                </div>
-                                            </li>
-                                            <li>
-                                                <button class="btn teal waves-effect waves-teal waves-light" style="width: 100%; top: 20px;">Save</button>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                </form>`;
-                $("#update").html(content);       
-                $("#form_edit").validate({
-                    rules: {
-                        field_password: {required: true, maxlength: 50,checkPassword:true}
-                    },
-                    errorElement : 'div',
-                    errorPlacement: function(error, element) {
-                        var placement = $(element).data('error');
-                        if(placement){
-                            $(placement).append(error)
-                        } 
-                        else{
-                            error.insertAfter(element);
-                        }
-                    },
-                    submitHandler: function (form) {
-                        var _form = $(form).serializeArray();
-                        var data = system.ajax(processor+'do-update',[id,_form]);
-                        data.done(function(data){
-                            console.log(data);
-                            if(data != 0){
-                                system.notification("Update","Success. Please wait.",false,2000,true,false,function(){
-                                    view.router.loadPage("pages/admin/settings.html");
-                                    var newdata = account.get(id);
-                                    account.settings(newdata);
-                                    account.ini();
-                                });
-
-                            }
-                            else{
-                                system.notification("Update","Failed.",false,3000,true,false,false);
-                            }
-                        })
-                    }
-                });
-                $$("a[data-cmd='showPassword']").on('click',function(){
-                    $("#password input").attr({"type":"text"});
-                    $("a.x").addClass('hidden');
-                    $("a.y").removeClass('hidden');
-
-                }); 
-                $$("a[data-cmd='hidePassword']").on('click',function(){
-                    $("#password input").attr({"type":"password"});
-                    $("a.y").addClass('hidden');
-                    $("a.x").removeClass('hidden');
-
-                });
-            }
-            $("a.home").on('click',function(){
+            $("a[data-cmd='update']").on('click',function(){
+                app.popup('.popup-update');
                 var data = $(this).data();
-                view.router.loadPage("pages/admin/"+data.load+".html");
-            });
-            app.onPageInit('settings',function(page){
-                var applicantData = JSON.parse(localStorage.getItem('applicant'));
-                var data = account.get(applicantData[0][0]);
-                account.settings(data);
+                var id = data.node;
+                if(data.prop == "Email"){
+                    var content =   `<form action="" method="POST" id='form_edit'>
+                                        <div class="list-block">
+                                            <ul>
+                                                <li>
+                                                    <div class="input-field" style="margin-top: 50px; !important">
+                                                        <label class="a" for='field_${data.prop}'>Email</label>
+                                                        <input type='text' id='field_${data.prop}' value = '${data.value}' name='field_${data.prop}' class=" form-control color-white">
+                                                    </div>
+                                                </li>
+                                                <li>
+                                                    <button class="btn teal waves-effect waves-teal waves-light" style="width: 100%; top: 20px;">Save</button>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </form>`;
+                    $("#updateSettings").html(content);       
+                    $("#form_edit").validate({
+                        rules: {
+                            field_Email: {required: true,email:true,maxlength:100}
+                        },
+                        errorElement : 'div',
+                        errorPlacement: function(error, element) {
+                            var placement = $(element).data('error');
+                            if(placement){
+                                $(placement).append(error)
+                            } 
+                            else{
+                                error.insertAfter(element);
+                            }
+                        },
+                        submitHandler: function (form) {
+                            var _form = $(form).serializeArray();
+                            var data = system.ajax(processor+'do-update',[id,_form]);
+                            data.done(function(data){
+                                console.log(data);
+                                if(data != 0){
+                                    system.notification("Update","Success. Please wait.",false,2000,true,false,function(){
+                                        app.closeModal('.popup-update');
+                                        var newdata = account.get(id);
+                                        account.settings(newdata);
+                                        account.updateSettings(newdata);
+                                        account.ini();
+                                    });
+
+                                }
+                                else{
+                                    system.notification("Update","Failed.",false,3000,true,false,false);
+                                }
+                            })
+                        }
+                    });
+                }
+                if(data.prop == "Password"){
+                    var content =   `<form action="" method="POST" id='form_edit'>
+                                        <div class="list-block">
+                                            <ul>
+                                                <li>
+                                                    <div class="input-field" id="password" style="margin-top: 50px; !important">
+                                                        <input type='password' id='field_password' name='field_password' class=" form-control color-white">
+                                                        <a class="x btn btn-flat" data-cmd="showPassword" style="width: 0%;position: absolute; right: 0px; top: 50%; margin-top: -8px;"><i class="icon f7-icons color-teal">eye</i></a>
+                                                        <a class="y hidden btn btn-flat" data-cmd="hidePassword" style="width: 0%;position: absolute; right: 0px; top: 50%; margin-top: -8px;"><i class="icon f7-icons color-teal" style=''>eye</i></a>
+                                                        <label class="grey-text" for='field_password' style="font-size:18px;margin-top: -10px">Password</label>
+                                                    </div>
+                                                </li>
+                                                <li>
+                                                    <button class="btn teal waves-effect waves-teal waves-light" style="width: 100%; top: 20px;">Save</button>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </form>`;
+                    $("#updateSettings").html(content);       
+                    $("#form_edit").validate({
+                        rules: {
+                            field_password: {required: true, maxlength: 50,checkPassword:true}
+                        },
+                        errorElement : 'div',
+                        errorPlacement: function(error, element) {
+                            var placement = $(element).data('error');
+                            if(placement){
+                                $(placement).append(error)
+                            } 
+                            else{
+                                error.insertAfter(element);
+                            }
+                        },
+                        submitHandler: function (form) {
+                            var _form = $(form).serializeArray();
+                            var data = system.ajax(processor+'do-update',[id,_form]);
+                            data.done(function(data){
+                                console.log(data);
+                                if(data != 0){
+                                    system.notification("Update","Success. Please wait.",false,2000,true,false,function(){
+                                        app.closeModal('.popup-update');
+                                        var newdata = account.get(id);
+                                        account.settings(newdata);
+                                        account.updateSettings(newdata);
+                                        account.ini();
+                                    });
+
+                                }
+                                else{
+                                    system.notification("Update","Failed.",false,3000,true,false,false);
+                                }
+                            })
+                        }
+                    });
+                    $$("a[data-cmd='showPassword']").on('click',function(){
+                        $("#password input").attr({"type":"text"});
+                        $("a.x").addClass('hidden');
+                        $("a.y").removeClass('hidden');
+
+                    }); 
+                    $$("a[data-cmd='hidePassword']").on('click',function(){
+                        $("#password input").attr({"type":"password"});
+                        $("a.y").addClass('hidden');
+                        $("a.x").removeClass('hidden');
+
+                    });
+                }
             });
         },
         display:function(data){
             $("img.resume").attr({"src":"img/profile/"+data[24]});
-            var Ldata = language.get(data[0]);
+            var Ldata = language.getAll(data[0]);
             var L ="";
             $.each(Ldata,function(i,v){
                 L +=""+v[2]+", ";
             });
+            // console.log(L);
             var Skilldata = skills.getAll(data[0]);
             var skill ="";
             $.each(Skilldata,function(i,v){
                 skill +=""+v[2]+", ";
             });
+            // console.log(L);
             $$("#display_skills strong").html(skill);
-            $$("#display_skills a").attr({"data-value":data[2]});
+            // $$("#display_skills a").attr({"data-value":data[2]});
             $$("#display_skills a").attr({"data-node":data[0]});
             $$("#display_language strong").html(L);
-            $$("#display_language a").attr({"data-value":data[2]});
+            // $$("#display_language a").attr({"data-value":data[2]});
             $$("#display_language a").attr({"data-node":data[0]});
             $$("#display_givenName strong").html(data[7]);
             $$("#display_givenName a").attr({"data-value":data[7]});
@@ -548,14 +539,6 @@ Framework7.prototype.plugins.kareer = function (app, params) {
                 account.ini();
             });
 
-            // $("a.account").on('click',function(){
-            //     var data = $(this).data();
-            //     view.router.loadPage("pages/admin/"+data.load+".html");
-            //     app.onPageInit('Update',function(page){
-            //         account.edit(data);
-            //     });
-            // });
-
             $("a.next").on('click',function(){ 
                 var data = $(this).data('load');
                 view.router.loadPage("pages/admin/"+data+".html");
@@ -563,9 +546,6 @@ Framework7.prototype.plugins.kareer = function (app, params) {
                     career.ini();
                 });
             });
-            // app.onPageInit('builderCareer',function(page){
-            //     career.ini();
-            // });
         },
         get:function(id){
             var $data = "";
@@ -581,9 +561,7 @@ Framework7.prototype.plugins.kareer = function (app, params) {
             });
         },
         edit:function(data){
-            view.router.reloadPage("pages/admin/account.html");
             $("a[data-cmd='edit']").on('click',function(){
-                // app.popup('.popup-edit');
                 app.popup('.popup-edit');
                 var data = $(this).data();
                 var id = data.node;
@@ -635,7 +613,7 @@ Framework7.prototype.plugins.kareer = function (app, params) {
                                 if(data != 0){
                                     $$('input').val("");
                                     system.notification("Update","Success. Please wait.",false,2000,true,false,function(){
-                                        // view.router.loadPage("pages/admin/account.html");
+
                                         app.closeModal('.popup-edit');
                                         var newdata = account.get(id);
                                         account.edit(newdata);
@@ -2946,13 +2924,6 @@ Framework7.prototype.plugins.kareer = function (app, params) {
             $$("#display_level strong").html(s[0][3]);
             $$("#display_level a").attr({"data-node":s[0][0]});   
 
-            $("a.home").on('click',function(){
-                var data = $(this).data('load');
-                view.router.loadPage("pages/admin/"+data+".html");
-                app.onPageInit('builderAcademic',function(page){
-                    academic.ini();
-                });
-            });
             $$("a[data-cmd='back']").on('click',function(){
                 skills.ini();
                 $('div.display').removeClass('hidden');
@@ -3088,7 +3059,6 @@ Framework7.prototype.plugins.kareer = function (app, params) {
                 language.add(applicantData[0][0]);
             });
             language.show(list);
-            // skills.delete(list);
 
             $("a.home").on('click',function(){
                 var data = $(this).data('load');
@@ -3196,13 +3166,6 @@ Framework7.prototype.plugins.kareer = function (app, params) {
             $$("#display_level strong").html(l[0][3]);
             $$("#display_level a").attr({"data-node":l[0][0]});   
 
-            $("a.home").on('click',function(){
-                var data = $(this).data('load');
-                view.router.loadPage("pages/admin/"+data+".html");
-                app.onPageInit('builderAcademic',function(page){
-                    skills.ini();
-                });
-            });
             $$("a[data-cmd='back']").on('click',function(){
                 language.ini();
                 $('div.display').removeClass('hidden');
@@ -3327,14 +3290,13 @@ Framework7.prototype.plugins.kareer = function (app, params) {
                 });
             });
         }
-
     }
 
     let references = {
         ini:function(){
             var applicantData = JSON.parse(localStorage.getItem('applicant'));
-            var list = references.get(applicantData[0][0]);
-            $$("a[data-cmd='add-references']").on('click',function(){
+            var list = references.getAll(applicantData[0][0]);
+            $$("a[data-cmd='add-reference']").on('click',function(){
                 references.add(applicantData[0][0]);
             });
             references.show(list);
@@ -3351,30 +3313,22 @@ Framework7.prototype.plugins.kareer = function (app, params) {
         },
         get:function(id){
             var $data = "";
-            var jobs = system.ajax(processor+'get-references',id);
+            var jobs = system.ajax(processor+'get-reference',id);
+            jobs.done(function(data){
+                $data = data;
+            });
+            return JSON.parse($data);
+        },
+        getAll:function(id){
+            var $data = "";
+            var jobs = system.ajax(processor+'get-referencesAll',id);
             jobs.done(function(data){
                 $data = data;
             });
             return JSON.parse($data);
         },
         add:function(id){
-            $("a.references").addClass('hidden');
-            $("a.add").addClass('hidden');
-            $("div.list").addClass('hidden');
-            $("div.add").removeClass('hidden');
-            $("a.add").addClass('hidden');
-            $("a.goback").removeClass('hidden');
-            $("div.toolbar").addClass('hidden');
-
-
-            $("a.cancel").on('click',function(){
-                $("div.list").removeClass('hidden');
-                $("div.add").addClass('hidden');
-                $("a.references").removeClass('hidden');
-                $("a.add").removeClass('hidden');
-                $("div.toolbar").removeClass('hidden');
-            });
-
+            app.popup('.popup-reference');
             $("#form_references").validate({
                 rules: {
                     field_name: {required: true,maxlength:100},
@@ -3403,6 +3357,7 @@ Framework7.prototype.plugins.kareer = function (app, params) {
                         if(data != 0){
                             $$("input").val("");
                             system.notification("Kareer","References Added.",false,2000,true,false,function(){
+                                app.closeModal('.popup-reference');
                                 references.ini();
                             });
                         }
@@ -3418,19 +3373,30 @@ Framework7.prototype.plugins.kareer = function (app, params) {
             $.each(list,function(i,v){
                 content += "<li class='collection-item row'>"+
                             "   <div class='chip' style = 'width: 10%;'>"+
-                            "   <div class='chip-media bg-blue' style = 'width: 50px !important; height: 50px !important; font-size: 24px;'></div>"+
+                            "   <div class='chip-media bg-blue' style = 'width: 50px !important; height: 50px !important; font-size: 24px;'>"+v[2][0]+"</div>"+
                             "   </div>"+
                             "   <div class = 'col 33'>"+
                             "   <div class='title color-teal' ><strong class ='color-black'>"+v[2]+"</strong></div>"+
                             "   <div class ='color-teal' ><small class ='color-black'>"+v[7]+"</small></div>"+
                             "   </div>"+
-                            "   <a class='col 33 right btn btn-floating btn-flat waves-effect waves-teal waves-light' href='#' data-cmd='edit' data-node='"+v[0]+"'><i class='icon small f7-icons color-gray'>chevron_right</i></a>"+
+                            "   <a class='col 33 right btn btn-floating btn-flat waves-effect waves-teal waves-light' href='#' data-cmd='view' data-node='"+v[0]+"'><i class='icon small f7-icons color-gray'>chevron_right</i></a>"+
                             "</li>";
 
                     $("a.references").removeClass('disabled');
             });
             $$("#display_references").html("<ul class='collection'>"+content+"</ul");
-
+            $("a[data-cmd='view']").on('click',function(){
+                var data = $(this).data();
+                var id = data.node;
+                var r = references.get(id);
+                references.display(r);
+                references.edit(r);
+                $('div.display').addClass('hidden');
+                $('div.focus').removeClass('hidden');
+                $('.card-header a').addClass('hidden');
+                $('div.NAV ').addClass('hidden');
+                $('div.TOOL').addClass('hidden');
+            });
             $("a.references").on('click',function(){
                 var data = $(this).data('load');
                 view.router.loadPage("pages/admin/"+data+".html");
@@ -3439,12 +3405,392 @@ Framework7.prototype.plugins.kareer = function (app, params) {
                 seminar.ini();
             });
         },
+        display:function(r) {
+            $$("#display_name strong").html(r[0][2]);
+            $$("#display_name a").attr({"data-node":r[0][0]});
+            $$("#display_relationship strong").html(r[0][3]);
+            $$("#display_relationship a").attr({"data-node":r[0][0]});
+            $$("#display_profession strong").html(r[0][4]);
+            $$("#display_profession a").attr({"data-node":r[0][0]});
+            $$("#display_email strong").html(r[0][5]);
+            $$("#display_email a").attr({"data-node":r[0][0]});
+            $$("#display_phone strong").html(r[0][6]);
+            $$("#display_phone a").attr({"data-node":r[0][0]});
+            $$("#display_address strong").html(r[0][7]);
+            $$("#display_address a").attr({"data-node":r[0][0]}); 
+
+            $$("a[data-cmd='back']").on('click',function(){
+                references.ini();
+                $('div.display').removeClass('hidden');
+                $('div.focus').addClass('hidden');
+                $('.card-header a').removeClass('hidden');
+                $('div.NAV').removeClass('hidden');
+                $('div.TOOL').removeClass('hidden');
+            });
+            $$("a[data-cmd='delete']").on('click',function(){
+                references.delete(r);
+            });
+        },
+        delete:function(r){
+            var id = r[0][0];
+            app.popup('.popup-delete');
+            var content =   `<ul>
+                                <li>
+                                    <h5 class = 'center'>Are you sure?
+                                    </h5>
+                                </li>
+                                <li>
+                                    <a href='#' class='btn close-popup waves-effect waves-teal waves-light btn btn-flat grey-text white'>Cancel</a>
+                                    <a data-cmd='proceed' class='waves-effect waves-teal waves-light btn btn-flat grey-text white'>Yes</a>
+                                </li>
+                            </ul>`;
+            $("#deleteReference").html(`<div class="card-content">${content}</div>`);
+            $("a[data-cmd='proceed']").on('click',function(){
+                var acad = system.ajax(processor+'do-deleteReference',id);
+                acad.done(function(data){
+                    if(data != 0){
+                        system.notification("Kareer","Success. Please wait.",false,2000,true,false,function(){
+                            app.closeModal('.popup-delete');
+                            references.ini();
+                            $('div.display').removeClass('hidden');
+                            $('div.focus').addClass('hidden');
+                            $('.card-header a').removeClass('hidden');
+                            $('div.NAV').removeClass('hidden');
+                            $('div.TOOL').removeClass('hidden');
+                        });
+
+                    }
+                    else{
+                        system.notification("Kareer","Failed.",false,3000,true,false,false);
+                    }
+                });
+            });
+        },
+        edit:function(r){
+            $$("a[data-cmd='update']").on('click',function(){
+                var data = $(this).data();
+                var id = r[0][0];
+                app.popup('.popup-update');
+                if(data.prop == "Name"){
+                    var content =   `<form action="" method="POST" id='form_edit'>
+                                        <div class="list-block">
+                                            <ul>
+                                                <li>
+                                                    <div class="input-field">
+                                                        <input type='text' id="field_name" name="field_name" class="form-control">
+                                                        <label class="" for="field_name" style="color: black !important; top: -2px !important; left: 0px !important;">Name</label>
+                                                    </div>
+                                                </li>
+                                                <li>
+                                                    <button class="btn teal waves-effect waves-teal waves-light" style="width: 100%; top: 20px;">Save</button>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </form>`;
+                    $("#updateReference").html(content);
+                    $("#form_edit").validate({
+                        rules: {
+                            field_name: {required: true,maxlength:20},
+                        },
+                        errorElement : 'div',
+                        errorPlacement: function(error, element) {
+                            var placement = $(element).data('error');
+                            if(placement){
+                                $(placement).append(error)
+                            } 
+                            else{
+                                error.insertAfter(element);
+                            }
+                        },
+                        submitHandler: function (form) {
+                            var _form = $(form).serializeArray();
+                            var data = system.ajax(processor+'do-updateReference',[id,_form]);
+                            data.done(function(data){
+                                console.log(data);
+                                if(data != 0){
+                                    system.notification("Update","Success. Please wait.",false,2000,true,false,function(){
+                                        app.closeModal('.popup-update');
+                                        var newdata = references.get(id);
+                                        references.edit(newdata);
+                                        references.display(newdata);
+                                    });
+
+                                }
+                                else{
+                                    system.notification("Update","Failed.",false,3000,true,false,false);
+                                }
+                            })
+                        }
+                    });
+                }
+                else if(data.prop == "Relationship"){
+                    var content =   `<form action="" method="POST" id='form_edit'>
+                                        <div class="list-block">
+                                            <ul>
+                                                <li>
+                                                    <div class="input-field">
+                                                        <input type='text' id="field_relationship" name="field_relationship" class="form-control">
+                                                        <label class="" for="field_relationship" style="color: black !important; top: -2px !important; left: 0px !important;">Relationship</label>
+                                                    </div>
+                                                </li>
+                                                <li>
+                                                    <button class="btn teal waves-effect waves-teal waves-light" style="width: 100%; top: 20px;">Save</button>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </form>`;
+                    $("#updateReference").html(content);
+                    $("#form_edit").validate({
+                        rules: {
+                            field_relationship: {required: true,maxlength:20},
+                        },
+                        errorElement : 'div',
+                        errorPlacement: function(error, element) {
+                            var placement = $(element).data('error');
+                            if(placement){
+                                $(placement).append(error)
+                            } 
+                            else{
+                                error.insertAfter(element);
+                            }
+                        },
+                        submitHandler: function (form) {
+                            var _form = $(form).serializeArray();
+                            var data = system.ajax(processor+'do-updateReference',[id,_form]);
+                            data.done(function(data){
+                                console.log(data);
+                                if(data != 0){
+                                    system.notification("Update","Success. Please wait.",false,2000,true,false,function(){
+                                        app.closeModal('.popup-update');
+                                        var newdata = references.get(id);
+                                        references.edit(newdata);
+                                        references.display(newdata);
+                                    });
+
+                                }
+                                else{
+                                    system.notification("Update","Failed.",false,3000,true,false,false);
+                                }
+                            })
+                        }
+                    });
+                }
+                else if(data.prop == "Profession"){
+                    var content =   `<form action="" method="POST" id='form_edit'>
+                                        <div class="list-block">
+                                            <ul>
+                                                <li>
+                                                    <div class="input-field">
+                                                        <input type='text' id="field_profession" name="field_profession" class="form-control">
+                                                        <label class="" for="field_profession" style="color: black !important; top: -2px !important; left: 0px !important;">Profession</label>
+                                                    </div
+                                                </li>
+                                                <li>
+                                                    <button class="btn teal waves-effect waves-teal waves-light" style="width: 100%; top: 20px;">Save</button>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </form>`;
+                    $("#updateReference").html(content);
+                    $("#form_edit").validate({
+                        rules: {
+                            field_profession: {required: true,maxlength:20},
+                        },
+                        errorElement : 'div',
+                        errorPlacement: function(error, element) {
+                            var placement = $(element).data('error');
+                            if(placement){
+                                $(placement).append(error)
+                            } 
+                            else{
+                                error.insertAfter(element);
+                            }
+                        },
+                        submitHandler: function (form) {
+                            var _form = $(form).serializeArray();
+                            var data = system.ajax(processor+'do-updateReference',[id,_form]);
+                            data.done(function(data){
+                                console.log(data);
+                                if(data != 0){
+                                    system.notification("Update","Success. Please wait.",false,2000,true,false,function(){
+                                        app.closeModal('.popup-update');
+                                        var newdata = references.get(id);
+                                        references.edit(newdata);
+                                        references.display(newdata);
+                                    });
+
+                                }
+                                else{
+                                    system.notification("Update","Failed.",false,3000,true,false,false);
+                                }
+                            })
+                        }
+                    });
+                }
+                else if(data.prop == "Email"){
+                    var content =   `<form action="" method="POST" id='form_edit'>
+                                        <div class="list-block">
+                                            <ul>
+                                                <li>
+                                                    <div class="input-field">
+                                                        <input type='text' id="field_email" name="field_email" class="form-control">
+                                                        <label class="" for="field_email" style="color: black !important; top: -2px !important; left: 0px !important;">Email</label>
+                                                    </div>
+                                                </li>
+                                                <li>
+                                                    <button class="btn teal waves-effect waves-teal waves-light" style="width: 100%; top: 20px;">Save</button>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </form>`;
+                    $("#updateReference").html(content);
+                    $("#form_edit").validate({
+                        rules: {
+                            field_email: {required: true,maxlength:20},
+                        },
+                        errorElement : 'div',
+                        errorPlacement: function(error, element) {
+                            var placement = $(element).data('error');
+                            if(placement){
+                                $(placement).append(error)
+                            } 
+                            else{
+                                error.insertAfter(element);
+                            }
+                        },
+                        submitHandler: function (form) {
+                            var _form = $(form).serializeArray();
+                            var data = system.ajax(processor+'do-updateReference',[id,_form]);
+                            data.done(function(data){
+                                console.log(data);
+                                if(data != 0){
+                                    system.notification("Update","Success. Please wait.",false,2000,true,false,function(){
+                                        app.closeModal('.popup-update');
+                                        var newdata = references.get(id);
+                                        references.edit(newdata);
+                                        references.display(newdata);
+                                    });
+
+                                }
+                                else{
+                                    system.notification("Update","Failed.",false,3000,true,false,false);
+                                }
+                            })
+                        }
+                    });
+                }
+                else if(data.prop == "Phone"){
+                    var content =   `<form action="" method="POST" id='form_edit'>
+                                        <div class="list-block">
+                                            <ul>
+                                                <li>
+                                                    <div class="input-field">
+                                                        <input type='text' id="field_phone" name="field_phone" class="form-control">
+                                                        <label class="" for="field_phone" style="color: black !important; top: -2px !important; left: 0px !important;">Phone</label>
+                                                    </div>
+                                                </li>
+                                                <li>
+                                                    <button class="btn teal waves-effect waves-teal waves-light" style="width: 100%; top: 20px;">Save</button>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </form>`;
+                    $("#updateReference").html(content);
+                    $("#form_edit").validate({
+                        rules: {
+                            field_name: {required: true,maxlength:20},
+                        },
+                        errorElement : 'div',
+                        errorPlacement: function(error, element) {
+                            var placement = $(element).data('error');
+                            if(placement){
+                                $(placement).append(error)
+                            } 
+                            else{
+                                error.insertAfter(element);
+                            }
+                        },
+                        submitHandler: function (form) {
+                            var _form = $(form).serializeArray();
+                            var data = system.ajax(processor+'do-updateReference',[id,_form]);
+                            data.done(function(data){
+                                console.log(data);
+                                if(data != 0){
+                                    system.notification("Update","Success. Please wait.",false,2000,true,false,function(){
+                                        app.closeModal('.popup-update');
+                                        var newdata = references.get(id);
+                                        references.edit(newdata);
+                                        references.display(newdata);
+                                    });
+
+                                }
+                                else{
+                                    system.notification("Update","Failed.",false,3000,true,false,false);
+                                }
+                            })
+                        }
+                    });
+                }
+                else if(data.prop == "Address"){
+                    var content =   `<form action="" method="POST" id='form_edit'>
+                                        <div class="list-block">
+                                            <ul>
+                                                <li>
+                                                    <div class="input-field">
+                                                        <input type='text' id="field_address" name="field_address" class="form-control">
+                                                        <label class="" for="field_address" style="color: black !important; top: -2px !important; left: 0px !important;">Address</label>
+                                                    </div>
+                                                </li>
+                                                <li>
+                                                    <button class="btn teal waves-effect waves-teal waves-light" style="width: 100%; top: 20px;">Save</button>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </form>`;
+                    $("#updateReference").html(content);
+                    $("#form_edit").validate({
+                        rules: {
+                            field_address: {required: true,maxlength:20},
+                        },
+                        errorElement : 'div',
+                        errorPlacement: function(error, element) {
+                            var placement = $(element).data('error');
+                            if(placement){
+                                $(placement).append(error)
+                            } 
+                            else{
+                                error.insertAfter(element);
+                            }
+                        },
+                        submitHandler: function (form) {
+                            var _form = $(form).serializeArray();
+                            var data = system.ajax(processor+'do-updateReference',[id,_form]);
+                            data.done(function(data){
+                                console.log(data);
+                                if(data != 0){
+                                    system.notification("Update","Success. Please wait.",false,2000,true,false,function(){
+                                        app.closeModal('.popup-update');
+                                        var newdata = references.get(id);
+                                        references.edit(newdata);
+                                        references.display(newdata);
+                                    });
+
+                                }
+                                else{
+                                    system.notification("Update","Failed.",false,3000,true,false,false);
+                                }
+                            })
+                        }
+                    });
+                }
+            });
+        }
     }
 
     let seminar = {
         ini:function(){
             var applicantData = JSON.parse(localStorage.getItem('applicant'));
-            var list = seminar.get(applicantData[0][0]);
+            var list = seminar.getAll(applicantData[0][0]);
             $$("a[data-cmd='add-seminar']").on('click',function(){
                 seminar.add(applicantData[0][0]);
             });
@@ -3460,6 +3806,14 @@ Framework7.prototype.plugins.kareer = function (app, params) {
                 account.controller();
             });
         },
+        getAll:function(id){
+            var $data = "";
+            var jobs = system.ajax(processor+'get-seminarAll',id);
+            jobs.done(function(data){
+                $data = data;
+            });
+            return JSON.parse($data);
+        },
         get:function(id){
             var $data = "";
             var jobs = system.ajax(processor+'get-seminar',id);
@@ -3469,23 +3823,7 @@ Framework7.prototype.plugins.kareer = function (app, params) {
             return JSON.parse($data);
         },
         add:function(id){
-            $("a.seminar").addClass('hidden');
-            $("a.add").addClass('hidden');
-            $("div.list").addClass('hidden');
-            $("div.add").removeClass('hidden');
-            $("a.add").addClass('hidden');
-            $("a.goback").removeClass('hidden');
-            $("div.toolbar").addClass('hidden');
-
-
-            $("a.cancel").on('click',function(){
-                $("div.list").removeClass('hidden');
-                $("div.add").addClass('hidden');
-                $("a.seminar").removeClass('hidden');
-                $("a.add").removeClass('hidden');
-                $("div.toolbar").removeClass('hidden');
-            });
-
+            app.popup('.popup-seminar');
             $("#form_seminars").validate({
                 rules: {
                     field_event: {required: true,maxlength:100},
@@ -3510,6 +3848,7 @@ Framework7.prototype.plugins.kareer = function (app, params) {
                         if(data != 0){
                             $$("input").val("");
                             system.notification("Kareer","seminar Added.",false,2000,true,false,function(){
+                                app.closeModal('.popup-seminar');
                                 seminar.ini();
                             });
                         }
@@ -3520,24 +3859,35 @@ Framework7.prototype.plugins.kareer = function (app, params) {
                 }
             }); 
         },
-        show:function(list){
+        show:function(list){    
             var content = "";
             $.each(list,function(i,v){
                 content += "<li class='collection-item row'>"+
                             "   <div class='chip' style = 'width: 10%;'>"+
-                            "   <div class='chip-media bg-blue' style = 'width: 50px !important; height: 50px !important; font-size: 24px;'></div>"+
+                            "   <div class='chip-media bg-blue' style = 'width: 50px !important; height: 50px !important; font-size: 24px;'>"+v[2][0]+"</div>"+
                             "   </div>"+
                             "   <div class = 'col 33'>"+
                             "   <div class='title color-teal' ><strong class ='color-black'>"+v[2]+"</strong></div>"+
                             "   <div class ='color-teal' ><small class ='color-black'>"+v[3]+"</small></div>"+
                             "   </div>"+
-                            "   <a class='col 33 right btn btn-floating btn-flat waves-effect waves-teal waves-light' href='#' data-cmd='edit' data-node='"+v[0]+"'><i class='icon small f7-icons color-gray'>chevron_right</i></a>"+
+                            "   <a class='col 33 right btn btn-floating btn-flat waves-effect waves-teal waves-light' href='#' data-cmd='view' data-node='"+v[0]+"'><i class='icon small f7-icons color-gray'>chevron_right</i></a>"+
                             "</li>";
 
                     $("a.seminar").removeClass('disabled');
             });
             $$("#display_seminars").html("<ul class='collection'>"+content+"</ul");
-
+            $("a[data-cmd='view']").on('click',function(){
+                var data = $(this).data();
+                var id = data.node;
+                var s = seminar.get(id);
+                seminar.display(s);
+                seminar.edit(s);
+                $('div.display').addClass('hidden');
+                $('div.focus').removeClass('hidden');
+                $('.card-header a').addClass('hidden');
+                $('div.NAV ').addClass('hidden');
+                $('div.TOOL').addClass('hidden');
+            });
             $("a.seminar").on('click',function(){
                 var data = $(this).data('load');
                 view.router.loadPage("pages/admin/"+data+".html");
@@ -3546,6 +3896,224 @@ Framework7.prototype.plugins.kareer = function (app, params) {
                 resume.page();
             });
         },
+        display:function(s) {console.log(s);
+            $$("#display_event strong").html(s[0][2]);
+            $$("#display_event a").attr({"data-node":s[0][0]});
+            $$("#display_location strong").html(s[0][3]);
+            $$("#display_location a").attr({"data-node":s[0][0]});
+            $$("#display_date strong").html(s[0][4]);
+            $$("#display_date a").attr({"data-node":s[0][0]});
+
+            $$("a[data-cmd='back']").on('click',function(){
+                seminar.ini();
+                $('div.display').removeClass('hidden');
+                $('div.focus').addClass('hidden');
+                $('.card-header a').removeClass('hidden');
+                $('div.NAV').removeClass('hidden');
+                $('div.TOOL').removeClass('hidden');
+            });
+            $$("a[data-cmd='delete']").on('click',function(){
+                seminar.delete(s);
+            });
+        },
+        delete:function(s){
+            var id = s[0][0];
+            app.popup('.popup-delete');
+            var content =   `<ul>
+                                <li>
+                                    <h5 class = 'center'>Are you sure?
+                                    </h5>
+                                </li>
+                                <li>
+                                    <a href='#' class='btn close-popup waves-effect waves-teal waves-light btn btn-flat grey-text white'>Cancel</a>
+                                    <a data-cmd='proceed' class='waves-effect waves-teal waves-light btn btn-flat grey-text white'>Yes</a>
+                                </li>
+                            </ul>`;
+            $("#deleteSeminar").html(`<div class="card-content">${content}</div>`);
+            $("a[data-cmd='proceed']").on('click',function(){
+                var acad = system.ajax(processor+'do-deleteSeminar',id);
+                acad.done(function(data){
+                    if(data != 0){
+                        system.notification("Kareer","Success. Please wait.",false,2000,true,false,function(){
+                            app.closeModal('.popup-delete');
+                            seminar.ini();
+                            $('div.display').removeClass('hidden');
+                            $('div.focus').addClass('hidden');
+                            $('.card-header a').removeClass('hidden');
+                            $('div.NAV').removeClass('hidden');
+                            $('div.TOOL').removeClass('hidden');
+                        });
+
+                    }
+                    else{
+                        system.notification("Kareer","Failed.",false,3000,true,false,false);
+                    }
+                });
+            });
+        },
+        edit:function(s){
+            $$("a[data-cmd='update']").on('click',function(){
+                var data = $(this).data();
+                var id = s[0][0];
+                app.popup('.popup-update');
+                if(data.prop == "Event"){
+                    var content =   `<form action="" method="POST" id='form_edit'>
+                                        <div class="list-block">
+                                            <ul>
+                                                <li>
+                                                    <div class="input-field">
+                                                        <input type='text' id="field_event" name="field_event" class="form-control">
+                                                        <label class="" for="field_event" style="color: black !important; top: -2px !important; left: 0px !important;">Event</label>
+                                                    </div>
+                                                </li>
+                                                <li>
+                                                    <button class="btn teal waves-effect waves-teal waves-light" style="width: 100%; top: 20px;">Save</button>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </form>`;
+                    $("#updateSeminar").html(content);
+                    $("#form_edit").validate({
+                        rules: {
+                            field_event: {required: true,maxlength:20},
+                        },
+                        errorElement : 'div',
+                        errorPlacement: function(error, element) {
+                            var placement = $(element).data('error');
+                            if(placement){
+                                $(placement).append(error)
+                            } 
+                            else{
+                                error.insertAfter(element);
+                            }
+                        },
+                        submitHandler: function (form) {
+                            var _form = $(form).serializeArray();
+                            var data = system.ajax(processor+'do-updateSeminar',[id,_form]);
+                            data.done(function(data){
+                                console.log(data);
+                                if(data != 0){
+                                    system.notification("Update","Success. Please wait.",false,2000,true,false,function(){
+                                        app.closeModal('.popup-update');
+                                        var newdata = seminar.get(id);
+                                        seminar.edit(newdata);
+                                        seminar.display(newdata);
+                                    });
+
+                                }
+                                else{
+                                    system.notification("Update","Failed.",false,3000,true,false,false);
+                                }
+                            })
+                        }
+                    });
+                }
+                else if(data.prop == "Location"){
+                    var content =   `<form action="" method="POST" id='form_edit'>
+                                        <div class="list-block">
+                                            <ul>
+                                                <li>
+                                                    <div class="input-field">
+                                                        <input type='text' id="field_location" name="field_location" class="form-control">
+                                                        <label class="" for="field_location" style="color: black !important; top: -2px !important; left: 0px !important;">Location</label>
+                                                    </div>
+                                                </li>
+                                                <li>
+                                                    <button class="btn teal waves-effect waves-teal waves-light" style="width: 100%; top: 20px;">Save</button>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </form>`;
+                    $("#updateSeminar").html(content);
+                    $("#form_edit").validate({
+                        rules: {
+                            field_location: {required: true,maxlength:20},
+                        },
+                        errorElement : 'div',
+                        errorPlacement: function(error, element) {
+                            var placement = $(element).data('error');
+                            if(placement){
+                                $(placement).append(error)
+                            } 
+                            else{
+                                error.insertAfter(element);
+                            }
+                        },
+                        submitHandler: function (form) {
+                            var _form = $(form).serializeArray();
+                            var data = system.ajax(processor+'do-updateSeminar',[id,_form]);
+                            data.done(function(data){
+                                console.log(data);
+                                if(data != 0){
+                                    system.notification("Update","Success. Please wait.",false,2000,true,false,function(){
+                                        app.closeModal('.popup-update');
+                                        var newdata = seminar.get(id);
+                                        seminar.edit(newdata);
+                                        seminar.display(newdata);
+                                    });
+
+                                }
+                                else{
+                                    system.notification("Update","Failed.",false,3000,true,false,false);
+                                }
+                            })
+                        }
+                    });
+                }
+                else if(data.prop == "Date"){
+                    var content =   `<form action="" method="POST" id='form_edit'>
+                                        <div class="list-block">
+                                            <ul>
+                                                <li>
+                                                    <div class="input-field">
+                                                        <input type='date' id="field_date" name="field_date" class="form-control">
+                                                        <label class="active" for="field_date" style="color: black !important; top: -2px !important; left: 0px !important;">Date</label>
+                                                    </div>
+                                                </li>
+                                                <li>
+                                                    <button class="btn teal waves-effect waves-teal waves-light" style="width: 100%; top: 20px;">Save</button>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </form>`;
+                    $("#updateSeminar").html(content);
+                    $("#form_edit").validate({
+                        rules: {
+                            field_date: {required: true,maxlength:20},
+                        },
+                        errorElement : 'div',
+                        errorPlacement: function(error, element) {
+                            var placement = $(element).data('error');
+                            if(placement){
+                                $(placement).append(error)
+                            } 
+                            else{
+                                error.insertAfter(element);
+                            }
+                        },
+                        submitHandler: function (form) {
+                            var _form = $(form).serializeArray();
+                            var data = system.ajax(processor+'do-updateSeminar',[id,_form]);
+                            data.done(function(data){
+                                console.log(data);
+                                if(data != 0){
+                                    system.notification("Update","Success. Please wait.",false,2000,true,false,function(){
+                                        app.closeModal('.popup-update');
+                                        var newdata = seminar.get(id);
+                                        seminar.edit(newdata);
+                                        seminar.display(newdata);
+                                    });
+
+                                }
+                                else{
+                                    system.notification("Update","Failed.",false,3000,true,false,false);
+                                }
+                            })
+                        }
+                    });
+                }
+            });
+        }
     }
 
     let resume ={
@@ -3635,7 +4203,7 @@ Framework7.prototype.plugins.kareer = function (app, params) {
             var applicantData = JSON.parse(localStorage.getItem('applicant'));
             var personalInfo = account.get(applicantData[0][0]);
             // console.log(personalInfo);
-            var Ldata = language.get(personalInfo[0]);
+            var Ldata = language.getAll(personalInfo[0]);
             // console.log(Ldata);
             var L ="";
             $.each(Ldata,function(i,v){
@@ -3653,15 +4221,13 @@ Framework7.prototype.plugins.kareer = function (app, params) {
                                   "   <div >Father: <span class ='color-black'>"+personalInfo[19]+"</span></div>"+
                                   "   <div >Religion: <span class ='color-black'>"+personalInfo[21]+"</span></div>"+
                                   "   <div >Citizenship: <span class ='color-black'>"+personalInfo[15]+"</span></div>"+
-                                  // "</div>"+
-                                  // "<div class='col s6'>"+
                                   "   <div >Place of Birth: <span class ='color-black'>"+personalInfo[13]+"</span></div>"+
                                   "   <div >Gender: <span class ='color-black'>"+personalInfo[10]+"</span></div>"+
                                   "   <div >Mother's Occupation: <span class ='color-black'>"+personalInfo[22]+"</span></div>"+
                                   "   <div >Father's Occupation: <span class ='color-black'>"+personalInfo[23]+"</span></div>"+
                                   "   <div >Language: <span class ='color-black'>"+L+"</span></div>"+
-                                  "   <div >Height: <span class ='color-black'>"+personalInfo[14]+"</span></div>"+
-                                  "   <div >Weight: <span class ='color-black'>"+personalInfo[15]+"</span></div>"+
+                                  "   <div >Height: <span class ='color-black'>"+personalInfo[16]+"</span></div>"+
+                                  "   <div >Weight: <span class ='color-black'>"+personalInfo[17]+"</span></div>"+
                                   "</div>";
             $$("#display_personalInfo").html(personalcontent);
 
@@ -3684,7 +4250,7 @@ Framework7.prototype.plugins.kareer = function (app, params) {
             });
             $$("#display_career").html(carcontent);
 
-            var skill = skills.get(applicantData[0][0]);
+            var skill = skills.getAll(applicantData[0][0]);
             var skillcontent = "";
             $.each(skill,function(i,v){
                 skillcontent += "   <span class='title'><strong class ='color-black'>"+v[2]+"</strong></span>"+
@@ -3692,7 +4258,7 @@ Framework7.prototype.plugins.kareer = function (app, params) {
             });
             $$("#display_skills").html(skillcontent);
 
-            var sem = seminar.get(applicantData[0][0]);
+            var sem = seminar.getAll(applicantData[0][0]);
             var semcontent = "";
             $.each(sem,function(i,v){
                 semcontent +=  "<span class='title'><strong class ='color-black'>"+v[2]+"</strong></span>"+
@@ -3701,7 +4267,7 @@ Framework7.prototype.plugins.kareer = function (app, params) {
             });
             $$("#display_seminar").html(semcontent);
 
-            var reference = references.get(applicantData[0][0]);
+            var reference = references.getAll(applicantData[0][0]);
             var refcontent = "";
             $.each(reference,function(i,v){
                 refcontent += "   <span class='title'><strong class ='color-black'>"+v[2]+"</strong></span>"+
@@ -3710,83 +4276,82 @@ Framework7.prototype.plugins.kareer = function (app, params) {
                               "   <div><span class ='color-black'>"+v[7]+"</span></div>";
             });
             $$("#display_references").html(refcontent);
-            $("a.print").on('click',function(){
-                var toPrint = document.getElementById('Preview');
-
-                var popupWin = window.open('', '_blank', 'width=350,height=150,location=no,left=200px');
-
-                popupWin.document.open();
-
-                popupWin.document.write('<html><title>::Print Preview::</title><link rel="stylesheet" type="text/css" href="Print.css" media="screen"/></head><body">')
-
-                popupWin.document.write(toPrint.innerHTML);
-
-                popupWin.document.write('</html>');
-
-                popupWin.document.close();
+            var doc = new jsPDF();
+            $("a.Publish").on('click',function(){
+                doc.fromHTML($('#Preview').html(), 15, 15, {
+                    'width':170,
+                    'elementHandlers': specialElementHandlers
+                });
+                doc.save('resume.pdf');
             });
 
+             // doc.fromHTML($('#Preview')).html(),
+             //        'width':170,
+             //            'elementHandlers': specialElementHandlers
+             //    });
+             //    doc.save('sample-file.pdf');
+
             //PDF generation function
-            (function () {  
-                var  
-                 form = $('.list-block'),  
-                 cache_width = form.width(),  
-                 legal = [595.28, 975]; // for legal size paper width and height  
+            // (function () {  
+            //     var  
+            //      form = $('.list-block'),  
+            //      cache_width = form.width(),  
+            //      legal = [595.28, 975]; // for legal size paper width and height  
           
-                $('#create_pdf').on('click', function () {  
-                    $('body').scrollTop(0);  
-                    var data = $(this).data('load');
-                    view.router.loadPage("pages/admin/"+data+".html");
-                    createPDF();
-                    upload();
+            //     $('#create_pdf').on('click', function () {  
+            //         $('body').scrollTop(0);  
+            //         var data = $(this).data('load');
+            //         view.router.loadPage("pages/admin/"+data+".html");
+            //         createPDF();
+            //         upload();
 
-                });  
-                //create pdf  
-                function createPDF() {  
-                    getCanvas().then(function (canvas) {  
-                        var  
-                         img = canvas.toDataURL("image/png"),  
-                         doc = new jsPDF({  
-                             unit: 'px',  
-                             format: 'legal'  
-                         });  
-                        doc.addImage(img, 'JPEG', 3, 3);  
-                        doc.save('resume.pdf');
-                        form.width(cache_width);
-                    });  
-                }  
+            //     });  
+            //     //create pdf  
+            //     function createPDF() {  
+            //         getCanvas().then(function (canvas) {  
+            //             var  
+            //              img = canvas.toDataURL("image/png"),  
+            //              doc = new jsPDF({  
+            //                  unit: 'px',  
+            //                  format: 'legal'  
+            //              });  
+            //             doc.addImage(img, 'JPEG', 3, 3);  
+            //             doc.save('resume.pdf');
+            //             form.width(cache_width);
+            //         });  
+            //     }  
           
-                // create canvas object  
-                function getCanvas() {  
-                    form.width((legal[0] * 1.33333) - 80).css('max-width', 'none');  
-                    return html2canvas(form, {  
-                        imageTimeout: 1000,  
-                        removeContainer: true  
-                    });  
-                }  
-                function upload(){
-                    var doc = new jsPDF();
-                    var pdf = doc.output(); 
-                    var ajax = system.ajax(processor+'do-resume',[applicantData[0][0],pdf]);
-                    ajax.done(function(data){
-                        console.log(data);
-                        if(data != 0){
-                            system.notification("Kareer","Resume Published.",false,2000,true,false,function(){
-                                 app.onPageInit('index',function(page){
-                                    content.ini();
-                                });
-                            });
-                            // console.log(data);
-                        }
-                        else{
-                           system.notification("Kareer","Failed.",false,3000,true,false,false);
-                            // console.log(data);
-                        }
-                    });
-                }    
+            //     // create canvas object  
+            //     function getCanvas() {  
+            //         form.width((legal[0] * 1.33333) - 80).css('max-width', 'none');  
+            //         return html2canvas(form, {  
+            //             imageTimeout: 1000,  
+            //             removeContainer: true  
+            //         });  
+            //     }  
+            //     function upload(){
+            //         var doc = new jsPDF();
+            //         var pdf = doc.output(); 
+            //         var ajax = system.ajax(processor+'do-resume',[applicantData[0][0],pdf]);
+            //         ajax.done(function(data){
+            //             console.log(data);
+            //             if(data != 0){
+            //                 system.notification("Kareer","Resume Published.",false,2000,true,false,function(){
+            //                      app.onPageInit('index',function(page){
+            //                         content.ini();
+            //                     });
+            //                 });
+            //                 // console.log(data);
+            //             }
+            //             else{
+            //                system.notification("Kareer","Failed.",false,3000,true,false,false);
+            //                 // console.log(data);
+            //             }
+            //         });
+            //     }    
 
 
-            }());  
+            // }());  
         }
     }
 
@@ -4442,6 +5007,7 @@ Framework7.prototype.plugins.kareer = function (app, params) {
                     var _form = $(form).serializeArray();
                     var data = system.ajax(processor+'do-searchJob',[_form[0],range.noUiSlider.get(),_form[1]]);
                     data.done(function(data){
+                        console.log(data);
                         view.router.loadPage("pages/admin/jobs.html");
                         var applicant = JSON.parse(localStorage.getItem('applicant'));
                         var appliedList = jobs.applied(applicant[0][0]);
