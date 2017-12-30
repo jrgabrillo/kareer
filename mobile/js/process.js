@@ -7,36 +7,34 @@ Framework7.prototype.plugins.kareer = function (app, params) {
     var self = this;
     // var processor = 'http://192.168.1.20/kareer/assets/harmony/mobile.php?';
     // var processor = 'http://localhost/KApp/www/harmony/mobile.php?';
+    // var processor = 'http://localhost/kareer/mobile/harmony/mobile.php?';
     var processor = 'http://localhost/kareer/mobile/harmony/mobile.php?';
     // var processor = 'http://kareerserver.rnrdigitalconsultancy.com/assets/harmony/mobile.php?';
     var directory = '/';
-    var $$ = Dom7;  
+    var $$ = Dom7;
     var view = app.addView('.view-main');
-
 
     var system = {
         ini:function(){
-            //FB
-            // window.fbAsyncInit = function() {
-            //     FB.init({
-            //       appId      : '134413893925132',
-            //       cookie     : true,
-            //       xfbml      : true,
-            //       version    : 'v2.11'
-            //     });
-                  
-            //     FB.AppEvents.logPageView();   
-                  
-            //   };
+            
+            (function(d, s, id) {
+                var js, fjs = d.getElementsByTagName(s)[0];
+                if (d.getElementById(id)) return;
+                js = d.createElement(s); js.id = id;
+                js.src = "https://connect.facebook.net/en_US/sdk.js";
+                fjs.parentNode.insertBefore(js, fjs);
+            }(document, 'script', 'facebook-jssdk'));
 
-            //   (function(d, s, id){
-            //      var js, fjs = d.getElementsByTagName(s)[0];
-            //      if (d.getElementById(id)) {return;}
-            //      js = d.createElement(s); js.id = id;
-            //      js.src = "https://connect.facebook.net/en_US/sdk.js";
-            //      fjs.parentNode.insertBefore(js, fjs);
-            //    }(document, 'script', 'facebook-jssdk'));
-        
+            window.fbAsyncInit = function() {
+                FB.init({
+                    appId      : '2045233702379585',
+                    cookie     : true,  // enable cookies to allow the server to access 
+                                        // the session
+                    xfbml      : true,  // parse social plugins on this page
+                    version    : 'v2.11' // use graph api version 2.8
+                });
+            }
+
             // var deviceSize = system.getDeviceSize();
             // console.log(deviceSize);
             logIn.ini();
@@ -95,7 +93,7 @@ Framework7.prototype.plugins.kareer = function (app, params) {
         },
         xml:function(url){
             return $.ajax({
-                type: "POST",
+                type: "GET",
                 url: url,
                 dataType: 'xml',
                 async: !1,
@@ -212,6 +210,7 @@ Framework7.prototype.plugins.kareer = function (app, params) {
             var applicantData = JSON.parse(localStorage.getItem('applicant'));
             var data = account.get(applicantData[0][0]);
             jobs.bookmarked(applicantData[0][0]);
+            account.updatePicture(data);
             $("#index img.responsive-img").attr({"src":"img/profile/"+data[24]});
             var content = "<div class='content-block'>"+
                             "    <p class='color-gray'><h5>"+data[7]+" "+data[8]+"</h5></p>"+
@@ -219,24 +218,24 @@ Framework7.prototype.plugins.kareer = function (app, params) {
                             "<div class='content-block'>"+
                             "    <div class='row rows'>"+
                             "        <div class='col-33'>"+
-                            "            <a data-load='account'  class='account btn-floating btn-large waves-effect waves-light waves-teal grey lighten-4 btn-flat'><i class='icon f7-icons color-gray' style='font-size: 30px; margin-top: 6px;'>person</i></a><div class='grey-text' style = 'font-size: xx-small'>ACCOUNT</div>"+
+                            "            <a data-load='account'  class='account btn-floating btn-large waves-effect waves-light waves-teal grey lighten-3 btn-flat'><i class='icon f7-icons color-gray' style='font-size: 30px; margin-top: 6px;color:grey;'>person</i></a><div class='grey-text' style = 'font-size: xx-small;color'>ACCOUNT</div>"+
                             "        </div>"+
                             "        <div class='col-33'>"+
-                            "            <a data-load='career' class='account btn-floating btn-large waves-effect waves-light waves-teal grey lighten-4 btn-flat'><i class='icon f7-icons color-gray' style='font-size: 30px; margin-top: 6px;'>briefcase_fill</i></a><div class='grey-text' style = 'font-size: xx-small'>CAREER</div>"+
+                            "            <a data-load='career' class='account btn-floating btn-large waves-effect waves-light waves-teal grey lighten-3 btn-flat'><i class='icon f7-icons color-gray' style='font-size: 30px; margin-top: 6px;color:grey;'>briefcase_fill</i></a><div class='grey-text' style = 'font-size: xx-small;color'>CAREER</div>"+
                             "        </div>"+
                             "        <div class='col-33'>"+
-                            "            <a data-load='academic' class='account btn-floating btn-large waves-effect waves-light waves-teal grey lighten-4 btn-flat'><i class='icon f7-icons color-gray' style='font-size: 30px; margin-top: 6px;'>folder_fill</i></a><div class='grey-text' style = 'font-size: xx-small'>ACADEMIC</div>"+
+                            "            <a data-load='academic' class='account btn-floating btn-large waves-effect waves-light waves-teal grey lighten-3 btn-flat'><i class='icon f7-icons color-gray' style='font-size: 30px; margin-top: 6px;color:grey;'>folder_fill</i></a><div class='grey-text' style = 'font-size: xx-small;color'>ACADEMIC</div>"+
                             "        </div>"+
                             "    </div>"+
                             "    <div class='row rows'>"+
                             "        <div class='col-33'>"+
-                            "            <a data-load='bookmarks' class='account btn-floating btn-large waves-effect waves-light waves-teal grey lighten-4 btn-flat'><i class='icon f7-icons color-gray' style='font-size: 30px; margin-top: 6px;'>bookmark_fill</i></a><div class='grey-text' style = 'font-size: xx-small'>BOOKMARKS</div>"+
+                            "            <a data-load='bookmarks' class='account btn-floating btn-large waves-effect waves-light waves-teal grey lighten-3 btn-flat'><i class='icon f7-icons color-gray' style='font-size: 30px; margin-top: 6px;color:grey;'>bookmark_fill</i></a><div class='grey-text' style = 'font-size: xx-small;color'>BOOKMARKS</div>"+
                             "        </div>"+
                             "        <div class='col-33'>"+
-                            "            <a data-load='settings' class=' account btn-floating btn-large waves-effect waves-light waves-teal grey lighten-4 btn-flat'><i class='icon f7-icons color-gray' style='font-size: 30px; margin-top: 6px;'>gear_fill</i></a><div class='grey-text' style = 'font-size: xx-small'>SETTINGS</div>"+
+                            "            <a data-load='' class='account btn-floating btn-large waves-effect waves-light waves-teal grey lighten-3 btn-flat'><i class='icon f7-icons color-gray' style='font-size: 30px; margin-top: 6px;color:grey;'>gear_fill</i></a><div class='grey-text' style = 'font-size: xx-small;color'>SETTINGS</div>"+
                             "        </div>"+
                             "        <div class='col-33'>"+
-                            "            <a href='pages/admin/resume.html' class=' btn-floating btn-large waves-effect waves-light waves-teal grey lighten-4 btn-flat'><i class='icon f7-icons color-gray' style='font-size: 30px; margin-top: 6px;'>document_text_fill</i></a><div class='grey-text' style = 'font-size: xx-small'>RESUME</div>"+
+                            "            <a data-load='resume' class='account btn-floating btn-large waves-effect waves-light waves-teal grey lighten-3 btn-flat'><i class='icon f7-icons color-gray' style='font-size: 30px; margin-top: 6px;color:grey;'>document_text_fill</i></a><div class='grey-text' style = 'font-size: xx-small;color'>RESUME</div>"+
                             "      </div>"+
                             "    </div>"+
                             "</div>";
@@ -246,173 +245,51 @@ Framework7.prototype.plugins.kareer = function (app, params) {
                 var data = $(this).data('load');
                 view.router.loadPage("pages/admin/"+data+".html");
             });
-            app.onPageInit('academic',function(page){
-                console.log('page');
-                academic.ini();
-            }); 
-            // app.onPageInit('resume',function(page){
-            //     console.log('page'); 
-            //     resume.ini();
-
-            // });
-
-            app.onPageInit('bookmarks',function(page){
-                // console.log(page);
-                var applicant  = JSON.parse(localStorage.getItem('applicant'));
-                var bookmarkedList = jobs.getBookmarked(applicant[0][0]);
-                jobs.show(bookmarkedList);
-                // console.log(bookmarkedList);
-            });       
 
             app.onPageInit('account',function(page){
-                console.log('page');
+                console.log('account');
+                view.router.reloadPage("pages/admin/account.html");
                 var applicantData = JSON.parse(localStorage.getItem('applicant'));
                 var data = account.get(applicantData[0][0]);
-                // account.account(data);
-                account.edit(data);
                 account.display(data);
-                account.show(data);
-            });
-            app.onPageInit('settings',function(page){
-                console.log('page');
-                var applicantData = JSON.parse(localStorage.getItem('applicant'));
-                var data = account.get(applicantData[0][0]);
-                account.settings(data);
+                account.edit(data);
             });
 
             app.onPageInit('career',function(page){
-                console.log('page');
+                console.log('career');
                 career.ini();
             });
-             
+            app.onPageInit('academic',function(page){
+                console.log('academic');
+                academic.ini();
+            });
+            app.onPageInit('bookmarks',function(page){
+                console.log('bookmarks');
+                var applicant  = JSON.parse(localStorage.getItem('applicant'));
+                var bookmarkedList = jobs.getBookmarked(applicant[0][0]);
+                jobs.show(bookmarkedList);
+            });
+            app.onPageInit('settings',function(page){
+                console.log('settings');
+                var applicantData = JSON.parse(localStorage.getItem('applicant'));
+                var data = account.get(applicantData[0][0]);
+                account.settings(data);
+                account.updateSettings(data);
+            }); 
+            app.onPageInit('resume',function(page){
+                console.log('resume');
+                resume.ini();
 
-            var picture = "img/profile/profile.png";
-            $$('.open-edit').on('click', function () {
-                app.popup('.popup-edit');
-                var content =   "<div class='card-content'>"+
-                                "<div class=' center image-crop'>"+
-                                "   <img class='circle responsive-img' style='width: 145px; height: 145px; border:2px; border-style: solid; border-color: #2b9c9b' src='"+picture+"'>"+
-                                "</div>"+
-                                "<div class='center btn-group'>"+
-                                "<label for='inputImage' class='btn-flat btn-xs btn-primary'>"+
-                                "   <input type='file' accept='image/*' name='file' id='inputImage' class='hide'>"+
-                                "   <i class='icon f7-icons'>add_round</i>"+
-                                "</label>"+
-                                "<button class='btn-flat btn-warning btn-xs close-popup' data-load='index' data-cmd='cancel' type='button'>"+
-                                "   <i class='icon f7-icons'>close_round</i>"+
-                                "</button>"+
-                                "<button class='btn-flat btn-info btn-xs hidden' data-cmd='rotate' data-option='-90' type='button' title='Rotate Left'>"+
-                                "   <i class='icon f7-icons'>undo</i>"+
-                                "</button>"+
-                                "<button class='btn-flat btn-info btn-xs hidden' data-cmd='rotate' data-option='90' type='button' title='Rotate Right'>"+
-                                "   <i class='icon f7-icons'>redo</i>"+
-                                "</button>"+
-                                "<button class='btn-flat btn-danger btn-xs hidden' data-cmd='save' type='button'>"+
-                                "   <i class='icon f7-icons'>check</i>"+
-                                "</button>"+
-                                "</div>"+
-                                "</div>";
-                                console.log("sdsd");
-                $("#profile_picture2").html(content);
-                $('.tooltipped').tooltip({delay: 50});
-              
-                var $inputImage = $("#inputImage");
-                if(window.FileReader){
-                    $inputImage.change(function() {
-                        var fileReader = new FileReader(),
-                                files = this.files,
-                                file;
-
-                        file = files[0];
-
-                        if (/^image\/\w+$/.test(file.type)) {
-                            fileReader.readAsDataURL(file);
-                            fileReader.onload = function () {
-                                $inputImage.val("");
-
-                                var $image = $(".image-crop > img")
-                                $($image).cropper({
-                                    aspectRatio: 1/1,
-                                    autoCropArea: 0.80,
-                                    preview: ".avatar-preview",
-                                    built: function () {
-                                        $("button[data-cmd='save']").removeClass('hidden');
-                                        $("button[data-cmd='rotate']").removeClass('hidden');
-                                        $("button[data-cmd='save']").click(function(){                                          
-                                            $(this).html('Loading..').addClass('disabled');
-                                            var ajax = system.ajax(processor+'do-update-image',[data[0],$image.cropper("getDataURL")]);
-                                            ajax.done(function(data){
-                                                console.log(data);
-                                                if(data == 1){
-                                                    system.notification("Update","Success. Please wait.",false,2000,true,false,function(){
-                                                        app.closeModal('.popup-edit', true);
-                                                        account.ini();
-                                                    });
-                                                    // console.log(data);
-                                                }
-                                                else{
-                                                   system.notification("Update","Failed.",false,3000,true,false,false);
-                                                    // console.log(data);
-                                                }
-                                            });
-                                        });
-                                    }
-                                });
-
-                                $image.cropper("reset", true).cropper("replace", this.result);
-
-                                $("button[data-cmd='rotate']").click(function(){
-                                    var data = $(this).data('option');
-                                    $image.cropper('rotate', data);
-                                });
-                            };
-                        }
-                        else{
-                            showMessage("Please choose an image file.");
-                        }
-                    });
-                }
-                else{
-                    $inputImage.addClass("hide");
-                }
-                $("button[data-cmd='cancel']").click(function(){
-                    app.onPageInit('index',function(page){
-                        console.log('index');
-                        account.ini();
-                    });
-                });
             });
         }, 
-        controller:function(data){
-            $$(".card-header a").on('click',function(){
-                console.log(data);
-                $("a").removeClass('color-teal').addClass('color-gray');
-                $(this).removeClass('color-gray').addClass('color-teal');
+        controller:function(){
+            $$(".account a").on('click',function(){
+                var data = $(this).data('load');
+                view.router.loadPage("pages/admin/"+data+".html");
+                return data;
             });
         },
         settings:function(data){
-            $("a[data-cmd='account-logout']").on('click',function(){
-                app.popup('.popup-logout');
-                var content =   "        <ul>"+
-                                "            <li>"+
-                                "                <h5 class = 'center'>Are you sure?"+
-                                "                </h5>"+
-                                "            </li>"+
-                                "            <li>"+
-                                "                <a href='#' class='close-popup btn waves-effect waves-teal waves-light btn btn-flat grey-text white'>No</a>"+
-                                "                <a data-cmd='proceed' class='waves-effect waves-teal waves-light btn btn-flat grey-text white'>Yes</a>"+
-                                "            </li>"+
-                                "        </ul>";
-                $("#logoutPopup").html(content);
-                $("a[data-cmd='proceed']").on('click',function(){
-                    console.log("uwian na");
-                    localStorage.removeItem('applicant','');
-                    localStorage.removeItem('applications','');
-                    localStorage.removeItem('bookmarks','');
-                    window.location.reload();
-                });                
-            });
-
             $$("#display_email strong").html(data[3]);
             $$("#display_email a").attr({"data-node":data[0]});
             $$("#display_password strong").html("*******");
@@ -422,10 +299,37 @@ Framework7.prototype.plugins.kareer = function (app, params) {
                 var data = $(this).data('load');
                 view.router.loadPage("pages/admin/"+data+".html");
             });
-            app.onPageBack('index',function(page){
+            app.onPageInit('index',function(page){
                 account.ini();
             });
-            $("a[data-cmd='edit']").on('click',function(){
+            account.logout();
+        },
+        logout:function(){
+            $("a[data-cmd='account-logout']").on('click',function(){
+                app.popup('.popup-logout');           
+                var content =   `<ul>
+                                    <li>
+                                        <h5 class = 'center'>Are you sure?
+                                        </h5>
+                                    </li>
+                                    <li>
+                                        <a href='#' class='btn close-popup waves-effect waves-teal waves-light btn btn-flat grey-text white'>Cancel</a>
+                                        <a data-cmd='proceed' class='waves-effect waves-teal waves-light btn btn-flat grey-text white'>Yes</a>
+                                    </li>
+                                </ul>`;
+                $("#logout").html(`<div class="card-content">${content}</div>`);
+                $("a[data-cmd='proceed']").on('click',function(){
+                    console.log("uwian na");
+                    localStorage.removeItem('applicant','');
+                    localStorage.removeItem('applications','');
+                    localStorage.removeItem('bookmarks','');
+                    window.location.reload();
+                }); 
+            });           
+        },
+        updateSettings:function(data){
+            $("a[data-cmd='update']").on('click',function(){
+                app.popup('.popup-update');
                 var data = $(this).data();
                 var id = data.node;
                 if(data.prop == "Email"){
@@ -433,7 +337,7 @@ Framework7.prototype.plugins.kareer = function (app, params) {
                                         <div class="list-block">
                                             <ul>
                                                 <li>
-                                                    <div class="input-field" style="margin-top: 50px; !importan">
+                                                    <div class="input-field" style="margin-top: 50px; !important">
                                                         <label class="a" for='field_${data.prop}'>Email</label>
                                                         <input type='text' id='field_${data.prop}' value = '${data.value}' name='field_${data.prop}' class=" form-control color-white">
                                                     </div>
@@ -444,10 +348,7 @@ Framework7.prototype.plugins.kareer = function (app, params) {
                                             </ul>
                                         </div>
                                     </form>`;
-                    $("#editpopup").html(content);
-                    if(data.value != ""){
-                        $('label.a').addClass("active");
-                    }               
+                    $("#updateSettings").html(content);       
                     $("#form_edit").validate({
                         rules: {
                             field_Email: {required: true,email:true,maxlength:100}
@@ -469,9 +370,10 @@ Framework7.prototype.plugins.kareer = function (app, params) {
                                 console.log(data);
                                 if(data != 0){
                                     system.notification("Update","Success. Please wait.",false,2000,true,false,function(){
-                                        app.closeModal('.popup-edit', true);
+                                        app.closeModal('.popup-update');
                                         var newdata = account.get(id);
                                         account.settings(newdata);
+                                        account.updateSettings(newdata);
                                         account.ini();
                                     });
 
@@ -488,7 +390,7 @@ Framework7.prototype.plugins.kareer = function (app, params) {
                                         <div class="list-block">
                                             <ul>
                                                 <li>
-                                                    <div class="input-field" id="password" style="margin-top: 50px; !importan">
+                                                    <div class="input-field" id="password" style="margin-top: 50px; !important">
                                                         <input type='password' id='field_password' name='field_password' class=" form-control color-white">
                                                         <a class="x btn btn-flat" data-cmd="showPassword" style="width: 0%;position: absolute; right: 0px; top: 50%; margin-top: -8px;"><i class="icon f7-icons color-teal">eye</i></a>
                                                         <a class="y hidden btn btn-flat" data-cmd="hidePassword" style="width: 0%;position: absolute; right: 0px; top: 50%; margin-top: -8px;"><i class="icon f7-icons color-teal" style=''>eye</i></a>
@@ -501,10 +403,7 @@ Framework7.prototype.plugins.kareer = function (app, params) {
                                             </ul>
                                         </div>
                                     </form>`;
-                    $("#editpopup").html(content);
-                    if(data.value != ""){
-                        $('label.a').addClass("active");
-                    }               
+                    $("#updateSettings").html(content);       
                     $("#form_edit").validate({
                         rules: {
                             field_password: {required: true, maxlength: 50,checkPassword:true}
@@ -526,9 +425,10 @@ Framework7.prototype.plugins.kareer = function (app, params) {
                                 console.log(data);
                                 if(data != 0){
                                     system.notification("Update","Success. Please wait.",false,2000,true,false,function(){
-                                        app.closeModal('.popup-edit', true);
+                                        app.closeModal('.popup-update');
                                         var newdata = account.get(id);
                                         account.settings(newdata);
+                                        account.updateSettings(newdata);
                                         account.ini();
                                     });
 
@@ -553,17 +453,26 @@ Framework7.prototype.plugins.kareer = function (app, params) {
                     });
                 }
             });
-
         },
         display:function(data){
             $("img.resume").attr({"src":"img/profile/"+data[24]});
-            var Ldata = language.get(data[0]);
+            var Ldata = language.getAll(data[0]);
             var L ="";
             $.each(Ldata,function(i,v){
                 L +=""+v[2]+", ";
             });
+            // console.log(L);
+            var Skilldata = skills.getAll(data[0]);
+            var skill ="";
+            $.each(Skilldata,function(i,v){
+                skill +=""+v[2]+", ";
+            });
+            // console.log(L);
+            $$("#display_skills strong").html(skill);
+            // $$("#display_skills a").attr({"data-value":data[2]});
+            $$("#display_skills a").attr({"data-node":data[0]});
             $$("#display_language strong").html(L);
-            $$("#display_language a").attr({"data-value":data[2]});
+            // $$("#display_language a").attr({"data-value":data[2]});
             $$("#display_language a").attr({"data-node":data[0]});
             $$("#display_givenName strong").html(data[7]);
             $$("#display_givenName a").attr({"data-value":data[7]});
@@ -613,24 +522,6 @@ Framework7.prototype.plugins.kareer = function (app, params) {
             $$("#display_father_occupation strong").html(data[23]);
             $$("#display_father_occupation a").attr({"data-value":data[23]});
             $$("#display_father_occupation a").attr({"data-node":data[0]});
-
-            $("a.saveAccount").on('click',function(){
-                //  var id = accData[0];
-                // var storedData = app.formGetData('account');
-                // var accountData = $.map(storedData, function(value, index) {
-                //     return [value];
-                // });
-                // var data = system.ajax(processor+'do-accountResume',[id,accountData]);
-                // data.done(function(data){
-                //     console.log(data);
-                //     if(data != 0){
-                //         system.notification("Kareer","Saved",false,2000,true,false,function(){
-                //             var update = account.get(id);
-                //             account.account(update);
-                //         });                        
-                //     }
-                // })
-            });
             
             $("a.home").on('click',function(){
                 var data = $(this).data('load');
@@ -638,39 +529,22 @@ Framework7.prototype.plugins.kareer = function (app, params) {
             });
 
             app.onPageInit('resume',function(page){
-                // account.controller();
                 resume.ini();
             });
 
             app.onPageBack('index',function(page){
-                // account.controller();
+                account.ini();
+            });
+            app.onPageBack('account',function(page){
                 account.ini();
             });
 
             $("a.next").on('click',function(){ 
                 var data = $(this).data('load');
                 view.router.loadPage("pages/admin/"+data+".html");
-                // $("a.career").addClass('disabled');
-                // var id = accData[0];
-                // var storedData = app.formGetData('account');
-                // // console.log(storedData);
-                // var accountData = $.map(storedData, function(value, index) {
-                //     return [value];
-                // });
-                // var data = system.ajax(processor+'do-accountResume',[id,accountData]);
-                // data.done(function(data){
-                //     console.log(data);
-                //     if(data != 0){
-                //             var update = account.get(id);
-                //             account.account(update);
-                //             resume.ini();
-                //     }
-
-                // })
-
-            });
-            app.onPageInit('builderCareer',function(page){
-                career.ini();
+                app.onPageInit('builderCareer',function(page){
+                    career.ini();
+                });
             });
         },
         get:function(id){
@@ -688,6 +562,7 @@ Framework7.prototype.plugins.kareer = function (app, params) {
         },
         edit:function(data){
             $("a[data-cmd='edit']").on('click',function(){
+                app.popup('.popup-edit');
                 var data = $(this).data();
                 var id = data.node;
                 if(data.prop == "GivenName"){
@@ -695,7 +570,7 @@ Framework7.prototype.plugins.kareer = function (app, params) {
                                         <div class="list-block">
                                             <ul>
                                                 <li>
-                                                    <div class="input-field" style="margin-top: 50px; !importan">
+                                                    <div class="input-field" style="margin-top: 50px; !important">
                                                         <label class="a" for='field_${data.prop}'>Given Name</label>
                                                         <input type='text' id='field_${data.prop}' value = '${data.value}' name='field_${data.prop}' class=" form-control color-white">
                                                     </div>
@@ -706,7 +581,7 @@ Framework7.prototype.plugins.kareer = function (app, params) {
                                             </ul>
                                         </div>
                                     </form>`;
-                    $("#editpopup").html(content);
+                    $('#editpopup').html(content);
                     if(data.value != ""){
                         $('label.a').addClass("active");
                     }               
@@ -736,13 +611,14 @@ Framework7.prototype.plugins.kareer = function (app, params) {
                             data.done(function(data){
                                 console.log(data);
                                 if(data != 0){
+                                    $$('input').val("");
                                     system.notification("Update","Success. Please wait.",false,2000,true,false,function(){
-                                        app.closeModal('.popup-edit', true);
+
+                                        app.closeModal('.popup-edit');
                                         var newdata = account.get(id);
                                         account.edit(newdata);
                                         account.display(newdata);
                                     });
-
                                 }
                                 else{
                                     system.notification("Update","Failed.",false,3000,true,false,false);
@@ -751,12 +627,12 @@ Framework7.prototype.plugins.kareer = function (app, params) {
                         }
                     });
                 }
-                else if(data.prop == "MiddleName"){  
+                else if(data.prop == "MiddleName"){
                     var content =   `<form action="" method="POST" id='form_edit'>
                                         <div class="list-block">
                                             <ul>
                                                 <li>
-                                                    <div class="input-field" style="margin-top: 50px; !importan">
+                                                    <div class="input-field" style="margin-top: 50px; !important">
                                                         <label class="a" for='field_${data.prop}'>Middle Name</label>
                                                         <input type='text' id='field_${data.prop}' value = '${data.value}' name='field_${data.prop}' class=" form-control color-white">
                                                     </div>
@@ -767,7 +643,7 @@ Framework7.prototype.plugins.kareer = function (app, params) {
                                             </ul>
                                         </div>
                                     </form>`;
-                    $("#editpopup").html(content);
+                    $('#editpopup').html(content);
                     if(data.value != ""){
                         $('label.a').addClass("active");
                     }             
@@ -798,7 +674,7 @@ Framework7.prototype.plugins.kareer = function (app, params) {
                                 console.log(data);
                                 if(data != 0){
                                     system.notification("Update","Success. Please wait.",false,2000,true,false,function(){
-                                        app.closeModal('.popup-edit', true);
+                                        app.closeModal('.popup-edit');
                                         var newdata = account.get(id);
                                         account.edit(newdata);
                                         account.display(newdata);
@@ -817,7 +693,7 @@ Framework7.prototype.plugins.kareer = function (app, params) {
                                         <div class="list-block">
                                             <ul>
                                                 <li>
-                                                    <div class="input-field" style="margin-top: 50px; !importan">
+                                                    <div class="input-field" style="margin-top: 50px; !important">
                                                         <label class="a" for='field_${data.prop}'>Last Name</label>
                                                         <input type='text' id='field_${data.prop}' value = '${data.value}' name='field_${data.prop}' class=" form-control color-white">
                                                     </div>
@@ -859,7 +735,7 @@ Framework7.prototype.plugins.kareer = function (app, params) {
                                 console.log(data);
                                 if(data != 0){
                                     system.notification("Update","Success. Please wait.",false,2000,true,false,function(){
-                                        app.closeModal('.popup-edit', true);
+                                        app.closeModal('.popup-edit');
                                         var newdata = account.get(id);
                                         account.edit(newdata);
                                         account.display(newdata);
@@ -878,7 +754,7 @@ Framework7.prototype.plugins.kareer = function (app, params) {
                                         <div class="list-block">
                                             <ul>
                                                 <li>
-                                                    <div class="input-field" style="margin-top: 50px; !importan">
+                                                    <div class="input-field" style="margin-top: 50px; !important">
                                                         <label class="active" style ="top: auto;" for='field_${data.prop}'>Gender</label>
                                                         <select id='field_${data.prop}' value = '${data.value}' name='field_${data.prop}'>
                                                             <option value ='Male'>Male</option>
@@ -923,7 +799,7 @@ Framework7.prototype.plugins.kareer = function (app, params) {
                                 console.log(data);
                                 if(data != 0){
                                     system.notification("Update","Success. Please wait.",false,2000,true,false,function(){
-                                        app.closeModal('.popup-edit', true);
+                                        app.closeModal('.popup-edit');
                                         var newdata = account.get(id);
                                         account.edit(newdata);
                                         account.display(newdata);
@@ -942,7 +818,7 @@ Framework7.prototype.plugins.kareer = function (app, params) {
                                         <div class="list-block">
                                             <ul>
                                                 <li>
-                                                    <div class="input-field" style="margin-top: 50px; !importan">
+                                                    <div class="input-field" style="margin-top: 50px; !important">
                                                         <label class="a" for='field_${data.prop}'>Age</label>
                                                         <input type='number' id='field_${data.prop}' value = '${data.value}' name='field_${data.prop}' class=" form-control color-white">
                                                     </div>
@@ -984,7 +860,7 @@ Framework7.prototype.plugins.kareer = function (app, params) {
                                 console.log(data);
                                 if(data != 0){
                                     system.notification("Update","Success. Please wait.",false,2000,true,false,function(){
-                                        app.closeModal('.popup-edit', true);
+                                        app.closeModal('.popup-edit');
                                         var newdata = account.get(id);
                                         account.edit(newdata);
                                         account.display(newdata);
@@ -1003,7 +879,7 @@ Framework7.prototype.plugins.kareer = function (app, params) {
                                         <div class="list-block">
                                             <ul>
                                                 <li>
-                                                    <div class="input-field" style="margin-top: 50px; !importan">
+                                                    <div class="input-field" style="margin-top: 50px; !important">
                                                         <label class="active" for='field_${data.prop}'>Date Of Birth</label>
                                                         <input type='date' id='field_${data.prop}' value = '${data.value}' name='field_${data.prop}' class=" form-control color-white">
                                                     </div>
@@ -1044,8 +920,8 @@ Framework7.prototype.plugins.kareer = function (app, params) {
                                 console.log(data);
                                 if(data != 0){
                                     system.notification("Update","Success. Please wait.",false,2000,true,false,function(){
-                                        app.closeModal('.popup-edit', true);
-                                         var newdata = account.get(id);
+                                        app.closeModal('.popup-edit');
+                                        var newdata = account.get(id);
                                         account.edit(newdata);
                                         account.display(newdata);
                                     });
@@ -1063,7 +939,7 @@ Framework7.prototype.plugins.kareer = function (app, params) {
                                         <div class="list-block">
                                             <ul>
                                                 <li>
-                                                    <div class="input-field" style="margin-top: 50px; !importan">
+                                                    <div class="input-field" style="margin-top: 50px; !important">
                                                         <label class="a" for='field_${data.prop}'>Place Of Birth</label>
                                                         <input type='text' id='field_${data.prop}' value = '${data.value}' name='field_${data.prop}' class=" form-control color-white">
                                                     </div>
@@ -1105,8 +981,8 @@ Framework7.prototype.plugins.kareer = function (app, params) {
                                 console.log(data);
                                 if(data != 0){
                                     system.notification("Update","Success. Please wait.",false,2000,true,false,function(){
-                                        app.closeModal('.popup-edit', true);
-                                         var newdata = account.get(id);
+                                        app.closeModal('.popup-edit');
+                                        var newdata = account.get(id);
                                         account.edit(newdata);
                                         account.display(newdata);
                                     });
@@ -1124,7 +1000,7 @@ Framework7.prototype.plugins.kareer = function (app, params) {
                                         <div class="list-block">
                                             <ul>
                                                 <li>
-                                                    <div class="input-field" style="margin-top: 50px; !importan">
+                                                    <div class="input-field" style="margin-top: 50px; !important">
                                                         <label class="a" for='field_${data.prop}'>Permanent Address</label>
                                                         <input type='text' id='field_${data.prop}' value = '${data.value}' name='field_${data.prop}' class=" form-control color-white">
                                                     </div>
@@ -1166,8 +1042,8 @@ Framework7.prototype.plugins.kareer = function (app, params) {
                                 console.log(data);
                                 if(data != 0){
                                     system.notification("Update","Success. Please wait.",false,2000,true,false,function(){
-                                        app.closeModal('.popup-edit', true);
-                                         var newdata = account.get(id);
+                                        app.closeModal('.popup-edit');
+                                        var newdata = account.get(id);
                                         account.edit(newdata);
                                         account.display(newdata);
                                     });
@@ -1185,7 +1061,7 @@ Framework7.prototype.plugins.kareer = function (app, params) {
                                         <div class="list-block">
                                             <ul>
                                                 <li>
-                                                    <div class="input-field" style="margin-top: 50px; !importan">
+                                                    <div class="input-field" style="margin-top: 50px; !important">
                                                         <label class="a" for='field_${data.prop}'>Citizenship</label>
                                                         <input type='text' id='field_${data.prop}' value = '${data.value}' name='field_${data.prop}' class=" form-control color-white">
                                                     </div>
@@ -1227,8 +1103,8 @@ Framework7.prototype.plugins.kareer = function (app, params) {
                                 console.log(data);
                                 if(data != 0){
                                     system.notification("Update","Success. Please wait.",false,2000,true,false,function(){
-                                        app.closeModal('.popup-edit', true);
-                                         var newdata = account.get(id);
+                                        app.closeModal('.popup-edit');
+                                        var newdata = account.get(id);
                                         account.edit(newdata);
                                         account.display(newdata);
                                     });
@@ -1246,7 +1122,7 @@ Framework7.prototype.plugins.kareer = function (app, params) {
                                         <div class="list-block">
                                             <ul>
                                                 <li>
-                                                    <div class="input-field" style="margin-top: 50px; !importan">
+                                                    <div class="input-field" style="margin-top: 50px; !important">
                                                         <label class="a" for='field_${data.prop}'>Height</label>
                                                         <input type='text' id='field_${data.prop}' value = '${data.value}' name='field_${data.prop}' class=" form-control color-white">
                                                     </div>
@@ -1288,7 +1164,7 @@ Framework7.prototype.plugins.kareer = function (app, params) {
                                 console.log(data);
                                 if(data != 0){
                                     system.notification("Update","Success. Please wait.",false,2000,true,false,function(){
-                                        app.closeModal('.popup-edit', true);
+                                        app.closeModal('.popup-edit');
                                         var newdata = account.get(id);
                                         account.edit(newdata);
                                         account.display(newdata);
@@ -1307,7 +1183,7 @@ Framework7.prototype.plugins.kareer = function (app, params) {
                                         <div class="list-block">
                                             <ul>
                                                 <li>
-                                                    <div class="input-field" style="margin-top: 50px; !importan">
+                                                    <div class="input-field" style="margin-top: 50px; !important">
                                                         <label class="a" for='field_${data.prop}'>Weight</label>
                                                         <input type='text' id='field_${data.prop}' value = '${data.value}' name='field_${data.prop}' class=" form-control color-white">
                                                     </div>
@@ -1349,8 +1225,8 @@ Framework7.prototype.plugins.kareer = function (app, params) {
                                 console.log(data);
                                 if(data != 0){
                                     system.notification("Update","Success. Please wait.",false,2000,true,false,function(){
-                                        app.closeModal('.popup-edit', true);
-                                         var newdata = account.get(id);
+                                        app.closeModal('.popup-edit');
+                                        var newdata = account.get(id);
                                         account.edit(newdata);
                                         account.display(newdata);
                                     });
@@ -1368,7 +1244,7 @@ Framework7.prototype.plugins.kareer = function (app, params) {
                                         <div class="list-block">
                                             <ul>
                                                 <li>
-                                                    <div class="input-field" style="margin-top: 50px; !importan">
+                                                    <div class="input-field" style="margin-top: 50px; !important">
                                                         <label class="a" for='field_${data.prop}'>Mother's Name</label>
                                                         <input type='text' id='field_${data.prop}' value = '${data.value}' name='field_${data.prop}' class=" form-control color-white">
                                                     </div>
@@ -1410,7 +1286,7 @@ Framework7.prototype.plugins.kareer = function (app, params) {
                                 console.log(data);
                                 if(data != 0){
                                     system.notification("Update","Success. Please wait.",false,2000,true,false,function(){
-                                        app.closeModal('.popup-edit', true);
+                                        app.closeModal('.popup-edit');
                                         var newdata = account.get(id);
                                         account.edit(newdata);
                                         account.display(newdata);
@@ -1429,7 +1305,7 @@ Framework7.prototype.plugins.kareer = function (app, params) {
                                         <div class="list-block">
                                             <ul>
                                                 <li>
-                                                    <div class="input-field" style="margin-top: 50px; !importan">
+                                                    <div class="input-field" style="margin-top: 50px; !important">
                                                         <label class="a" for='field_${data.prop}'>Father's Name</label>
                                                         <input type='text' id='field_${data.prop}' value = '${data.value}' name='field_${data.prop}' class=" form-control color-white">
                                                     </div>
@@ -1471,7 +1347,7 @@ Framework7.prototype.plugins.kareer = function (app, params) {
                                 console.log(data);
                                 if(data != 0){
                                     system.notification("Update","Success. Please wait.",false,2000,true,false,function(){
-                                        app.closeModal('.popup-edit', true);
+                                        app.closeModal('.popup-edit');
                                         var newdata = account.get(id);
                                         account.edit(newdata);
                                         account.display(newdata);
@@ -1490,7 +1366,7 @@ Framework7.prototype.plugins.kareer = function (app, params) {
                                         <div class="list-block">
                                             <ul>
                                                 <li>
-                                                    <div class="input-field" style="margin-top: 50px; !importan">
+                                                    <div class="input-field" style="margin-top: 50px; !important">
                                                         <label class="a" for='field_${data.prop}'>Language</label>
                                                         <input type='text' id='field_${data.prop}' value = '${data.value}' name='field_${data.prop}' class=" form-control color-white">
                                                     </div>
@@ -1545,7 +1421,7 @@ Framework7.prototype.plugins.kareer = function (app, params) {
                                 console.log(data);
                                 if(data != 0){
                                     system.notification("Update","Success. Please wait.",false,2000,true,false,function(){
-                                        app.closeModal('.popup-edit', true);
+                                        app.closeModal('.popup-edit');
                                         var newdata = account.get(id);
                                         account.edit(newdata);
                                         account.display(newdata);
@@ -1564,7 +1440,7 @@ Framework7.prototype.plugins.kareer = function (app, params) {
                                         <div class="list-block">
                                             <ul>
                                                 <li>
-                                                    <div class="input-field" style="margin-top: 50px; !importan">
+                                                    <div class="input-field" style="margin-top: 50px; !important">
                                                         <label class="a" for='field_${data.prop}'>Religion</label>
                                                         <input type='text' id='field_${data.prop}' value = '${data.value}' name='field_${data.prop}' class=" form-control color-white">
                                                     </div>
@@ -1606,7 +1482,7 @@ Framework7.prototype.plugins.kareer = function (app, params) {
                                 console.log(data);
                                 if(data != 0){
                                     system.notification("Update","Success. Please wait.",false,2000,true,false,function(){
-                                        app.closeModal('.popup-edit', true);
+                                        app.closeModal('.popup-edit');
                                         var newdata = account.get(id);
                                         account.edit(newdata);
                                         account.display(newdata);
@@ -1625,7 +1501,7 @@ Framework7.prototype.plugins.kareer = function (app, params) {
                                         <div class="list-block">
                                             <ul>
                                                 <li>
-                                                    <div class="input-field" style="margin-top: 50px; !importan">
+                                                    <div class="input-field" style="margin-top: 50px; !important">
                                                         <label class="a" for='field_${data.prop}'>Mother's Occupation</label>
                                                         <input type='text' id='field_${data.prop}' value = '${data.value}' name='field_${data.prop}' class=" form-control color-white">
                                                     </div>
@@ -1667,7 +1543,7 @@ Framework7.prototype.plugins.kareer = function (app, params) {
                                 console.log(data);
                                 if(data != 0){
                                     system.notification("Update","Success. Please wait.",false,2000,true,false,function(){
-                                        app.closeModal('.popup-edit', true);
+                                        app.closeModal('.popup-edit');
                                         var newdata = account.get(id);
                                         account.edit(newdata);
                                         account.display(newdata);
@@ -1686,7 +1562,7 @@ Framework7.prototype.plugins.kareer = function (app, params) {
                                         <div class="list-block">
                                             <ul>
                                                 <li>
-                                                    <div class="input-field" style="margin-top: 50px; !importan">
+                                                    <div class="input-field" style="margin-top: 50px; !important">
                                                         <label class="a" for='field_${data.prop}'>Father's Occupation</label>
                                                         <input type='text' id='field_${data.prop}' value = '${data.value}' name='field_${data.prop}' class=" form-control color-white">
                                                     </div>
@@ -1728,7 +1604,7 @@ Framework7.prototype.plugins.kareer = function (app, params) {
                                 console.log(data);
                                 if(data != 0){
                                     system.notification("Update","Success. Please wait.",false,2000,true,false,function(){
-                                        app.closeModal('.popup-edit', true);
+                                        app.closeModal('.popup-edit');
                                         var newdata = account.get(id);
                                         account.edit(newdata);
                                         account.display(newdata);
@@ -1742,7 +1618,173 @@ Framework7.prototype.plugins.kareer = function (app, params) {
                         }
                     });
                 }
+                else if(data.prop == "Skills"){  
+                    var content =   `<form action="" method="POST" id='form_edit'>
+                                        <div class="list-block">
+                                            <ul>
+                                                <li>
+                                                    <div class="input-field">
+                                                        <div class="input-field" style="margin-top: 50px; !important">
+                                                        <label class="a" for='field_${data.prop}'>Skills</label>
+                                                        <input type='text' id='field_${data.prop}' value = '${data.value}' name='field_${data.prop}' class=" form-control color-white">
+                                                    </div>
+                                                    </div>
+                                                </li>                                        
+                                                <li>
+                                                    <div class="input-field" >
+                                                        <select id="field_level" name="field_level">
+                                                            <option value="Beginner">Beginner</option>
+                                                            <option value="Intermediate">Intermediate</option>
+                                                            <option value="Advance">Advance</option>
+                                                            <option value="Expert">Expert</option>
+                                                        </select>
+                                                    </div>
+                                                </li>
+                                                <li>
+                                                    <button class="btn teal waves-effect waves-teal waves-light" style="width: 100%; top: 20px;">Save</button>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </form>`;
+                    $("#editpopup").html(content);
+                    if(data.value != ""){
+                        $('label.a').addClass("active");
+                    }            
+                     $('select').material_select(); 
+                    $("#form_edit").validate({
+                        rules: {
+                            field_Skills: {required: true,maxlength:100}
+                            
+                        },
+                        errorElement : 'div',
+                        errorPlacement: function(error, element) {
+                            var placement = $(element).data('error');
+                            if(placement){
+                                $(placement).append(error)
+                            } 
+                            else{
+                                error.insertAfter(element);
+                            }
+                        },
+                        messages: {
+                            field_Skills: {
+                                required: "<i data-error ='Field is required' class='icon f7-icons  color red' style='margin:5px;'>info</i>",
+                                maxlength: "<i data-error ='Name is too long' class='icon f7-icons color red' style='margin:5px;'>info</i>",
+                            },
+                        },
+                        submitHandler: function (form) {
+                            var _form = $(form).serializeArray();
+                            var data = system.ajax(processor+'do-update',[id,_form]);
+                            data.done(function(data){
+                                console.log(data);
+                                if(data != 0){
+                                    system.notification("Update","Success. Please wait.",false,2000,true,false,function(){
+                                        app.closeModal('.popup-edit');
+                                        var newdata = account.get(id);
+                                        account.edit(newdata);
+                                        account.display(newdata);
+                                    });
 
+                                }
+                                else{
+                                    system.notification("Update","Failed.",false,3000,true,false,false);
+                                }
+                            })
+                        }
+                    });
+                }
+            });
+        },
+        updatePicture:function(data){
+            $("a[data-cmd='UpdatePic']").click(function(){
+                app.popup('.popup-upload');
+                var picture = "img/profile/"+data[24];
+                var content =  ` <div class='card-content'>
+                                    <div class=' center image-crop'>
+                                       <img class='circle responsive-img' style='width: 145px; height: 145px; border:2px; border-style: solid; border-color: #2b9c9b' src='${picture}'>
+                                    </div>
+                                    <div class='center btn-group' style='margin-top: 10% !important;'>
+                                        <label for='inputImage' class='btn-flat btn-xs btn-primary'>
+                                           <input type='file' accept='image/*' name='file' id='inputImage' class='hide'>Choose File
+                                        </label>
+                                        <button class='btn-flat btn-info btn-xs close-popup' data-option='-90' type='button'>
+                                           CANCEL
+                                        </button>
+                                        <button class='btn-flat btn-info btn-xs hidden' data-cmd='rotate' data-option='-90' type='button' title='Rotate Left'>
+                                           <i class='icon f7-icons'>undo</i>
+                                        </button>
+                                        <button class='btn-flat btn-info btn-xs hidden' data-cmd='rotate' data-option='90' type='button' title='Rotate Right'>
+                                           <i class='icon f7-icons'>redo</i>
+                                        </button>
+                                        <button class='btn-flat btn-danger btn-xs hidden' data-cmd='save' type='button'>
+                                           <i class='icon f7-icons'>check</i>
+                                        </button>
+                                    </div>
+                                </div>`;
+                $("#profile_picture2").html(content);
+                // $('.tooltipped').tooltip({delay: 50});
+              
+                var $inputImage = $("#inputImage");
+                if(window.FileReader){
+                    $inputImage.change(function() {
+                        var fileReader = new FileReader(),
+                                files = this.files,
+                                file;
+
+                        file = files[0];
+
+                        if (/^image\/\w+$/.test(file.type)) {
+                            fileReader.readAsDataURL(file);
+                            fileReader.onload = function () {
+                                $inputImage.val("");
+
+                                var $image = $(".image-crop > img")
+                                $($image).cropper({
+                                    aspectRatio: 1/1,
+                                    autoCropArea: 0.80,
+                                    preview: ".avatar-preview",
+                                    built: function () {
+                                        $("button[data-cmd='save']").removeClass('hidden');
+                                        $("button[data-cmd='rotate']").removeClass('hidden');
+                                        $("button[data-cmd='save']").click(function(){                                          
+                                            $(this).html('Loading..').addClass('disabled');
+                                            var ajax = system.ajax(processor+'do-update-image',[data[0],$image.cropper("getDataURL")]);
+                                            ajax.done(function(data){
+                                                console.log(data);
+                                                if(data == 1){
+                                                    system.notification("Update","Success. Please wait.",false,2000,true,false,function(){
+                                                        app.closeModal('.popup-upload');
+                                                        account.ini();
+                                                    });
+                                                }
+                                                else{
+                                                   system.notification("Update","Failed.",false,3000,true,false,false);
+                                                }
+                                            });
+                                        });
+                                    }
+                                });
+
+                                $image.cropper("reset", true).cropper("replace", this.result);
+
+                                $("button[data-cmd='rotate']").click(function(){
+                                    var data = $(this).data('option');
+                                    $image.cropper('rotate', data);
+                                });
+                            };
+                        }
+                        else{
+                            showMessage("Please choose an image file.");
+                        }
+                    });
+                }
+                else{
+                    $inputImage.addClass("hide");
+                }
+                $("button[data-cmd='cancel']").click(function(){
+                    app.closeModal('.popup-upload');
+                    account.ini();
+                });
             });
         }
     }
@@ -1756,10 +1798,9 @@ Framework7.prototype.plugins.kareer = function (app, params) {
             });
             career.show(list);
 
-            $("a.index").on('click',function(){
+            $("a.home").on('click',function(){
                 var data = $(this).data('load');
                 view.router.loadPage("pages/admin/"+data+".html");
-                account.controller(data);
             });
 
             app.onPageInit('index',function(page){
@@ -1768,9 +1809,6 @@ Framework7.prototype.plugins.kareer = function (app, params) {
         },
         add:function(id){
             app.popup('.popup-career');
-            
-            $('#field_govt_service').material_select();
-
             $("a.goback").on('click',function(){
                 $("div.list").removeClass('hidden');
                 $("div.add").addClass('hidden');
@@ -1780,17 +1818,7 @@ Framework7.prototype.plugins.kareer = function (app, params) {
                 var data = $(this).data('load');
                 view.router.loadPage("pages/admin/"+data+".html");
             });
-            $("a.home").on('click',function(){
-                var data = $(this).data('load');
-                view.router.loadPage("pages/admin/"+data+".html");
-            });
-            app.onPageInit('builderCareer',function(page){
-                career.ini();
-            });
-            app.onPageInit('career',function(page){
-                career.ini();
-            });
-
+            $('#field_govt_service').material_select();
             $("#form_career").validate({
                 rules: {
                     field_dateFirst: {required: true, maxlength:20},
@@ -1813,14 +1841,14 @@ Framework7.prototype.plugins.kareer = function (app, params) {
                     }
                 },
                 submitHandler: function (form) {
-                    var _form = $(form).serializeArr
+                    var _form = $(form).serializeArray();
                     var data = system.ajax(processor+'do-career',[id,_form]);
                     data.done(function(data){
                         console.log(data);
                         if(data != 0){
                             $$("input").val("");
                             system.notification("Kareer","Career Added.",false,2000,true,false,function(){
-                                app.closeModal('.popup-career', true);
+                                app.closeModal('.popup-career');
                                 career.ini();
                             });
                         }
@@ -1866,25 +1894,26 @@ Framework7.prototype.plugins.kareer = function (app, params) {
             });
 
             $$("#display_career").html("<ul class='collection'>"+content+"</ul");
-            $$("a[data-cmd='view']").on('click',function(){
+
+            $("a[data-cmd='view']").on('click',function(){
                 var data = $(this).data();
                 var id = data.node;
                 var c = career.get(id);
                 career.display(c);
-                career.delete(c);
                 career.edit(c);
-                $("div.c").removeClass('hidden');
-                $("div.list").addClass('hidden');
-                $("div.fixed-action-btn").addClass('hidden');
-                $("div.toolbar").addClass('hidden');
+                $('div.display').addClass('hidden');
+                $('div.focus').removeClass('hidden');
+                $('.card-header a').addClass('hidden');
+                $('div.NAV ').addClass('hidden');
+                $('div.TOOL').addClass('hidden');
             });
+
             $("a.career").on('click',function(){
                 var data = $(this).data('load');
                 view.router.loadPage("pages/admin/"+data+".html");
-            });
-
-            app.onPageInit('builderAcademic',function(page){
-                academic.ini();
+                app.onPageInit('builderAcademic',function(page){
+                    academic.ini();
+                });
             });
         },
         display:function(c){
@@ -1902,54 +1931,67 @@ Framework7.prototype.plugins.kareer = function (app, params) {
             $$("#display_appointment a").attr({"data-node":c[0][0]});
             $$("#display_govt_service strong").html(c[0][8]);
             $$("#display_govt_service a").attr({"data-node":c[0][0]});
-            $("a.back").on('click',function(){
-                $("div.c").addClass('hidden');
-                $("div.list").removeClass('hidden');
-                $("div.fixed-action-btn").removeClass('hidden');
-                $("div.toolbar").removeClass('hidden');
+            
+            $("a.home").on('click',function(){
+                var data = $(this).data('load');
+                view.router.loadPage("pages/admin/"+data+".html");
+            });
+            app.onPageInit('career',function(page){
+                career.ini();
+            });
+            $$("a[data-cmd='back']").on('click',function(){
+                career.ini();
+                $('div.display').removeClass('hidden');
+                $('div.focus').addClass('hidden');
+                $('.card-header a').removeClass('hidden');
+                $('div.NAV').removeClass('hidden');
+                $('div.TOOL').removeClass('hidden');
+            });
+            $$("a[data-cmd='delete']").on('click',function(){
+                career.delete(c);
             });
         },
         delete:function(c){
-            $$("a[data-cmd='delete']").on('click',function(){
-                app.popup('.popup-delete');
-                var id = c[0][0];
-                var content =   "        <ul>"+
-                                "            <li>"+
-                                "                <h5 class = 'center'>Are you sure?"+
-                                "                </h5>"+
-                                "            </li>"+
-                                "            <li>"+
-                                "                <a href='#' class='close-popup btn waves-effect waves-teal waves-light btn btn-flat grey-text white'>Cancel</a>"+
-                                "                <a data-cmd='proceed' class='waves-effect waves-teal waves-light btn btn-flat grey-text white'>Yes</a>"+
-                                "            </li>"+
-                                "        </ul>";
-                $("#deletePopup").html(content);
-                $("a[data-cmd='proceed']").on('click',function(){
-                    var acad = system.ajax(processor+'do-deleteCareer',id);
-                    acad.done(function(data){
-                        if(data != 0){
-                            system.notification("Kareer","Success. Please wait.",false,2000,true,false,function(){
-                                app.closeModal('.popup-delete', true);
-                                $("div.c").addClass('hidden');
-                                $("div.list").removeClass('hidden');
-                                $("div.fixed-action-btn").removeClass('hidden');
-                                $("div.toolbar").removeClass('hidden');
-                                career.ini();
-                            });
+            var id = c[0][0];
+            app.popup('.popup-delete');
+            var content =   `<ul>
+                                <li>
+                                    <h5 class = 'center'>Are you sure?
+                                    </h5>
+                                </li>
+                                <li>
+                                    <a href='#' class='btn close-popup waves-effect waves-teal waves-light btn btn-flat grey-text white'>Cancel</a>
+                                    <a data-cmd='proceed' class='waves-effect waves-teal waves-light btn btn-flat grey-text white'>Yes</a>
+                                </li>
+                            </ul>`;
+            $("#deletePopup").html(`<div class="card-content">${content}</div>`);
+            $("a[data-cmd='proceed']").on('click',function(){
+                var acad = system.ajax(processor+'do-deleteCareer',id);
+                acad.done(function(data){
+                    if(data != 0){
+                        system.notification("Kareer","Success. Please wait.",false,2000,true,false,function(){
+                            app.closeModal('.popup-delete');
+                            career.ini();
+                            $('div.display').removeClass('hidden');
+                            $('div.focus').addClass('hidden');
+                            $('.card-header a').removeClass('hidden');
+                            $('div.NAV').removeClass('hidden');
+                            $('div.TOOL').removeClass('hidden');
 
-                        }
-                        else{
-                            system.notification("Kareer","Failed.",false,3000,true,false,false);
-                        }
-                    });
+                        });
+
+                    }
+                    else{
+                        system.notification("Kareer","Failed.",false,3000,true,false,false);
+                    }
                 });
             });
         },
         edit:function(c){
-            $$("a[data-cmd='edit']").on('click',function(){
-                app.popup('.popup-edit');
+            $$("a[data-cmd='update']").on('click',function(){
                 var data = $(this).data();
                 var id = data.node;
+                app.popup('.popup-edit');
                 if(data.prop == "Dates"){
                     var content =   `<form action="" method="POST" id='form_edit'>
                                         <div class="list-block">
@@ -1973,7 +2015,7 @@ Framework7.prototype.plugins.kareer = function (app, params) {
                                             </ul>
                                         </div>
                                     </form>`;
-                    $("#editpopup").html(content);
+                    $("#update").html(content);
                     $("#form_edit").validate({
                         rules: {
                             field_date1: {required: true, maxlength:20},
@@ -1996,12 +2038,10 @@ Framework7.prototype.plugins.kareer = function (app, params) {
                                 // console.log(data);
                                 if(data != 0){
                                     system.notification("Update","Success. Please wait.",false,2000,true,false,function(){
-                                        app.closeModal('.popup-edit', true);
+                                        app.closeModal('.popup-edit');
                                         var newdata = career.get(id);
-                                        career.ini(newdata);
                                         career.edit(newdata);
                                         career.display(newdata);
-                                        career.delete(newdata);
                                     });
 
                                 }
@@ -2028,7 +2068,7 @@ Framework7.prototype.plugins.kareer = function (app, params) {
                                             </ul>
                                         </div>
                                     </form>`;
-                    $("#editpopup").html(content);
+                    $("#update").html(content);
                     $("#form_edit").validate({
                         rules: {
                             field_position: {required: true, maxlength:100},
@@ -2050,12 +2090,10 @@ Framework7.prototype.plugins.kareer = function (app, params) {
                                 console.log(data);
                                 if(data != 0){
                                     system.notification("Update","Success. Please wait.",false,2000,true,false,function(){
-                                        app.closeModal('.popup-edit', true);
+                                        app.closeModal('.popup-edit');
                                         var newdata = career.get(id);
-                                        career.ini(newdata);
                                         career.edit(newdata);
                                         career.display(newdata);
-                                        career.delete(newdata);
                                     });
 
                                 }
@@ -2082,7 +2120,7 @@ Framework7.prototype.plugins.kareer = function (app, params) {
                                             </ul>
                                         </div>
                                     </form>`;
-                    $("#editpopup").html(content);
+                    $("#update").html(content);
                     $("#form_edit").validate({
                         rules: {
                             field_agency: {required: true, maxlength:100},
@@ -2104,12 +2142,10 @@ Framework7.prototype.plugins.kareer = function (app, params) {
                                 console.log(data);
                                 if(data != 0){
                                     system.notification("Update","Success. Please wait.",false,2000,true,false,function(){
-                                        app.closeModal('.popup-edit', true);
+                                        app.closeModal('.popup-edit');
                                         var newdata = career.get(id);
-                                        career.ini(newdata);
                                         career.edit(newdata);
                                         career.display(newdata);
-                                        career.delete(newdata);
                                     });
 
                                 }
@@ -2136,7 +2172,7 @@ Framework7.prototype.plugins.kareer = function (app, params) {
                                             </ul>
                                         </div>
                                     </form>`;
-                    $("#editpopup").html(content);
+                    $("#update").html(content);
                     $("#form_edit").validate({
                         rules: {
                             field_salary: {required: true, maxlength:5}
@@ -2158,12 +2194,10 @@ Framework7.prototype.plugins.kareer = function (app, params) {
                                 console.log(data);
                                 if(data != 0){
                                     system.notification("Update","Success. Please wait.",false,2000,true,false,function(){
-                                        app.closeModal('.popup-edit', true);
+                                        app.closeModal('.popup-edit');
                                         var newdata = career.get(id);
-                                        career.ini(newdata);
                                         career.edit(newdata);
                                         career.display(newdata);
-                                        career.delete(newdata);
                                     });
 
                                 }
@@ -2190,7 +2224,7 @@ Framework7.prototype.plugins.kareer = function (app, params) {
                                             </ul>
                                         </div>
                                     </form>`;
-                    $("#editpopup").html(content);
+                    $("#update").html(content);
                     $("#form_edit").validate({
                         rules: {
                             field_appointment: {required: true, maxlength:100}
@@ -2212,12 +2246,10 @@ Framework7.prototype.plugins.kareer = function (app, params) {
                                 console.log(data);
                                 if(data != 0){
                                     system.notification("Update","Success. Please wait.",false,2000,true,false,function(){
-                                        app.closeModal('.popup-edit', true);
+                                        app.closeModal('.popup-edit');
                                         var newdata = career.get(id);
-                                        career.ini(newdata);
                                         career.edit(newdata);
                                         career.display(newdata);
-                                        career.delete(newdata);
                                     });
 
                                 }
@@ -2247,7 +2279,7 @@ Framework7.prototype.plugins.kareer = function (app, params) {
                                             </ul>
                                         </div>
                                     </form>`;
-                    $("#editpopup").html(content);
+                    $("#update").html(content);
                     $('select').material_select();
                     $("#form_edit").validate({
                         rules: {
@@ -2270,12 +2302,10 @@ Framework7.prototype.plugins.kareer = function (app, params) {
                                 console.log(data);
                                 if(data != 0){
                                     system.notification("Update","Success. Please wait.",false,2000,true,false,function(){
-                                        app.closeModal('.popup-edit', true);
+                                        app.closeModal('.popup-edit');
                                         var newdata = career.get(id);
-                                        career.ini(newdata);
                                         career.edit(newdata);
                                         career.display(newdata);
-                                        career.delete(newdata);
                                     });
 
                                 }
@@ -2298,12 +2328,10 @@ Framework7.prototype.plugins.kareer = function (app, params) {
                 academic.add(applicantData[0][0]);
             });
             academic.show(list);
-            // academic.delete(list);
 
             $("a.home").on('click',function(){
                 var data = $(this).data('load');
                 view.router.loadPage("pages/admin/"+data+".html");
-                account.controller(data);
             });
 
             app.onPageInit('index',function(page){
@@ -2312,7 +2340,6 @@ Framework7.prototype.plugins.kareer = function (app, params) {
         },
         add:function(id){
             app.popup('.popup-academic');
-
             $('#field_yearLevel').material_select();
 
             $("#field_yearLevel").on('change', function() {
@@ -2335,7 +2362,6 @@ Framework7.prototype.plugins.kareer = function (app, params) {
                     field_units: {required: true,maxlength:3,},
                     field_dateFrom: {required: true, maxlength:20},
                     field_dateTo: {required: true, maxlength:20, greaterThan: "#field_dateFrom"},
-                    // field_dateTo: { greaterThan: "#field_dateFrom" },
                 },
                 errorElement : 'div',
                 errorPlacement: function(error, element) {
@@ -2348,14 +2374,14 @@ Framework7.prototype.plugins.kareer = function (app, params) {
                     }
                 },
                 submitHandler: function (form) {
-                    var _form = $(form).serializeArr
+                    var _form = $(form).serializeArray();
                     var data = system.ajax(processor+'do-academic',[id,_form]);
                     data.done(function(data){
                         console.log(data);
                         if(data != 0){
                             $$("input").val("");
                             system.notification("Kareer","Academic Added.",false,2000,true,false,function(){
-                                app.closeModal('.popup-academic', true);
+                                app.closeModal('.popup-academic');
                                 academic.ini();
                             });
                         }
@@ -2399,28 +2425,25 @@ Framework7.prototype.plugins.kareer = function (app, params) {
                     $("a.academic").removeClass('disabled');
             });
             $$("#display_academic").html("<ul class='collection'>"+content+"</ul");
-            $$("a[data-cmd='view']").on('click',function(){
+            $("a[data-cmd='view']").on('click',function(){
                 var data = $(this).data();
                 var id = data.node;
-                console.log(id);
                 var a = academic.get(id);
-                console.log(a);
                 academic.display(a);
-                academic.delete(a);
                 academic.edit(a);
-                $("div.a").removeClass('hidden');
-                $("div.list").addClass('hidden');
-                $("div.fixed-action-btn").addClass('hidden');
-                $("div.toolbar").addClass('hidden');
+                $('div.display').addClass('hidden');
+                $('div.focus').removeClass('hidden');
+                $('.card-header a').addClass('hidden');
+                $('div.NAV ').addClass('hidden');
+                $('div.TOOL').addClass('hidden');
             });
 
             $("a.academic").on('click',function(){
                 var data = $(this).data('load');
                 view.router.loadPage("pages/admin/"+data+".html");
-            });
-
-            app.onPageInit('builderSkills',function(page){
-                skills.ini();
+                app.onPageInit('builderSkills',function(page){
+                    skills.ini();
+                });
             });
         },
         display:function(a){
@@ -2445,55 +2468,66 @@ Framework7.prototype.plugins.kareer = function (app, params) {
             $$("#display_fromdate a").attr({"data-node":a[0][0]});
             $$("#display_todate strong").html(period.substr(9));
             $$("#display_todate a").attr({"data-node":a[0][0]});
-            $("a.back").on('click',function(){
-                $("div.a").addClass('hidden');
-                $("div.list").removeClass('hidden');
-                $("div.fixed-action-btn").removeClass('hidden');
-                $("div.toolbar").removeClass('hidden');
+
+            $("a.home").on('click',function(){
+                var data = $(this).data('load');
+                view.router.loadPage("pages/admin/"+data+".html");
+            });
+            app.onPageInit('academic',function(page){
+                academic.ini();
+            });
+            $$("a[data-cmd='back']").on('click',function(){
+                academic.ini();
+                $('div.display').removeClass('hidden');
+                $('div.focus').addClass('hidden');
+                $('.card-header a').removeClass('hidden');
+                $('div.NAV').removeClass('hidden');
+                $('div.TOOL').removeClass('hidden');
+            });
+            $$("a[data-cmd='delete']").on('click',function(){
+                academic.delete(a);
             });
         },
         delete:function(a){
-            $$("a[data-cmd='delete']").on('click',function(){
-                app.popup('.popup-delete');
-                var id = a[0][0];
-                var content =   "        <ul>"+
-                                "            <li>"+
-                                "                <h5 class = 'center'>Are you sure?"+
-                                "                </h5>"+
-                                "            </li>"+
-                                "            <li>"+
-                                "                <a href='#' class='close-popup btn waves-effect waves-teal waves-light btn btn-flat grey-text white'>Cancel</a>"+
-                                "                <a data-cmd='proceed' class='waves-effect waves-teal waves-light btn btn-flat grey-text white'>Yes</a>"+
-                                "            </li>"+
-                                "        </ul>";
-                $("#deletePopup").html(content);
-                $("a[data-cmd='proceed']").on('click',function(){
-                    var acad = system.ajax(processor+'do-deleteAcad',id);
-                    acad.done(function(data){
-                        console.log(acad);
-                            if(data != 0){
-                                system.notification("Kareer","Success. Please wait.",false,2000,true,false,function(){
-                                    app.closeModal('.popup-delete', true);
-                                    $("div.a").addClass('hidden');
-                                    $("div.list").removeClass('hidden');
-                                    $("div.fixed-action-btn").removeClass('hidden');
-                                    $("div.toolbar").removeClass('hidden');
-                                    academic.ini();
-                                });
+            var id = a[0][0];
+            app.popup('.popup-delete');
+            var content =   `<ul>
+                                <li>
+                                    <h5 class = 'center'>Are you sure?
+                                    </h5>
+                                </li>
+                                <li>
+                                    <a href='#' class='btn close-popup waves-effect waves-teal waves-light btn btn-flat grey-text white'>Cancel</a>
+                                    <a data-cmd='proceed' class='waves-effect waves-teal waves-light btn btn-flat grey-text white'>Yes</a>
+                                </li>
+                            </ul>`;
+            $("#deletePopup").html(`<div class="card-content">${content}</div>`);
+            $("a[data-cmd='proceed']").on('click',function(){
+                var acad = system.ajax(processor+'do-deleteAcad',id);
+                acad.done(function(data){
+                    if(data != 0){
+                        system.notification("Kareer","Success. Please wait.",false,2000,true,false,function(){
+                            app.closeModal('.popup-delete');
+                            academic.ini();
+                            $('div.display').removeClass('hidden');
+                            $('div.focus').addClass('hidden');
+                            $('.card-header a').removeClass('hidden');
+                            $('div.NAV').removeClass('hidden');
+                            $('div.TOOL').removeClass('hidden');
+                        });
 
-                            }
-                            else{
-                                system.notification("Kareer","Failed.",false,3000,true,false,false);
-                            }
-                    });
+                    }
+                    else{
+                        system.notification("Kareer","Failed.",false,3000,true,false,false);
+                    }
                 });
             });
         },
         edit:function(a){
-            $$("a[data-cmd='edit']").on('click',function(){
-                app.popup('.popup-edit');
+            $$("a[data-cmd='update']").on('click',function(){
                 var data = $(this).data();
                 var id = data.node;
+                app.popup('.popup-update');
                 if(data.prop == "Year"){
                     var content =   `<form action="" method="POST" id='form_edit'>
                                         <div class="list-block">
@@ -2516,7 +2550,7 @@ Framework7.prototype.plugins.kareer = function (app, params) {
                                             </ul>
                                         </div>
                                     </form>`;
-                    $("#editpopup").html(content);
+                    $("#updateAcad").html(content);
                     $('select').material_select();
                     $("#form_edit").validate({
                         rules: {
@@ -2539,12 +2573,10 @@ Framework7.prototype.plugins.kareer = function (app, params) {
                                 console.log(data);
                                 if(data != 0){
                                     system.notification("Update","Success. Please wait.",false,2000,true,false,function(){
-                                        app.closeModal('.popup-edit', true);
+                                        app.closeModal('.popup-update');
                                         var newdata = academic.get(id);
-                                        academic.ini(newdata);
                                         academic.edit(newdata);
                                         academic.display(newdata);
-                                        academic.delete(newdata);
                                     });
 
                                 }
@@ -2571,7 +2603,7 @@ Framework7.prototype.plugins.kareer = function (app, params) {
                                             </ul>
                                         </div>
                                     </form>`;
-                    $("#editpopup").html(content);
+                    $("#updateAcad").html(content);
                     $("#form_edit").validate({
                         rules: {
                             field_school: {required: true,maxlength:100}
@@ -2593,12 +2625,10 @@ Framework7.prototype.plugins.kareer = function (app, params) {
                                 console.log(data);
                                 if(data != 0){
                                     system.notification("Update","Success. Please wait.",false,2000,true,false,function(){
-                                        app.closeModal('.popup-edit', true);
+                                        app.closeModal('.popup-update');
                                         var newdata = academic.get(id);
-                                        academic.ini(newdata);
                                         academic.edit(newdata);
                                         academic.display(newdata);
-                                        academic.delete(newdata);
                                     });
 
                                 }
@@ -2625,7 +2655,7 @@ Framework7.prototype.plugins.kareer = function (app, params) {
                                             </ul>
                                         </div>
                                     </form>`;
-                    $("#editpopup").html(content);
+                    $("#updateAcad").html(content);
                     $("#form_edit").validate({
                         rules: {
                             field_degree: {required: true, maxlength:100},
@@ -2647,12 +2677,10 @@ Framework7.prototype.plugins.kareer = function (app, params) {
                                 console.log(data);
                                 if(data != 0){
                                     system.notification("Update","Success. Please wait.",false,2000,true,false,function(){
-                                        app.closeModal('.popup-edit', true);
+                                        app.closeModal('.popup-update');
                                         var newdata = academic.get(id);
-                                        academic.ini(newdata);
                                         academic.edit(newdata);
                                         academic.display(newdata);
-                                        academic.delete(newdata);
                                     });
 
                                 }
@@ -2679,7 +2707,7 @@ Framework7.prototype.plugins.kareer = function (app, params) {
                                             </ul>
                                         </div>
                                     </form>`;
-                    $("#editpopup").html(content);
+                    $("#updateAcad").html(content);
                     $("#form_edit").validate({
                         rules: {
                             field_units: {required: true,maxlength:3},
@@ -2701,12 +2729,10 @@ Framework7.prototype.plugins.kareer = function (app, params) {
                                 console.log(data);
                                 if(data != 0){
                                     system.notification("Update","Success. Please wait.",false,2000,true,false,function(){
-                                        app.closeModal('.popup-edit', true);
+                                        app.closeModal('.popup-update');
                                         var newdata = academic.get(id);
-                                        academic.ini(newdata);
                                         academic.edit(newdata);
                                         academic.display(newdata);
-                                        academic.delete(newdata);
                                     });
 
                                 }
@@ -2740,7 +2766,7 @@ Framework7.prototype.plugins.kareer = function (app, params) {
                                             </ul>
                                         </div>
                                     </form>`;
-                    $("#editpopup").html(content);
+                    $("#updateAcad").html(content);
                     $("#form_edit").validate({
                         rules: {
                             field_dateF: {required: true, maxlength:20},
@@ -2764,12 +2790,10 @@ Framework7.prototype.plugins.kareer = function (app, params) {
                                 console.log(data);
                                 if(data != 0){
                                     system.notification("Update","Success. Please wait.",false,2000,true,false,function(){
-                                        app.closeModal('.popup-edit', true);
+                                        app.closeModal('.popup-update');
                                         var newdata = academic.get(id);
-                                        academic.ini(newdata);
                                         academic.edit(newdata);
                                         academic.display(newdata);
-                                        academic.delete(newdata);
                                     });
 
                                 }
@@ -2787,7 +2811,7 @@ Framework7.prototype.plugins.kareer = function (app, params) {
     let skills = {
         ini:function(){
             var applicantData = JSON.parse(localStorage.getItem('applicant'));
-            var list = skills.get(applicantData[0][0]);
+            var list = skills.getAll(applicantData[0][0]);
             $$("a[data-cmd='add-skills']").on('click',function(){
                 skills.add(applicantData[0][0]);
             });
@@ -2797,38 +2821,31 @@ Framework7.prototype.plugins.kareer = function (app, params) {
             $("a.home").on('click',function(){
                 var data = $(this).data('load');
                 view.router.loadPage("pages/admin/"+data+".html");
-                account.controller(data);
             });
 
             app.onPageInit('index',function(page){
                 account.controller();
             });
         },
+        getAll:function(id){
+            var $data = "";
+            var jobs = system.ajax(processor+'get-skillsAll',id);
+            jobs.done(function(data){
+                $data = data;
+            });
+            return JSON.parse($data);
+        },
         get:function(id){
             var $data = "";
-            var jobs = system.ajax(processor+'get-skills',id);
+            var jobs = system.ajax(processor+'get-skill',id);
             jobs.done(function(data){
                 $data = data;
             });
             return JSON.parse($data);
         },
         add:function(id){
-            $("a.skills").addClass('hidden');
-            $("a.add").addClass('hidden');
-            $("div.list").addClass('hidden');
-            $("div.add").removeClass('hidden');
-            $("a.add").addClass('hidden');
-            $("a.goback").removeClass('hidden');
-            $("div.toolbar").addClass('hidden');
-
+            app.popup('.popup-skill');
             $('select').material_select('close');
-            $("a.cancel").on('click',function(){
-                $("div.list").removeClass('hidden');
-                $("div.add").addClass('hidden');
-                $("a.skills").removeClass('hidden');
-                $("a.add").removeClass('hidden');
-                $("div.toolbar").removeClass('hidden');
-            });
 
             $("#form_skills").validate({
                 rules: {
@@ -2846,13 +2863,14 @@ Framework7.prototype.plugins.kareer = function (app, params) {
                     }
                 },
                 submitHandler: function (form) {
-                    var _form = $(form).serializeArr
+                    var _form = $(form).serializeArray();
                     var data = system.ajax(processor+'do-skill',[id,_form]);
                     data.done(function(data){
                         console.log(data);
                         if(data != 0){
                             $$("input").val("");
                             system.notification("Kareer","Skill Added.",false,2000,true,false,function(){
+                                app.closeModal('.popup-skill');
                                 skills.ini();
                             });
                         }
@@ -2874,32 +2892,173 @@ Framework7.prototype.plugins.kareer = function (app, params) {
                             "   <div class='title color-teal' ><strong class ='color-black'>"+v[2]+"</strong></div>"+
                             "   <div class ='color-teal' ><small class ='color-black'>"+v[3]+"</small></div>"+
                             "   </div>"+
-                            "   <a class='col 33 right btn btn-floating btn-flat waves-effect waves-teal waves-light' href='#' data-cmd='edit' data-node='"+v[0]+"'><i class='icon small f7-icons color-gray'>chevron_right</i></a>"+
+                            "   <a class='col 33 right btn btn-floating btn-flat waves-effect waves-teal waves-light' href='#' data-cmd='view' data-node='"+v[0]+"'><i class='icon small f7-icons color-gray'>chevron_right</i></a>"+
                             "</li>";
 
                     $("a.skills").removeClass('disabled');
             });
             $$("#display_skills").html("<ul class='collection'>"+content+"</ul");
-
+            $("a[data-cmd='view']").on('click',function(){
+                var data = $(this).data();
+                var id = data.node;
+                var s = skills.get(id);
+                skills.display(s);
+                skills.edit(s);
+                $('div.display').addClass('hidden');
+                $('div.focus').removeClass('hidden');
+                $('.card-header a').addClass('hidden');
+                $('div.NAV ').addClass('hidden');
+                $('div.TOOL').addClass('hidden');
+            });
             $("a.skills").on('click',function(){
                 var data = $(this).data('load');
                 view.router.loadPage("pages/admin/"+data+".html");
-            });
-            app.onPageInit('builderLanguage',function(page){
-                language.ini();
+                app.onPageInit('builderLanguage',function(page){
+                    language.ini();
+                });
             });
         },
+        display:function(s){
+            $$("#display_skill strong").html(s[0][2]);
+            $$("#display_skill a").attr({"data-node":s[0][0]});
+            $$("#display_level strong").html(s[0][3]);
+            $$("#display_level a").attr({"data-node":s[0][0]});   
+
+            $$("a[data-cmd='back']").on('click',function(){
+                skills.ini();
+                $('div.display').removeClass('hidden');
+                $('div.focus').addClass('hidden');
+                $('.card-header a').removeClass('hidden');
+                $('div.NAV').removeClass('hidden');
+                $('div.TOOL').removeClass('hidden');
+            });
+            $$("a[data-cmd='delete']").on('click',function(){
+                skills.delete(s);
+            });
+        },
+        edit:function(s) {
+            $$("a[data-cmd='update']").on('click',function(){
+                var data = $(this).data();
+                var id = s[0][0];
+                app.popup('.popup-update');
+                var content =   `<form action="" method="POST" id='form_edit'>
+                                    <div class="list-block">
+                                        <ul>
+                                            <li>
+                                                <div class="input-field">
+                                                    <div class="input-field" style="margin-top: 50px; !important">
+                                                    <label class="a" for='field_${data.prop}'>Skills</label>
+                                                    <input type='text' id='field_${data.prop}' value = '${data.value}' name='field_${data.prop}' class=" form-control color-white">
+                                                </div>
+                                                </div>
+                                            </li>                                        
+                                            <li>
+                                                <div class="input-field" >
+                                                    <select id="field_level" name="field_level">
+                                                        <option value="Beginner">Beginner</option>
+                                                        <option value="Intermediate">Intermediate</option>
+                                                        <option value="Advance">Advance</option>
+                                                        <option value="Expert">Expert</option>
+                                                    </select>
+                                                </div>
+                                            </li>
+                                            <li>
+                                                <button class="btn teal waves-effect waves-teal waves-light" style="width: 100%; top: 20px;">Save</button>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </form>`;
+                $("#updateSkill").html(content);
+                $('select').material_select(); 
+                $("#form_edit").validate({
+                    rules: {
+                        field_Skills: {required: true,maxlength:100}
+                        
+                    },
+                    errorElement : 'div',
+                    errorPlacement: function(error, element) {
+                        var placement = $(element).data('error');
+                        if(placement){
+                            $(placement).append(error)
+                        } 
+                        else{
+                            error.insertAfter(element);
+                        }
+                    },
+                    messages: {
+                        field_Skills: {
+                            required: "<i data-error ='Field is required' class='icon f7-icons  color red' style='margin:5px;'>info</i>",
+                            maxlength: "<i data-error ='Name is too long' class='icon f7-icons color red' style='margin:5px;'>info</i>",
+                        },
+                    },
+                    submitHandler: function (form) {
+                        var _form = $(form).serializeArray();
+                        var data = system.ajax(processor+'do-updateSkill',[id,_form]);
+                        data.done(function(data){
+                            console.log(data);
+                            if(data != 0){
+                                system.notification("Update","Success. Please wait.",false,2000,true,false,function(){
+                                    app.closeModal('.popup-update');
+                                    var newdata = skills.get(id);
+                                    skills.edit(newdata);
+                                    skills.display(newdata);
+                                });
+
+                            }
+                            else{
+                                system.notification("Update","Failed.",false,3000,true,false,false);
+                            }
+                        })
+                    }
+                });
+            });
+        },
+        delete:function (s) {
+            var id = s[0][0];
+            app.popup('.popup-delete');
+            var content =   `<ul>
+                                <li>
+                                    <h5 class = 'center'>Are you sure?
+                                    </h5>
+                                </li>
+                                <li>
+                                    <a href='#' class='btn close-popup waves-effect waves-teal waves-light btn btn-flat grey-text white'>Cancel</a>
+                                    <a data-cmd='proceed' class='waves-effect waves-teal waves-light btn btn-flat grey-text white'>Yes</a>
+                                </li>
+                            </ul>`;
+            $("#deleteSkill").html(`<div class="card-content">${content}</div>`);
+            $("a[data-cmd='proceed']").on('click',function(){
+                var acad = system.ajax(processor+'do-deleteSkill',id);
+                acad.done(function(data){
+                    if(data != 0){
+                        system.notification("Kareer","Success. Please wait.",false,2000,true,false,function(){
+                            app.closeModal('.popup-delete');
+                            skills.ini();
+                            $('div.display').removeClass('hidden');
+                            $('div.focus').addClass('hidden');
+                            $('.card-header a').removeClass('hidden');
+                            $('div.NAV').removeClass('hidden');
+                            $('div.TOOL').removeClass('hidden');
+
+                        });
+
+                    }
+                    else{
+                        system.notification("Kareer","Failed.",false,3000,true,false,false);
+                    }
+                });
+            });
+        }
     }
 
     let language = {
         ini:function(){
             var applicantData = JSON.parse(localStorage.getItem('applicant'));
-            var list = language.get(applicantData[0][0]);
+            var list = language.getAll(applicantData[0][0]);
             $$("a[data-cmd='add-language']").on('click',function(){
                 language.add(applicantData[0][0]);
             });
             language.show(list);
-            // skills.delete(list);
 
             $("a.home").on('click',function(){
                 var data = $(this).data('load');
@@ -2911,6 +3070,14 @@ Framework7.prototype.plugins.kareer = function (app, params) {
                 account.controller();
             });
         },
+        getAll:function(id){
+            var $data = "";
+            var jobs = system.ajax(processor+'get-languageALL',id);
+            jobs.done(function(data){
+                $data = data;
+            });
+            return JSON.parse($data);
+        },
         get:function(id){
             var $data = "";
             var jobs = system.ajax(processor+'get-language',id);
@@ -2920,26 +3087,11 @@ Framework7.prototype.plugins.kareer = function (app, params) {
             return JSON.parse($data);
         },
         add:function(id){
-            $("a.language").addClass('hidden');
-            $("a.add").addClass('hidden');
-            $("div.list").addClass('hidden');
-            $("div.add").removeClass('hidden');
-            $("a.add").addClass('hidden');
-            $("a.goback").removeClass('hidden');
-            $("div.toolbar").addClass('hidden');
-
-            $('select').material_select('close');
-            $("a.cancel").on('click',function(){
-                $("div.list").removeClass('hidden');
-                $("div.add").addClass('hidden');
-                $("a.language").removeClass('hidden');
-                $("a.add").removeClass('hidden');
-                $("div.toolbar").removeClass('hidden');
-            });
-
+            app.popup('.popup-language');
+            $('select').material_select();
             $("#form_language").validate({
                 rules: {
-                    field_skill: {required: true,maxlength:100},
+                    field_language: {required: true,maxlength:100},
                     field_level: {required: true,maxlength:50}
                 },
                 errorElement : 'div',
@@ -2953,13 +3105,14 @@ Framework7.prototype.plugins.kareer = function (app, params) {
                     }
                 },
                 submitHandler: function (form) {
-                    var _form = $(form).serializeArr
+                    var _form = $(form).serializeArray();
                     var data = system.ajax(processor+'do-language',[id,_form]);
                     data.done(function(data){
                         console.log(data);
                         if(data != 0){
                             $$("input").val("");
                             system.notification("Kareer","Language Added.",false,2000,true,false,function(){
+                                app.popup('.popup-language');
                                 language.ini();
                             });
                         }
@@ -2981,13 +3134,24 @@ Framework7.prototype.plugins.kareer = function (app, params) {
                             "   <div class='title color-teal' ><strong class ='color-black'>"+v[2]+"</strong></div>"+
                             "   <div class ='color-teal' ><small class ='color-black'>"+v[3]+"</small></div>"+
                             "   </div>"+
-                            "   <a class='col 33 right btn btn-floating btn-flat waves-effect waves-teal waves-light' href='#' data-cmd='edit' data-node='"+v[0]+"'><i class='icon small f7-icons color-gray'>chevron_right</i></a>"+
+                            "   <a class='col 33 right btn btn-floating btn-flat waves-effect waves-teal waves-light' href='#' data-cmd='view' data-node='"+v[0]+"'><i class='icon small f7-icons color-gray'>chevron_right</i></a>"+
                             "</li>";
 
                     $("a.language").removeClass('disabled');
             });
             $$("#display_language").html("<ul class='collection'>"+content+"</ul");
-
+            $("a[data-cmd='view']").on('click',function(){
+                var data = $(this).data();
+                var id = data.node;
+                var l = language.get(id);
+                language.display(l);
+                language.edit(l);
+                $('div.display').addClass('hidden');
+                $('div.focus').removeClass('hidden');
+                $('.card-header a').addClass('hidden');
+                $('div.NAV ').addClass('hidden');
+                $('div.TOOL').addClass('hidden');
+            });
             $("a.language").on('click',function(){
                 var data = $(this).data('load');
                 view.router.loadPage("pages/admin/"+data+".html");
@@ -2996,13 +3160,143 @@ Framework7.prototype.plugins.kareer = function (app, params) {
                 references.ini();
             });
         },
+        display:function(l) {
+            $$("#display_language strong").html(l[0][2]);
+            $$("#display_language a").attr({"data-node":l[0][0]});
+            $$("#display_level strong").html(l[0][3]);
+            $$("#display_level a").attr({"data-node":l[0][0]});   
+
+            $$("a[data-cmd='back']").on('click',function(){
+                language.ini();
+                $('div.display').removeClass('hidden');
+                $('div.focus').addClass('hidden');
+                $('.card-header a').removeClass('hidden');
+                $('div.NAV').removeClass('hidden');
+                $('div.TOOL').removeClass('hidden');
+            });
+            $$("a[data-cmd='delete']").on('click',function(){
+                language.delete(l);
+            });
+        },
+        edit:function(l){
+            $$("a[data-cmd='update']").on('click',function(){
+                var data = $(this).data();
+                var id = l[0][0];
+                app.popup('.popup-update');
+                var content =   `<form action="" method="POST" id='form_edit'>
+                                        <div class="list-block">
+                                            <ul>
+                                                <li>
+                                                    <div class="input-field" style="margin-top: 50px; !important">
+                                                        <label class="a" for='field_${data.prop}'>Language</label>
+                                                        <input type='text' id='field_${data.prop}' value = '${data.value}' name='field_${data.prop}' class=" form-control color-white">
+                                                    </div>
+                                                </li>
+                                                <li>
+                                                    <div class="input-field">
+                                                        <label class="active" style ="top: auto;" for='field_level'>Level</label>
+                                                        <select id="field_level" name="field_level">
+                                                            <option value="Beginner">Beginner</option>
+                                                            <option value="Conversational">Conversational</option>
+                                                            <option value="Fluent">Fluent</option>
+                                                            <option value="Native">Native</option>
+                                                        </select>
+                                                    </div>
+                                                </li>
+                                                <li>
+                                                    <button class="btn teal waves-effect waves-teal waves-light" style="width: 100%; top: 20px;">Save</button>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </form>`;
+                $("#updateLanguage").html(content);
+                $('select').material_select(); 
+                $("#form_edit").validate({
+                    rules: {
+                        field_Language: {required: true,maxlength:100}
+                        
+                    },
+                    errorElement : 'div',
+                    errorPlacement: function(error, element) {
+                        var placement = $(element).data('error');
+                        if(placement){
+                            $(placement).append(error)
+                        } 
+                        else{
+                            error.insertAfter(element);
+                        }
+                    },
+                    messages: {
+                        field_Skills: {
+                            required: "<i data-error ='Field is required' class='icon f7-icons  color red' style='margin:5px;'>info</i>",
+                            maxlength: "<i data-error ='Name is too long' class='icon f7-icons color red' style='margin:5px;'>info</i>",
+                        },
+                    },
+                    submitHandler: function (form) {
+                        var _form = $(form).serializeArray();
+                        var data = system.ajax(processor+'do-updateLanguage',[id,_form]);
+                        data.done(function(data){
+                            console.log(data);
+                            if(data != 0){
+                                system.notification("Update","Success. Please wait.",false,2000,true,false,function(){
+                                    app.closeModal('.popup-update');
+                                    var newdata = language.get(id);
+                                    language.edit(newdata);
+                                    language.display(newdata);
+                                });
+
+                            }
+                            else{
+                                system.notification("Update","Failed.",false,3000,true,false,false);
+                            }
+                        })
+                    }
+                });
+            });
+        },
+        delete:function(l){
+            var id = l[0][0];
+            app.popup('.popup-delete');
+            var content =   `<ul>
+                                <li>
+                                    <h5 class = 'center'>Are you sure?
+                                    </h5>
+                                </li>
+                                <li>
+                                    <a href='#' class='btn close-popup waves-effect waves-teal waves-light btn btn-flat grey-text white'>Cancel</a>
+                                    <a data-cmd='proceed' class='waves-effect waves-teal waves-light btn btn-flat grey-text white'>Yes</a>
+                                </li>
+                            </ul>`;
+            $("#deleteLanguage").html(`<div class="card-content">${content}</div>`);
+            $("a[data-cmd='proceed']").on('click',function(){
+                var acad = system.ajax(processor+'do-deleteLanguage',id);
+                acad.done(function(data){
+                    if(data != 0){
+                        system.notification("Kareer","Success. Please wait.",false,2000,true,false,function(){
+                            app.closeModal('.popup-delete');
+                            language.ini();
+                            $('div.display').removeClass('hidden');
+                            $('div.focus').addClass('hidden');
+                            $('.card-header a').removeClass('hidden');
+                            $('div.NAV').removeClass('hidden');
+                            $('div.TOOL').removeClass('hidden');
+
+                        });
+
+                    }
+                    else{
+                        system.notification("Kareer","Failed.",false,3000,true,false,false);
+                    }
+                });
+            });
+        }
     }
 
     let references = {
         ini:function(){
             var applicantData = JSON.parse(localStorage.getItem('applicant'));
-            var list = references.get(applicantData[0][0]);
-            $$("a[data-cmd='add-references']").on('click',function(){
+            var list = references.getAll(applicantData[0][0]);
+            $$("a[data-cmd='add-reference']").on('click',function(){
                 references.add(applicantData[0][0]);
             });
             references.show(list);
@@ -3019,30 +3313,22 @@ Framework7.prototype.plugins.kareer = function (app, params) {
         },
         get:function(id){
             var $data = "";
-            var jobs = system.ajax(processor+'get-references',id);
+            var jobs = system.ajax(processor+'get-reference',id);
+            jobs.done(function(data){
+                $data = data;
+            });
+            return JSON.parse($data);
+        },
+        getAll:function(id){
+            var $data = "";
+            var jobs = system.ajax(processor+'get-referencesAll',id);
             jobs.done(function(data){
                 $data = data;
             });
             return JSON.parse($data);
         },
         add:function(id){
-            $("a.references").addClass('hidden');
-            $("a.add").addClass('hidden');
-            $("div.list").addClass('hidden');
-            $("div.add").removeClass('hidden');
-            $("a.add").addClass('hidden');
-            $("a.goback").removeClass('hidden');
-            $("div.toolbar").addClass('hidden');
-
-
-            $("a.cancel").on('click',function(){
-                $("div.list").removeClass('hidden');
-                $("div.add").addClass('hidden');
-                $("a.references").removeClass('hidden');
-                $("a.add").removeClass('hidden');
-                $("div.toolbar").removeClass('hidden');
-            });
-
+            app.popup('.popup-reference');
             $("#form_references").validate({
                 rules: {
                     field_name: {required: true,maxlength:100},
@@ -3064,13 +3350,14 @@ Framework7.prototype.plugins.kareer = function (app, params) {
                     }
                 },
                 submitHandler: function (form) {
-                    var _form = $(form).serializeArr
+                    var _form = $(form).serializeArray();
                     var data = system.ajax(processor+'do-references',[id,_form]);
                     data.done(function(data){
                         console.log(data);
                         if(data != 0){
                             $$("input").val("");
                             system.notification("Kareer","References Added.",false,2000,true,false,function(){
+                                app.closeModal('.popup-reference');
                                 references.ini();
                             });
                         }
@@ -3086,19 +3373,30 @@ Framework7.prototype.plugins.kareer = function (app, params) {
             $.each(list,function(i,v){
                 content += "<li class='collection-item row'>"+
                             "   <div class='chip' style = 'width: 10%;'>"+
-                            "   <div class='chip-media bg-blue' style = 'width: 50px !important; height: 50px !important; font-size: 24px;'></div>"+
+                            "   <div class='chip-media bg-blue' style = 'width: 50px !important; height: 50px !important; font-size: 24px;'>"+v[2][0]+"</div>"+
                             "   </div>"+
                             "   <div class = 'col 33'>"+
                             "   <div class='title color-teal' ><strong class ='color-black'>"+v[2]+"</strong></div>"+
                             "   <div class ='color-teal' ><small class ='color-black'>"+v[7]+"</small></div>"+
                             "   </div>"+
-                            "   <a class='col 33 right btn btn-floating btn-flat waves-effect waves-teal waves-light' href='#' data-cmd='edit' data-node='"+v[0]+"'><i class='icon small f7-icons color-gray'>chevron_right</i></a>"+
+                            "   <a class='col 33 right btn btn-floating btn-flat waves-effect waves-teal waves-light' href='#' data-cmd='view' data-node='"+v[0]+"'><i class='icon small f7-icons color-gray'>chevron_right</i></a>"+
                             "</li>";
 
                     $("a.references").removeClass('disabled');
             });
             $$("#display_references").html("<ul class='collection'>"+content+"</ul");
-
+            $("a[data-cmd='view']").on('click',function(){
+                var data = $(this).data();
+                var id = data.node;
+                var r = references.get(id);
+                references.display(r);
+                references.edit(r);
+                $('div.display').addClass('hidden');
+                $('div.focus').removeClass('hidden');
+                $('.card-header a').addClass('hidden');
+                $('div.NAV ').addClass('hidden');
+                $('div.TOOL').addClass('hidden');
+            });
             $("a.references").on('click',function(){
                 var data = $(this).data('load');
                 view.router.loadPage("pages/admin/"+data+".html");
@@ -3107,12 +3405,392 @@ Framework7.prototype.plugins.kareer = function (app, params) {
                 seminar.ini();
             });
         },
+        display:function(r) {
+            $$("#display_name strong").html(r[0][2]);
+            $$("#display_name a").attr({"data-node":r[0][0]});
+            $$("#display_relationship strong").html(r[0][3]);
+            $$("#display_relationship a").attr({"data-node":r[0][0]});
+            $$("#display_profession strong").html(r[0][4]);
+            $$("#display_profession a").attr({"data-node":r[0][0]});
+            $$("#display_email strong").html(r[0][5]);
+            $$("#display_email a").attr({"data-node":r[0][0]});
+            $$("#display_phone strong").html(r[0][6]);
+            $$("#display_phone a").attr({"data-node":r[0][0]});
+            $$("#display_address strong").html(r[0][7]);
+            $$("#display_address a").attr({"data-node":r[0][0]}); 
+
+            $$("a[data-cmd='back']").on('click',function(){
+                references.ini();
+                $('div.display').removeClass('hidden');
+                $('div.focus').addClass('hidden');
+                $('.card-header a').removeClass('hidden');
+                $('div.NAV').removeClass('hidden');
+                $('div.TOOL').removeClass('hidden');
+            });
+            $$("a[data-cmd='delete']").on('click',function(){
+                references.delete(r);
+            });
+        },
+        delete:function(r){
+            var id = r[0][0];
+            app.popup('.popup-delete');
+            var content =   `<ul>
+                                <li>
+                                    <h5 class = 'center'>Are you sure?
+                                    </h5>
+                                </li>
+                                <li>
+                                    <a href='#' class='btn close-popup waves-effect waves-teal waves-light btn btn-flat grey-text white'>Cancel</a>
+                                    <a data-cmd='proceed' class='waves-effect waves-teal waves-light btn btn-flat grey-text white'>Yes</a>
+                                </li>
+                            </ul>`;
+            $("#deleteReference").html(`<div class="card-content">${content}</div>`);
+            $("a[data-cmd='proceed']").on('click',function(){
+                var acad = system.ajax(processor+'do-deleteReference',id);
+                acad.done(function(data){
+                    if(data != 0){
+                        system.notification("Kareer","Success. Please wait.",false,2000,true,false,function(){
+                            app.closeModal('.popup-delete');
+                            references.ini();
+                            $('div.display').removeClass('hidden');
+                            $('div.focus').addClass('hidden');
+                            $('.card-header a').removeClass('hidden');
+                            $('div.NAV').removeClass('hidden');
+                            $('div.TOOL').removeClass('hidden');
+                        });
+
+                    }
+                    else{
+                        system.notification("Kareer","Failed.",false,3000,true,false,false);
+                    }
+                });
+            });
+        },
+        edit:function(r){
+            $$("a[data-cmd='update']").on('click',function(){
+                var data = $(this).data();
+                var id = r[0][0];
+                app.popup('.popup-update');
+                if(data.prop == "Name"){
+                    var content =   `<form action="" method="POST" id='form_edit'>
+                                        <div class="list-block">
+                                            <ul>
+                                                <li>
+                                                    <div class="input-field">
+                                                        <input type='text' id="field_name" name="field_name" class="form-control">
+                                                        <label class="" for="field_name" style="color: black !important; top: -2px !important; left: 0px !important;">Name</label>
+                                                    </div>
+                                                </li>
+                                                <li>
+                                                    <button class="btn teal waves-effect waves-teal waves-light" style="width: 100%; top: 20px;">Save</button>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </form>`;
+                    $("#updateReference").html(content);
+                    $("#form_edit").validate({
+                        rules: {
+                            field_name: {required: true,maxlength:20},
+                        },
+                        errorElement : 'div',
+                        errorPlacement: function(error, element) {
+                            var placement = $(element).data('error');
+                            if(placement){
+                                $(placement).append(error)
+                            } 
+                            else{
+                                error.insertAfter(element);
+                            }
+                        },
+                        submitHandler: function (form) {
+                            var _form = $(form).serializeArray();
+                            var data = system.ajax(processor+'do-updateReference',[id,_form]);
+                            data.done(function(data){
+                                console.log(data);
+                                if(data != 0){
+                                    system.notification("Update","Success. Please wait.",false,2000,true,false,function(){
+                                        app.closeModal('.popup-update');
+                                        var newdata = references.get(id);
+                                        references.edit(newdata);
+                                        references.display(newdata);
+                                    });
+
+                                }
+                                else{
+                                    system.notification("Update","Failed.",false,3000,true,false,false);
+                                }
+                            })
+                        }
+                    });
+                }
+                else if(data.prop == "Relationship"){
+                    var content =   `<form action="" method="POST" id='form_edit'>
+                                        <div class="list-block">
+                                            <ul>
+                                                <li>
+                                                    <div class="input-field">
+                                                        <input type='text' id="field_relationship" name="field_relationship" class="form-control">
+                                                        <label class="" for="field_relationship" style="color: black !important; top: -2px !important; left: 0px !important;">Relationship</label>
+                                                    </div>
+                                                </li>
+                                                <li>
+                                                    <button class="btn teal waves-effect waves-teal waves-light" style="width: 100%; top: 20px;">Save</button>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </form>`;
+                    $("#updateReference").html(content);
+                    $("#form_edit").validate({
+                        rules: {
+                            field_relationship: {required: true,maxlength:20},
+                        },
+                        errorElement : 'div',
+                        errorPlacement: function(error, element) {
+                            var placement = $(element).data('error');
+                            if(placement){
+                                $(placement).append(error)
+                            } 
+                            else{
+                                error.insertAfter(element);
+                            }
+                        },
+                        submitHandler: function (form) {
+                            var _form = $(form).serializeArray();
+                            var data = system.ajax(processor+'do-updateReference',[id,_form]);
+                            data.done(function(data){
+                                console.log(data);
+                                if(data != 0){
+                                    system.notification("Update","Success. Please wait.",false,2000,true,false,function(){
+                                        app.closeModal('.popup-update');
+                                        var newdata = references.get(id);
+                                        references.edit(newdata);
+                                        references.display(newdata);
+                                    });
+
+                                }
+                                else{
+                                    system.notification("Update","Failed.",false,3000,true,false,false);
+                                }
+                            })
+                        }
+                    });
+                }
+                else if(data.prop == "Profession"){
+                    var content =   `<form action="" method="POST" id='form_edit'>
+                                        <div class="list-block">
+                                            <ul>
+                                                <li>
+                                                    <div class="input-field">
+                                                        <input type='text' id="field_profession" name="field_profession" class="form-control">
+                                                        <label class="" for="field_profession" style="color: black !important; top: -2px !important; left: 0px !important;">Profession</label>
+                                                    </div
+                                                </li>
+                                                <li>
+                                                    <button class="btn teal waves-effect waves-teal waves-light" style="width: 100%; top: 20px;">Save</button>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </form>`;
+                    $("#updateReference").html(content);
+                    $("#form_edit").validate({
+                        rules: {
+                            field_profession: {required: true,maxlength:20},
+                        },
+                        errorElement : 'div',
+                        errorPlacement: function(error, element) {
+                            var placement = $(element).data('error');
+                            if(placement){
+                                $(placement).append(error)
+                            } 
+                            else{
+                                error.insertAfter(element);
+                            }
+                        },
+                        submitHandler: function (form) {
+                            var _form = $(form).serializeArray();
+                            var data = system.ajax(processor+'do-updateReference',[id,_form]);
+                            data.done(function(data){
+                                console.log(data);
+                                if(data != 0){
+                                    system.notification("Update","Success. Please wait.",false,2000,true,false,function(){
+                                        app.closeModal('.popup-update');
+                                        var newdata = references.get(id);
+                                        references.edit(newdata);
+                                        references.display(newdata);
+                                    });
+
+                                }
+                                else{
+                                    system.notification("Update","Failed.",false,3000,true,false,false);
+                                }
+                            })
+                        }
+                    });
+                }
+                else if(data.prop == "Email"){
+                    var content =   `<form action="" method="POST" id='form_edit'>
+                                        <div class="list-block">
+                                            <ul>
+                                                <li>
+                                                    <div class="input-field">
+                                                        <input type='text' id="field_email" name="field_email" class="form-control">
+                                                        <label class="" for="field_email" style="color: black !important; top: -2px !important; left: 0px !important;">Email</label>
+                                                    </div>
+                                                </li>
+                                                <li>
+                                                    <button class="btn teal waves-effect waves-teal waves-light" style="width: 100%; top: 20px;">Save</button>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </form>`;
+                    $("#updateReference").html(content);
+                    $("#form_edit").validate({
+                        rules: {
+                            field_email: {required: true,maxlength:20},
+                        },
+                        errorElement : 'div',
+                        errorPlacement: function(error, element) {
+                            var placement = $(element).data('error');
+                            if(placement){
+                                $(placement).append(error)
+                            } 
+                            else{
+                                error.insertAfter(element);
+                            }
+                        },
+                        submitHandler: function (form) {
+                            var _form = $(form).serializeArray();
+                            var data = system.ajax(processor+'do-updateReference',[id,_form]);
+                            data.done(function(data){
+                                console.log(data);
+                                if(data != 0){
+                                    system.notification("Update","Success. Please wait.",false,2000,true,false,function(){
+                                        app.closeModal('.popup-update');
+                                        var newdata = references.get(id);
+                                        references.edit(newdata);
+                                        references.display(newdata);
+                                    });
+
+                                }
+                                else{
+                                    system.notification("Update","Failed.",false,3000,true,false,false);
+                                }
+                            })
+                        }
+                    });
+                }
+                else if(data.prop == "Phone"){
+                    var content =   `<form action="" method="POST" id='form_edit'>
+                                        <div class="list-block">
+                                            <ul>
+                                                <li>
+                                                    <div class="input-field">
+                                                        <input type='text' id="field_phone" name="field_phone" class="form-control">
+                                                        <label class="" for="field_phone" style="color: black !important; top: -2px !important; left: 0px !important;">Phone</label>
+                                                    </div>
+                                                </li>
+                                                <li>
+                                                    <button class="btn teal waves-effect waves-teal waves-light" style="width: 100%; top: 20px;">Save</button>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </form>`;
+                    $("#updateReference").html(content);
+                    $("#form_edit").validate({
+                        rules: {
+                            field_name: {required: true,maxlength:20},
+                        },
+                        errorElement : 'div',
+                        errorPlacement: function(error, element) {
+                            var placement = $(element).data('error');
+                            if(placement){
+                                $(placement).append(error)
+                            } 
+                            else{
+                                error.insertAfter(element);
+                            }
+                        },
+                        submitHandler: function (form) {
+                            var _form = $(form).serializeArray();
+                            var data = system.ajax(processor+'do-updateReference',[id,_form]);
+                            data.done(function(data){
+                                console.log(data);
+                                if(data != 0){
+                                    system.notification("Update","Success. Please wait.",false,2000,true,false,function(){
+                                        app.closeModal('.popup-update');
+                                        var newdata = references.get(id);
+                                        references.edit(newdata);
+                                        references.display(newdata);
+                                    });
+
+                                }
+                                else{
+                                    system.notification("Update","Failed.",false,3000,true,false,false);
+                                }
+                            })
+                        }
+                    });
+                }
+                else if(data.prop == "Address"){
+                    var content =   `<form action="" method="POST" id='form_edit'>
+                                        <div class="list-block">
+                                            <ul>
+                                                <li>
+                                                    <div class="input-field">
+                                                        <input type='text' id="field_address" name="field_address" class="form-control">
+                                                        <label class="" for="field_address" style="color: black !important; top: -2px !important; left: 0px !important;">Address</label>
+                                                    </div>
+                                                </li>
+                                                <li>
+                                                    <button class="btn teal waves-effect waves-teal waves-light" style="width: 100%; top: 20px;">Save</button>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </form>`;
+                    $("#updateReference").html(content);
+                    $("#form_edit").validate({
+                        rules: {
+                            field_address: {required: true,maxlength:20},
+                        },
+                        errorElement : 'div',
+                        errorPlacement: function(error, element) {
+                            var placement = $(element).data('error');
+                            if(placement){
+                                $(placement).append(error)
+                            } 
+                            else{
+                                error.insertAfter(element);
+                            }
+                        },
+                        submitHandler: function (form) {
+                            var _form = $(form).serializeArray();
+                            var data = system.ajax(processor+'do-updateReference',[id,_form]);
+                            data.done(function(data){
+                                console.log(data);
+                                if(data != 0){
+                                    system.notification("Update","Success. Please wait.",false,2000,true,false,function(){
+                                        app.closeModal('.popup-update');
+                                        var newdata = references.get(id);
+                                        references.edit(newdata);
+                                        references.display(newdata);
+                                    });
+
+                                }
+                                else{
+                                    system.notification("Update","Failed.",false,3000,true,false,false);
+                                }
+                            })
+                        }
+                    });
+                }
+            });
+        }
     }
 
     let seminar = {
         ini:function(){
             var applicantData = JSON.parse(localStorage.getItem('applicant'));
-            var list = seminar.get(applicantData[0][0]);
+            var list = seminar.getAll(applicantData[0][0]);
             $$("a[data-cmd='add-seminar']").on('click',function(){
                 seminar.add(applicantData[0][0]);
             });
@@ -3128,6 +3806,14 @@ Framework7.prototype.plugins.kareer = function (app, params) {
                 account.controller();
             });
         },
+        getAll:function(id){
+            var $data = "";
+            var jobs = system.ajax(processor+'get-seminarAll',id);
+            jobs.done(function(data){
+                $data = data;
+            });
+            return JSON.parse($data);
+        },
         get:function(id){
             var $data = "";
             var jobs = system.ajax(processor+'get-seminar',id);
@@ -3137,23 +3823,7 @@ Framework7.prototype.plugins.kareer = function (app, params) {
             return JSON.parse($data);
         },
         add:function(id){
-            $("a.seminar").addClass('hidden');
-            $("a.add").addClass('hidden');
-            $("div.list").addClass('hidden');
-            $("div.add").removeClass('hidden');
-            $("a.add").addClass('hidden');
-            $("a.goback").removeClass('hidden');
-            $("div.toolbar").addClass('hidden');
-
-
-            $("a.cancel").on('click',function(){
-                $("div.list").removeClass('hidden');
-                $("div.add").addClass('hidden');
-                $("a.seminar").removeClass('hidden');
-                $("a.add").removeClass('hidden');
-                $("div.toolbar").removeClass('hidden');
-            });
-
+            app.popup('.popup-seminar');
             $("#form_seminars").validate({
                 rules: {
                     field_event: {required: true,maxlength:100},
@@ -3171,13 +3841,14 @@ Framework7.prototype.plugins.kareer = function (app, params) {
                     }
                 },
                 submitHandler: function (form) {
-                    var _form = $(form).serializeArr
+                    var _form = $(form).serializeArray();
                     var data = system.ajax(processor+'do-seminar',[id,_form]);
                     data.done(function(data){
                         console.log(data);
                         if(data != 0){
                             $$("input").val("");
                             system.notification("Kareer","seminar Added.",false,2000,true,false,function(){
+                                app.closeModal('.popup-seminar');
                                 seminar.ini();
                             });
                         }
@@ -3188,24 +3859,35 @@ Framework7.prototype.plugins.kareer = function (app, params) {
                 }
             }); 
         },
-        show:function(list){
+        show:function(list){    
             var content = "";
             $.each(list,function(i,v){
                 content += "<li class='collection-item row'>"+
                             "   <div class='chip' style = 'width: 10%;'>"+
-                            "   <div class='chip-media bg-blue' style = 'width: 50px !important; height: 50px !important; font-size: 24px;'></div>"+
+                            "   <div class='chip-media bg-blue' style = 'width: 50px !important; height: 50px !important; font-size: 24px;'>"+v[2][0]+"</div>"+
                             "   </div>"+
                             "   <div class = 'col 33'>"+
                             "   <div class='title color-teal' ><strong class ='color-black'>"+v[2]+"</strong></div>"+
                             "   <div class ='color-teal' ><small class ='color-black'>"+v[3]+"</small></div>"+
                             "   </div>"+
-                            "   <a class='col 33 right btn btn-floating btn-flat waves-effect waves-teal waves-light' href='#' data-cmd='edit' data-node='"+v[0]+"'><i class='icon small f7-icons color-gray'>chevron_right</i></a>"+
+                            "   <a class='col 33 right btn btn-floating btn-flat waves-effect waves-teal waves-light' href='#' data-cmd='view' data-node='"+v[0]+"'><i class='icon small f7-icons color-gray'>chevron_right</i></a>"+
                             "</li>";
 
                     $("a.seminar").removeClass('disabled');
             });
             $$("#display_seminars").html("<ul class='collection'>"+content+"</ul");
-
+            $("a[data-cmd='view']").on('click',function(){
+                var data = $(this).data();
+                var id = data.node;
+                var s = seminar.get(id);
+                seminar.display(s);
+                seminar.edit(s);
+                $('div.display').addClass('hidden');
+                $('div.focus').removeClass('hidden');
+                $('.card-header a').addClass('hidden');
+                $('div.NAV ').addClass('hidden');
+                $('div.TOOL').addClass('hidden');
+            });
             $("a.seminar").on('click',function(){
                 var data = $(this).data('load');
                 view.router.loadPage("pages/admin/"+data+".html");
@@ -3214,6 +3896,224 @@ Framework7.prototype.plugins.kareer = function (app, params) {
                 resume.page();
             });
         },
+        display:function(s) {console.log(s);
+            $$("#display_event strong").html(s[0][2]);
+            $$("#display_event a").attr({"data-node":s[0][0]});
+            $$("#display_location strong").html(s[0][3]);
+            $$("#display_location a").attr({"data-node":s[0][0]});
+            $$("#display_date strong").html(s[0][4]);
+            $$("#display_date a").attr({"data-node":s[0][0]});
+
+            $$("a[data-cmd='back']").on('click',function(){
+                seminar.ini();
+                $('div.display').removeClass('hidden');
+                $('div.focus').addClass('hidden');
+                $('.card-header a').removeClass('hidden');
+                $('div.NAV').removeClass('hidden');
+                $('div.TOOL').removeClass('hidden');
+            });
+            $$("a[data-cmd='delete']").on('click',function(){
+                seminar.delete(s);
+            });
+        },
+        delete:function(s){
+            var id = s[0][0];
+            app.popup('.popup-delete');
+            var content =   `<ul>
+                                <li>
+                                    <h5 class = 'center'>Are you sure?
+                                    </h5>
+                                </li>
+                                <li>
+                                    <a href='#' class='btn close-popup waves-effect waves-teal waves-light btn btn-flat grey-text white'>Cancel</a>
+                                    <a data-cmd='proceed' class='waves-effect waves-teal waves-light btn btn-flat grey-text white'>Yes</a>
+                                </li>
+                            </ul>`;
+            $("#deleteSeminar").html(`<div class="card-content">${content}</div>`);
+            $("a[data-cmd='proceed']").on('click',function(){
+                var acad = system.ajax(processor+'do-deleteSeminar',id);
+                acad.done(function(data){
+                    if(data != 0){
+                        system.notification("Kareer","Success. Please wait.",false,2000,true,false,function(){
+                            app.closeModal('.popup-delete');
+                            seminar.ini();
+                            $('div.display').removeClass('hidden');
+                            $('div.focus').addClass('hidden');
+                            $('.card-header a').removeClass('hidden');
+                            $('div.NAV').removeClass('hidden');
+                            $('div.TOOL').removeClass('hidden');
+                        });
+
+                    }
+                    else{
+                        system.notification("Kareer","Failed.",false,3000,true,false,false);
+                    }
+                });
+            });
+        },
+        edit:function(s){
+            $$("a[data-cmd='update']").on('click',function(){
+                var data = $(this).data();
+                var id = s[0][0];
+                app.popup('.popup-update');
+                if(data.prop == "Event"){
+                    var content =   `<form action="" method="POST" id='form_edit'>
+                                        <div class="list-block">
+                                            <ul>
+                                                <li>
+                                                    <div class="input-field">
+                                                        <input type='text' id="field_event" name="field_event" class="form-control">
+                                                        <label class="" for="field_event" style="color: black !important; top: -2px !important; left: 0px !important;">Event</label>
+                                                    </div>
+                                                </li>
+                                                <li>
+                                                    <button class="btn teal waves-effect waves-teal waves-light" style="width: 100%; top: 20px;">Save</button>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </form>`;
+                    $("#updateSeminar").html(content);
+                    $("#form_edit").validate({
+                        rules: {
+                            field_event: {required: true,maxlength:20},
+                        },
+                        errorElement : 'div',
+                        errorPlacement: function(error, element) {
+                            var placement = $(element).data('error');
+                            if(placement){
+                                $(placement).append(error)
+                            } 
+                            else{
+                                error.insertAfter(element);
+                            }
+                        },
+                        submitHandler: function (form) {
+                            var _form = $(form).serializeArray();
+                            var data = system.ajax(processor+'do-updateSeminar',[id,_form]);
+                            data.done(function(data){
+                                console.log(data);
+                                if(data != 0){
+                                    system.notification("Update","Success. Please wait.",false,2000,true,false,function(){
+                                        app.closeModal('.popup-update');
+                                        var newdata = seminar.get(id);
+                                        seminar.edit(newdata);
+                                        seminar.display(newdata);
+                                    });
+
+                                }
+                                else{
+                                    system.notification("Update","Failed.",false,3000,true,false,false);
+                                }
+                            })
+                        }
+                    });
+                }
+                else if(data.prop == "Location"){
+                    var content =   `<form action="" method="POST" id='form_edit'>
+                                        <div class="list-block">
+                                            <ul>
+                                                <li>
+                                                    <div class="input-field">
+                                                        <input type='text' id="field_location" name="field_location" class="form-control">
+                                                        <label class="" for="field_location" style="color: black !important; top: -2px !important; left: 0px !important;">Location</label>
+                                                    </div>
+                                                </li>
+                                                <li>
+                                                    <button class="btn teal waves-effect waves-teal waves-light" style="width: 100%; top: 20px;">Save</button>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </form>`;
+                    $("#updateSeminar").html(content);
+                    $("#form_edit").validate({
+                        rules: {
+                            field_location: {required: true,maxlength:20},
+                        },
+                        errorElement : 'div',
+                        errorPlacement: function(error, element) {
+                            var placement = $(element).data('error');
+                            if(placement){
+                                $(placement).append(error)
+                            } 
+                            else{
+                                error.insertAfter(element);
+                            }
+                        },
+                        submitHandler: function (form) {
+                            var _form = $(form).serializeArray();
+                            var data = system.ajax(processor+'do-updateSeminar',[id,_form]);
+                            data.done(function(data){
+                                console.log(data);
+                                if(data != 0){
+                                    system.notification("Update","Success. Please wait.",false,2000,true,false,function(){
+                                        app.closeModal('.popup-update');
+                                        var newdata = seminar.get(id);
+                                        seminar.edit(newdata);
+                                        seminar.display(newdata);
+                                    });
+
+                                }
+                                else{
+                                    system.notification("Update","Failed.",false,3000,true,false,false);
+                                }
+                            })
+                        }
+                    });
+                }
+                else if(data.prop == "Date"){
+                    var content =   `<form action="" method="POST" id='form_edit'>
+                                        <div class="list-block">
+                                            <ul>
+                                                <li>
+                                                    <div class="input-field">
+                                                        <input type='date' id="field_date" name="field_date" class="form-control">
+                                                        <label class="active" for="field_date" style="color: black !important; top: -2px !important; left: 0px !important;">Date</label>
+                                                    </div>
+                                                </li>
+                                                <li>
+                                                    <button class="btn teal waves-effect waves-teal waves-light" style="width: 100%; top: 20px;">Save</button>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </form>`;
+                    $("#updateSeminar").html(content);
+                    $("#form_edit").validate({
+                        rules: {
+                            field_date: {required: true,maxlength:20},
+                        },
+                        errorElement : 'div',
+                        errorPlacement: function(error, element) {
+                            var placement = $(element).data('error');
+                            if(placement){
+                                $(placement).append(error)
+                            } 
+                            else{
+                                error.insertAfter(element);
+                            }
+                        },
+                        submitHandler: function (form) {
+                            var _form = $(form).serializeArray();
+                            var data = system.ajax(processor+'do-updateSeminar',[id,_form]);
+                            data.done(function(data){
+                                console.log(data);
+                                if(data != 0){
+                                    system.notification("Update","Success. Please wait.",false,2000,true,false,function(){
+                                        app.closeModal('.popup-update');
+                                        var newdata = seminar.get(id);
+                                        seminar.edit(newdata);
+                                        seminar.display(newdata);
+                                    });
+
+                                }
+                                else{
+                                    system.notification("Update","Failed.",false,3000,true,false,false);
+                                }
+                            })
+                        }
+                    });
+                }
+            });
+        }
     }
 
     let resume ={
@@ -3241,7 +4141,8 @@ Framework7.prototype.plugins.kareer = function (app, params) {
             app.onPageInit('builderAccount',function(page){
                 console.log('page'); 
                 $("a.acc").removeClass('color-grey').addClass('color-white');
-                // account.account(data);
+                var applicantData = JSON.parse(localStorage.getItem('applicant'));
+                var data = resume.get(applicantData[0][0]);
                 account.edit(data);
                 account.display(data);
                 account.show(data);
@@ -3302,7 +4203,7 @@ Framework7.prototype.plugins.kareer = function (app, params) {
             var applicantData = JSON.parse(localStorage.getItem('applicant'));
             var personalInfo = account.get(applicantData[0][0]);
             // console.log(personalInfo);
-            var Ldata = language.get(personalInfo[0]);
+            var Ldata = language.getAll(personalInfo[0]);
             // console.log(Ldata);
             var L ="";
             $.each(Ldata,function(i,v){
@@ -3320,15 +4221,13 @@ Framework7.prototype.plugins.kareer = function (app, params) {
                                   "   <div >Father: <span class ='color-black'>"+personalInfo[19]+"</span></div>"+
                                   "   <div >Religion: <span class ='color-black'>"+personalInfo[21]+"</span></div>"+
                                   "   <div >Citizenship: <span class ='color-black'>"+personalInfo[15]+"</span></div>"+
-                                  // "</div>"+
-                                  // "<div class='col s6'>"+
                                   "   <div >Place of Birth: <span class ='color-black'>"+personalInfo[13]+"</span></div>"+
                                   "   <div >Gender: <span class ='color-black'>"+personalInfo[10]+"</span></div>"+
                                   "   <div >Mother's Occupation: <span class ='color-black'>"+personalInfo[22]+"</span></div>"+
                                   "   <div >Father's Occupation: <span class ='color-black'>"+personalInfo[23]+"</span></div>"+
                                   "   <div >Language: <span class ='color-black'>"+L+"</span></div>"+
-                                  "   <div >Height: <span class ='color-black'>"+personalInfo[14]+"</span></div>"+
-                                  "   <div >Weight: <span class ='color-black'>"+personalInfo[15]+"</span></div>"+
+                                  "   <div >Height: <span class ='color-black'>"+personalInfo[16]+"</span></div>"+
+                                  "   <div >Weight: <span class ='color-black'>"+personalInfo[17]+"</span></div>"+
                                   "</div>";
             $$("#display_personalInfo").html(personalcontent);
 
@@ -3351,7 +4250,7 @@ Framework7.prototype.plugins.kareer = function (app, params) {
             });
             $$("#display_career").html(carcontent);
 
-            var skill = skills.get(applicantData[0][0]);
+            var skill = skills.getAll(applicantData[0][0]);
             var skillcontent = "";
             $.each(skill,function(i,v){
                 skillcontent += "   <span class='title'><strong class ='color-black'>"+v[2]+"</strong></span>"+
@@ -3359,7 +4258,7 @@ Framework7.prototype.plugins.kareer = function (app, params) {
             });
             $$("#display_skills").html(skillcontent);
 
-            var sem = seminar.get(applicantData[0][0]);
+            var sem = seminar.getAll(applicantData[0][0]);
             var semcontent = "";
             $.each(sem,function(i,v){
                 semcontent +=  "<span class='title'><strong class ='color-black'>"+v[2]+"</strong></span>"+
@@ -3368,7 +4267,7 @@ Framework7.prototype.plugins.kareer = function (app, params) {
             });
             $$("#display_seminar").html(semcontent);
 
-            var reference = references.get(applicantData[0][0]);
+            var reference = references.getAll(applicantData[0][0]);
             var refcontent = "";
             $.each(reference,function(i,v){
                 refcontent += "   <span class='title'><strong class ='color-black'>"+v[2]+"</strong></span>"+
@@ -3377,83 +4276,82 @@ Framework7.prototype.plugins.kareer = function (app, params) {
                               "   <div><span class ='color-black'>"+v[7]+"</span></div>";
             });
             $$("#display_references").html(refcontent);
-            $("a.print").on('click',function(){
-                var toPrint = document.getElementById('Preview');
-
-                var popupWin = window.open('', '_blank', 'width=350,height=150,location=no,left=200px');
-
-                popupWin.document.open();
-
-                popupWin.document.write('<html><title>::Print Preview::</title><link rel="stylesheet" type="text/css" href="Print.css" media="screen"/></head><body">')
-
-                popupWin.document.write(toPrint.innerHTML);
-
-                popupWin.document.write('</html>');
-
-                popupWin.document.close();
+            var doc = new jsPDF();
+            $("a.Publish").on('click',function(){
+                doc.fromHTML($('#Preview').html(), 15, 15, {
+                    'width':170,
+                    'elementHandlers': specialElementHandlers
+                });
+                doc.save('resume.pdf');
             });
 
+             // doc.fromHTML($('#Preview')).html(),
+             //        'width':170,
+             //            'elementHandlers': specialElementHandlers
+             //    });
+             //    doc.save('sample-file.pdf');
+
             //PDF generation function
-            (function () {  
-                var  
-                 form = $('.list-block'),  
-                 cache_width = form.width(),  
-                 legal = [595.28, 975]; // for legal size paper width and height  
+            // (function () {  
+            //     var  
+            //      form = $('.list-block'),  
+            //      cache_width = form.width(),  
+            //      legal = [595.28, 975]; // for legal size paper width and height  
           
-                $('#create_pdf').on('click', function () {  
-                    $('body').scrollTop(0);  
-                    var data = $(this).data('load');
-                    view.router.loadPage("pages/admin/"+data+".html");
-                    createPDF();
-                    upload();
+            //     $('#create_pdf').on('click', function () {  
+            //         $('body').scrollTop(0);  
+            //         var data = $(this).data('load');
+            //         view.router.loadPage("pages/admin/"+data+".html");
+            //         createPDF();
+            //         upload();
 
-                });  
-                //create pdf  
-                function createPDF() {  
-                    getCanvas().then(function (canvas) {  
-                        var  
-                         img = canvas.toDataURL("image/png"),  
-                         doc = new jsPDF({  
-                             unit: 'px',  
-                             format: 'legal'  
-                         });  
-                        doc.addImage(img, 'JPEG', 3, 3);  
-                        doc.save('resume.pdf');
-                        form.width(cache_width);
-                    });  
-                }  
+            //     });  
+            //     //create pdf  
+            //     function createPDF() {  
+            //         getCanvas().then(function (canvas) {  
+            //             var  
+            //              img = canvas.toDataURL("image/png"),  
+            //              doc = new jsPDF({  
+            //                  unit: 'px',  
+            //                  format: 'legal'  
+            //              });  
+            //             doc.addImage(img, 'JPEG', 3, 3);  
+            //             doc.save('resume.pdf');
+            //             form.width(cache_width);
+            //         });  
+            //     }  
           
-                // create canvas object  
-                function getCanvas() {  
-                    form.width((legal[0] * 1.33333) - 80).css('max-width', 'none');  
-                    return html2canvas(form, {  
-                        imageTimeout: 1000,  
-                        removeContainer: true  
-                    });  
-                }  
-                function upload(){
-                    var doc = new jsPDF();
-                    var pdf = doc.output(); 
-                    var ajax = system.ajax(processor+'do-resume',[applicantData[0][0],pdf]);
-                    ajax.done(function(data){
-                        console.log(data);
-                        if(data != 0){
-                            system.notification("Kareer","Resume Published.",false,2000,true,false,function(){
-                                 app.onPageInit('index',function(page){
-                                    content.ini();
-                                });
-                            });
-                            // console.log(data);
-                        }
-                        else{
-                           system.notification("Kareer","Failed.",false,3000,true,false,false);
-                            // console.log(data);
-                        }
-                    });
-                }    
+            //     // create canvas object  
+            //     function getCanvas() {  
+            //         form.width((legal[0] * 1.33333) - 80).css('max-width', 'none');  
+            //         return html2canvas(form, {  
+            //             imageTimeout: 1000,  
+            //             removeContainer: true  
+            //         });  
+            //     }  
+            //     function upload(){
+            //         var doc = new jsPDF();
+            //         var pdf = doc.output(); 
+            //         var ajax = system.ajax(processor+'do-resume',[applicantData[0][0],pdf]);
+            //         ajax.done(function(data){
+            //             console.log(data);
+            //             if(data != 0){
+            //                 system.notification("Kareer","Resume Published.",false,2000,true,false,function(){
+            //                      app.onPageInit('index',function(page){
+            //                         content.ini();
+            //                     });
+            //                 });
+            //                 // console.log(data);
+            //             }
+            //             else{
+            //                system.notification("Kareer","Failed.",false,3000,true,false,false);
+            //                 // console.log(data);
+            //             }
+            //         });
+            //     }    
 
 
-            }());  
+            // }());  
         }
     }
 
@@ -3463,20 +4361,20 @@ Framework7.prototype.plugins.kareer = function (app, params) {
                     FB.getLoginStatus(function(response) {
                         if (response.status === 'connected') {
                             console.log(response.status);
+                            Login();
                         } else if (response.status === 'not_authorized') {
                             console.log(response.status);
                         } else {
                             console.log(response.status);
                         }
                     });
-                    FB.api('/me', {fields: 'id,first_name,last_name,email,gender'}, function (response){
-                        var data = $.map(response, function(value, index) {
-                            return [value];
-                        });
-                        var LogData = JSON.stringify(data);
-                        console.log(LogData);
-                        if(LogData == localStorage.getItem('fb')){
-                            console.log("same");
+                    function Login() {  
+                        FB.api('/me', {fields: 'id,first_name,last_name,email,gender'}, function (response){
+                            var data = $.map(response, function(value, index) {
+                                return [value];
+                            });
+                            var LogData = JSON.stringify(data);
+                            console.log(LogData);
                             var fbData = JSON.parse(LogData);
                             var data = system.ajax(processor+'do-logInFB',fbData);
                             data.done(function(data){
@@ -3493,12 +4391,9 @@ Framework7.prototype.plugins.kareer = function (app, params) {
                                     system.notification("Kareer","Failed.",false,3000,true,false,false);
                                 }
                             })
-                        }
-                        else{
-                            console.log("not");
-                            system.notification("Kareer","Failed. Please Register Again",false,3000,true,false,false);
-                        }
-                    });
+                        });
+                    }
+
             });
             $("#form_logIn").validate({
                 rules: {
@@ -3517,15 +4412,15 @@ Framework7.prototype.plugins.kareer = function (app, params) {
                 },
                 messages: {
                     field_email: {
-                        required: "<i data-error ='Field is required' class='icon f7-icons  color red' style='margin:5px;'>info</i>",
-                        maxlength: "<i data-error ='Name is too long' class='icon f7-icons color red' style='margin:5px;'>info</i>",
-                        email: "<i data-error ='Email is invalid' class='icon f7-icons color red' style='margin:5px;'>info</i>",
-                        validateEmail: "<i data-error ='Email already in use.' class='icon f7-icons color red' style='margin:5px;'>info</i>",
+                        required: "<i data-error ='Field is required' class='' >Field is required</i>",
+                        maxlength: "<i data-error ='Name is too long' class='' >Name is too long</i>",
+                        email: "<i data-error ='Email is invalid' class='' >Email is invalid</i>",
+                        validateEmail: "<i data-error ='Email already in use.' class='icon f7-icons color red' >Email already in use.</i>",
                     },
                     field_password: {
-                        required: "<i data-error ='Field is required' class='icon f7-icons color red' style='margin:5px;'>info</i>",
-                        maxlength: "<i data-error ='Name is too long' class='icon f7-icons color red' style='margin:5px;'>info</i>",
-                        checkPassword: "<i data-error ='Password is weak' class='icon f7-icons color red' style='margin:5px;'>info</i>",
+                        required: "<div data-error ='Field is required' class='' >Field is required</div>",
+                        maxlength: "<div data-error ='Name is too long' class='' >Name is too long</div>",
+                        checkPassword: "<div data-error ='Password is weak' class='' >Password is weak</div>",
                     },
                 },
                 submitHandler: function (form) {
@@ -3563,19 +4458,12 @@ Framework7.prototype.plugins.kareer = function (app, params) {
                 var data= $(this).find('i');
                 system.notification("Kareer",data[0].dataset.error,false,3000,true,false,false);
             });     
-        },
-        logout:function(){
-            $$("a[data-cmd='account-logout']").on('click',function(){
-                localStorage.removeItem('saved-login','');
-                localStorage.removeItem('user-details','');
-                window.location.reload();
-            })          
         }
     }
 
     var signUp = {
         ini:function(){
-            // $("div.g-signin2").on('Success',function(){
+            $("button.g-signin2").on('Success',function(){
                 function onSignIn(googleUser) {
                   var profile = googleUser.getBasicProfile();
                   console.log('ID: ' + profile.getId()); // Do not send to your backend! Use an ID token instead.
@@ -3587,7 +4475,7 @@ Framework7.prototype.plugins.kareer = function (app, params) {
                   var id_token = googleUser.getAuthResponse().id_token;
                     console.log(id_token)
                 }
-            // });
+            });
             // Register using FB ACCOUNT
             $("button.fb").on('click',function(){
                 FB.login(function(response) {
@@ -3603,28 +4491,29 @@ Framework7.prototype.plugins.kareer = function (app, params) {
 
                 function saveUserData() {    
                     FB.api('/me', {fields: 'id,first_name,last_name,email,gender'}, function (response){
+                        // console.log(response);
                         var data = $.map(response, function(value, index) {
                             return [value];
                         });
                         var FbData = JSON.stringify(data);
                         console.log(FbData);
                         localStorage.setItem('fb',FbData);
-                        // var data = system.ajax(processor+'do-signUpFB',data);
-                        // data.done(function(data){
-                        //     console.log(data);
-                        //     if(data == 1){
-                        //         system.notification("Kareer","Success. You can now Sign In to your account. ",false,2000,true,false,function(){
-                        //             app.closeModal('.popup-sign-up', true);
-                        //             app.popup('popup-login');
-                        //         });
-                        //     }
-                        //     else if(data == 2){
-                        //         system.notification("Kareer","Try other email address.",false,3000,true,function(){},false);
-                        //     }
-                        //     else{
-                        //         system.notification("Kareer","Failed.",false,3000,true,function(){},false);
-                        //     }
-                        // })
+                        var data = system.ajax(processor+'do-signUpFB',data);
+                        data.done(function(data){
+                            console.log(data);
+                            if(data == 1){
+                                system.notification("Kareer","Success. You can now Sign In to your account. ",false,2000,true,false,function(){
+                                    app.closeModal('.popup-sign-up', true);
+                                    app.popup('popup-login');
+                                });
+                            }
+                            else if(data == 2){
+                                system.notification("Kareer","Try other email address.",false,3000,true,function(){},false);
+                            }
+                            else{
+                                system.notification("Kareer","Failed.",false,3000,true,function(){},false);
+                            }
+                        })
                     });
                 }
             });
@@ -3647,27 +4536,27 @@ Framework7.prototype.plugins.kareer = function (app, params) {
                 },
                 messages: {
                     field_firstname: {
-                        required: "<i data-error ='Field is required' class='icon f7-icons color red' style='margin:5px;'>info</i>",
-                        maxlength: "<i data-error ='Name is too long' class='icon f7-icons color red' style='margin:5px;'>info</i>",
+                        required: "<i data-error ='Field is required' class='' '>Field is required</i>",
+                        maxlength: "<i data-error ='Name is too long' class='' '>'Name is too long</i>",
                     },
                     field_lastname: {
-                        required: "<i data-error ='Field is required' class='icon f7-icons color red' style='margin:5px;'>info</i>",
-                        maxlength: "<i data-error ='Name is too long' class='icon f7-icons color red' style='margin:5px;'>info</i>",
+                        required: "<i data-error ='Field is required' class='' '>Field is required</i>",
+                        maxlength: "<i data-error ='Name is too long' class='' '>'Name is too long</i>",
                     },
                     field_email: {
-                        required: "<i data-error ='Field is required' class='icon f7-icons  color red' style='margin:5px;'>info</i>",
-                        maxlength: "<i data-error ='Name is too long' class='icon f7-icons color red' style='margin:5px;'>info</i>",
-                        email: "<i data-error ='Email is invalid' class='icon f7-icons color red' style='margin:5px;'>info</i>",
-                        validateEmail: "<i data-error ='Email already in use.' class='icon f7-icons color red' style='margin:5px;'>info</i>",
+                        required: "<i data-error ='Field is required' class='' '>Field is required</i>",
+                        maxlength: "<i data-error ='Name is too long' class='' '>'Name is too long</i>",
+                        email: "<i data-error ='Email is invalid' class='' '>Email is invalid</i>",
+                        validateEmail: "<i data-error ='Email already in use' class='' '>Email already in use</i>",
                     },
                     field_password: {
-                        required: "<i data-error ='Field is required' class='icon f7-icons color red' style='margin:5px;'>info</i>",
-                        maxlength: "<i data-error ='Name is too long' class='icon f7-icons color red' style='margin:5px;'>info</i>",
-                        checkPassword: "<i data-error ='Password is weak' class='icon f7-icons color red' style='margin:5px;'>info</i>",
+                        required: "<i data-error ='Field is required' class='' '>Field is required</i>",
+                        maxlength: "<i data-error ='Name is too long' class='' '>'Name is too long</i>",
+                        checkPassword: "<i data-error ='Password is weak' class='' '>Password is weak</i>",
                     },
                 },
                 submitHandler: function (form) {
-                    var _form = $(form).serializeArr
+                    var _form = $(form).serializeArray();
                     var data = system.ajax(processor+'do-signUp',_form);
                     data.done(function(data){
                         console.log(data);
@@ -4115,26 +5004,16 @@ Framework7.prototype.plugins.kareer = function (app, params) {
                     }
                 },
                 submitHandler: function (form) {
-                    var _form = $(form).serializeArr
+                    var _form = $(form).serializeArray();
                     var data = system.ajax(processor+'do-searchJob',[_form[0],range.noUiSlider.get(),_form[1]]);
                     data.done(function(data){
-                        // console.log(data);
-                        if(data.length > 3){
-                            var display = system.xml("pages/admin/pages.xml");
-                            $(display.responseText).find("div.popup.search").each(function(i,content){
-                                app.popup(content);
-                                data = JSON.parse(data);
-                                // console.log(data);
-                                jobs.show(data);
-                            });
-                        }
-                        else{
-                            var display = system.xml("pages/admin/pages.xml");
-                            $(display.responseText).find("div.popup.search").each(function(i,content){
-                                app.popup(content);
-                                $("div.x").removeClass('hidden');
-                            });
-                        }
+                        console.log(data);
+                        view.router.loadPage("pages/admin/jobs.html");
+                        var applicant = JSON.parse(localStorage.getItem('applicant'));
+                        var appliedList = jobs.applied(applicant[0][0]);
+                        var bookmarkedList = jobs.bookmarked(applicant[0][0]);
+                        data = JSON.parse(data);
+                        jobs.show(data);
                     })
                 }
             });
@@ -4149,6 +5028,14 @@ Framework7.prototype.plugins.kareer = function (app, params) {
 };
 
 var kareer_app = new Framework7({
+<<<<<<< HEAD
 	kareer:true,
 	material:true,
+=======
+    popupCloseByOutside:false,
+    pushState: false,
+    autoLayout: true,
+    kareer:true,
+    material:true,
+>>>>>>> e746353ee6891f7c57d84e5cd5d42906ef2813f1
 });

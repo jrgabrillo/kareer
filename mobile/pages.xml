@@ -1,0 +1,182 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<content>
+    <pop-up-academic>
+        <div class='popup academic'>
+            <div class="page-content login-screen-content infinite-scroll" style="background: transparent;">
+                <div class="content-block">
+                    <div class="close-popup">Add Academic<i class="icon f7-icons" style="width: 25px; position: absolute;right: 5%;">close_round</i></div>
+                    <form action="" method="POST" id='form_academic'>
+                        <div class="list-block">
+                            <ul>
+                                <li>
+                                    <div class="input-field" style='border: gray; border-width: 1px; background-color: rgba(238, 238, 238, 0.15); border-style: solid; border-radius: 15px;'>
+                                        <select id="field_yearLevel" name="field_yearLevel">
+                                            <option value="Elementary">ELEMENTARY</option>
+                                            <option value="High School">HIGH SCHOOL</option>
+                                            <option value="Tech Voc">TECH VOC</option>
+                                            <option value="College">COLLEGE</option>
+                                            <option value="Masteral">MASTERAL</option>
+                                            <option value="Doctorate">DOCTORATE</option>
+                                        </select>
+                                    </div>
+                                </li>
+
+                                <li>
+                                    <div class="input-field">
+                                        <input type='text' id="field_school" name="field_school" class="form-control">
+                                        <label class="" for="field_school" style="color: black; top: -2px !important; left: 0px !important;">Name of Schools</label>
+                                    </div>
+                                </li>
+                                <li id="degree">
+                                    <div class="input-field hidden">
+                                        <input type='text' id="field_degree" name="field_degree" class="form-control">
+                                        <label class="" for="field_degree" style="color: black; top: -2px !important; left: 0px !important;">Basic Education/Degree/Course</label>
+                                    </div>
+                                </li>
+                                <li id ="units">
+                                    <div class="input-field hidden">
+                                        <input type='number' id="field_units" name="field_units" class="form-control">
+                                        <label class="" for="field_units" style="color: black; top: -2px !important; left: 0px !important;">Units Earned</label>
+                                    </div>
+                                </li>
+                                <li>
+                                    <div>
+                                        <div class="input-field">
+                                            <label class="active" style="top: auto; left: 0px; font-size: 17px; color: black;">Period of Attendance (From - To)</label>
+                                            <div>
+                                                <input type='month' id="field_dateFrom"  name="field_dateFrom" class="form-control" style="width: 100%;">
+                                            </div>
+                                            <div>
+                                                <input type='month' id="field_dateTo" name="field_dateTo" class="form-control" style="width: 100%;">
+                                            </div>
+                                        </div>                                            
+                                    </div>
+                                </li>
+                                <li>
+                                    <button class="btn-flat waves-effect waves-teal waves-light teal color-white" style="width:100%;">Save</button>
+                                </li>
+                            </ul>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </pop-up-academic>
+    <pop-up-career>
+        <div class='popup career'>
+            <div class="page-content login-screen-content infinite-scroll" style="background: transparent;">
+                <div class="content-block">
+                    <div class="close-popup">Add Career<i class="icon f7-icons" style="width: 25px; position: absolute;right: 5%;">close_round</i></div>
+                    <form action="" method="POST" id='form_career'>
+                        <div class="list-block">
+                            <ul>
+                                <li>
+                                    <div>
+                                        <div class="input-field">
+                                            <label class="active" style="top: auto; left: 0px; font-size: 17px;">Inclusive dates (From - To)</label>
+                                            <div>
+                                                <input type='month' id="field_dateFirst"  name="field_dateFirst" class="form-control" style="width: 100%;">
+                                            </div>
+                                            <div>
+                                                <input type='month' id="field_dateLast" name="field_dateLast" class="form-control" style="width: 100%;">
+                                            </div>
+                                        </div>                                            
+                                    </div>
+                                </li>
+                                <li>
+                                    <div class="input-field">
+                                        <input type='text' id="field_position" name="field_position" class="form-control">
+                                        <label class="" for="field_position" style="top: -2px; left: 0px;">Position Title</label>
+                                    </div>
+                                </li>
+                                <li>
+                                    <div class="input-field">
+                                        <input type='text' id="field_agency" name="field_agency" class="form-control">
+                                        <label class="" for="field_agency" style="top: -2px !important; left: 0px !important;">Department/Company/Office/Agency</label>
+                                    </div>
+                                </li>
+                                <li>
+                                    <div class="input-field">
+                                        <input type='number' id="field_salary" name="field_salary" min="1" max="100000" class="form-control">
+                                        <label class="" for="field_salary" style="top: -2px !important; left: 0px !important;">Monthly Salary</label>
+                                    </div>
+                                </li>
+                                <li>
+                                    <div class="input-field">
+                                        <input type='text' id="field_appointment" name="field_appointment" class="form-control">
+                                        <label class="" for="field_appointment" style="top: -2px !important; left: 0px !important;">Status of Appointment</label>
+                                    </div>
+                                </li>
+                                <li>
+                                    <div class="input-field">
+                                        <select id="field_govt_service" name="field_govt_service">
+                                            <option value="Yes">Yes</option>
+                                            <option value="No">No</option>
+                                        </select>
+                                        <label class="active" for="field_govt_service" style="font-size: 17px; top: -2px !important; left: 0px !important;">Gov't Service</label>
+                                    </div>
+                                </li>
+                                <li style="margin-top: 5% !important;">
+                                    <button class="btn-flat waves-effect waves-teal waves-light teal color-white" style="width:100%;">Save</button>
+                                </li>
+                            </ul>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </pop-up-career>
+    <pop-up-search>
+        <div class='popup search'>
+            <div class="page-content login-screen-content infinite-scroll" style="background: transparent;">
+                <div class="content-block">
+                    <div class="close-popup">Search Result<i class="icon f7-icons" style="width: 25px; position: absolute;right: 5%;">close_round</i></div>
+                    <div class="page-content tabs" id="jobs" style="overflow:hidden;">
+                        <div class="swiper-container" style="margin:auto;">
+                            <div class="swiper-wrapper">
+                                <div class="progress">
+                                    <div class="indeterminate"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="x center hidden">NO RESULT!</div>
+                </div>
+            </div>
+        </div>
+    </pop-up-search>
+    <pop-up-upload>
+        <div class='popup upload'>
+            <div class="page-content login-screen-content infinite-scroll" style="background: transparent;">
+                <div class="content-block">
+                    <div class="close-popup">Upate Picture<i class="icon f7-icons" style="width: 25px; position: absolute;right: 5%;">close_round</i></div>
+                    <div class="content-block" id ="profile_picture2">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </pop-up-upload>
+    <pop-up-update>
+        <div class='popup update'>
+            <div class="page-content login-screen-content infinite-scroll" style="background: transparent;">
+                <div class="content-block">
+                    <div class="close-popup">Update account<i class="icon f7-icons" style="width: 25px; position: absolute;right: 5%;">close_round</i></div>
+                    <div class="page-content" id="UPDATE" style="overflow:hidden;">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </pop-up-update>
+    <pop-up-delete>
+        <div class="popup delete">
+            <div class="page-content login-screen-content infinite-scroll" style="background: transparent;">
+                <div class="content-block">
+                    <div class="close-popup">Delete<i class="icon f7-icons" style="width: 25px; position: absolute;right: 5%;">close_round</i></div>
+                    <div class="page-content" id ="deletePopup" style="overflow:hidden;">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </pop-up-delete>
+</content>
+
