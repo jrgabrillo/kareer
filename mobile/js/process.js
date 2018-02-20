@@ -4373,10 +4373,7 @@ Framework7.prototype.plugins.kareer = function (app, params) {
                             var data = $.map(response, function(value, index) {
                                 return [value];
                             });
-                            var LogData = JSON.stringify(data);
-                            console.log(LogData);
-                            var fbData = JSON.parse(LogData);
-                            var data = system.ajax(processor+'do-logInFB',fbData);
+                            var data = system.ajax(processor+'do-logInFB',data);
                             data.done(function(data){
                                 console.log(data);
                                 if(data != 0){
@@ -4393,7 +4390,6 @@ Framework7.prototype.plugins.kareer = function (app, params) {
                             })
                         });
                     }
-
             });
             $("#form_logIn").validate({
                 rules: {
@@ -5028,14 +5024,6 @@ Framework7.prototype.plugins.kareer = function (app, params) {
 };
 
 var kareer_app = new Framework7({
-<<<<<<< HEAD
 	kareer:true,
 	material:true,
-=======
-    popupCloseByOutside:false,
-    pushState: false,
-    autoLayout: true,
-    kareer:true,
-    material:true,
->>>>>>> e746353ee6891f7c57d84e5cd5d42906ef2813f1
 });

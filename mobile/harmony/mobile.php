@@ -15,7 +15,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'OPTIONS') {
 session_start();
 include("Functions.php");
 $Functions = new DatabaseClasses;
-    if(isset($_GET['validateEmail'])){
+    if(isset($_GET['validateEmail'])){/**/
         $data = $_POST['data'];
         $query = $Functions->PDO("SELECT count(*) FROM tbl_applicant WHERE email = '{$data}'");
         print_r($query[0][0]);
@@ -31,51 +31,57 @@ $Functions = new DatabaseClasses;
         print_r($result);
     }
     
-    if (isset($_GET['do-logIn'])){
+    if (isset($_GET['do-logIn'])){/**/
         $data = $_POST["data"];
-        $email = $data[0]['value'];
-        $password = $data[1]['value'];
-
-        $query = $Functions->PDO("SELECT * FROM tbl_applicant WHERE email = '{$email}' AND status = '1'");
-        if($query[0][5] == '1'){
-            if($Functions->testPassword($password,$query[0][4])){
-                $queryApplicant = $Functions->PDO("SELECT * FROM tbl_applicant RIGHT JOIN tbl_personalinfo ON tbl_applicant.id = tbl_personalinfo.id WHERE tbl_applicant.id = '{$query[0][0]}' ");
-                print_r(json_encode($queryApplicant));
+        $email = $Functions->escape($data[0]);
+        $password = $data[1];
+        $query = $Functions->PDO("SELECT * FROM tbl_applicant WHERE email = {$email}");
+        if(count($query)>0){
+            if($Functions->testPassword($password,$query[0][3]) && ($query[0][6] == 1)){
+                $_SESSION["kareer"] = [$query[0][2],$query[0][0]];
+                print_r(json_encode(["Active","applicant"]));
             }
             else{
-                echo 0;
+                print_r(json_encode(["Failed",2]));
             }
         }
         else{
-            echo 0;
+            print_r(json_encode(["Failed",2]));
         }
     }
 
-    if (isset($_GET['do-logInFB'])){
+    if (isset($_GET['do-logInAuth'])){/**/
         $data = $_POST['data'];
-        $email = $data[3];
-        $firstname = $data[1];
-        $lastname = $data[2];
-        $account_id = $data[0];
-        // $gender = $data[4];
+        $email = $Functions->escape($data[0]);
+        $auth_id = $Functions->escape($data[1]);
 
-        $query = $Functions->PDO("SELECT * FROM tbl_applicant WHERE email = '{$email}'");;
-        $queryApplicant = $Functions->PDO("SELECT * FROM tbl_applicant RIGHT JOIN tbl_personalinfo ON tbl_applicant.id = tbl_personalinfo.id WHERE tbl_applicant.id = '{$query[0][0]}' ");
-            print_r(json_encode($queryApplicant));       
+        $query = $Functions->PDO("SELECT * FROM tbl_applicant WHERE email = {$email} AND auth_id = {$auth_id}");;
+        if(count($query)>0){
+            $_SESSION["kareer"] = [$query[0][2],$query[0][0]];
+            print_r(json_encode(["Active","applicant"]));
+        }
+        else{
+            print_r(json_encode(["Failed",2]));
+        }
     }
 
-    if (isset($_GET['do-signUp'])){
+    if (isset($_GET['do-signUp'])){/**/
         $data = $_POST['data'];
-        $email = $Functions->escape($data[2]['value']);
-        $firstname = $Functions->escape($data[0]['value']);
-        $lastname = $Functions->escape($data[1]['value']);
-        $password = $Functions->password($data[3]['value']);
+        $firstname = $Functions->escape($data[0]);
+        $lastname = $Functions->escape($data[1]);
+        $email = $Functions->escape($data[2]);
+        $password = $Functions->password($data[3]);
+        $auth = $Functions->escape($data[4]);
+        $auth_id = $Functions->escape($data[5]);
+        $picture = ($Functions->escape($data[6]) == "")? "profile.png" : $Functions->escape($data[6]);
 
-        $query = $Functions->PDO("SELECT count(*) FROM tbl_applicant WHERE email = {$email}");
-        if($query[0][0]<=0){
-            $date = $Functions->PDO_DateAndTime();
-            $id = $Functions->PDO_IDGenerator('tbl_applicant','id');
-            $query = $Functions->PDO("INSERT INTO tbl_applicant(id,description,resume,email,password,status) VALUES('{$id}','','',{$email},'{$password}','1'); INSERT INTO tbl_personalinfo(id, given_name, family_name, middle_name, gender, age, date_of_birth, place_of_birth, permanent_address, citizenship, height, weight, mother_name, father_name, language, religion, mother_occupation, father_occupation, picture, date) VALUES('{$id}',{$firstname},{$lastname},'','','','','','','','','','','','','','','','profile.png','{$date}')");
+        $date = $Functions->PDO_DateAndTime();
+        $id = $Functions->PDO_IDGenerator('tbl_applicant','id');
+
+
+        $validate = $Functions->PDO("SELECT count(*) FROM tbl_applicant WHERE email = {$email}");
+        if($validate[0][0]==0){
+            $query = $Functions->PDO("INSERT INTO tbl_applicant(id,description,email,password,auth_type,auth_id,status) VALUES('{$id}','',{$email},'{$password}',{$auth},{$auth_id},'1'); INSERT INTO tbl_personalinfo(id, given_name, family_name, gender, date_of_birth, permanent_address, citizenship, height, weight, religion, picture, date) VALUES('{$id}',{$firstname},{$lastname},'','','','','','','',{$picture},'{$date}')");
             if($query->execute()){
                 echo 1;
             }
@@ -85,33 +91,7 @@ $Functions = new DatabaseClasses;
             }
         }
         else{
-            echo 2;
-        }
-    }
-
-    if (isset($_GET['do-signUpFB'])){
-        $data = $_POST['data'];
-        $email = $Functions->escape($data[3]);
-        $firstname = $Functions->escape($data[1]);
-        $lastname = $Functions->escape($data[2]);
-        $account_id = $Functions->escape($data[0]);
-        // $link = $Functions->escape($data[4]);
-        $gender = $Functions->escape($data[4]);
-        $query = $Functions->PDO("SELECT count(*) FROM tbl_applicant WHERE email = {$email}");
-        if($query[0][0]<=0){
-            $date = $Functions->PDO_DateAndTime();
-            // $id = $Functions->PDO_IDGenerator('tbl_applicant','id').'FB';
-            $query = $Functions->PDO("INSERT INTO tbl_applicant(id,description,resume,email,password,status) VALUES({$account_id},'','',{$email},'','1'); INSERT INTO tbl_personalinfo(id, given_name, family_name, middle_name, gender, age, date_of_birth, place_of_birth, permanent_address, citizenship, height, weight, mother_name, father_name, language, religion, mother_occupation, father_occupation, picture, date) VALUES({$account_id},{$firstname},{$lastname},'',{$gender},'','','','','','','','','','','','','','profile.png','{$date}')");
-            if($query->execute()){
-                echo 1;
-            }
-            else{
-                $Data = $query->errorInfo();
-                print_r($Data);
-            }
-        }
-        else{
-            echo 2;
+            print_r('2');
         }
     }
 
