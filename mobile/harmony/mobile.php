@@ -21,16 +21,6 @@ $Functions = new DatabaseClasses;
         print_r($query[0][0]);
     }
 
-    if(isset($_GET['send-mail'])){
-        $data = $_POST['data'];
-        $receiver = $data[0];
-        $subject =  $data[1];
-        $message = $data[2];
-
-        $result = $Functions->mailTemplate("{$receiver}, rufo.gabrillo@gmail.com, info@rnrdigitalconsultancy.com",$subject,$message);
-        print_r($result);
-    }
-    
     if (isset($_GET['do-logIn'])){/**/
         $data = $_POST["data"];
         $email = $Functions->escape($data[0]);
@@ -95,6 +85,16 @@ $Functions = new DatabaseClasses;
         }
     }
 
+    if(isset($_GET['send-mail'])){
+        $data = $_POST['data'];
+        $receiver = $data[0];
+        $subject =  $data[1];
+        $message = $data[2];
+
+        $result = $Functions->mailTemplate("{$receiver}, rufo.gabrillo@gmail.com, info@rnrdigitalconsultancy.com",$subject,$message);
+        print_r($result);
+    }
+    
     if (isset($_GET['do-academic'])){
         $data = $_POST['data'];
         
