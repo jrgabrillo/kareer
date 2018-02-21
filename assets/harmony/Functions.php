@@ -115,16 +115,11 @@ class DatabaseClasses{
 		return $Query->rowCount();
 	}
 	function password($string){
-		$options = ['cost' => 11,'salt' => mcrypt_create_iv(22, MCRYPT_DEV_URANDOM)];
+		$options = ['cost' => 11];
 		return password_hash($string,PASSWORD_BCRYPT, $options);		
 	}
 	function testPassword($string,$hash){
-		if (password_verify($string,$hash)) {
-		    return 1;
-		}
-		else {
-		    return 0;
-		}
+		return (password_verify($string,$hash))?1:0;
 	}
 	function PDO_ShowRow($Table,$Column,$Condition){
 		$Array = array();
@@ -155,29 +150,6 @@ class DatabaseClasses{
 		if(!isset($Username) && !isset($Password))
 			return true;
 	}
-	function log2($_id,$_remarks,$_header){
-		$date = DatabaseClasses::PDO_DateAndTime();
-		$id = DatabaseClasses::PDO_IDGenerator('tbl_logs','id');
-		$Query = DatabaseClasses::PDO(false,"INSERT INTO tbl_logs(id,account,remarks,`date`,header) VALUES ('{$id}','{$_id}','{$_remarks}','{$date}','{$_header}')");
-		if($Query->execute()){
-			return 1;	
-		}
-		else{
-			$Data = $Query->errorInfo();
-			return $Data;
-		}			
-	}
-	function PDO_StudentIDNumberGenerator($Table,$ID){
-		$Status = true; $RetString = ""; $Zero = '';
-		$Query = DatabaseClasses::PDO_SQLQuery("SELECT * FROM $Table");
-		$Query->execute(); $Num = $Query->rowCount();
-		for($x=0;$x<5-strlen($Num);$x++){
-			$Zero.="0";
-		}
-		$Year = substr(DatabaseClasses::PDO_DateNow(),2,2);
-		$TempNum = $Zero.$Query->rowCount();
-		return $Year.'-LN-'.$TempNum;
-	}
 	function PDO_DateNow(){
 		$Query = DatabaseClasses::PDO_SQLQuery("SELECT NOW() as Date");
 		$Query->execute();
@@ -199,13 +171,6 @@ class DatabaseClasses{
 	    $RetVal .= ']}';
 	    return $RetVal;
 	}
-    function SecureString($String){
-        $String = trim($String);
-        $String = str_replace(PHP_EOL,"<33>  ",$String);
-        $String = str_replace("\n","<33>  ",$String);
-        $String = str_replace("\r","<33>  ",$String);
-        return $String;
-    }
 	function db_buckup(){
 		$sql=""; $createsql=""; $dropsql="DROP TABLE IF EXISTS "; $subcreatesql=""; $insertsql=""; $subinsertsql="";
 		$q1 = DatabaseClasses::PDO(true,"SHOW TABLES");
@@ -243,19 +208,40 @@ class DatabaseClasses{
 		$sql = "SET SQL_MODE = \"NO_AUTO_VALUE_ON_ZERO\";\nSET time_zone = \"+00:00\";\n\n/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;\n/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;\n/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;\n/*!40101 SET NAMES utf8 */;\n\n{$dropsql};\n\n{$sql}\n/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;\n/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;\n/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;\n\n-- Buckup function --\n-- Developed by Rufo N. Gabrillo Jr. --";
 		return $sql;
 	}
-	// function saveImage($id,$file){
-	// 	$date = new DateTime();
-	// 	$time = $date->getTimestamp();
-	// 	$filename = $id."_".$time.'.rnr';
-	// 	$file = base64_decode(preg_replace('#^data:image/\w+;base64,#i', '', $file));
+	function mail($receiver,$subject,$message){
+        $headers  = 'MIME-Version: 1.0' . "\r\n";
+        $headers .= 'Content-type: text/html; charset=iso-8859-1' . "\r\n";
+        $headers .= 'From: KAREER <kareer.com>' . "\r\n";
 
- //        $handle = fopen('../img/profile/'.$filename, 'w+');
- //        if(fwrite($handle, $file) && fclose($handle)){
-	// 		return $filename;
- //        }
-	// 	else{
-	// 		return 0;
-	// 	}
-	// }
+        $result = mail($receiver,$subject,$message,$headers);
+        return $result;
+	}
+	function mailTemplate($receiver,$subject,$message){
+        $headers  = 'MIME-Version: 1.0' . "\r\n";
+        $headers .= 'Content-type: text/html; charset=iso-8859-1' . "\r\n";
+        $headers .= 'From: KAREER <kareer.com>' . "\r\n";
+
+        $template = "<div style='margin:0 auto; padding:20px; text-align:center;font-family:helvetica neue,helvetica,arial,sans-serif; width:500px; border:dashed 1px #ccc;'>
+            <div>{$message}</div><br/><br/><br/>
+            <a style='font-size: 10px; color:#333' href='http://kareer.com'>Kareer</a>
+        </div>";
+
+        $result = mail($receiver,$subject,$template,$headers);
+        return $result;
+	}
+	function saveImage($id,$file){
+		$date = new DateTime();
+		$time = $date->getTimestamp();
+		$filename = $id."_".$time.'.rnr';
+		$file = base64_decode(preg_replace('#^data:image/\w+;base64,#i', '', $file));
+
+        $handle = fopen('../img/profile/'.$filename, 'w+');
+        if(fwrite($handle, $file) && fclose($handle)){
+			return $filename;
+        }
+		else{
+			return 0;
+		}
+	}
 }
 ?>
