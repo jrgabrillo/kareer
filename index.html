@@ -9,60 +9,58 @@
         <meta id="shopify-digital-wallet" name="shopify-digital-wallet" content="/17758583/digital_wallets/dialog">
         <meta id="in-context-paypal-metadata" data-merchant-id="972FMYYC2E548" data-environment="production" data-locale="en_US" data-redirect-url="">
         <title>Kareer</title>
-        <link media="screen" href="assets/css/mdl.css" rel="stylesheet" />
-        <link media="screen" href="assets/css/mdl-sub.css" rel="stylesheet" />
-        <link media="screen" href="assets/css/font.css" rel="stylesheet" />
-        <link media="screen" href="assets/css/main.css" rel="stylesheet" />
-        <link media="screen" href="assets/css/animate.css" rel="stylesheet" />
+        <link href="assets/css/mdl.css" rel="stylesheet" />
+        <link href="assets/css/main.css" rel="stylesheet" />
+        <link href="assets/css/animate.css" rel="stylesheet" />
+        <link href="assets/css/style.css" rel="stylesheet" />
+        <link href="assets/css/cropper.min.css" rel="stylesheet">
     </head>
-    <body background='assets/img/loginbg.png' style="background-repeat: no-repeat; background-position: center; background-size: cover;">
-        <div style="margin-top: 150px"></div>
-        <div class="nav-header de">
-            <div class="content animated fadeInUp">
-                <div class="row">
-                    <div class="center">
-                        <img src="assets/img/kareerLogoW.png" width="auto" height="100px;">
-                    </div>        
-                </div>
-            </div>
-        </div>
-        <div class="common">
-            <div class='wrapper wrapper-content animated fadeInUp'>
-                <div class="row">
-                    <div class=" col s10 m6 l4 offset-s2 offset-m3 offset-l4">
-                        <div class="card animated z-depth-0" id='dsplay_login' style="background-color: rgba(0,0,0,0.03);">
-                            <div class="card-content" style="padding-bottom: 50px;">
+    <body>
+        <div class="mdl-layout mdl-js-layout mdl-shadow--2dp no-shadow">
+            <div class="mdl-layout__content mdl-layout-spacer mdl-color--grey-100" id='display_content'>
+                <div class="mdl-grid">
+                    <div class="mdl-cell mdl-cell--4-col mdl-cell--4-offset mdl-cell--2-offset-tablet mdl-cell--4-offset-desktop">
+                        <div class="mdl-card mdl-shadow--2dp no-shadow animated" id="display_login">
+                            <div class="mdl-card__title mdl-card--expand">
+                                <img src="assets/img/kareerLogoW.png" width="auto" height="100px;">
+                            </div>
+                            <div class="mdl-card__actions">
                                 <form class="m-t" role="form" id='form_login'>
-                                    <div class="input-field">
-                                        <input type="text" class="form-control" placeholder="Email" name='field_email'>
+                                    <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+                                        <input type="text" class="mdl-textfield__input" name='field_email'>
+                                        <label class="mdl-textfield__label" for="sample4">Email</label>
                                     </div>
-                                    <div class="input-field">
-                                        <input type='password' class="form-control" placeholder="Password" name='field_password'>
+                                    <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+                                        <input type='password' class="mdl-textfield__input" name='field_password'>
+                                        <label class="mdl-textfield__label" for="sample4">Password</label>
                                     </div>
                                     <div>            
-                                        <small><a class="white-text">Forgot Password?</a></small>                              
-                                        <button class="btn waves-effect waves-light right" data-cmd='btn_login' data-node='employer' style="width: 40%;">Login</button>
-                                    </div>                                              
+                                        <small><a class="white-text">Forgot Password?</a></small>
+                                        <button class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored" data-cmd='btn_login' data-node='employer' style="width: 40%;">Login</button>
+                                    </div>
                                 </form>  
                             </div>
                         </div>
                     </div>
-                </div>                
+                </div>
+                <div id="snackbar" class="mdl-js-snackbar mdl-snackbar">
+                    <div class="mdl-snackbar__text"></div>
+                    <button class="mdl-snackbar__action" type="button"></button>
+                </div>
             </div>
-        </div>    
+        </div>
     </body>
     <script src="assets/js/jquery.js"></script>
     <script src="assets/js/mdl.min.js"></script>
-    <script src="assets/js/pretty-date/pretty-date.js"></script>
     <script src="assets/js/dataTables/jquery.dataTablesss.js"></script>
     <script src="assets/js/dataTables/dataTables.material.min.js"></script>
     <script src="assets/js/dataTables/dataTables.tableTools.min.js"></script>
     <script src="assets/js/validation/jquery.validate.min.js"></script>
     <script src="assets/js/validation/additional-methods.min.js"></script>
+    <script src="assets/js/aes/aes.js"></script>    
     <script src="assets/js/system.js"></script>
     <script src="assets/js/main.js"></script>
     <script type="text/javascript">
         main.login();
-        main.jobPosting();
     </script>
 </html>

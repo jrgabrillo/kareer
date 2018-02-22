@@ -2,6 +2,7 @@ var main = function () {
 	"use strict";
 	return {
 		login:function(){
+			// sessionStorage.removeItem('kareer');
 		    $("#form_login").validate({
 		        rules: {
 		            field_email: {required: true,maxlength: 100},
@@ -19,20 +20,21 @@ var main = function () {
 				},
 				submitHandler: function (form) {
 					var _form = $(form).serializeArray();
-					console.log(_form);
+					_form = [_form[0]['value'],_form[1]['value']];
 					var data = system.ajax('assets/harmony/Process.php?login',_form);
 					data.done(function(data){
-						data = JSON.parse(data);
-						if(data != 0){
-                            localStorage.setItem("hash",data[2]);
-							Materialize.toast('Success.',1000,'',function(){
+						data = (data == " ")? "error" : JSON.parse(data); 
+						if(data != "error"){
+							localStorage.setItem("hash",data[2]);
+							sessionStorage.setItem('kareer',data[0]);
+							system.notification('Success.',function(){
 						    	$(location).attr('href','account/');
 							});
 						}
 						else{
-							$("#dsplay_login").addClass('jello');
-							Materialize.toast('Failed.',1000,'',function(){
-								$("#dsplay_login").removeClass('jello');
+							$("#display_login").addClass('jello');
+							system.notification('Failed.',function(){
+								$("#display_login").removeClass('jello');
 							});
 						}
 					});

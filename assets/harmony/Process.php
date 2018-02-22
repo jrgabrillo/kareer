@@ -2,6 +2,10 @@
 session_start();
 include("Functions.php");
 $Functions = new DatabaseClasses;
+	if (isset($_GET['auth'])){
+		print_r('162165146157156147141142162151154154157152162');
+	}	
+
 	if (isset($_GET['kill-session'])){
 		if(isset($_POST["data"])){
 			print_r(session_destroy());
@@ -18,7 +22,7 @@ $Functions = new DatabaseClasses;
 
 	if(isset($_GET['validateEmail'])){
 		$data = $_POST['data'];
-		$query = $function->PDO(true,"SELECT count(*) FROM tbl_applicant WHERE email = '{$data}'");
+		$query = $Functions->PDO(true,"SELECT count(*) FROM tbl_applicant WHERE email = '{$data}'");
 		print_r($query[0][0]);
 	}
 
@@ -34,21 +38,24 @@ $Functions = new DatabaseClasses;
 /*login*/
 	if (isset($_GET['login'])){
 		$data = $_POST['data']; $flag = 0;
-		$password = sha1($data[1]['value']);
-		$query = $Functions->PDO("SELECT COUNT(*) FROM tbl_employer  WHERE email = '{$data[0]['value']}' AND password = '{$password}'");
-		if($query[0][0]==0){
-			$query = $Functions->PDO("SELECT COUNT(*) FROM tbl_admin  WHERE username = '{$data[0]['value']}' AND password = '{$password}'");
-			if($query[0][0]==0){
-				echo 0;
-			}
-			else if($query[0][0]==1){
-				$_SESSION["kareer7836"] = [$data[0]['value'],$password,'admin'];
-				print_r(json_encode($_SESSION["kareer7836"]));
-			}
+        $access = $Functions->escape($data[0]);
+        $password = $data[1];
+
+		$query = $Functions->PDO("SELECT * FROM tbl_employer WHERE email = {$access}");
+		if(count($query)==1){
+            if($Functions->testPassword($password,$query[0][11]) && ($query[0][12] == 1)){
+				$_SESSION["kareer7836"] = [$query[0][0],$access,'employer'];
+                print_r(json_encode($_SESSION["kareer7836"]));
+            }
 		}
-		else if($query[0][0]==1){
-			$_SESSION["kareer7836"] = [$data[0]['value'],$password,'employer'];
-			print_r(json_encode($_SESSION["kareer7836"]));
+		else{
+			$query = $Functions->PDO("SELECT * FROM tbl_admin  WHERE username = {$access}");
+			if(count($query)==1){
+	            if($Functions->testPassword($password,$query[0][6]) && ($query[0][7] == 1)){
+	                $_SESSION["kareer7836"] = [$query[0][0],$query[0][4],'admin'];
+	                print_r(json_encode($_SESSION["kareer7836"]));
+	            }
+			}
 		}
 	}
 

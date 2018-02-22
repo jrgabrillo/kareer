@@ -3,7 +3,7 @@
   font-family: 'Material Icons';
   font-style: normal;
   font-weight: 400;
-  src: local('Material Icons'), local('MaterialIcons-Regular'), url(materialdesign.woff2) format('woff2');
+  src: url(https://fonts.gstatic.com/s/materialicons/v36/flUhRq6tzZclQEJ-Vdg-IuiaDsNc.woff2) format('woff2');
 }
 
 .material-icons {
@@ -306,4 +306,21 @@ img.round{
 
 .mdl-layout__drawer .mdl-navigation .mdl-navigation__link:hover {
     background-color: #11353c !important;
+}
+
+#display_content{
+  background: url(../img/loginbg.png) center/cover no-repeat !important;
+}
+
+#display_content .mdl-card{
+  background-color: rgba(0,0,0,0.1);
+  margin: 100px 0px;
+}
+
+#display_content .mdl-card__title, #display_content .mdl-card__actions{
+  margin: 0 auto;
+}
+
+.mdl-textfield{
+  width: 100%;
 }

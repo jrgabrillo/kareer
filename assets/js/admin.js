@@ -12,11 +12,18 @@ var admin = function () {
 				// admin.update_picture();
 			}
 		},
+		get:function(){
+			
+		},
 		display:function(){
 			let ajax = system.html('../assets/harmony/Process.php?get-account',"");
 			let data = ajax.responseText;
 			let picture = "../assets/img/profile_avatar.jpg", level = "";
 			data = JSON.parse(data);
+            let read = sessionStorage.getItem('kareer');
+            console.log(read);
+
+			/*
 			if(data[0][3] != ""){
 				let imageData = data[0][3].split('.');
 				if(imageData[imageData.length-1]!='apr'){
@@ -145,6 +152,7 @@ var admin = function () {
 					admin.check_access();
 				}
 			});
+			*/
 		},
         update_picture:function(){
     		var data = system.get_account();
@@ -1182,9 +1190,9 @@ var jobs = function(){
 				    sort: false,
 				});
 			}
-			$(".prettydate").prettydate({
-			    dateFormat: "YYYY-MM-DD hh:mm:ss"
-			});
+			// $(".prettydate").prettydate({
+			//     dateFormat: "YYYY-MM-DD hh:mm:ss"
+			// });
 		},
 	}
 }();
