@@ -1,2 +1,11 @@
-<main id='subcontent'></main>
+<section id="subcontent" class='row'></section>
 <script src="../assets/js/admin.js"></script>
+<script>
+    $("#log-out").on("click",function(){
+        login.kill();
+    })
+            
+    var documentHeight = $(window).height();
+    $("#subcontent").attr({"style":"min-height:"+documentHeight+"px;"});
+    $(".dropdown-button").dropdown();
+</script>

@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=no">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta http-equiv="pragma" content="no-cache">
+        <meta name="msapplication-tap-highlight" content="no">
+        <title>Kaboom Rewards</title>
+
+        <link rel="icon" href="../assets/images/logo.png" sizes="32x32">
+        <meta name="msapplication-TileColor" content="#00bcd4">
+        <link href="../assets/css/materialize.min.css" type="text/css" rel="stylesheet" media="screen,projection">
+        <link href="../assets/css/mdl.min.css" type="text/css" rel="stylesheet" media="screen,projection">
+        <link href="../assets/css/style.css" type="text/css" rel="stylesheet" media="screen,projection">
+        <link href="../assets/css/custom.css" type="text/css" rel="stylesheet" media="screen,projection">
+        <link href="../assets/css/animate.css" type="text/css" rel="stylesheet" media="screen,projection">
+    </head>
+
+    <body class='bg'>
+        <div id='block-control' class=''></div>
+        <div class="progress hide-on-med-and-up hide-on-med-and-down" style="margin: 0rem 0 1rem 0;">
+            <div class="indeterminate"></div>
+        </div>
+        <div id="loader-wrapper">
+            <div id="loader"></div>        
+            <div class="loader-section section-left"></div>
+            <div class="loader-section section-right"></div>
+        </div>
+        <div class="wrapper overlap-gradient" id="content">
+            <div class="row" style='padding-top: 5%;'>
+                <div id='content-login' class="col offset-m1 offset-l1 s12 m10 l10">
+                    <div class="card" style='border-top: solid #f00480 10px;'>
+                        <div class="card-content">
+                            <span class="card-title">Account Information</span>
+                            <form id="form_signup" method="get" action="" novalidate="novalidate">
+                                <div class="row">
+                                    <div class="col s12 m6 l6">
+                                        <div class="row">
+                                            <div class="input-field col s12 m12 l12">
+                                                <input id="field_fname" name="field_fname" type="text" data-error=".error_field_fname">
+                                                <label for="field_fname" class="center-align">Family Name</label>  
+                                                <div class="error_field_fname"></div>  
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="input-field col s12 m12 l12">
+                                                <input id="field_gname" name="field_gname" type="text" data-error=".error_field_gname">
+                                                <label for="field_gname" class="center-align">Given Name</label>  
+                                                <div class="error_field_gname"></div>  
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="input-field col s12 m12 l12">
+                                                <input id="field_mname" name="field_mname" type="text" data-error=".error_field_mname">
+                                                <label for="field_mname" class="center-align">Middle Name</label>  
+                                                <div class="error_field_mname"></div>  
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="input-field col s12 m12 l12">
+                                                <input id="field_nickname" name="field_nickname" type="text" data-error=".error_field_nickname">
+                                                <label for="field_nickname" class="center-align">Nickname</label>  
+                                                <div class="error_field_nickname"></div>  
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="input-field col s12 m12 l12">
+                                                <select name='field_gender'>
+                                                    <option selected>Male</option>
+                                                    <option>Female</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="input-field col s12 m12 l12">
+                                                <input id="field_dob" name="field_dob" type="text" data-error=".error_field_dob">
+                                                <label for="field_dob" class="center-align">Date of Birth (mm/dd/yyyy)</label>  
+                                                <div class="error_field_dob"></div>  
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col s12 m6 l6">
+                                        <div class="row">
+                                            <div class="input-field col s12 m12 l12">
+                                                <input id="field_address" name="field_address" type="text" data-error=".error_field_address">
+                                                <label for="field_address" class="center-align">Address</label>  
+                                                <div class="error_field_address"></div>  
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="input-field col s12 m12 l12">
+                                                <input id="field_phone" name="field_phone" type="text" data-error=".error_field_phone">
+                                                <label for="field_phone" class="center-align">Contact Number</label>  
+                                                <div class="error_field_phone"></div>  
+                                            </div>
+                                        </div>
+                                        <div class="row" style="border: dashed #ccc 1px; padding:10px;">
+                                            <p>Login Information</p>
+                                            <div class="row">
+                                                <div class="input-field col s12 m12 l12">
+                                                    <input name="field_employee_id" id="field_employee_id" disabled type="text" value="EMP-2017-0000">
+                                                    <label for="field_employee_id" class="">Employee ID</label>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="input-field col s12 m12 l12">
+                                                    <input id="field_password" name="field_password" type="password" data-error=".error_field_password">
+                                                    <label for="field_password" class="">Password</label>
+                                                    <div class="error_field_password"></div>  
+                                                </div>
+                                            </div>
+                                            <div class="row">          
+                                                <div class="col s12 m12 l12">
+                                                    <input type="checkbox" name="showPassword" id="showPassword">
+                                                    <label for="showPassword">Show password</label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="input-field col s12 m12 l12">
+                                                <button class="btn waves-effect waves-light col s12" type='submit'>Sign up</button>
+                                            </div>
+                                        </div>
+                                    </div>                                
+                                </div>
+                                <p><i class='mdi-action-info black-text'></i> <i>Please enter relevant information. <br/>   Updating your personal information will take days or even weeks to take effect.</i></p>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="modal" class="modal bottom-sheet">
+            <div class="modal-content"></div>
+            <div class="modal-footer"></div>
+        </div>
+        <div id="modal_popUp" class="modal">
+            <div class="modal-content"></div>
+            <div class="modal-footer"></div>
+        </div>
+
+        <div id="modal_confirm" class="modal modal-fixed-footer">
+            <div class="modal-content"></div>
+            <div class="modal-footer"></div>
+        </div>
+        <script type="text/javascript" src="../assets/js/jquery.js"></script>    
+        <script type="text/javascript" src="../assets/js/materialize.min.js"></script>
+        <script type="text/javascript" src="../assets/js/validation/jquery.validate.min.js"></script>
+        <script type="text/javascript" src="../assets/js/validation/additional-methods.min.js"></script>
+        <script type="text/javascript" src="../assets/js/confirm.js"></script>
+        <script type="text/javascript" src="../assets/js/plugins.js"></script>
+        <script type="text/javascript" src="../assets/js/process.js"></script>
+        <script type="text/javascript">
+            account.confirm();
+        </script>
+    </body>
+</html>

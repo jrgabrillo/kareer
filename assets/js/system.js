@@ -10,7 +10,7 @@ var system = function(){
 				system.loading(true);
 				$('#content-login').addClass('animated slideInUp');
 			},1000);
-			login.ini();
+			main.login();
 		},
 		ajax:function(url,data){
 	        return $.ajax({
@@ -98,14 +98,5 @@ var system = function(){
 			    callback();
 		    },2000);
         },
-        encrypt:function(message){
-			var secret = system.html('assets/harmony/Process.php?auth');
-	        return CryptoJS.AES.encrypt(message,secret.responseText).toString();
-        },
-        read:function(message){
-			var secret = system.html('assets/harmony/Process.php?auth');
-        	let word = CryptoJS.AES.decrypt(message, secret.responseText);
-	        return word.toString(CryptoJS.enc.Utf8);
-        }
 	}
 }();

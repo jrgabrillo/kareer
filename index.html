@@ -1,65 +1,81 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <meta name="description" content="">
-        <meta name="author" content="">
-        <meta name="shopify-checkout-api-token" content="6aacc581eb2b41d74f03c38d3c985dba">
-        <meta id="shopify-digital-wallet" name="shopify-digital-wallet" content="/17758583/digital_wallets/dialog">
-        <meta id="in-context-paypal-metadata" data-merchant-id="972FMYYC2E548" data-environment="production" data-locale="en_US" data-redirect-url="">
-        <title>Kareer</title>
-        <link href="assets/css/mdl.css" rel="stylesheet" />
-        <link href="assets/css/main.css" rel="stylesheet" />
-        <link href="assets/css/animate.css" rel="stylesheet" />
-        <link href="assets/css/style.css" rel="stylesheet" />
-        <link href="assets/css/cropper.min.css" rel="stylesheet">
-    </head>
-    <body>
-        <div class="mdl-layout mdl-js-layout mdl-shadow--2dp no-shadow">
-            <div class="mdl-layout__content mdl-layout-spacer mdl-color--grey-100" id='display_content'>
-                <div class="mdl-grid">
-                    <div class="mdl-cell mdl-cell--4-col mdl-cell--4-offset mdl-cell--2-offset-tablet mdl-cell--4-offset-desktop">
-                        <div class="mdl-card mdl-shadow--2dp no-shadow animated" id="display_login">
-                            <div class="mdl-card__title mdl-card--expand">
-                                <img src="assets/img/kareerLogoW.png" width="auto" height="100px;">
-                            </div>
-                            <div class="mdl-card__actions">
-                                <form class="m-t" role="form" id='form_login'>
-                                    <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
-                                        <input type="text" class="mdl-textfield__input" name='field_email'>
-                                        <label class="mdl-textfield__label" for="sample4">Email</label>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=no">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="msapplication-tap-highlight" content="no">
+    <title>Kareer</title>
+
+    <link rel="icon" href="assets/images/icon.png" sizes="32x32">
+    <meta name="msapplication-TileColor" content="#00bcd4">
+    <link rel="stylesheet" href="assets/css/original.materialize.min.css">
+    <link rel="stylesheet" href="assets/css/custom.css">
+    <link rel="stylesheet" href="assets/css/style.css">
+    <!-- <link rel="stylesheet" href="assets/css/gallery.css"> -->
+    <link rel="stylesheet" href="assets/css/animate.css">
+  </head>
+
+    <body class='bg'>
+        <div id='block-control' class=''></div>
+        <div class="progress hide-on-med-and-up hide-on-med-and-down" style="margin: 0rem 0 1rem 0;">
+            <div class="indeterminate"></div>
+        </div>
+        <div id="loader-wrapper">
+            <div id="loader"></div>        
+            <div class="loader-section section-left"></div>
+            <div class="loader-section section-right"></div>
+        </div>
+        <div class="wrapper">
+            <div class="section" style='padding-top: 5%;'>
+                <div class="row">
+                    <div id='content-login' class="col offset-s1 offset-m3 offset-l4 s10 m6 l4">
+                        <div class="card animated" id="display_login">
+                            <div class="card-content center">
+                                <img src="assets/images/kareerLogoW.png" style='width: 150px;'><br/>
+                                <form id="form_login" method="get" action="" novalidate="novalidate">
+                                    <div class="row">
+                                        <div class="input-field col s12 m12 l12">
+                                            <input id="field_email" name="field_email" type="text" data-error=".error_field_email">
+                                            <label for="field_email" class="center-align">Email</label>  
+                                            <div class="error_field_email"></div>  
+                                        </div>
                                     </div>
-                                    <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
-                                        <input type='password' class="mdl-textfield__input" name='field_password'>
-                                        <label class="mdl-textfield__label" for="sample4">Password</label>
+                                    <div class="row">
+                                        <div class="input-field col s12 m12 l12">
+                                            <input id="field_password" name="field_password" type="password" data-error=".error_field_password">
+                                            <label for="field_password" class="">Password</label>
+                                            <div class="error_field_password"></div>  
+                                        </div>
                                     </div>
-                                    <div>            
-                                        <small><a class="white-text">Forgot Password?</a></small>
-                                        <button class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored" data-cmd='btn_login' data-node='employer' style="width: 40%;">Login</button>
+                                    <div class="row">
+                                        <div class="input-field col s12 m12 l12">
+                                            <button class="btn btn-round waves-effect waves-light col s12 white black-text" type='submit'>Login</button>
+                                        </div>
                                     </div>
-                                </form>  
+                                    <div class="row">
+                                        <div class="input-field col s12 m12 l12">
+                                            <!-- <p class="margin right-align medium-small"><a href="recover.html">Forgot password?</a></p> -->
+                                        </div>          
+                                    </div>
+                                </form>
                             </div>
                         </div>
                     </div>
                 </div>
-                <div id="snackbar" class="mdl-js-snackbar mdl-snackbar">
-                    <div class="mdl-snackbar__text"></div>
-                    <button class="mdl-snackbar__action" type="button"></button>
-                </div>
             </div>
         </div>
+        <script src="assets/js/jquery.js"></script>    
+        <script src="assets/js/materialize.min.js"></script>
+        <script src="assets/js/validation/jquery.validate.min.js"></script>
+        <script src="assets/js/validation/additional-methods.min.js"></script>
+        <script src="assets/js/perfect-scrollbar.min.js"></script>
+        <script src="assets/js/jquery.idle.min.js"></script>
+        <script src="assets/js/process.js"></script>
+        <script src="assets/js/main.js"></script>
+        <script type="text/javascript">
+            system.ini();
+            main.login();
+        </script>
     </body>
-    <script src="assets/js/jquery.js"></script>
-    <script src="assets/js/mdl.min.js"></script>
-    <script src="assets/js/dataTables/jquery.dataTablesss.js"></script>
-    <script src="assets/js/dataTables/dataTables.material.min.js"></script>
-    <script src="assets/js/dataTables/dataTables.tableTools.min.js"></script>
-    <script src="assets/js/validation/jquery.validate.min.js"></script>
-    <script src="assets/js/validation/additional-methods.min.js"></script>
-    <script src="assets/js/system.js"></script>
-    <script src="assets/js/main.js"></script>
-    <script type="text/javascript">
-        main.login();
-    </script>
 </html>

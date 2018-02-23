@@ -1,0 +1,50 @@
+<div class="wrapper">
+	<div class="container">
+		<div class="row">
+			<div class="col s12 m9 l9">
+				<h5 class="breadcrumbs-title">Uploading Employees List</h5>
+				<ol class="breadcrumbs">
+					<li><a href="../account/">Dashboard</a></li>
+					<li><a href="../account/#cmd=index;content=employee">Employee</a></li>
+					<li class="active">Uploading Employees List</li>
+				</ol>
+			</div>
+			<div class='col s12 m2 l2 input-field right'>
+				<a class="btn waves-effect waves-light orange right" id="add_client">Add Employee</a>
+				<!-- <select class="select-dropdown" id="field_addEmployee">
+					<option disabled="" selected>Add employee</option>
+					<option>Manual</option>
+					<option selected>Bulk upload</option>
+				</select> -->
+			</div>
+		</div>
+	</div>
+	<div class="divider"></div>
+    <div class="container">
+        <div class="section">
+			<div class="row margin">
+				<h1>Bulk upload</h1>
+				<div class='col s12 m12 l12'>
+                    <label class='active'>Select excel file: <span id="display_excelFile"></span></label><br/>
+                    <label for="field_file" class='btn waves-effect waves-light red' style='color: #fff;cursor:pointer;'>Select file</label>
+                    <input id='field_file' class="btn btn-sm blue waves-effect waves-light hidden" type="file" name="field_file" data-error=".error_excelFile">
+                    <br/><br/><div class="error_excelFile"></div>
+ 				</div>
+			</div>
+            <div class="row">
+                <div class='col s12' id="display_importLoading" style="margin-top:20px; position: relative;"></div>
+                <div class='col s12 hidden' id="display_import" style="margin-top:20px; position: relative;">
+                    <div class="card-panel">
+                    	<div class='row'>
+	                        <div class="col s2">
+	                        	<input id='save_import' class="btn btn-sm blue waves-effect waves-light" type="button" value="Save">
+	                        </div>
+	                    	<div class="col s8 display_loading" style=""></div>
+	                        <div class="col s12" id="importPreview"></div>
+                    	</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

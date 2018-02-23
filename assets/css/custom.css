@@ -1,0 +1,222 @@
+body.bg {
+    background: url('../images/loginbg.png') no-repeat;
+    background-size: cover;
+}
+.overlap-gradient {
+    width: 100%;
+    height: 100%;
+    background: -moz-linear-gradient(rgba(255, 255, 255, 0.7), rgba(255, 255, 255, 1));
+    ;
+    background: -webkit-linear-gradient(rgba(255, 255, 255, 0.7), rgba(255, 255, 255, 1));
+    ;
+    background: linear-gradient(rgba(255, 255, 255, 0.7), rgba(255, 255, 255, 1));
+    ;
+    filter: progid: DXImageTransform.Microsoft.gradient( startColorstr='#00000000', endColorstr='#a6000000', GradientType=0);
+}
+.login-gradient {
+    width: 100%;
+    min-height: 700px;
+    background: -moz-linear-gradient(rgba(255, 255, 255, 1), rgba(255, 255, 255, 0.7));
+    ;
+    background: -webkit-linear-gradient(rgba(255, 255, 255, 1), rgba(255, 255, 255, 0.7));
+    ;
+    background: linear-gradient(rgba(255, 255, 255, 1), rgba(255, 255, 255, 0.7));
+    ;
+    filter: progid: DXImageTransform.Microsoft.gradient( startColorstr='#00000000', endColorstr='#a6000000', GradientType=0);
+}
+.no-shadow {
+    box-shadow: none !important;
+}
+.no-shadow:hover {
+    box-shadow: none !important;
+}
+.input-field div.error {
+    position: relative;
+    top: -1rem;
+    left: 0rem;
+    font-size: 0.8rem;
+    color: #ffffff;
+    -webkit-transform: translateY(0%);
+    -ms-transform: translateY(0%);
+    -o-transform: translateY(0%);
+    transform: translateY(0%);
+}
+.hidden {
+    display: none !important;
+}
+#ajax-subcontent {
+    min-height: 600px;
+}
+.client-avatar {
+    width: 42px;
+}
+.client-avatar img {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+}
+.block-content {
+    position: fixed;
+    z-index: 25000;
+    width: 100%;
+    height: 100%;
+    background: rgba(255, 255, 255, 0.6);
+}
+.visible {
+    visibility: visible;
+}
+i.icon:before {
+    max-height: 30px;
+    max-width: 30px;
+    overflow: hidden;
+    color: transparent;
+    content: ".....";
+}
+#subcontent {
+    min-height: 600px;
+}
+#modal_confirm {
+    width: 30%;
+    min-height: 260px;
+    max-height: 95%;
+}
+#profile-card .card-profile-image {
+    overflow: hidden;
+    width: 70px;
+    height: 70px;
+}
+#profile-card .card-profile-image img {
+    width: 70px;
+    position: absolute;
+    /*top: 0px;*/
+    z-index: 1;
+    cursor: pointer;
+}
+#profile-card .card-profile-image a {
+    opacity: 0.3;
+}
+#profile-card .card-profile-image:hover a {
+    opacity: 1;
+}
+
+.icon-spin {
+    -webkit-animation: spin 2s infinite linear;
+    -moz-animation: spin 2s infinite linear;
+    -o-animation: spin 2s infinite linear;
+    animation: spin 2s infinite linear;
+}
+@-moz-keyframes spin {
+    0% {
+        -moz-transform: rotate(0deg);
+    }
+    100% {
+        -moz-transform: rotate(359deg);
+    }
+}
+@-webkit-keyframes spin {
+    0% {
+        -webkit-transform: rotate(0deg);
+    }
+    100% {
+        -webkit-transform: rotate(359deg);
+    }
+}
+@-o-keyframes spin {
+    0% {
+        -o-transform: rotate(0deg);
+    }
+    100% {
+        -o-transform: rotate(359deg);
+    }
+}
+@keyframes spin {
+    0% {
+        -webkit-transform: rotate(0deg);
+        transform: rotate(0deg);
+    }
+    100% {
+        -webkit-transform: rotate(359deg);
+        transform: rotate(359deg);
+    }
+}
+.card-profile-image a {
+    opacity: 0.3;
+}
+.card-profile-image:hover a {
+    opacity: 1;
+}
+.hover {
+    opacity: 0.1;
+    cursor: pointer;
+}
+.hover:hover {
+    opacity: 1;
+}
+#products {
+    padding-bottom: 200px;
+}
+#sidebar_menu .collection {
+    border: 0px solid #e0e0e0 !important;
+}
+#sidebar_menu .collection .collection-item {
+    background-color: transparent !important;
+    border-bottom: 0px solid #e0e0e0 !important;
+    line-height: 1.5rem;
+}
+#sidebar_menu .collection .collection-item.avatar {
+    min-height: 60px;
+}
+#signIn {
+    overflow: hidden;
+}
+#account {
+    overflow: hidden;
+}
+header, main, footer {
+    padding-left: 240px;
+}
+.parallax-demo header, .parallax-demo main, .parallax-demo footer {
+    padding-left: 0;
+}
+footer.example {
+    padding-left: 0;
+}
+@media only screen and (max-width: 992px) {
+    header, main, footer {
+        padding-left: 0;
+    }
+    h5>span {
+        display: block;
+        /*margin: 0 0 15px 0;*/
+    }
+}
+.bold {
+    font-weight: bold !important;
+}
+
+#profile-card table td{
+    padding: 5px;
+}
+
+table .truncate{
+    display: table-cell !important;
+}
+
+.select-wrapper input.select-dropdown{
+    margin:0px;
+}
+
+.modal.bottom-sheet{
+    max-height: 80% !important;
+    height: 80% !important;
+}
+
+.side-nav li>a:hover {
+    background-color: rgba(192, 192, 192, 0.05);
+}
+
+@media only screen and (min-width: 993px) {
+    #wishlist .placeholder{
+        margin-left:240px;
+    }
+}

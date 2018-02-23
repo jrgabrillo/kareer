@@ -2,232 +2,101 @@ var admin = function () {
 	"use strict";
 	return {
 		ini:function(){
+			console.log('xxx');
 			var data = admin.check_access();
 			if(data != 0){
 				admin.display();
-				// admin.update_picture();
-				admin.update();
-				jobs.ini();
+				// jobs.ini();
 				// employer.list();
 				// applicant.list();
-				// admin.update_picture();
 			}
 		},
 		get:function(){
 			var ajax = system.ajax('../assets/harmony/Process.php?get-account',"");
 			return ajax.responseText;
 		},
-		display:function(){
-			let picture = "../assets/img/profile_avatar.jpg", level = "";
-			let data = admin.get();
+		display:function(data){
+			var content = "", data = admin.get();
 			data = JSON.parse(data);
-			var profile = (data[0][3] == "")?'profile_avatar.jpg':data[0][8];
-			let content = `<table class="mdl-data-table mdl-js-data-table" width='100%'>
-							<tr>
-								<td class='bold left' style='width: 100px;'>First Name:</td>
-								<td class='left'>${data[0][1]}</td>
-								<td>
-									<button data-value='${profile}' data-name='${profile}' data-node='${data[0][0]}' data-prop='Picture' data-cmd='update_profile' data-field='picture' class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon" id="tooltip_updateName">
-										<i class="material-icons mdl-color-text--grey-400">edit</i>
-										<div class="mdl-tooltip mdl-tooltip--left" for="tooltip_updateName">
-											Update
-										</div>
-									</button>
-								</td>
-							</tr>
-							<tr>
-								<td class='bold left'>Last Name:</td>
-								<td class='left'>${data[0][2]}</td>
-								<td>
-									<button data-value='${data[0][2]}' data-name='${data[0][2]}' data-node='${data[0][0]}' data-prop='Picture' data-cmd='update_profile' data-field='family-name' class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon" id="tooltip_updateFamilyName">
-										<i class="material-icons mdl-color-text--grey-400">edit</i></a>
-										<div class="mdl-tooltip mdl-tooltip--left" for="tooltip_updateFamilyName">
-											Update
-										</div>
-									</button>
-								</td>
-							</tr>
-							<tr>
-								<td class='bold left'>Username:</td>
-								<td class='left'>${data[0][4]}</td>
-								<td>
-									<button data-value='${data[0][4]}' data-name='${data[0][4]}' data-node='${data[0][0]}' data-prop='Picture' data-cmd='update_profile' data-field='user-name' class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon" id="tooltip_updateUsername">
-										<i class="material-icons mdl-color-text--grey-400">edit</i></a>
-										<div class="mdl-tooltip mdl-tooltip--left" for="tooltip_updateUsername">
-											Update
-										</div>
-									</button>
-								</td>
-							</tr>
-							<tr>
-								<td class='bold left'>Password</td>
-								<td class='left'></td>
-								<td>
-									<button data-value='${data[0][2]}' data-name='${data[0][2]}' data-node='${data[0][0]}' data-prop='Picture' data-cmd='update_profile' data-field='password' class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon" id="tooltip_updatePassword">
-										<i class="material-icons mdl-color-text--grey-400">edit</i></a>
-										<div class="mdl-tooltip mdl-tooltip--left" for="tooltip_updatePassword">
-											Update
-										</div>
-									</button>
-								</td>
-							</tr>
-						</table>`;
+			console.log(data);
+			var profile = (data[0][3] == "")?'avatar.jpg':data[0][3];
 
-			$("#display_details").html(content);
-			$("#profile_picture img").attr({"src":picture});
-			$(".profile-element span img").attr({"src":picture});
-			$("#ajax-content img").attr({"src":picture});
-			$(".profile-element span strong").html(data[0][1]+" "+data[0][2]);
-			$(".profile-element span h6").html('Welcome Administrator');
+			$("#user-account img.profile-image").attr({"src":"../assets/images/profile/"+profile});
+			$("#user-account div div a span.display_name").html(`${data[0][1]} ${data[0][2]}`);
 
-			$("a[data-cmd]").click(function(){
-				$("a").parent('li').removeClass("active");
-				$(this).parent('li').addClass("active");
-				let data = $(this).data('cmd');
-				if(data == "logout"){
-					let ajax = system.ajax('../assets/harmony/Process.php?kill-session',"");
-					admin.check_access();
-				}
-			});
+			content = `<div id='profile-card' class='card'>
+							<div class='card-content'>
+							    <div class='responsive-img activator card-profile-image circle'>
+							    	<img src='../assets/images/profile/${profile}' alt='' class='circle'>
+							    	<a data-cmd='updateAdminPicture' data-value='${profile}' data-name='${data[0][1]} ${data[0][2]}' data-node='${data[0][0]}' data-prop='Picture' class='btn waves-effect white-text no-shadow black' style='font-size: 10px;z-index: 1;padding: 0 12px;top:40px;'>Change</a>
+								</div>
+								<a data-for='name' data-cmd='updateAdmin' data-value='${JSON.stringify([data[0][1],data[0][2]])}' data-name='${data[0][1]} ${data[0][2]}' data-node='${data[0][0]}' data-prop='Name' class='tooltipped btn-floating waves-effect black-text no-shadow white right' data-position='left' data-delay='50' data-tooltip='Update name'>
+									<i class='material-icons right hover black-text'>mode_edit</i>
+								</a>
+							    <span class='card-title activator grey-text text-darken-4' for='name'>${data[0][1]} ${data[0][2]}</span>
+								<div class='divider'></div>
+								<table>
+									<tr>
+										<td width='20px' class='bold'><span style='width:80%;display: inline-block;'><i class='mdi-action-perm-identity cyan-text text-darken-2'></i> Username: </span></td>
+										<td class='grey-text truncate' for='username'>${data[0][4]}</td>
+										<td width='20px'>
+											<a data-for='username' data-cmd='updateAdmin' data-value='${data[0][4]}' data-name='${data[0][1]} ${data[0][2]}' data-node='${data[0][0]}' data-prop='Username' class='tooltipped btn-floating waves-effect black-text no-shadow white right' data-position='left' data-delay='50' data-tooltip='Update username'>
+												<i class='material-icons right hover black-text'>mode_edit</i>
+											</a>
+										</td>
+									</tr>
+									<tr>
+										<td class='bold'><span style='width:80%;display: inline-block;' class='truncate'><i class='mdi-action-verified-user cyan-text text-darken-2'></i> Password</span></td>
+										<td></td>
+										<td>
+											<a data-cmd='updateAdmin' data-name='${data[0][1]} ${data[0][2]}' data-node='${data[0][0]}' data-prop='Password' class='tooltipped btn-floating waves-effect black-text no-shadow white right' data-position='left' data-delay='50' data-tooltip='Update password'>
+												<i class='material-icons right hover black-text'>mode_edit</i>
+											</a>
+										</td>
+									</tr>
+								</table>
+							</div>
+						</div>`;
+			$("#display_admin").html(content);
+			admin.update();
+			admin.updatePicture();
 		},
-        update_picture:function(){
-    		var data = admin.get();
-    		data = JSON.parse(data);
-			var picture = "../assets/img/profile avatar.jpg";
-			var profile = (data[0][3] == "")?'profile_avatar.jpg':data[0][8];
-
-	    	$("a[data-cmd='update_picture']").click(function(){
-	    		$("#profile_picture1").addClass('hidden');
-	    		$("#profile_picture2").removeClass('hidden')
-
-	    		var content =   "<div class='image-crop'>"+
-								"	<img class='circle responsive-img' style='width: 100%; border:2px; border-style: solid; border-color: #2b9c9b' src='"+picture+"'>"+
-								"</div>"+
-								"<div class='btn-group'>"+
-								"<label for='inputImage' class='btn-flat btn-xs btn-primary'>"+
-								"	<input type='file' accept='image/*' name='file' id='inputImage' class='hide'>"+
-								"	Choose an image"+
-								"</label>"+
-								"<button class='btn-flat btn-warning btn-xs' data-cmd='cancel' type='button'>"+
-								"	Cancel"+
-								"</button>"+
-								"<button class='btn-flat btn-info btn-xs hidden' data-cmd='rotate' data-option='-90' type='button' title='Rotate Left'>"+
-								"	<i class='tiny material-icons'>rotate_left</i>"+
-								"</button>"+
-								"<button class='btn-flat btn-info btn-xs hidden' data-cmd='rotate' data-option='90' type='button' title='Rotate Right'>"+
-								"	<i class='tiny material-icons'>rotate_right</i>"+
-								"</button>"+
-								"<button class='btn-flat btn-danger btn-xs hidden' data-cmd='save' type='button'>"+
-								"	Save"+
-								"</button>"+
-								"</div>";
-	    		$("#profile_picture2").html(content);
-				$('.tooltipped').tooltip({delay: 50});
-	          
-	            var $inputImage = $("#inputImage");
-	            if(window.FileReader){
-	                $inputImage.change(function() {
-	                    var fileReader = new FileReader(),
-	                            files = this.files,
-	                            file;
-
-	                    file = files[0];
-
-	                    if (/^image\/\w+$/.test(file.type)) {
-	                        fileReader.readAsDataURL(file);
-	                        fileReader.onload = function () {
-	                            $inputImage.val("");
-
-					            var $image = $(".image-crop > img")
-					            $($image).cropper({
-					            	aspectRatio: 1/1,
-								    autoCropArea: 0.80,
-								    preview: ".avatar-preview",
-								    built: function () {
-								    	$("button[data-cmd='save']").removeClass('hidden');
-								    	$("button[data-cmd='rotate']").removeClass('hidden');
-							            $("button[data-cmd='save']").click(function(){									    	
-									    	$(this).html('Loading..').addClass('disabled');
-					    					var ajax = system.ajax('../assets/harmony/Process.php?update-image',[data[0][0],'administrator',$image.cropper("getDataURL")]);
-											ajax.success(function(data){
-												if(data == 1){
-													Materialize.toast("Successful!", 2000);
-													system.close_modal();
-													App.handleLoadPage("#cmd=index");
-												}
-												else{
-													Materialize.toast("Fatal Error!", "There was an Unexpected Error during the process.", "error");
-												}
-											});
-							            });
-								    }
-								});
-
-	                            $image.cropper("reset", true).cropper("replace", this.result);
-
-					            $("button[data-cmd='rotate']").click(function(){
-					            	var data = $(this).data('option');
-						        	$image.cropper('rotate', data);
-					            });
-
-	                        };
-	                    }
-	                    else{
-	                        showMessage("Please choose an image file.");
-	                    }
-	                });
-	            }
-	            else{
-	                $inputImage.addClass("hide");
-	            }
-	            $("button[data-cmd='cancel']").click(function(){
-					App.handleLoadPage("#cmd=index");
-	            });
-	    	});
-	    },
-		logout:function(){
-			$("a[ data-cmd='logout']").on("click",function(){
-				var ajax = system.html('../assets/harmony/Process.php?kill-session');
-				ajax.done(function(data){
-					if(data == 1){
-				    	$(location).attr('href','../');			
-					}
-					else{
-						swal('Cannot process request.',4000);
-					}
-				})
-			});
-		},
-        check_access:function(){
-            var result = "";
-            var ajax = system.html('../assets/harmony/Process.php?get-session');
-            ajax.done(function(data){
-                if(data == 0){
-                    $(location).attr('href','../');                     
-                }
-                else{
-                    result = data;
-                }
-            })
-            return result;
-        },
 		update:function(){
-			console.log('aasa');
-			$("button[data-cmd='update_profile']").on('click',function(){
+			$("a[data-cmd='updateAdmin']").on('click',function(){
 				let _this = this;
 				var data = $(this).data();
 				var content = `<h5>Change ${data.prop}</h5>
-							  <form id='form_update' class='formValidate' method='get' action='' novalidate='novalidate'>
+								<form id='form_update' class='formValidate' method='get' action='' novalidate='novalidate'>
 							  		<label for='field_${data.prop}'>${data.prop}: </label>
 							  		<input id='field_${data.prop}' value='${data.value}' type='text' name='field_${data.prop}' data-error='.error_${data.prop}'>
 							  		<div class='error_${data.prop}'></div>
 							  		<button type='submit' data-cmd='button_proceed' class='waves-effect waves-grey grey lighten-5 blue-text btn-flat modal-action right'>Save</button>
 							  		<a class='waves-effect waves-grey grey-text btn-flat modal-action modal-close right'>Cancel</a>
-							  </form>`;
+								</form>`;
 				$("#modal_confirm .modal-content").html(content);
-				$('#modal_confirm .modal-footer').html("");
+				$('#modal_confirm .modal-footer').html("");			
+
 				if(data.prop == "Name"){
-					$('#modal_confirm').modal('open');			
+					console.log(data.value);
+					content = `<h5>Change ${data.prop}</h5>
+									<form id='form_update' class='formValidate' method='get' action='' novalidate='novalidate'>
+										<div class="input-field col s6">
+									  		<label for='field_${data.prop} active'>${data.prop}: </label>
+									  		<input id='field_${data.prop}' value='${data.value[0]}' type='text' name='field_${data.prop}' data-error='.error_${data.prop}'>
+									  		<div class='error_${data.prop}'></div>
+										</div>
+										<div class="input-field col s6">
+									  		<label for='field_${data.prop} active'>${data.prop}: </label>
+									  		<input id='field_${data.prop}' value='${data.value[1]}' type='text' name='field_${data.prop}' data-error='.error_${data.prop}'>
+									  		<div class='error_${data.prop}'></div>
+										</div>
+								  		<button type='submit' data-cmd='button_proceed' class='waves-effect waves-grey grey lighten-5 blue-text btn-flat modal-action right'>Save</button>
+								  		<a class='waves-effect waves-grey grey-text btn-flat modal-action modal-close right'>Cancel</a>
+									</form>`;
+					$("#modal_confirm .modal-content").html(content);
+
+					$('#modal_confirm').modal('open');
+
 					$("#form_update").validate({
 					    rules: {
 					        field_Name: {required: true,maxlength: 50},
@@ -264,44 +133,6 @@ var admin = function () {
 					    }
 					}); 
 				}			
-				else if(data.prop == "Email"){
-					$('#modal_confirm').modal('open');			
-					$("#form_update").validate({
-					    rules: {
-					        field_Email: {required: true,maxlength: 50,checkEmail:true,validateEmail:true},
-					    },
-					    errorElement : 'div',
-					    errorPlacement: function(error, element) {
-							var placement = $(element).data('error');
-							if(placement){
-								$(placement).append(error)
-							} 
-							else{
-								error.insertAfter(element);
-							}
-						},
-						submitHandler: function (form) {
-							var _form = $(form).serializeArray();
-							if(data.value == _form[0]['value']){
-								Materialize.toast('You did not even change the value.',4000);
-							}
-							else{
-								var ajax = system.ajax('../assets/harmony/Process.php?update-admin',_form);
-								ajax.done(function(ajax){
-									if(ajax == 1){
-										Materialize.toast('Email updated.',4000);
-										$('#modal_confirm').modal('close');	
-										$(`*[for='${data.for}']`).html(_form[0]['value']);
-										$(_this).attr({'data-value':_form[0]['value']});
-									}
-									else{
-										Materialize.toast('Cannot process request.',4000);
-									}
-								});
-							}
-					    }
-					}); 
-				}
 				else if(data.prop == "Username"){
 					$('#modal_confirm').modal('open');			
 					$("#form_update").validate({
@@ -393,6 +224,129 @@ var admin = function () {
 				}
 			});
 		},
+		updatePicture:function(){
+			$("a[data-cmd='updateAdminPicture']").on('click',function(){
+				var data = $(this).data();
+				var picture = "../assets/images/avatar.jpg";
+				var content = `<h4>Change ${data.prop}</h4>
+	  							<div class='row'>
+	  								<div class='col s12'>
+										<div id='profile_picture2' class='ibox-content no-padding border-left-right '></div>
+									</div>
+								</div>`;
+				$("#modal_confirm .modal-content").html(content);
+				$('#modal_confirm').removeClass('modal-fixed-footer');			
+				$('#modal_confirm .modal-footer').remove();			
+				$('#modal_confirm').modal('open');			
+
+	    		var content =   `<div class='image-crop col s12' style='margin-bottom:5px;'>
+									<img width='100%' src='${picture}'>
+								</div>
+								<div class='btn-group col s12'>
+									<label for='inputImage' class='btn blue btn-floating btn-flat tooltipped' data-tooltip='Load image' data-position='top'>
+										<input type='file' accept='image/*' name='file' id='inputImage' class='hide'>
+										<i class='material-icons right hover white-text'>portrait</i>
+									</label>
+									<button class='btn blue btn-floating btn-flat tooltipped' data-cmd='cancel' type='button' data-tooltip='Cancel' data-position='top'>
+										<i class='material-icons right hover white-text'>close</i>
+									</button>
+									<button class='btn blue btn-flat hidden right white-text' data-cmd='save' type='button'>
+										Save
+									</button>
+								</div>`;
+	    		$("#profile_picture2").html(content);
+				$('.tooltipped').tooltip({delay: 50});
+
+	            var $inputImage = $("#inputImage");
+	            var status = true;
+	            if(window.FileReader){
+	                $inputImage.change(function() {
+	                    var fileReader = new FileReader(),
+	                            files = this.files,
+	                            file;
+
+	                    file = files[0];
+
+	                    if (/^image\/\w+$/.test(file.type)) {
+	                        fileReader.readAsDataURL(file);
+	                        fileReader.onload = function () {
+	                            $inputImage.val("");
+
+					            var $image = $(".image-crop > img")
+					            $($image).cropper({
+					            	aspectRatio: 1/1,
+								    autoCropArea: 0.80,
+								    preview: ".avatar-preview",
+								    built: function () {
+				    		    		$(".cropper-container").attr({'style':'left:0px !important;top:0px;width:100%;height:100%;'});
+
+								    	$("button[data-cmd='save']").removeClass('hidden');
+								    	$("button[data-cmd='rotate']").removeClass('hidden');
+								    	
+							            $("button[data-cmd='save']").click(function(){									    	
+									    	$(this).html("Uploading...").addClass('disabled');
+									    	if(status){
+												var data = system.ajax('../assets/harmony/Process.php?update-adminPicture',["picture",$image.cropper("getDataURL")]);
+												data.done(function(data){
+													Materialize.toast('Picture has been changed.',4000);
+													data = account.get();
+													account.display(JSON.parse(data));
+													$('#modal_confirm').modal('close');	
+												});
+									    		status = false;
+									    	}
+							            });
+								    }
+								});
+
+	                            $image.cropper("reset", true).cropper("replace", this.result);
+
+					            $("button[data-cmd='rotate']").click(function(){
+					            	var data = $(this).data('option');
+						        	$image.cropper('rotate', data);
+					            });
+
+	                        };
+	                    }
+	                    else{
+	                        showMessage("Please choose an image file.");
+	                    }
+	                });
+	            }
+	            else{
+	                $inputImage.addClass("hide");
+	            }	            
+	            $("button[data-cmd='cancel']").click(function(){
+					$('#modal_confirm').modal('close');	
+	            });
+			});
+		},
+		logout:function(){
+			$("a[ data-cmd='logout']").on("click",function(){
+				var ajax = system.html('../assets/harmony/Process.php?kill-session');
+				ajax.done(function(data){
+					if(data == 1){
+				    	$(location).attr('href','../');			
+					}
+					else{
+						swal('Cannot process request.',4000);
+					}
+				})
+			});
+		},
+        check_access:function(){
+            var result = "";
+            var ajax = system.html('../assets/harmony/Process.php?get-session');
+            ajax.done(function(data){
+                if(data == 0){
+                    $(location).attr('href','../');                     
+                }
+                else{
+                    result = data;
+                }
+            })
+            return result;
+        },
     };
 }();
 

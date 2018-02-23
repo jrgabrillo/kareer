@@ -1,0 +1,121 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
+        <title>Kaboom Rewards</title>
+        <meta name="mobile-web-app-capable" content="yes">
+        <link rel="shortcut icon" href="assets/images/logo.png">
+        <link rel="stylesheet" href="assets/css/original.materialize.min.css">
+        <link rel="stylesheet" href="assets/css/style.css">
+        <link rel="stylesheet" href="assets/css/gallery.css">
+        <link rel="stylesheet" href="assets/css/animate.css">
+    </head>
+    <body>
+        <div id="loader-wrapper">
+            <div id="loader"></div>
+            <div class="loader-section section-left"></div>
+            <div class="loader-section section-right"></div>
+        </div>
+        <section class='row' style='margin: 50px 0px 0px 0px;'>
+            <div class='middle-box text-center animated fadeInDown'>
+                <div class='col s12 m6 l6 offset-m3 offset-l3'>
+                    <div class="image"><img src="assets/images/logo.png" draggable="false" alt="" class="responsive-img valign profile-image" id="display_logo" style="width:300px;"></div>
+                    <h3 class='font-bold'>Page Not Found</h3>
+                    <div class='error-desc'>
+                        Sorry, but the page you are looking for has not been found. <br/>Try checking the URL for error, then hit the refresh button on your browser or <a href="http://www.kaboomrewards.com/">click here to go home page.</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <aside id="overlap-gradient">
+            <ul id="signIn" class="side-nav">
+                <li class="grey darken-4">
+                    <div id='display_login' class="animated row margin">
+                        <div class='login-gradient' style="overflow: hidden;">
+                            <div class='col-s12 m12 l12' style='margin-top:20%; padding:10px;'>
+                                <form id="form_login" method="get" action="" novalidate="novalidate">
+                                    <div class="input-field col s12 m12 l12">
+                                        <h5>Log in and get started</h5>
+                                    </div>
+                                    <div class="input-field col s12 m12 l12">
+                                        <input id="field_empID" name="field_empID" type="text" data-error=".error_field_empID">
+                                        <label for="field_empID" class="center-align">Employee ID</label>  
+                                        <div class="error_field_empID"></div>
+                                    </div>
+                                    <div class="input-field col s12 m12 l12">
+                                        <input id="field_password" name="field_password" type="password" data-error=".error_field_password">
+                                        <label for="field_password" class="">Password</label>
+                                        <div class="error_field_password"></div>
+                                    </div>
+                                    <div class="input-field col s12 m12 l12">
+                                        <button class="btn waves-effect waves-light col s12" type='submit'>Login</button>
+                                    </div>
+                                    <div class="input-field col s12 m12 l12">
+                                        <p class="margin right-align medium-small"><a href="recover.html#employee">Forgot password?</a></p>
+                                    </div>          
+                                </form>
+                            </div>
+                        </div>
+                    </div>                        
+                </li>
+            </ul>
+            <ul id="account" class="side-nav grey darken-4">
+                <li>
+                    <div id='display_cart' class="animated row margin ">
+                        <div class="row white-text" id='display_account'></div>
+                        <div id='display_points' class="white-text cyan darken-1 row">
+                            <div class="col s12 m12 l12">
+                                Available points: 
+                                <span class='cart_bigNumber'>0<small>point</small>/span>
+                            </div>
+                        </div>
+                        <div class="white-text row" id='sidebar_menu'>
+                            <ul class="collapsible collapsible-accordion">
+                                <li class="">
+                                    <a class="waves-effect waves-blue white-text" href="index.html"><i class="material-icons white-text">home</i> Home</a>
+                                </li>
+                                <li class="">
+                                    <a class="waves-effect waves-blue white-text" href="sale.html"><i class="material-icons white-text">shopping_basket</i> Shop</a>
+                                </li>
+                                <li class="hide">
+                                    <a class="waves-effect waves-blue white-text" href="#"><i class="material-icons white-text">mail</i> Inbox</a>
+                                </li>
+                                <li class="">
+                                    <a class="waves-effect waves-blue white-text" href="account/#cmd=index;content=list_points"><i class="material-icons white-text">bookmark</i> My Reward History</a>
+                                </li>
+                                <li class="">
+                                    <a class="waves-effect waves-blue white-text" href="account/#cmd=index;content=list_points"><i class="material-icons white-text">trending_up</i> Order Tracker</a>
+                                </li>
+                                <li class="">
+                                    <a class="waves-effect waves-blue white-text" href="contact.html"><i class="material-icons white-text">headset_mic</i> Contact Support</a>
+                                </li>
+                                <li class="collection-item avatar">
+                                    <a class="waves-effect waves-blue white-text" href="account/"><i class="material-icons white-text">account_circle</i> Account</a>
+                                </li>
+                                <li class="collection-item avatar">
+                                    <a class="waves-effect waves-blue white-text" data-cmd="logout"><i class="material-icons white-text">exit_to_app</i> Sign Out</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </li>
+            </ul>
+        </aside>
+        <script src="assets/js/jquery.js"></script>    
+        <script src="assets/js/materialize.min.js"></script>
+        <script src="assets/js/perfect-scrollbar.min.js"></script>
+        <script src="assets/js/validation/jquery.validate.min.js"></script>
+        <script src="assets/js/validation/additional-methods.min.js"></script>
+        <script src="assets/js/jquery.idle.min.js"></script>
+        <script src="assets/js/gallery.js"></script> 
+        <script src="assets/js/plugins.js"></script>
+        <script src="assets/js/process.js"></script>
+        <script src="assets/js/market.js"></script>
+        <script>
+            market.ini();
+            login.market();
+        </script>
+    </body>
+</html>

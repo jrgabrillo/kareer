@@ -1,90 +1,90 @@
 <!DOCTYPE html>
 <html lang="en">
     <head>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <meta name="author" content="RNR Digital Consultancy">
-        <title>Kareer</title>
-        <link href="https://fonts.googleapis.com/css?family=Roboto:regular,bold,italic,thin,light,bolditalic,black,medium&amp;lang=en" rel="stylesheet">
-        <link href="../assets/css/mdl.css" rel="stylesheet" />
-        <!-- <link href="../assets/css/plugins/dataTables/dataTables.bootstrap.css" rel="stylesheet" /> -->
-        <!-- <link href="../assets/css/plugins/dataTables/dataTables.responsive.css" rel="stylesheet" /> -->
-        <!-- <link href="../assets/css/plugins/dataTables/dataTables.tableTools.min.css" rel="stylesheet" /> -->
-        <!-- <link href="../assets/js/dataTables/dataTable.css" rel="stylesheet"> -->
-        <link href="../assets/css/main.css" rel="stylesheet" />
-        <link href="../assets/css/animate.css" rel="stylesheet" />
-        <link href="../assets/css/style.css" rel="stylesheet" />
-        <link href="../assets/css/cropper.min.css" rel="stylesheet">
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=no">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta http-equiv="pragma" content="no-cache">
+        <meta name="msapplication-tap-highlight" content="no">
+        <title>Kaboom Rewards</title>
+
+        <link rel="icon" href="../assets/images/icon.png" sizes="32x32">
+        <meta name="msapplication-TileColor" content="#00bcd4">
+        <link href="../assets/css/cropper.min.css" type="text/css" rel="stylesheet" media="screen,projection">
+        <link href="../assets/css/font-awesome.min.css" type="text/css" rel="stylesheet" media="screen,projection">
+        <link href="../assets/css/quill.snow" type="text/css" rel="stylesheet" media="screen,projection">
+        <link href="../assets/css/plugins/dataTables/dataTables.responsive.css" type="text/css" rel="stylesheet" media="screen,projection">
+        <link href="../assets/css/plugins/dataTables/dataTables.tableTools.min.css" type="text/css" rel="stylesheet" media="screen,projection">
+        <link href="../assets/css/plugins/dataTables/dataTables.material.min.css" type="text/css" rel="stylesheet" media="screen,projection">
+        <link href="../assets/css/perfect-scrollbar.css" type="text/css" rel="stylesheet" media="screen,projection">
+        <link href="../assets/css/original.materialize.min.css" rel="stylesheet">
+        <link href="../assets/css/custom.css" rel="stylesheet">
+        <link href="../assets/css/style.css" rel="stylesheet">
+        <link href="../assets/css/animate.css" rel="stylesheet">
     </head>
+
     <body>
-        <div class="mdl-layout mdl-js-layout mdl-layout--fixed-drawer mdl-layout--fixed-header mdl-shadow--2dp no-shadow">
-            <header class="mdl-layout__header mdl-color--grey-100 no-shadow">
-                <div class="mdl-layout__header-row">
-                    <span class="mdl-layout-title">Home</span>
-                    <div class="mdl-layout-spacer"></div>
-                    <button class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon" id='tooltip_notification'>
-                        <i class="material-icons mdl-color-text--grey-400">notifications</i>
-                        <div class="mdl-tooltip" data-mdl-for="tooltip_notification">
-                            Notifications
-                        </div>
-                    </button>
-                    <button class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon" id='tooltip_message'>
-                        <i class="material-icons mdl-color-text--grey-400">message</i> 
-                        <div class="mdl-tooltip" data-mdl-for="tooltip_message">
-                            Messages
-                        </div>
-                    </button>
-                </div>
-            </header>
-            <div class="demo-drawer mdl-layout__drawer profile-element" style="background-image:url(../assets/img/sidenav.png">
-                <header class="center demo-drawer-header" style="padding-top: 180px;">
-                    <span class="white-text" style="margin-bottom: 30px;">
-                        <h6></h6>
-                    </span>
-                    <span class ="center">
-                         <a href="#cmd=index;content=account">
-                            <img src="../assets/img/profile_avatar.jpg" style="border:2px; border-style: solid; border-color: white" class="demo-avatar">
-                        </a>
-                    </span>
-                    <span class="center white-text">
-                        <strong></strong>
-                    </span>                   
-                    <div class="demo-avatar-dropdown">   
-                        <div class="mdl-layout-spacer"></div>
-                    </div>
-                </header>
-                <div class="divider" style="width: 70%;margin: 0 auto;opacity: 0.3;"></div>
-                <nav background='assets/img/sidebg.png' id='navigation' class="demo-navigation mdl-navigation" style="background-image:url(../assets/img/sidenav.png"></nav>
+        <header class="no-shadow"></header>
+        <main class="grey lighten-4">
+            <div id='block-control' class=''></div>
+            <div class="progress hide-on-med-and-up hide-on-med-and-down" style="margin: 0rem 0 1rem 0;">
+                <div class="indeterminate"></div>
             </div>
-            <div class="mdl-layout__content mdl-layout-spacer mdl-color--grey-100 no-shadow" id='content'></div>
-        </div>
-        <div class="modal inmodal fade" id="modal" tabindex="-1" role="dialog" aria-hidden="true" style="display: none;">
-            <div class="modal-dialog modal-lg">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true"></span><span class="sr-only">Close</span></button>
-                        <h4 class="modal-title"</h4>
-                        <small class="font-bold"></small>
-                    </div>
-                    <div class="modal-body"></div>
-                    <div class="modal-footer"></div>  
+            <div id="loader-wrapper">
+                <div id="loader"></div>        
+                <div class="loader-section section-left"></div>
+                <div class="loader-section section-right"></div>
+            </div>
+            <div class="wrapper rightside-navigation" id="content">
+            </div>
+            <div id="modal" class="modal bottom-sheet" style="max-height:80%;">
+                <div class="modal-content"></div>
+                <div class="modal-footer"></div>
+            </div>
+            <div id="modal_popUp" class="modal">
+                <div class="modal-content"></div>
+                <div class="modal-footer"></div>
+            </div>
+            <div id="modal_confirm" class="modal modal-fixed-footer">
+                <div class="modal-content"></div>
+                <div class="modal-footer"></div>
+            </div>
+        </main>
+        <footer class="page-footer grey lighten-1">
+            <div class="footer-copyright">
+                <div class="container">
+                    <span>Copyright © 2017. Buzzooka Pinas All rights reserved.</span>
+                    <span class="right"> Design and Developed by <b><a class="white-text" href='https://rnrdigitalconsultancy.com'>RNR Digital Consultancy</a></b></span>
                 </div>
             </div>
-        </div>
+        </footer>
+        <script src="../assets/js/jquery.js"></script>    
+        <script src="../assets/js/app.js"></script>
+        <script src="../assets/js/materialize.min.js"></script>
+        <script src="../assets/js/typehead.bundle.min.js"></script>
+        <script src="../assets/js/papaparse.js"></script>
+        <script src="../assets/js/codemirror.min.js"></script>
+        <script src="../assets/js/xml.min.js"></script>
+        <script src="../assets/js/quill.min.js"></script>
+        <script src="../assets/js/jquery.idle.min.js"></script>
+        <script src="../assets/js/validation/jquery.validate.min.js"></script>
+        <script src="../assets/js/validation/additional-methods.min.js"></script>
+        <script src="../assets/js/dataTables/jquery.dataTables.js"></script>
+        <script src="../assets/js/dataTables/dataTables.fixedcolumns.js"></script>
+        <script src="../assets/js/dataTables/dataTables.responsive.js"></script>
+        <script src="../assets/js/dataTables/dataTables.tableTools.min.js"></script>
+        <script src="../assets/js/dataTables/dataTables.material.min.js"></script>
+        <script src="../assets/js/cropper.min.js"></script>
+        <script src="../assets/js/plugins.js"></script>
+        <script src="../assets/js/process.js"></script>
+        <script src="../assets/js/admin.js"></script>
+        <script>
+            system.ini();
+            App.init();
+            $('.modal').modal();
+            system.forceLogout(function(){
+                login.kill();
+            });           
+        </script>
     </body>
-    <script src="../assets/js/mdl.min.js"></script>
-    <script src="../assets/js/jquery.js"></script>
-    <script src="../assets/js/dataTables/jquery.dataTablesss.js"></script>
-    <script src="../assets/js/dataTables/dataTables.material.min.js"></script>
-    <script src="../assets/js/dataTables/dataTables.tableTools.min.js"></script>
-    <script src="../assets/js/validation/jquery.validate.min.js"></script>
-    <script src="../assets/js/validation/additional-methods.min.js"></script>
-    <script src="../assets/js/cropper.min.js"></script>
-    <script src="../assets/js/defiant.min.js"></script>
-    <script src="../assets/js/apps.js"></script>
-    <script src="../assets/js/system.js"></script>
-    <script src="../assets/js/main.js"></script>
-    <script type="text/javascript">
-        App.init();
-    </script>
 </html>

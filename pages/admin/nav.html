@@ -1,7 +1,65 @@
-<a class="mdl-navigation__link" href="#cmd=index;content=account"><i class="material-icons">account_circle</i>Profile</a>
-<a class="mdl-navigation__link" data-cmd="logout" ><i class="material-icons">exit_to_app</i>Log out</a>
-
-<a class="mdl-navigation__link" href="#cmd=index;content=jobs"><i class="material-icons">assignment</i>Jobs</a>
-<a class="mdl-navigation__link" href="#cmd=index;content=employers"><i class="material-icons">supervisor_account</i>Employers</a>
-<a class="mdl-navigation__link" href="#cmd=index;content=applicants"><i class="material-icons">group_add</i>Applicants</a>
-<!-- <div class="mdl-layout-spacer"></div> -->
+<nav class="grey lighten-4">
+    <div class="nav-wrapper">
+        <ul class="left">
+            <li class="">
+                <a data-activates="side-menu" class="white-text sidebar-collapse btn-medium waves-effect waves-light hide-on-large-only cyan">
+                    <i class="material-icons">menu</i>
+                </a>
+            </li>
+            <li class="">
+                <a href="#" data-activates="side-menu" class=" waves-effect waves-light hide-on-large-only">
+                    <img src="../assets/images/logo-star.png" alt="Kaboom Logo" width="50px;" />
+                </a>      
+            </li>
+        </ul>        
+        <ul class="right">
+            <li class="">
+                <a href="#"><i class="material-icons">notifications</i></a>  
+            </li>
+            <li class="">
+                <a href="#"><i class="material-icons">message</i></a>  
+            </li>
+        </ul>        
+    </div>
+</nav>
+<aside id="left-sidebar-nav" class="text-red">
+    <ul id="side-menu" class="side-nav fixed leftside-navigation ps-container ps-active-y animated" style="width: 240px; ">
+        <li class="" id='user-account' style='padding-top: 10px; padding-bottom: 10px;'>
+            <h6>Welcome Administrator</h6>
+            <div class="row" style='margin-bottom: 0px !important;'>
+                <div class="col s12">
+                    <img src="../assets/images/avatar.jpg" alt="" class="circle responsive-img valign profile-image"/>
+                </div>
+                <div class="col s12">
+                    <a class='waves-effect waves-light white-text'  data-activates='account'>
+                        <span class="bold display_name">Administrator</span>
+                    </a>
+                </div>
+            </div>
+            <div class="divider"></div>
+        </li>
+        <li class="no-padding">
+            <ul class="collapsible collapsible-accordion">
+                <li class="">
+                    <a class="waves-effect waves-blue" href="#cmd=index;content=account"><i class="material-icons">account_circle</i> Account</a>
+                </li>
+                <li class="">
+                    <a class="waves-effect waves-blue" href="#cmd=index;content=jobs"><i class="material-icons">assignment</i> Jobs</a>
+                </li>
+                <li class="">
+                    <a class="waves-effect waves-blue" href="#cmd=index;content=employers"><i class="material-icons">supervisor_account</i> Employers</a>
+                </li>
+                <li class="">
+                    <a class="waves-effect waves-blue" href="#cmd=index;content=applicants"><i class="material-icons">supervisor_account</i> Applicants</a>
+                </li>
+                 <li class="">
+                    <a class="waves-effect waves-blue" id='log-out' style="line-height: 42px;"><i class="material-icons">exit_to_app</i> Logout</a>
+                </li>
+            </ul>            
+        </li>
+    </ul>
+</aside>
+<script>
+    // account.ini();
+    $(".sidebar-collapse").sideNav();
+</script>

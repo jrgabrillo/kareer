@@ -2,7 +2,7 @@ var main = function () {
 	"use strict";
 	return {
 		login:function(){
-			// sessionStorage.removeItem('kareer');
+			console.log('xxx')
 		    $("#form_login").validate({
 		        rules: {
 		            field_email: {required: true,maxlength: 100},
@@ -27,13 +27,13 @@ var main = function () {
 						if(data != "error"){
 							localStorage.setItem("hash",data[2]);
 							sessionStorage.setItem('kareer',data[0]);
-							system.notification('Success.',function(){
+							system.alert('Success.',function(){
 						    	$(location).attr('href','account/');
 							});
 						}
 						else{
 							$("#display_login").addClass('jello');
-							system.notification('Failed.',function(){
+							system.alert('Failed.',function(){
 								$("#display_login").removeClass('jello');
 							});
 						}
