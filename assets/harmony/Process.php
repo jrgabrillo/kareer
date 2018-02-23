@@ -103,9 +103,9 @@ $Functions = new DatabaseClasses;
 
 	if (isset($_GET['get-account'])){
 		$session = $_SESSION['kareer7836'];
-		$query = $Functions->PDO("SELECT * FROM tbl_employer  WHERE email = '{$session[0]}' AND password = '{$session[1]}'");
+		$query = $Functions->PDO("SELECT * FROM tbl_employer  WHERE id = '{$session[0]}'");
 		if(count($query)==0){
-			$query = $Functions->PDO("SELECT * FROM tbl_admin  WHERE username = '{$session[0]}' AND password = '{$session[1]}'");
+			$query = $Functions->PDO("SELECT * FROM tbl_admin  WHERE id = '{$session[0]}'");
 			if(count($query)==0){
 				echo 0;
 			}
@@ -118,6 +118,7 @@ $Functions = new DatabaseClasses;
 			print_r(json_encode($query));
 		}
 	}
+
 	if(isset($_GET['update-image'])){
 		if(isset($_POST['data'])){
 			$data = $_POST['data'];
@@ -169,6 +170,7 @@ $Functions = new DatabaseClasses;
 			echo "Hacker";
 		}
 	}
+
 	if(isset($_GET['get-jobByID'])){
 		$data = $_POST['data'];
 		$result = [];
@@ -612,6 +614,7 @@ $Functions = new DatabaseClasses;
 				}
 			}      
 	}
+
 	if (isset($_GET['set-deactivateEmployer'])){
 		if(isset($_POST["data"])){
 			$data = $_POST['data'];
@@ -627,6 +630,7 @@ $Functions = new DatabaseClasses;
 			echo "Hacker";
 		}
 	}
+	
 	if (isset($_GET['set-activateEmployer'])){
 		if(isset($_POST["data"])){
 			$data = $_POST['data'];

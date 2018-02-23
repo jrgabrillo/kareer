@@ -1,4 +1,3 @@
-/* Admin side Functionalities*/
 var admin = function () {
 	"use strict";
 	return {
@@ -6,6 +5,8 @@ var admin = function () {
 			var data = admin.check_access();
 			if(data != 0){
 				admin.display();
+				// admin.update_picture();
+				admin.update();
 				jobs.ini();
 				// employer.list();
 				// applicant.list();
@@ -13,46 +14,20 @@ var admin = function () {
 			}
 		},
 		get:function(){
-			
+			var ajax = system.ajax('../assets/harmony/Process.php?get-account',"");
+			return ajax.responseText;
 		},
 		display:function(){
-			let ajax = system.html('../assets/harmony/Process.php?get-account',"");
-			let data = ajax.responseText;
 			let picture = "../assets/img/profile_avatar.jpg", level = "";
+			let data = admin.get();
 			data = JSON.parse(data);
-            let read = sessionStorage.getItem('kareer');
-            console.log(read);
-
-			/*
-			if(data[0][3] != ""){
-				let imageData = data[0][3].split('.');
-				if(imageData[imageData.length-1]!='apr'){
-					picture = "../assets/img/"+data[0][3];		
-				}
-				else{
-					picture = system.get_apr(data[0][3]);			
-				}
-			}
-
+			var profile = (data[0][3] == "")?'profile_avatar.jpg':data[0][8];
 			let content = `<table class="mdl-data-table mdl-js-data-table" width='100%'>
 							<tr>
 								<td class='bold left' style='width: 100px;'>First Name:</td>
-								<td class='left'>
-									${data[0][1]}
-									<div class='field hidden' id='field_givenName'>
-										<form class="form-inline" role="form">
-											<div class='input-group'>
-												<input class='form-control input-sm' placeholder='Given Name' type='text'>
-												<span class='input-group-btn'>
-													<a class='btn-flat btn-tiny btn-success save-profile'>Save</a> 
-													<a class='btn-flat btn-tiny btn-default cancel'>Cancel</a>
-												</span>
-											</div>
-										</form>
-									</div>
-								</td>
+								<td class='left'>${data[0][1]}</td>
 								<td>
-									<button data-cmd='update_profile' data-field='given-name' class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon" id="tooltip_updateName">
+									<button data-value='${profile}' data-name='${profile}' data-node='${data[0][0]}' data-prop='Picture' data-cmd='update_profile' data-field='picture' class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon" id="tooltip_updateName">
 										<i class="material-icons mdl-color-text--grey-400">edit</i>
 										<div class="mdl-tooltip mdl-tooltip--left" for="tooltip_updateName">
 											Update
@@ -62,22 +37,9 @@ var admin = function () {
 							</tr>
 							<tr>
 								<td class='bold left'>Last Name:</td>
-								<td class='left'>
-									${data[0][2]}
-									<div class='field hidden' id='field_familyName'>
-										<form class="form-inline" role="form">
-											<div class='input-group'>
-												<input class="form-control input-sm" placeholder="Family Name" type='text'> 
-												<span class='input-group-btn'>
-													<a class='btn-flat btn-sm btn-success save-profile'>Save</a>
-													<a class='btn-flat btn-sm btn-default cancel'>Cancel</a>
-												</span>
-											</div>
-										</form>
-									</div>
-								</td>
+								<td class='left'>${data[0][2]}</td>
 								<td>
-									<button data-cmd='update_profile' data-field='family-name' class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon" id="tooltip_updateFamilyName">
+									<button data-value='${data[0][2]}' data-name='${data[0][2]}' data-node='${data[0][0]}' data-prop='Picture' data-cmd='update_profile' data-field='family-name' class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon" id="tooltip_updateFamilyName">
 										<i class="material-icons mdl-color-text--grey-400">edit</i></a>
 										<div class="mdl-tooltip mdl-tooltip--left" for="tooltip_updateFamilyName">
 											Update
@@ -87,22 +49,9 @@ var admin = function () {
 							</tr>
 							<tr>
 								<td class='bold left'>Username:</td>
-								<td class='left'>
-									${data[0][4]}
-									<div class='field hidden' id='field_userName'>
-										<form class="form-inline" role="form">
-											<div class='input-group'>
-												<input class="form-control input-sm" placeholder="Username" type='text'>
-												<span class='input-group-btn'>
-													<a class='btn-flat btn-sm btn-success save-profile'>Save</a> 
-													<a class='btn-flat btn-sm btn-default cancel'>Cancel</a>
-												</span>
-											</div>
-										</form>
-									</div>
-								</td>
+								<td class='left'>${data[0][4]}</td>
 								<td>
-									<button data-cmd='update_profile' data-field='user-name' class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon" id="tooltip_updateUsername">
+									<button data-value='${data[0][4]}' data-name='${data[0][4]}' data-node='${data[0][0]}' data-prop='Picture' data-cmd='update_profile' data-field='user-name' class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon" id="tooltip_updateUsername">
 										<i class="material-icons mdl-color-text--grey-400">edit</i></a>
 										<div class="mdl-tooltip mdl-tooltip--left" for="tooltip_updateUsername">
 											Update
@@ -112,22 +61,9 @@ var admin = function () {
 							</tr>
 							<tr>
 								<td class='bold left'>Password</td>
-								<td class='left'>
-									<div class='field hidden' id='field_password'>
-										<form class="form-inline" role="form">
-											<div class='input-group'>
-												<input class="form-control input-sm" placeholder="New Password" type='password'> 
-												<span class='input-group-btn'>
-													<a class='btn-flat btn-tiny btn-info show-password'><i class='tiny material-icons'>visibility</i></a>
-													<a class='btn-flat btn-tiny btn-success save-profile'>Save</a>
-													<a class='btn-flat btn-tiny btn-default cancel'>Cancel</a>
-												</span>
-											</div>
-										</form>
-									</div>
-								</td>
+								<td class='left'></td>
 								<td>
-									<button data-cmd='update_profile' data-field='password' class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon" id="tooltip_updatePassword">
+									<button data-value='${data[0][2]}' data-name='${data[0][2]}' data-node='${data[0][0]}' data-prop='Picture' data-cmd='update_profile' data-field='password' class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon" id="tooltip_updatePassword">
 										<i class="material-icons mdl-color-text--grey-400">edit</i></a>
 										<div class="mdl-tooltip mdl-tooltip--left" for="tooltip_updatePassword">
 											Update
@@ -143,6 +79,7 @@ var admin = function () {
 			$("#ajax-content img").attr({"src":picture});
 			$(".profile-element span strong").html(data[0][1]+" "+data[0][2]);
 			$(".profile-element span h6").html('Welcome Administrator');
+
 			$("a[data-cmd]").click(function(){
 				$("a").parent('li').removeClass("active");
 				$(this).parent('li').addClass("active");
@@ -152,19 +89,12 @@ var admin = function () {
 					admin.check_access();
 				}
 			});
-			*/
 		},
         update_picture:function(){
-    		var data = system.get_account();
+    		var data = admin.get();
     		data = JSON.parse(data);
 			var picture = "../assets/img/profile avatar.jpg";
-			if(data[0][3] != ""){
-				var imageData = data[0][3].split('.');
-				if(imageData[imageData.length-1]!='apr')
-					picture = "../assets/img/"+data[0][3];					
-				else
-					picture = system.get_apr(data[0][3]);
-			}
+			var profile = (data[0][3] == "")?'profile_avatar.jpg':data[0][8];
 
 	    	$("a[data-cmd='update_picture']").click(function(){
 	    		$("#profile_picture1").addClass('hidden');
@@ -255,20 +185,6 @@ var admin = function () {
 	            });
 	    	});
 	    },
-        get:function(){
-			var data = system.html('assets/harmony/Process.php?get_jobsPosts');
-			data.done(function(data){
-				data = JSON.parse(data);
-				var count = 0;
-				var feed = setInterval(function(){
-					main.postJobs(data[count]);
-					count++;
-					if(count >= 5){
-						clearInterval(feed);
-					}
-				},500);
-			});
-        },
 		logout:function(){
 			$("a[ data-cmd='logout']").on("click",function(){
 				var ajax = system.html('../assets/harmony/Process.php?kill-session');
@@ -295,73 +211,188 @@ var admin = function () {
             })
             return result;
         },
-      	update_data:function(){
-    		var data = system.get_account();
-    		var admindata = JSON.parse(data);
+		update:function(){
+			console.log('aasa');
+			$("button[data-cmd='update_profile']").on('click',function(){
+				let _this = this;
+				var data = $(this).data();
+				var content = `<h5>Change ${data.prop}</h5>
+							  <form id='form_update' class='formValidate' method='get' action='' novalidate='novalidate'>
+							  		<label for='field_${data.prop}'>${data.prop}: </label>
+							  		<input id='field_${data.prop}' value='${data.value}' type='text' name='field_${data.prop}' data-error='.error_${data.prop}'>
+							  		<div class='error_${data.prop}'></div>
+							  		<button type='submit' data-cmd='button_proceed' class='waves-effect waves-grey grey lighten-5 blue-text btn-flat modal-action right'>Save</button>
+							  		<a class='waves-effect waves-grey grey-text btn-flat modal-action modal-close right'>Cancel</a>
+							  </form>`;
+				$("#modal_confirm .modal-content").html(content);
+				$('#modal_confirm .modal-footer').html("");
+				if(data.prop == "Name"){
+					$('#modal_confirm').modal('open');			
+					$("#form_update").validate({
+					    rules: {
+					        field_Name: {required: true,maxlength: 50},
+					    },
+					    errorElement : 'div',
+					    errorPlacement: function(error, element) {
+							var placement = $(element).data('error');
+							if(placement){
+								$(placement).append(error)
+							} 
+							else{
+								error.insertAfter(element);
+							}
+						},
+						submitHandler: function (form) {
+							var _form = $(form).serializeArray();
+							if(data.value == _form[0]['value']){
+								Materialize.toast('You did not even change the value.',4000);
+							}
+							else{
+								var ajax = system.ajax('../assets/harmony/Process.php?update-admin',_form);
+								ajax.done(function(ajax){
+									if(ajax == 1){
+										Materialize.toast('Name updated.',4000);
+										$('#modal_confirm').modal('close');	
+										$(`*[for='${data.for}']`).html(_form[0]['value']);
+										$(_this).attr({'data-value':_form[0]['value']});
+									}
+									else{
+										Materialize.toast('Cannot process request.',4000);
+									}
+								});
+							}
+					    }
+					}); 
+				}			
+				else if(data.prop == "Email"){
+					$('#modal_confirm').modal('open');			
+					$("#form_update").validate({
+					    rules: {
+					        field_Email: {required: true,maxlength: 50,checkEmail:true,validateEmail:true},
+					    },
+					    errorElement : 'div',
+					    errorPlacement: function(error, element) {
+							var placement = $(element).data('error');
+							if(placement){
+								$(placement).append(error)
+							} 
+							else{
+								error.insertAfter(element);
+							}
+						},
+						submitHandler: function (form) {
+							var _form = $(form).serializeArray();
+							if(data.value == _form[0]['value']){
+								Materialize.toast('You did not even change the value.',4000);
+							}
+							else{
+								var ajax = system.ajax('../assets/harmony/Process.php?update-admin',_form);
+								ajax.done(function(ajax){
+									if(ajax == 1){
+										Materialize.toast('Email updated.',4000);
+										$('#modal_confirm').modal('close');	
+										$(`*[for='${data.for}']`).html(_form[0]['value']);
+										$(_this).attr({'data-value':_form[0]['value']});
+									}
+									else{
+										Materialize.toast('Cannot process request.',4000);
+									}
+								});
+							}
+					    }
+					}); 
+				}
+				else if(data.prop == "Username"){
+					$('#modal_confirm').modal('open');			
+					$("#form_update").validate({
+					    rules: {
+					        field_Username: {required: true,maxlength: 50,checkUsername:true,validateUsername:true},
+					    },
+					    errorElement : 'div',
+					    errorPlacement: function(error, element) {
+							var placement = $(element).data('error');
+							if(placement){
+								$(placement).append(error)
+							} 
+							else{
+								error.insertAfter(element);
+							}
+						},
+						submitHandler: function (form) {
+							var _form = $(form).serializeArray();
+							if(data.value == _form[0]['value']){
+								Materialize.toast('You did not even change the value.',4000);
+							}
+							else{
+								var ajax = system.ajax('../assets/harmony/Process.php?update-admin',_form);
+								ajax.done(function(ajax){
+									if(ajax == 1){
+										Materialize.toast('Username updated.',4000);
+										$('#modal_confirm').modal('close');	
+										$(`*[for='${data.for}']`).html(_form[0]['value']);
+										$(_this).attr({'data-value':_form[0]['value']});
+									}
+									else{
+										Materialize.toast('Cannot process request.',4000);
+									}
+								});
+							}
+					    }
+					}); 
+				}
+				else if(data.prop == "Password"){
+					$('#modal_confirm').modal('open');			
+					$('#modal_confirm .modal-footer').remove();			
+					$("#field_Password").val("");
+					$("#field_Password").attr({"type":"password"});
+					$("#form_update").append("<p><input type='checkbox' id='showPassword'><label for='showPassword'>Show password</label></p>");
+					$("#form_update").append(`<div class='display_notes'>
+									*<strong>Password</strong> must contain atleast 1 number, 1 uppercase letter, 1 lowercare letter, 1 special character* and 6 character length. <br/>
+									<u>Special characters are ! @ $ % *</u>
+								</div>`);
 
-        	$("a[data-field='given-name']").click(function(){
-        		$('input').val('');
-        		$('span').removeClass('hidden');
-        		$('div.field').addClass('hidden');
-        		$("#text_givenName").addClass('hidden');
-        		$("#field_givenName").removeClass('hidden');
-        	});
-        	$("a[data-field='family-name']").click(function(){
-        		$('input').val('');
-        		$('span').removeClass('hidden');
-        		$('div.field').addClass('hidden');
-        		$("#text_familyName").addClass('hidden');
-        		$("#field_familyName").removeClass('hidden');
-        	});
-        	$("a[data-field='user-name']").click(function(){
-        		$('input').val('');
-        		$('span').removeClass('hidden');
-        		$('div.field').addClass('hidden');
-        		$("#text_userName").addClass('hidden');
-        		$("#field_userName").removeClass('hidden');
-        	});
-        	$("a[data-field='password']").click(function(){
-        		$('input').val('');
-        		$('span').removeClass('hidden');
-        		$('div.field').addClass('hidden');
-        		$("#text_password").addClass('hidden');
-        		$("#field_password").removeClass('hidden');
-        	});
-
-        	$(".cancel").click(function(){
-        		$('span').removeClass('hidden');
-        		$('div.field').addClass('hidden');
-        		$('input').val('');
-        	});
-
-        	$(".show-password").mouseup(function() {
-        		$(this).parent('span').parent('div').find('input').prop({"type":"password"})
-			})
-			.mousedown(function() {
-        		$(this).parent('span').parent('div').find('input').prop({"type":"text"})
-			});
-
-        	$(".save-profile").click(function(){
-        		var name = $(this).parent('span').parent('div').find('input').attr('placeholder');
-        		var value = $(this).parent('span').parent('div').find('input').val();
-        		if(value != ""){
-	        		var data = ['admin',admindata[0][0],name,value];
-					var ajax = system.ajax('../assets/harmony/Process.php?do-updateData',data);
-					ajax.success(function(data){
-						if(data == 1){
-							Materialize.toast("Successful!", 2000);
-							App.handleLoadPage("#cmd=index");
+					$("#showPassword").on("click",function(){
+						if($(this).is(':checked')){
+							$("#field_Password").attr({"type":"text"});						
 						}
 						else{
-							Materialize.toast("Fatal Error!", "There was an Unexpected Error during the process.", "error");
+							$("#field_Password").attr({"type":"password"});						
 						}
-					});
-        		}
-        		else{
-        			system.errorNotification('Notice',name+' can\'t be empty.');
-        		}
-        	});
-        }
+					})
+
+					$("#form_update").validate({
+					    rules: {
+					        field_Password: {required: true,maxlength: 50,checkPassword:true,validatePassword:true},
+					    },
+					    errorElement : 'div',
+					    errorPlacement: function(error, element) {
+							var placement = $(element).data('error');
+							if(placement){
+								$(placement).append(error)
+							} 
+							else{
+								error.insertAfter(element);
+							}
+						},
+						submitHandler: function (form) {
+							var _form = $(form).serializeArray();
+							var data = system.ajax('../assets/harmony/Process.php?update-admin',_form);
+							data.done(function(data){
+								if(data == 1){
+									$('#modal_confirm').modal('close');
+									Materialize.toast('Password updated.',1000,'',function(){
+										location.reload();									
+									});
+								}
+								else{
+									Materialize.toast('Cannot process request.',4000);
+								}
+							});
+					    }
+					}); 
+				}
+			});
+		},
     };
 }();
 

@@ -273,9 +273,7 @@ _:-ms-input-placeholder, :root .demo-graph {
 }
 
 .top-line{
-  border-top:3px; 
-  border-top-style: solid; 
-  border-top-color: #03ded3;
+  /* border-top:3px solid #03ded3; */
 }
 
 #subcontent{
