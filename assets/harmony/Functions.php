@@ -235,7 +235,7 @@ class DatabaseClasses{
 		$filename = $id."_".$time.'.rnr';
 		$file = base64_decode(preg_replace('#^data:image/\w+;base64,#i', '', $file));
 
-        $handle = fopen('../img/profile/'.$filename, 'w+');
+        $handle = fopen('../images/profile/'.$filename, 'w+');
         if(fwrite($handle, $file) && fclose($handle)){
 			return $filename;
         }

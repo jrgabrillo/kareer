@@ -394,3 +394,18 @@ li.active{
   width:80%;
   margin: 0 auto;
 }
+
+.modal .modal-content form{
+  margin-top: 50px;
+}
+
+.modal .modal-content label{
+  left: 0;
+}
+
+.image-crop{
+  background: #ccc;
+  height: 300px;
+  width:300px;
+  padding: 0px !important;
+}

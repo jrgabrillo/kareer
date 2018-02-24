@@ -26,6 +26,14 @@ $Functions = new DatabaseClasses;
 		print_r($query[0][0]);
 	}
 
+	if(isset($_GET['validateEmployer'])){
+		$data = $_POST['data'];
+		$count = 0;
+		$query = $Functions->PDO("SELECT count(*) FROM tbl_employer WHERE email = '{$data}'");
+		$count = $count + $query[0][0];
+		print_r($count);
+	}
+
 	if(isset($_GET['send-mail'])){
 		$data = $_POST['data'];
 		$message = "<div style='text-align: center;width: 500px;position: relative;margin: 0 auto;border-radius: 3px;background: #4485F4;color: #fff;padding: 30px;border-top: yellow solid 10px;top: 50px;box-shadow: 0px 0px 50px #ccc;margin-top: 50px;margin-bottom: 50px;'><b><font size='6'>Welcome to Kareer</font></b><br/><br/><br/>Thank you for registering to Kareer. Here is your&nbsp;system generated password: {$data[1]}&nbsp;<br/><br/><br/>Please change your password as soon as you get in to your account. <br/><br/><br/><br/>Thanks and God bless.</div> ";
@@ -35,7 +43,7 @@ $Functions = new DatabaseClasses;
 		$subject = 'Kareer - Applicant Account Registration';
 		$result = mail($data[0],$subject,$message,$headers);
 	}
-/*login*/
+
 	if (isset($_GET['login'])){
 		$data = $_POST['data']; $flag = 0;
         $access = $Functions->escape($data[0]);
@@ -72,24 +80,6 @@ $Functions = new DatabaseClasses;
 		print_r(json_encode($query));
 	}
 
-	if(isset($_GET['do-getAllJobsPosts'])){
-		if(isset($_POST["data"])){
-			$data = $_POST['data'];
-			$result = [];
-			$Query = $Functions->PDO_SQL("SELECT * FROM tbl_vacancies ORDER BY date DESC");
-			foreach ($Query as $key => $value) {
-				$Query2 = $Functions->PDO_SQL("SELECT * FROM tbl_application WHERE vacancy_id = '{$value[0]}'");
-				$QueryEmployer = $Functions->PDO_SQL("SELECT * FROM tbl_employer WHERE id = '{$value[1]}'");
-				$result[] = [$value,$Query2,$QueryEmployer];
-			}
-			print_r(json_encode($result));
-			// print_r(json_encode($Query2));
-		}
-		else{
-			echo "Hacker";
-		}
-	}
-
 	if(isset($_GET['get-employerJobsPosts'])){
 		$data = $_POST['data'];
 		$result = [];
@@ -119,58 +109,6 @@ $Functions = new DatabaseClasses;
 		}
 	}
 
-	if(isset($_GET['update-image'])){
-		if(isset($_POST['data'])){
-			$data = $_POST['data'];
-			$file = $data[0].'-'.time().'.apr';
-
-			$handle = fopen('../img/'.$file, 'w+');
-			fwrite($handle, $data[2]);
-			fclose($handle);
-			if($data[1] == 'employer'){
-				$Query = $Functions->PDO("UPDATE tbl_employer SET image = '{$file}' WHERE id = '{$data[0]}'");
-			}
-			// else if($data[1] == 'applicant'){
-			//     $Query = $Functions->PDO_SQLQuery("UPDATE tbl_employer SET image = '{$file}' WHERE id = '{$data[0]}'");
-			// }
-			// else if($data[1] == 'admin'){
-			//     $Query = $Functions->PDO_SQLQuery("UPDATE tbl_admin SET image = '{$file}' WHERE id = '{$data[0]}'");
-			// }
-			else{
-				$Query = $Functions->PDO("UPDATE tbl_admin SET image = '{$file}' WHERE id = '{$data[0]}'");
-			}
-
-
-			$handle = fopen('../img/'.$file, 'w+');
-
-			fwrite($handle, $data[2]);
-			fclose($handle);
-
-			if($data[1] == 'employer'){
-				$Query = $Functions->PDO_SQLQuery("UPDATE tbl_employer SET image = '{$file}' WHERE id = '{$data[0]}'");
-			}
-			else if($data[1] == 'applicant'){
-				$Query = $Functions->PDO_SQLQuery("UPDATE tbl_employer SET image = '{$file}' WHERE id = '{$data[0]}'");
-			}
-			else if($data[1] == 'student'){
-				$Query = $Functions->PDO_SQLQuery("UPDATE tbl_student SET picture = '{$file}' WHERE id = '{$data[0]}'");
-			}
-			else{
-				$Query = $Functions->PDO_SQLQuery("UPDATE tbl_admin SET image = '{$file}' WHERE id = '{$data[0]}'");
-			}
-
-			if($Query->execute())
-				echo 1;
-			else{
-				$Data = $Query->errorInfo();
-				print_r($Data);
-			}
-		}
-		else{
-			echo "Hacker";
-		}
-	}
-
 	if(isset($_GET['get-jobByID'])){
 		$data = $_POST['data'];
 		$result = [];
@@ -195,14 +133,6 @@ $Functions = new DatabaseClasses;
 		$data = $_POST['data'];
 		$Query = $Functions->PDO_SQL("SELECT * FROM tbl_employer WHERE id = '{$data}'");
 		print_r(json_encode($Query));
-	}
-
-	if(isset($_GET['validateEmployer'])){
-		$data = $_POST['data'];
-		$count = 0;
-		$query = $Functions->PDO("SELECT count(*) FROM tbl_employer WHERE email = '{$data}'");
-		$count = $count + $query[0][0];
-		print_r($count);
 	}
 
 	if(isset($_GET['get-job'])){
@@ -238,6 +168,131 @@ $Functions = new DatabaseClasses;
 			$result [] = [$value,$QuerypersonalInfo];
 		}
 		print_r(json_encode($result));
+	}
+
+	if(isset($_GET['do-updateInfo'])){
+		if(isset($_POST['data'])){
+			$data = $_POST['data'];
+			// print_r($data);
+			if($data[0] == 'admin'){
+				if($data[1] == 'name'){
+					$field1 = $Functions->escape($data[3]);
+					$field2 = $Functions->escape($data[4]);
+					$q = $Functions->PDO("UPDATE tbl_admin SET fname = {$field1}, lname = {$field2} WHERE id = '{$data[2]}'");
+				}
+				else if($data[2] == 'username'){
+					$field1 = $Functions->escape($data[3]);
+					$q = $Functions->PDO("UPDATE tbl_admin SET username = {$field1} WHERE id = '{$data[2]}'");
+					$_SESSION['kareer7836'][0] = $field1;
+				}
+				else{
+					$field1 = $Functions->password($data[3]);
+					$q = $Functions->PDO("UPDATE tbl_admin SET password = '{$field1}' WHERE id = '{$data[2]}'");
+					$_SESSION['kareer7836'][1] = $field1;
+				}
+				if($q->execute())
+					echo 1;
+				else{
+					$Data = $q->errorInfo();
+					print_r($Data);
+				}
+			}
+			else if($data[0] == 'employer'){
+				if($data[2] == 'Company'){
+					$field = 'company_name';
+					$val = $data[3];
+				}
+				else if($data[2] == 'Description'){
+					$field = 'description';
+					$val = $data[3];
+				}
+				else if($data[2] == 'DTI'){
+					$field = 'dti';
+					$val = $data[3];
+				}
+				else if($data[2] == 'BIR'){
+					$field = 'bir';
+					$val = $data[3];
+				}
+				else if($data[2] == 'Given Name'){
+					$field = 'fname';
+					$val = $data[3];
+				}
+				else if($data[2] == 'Family Name'){
+					$field = 'lname';
+					$val = $data[3];
+				}
+				else if($data[2] == 'Address'){
+					$field = 'address';
+					$val = $data[3];
+				}
+				else if($data[2] == 'Contact number'){
+					$field = 'contactno';
+					$val = $data[3];
+				}
+				else if($data[2] == 'email'){
+					$field = 'username';
+					$val = $data[3];
+					$_SESSION['kareer7836'][0] = $val;
+				}
+				else{
+					$field = 'password';
+					$val = sha1($data[3]);
+					$_SESSION['kareer7836'][1] = $val;
+				}
+				$Query = $Functions->PDO_SQLQuery("UPDATE tbl_employer SET {$field} = '{$val}' WHERE id = '{$data[1]}'");
+				if($Query->execute()){
+					echo 1;
+				}
+				else{
+					$Data = $Query->errorInfo();
+					print_r($Data);
+				}
+			}
+		}
+		else{
+			echo "Hacker";
+		}
+	}
+
+	if(isset($_GET['do-updateImage'])){
+		if(isset($_POST['data'])){
+			$data = $_POST['data'];
+			$picture = $Functions->saveImage($data[0],$data[3]);
+			if($data[1] == 'employer'){
+				$q = $Functions->PDO("UPDATE tbl_employer SET image = '{$picture}' WHERE id = '{$data[0]}'");
+			}
+			else{
+				$q = $Functions->PDO("UPDATE tbl_admin SET image = '{$picture}' WHERE id = '{$data[2]}'");
+			}
+			if($q->execute())
+				echo 1;
+			else{
+				$Data = $q->errorInfo();
+				print_r($Data);
+			}
+		}
+		else{
+			echo "Hacker";
+		}
+	}
+
+	if(isset($_GET['do-getAllJobsPosts'])){
+		if(isset($_POST["data"])){
+			$data = $_POST['data'];
+			$result = [];
+			$Query = $Functions->PDO_SQL("SELECT * FROM tbl_vacancies ORDER BY date DESC");
+			foreach ($Query as $key => $value) {
+				$Query2 = $Functions->PDO_SQL("SELECT * FROM tbl_application WHERE vacancy_id = '{$value[0]}'");
+				$QueryEmployer = $Functions->PDO_SQL("SELECT * FROM tbl_employer WHERE id = '{$value[1]}'");
+				$result[] = [$value,$Query2,$QueryEmployer];
+			}
+			print_r(json_encode($result));
+			// print_r(json_encode($Query2));
+		}
+		else{
+			echo "Hacker";
+		}
 	}
 
 	if(isset($_GET['do-getActivities'])){
@@ -352,116 +407,6 @@ $Functions = new DatabaseClasses;
 				$Query = $Functions->PDO_SQLQuery($QueryString);
 				if($Query->execute())
 					echo 1;
-				else{
-					$Data = $Query->errorInfo();
-					print_r($Data);
-				}
-			}
-		}
-		else{
-			echo "Hacker";
-		}
-	}
-
-	if(isset($_GET['do-updateData'])){
-		if(isset($_POST['data'])){
-			$session = $_SESSION['kareer7836'];
-			$date = $Functions->PDO_DateAndTime();
-			$data = $_POST['data'];
-			if($data[0] == 'admin'){
-				if($data[2] == 'Given Name'){
-					$field = 'fname';
-					$val = $data[3];
-				}
-				else if($data[2] == 'Family Name'){
-					$field = 'lname';
-					$val = $data[3];
-				}
-				else if($data[2] == 'Username'){
-					$field = 'username';
-					$val = $data[3];
-					$_SESSION['kareer7836'][0] = $val;
-				}
-				else{
-					$field = 'password';
-					$val = sha1($data[3]);
-					$_SESSION['kareer7836'][1] = $val;
-				}
-				$Query = $Functions->PDO_SQLQuery("UPDATE tbl_admin SET {$field} = '{$val}' WHERE id = '{$data[1]}'");
-				if($Query->execute()){
-					echo 1;
-				}
-				else{
-					$Data = $Query->errorInfo();
-					print_r($Data);
-				}
-			}
-			else if($data[0] == 'employer'){
-				if($data[2] == 'Company'){
-					$field = 'company_name';
-					$val = $data[3];
-				}
-				else if($data[2] == 'Description'){
-					$field = 'description';
-					$val = $data[3];
-				}
-				else if($data[2] == 'DTI'){
-					$field = 'dti';
-					$val = $data[3];
-				}
-				else if($data[2] == 'BIR'){
-					$field = 'bir';
-					$val = $data[3];
-				}
-				else if($data[2] == 'Given Name'){
-					$field = 'fname';
-					$val = $data[3];
-				}
-				else if($data[2] == 'Family Name'){
-					$field = 'lname';
-					$val = $data[3];
-				}
-				else if($data[2] == 'Address'){
-					$field = 'address';
-					$val = $data[3];
-				}
-				else if($data[2] == 'Contact number'){
-					$field = 'contactno';
-					$val = $data[3];
-				}
-				else if($data[2] == 'email'){
-					$field = 'username';
-					$val = $data[3];
-					$_SESSION['kareer7836'][0] = $val;
-				}
-				else{
-					$field = 'password';
-					$val = sha1($data[3]);
-					$_SESSION['kareer7836'][1] = $val;
-				}
-				$Query = $Functions->PDO_SQLQuery("UPDATE tbl_employer SET {$field} = '{$val}' WHERE id = '{$data[1]}'");
-				if($Query->execute()){
-					echo 1;
-				}
-				else{
-					$Data = $Query->errorInfo();
-					print_r($Data);
-				}
-			}
-			else if($data[0] == 'student'){
-				if($data[2] == 'resume'){
-					$field = 'resume';
-					$val = json_encode([$date,$data[3]]);
-				}
-				else if($data[2] == 'New Password'){
-					$field = 'password';
-					$val = $data[3];
-					$_SESSION['p7836'] = $val;
-				}
-				$Query = $Functions->PDO_SQLQuery("UPDATE tbl_student SET {$field} = '{$val}' WHERE id = '{$data[1]}'");
-				if($Query->execute()){
-					echo 1;
-				}
 				else{
 					$Data = $Query->errorInfo();
 					print_r($Data);
