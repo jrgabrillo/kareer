@@ -74,6 +74,7 @@ i.icon:before {
 }
 #subcontent {
     min-height: 600px;
+    margin: 0;
 }
 #modal_confirm {
     width: 30%;

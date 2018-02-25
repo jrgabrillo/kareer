@@ -119,7 +119,7 @@ var admin = function () {
 								ajax.done(function(ajax){
 									if(ajax == 1){
 										$('#modal_confirm').modal('close');	
-										$(`.card-title[for='${data.for}']`).html(`${_form[0]['value']} ${_form[1]['value']}`);
+										$(`.card-title[for='${data.for}'], .display_name`).html(`${_form[0]['value']} ${_form[1]['value']}`);
 										$(_this).attr({'data-value':JSON.stringify([_form[0]['value'],_form[1]['value']]), 'data-name':`${_form[0]['value']} ${_form[1]['value']}`});
 										system.alert('Name updated.', function(){});
 									}
