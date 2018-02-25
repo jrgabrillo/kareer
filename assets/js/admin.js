@@ -1,25 +1,30 @@
 var admin = function () {
 	"use strict";
 	return {
+		nav:function(){
+			var content = "", data = admin.get();
+			data = JSON.parse(data);
+			var profile = (data[0][3] == "")?'avatar.jpg':data[0][3];
+
+			$("#user-account img.profile-image").attr({"src":"../assets/images/profile/"+profile});
+			$("#user-account div div a span.display_name").html(`${data[0][1]} ${data[0][2]}`);
+		},
 		ini:function(){
-			console.log('xxx');
 			var data = admin.check_access();
 			if(data != 0){
 				admin.display();
-				// jobs.ini();
-				// employer.list();
-				// applicant.list();
 			}
 		},
 		get:function(){
 			var ajax = system.ajax('../assets/harmony/Process.php?get-account',"");
 			return ajax.responseText;
 		},
-		display:function(data){
+		display:function(){
 			var content = "", data = admin.get();
 			data = JSON.parse(data);
-			console.log(data);
 			var profile = (data[0][3] == "")?'avatar.jpg':data[0][3];
+
+			admin.nav();
 
 			$("#user-account img.profile-image").attr({"src":"../assets/images/profile/"+profile});
 			$("#user-account div div a span.display_name").html(`${data[0][1]} ${data[0][2]}`);
@@ -360,6 +365,28 @@ var admin = function () {
             return result;
         },
     };
+}();
+
+var business = function(){
+	"use strict";
+	return {
+		get:function(){
+			var ajax = system.ajax('../assets/harmony/Process.php?get-business',"");
+			return ajax.responseText;
+		},
+		list:function(){
+			let data = JSON.parse(business.get());
+			console.log(data);
+			if(data.length>0){
+				$("#display_business").removeClass('hidden');
+				$("#display_nobusiness").addClass('hidden');
+			}
+			else{
+				$("#display_business").addClass('hidden');
+				$("#display_nobusiness").removeClass('hidden');
+			}
+		},
+	}
 }();
 
 var employer = function(){

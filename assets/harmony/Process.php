@@ -2,11 +2,11 @@
 session_start();
 include("Functions.php");
 $Functions = new DatabaseClasses;
-	if (isset($_GET['auth'])){
+	if (isset($_GET['auth'])){ /**/
 		print_r('162165146157156147141142162151154154157152162');
 	}	
 
-	if (isset($_GET['kill-session'])){
+	if (isset($_GET['kill-session'])){ /**/
 		if(isset($_POST["data"])){
 			print_r(session_destroy());
 			//echo "0";
@@ -16,17 +16,17 @@ $Functions = new DatabaseClasses;
 		}
 	}
 
-	if(isset($_GET['check-login'])){
+	if(isset($_GET['check-login'])){ /**/
 		print_r(json_encode($_SESSION['kareer7836']));
 	}
 
-	if(isset($_GET['validateEmail'])){
+	if(isset($_GET['validateEmail'])){/**/
 		$data = $_POST['data'];
 		$query = $Functions->PDO(true,"SELECT count(*) FROM tbl_applicant WHERE email = '{$data}'");
 		print_r($query[0][0]);
 	}
 
-	if(isset($_GET['validateEmployer'])){
+	if(isset($_GET['validateEmployer'])){/**/
 		$data = $_POST['data'];
 		$count = 0;
 		$query = $Functions->PDO("SELECT count(*) FROM tbl_employer WHERE email = '{$data}'");
@@ -34,7 +34,7 @@ $Functions = new DatabaseClasses;
 		print_r($count);
 	}
 
-	if(isset($_GET['send-mail'])){
+	if(isset($_GET['send-mail'])){/**/
 		$data = $_POST['data'];
 		$message = "<div style='text-align: center;width: 500px;position: relative;margin: 0 auto;border-radius: 3px;background: #4485F4;color: #fff;padding: 30px;border-top: yellow solid 10px;top: 50px;box-shadow: 0px 0px 50px #ccc;margin-top: 50px;margin-bottom: 50px;'><b><font size='6'>Welcome to Kareer</font></b><br/><br/><br/>Thank you for registering to Kareer. Here is your&nbsp;system generated password: {$data[1]}&nbsp;<br/><br/><br/>Please change your password as soon as you get in to your account. <br/><br/><br/><br/>Thanks and God bless.</div> ";
 		$headers  = 'MIME-Version: 1.0' . "\r\n";
@@ -44,7 +44,7 @@ $Functions = new DatabaseClasses;
 		$result = mail($data[0],$subject,$message,$headers);
 	}
 
-	if (isset($_GET['login'])){
+	if (isset($_GET['login'])){/**/
 		$data = $_POST['data']; $flag = 0;
         $access = $Functions->escape($data[0]);
         $password = $data[1];
@@ -67,7 +67,7 @@ $Functions = new DatabaseClasses;
 		}
 	}
 
-	if(isset($_GET['get-session'])){
+	if(isset($_GET['get-session'])){/**/
 		if(isset($_SESSION['kareer7836']))
 			print_r(json_encode($_SESSION['kareer7836']));
 		else
@@ -91,7 +91,7 @@ $Functions = new DatabaseClasses;
 		print_r(json_encode($result));
 	}
 
-	if (isset($_GET['get-account'])){
+	if (isset($_GET['get-account'])){/**/
 		$session = $_SESSION['kareer7836'];
 		$query = $Functions->PDO("SELECT * FROM tbl_employer  WHERE id = '{$session[0]}'");
 		if(count($query)==0){
@@ -107,6 +107,12 @@ $Functions = new DatabaseClasses;
 		else if(count($query)==1){
 			print_r(json_encode($query));
 		}
+	}
+
+	if (isset($_GET['get-business'])){/**/
+		$session = $_SESSION['kareer7836'];
+		$q = $Functions->PDO("SELECT * FROM tbl_employer  WHERE id = '{$session[0]}'");
+		print_r(json_encode($q));
 	}
 
 	if(isset($_GET['get-jobByID'])){
@@ -170,7 +176,7 @@ $Functions = new DatabaseClasses;
 		print_r(json_encode($result));
 	}
 
-	if(isset($_GET['do-updateInfo'])){
+	if(isset($_GET['do-updateInfo'])){/**/
 		if(isset($_POST['data'])){
 			$data = $_POST['data'];
 			// print_r($data);
@@ -255,7 +261,7 @@ $Functions = new DatabaseClasses;
 		}
 	}
 
-	if(isset($_GET['do-updateImage'])){
+	if(isset($_GET['do-updateImage'])){/**/
 		if(isset($_POST['data'])){
 			$data = $_POST['data'];
 			$picture = $Functions->saveImage($data[0],$data[3]);

@@ -47,9 +47,9 @@ var App = function () {
 
             var content = system.html(targetUrl);
             content.done(function(data){
+                var navigation = system.ajax('../pages/'+node+'/nav.html',"");
                 $('#content').html(data);
                 $('#content').addClass('animated zoomIn');
-                var navigation = system.ajax('../pages/'+node+'/nav.html',"");
                 $("header").html(navigation.responseText);                    
                 $(".collapsible").collapsible({accordion:!1});
 
