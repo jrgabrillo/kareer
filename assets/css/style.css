@@ -288,7 +288,7 @@ footer.page-footer {
 }            
 
 .side-nav{
-  z-index: 10000 !important;
+  z-index: 1000 !important;
 }
 
 nav .input-field label{
@@ -396,11 +396,11 @@ li.active{
 }
 
 .modal .modal-content form{
-  margin-top: 50px;
+  /* margin-top: 50px; */
 }
 
 .modal .modal-content label{
-  left: 0;
+  /* left: 0; */
 }
 
 .image-crop{

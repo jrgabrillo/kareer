@@ -35,11 +35,11 @@
             </div>
             <div class="wrapper rightside-navigation" id="content">
             </div>
-            <div id="modal" class="modal bottom-sheet" style="max-height:80%;">
+            <div id="modal_large" class="modal bottom-sheet" style="max-height:80%;">
                 <div class="modal-content"></div>
                 <div class="modal-footer"></div>
             </div>
-            <div id="modal_popUp" class="modal">
+            <div id="modal_medium" class="modal">
                 <div class="modal-content"></div>
                 <div class="modal-footer"></div>
             </div>
@@ -51,7 +51,7 @@
         <footer class="page-footer grey lighten-1">
             <div class="footer-copyright">
                 <div class="container">
-                    <span>Copyright © 2017. Buzzooka Pinas All rights reserved.</span>
+                    <span>Copyright © 2017. Kareer All rights reserved.</span>
                     <span class="right"> Design and Developed by <b><a class="white-text" href='https://rnrdigitalconsultancy.com'>RNR Digital Consultancy</a></b></span>
                 </div>
             </div>
@@ -76,7 +76,7 @@
         <script>
             system.ini();
             App.init();
-            $('.modal').modal();
+            $('.modal').modal({ dismissible: false});
             system.forceLogout(function(){
                 login.kill();
             })

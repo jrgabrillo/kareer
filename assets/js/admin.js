@@ -23,9 +23,7 @@ var admin = function () {
 			var content = "", data = admin.get();
 			data = JSON.parse(data);
 			var profile = (data[0][3] == "")?'avatar.jpg':data[0][3];
-
 			admin.nav();
-
 			$("#user-account img.profile-image").attr({"src":"../assets/images/profile/"+profile});
 			$("#user-account div div a span.display_name").html(`${data[0][1]} ${data[0][2]}`);
 
@@ -370,13 +368,16 @@ var admin = function () {
 var business = function(){
 	"use strict";
 	return {
+		ini:function(){
+		    business.list();
+		    business.add();
+		},
 		get:function(){
 			var ajax = system.ajax('../assets/harmony/Process.php?get-business',"");
 			return ajax.responseText;
 		},
 		list:function(){
 			let data = JSON.parse(business.get());
-			console.log(data);
 			if(data.length>0){
 				$("#display_business").removeClass('hidden');
 				$("#display_nobusiness").addClass('hidden');
@@ -386,6 +387,54 @@ var business = function(){
 				$("#display_nobusiness").removeClass('hidden');
 			}
 		},
+		add:function(){
+			var data = system.xml("pages.xml");
+			$(data.responseText).find("addBusiness").each(function(i,content){
+				$("#modal_medium .modal-content").html(content);
+				$(".action_addBusiness").on('click',function(){
+					$('#modal_medium').modal('open');
+					$('.action_close').on('click',function(){
+						$('#modal_medium').modal('close');
+					});
+
+					$("#form_addBusiness").validate({
+					    rules: {
+					        field_name: {required: true, maxlength: 300},
+					        field_phone: {required: true, maxlength: 20},
+					        field_email: {required: true, maxlength: 100},
+					        field_address: {required: true, maxlength: 300},
+					    },
+					    errorElement : 'div',
+					    errorPlacement: function(error, element) {
+							var placement = $(element).data('error');
+							if(placement){
+								$(placement).append(error)
+							} 
+							else{
+								error.insertAfter(element);
+							}
+						},
+						submitHandler: function (form) {
+							var _form = $(form).serializeArray();
+
+							console.log(_form);
+							// var ajax = system.ajax('../assets/harmony/Process.php?do-updateInfo',['admin','name',sessionStorage.getItem('kareer'),_form[0]['value'], _form[1]['value']]);
+							// ajax.done(function(ajax){
+							// 	if(ajax == 1){
+							// 		$('#modal_confirm').modal('close');	
+							// 		$(`.card-title[for='${data.for}'], .display_name`).html(`${_form[0]['value']} ${_form[1]['value']}`);
+							// 		$(_this).attr({'data-value':JSON.stringify([_form[0]['value'],_form[1]['value']]), 'data-name':`${_form[0]['value']} ${_form[1]['value']}`});
+							// 		system.alert('Name updated.', function(){});
+							// 	}
+							// 	else{
+							// 		system.alert('Failed to update.', function(){});
+							// 	}
+							// });
+					    }
+					});
+				});
+			});
+		}
 	}
 }();
 

@@ -190,6 +190,42 @@
 		</form>
 	</addProduct>
 
+	<addBusiness>
+		<form id='form_addBusiness' class='formValidate' method='get' action='' novalidate='novalidate'>
+			<div class='row'>
+				<div class='input-field col s12'>
+					<p>Business Information <button class="btn-floating btn-small btn-flat waves-effect white action_close right"><i class="material-icons grey-text">close</i></button></p>
+					<div class='divider'></div><br/>
+				</div>
+				<div class='input-field col s12'>
+					<label for='field_name'>Company Name: </label>
+		            <input id='field_name' type='text' name='field_name' data-error='.error_name'>
+					<div class='error_name'></div>	
+				</div>
+				<div class='input-field col s6'>
+					<label for='field_phone'>Contact Number: </label>
+		            <input id='field_phone' type='text' name='field_phone' data-error='.error_phone'>
+					<div class='error_phone'></div>	
+				</div>
+				<div class='input-field col s6'>
+					<label for='field_email'>Email Address: </label>
+		            <input id='field_email' type='text' name='field_email' data-error='.error_email'>
+					<div class='error_email'></div>	
+				</div>
+				<div class='input-field col s12'>
+					<label for='field_address'>Business Address: </label>
+		            <input id='field_address' type='text' name='field_address' data-error='.error_address'>
+					<div class='error_address'></div>	
+				</div>
+			</div>
+			<div class='row'>
+				<div class='input-field col s12'>
+					<button class='btn blue waves-effect waves-light right' type='submit'>Save</button>
+				</div>
+			</div>
+		</form>
+	</addBusiness>
+
 	<addClient>
 		<form id='form_addClient' class='formValidate' method='get' action='' novalidate='novalidate'>
 			<div class='row'>
@@ -381,34 +417,6 @@
 		</form>
 	</addPoint>
 
-	<product>
-		<div class="product col s12 m3 l3" style="margin-bottom:30px;">
-		    <div class="card">
-		        <div class="card-image waves-effect waves-block waves-light">
-		            <!-- <a href="#" class="btn-floating btn-large btn-price waves-effect waves-light  pink accent-2">$189</a> -->
-		            <!-- <img class='activator' draggable='false' src="assets/images/img2.jpg" alt="product-img"> -->
-		        </div>
-		        <ul class="card-action-buttons">
-		            <li><a data-position="left" data-delay="50" data-tooltip="Add to cart" class="tooltipped btn-floating waves-effect black-text blue"><i class="mdi-action-shopping-cart"></i></a></li>
-		        </ul>
-		        <div class="card-content">
-		            <div class="row">
-		                <div class="col s8">
-		                    <p class="card-title grey-text text-darken-4"><a href="#" class="grey-text text-darken-4">Apple MacBook Pro A1278 13"</a></p>
-		                </div>
-		                <div class="col s4">
-		                    <p style="font-size: 24px;line-height: 32px;">$189</p>
-		                </div>
-		            </div>
-		        </div>
-		        <div class="card-reveal">
-		            <span class="card-title grey-text text-darken-4"><i class="mdi-navigation-close right"></i> Apple MacBook Pro A1278 13"</span>
-		            <p>Here is some more information about this product that is only revealed once clicked on.</p>
-		        </div>
-		    </div>
-		</div>
-	</product>
-
 	<tableEmployeePreview>
         <table class='display dataTable bordered' width="100%">
             <thead>
@@ -464,6 +472,7 @@
 			</div>
 		</div>
 	</errorContent>	
+
 	<wysiwyg>
 		<textarea></textarea>
 	</wysiwyg>
