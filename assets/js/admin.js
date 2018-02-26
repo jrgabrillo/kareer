@@ -401,7 +401,7 @@ var business = function(){
 					    rules: {
 					        field_name: {required: true, maxlength: 300},
 					        field_phone: {required: true, maxlength: 20},
-					        field_email: {required: true, maxlength: 100},
+					        field_email: {required: true, maxlength: 100,email:true},
 					        field_address: {required: true, maxlength: 300},
 					    },
 					    errorElement : 'div',
@@ -416,20 +416,17 @@ var business = function(){
 						},
 						submitHandler: function (form) {
 							var _form = $(form).serializeArray();
-
-							console.log(_form);
-							// var ajax = system.ajax('../assets/harmony/Process.php?do-updateInfo',['admin','name',sessionStorage.getItem('kareer'),_form[0]['value'], _form[1]['value']]);
-							// ajax.done(function(ajax){
-							// 	if(ajax == 1){
-							// 		$('#modal_confirm').modal('close');	
-							// 		$(`.card-title[for='${data.for}'], .display_name`).html(`${_form[0]['value']} ${_form[1]['value']}`);
-							// 		$(_this).attr({'data-value':JSON.stringify([_form[0]['value'],_form[1]['value']]), 'data-name':`${_form[0]['value']} ${_form[1]['value']}`});
-							// 		system.alert('Name updated.', function(){});
-							// 	}
-							// 	else{
-							// 		system.alert('Failed to update.', function(){});
-							// 	}
-							// });
+							var ajax = system.ajax('../assets/harmony/Process.php?do-addBusiness',[_form[0]['value'],_form[1]['value'],_form[2]['value'],_form[3]['value']]);
+							ajax.done(function(ajax){
+								console.log(ajax);
+								if(ajax == 1){	
+									$('#modal_medium').modal('close');	
+									system.alert('Business has been added.', function(){});
+								}
+								else{
+									system.alert('Failed to add business.', function(){});
+								}
+							});
 					    }
 					});
 				});

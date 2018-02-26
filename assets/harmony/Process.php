@@ -1,7 +1,21 @@
 <?php
-session_start();
-include("Functions.php");
-$Functions = new DatabaseClasses;
+	if (isset($_SERVER['HTTP_ORIGIN'])) {
+	    header("Access-Control-Allow-Origin: {$_SERVER['HTTP_ORIGIN']}");
+	    header('Access-Control-Allow-Credentials: true');
+	    header('Access-Control-Max-Age: 86400');
+	}
+	if ($_SERVER['REQUEST_METHOD'] == 'OPTIONS') {
+	    if (isset($_SERVER['HTTP_ACCESS_CONTROL_REQUEST_METHOD']))
+	        header("Access-Control-Allow-Methods: GET, POST, PUT, DELETE, OPTIONS");         
+
+	    if (isset($_SERVER['HTTP_ACCESS_CONTROL_REQUEST_HEADERS']))
+	        header("Access-Control-Allow-Headers: {$_SERVER['HTTP_ACCESS_CONTROL_REQUEST_HEADERS']}");
+	}
+
+	session_start();
+	include("Functions.php");
+	$Functions = new DatabaseClasses;
+
 	if (isset($_GET['auth'])){ /**/
 		print_r('162165146157156147141142162151154154157152162');
 	}	
@@ -343,9 +357,6 @@ $Functions = new DatabaseClasses;
 
 	if (isset($_GET['set-postJob'])) {
 		$data = $_POST['data'];
-
-		print_r($data);
-
 		$id = $Functions->PDO_IDGenerator('tbl_vacancies','id');
 		$date = $Functions->PDO_DateAndTime();
 		$data = $_POST['data'];
@@ -364,18 +375,25 @@ $Functions = new DatabaseClasses;
 		}
 	}    
 
-	if(isset($_GET['update-adminPicture'])){
-			$data = $_POST['data'];
-		   saveImage($user,$data[1]);
-			$query = $Functions->PDO("UPDATE tbl_admin SET picture = '{$data[1]}' WHERE id = '{$user}'");
-			if($query->execute()){
-				echo 1;
-			}
-			else{
-				unlink('../assets/img/'.$picture);
-				$Data = $query->errorInfo();
-				print_r($Data);
-			}
+	if(isset($_GET['do-addBusiness'])){
+        $id = $Functions->PDO_IDGenerator('tbl_business','id');
+		$date = $Functions->PDO_DateAndTime();
+		$data = $_POST['data'];
+
+		$name = $Functions->escape($data[0]);
+		$number = $Functions->escape($data[1]);
+		$email = $Functions->escape($data[2]);
+		$address = $Functions->escape($data[3]);
+
+		$query = $Functions->PDO("INSERT INTO tbl_business(id,company_name,contactno,email,address,status,`date`) 
+			VALUES ('{$id}',{$name},{$number},{$email},{$address},'1','{$date}')");
+		if($query->execute()){
+			echo 1;
+		}
+		else{
+			$Data = $query->errorInfo();
+			print_r($Data);
+		}
 	}
 
 	if (isset($_GET['do-registerApplicant'])) {
@@ -695,8 +713,6 @@ $Functions = new DatabaseClasses;
 	if(isset($_GET['set-newEmployer'])){
 			$data = $_POST['data'];
 			$companyID = $Functions->PDO_IDGenerator('tbl_employer','id');
-			// $date = $Functions->PDO_DateAndTime();
-			// $id = $companyID.'-0';
 			$password = sha1($data[9]['value']);
 			$query = $Functions->PDO("INSERT INTO tbl_employer(id,company_name,description,lname,fname,address,bir,dti,email,password,contactno,image,status) VALUES ('{$companyID}','{$data[0]['value']}','{$data[1]['value']}','{$data[6]['value']}','{$data[5]['value']}','{$data[4]['value']}','{$data[2]['value']}','{$data[3]['value']}','{$data[8]['value']}','{$password}','{$data[7]['value']}','profile_avatar.jpg','1')");
 			if($query->execute()){
@@ -740,52 +756,4 @@ $Functions = new DatabaseClasses;
 			echo "Hacker";
 		}
 	}
-
-	if(isset($_GET['do-inviteInterview'])){
-		if(isset($_POST['data'])){
-	}
-
-	if(isset($_POST['data'])){
-		$data = $_POST['data'];
-		$date = $Functions->PDO_DateAndTime();
-		$val = json_encode([$date,$data[1]]);
-		$Query = $Functions->PDO_SQLQuery("UPDATE tbl_application SET status = '{$val}' WHERE id = '{$data[0]}'");
-		if($Query->execute()){
-			echo 1;
-		}
-		else{
-			$Data = $Query->errorInfo();
-			print_r($Data);
-		}
-	}
-	else{
-		echo "Hacker";
-	}
-	}
-/*
-	if(isset($_GET['get-jobsPosts'])){
-		if(isset($_POST["data"])){
-			$data = $_POST['data'];
-			$result = [];
-			$Query = $Functions->PDO("SELECT * FROM tbl_vacancies ORDER BY date DESC");
-			foreach ($Query as $key => $value) {
-				$Query2 = $Functions->PDO("SELECT * FROM tbl_application WHERE vacany_id = '{$value[0]}'");
-				$result[] = [$value,$Query2];
-			}
-			print_r(json_encode($result));
-		}
-		else{
-			echo "Hacker";
-		}
-	}
-
-
-	if (isset($_GET['get-applicant'])){
-		$data = $_POST['data'];
-		$result = $Functions->PDO_SQL("SELECT * FROM tbl_applicant LEFT JOIN tbl_personalinfo ON tbl_applicant.id = tbl_personalinfo.id ORDER BY tbl_applicant.id");
-		print_r(json_encode($result));
-	}
-
-
-*/
-?> 
+?>

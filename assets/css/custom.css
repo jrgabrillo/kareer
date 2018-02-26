@@ -30,7 +30,7 @@ body.bg {
 .no-shadow:hover {
     box-shadow: none !important;
 }
-.input-field div.error {
+#form_login .input-field div.error {
     position: relative;
     top: -1rem;
     left: 0rem;
