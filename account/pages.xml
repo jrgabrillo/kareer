@@ -191,12 +191,10 @@
 	</addProduct>
 
 	<addBusiness>
+		<p>Business Information <button class="btn-floating btn-small btn-flat waves-effect white action_close right"><i class="material-icons grey-text">close</i></button></p>
+		<div class='divider'></div><br/>
 		<form id='form_addBusiness' class='formValidate' method='get' action='' novalidate='novalidate'>
 			<div class='row'>
-				<div class='input-field col s12'>
-					<p>Business Information <button class="btn-floating btn-small btn-flat waves-effect white action_close right"><i class="material-icons grey-text">close</i></button></p>
-					<div class='divider'></div><br/>
-				</div>
 				<div class='input-field col s12'>
 					<label for='field_name'>Company Name: </label>
 		            <input id='field_name' type='text' name='field_name' data-error='.error_name'>

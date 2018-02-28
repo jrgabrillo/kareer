@@ -18,7 +18,7 @@
 
 	if (isset($_GET['auth'])){ /**/
 		print_r('162165146157156147141142162151154154157152162');
-	}	
+	}
 
 	if (isset($_GET['kill-session'])){ /**/
 		if(isset($_POST["data"])){
@@ -123,9 +123,20 @@
 		}
 	}
 
-	if (isset($_GET['get-business'])){/**/
-		$session = $_SESSION['kareer7836'];
-		$q = $Functions->PDO("SELECT * FROM tbl_employer  WHERE id = '{$session[0]}'");
+	if (isset($_GET['get-businessList'])){/**/
+		$q = $Functions->PDO("SELECT * FROM tbl_business");
+		print_r(json_encode($q));
+	}
+
+	if (isset($_GET['get-businessInfo'])){/**/
+		$data = $_POST['data'];
+		$q = $Functions->PDO("SELECT * FROM tbl_business WHERE id = '{$data}'");
+		print_r(json_encode($q));
+	}
+
+	if (isset($_GET['get-accountslist'])){/**/
+		$data = $_POST['data'];
+		$q = $Functions->PDO("SELECT * FROM tbl_businessManagers WHERE business_id = '{$data}'");
 		print_r(json_encode($q));
 	}
 

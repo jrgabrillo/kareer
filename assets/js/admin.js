@@ -372,8 +372,19 @@ var business = function(){
 		    business.list();
 		    business.add();
 		},
+		id:function(){
+			return ((window.location.hash).split(';')[2]).split('=')[1];
+		},
 		get:function(){
-			var ajax = system.ajax('../assets/harmony/Process.php?get-business',"");
+			var ajax = system.ajax('../assets/harmony/Process.php?get-businessList',"");
+			return ajax.responseText;
+		},
+		getInfo:function(){
+			var ajax = system.ajax('../assets/harmony/Process.php?get-businessInfo',business.id());
+			return ajax.responseText;
+		},
+		getAcountList:function(){
+			var ajax = system.ajax('../assets/harmony/Process.php?get-accountslist',business.id());
 			return ajax.responseText;
 		},
 		list:function(){
@@ -386,6 +397,25 @@ var business = function(){
 				$("#display_business").addClass('hidden');
 				$("#display_nobusiness").removeClass('hidden');
 			}
+
+			$.each(data,function(i,v){
+				let logo = ((typeof v[5] == 'object') || (v[5] == ""))? 'icon.png' : v[5];
+				$("#display_business table tbody").append(`
+					<tr>
+						<td><img src="../assets/images/logo/${logo}" width='30px' id='img-${v[0]}'></td>
+						<td>${v[3]}</td>
+						<td>
+							<a href='#cmd=index;content=focusbusiness;id=${v[0]}' data-cmd='view_business' data-value='${v[0]}' class='tooltipped btn-floating waves-effect black-text no-shadow white right' data-position='left' data-delay='50' data-tooltip='View Business'>
+								<i class='material-icons right hover black-text'>more_vert</i>
+							</a>
+						</td>
+					</tr>
+				`);
+
+				$(`img#img-${v[0]}`).on('error',function(){
+					$(this).attr({'src':'../assets/images/logo/icon.png'});
+				});
+			})
 		},
 		add:function(){
 			var data = system.xml("pages.xml");
@@ -431,6 +461,47 @@ var business = function(){
 					});
 				});
 			});
+		},
+		info:function(){
+			let data = JSON.parse(business.getInfo());
+			let logo = ((typeof data[0][5] == 'object') || (data[0][5] == ""))? 'icon.png' : data[0][5];
+			$("#businessInfo").html(`
+				<div class='col s12 m4 l3'>
+				    <img src='../assets/images/logo/${logo}' width='100%' class='businesslogo'>
+				</div>
+				<div class='col s12 m8 l9'>
+				    <ul class='collection'>
+				        <li class='collection-item'>
+				            <a class="secondary-content tooltipped" data-cmd='view_business' data-value='${data[0][0]}' data-position='left' data-delay='50' data-tooltip='Update'><i class="material-icons hover black-text">edit</i></a>
+				            <strong>Business Name:</strong>
+				            <p>${data[0][3]}</p>
+				        </li>
+				        <li class='collection-item'>
+				            <a class="secondary-content tooltipped" data-cmd='view_business' data-value='${data[0][0]}' data-position='left' data-delay='50' data-tooltip='Update'><i class="material-icons hover black-text">edit</i></a>
+				            <strong>Contact Number:</strong><br/>
+				            ${data[0][2]}
+				        </li>
+				        <li class='collection-item'>
+				            <a class="secondary-content tooltipped" data-cmd='view_business' data-value='${data[0][0]}' data-position='left' data-delay='50' data-tooltip='Update'><i class="material-icons hover black-text">edit</i></a>
+				            <strong>Email Address:</strong>
+				            <p>${data[0][6]}</p>
+				        </li>
+				        <li class='collection-item'>
+				            <a class="secondary-content tooltipped" data-cmd='view_business' data-value='${data[0][0]}' data-position='left' data-delay='50' data-tooltip='Update'><i class="material-icons hover black-text">edit</i></a>
+				            <strong>Discription:</strong>
+				            <p>${data[0][4]}</p>
+				        </li>
+				    </ul>
+				</div>					
+			`);	
+			$(`#businessInfo img.businesslogo`).on('error',function(){
+				$(this).attr({'src':'../assets/images/logo/icon.png'});
+			});
+		},
+		accountList:function(){
+			let data = JSON.parse(business.getAcountList());
+			console.log(data);
+			
 		}
 	}
 }();

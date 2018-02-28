@@ -409,3 +409,19 @@ li.active{
   width:300px;
   padding: 0px !important;
 }
+
+#display_business .row{
+  margin-bottom:0px;
+}
+
+#modal_medium .modal-content{
+  padding: 0px 24px 24px 24px;
+}
+
+#modal_medium .modal-content .col, #display_business .col{
+  padding: 0px;
+}
+
+th, td{
+  vertical-align: top;
+}
