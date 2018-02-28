@@ -425,3 +425,14 @@ li.active{
 th, td{
   vertical-align: top;
 }
+
+.carousel{
+  height: 250px;
+  perspective: 10px;
+}
+
+.carousel img{
+  height: 100px;
+  width: 200px !important;
+  perspective: 10px;
+}
