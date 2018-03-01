@@ -9,7 +9,7 @@
   font-family: 'Material Icons';
   font-weight: normal;
   font-style: normal;
-  font-size: 24px;
+  font-size: px;
   line-height: 1;
   letter-spacing: normal;
   text-transform: none;
@@ -19,6 +19,7 @@
   direction: ltr;
   -webkit-font-feature-settings: 'liga';
   -webkit-font-smoothing: antialiased;
+  cursor:  pointer;
 }
 
 nav ul a,
@@ -314,6 +315,8 @@ nav .brand-logo {
 .display_notes{
   font-size: 12px;
   text-align: left;
+  margin: 20px 0px 0px 0px;
+  color: #7b7b7b;
 }
 
 .profile-table tr td{
@@ -400,7 +403,7 @@ li.active{
 }
 
 .modal .modal-content label{
-  /* left: 0; */
+  /* left: 0 !important; */
 }
 
 .image-crop{
@@ -419,20 +422,79 @@ li.active{
 }
 
 #modal_medium .modal-content .col, #display_business .col{
-  padding: 0px;
+  /* padding: 0px; */
 }
 
 th, td{
   vertical-align: top;
 }
 
+.carousel-item{
+  /* height: 250px; */
+  /* perspective: 10px; */
+  border: 1px solid #ccc;
+  opacity:  1 !important;
+  overflow:  hidden;
+  border-radius: 3px;
+  top: 0px !important;
+}
+
 .carousel{
-  height: 250px;
+  height: 200px;
   perspective: 10px;
 }
 
 .carousel img{
   height: 100px;
-  width: 200px !important;
+  width: 100px !important;
   perspective: 10px;
+}
+
+#businessAccounts .card{
+  height: 100%;
+  margin: 0px;
+  cursor:  pointer;
+  display:  unset;
+}
+
+#businessAccounts .card .card-image{
+  height: 100px;
+  background-size: 110% !important;
+}
+
+#businessAccounts .card .card-content{padding: 5px;}
+
+#businessAccounts .card a[data-cmd='addAccount']{
+  transform: translate(-50%);
+  left: 50%;
+  top: 30px;
+  position:  relative;
+  /* height:  100px; */
+  /* width: 100px; */
+}
+
+.item-input-password-preview {
+    width: 40px;
+    /* height: 40px; */
+    position: absolute;
+    left: 100%;
+    top: 0px;
+    background: #ffffff;
+    transform: translate(-40px);
+    color: #7b7b7b;
+    text-align: center;
+    top: 5px;
+}
+
+.input-field input{
+  margin: 0px !important;
+}
+
+.error_note{
+  font-size: 10px !important;
+}
+
+.btn-fullwidth{
+  width:100%;
+  text-align:  center;
 }

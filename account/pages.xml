@@ -104,38 +104,37 @@
 	<addAccount>
 		<form id='form_registerAdmin' class='formValidate' method='get' action='' novalidate='novalidate'>
 			<div class='row'>
-				<div class='col offset-m1 offset-l1 s12 m10 l10'>
-					<div class='input-field col s12'>
-						<div class='input-field col s12 m6 l6'>
-							<label for='field_name'>Name: </label>
-				            <input id='field_name' type='text' name='field_name' data-error='.error_name'>
-							<div class='error_name'></div>	
+				<div class='input-field col s12'>
+					<div class='input-field col s12 m6 l6'>
+						<label for='field_name'>Name: </label>
+			            <input id='field_name' type='text' name='field_name' data-error='.error_name'>
+						<div class='error_name'></div>	
+					</div>
+					<div class='input-field col s12 m6 l6'>
+						<label for='field_email'>Email: </label>
+			            <input id='field_email' type='text' name='field_email' data-error='.error_email'>
+						<div class='error_email'></div>	
+					</div>
+					<div class='input-field col s12 m6 l6'>
+						<label for='field_username'>Username: </label>
+			            <input id='field_username' type='text' name='field_username' data-error='.error_username'>
+						<div class='error_username'></div>	
+					</div>
+					<div class='input-field col s12 m6 l6'>
+						<label for='field_password'>Password: </label>
+			            <input id='field_password' type='password' name='field_password' data-error='.error_password'>
+	                    <div class="item-input-password-preview"><i class='material-icons'>visibility_off</i></div>
+						<div class='error_password'></div>
+					</div>
+					<div class='row'>
+						<div class='input-field col s12'>
+							<button class='btn blue waves-effect waves-light right' type='submit'>Save</button>
 						</div>
-						<div class='input-field col s12 m6 l6'>
-							<label for='field_email'>Email: </label>
-				            <input id='field_email' type='text' name='field_email' data-error='.error_email'>
-							<div class='error_email'></div>	
-						</div>
-						<div class='input-field col s12 m6 l6'>
-							<label for='field_username'>Username: </label>
-				            <input id='field_username' type='text' name='field_username' data-error='.error_username'>
-							<div class='error_username'></div>	
-						</div>
-						<div class='input-field col s12 m6 l6'>
-							<label for='field_password'>Password: </label>
-				            <input id='field_password' type='password' name='field_password' data-error='.error_password'>
-							<div class='error_password'></div>
-						</div>
-						<div class='row'>
-							<div class='input-field col s12'>
-								<button class='btn blue waves-effect waves-light right' type='submit'>Save</button>
-							</div>
-						</div>
-						<div class='row'>
-							<div class='display_notes'>
-								*<strong>Password</strong> must contain atleast 1 number, 1 uppercase letter, 1 lowercare letter, 1 special character* and 6 character length. <br/>
-								<u>Special characters are ! @ $ % *</u>
-							</div>
+					</div>
+					<div class='row'>
+						<div class='display_notes'>
+							*<strong>Password</strong> must contain atleast 1 number, 1 uppercase letter, 1 lowercare letter, 1 special character* and 6 character length. <br/>
+							<u>Special characters are ! @ $ % *</u>
 						</div>
 					</div>
 				</div>
@@ -223,6 +222,49 @@
 			</div>
 		</form>
 	</addBusiness>
+
+	<addBusinessAccount>
+		<p>Add Account <button class="btn-floating btn-small btn-flat waves-effect white action_close right"><i class="material-icons grey-text">close</i></button></p>
+		<div class='divider'></div><br/>
+		<form id='form_addAccount' class='formValidate' method='get' action='' novalidate='novalidate'>
+			<div class='row'>
+				<div class='input-field col s12 m6'>
+					<label for='field_name'>Name: </label>
+		            <input id='field_name' type='text' name='field_name' data-error='.error_name'>
+					<div class='error_name error_note'></div>	
+				</div>
+				<div class='input-field col s12 m6'>
+					<label for='field_position'>Position: </label>
+		            <input id='field_position' type='text' name='field_position' data-error='.error_position'>
+					<div class='error_position error_note'></div>	
+				</div>
+			</div>
+			<div class='row'>
+				<div class='input-field col s12 m6'>
+					<label for='field_email'>Email Address: </label>
+		            <input id='field_email' type='text' name='field_email' data-error='.error_email'>
+					<div class='error_email error_note'></div>	
+				</div>
+				<div class='input-field col s12 m6'>
+					<label for='field_password'>Password: </label>
+		            <input id='field_password' type='password' name='field_password' data-error='.error_password'>
+                    <div class="item-input-password-preview"><i class='material-icons'>visibility_off</i></div>
+					<div class='error_password error_note'></div>	
+					<div class='row'>
+						<div class='display_notes'>
+							*<strong>Password</strong> must contain atleast 1 number, 1 uppercase letter, 1 lowercare letter, 1 special character* and 6 character length. <br/>
+							<u>Special characters are ! @ $ % *</u>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class='row'>
+				<div class='input-field col s12'>
+					<button class='btn blue waves-effect waves-light right' type='submit'>Save</button>
+				</div>
+			</div>
+		</form>
+	</addBusinessAccount>
 
 	<addClient>
 		<form id='form_addClient' class='formValidate' method='get' action='' novalidate='novalidate'>

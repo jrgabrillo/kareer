@@ -23,7 +23,7 @@ var main = function () {
 					_form = [_form[0]['value'],_form[1]['value']];
 					var data = system.ajax('assets/harmony/Process.php?login',_form);
 					data.done(function(data){
-						data = (data == " ")? "error" : JSON.parse(data); 
+						data = (data == "")? "error" : JSON.parse(data); 
 						if(data != "error"){
 							localStorage.setItem("hash",data[2]);
 							sessionStorage.setItem('kareer',data[0]);

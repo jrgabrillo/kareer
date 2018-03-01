@@ -387,36 +387,6 @@ var business = function(){
 			var ajax = system.ajax('../assets/harmony/Process.php?get-accountslist',business.id());
 			return ajax.responseText;
 		},
-		list:function(){
-			let data = JSON.parse(business.get());
-			if(data.length>0){
-				$("#display_business").removeClass('hidden');
-				$("#display_nobusiness").addClass('hidden');
-			}
-			else{
-				$("#display_business").addClass('hidden');
-				$("#display_nobusiness").removeClass('hidden');
-			}
-
-			$.each(data,function(i,v){
-				let logo = ((typeof v[5] == 'object') || (v[5] == ""))? 'icon.png' : v[5];
-				$("#display_business table tbody").append(`
-					<tr>
-						<td><img src="../assets/images/logo/${logo}" width='30px' id='img-${v[0]}'></td>
-						<td>${v[3]}</td>
-						<td>
-							<a href='#cmd=index;content=focusbusiness;id=${v[0]}' data-cmd='view_business' data-value='${v[0]}' class='tooltipped btn-floating waves-effect black-text no-shadow white right' data-position='left' data-delay='50' data-tooltip='View Business'>
-								<i class='material-icons right hover black-text'>more_vert</i>
-							</a>
-						</td>
-					</tr>
-				`);
-
-				$(`img#img-${v[0]}`).on('error',function(){
-					$(this).attr({'src':'../assets/images/logo/icon.png'});
-				});
-			})
-		},
 		add:function(){
 			var data = system.xml("pages.xml");
 			$(data.responseText).find("addBusiness").each(function(i,content){
@@ -462,6 +432,85 @@ var business = function(){
 				});
 			});
 		},
+		addAccount:function(){
+			var data = system.xml("pages.xml");
+			$(data.responseText).find("addBusinessAccount").each(function(i,content){
+				$("#modal_medium .modal-content").html(content);
+				$("#modal_medium .modal-footer").remove();
+
+				pass.visibility();
+				$("#businessAccounts a[data-cmd='addAccount']").on('click',function(){
+					$('#modal_medium').modal('open');
+					$('.action_close').on('click',function(){
+						$('#modal_medium').modal('close');
+					});
+
+					$("#form_addAccount").validate({
+					    rules: {
+					        field_name: {required: true, maxlength: 300},
+					        field_position: {required: true, maxlength: 200},
+					        field_email: {required: true, maxlength: 300,email:true,validateEmail:true},
+					        field_password: {required: true,maxlength: 50, checkPassword:true},
+					    },
+					    errorElement : 'div',
+					    errorPlacement: function(error, element) {
+							var placement = $(element).data('error');
+							if(placement){
+								$(placement).append(error)
+							} 
+							else{
+								error.insertAfter(element);
+							}
+						},
+						submitHandler: function (form) {
+							var _form = $(form).serializeArray();
+							var ajax = system.ajax('../assets/harmony/Process.php?do-addBusinessAccount',[business.id(),_form[0]['value'],_form[1]['value'],_form[2]['value'],_form[3]['value']]);
+							ajax.done(function(ajax){
+								console.log(ajax);
+								if(ajax == 1){	
+									business.accountList();
+									$('#modal_medium').modal('close');	
+									system.alert('Business account has been added.', function(){});
+								}
+								else{
+									system.alert('Failed to add business account.', function(){});
+								}
+							});
+					    }
+					});
+				});
+			});
+		}
+		list:function(){
+			let data = JSON.parse(business.get());
+			if(data.length>0){
+				$("#display_business").removeClass('hidden');
+				$("#display_nobusiness").addClass('hidden');
+			}
+			else{
+				$("#display_business").addClass('hidden');
+				$("#display_nobusiness").removeClass('hidden');
+			}
+
+			$.each(data,function(i,v){
+				let logo = ((typeof v[5] == 'object') || (v[5] == ""))? 'icon.png' : v[5];
+				$("#display_business table tbody").append(`
+					<tr>
+						<td><img src="../assets/images/logo/${logo}" width='30px' id='img-${v[0]}'></td>
+						<td>${v[3]}</td>
+						<td>
+							<a href='#cmd=index;content=focusbusiness;id=${v[0]}' data-cmd='view_business' data-value='${v[0]}' class='tooltipped btn-floating waves-effect black-text no-shadow white right' data-position='left' data-delay='50' data-tooltip='View Business'>
+								<i class='material-icons right hover black-text'>more_vert</i>
+							</a>
+						</td>
+					</tr>
+				`);
+
+				$(`img#img-${v[0]}`).on('error',function(){
+					$(this).attr({'src':'../assets/images/logo/icon.png'});
+				});
+			})
+		},
 		info:function(){
 			let data = JSON.parse(business.getInfo());
 			let logo = ((typeof data[0][5] == 'object') || (data[0][5] == ""))? 'icon.png' : data[0][5];
@@ -500,9 +549,30 @@ var business = function(){
 		},
 		accountList:function(){
 			let data = JSON.parse(business.getAcountList());
-			console.log(data);
-			
-		}
+			$.each(data,function(i,v){
+				console.log(v);
+				let logo = ((typeof v[5] == 'object') || (v[5] == ""))? '../assets/images/logo/icon.png' : `../assets/images/profile/${v[5]}`;
+
+				$("#businessAccounts .carousel").append(`
+                    <div class="carousel-item">
+                        <div class="card waves-effect">
+                            <div class="card-image" style='background:url("${logo}") center/cover no-repeat' id='img-${v[0]}'></div>
+                            <div class="card-content">
+                                <h6>${v[2]}<br/><small>${v[6]}</small></h6>
+                            </div>
+                        </div>
+                    </div>
+				`);
+			});
+
+		    $('.carousel').carousel({
+		        dist:0,
+		        shift:10,
+		        padding:20,
+		        noWrap:true
+		    });
+			business.addAccount();
+		},
 	}
 }();
 
@@ -1337,3 +1407,20 @@ var jobs = function(){
 		},
 	}
 }();
+
+var pass = {
+	visibility:function(){
+		let c = 0;
+		$(".item-input-password-preview").on('click',function(){
+			c++;
+			if((c%2)==0){
+				$(this).children('i').html('visibility_off');
+				$("input[name='field_password']").attr({'type':'password'});
+			}
+			else{
+				$(this).children('i').html('visibility');
+				$("input[name='field_password']").attr({'type':'text'});
+			}
+		});
+	}
+}
