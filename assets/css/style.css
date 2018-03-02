@@ -508,8 +508,16 @@ th, td{
 }
 
 #display_business a[data-cmd="view_business"]{
-vertical-align:  top;
-background:  transparent !important;
+  vertical-align:  top;
+  background:  transparent !important;
 }
 
-#display_business td:nth-child(3){/* vertical-align:  top; *//* background:  transparent !important; */padding: 5px;}
+#display_business td:nth-child(3){
+  padding: 5px;
+}
+
+#display_logo i{
+  background: url(../images/icon.png) center/contain no-repeat;
+  height: 30px;
+  width: 30px;
+}
