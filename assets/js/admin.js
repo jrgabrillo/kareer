@@ -27,40 +27,44 @@ var admin = function () {
 			$("#user-account img.profile-image").attr({"src":"../assets/images/profile/"+profile});
 			$("#user-account div div a span.display_name").html(`${data[0][1]} ${data[0][2]}`);
 
-			content = `<div id='profile-card' class='card'>
-							<div class='card-content'>
-							    <div class='responsive-img activator card-profile-image circle'>
-							    	<img src='../assets/images/profile/${profile}' alt='' class='circle profile-image'>
-							    	<a data-cmd='updateAdminPicture' data-value='${profile}' data-name='${data[0][1]} ${data[0][2]}' data-node='${data[0][0]}' data-prop='Picture' class='btn waves-effect white-text no-shadow black' style='font-size: 10px;z-index: 1;padding: 0 12px;top:40px;'>Change</a>
-								</div>
-								<a data-for='name' data-cmd='updateAdmin' data-value='${JSON.stringify([data[0][1],data[0][2]])}' data-name='${data[0][1]} ${data[0][2]}' data-node='${data[0][0]}' data-prop='Name' class='tooltipped btn-floating waves-effect black-text no-shadow white right' data-position='left' data-delay='50' data-tooltip='Update name'>
-									<i class='material-icons right hover black-text'>mode_edit</i>
-								</a>
-							    <span class='card-title activator grey-text text-darken-4' for='name'>${data[0][1]} ${data[0][2]}</span>
-								<div class='divider'></div>
-								<table>
-									<tr>
-										<td width='20px' class='bold'><span style='width:80%;display: inline-block;'><i class='mdi-action-perm-identity cyan-text text-darken-2'></i> Username: </span></td>
-										<td class='grey-text truncate' for='username'>${data[0][4]}</td>
-										<td width='20px'>
-											<a data-for='username' data-cmd='updateAdmin' data-value='${data[0][4]}' data-name='${data[0][1]} ${data[0][2]}' data-node='${data[0][0]}' data-prop='Username' class='tooltipped btn-floating waves-effect black-text no-shadow white right' data-position='left' data-delay='50' data-tooltip='Update username'>
+			$("#display_admin").html(`<div id='profile-card' class='card'>
+										<div class='card-content'>
+										    <div class='responsive-img activator card-profile-image circle'>
+										    	<img src='../assets/images/profile/${profile}' alt='' class='circle profile-image'>
+										    	<a data-cmd='updateAdminPicture' data-value='${profile}' data-name='${data[0][1]} ${data[0][2]}' data-node='${data[0][0]}' data-prop='Picture' class='btn waves-effect white-text no-shadow black' style='font-size: 10px;z-index: 1;padding: 0 12px;top:40px;'>Change</a>
+											</div>
+											<a data-for='name' data-cmd='updateAdmin' data-value='${JSON.stringify([data[0][1],data[0][2]])}' data-name='${data[0][1]} ${data[0][2]}' data-node='${data[0][0]}' data-prop='Name' class='tooltipped btn-floating waves-effect black-text no-shadow white right' data-position='left' data-delay='50' data-tooltip='Update name'>
 												<i class='material-icons right hover black-text'>mode_edit</i>
 											</a>
-										</td>
-									</tr>
-									<tr>
-										<td class='bold'><span style='width:80%;display: inline-block;' class='truncate'><i class='mdi-action-verified-user cyan-text text-darken-2'></i> Password</span></td>
-										<td></td>
-										<td>
-											<a data-cmd='updateAdmin' data-name='${data[0][1]} ${data[0][2]}' data-node='${data[0][0]}' data-prop='Password' class='tooltipped btn-floating waves-effect black-text no-shadow white right' data-position='left' data-delay='50' data-tooltip='Update password'>
-												<i class='material-icons right hover black-text'>mode_edit</i>
-											</a>
-										</td>
-									</tr>
-								</table>
-							</div>
-						</div>`;
-			$("#display_admin").html(content);
+										    <span class='card-title activator grey-text text-darken-4' for='name'>${data[0][1]} ${data[0][2]}</span>
+											<div class='divider'></div>
+											<table>
+												<tr>
+													<td width='20px' class='bold'><span style='width:80%;display: inline-block;'><i class='mdi-action-perm-identity cyan-text text-darken-2'></i> Username: </span></td>
+													<td class='grey-text truncate' for='username'>${data[0][4]}</td>
+													<td width='20px'>
+														<a data-for='username' data-cmd='updateAdmin' data-value='${data[0][4]}' data-name='${data[0][1]} ${data[0][2]}' data-node='${data[0][0]}' data-prop='Username' class='tooltipped btn-floating waves-effect black-text no-shadow white right' data-position='left' data-delay='50' data-tooltip='Update username'>
+															<i class='material-icons right hover black-text'>mode_edit</i>
+														</a>
+													</td>
+												</tr>
+												<tr>
+													<td class='bold'><span style='width:80%;display: inline-block;' class='truncate'><i class='mdi-action-verified-user cyan-text text-darken-2'></i> Password</span></td>
+													<td></td>
+													<td>
+														<a data-cmd='updateAdmin' data-name='${data[0][1]} ${data[0][2]}' data-node='${data[0][0]}' data-prop='Password' class='tooltipped btn-floating waves-effect black-text no-shadow white right' data-position='left' data-delay='50' data-tooltip='Update password'>
+															<i class='material-icons right hover black-text'>mode_edit</i>
+														</a>
+													</td>
+												</tr>
+											</table>
+										</div>
+									</div>`);
+
+			$(`img.profile-image`).on('error',function(){
+				$(this).attr({'src':'../assets/images/logo/icon.png'});
+			});
+
 			admin.update();
 			admin.updatePicture();
 		},
@@ -298,7 +302,6 @@ var admin = function () {
 												var data = system.ajax('../assets/harmony/Process.php?do-updateImage',['admin','picture',sessionStorage.getItem('kareer'),cropper.getCroppedCanvas().toDataURL('image/png')]);
 												data.done(function(data){
 													console.log(data);
-													
 													if(data == 1){
 														$('#modal_confirm').modal('close');
 														$('.profile-image').attr('src', cropper.getCroppedCanvas().toDataURL('image/png'));
@@ -313,14 +316,6 @@ var admin = function () {
 							            });
 								    }
 								});
-
-	                            // image.cropper("reset", true).cropper("replace", this.result);
-
-					          //   $("button[data-cmd='rotate']").click(function(){
-					          //   	var data = $(this).data('option');
-						        	// $image.cropper('rotate', data);
-					          //   });
-
 	                        };
 	                    }
 	                    else{
@@ -521,6 +516,7 @@ var business = function(){
 			$("#businessInfo").html(`
 				<div class='col s12 m4 l3'>
 				    <img src='../assets/images/logo/${logo}' width='100%' class='businesslogo'>
+		            <a class="secondary-content tooltipped" data-prop='business logo' data-cmd='updateAdminPicture' data-position='left' data-delay='50' data-tooltip='Update'><i class="material-icons hover black-text">photo_camera</i></a>
 				</div>
 				<div class='col s12 m8 l9'>
 				    <ul class='collection' id='display_businessInfo'>
@@ -802,9 +798,7 @@ var business = function(){
 									<button class='btn blue btn-floating btn-flat tooltipped' data-cmd='cancel' type='button' data-tooltip='Cancel' data-position='top'>
 										<i class='material-icons right hover white-text'>close</i>
 									</button>
-									<button class='btn blue btn-flat hidden right white-text' data-cmd='save' type='button'>
-										Save
-									</button>
+									<button class='btn blue btn-flat hidden right white-text' data-cmd='save' type='button'>Save</button>
 								</div>`;
 	    		$("#profile_picture2").html(content);
 				$('.tooltipped').tooltip({delay: 50});
@@ -835,20 +829,20 @@ var business = function(){
 							            $("button[data-cmd='save']").click(function(){
 									    	$(this).html("Uploading...").addClass('disabled');
 									    	if(status){
-												var data = system.ajax('../assets/harmony/Process.php?do-updateImage',['admin','picture',sessionStorage.getItem('kareer'),cropper.getCroppedCanvas().toDataURL('image/png')]);
+									    		status = false;
+												var data = system.ajax('../assets/harmony/Process.php?do-updateImage',['business','picture',business.id(),cropper.getCroppedCanvas().toDataURL('image/png')]);
 												data.done(function(data){
-													console.log(data);
-													
 													if(data == 1){
 														$('#modal_confirm').modal('close');
-														$('.profile-image').attr('src', cropper.getCroppedCanvas().toDataURL('image/png'));
+														$(`#businessInfo img.businesslogo`).attr('src', cropper.getCroppedCanvas().toDataURL('image/png'));
 														system.alert('Profile picture has been updated.', function(){});
 													}
 													else{
-														system.alert('Failed to upload your picture. File too large.', function(){});
+											    		status = true;
+												    	$(this).html("Save").removeClass('disabled');
+														system.alert('Failed to upload your picture.', function(){});
 													}
 												});
-									    		status = false;
 									    	}
 							            });
 								    }

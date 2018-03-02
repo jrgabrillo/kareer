@@ -321,12 +321,37 @@
 	if(isset($_GET['do-updateImage'])){/**/
 		if(isset($_POST['data'])){
 			$data = $_POST['data'];
-			$picture = $Functions->saveImage($data[0],$data[3]);
-			if($data[1] == 'employer'){
-				$q = $Functions->PDO("UPDATE tbl_employer SET image = '{$picture}' WHERE id = '{$data[0]}'");
+			// print_r($data);
+			$date = new DateTime();
+			$time = $date->getTimestamp();
+			if($data[0] == 'business'){
+				$q = $Functions->PDO("SELECT * FROM tbl_business WHERE id = '{$data[2]}'");
+				$_filename = ($q[0][5] == "")?"business.png":$q[0][5];
+				if(file_exists("../images/logo/{$_filename}")){
+					$filename = "../images/logo/{$_filename}";
+				}
+				else{
+					$_filename = "{$data[0]}_{$time}.rnr";
+					$filename = "../images/logo/{$_filename}";
+				}			
+				$picture = $Functions->saveImage($filename,$data[3]);
+				$q = $Functions->PDO("UPDATE tbl_business SET image = '{$_filename}' WHERE id = '{$data[2]}'");
+			}
+			else if($data[0] == 'admin'){
+				$q = $Functions->PDO("SELECT * FROM tbl_admin WHERE id = '{$data[2]}'");
+				$_filename = ($q[0][3] == "")?"admin.png":$q[0][3];
+				if(file_exists("../images/profile/{$_filename}")){
+					$filename = "../images/profile/{$_filename}";
+				}
+				else{
+					$_filename = "{$data[0]}_{$time}.rnr";
+					$filename = "../images/profile/{$_filename}";
+				}
+				$picture = $Functions->saveImage($filename,$data[3]);
+				$q = $Functions->PDO("UPDATE tbl_admin SET image = '{$_filename}' WHERE id = '{$data[2]}'");
 			}
 			else{
-				$q = $Functions->PDO("UPDATE tbl_admin SET image = '{$picture}' WHERE id = '{$data[2]}'");
+				$q = $Functions->PDO("");
 			}
 			if($q->execute())
 				echo 1;

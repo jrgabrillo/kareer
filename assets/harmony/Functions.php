@@ -229,13 +229,9 @@ class DatabaseClasses{
         $result = mail($receiver,$subject,$template,$headers);
         return $result;
 	}
-	function saveImage($id,$file){
-		$date = new DateTime();
-		$time = $date->getTimestamp();
-		$filename = $id."_".$time.'.rnr';
-		$file = base64_decode(preg_replace('#^data:image/\w+;base64,#i', '', $file));
-
-        $handle = fopen('../images/profile/'.$filename, 'w+');
+	function saveImage($filename,$content){
+		$file = base64_decode(preg_replace('#^data:image/\w+;base64,#i', '', $content));
+        $handle = fopen($filename, 'w+');
         if(fwrite($handle, $file) && fclose($handle)){
 			return $filename;
         }
