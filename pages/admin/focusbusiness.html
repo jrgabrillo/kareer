@@ -12,7 +12,7 @@
             </div>
             <div class="col s10 offset-s1" id='display_business'>
                 <div class="card">
-                    <div class="card-content text-center">
+                    <div class="card-content">
                         <div class="row" id='businessInfo'>
                         </div>
                         <div class="row" id='businessAccounts'>
@@ -20,7 +20,7 @@
                             <h5>Account Manager</h5>
                             <div class="row">
                                 <div class="carousel">
-                                    <div class="carousel-item">
+                                    <div class="carousel-item teal lighten-2">
                                         <div class="card">
                                             <div class="card-content">
                                                 <a data-cmd='addAccount' data-prop='Password' class='tooltipped btn-floating btn-large waves-effect black-text no-shadow grey lighten-4' data-position='bottom' data-delay='50' data-tooltip='Add account'>
@@ -36,6 +36,9 @@
                             <div class="divider"></div>
                             <h5>Posted jobs</h5>
                             <div class="row">
+                                <div class="col s12 m6 offset-m3">
+                                    <h6 class="text-center grey-text">No jobs posted.</h6>
+                                </div>
                             </div>                            
                         </div>
                     </div>
@@ -47,4 +50,5 @@
 <script type="text/javascript">
     business.info();
     business.accountList();
+    business.jobsList();
 </script>

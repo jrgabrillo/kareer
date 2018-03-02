@@ -207,7 +207,7 @@ var admin = function () {
 						submitHandler: function (form) {
 							var _form = $(form).serializeArray();
 
-							var ajax = system.ajax('../assets/harmony/Process.php?do-updateInfo',['admin','username',sessionStorage.getItem('kareer'),_form[0]['value']]);
+							var ajax = system.ajax('../assets/harmony/Process.php?do-updateInfo',['admin','password',sessionStorage.getItem('kareer'),_form[0]['value']]);
 							ajax.done(function(ajax){
 								console.log(ajax);
 								if(ajax == 1){
@@ -387,6 +387,10 @@ var business = function(){
 			var ajax = system.ajax('../assets/harmony/Process.php?get-accountslist',business.id());
 			return ajax.responseText;
 		},
+		getJobs:function(){
+			var ajax = system.ajax('../assets/harmony/Process.php?get-jobslist',business.id());
+			return ajax.responseText;
+		},
 		add:function(){
 			var data = system.xml("pages.xml");
 			$(data.responseText).find("addBusiness").each(function(i,content){
@@ -480,7 +484,7 @@ var business = function(){
 					});
 				});
 			});
-		}
+		},
 		list:function(){
 			let data = JSON.parse(business.get());
 			if(data.length>0){
@@ -519,26 +523,26 @@ var business = function(){
 				    <img src='../assets/images/logo/${logo}' width='100%' class='businesslogo'>
 				</div>
 				<div class='col s12 m8 l9'>
-				    <ul class='collection'>
+				    <ul class='collection' id='display_businessInfo'>
 				        <li class='collection-item'>
-				            <a class="secondary-content tooltipped" data-cmd='view_business' data-value='${data[0][0]}' data-position='left' data-delay='50' data-tooltip='Update'><i class="material-icons hover black-text">edit</i></a>
+				            <a class="secondary-content tooltipped" data-prop='business name' data-cmd='update_business' data-value='${data[0][3]}' data-position='left' data-delay='50' data-tooltip='Update'><i class="material-icons hover black-text">edit</i></a>
 				            <strong>Business Name:</strong>
-				            <p>${data[0][3]}</p>
+				            <div class='_content'>${data[0][3]}</div>
 				        </li>
 				        <li class='collection-item'>
-				            <a class="secondary-content tooltipped" data-cmd='view_business' data-value='${data[0][0]}' data-position='left' data-delay='50' data-tooltip='Update'><i class="material-icons hover black-text">edit</i></a>
+				            <a class="secondary-content tooltipped" data-prop='contact number' data-cmd='update_business' data-value='${data[0][2]}' data-position='left' data-delay='50' data-tooltip='Update'><i class="material-icons hover black-text">edit</i></a>
 				            <strong>Contact Number:</strong><br/>
-				            ${data[0][2]}
+				            <div class='_content'>${data[0][2]}</div>
 				        </li>
 				        <li class='collection-item'>
-				            <a class="secondary-content tooltipped" data-cmd='view_business' data-value='${data[0][0]}' data-position='left' data-delay='50' data-tooltip='Update'><i class="material-icons hover black-text">edit</i></a>
+				            <a class="secondary-content tooltipped" data-prop='email' data-cmd='update_business' data-value='${data[0][6]}' data-position='left' data-delay='50' data-tooltip='Update'><i class="material-icons hover black-text">edit</i></a>
 				            <strong>Email Address:</strong>
-				            <p>${data[0][6]}</p>
+				            <div class='_content'>${data[0][6]}</div>
 				        </li>
 				        <li class='collection-item'>
-				            <a class="secondary-content tooltipped" data-cmd='view_business' data-value='${data[0][0]}' data-position='left' data-delay='50' data-tooltip='Update'><i class="material-icons hover black-text">edit</i></a>
-				            <strong>Discription:</strong>
-				            <p>${data[0][4]}</p>
+				            <a class="secondary-content tooltipped" data-prop='description' data-cmd='update_business' data-value='${data[0][4]}' data-position='left' data-delay='50' data-tooltip='Update'><i class="material-icons hover black-text">edit</i></a>
+				            <strong>Description:</strong>
+				            <div class='_content'>${data[0][4]}</div>
 				        </li>
 				    </ul>
 				</div>					
@@ -546,32 +550,331 @@ var business = function(){
 			$(`#businessInfo img.businesslogo`).on('error',function(){
 				$(this).attr({'src':'../assets/images/logo/icon.png'});
 			});
+			business.update();
+			business.updatePicture();
 		},
 		accountList:function(){
 			let data = JSON.parse(business.getAcountList());
 			$.each(data,function(i,v){
-				console.log(v);
 				let logo = ((typeof v[5] == 'object') || (v[5] == ""))? '../assets/images/logo/icon.png' : `../assets/images/profile/${v[5]}`;
-
 				$("#businessAccounts .carousel").append(`
                     <div class="carousel-item">
                         <div class="card waves-effect">
                             <div class="card-image" style='background:url("${logo}") center/cover no-repeat' id='img-${v[0]}'></div>
-                            <div class="card-content">
+                            <div class="card-content grey lighten-4">
                                 <h6>${v[2]}<br/><small>${v[6]}</small></h6>
                             </div>
                         </div>
                     </div>
 				`);
 			});
-
-		    $('.carousel').carousel({
-		        dist:0,
-		        shift:10,
-		        padding:20,
-		        noWrap:true
-		    });
+		    $('.carousel').carousel({dist:0,shift:10,padding:20,noWrap:true});
 			business.addAccount();
+		},
+		jobsList:function(){
+			let data = JSON.parse(business.getJobs());
+			if(data.length>0){
+
+			}
+			else{
+				console.log('no jobs');
+			}
+		},
+		update:function(){
+			$("a[data-cmd='update_business']").on('click',function(){
+				let _this = this, data = $(this).data();
+				// $('#modal_confirm .modal-footer').remove();			
+				// $('#modal_confirm .modal-footer').remove();			
+				// $('#modal_confirm, #modal_medium').removeClass("modal-fixed-footer");			
+				if(data.prop == "business name"){
+					var content = `<h5>Change ${data.prop}</h5>
+									<form id='form_update' class='formValidate' method='get' action='' novalidate='novalidate'>
+								  		<label for='field_name' class='active'>Business Name: </label>
+								  		<input id='field_name' value='${data.value}' type='text' name='field_name' data-error='.error_name'>
+								  		<div class='error_name'></div>
+								  		<button type='submit' data-cmd='button_proceed' class='waves-effect waves-grey grey lighten-5 blue-text btn-flat modal-action right'>Save</button>
+								  		<a class='waves-effect waves-grey grey-text btn-flat modal-action modal-close right'>Cancel</a>
+									</form>`;
+					$("#modal_confirm .modal-content").html(content);
+					$('#modal_confirm').modal('open');
+					$("#form_update").validate({
+					    rules: {
+					        field_name: {required: true,maxlength: 300},
+					    },
+					    errorElement : 'div',
+					    errorPlacement: function(error, element) {
+							var placement = $(element).data('error');
+							if(placement)
+								$(placement).append(error)
+							else
+								error.insertAfter(element);
+						},
+						submitHandler: function (form) {
+							var _form = $(form).serializeArray();
+							if(data.value[0] == _form[0]['value']){
+								system.alert('You did not even change the value.', function(){});
+							}
+							else{
+								var ajax = system.ajax('../assets/harmony/Process.php?do-updateInfo',['business','name',business.id(),_form[0]['value']]);
+								ajax.done(function(ajax){
+									if(ajax == 1){
+										$('#modal_confirm').modal('close');
+										$(`#display_businessInfo li:nth-child(1) div._content`).html(_form[0]['value']);
+										$(_this).attr({'data-value':_form[0]['value'], 'data-name':`${_form[0]['value']}`});
+										system.alert('Name updated.', function(){});
+									}
+									else{
+										system.alert('Failed to update.', function(){});
+									}
+								});
+							}
+					    }
+					}); 
+				}			
+				else if(data.prop == "contact number"){
+
+					var content = `<h5>Change ${data.prop}</h5>
+									<form id='form_update' class='formValidate' method='get' action='' novalidate='novalidate'>
+								  		<label for='field_number' class='active'>Business Name: </label>
+								  		<input id='field_number' value='${data.value}' type='text' name='field_number' data-error='.error_number'>
+								  		<div class='error_number'></div>
+								  		<button type='submit' data-cmd='button_proceed' class='waves-effect waves-grey grey lighten-5 blue-text btn-flat modal-action right'>Save</button>
+								  		<a class='waves-effect waves-grey grey-text btn-flat modal-action modal-close right'>Cancel</a>
+									</form>`;
+					$("#modal_confirm .modal-content").html(content);
+					$('#modal_confirm').modal('open');
+					$("#form_update").validate({
+					    rules: {
+					        field_number: {required: true, maxlength: 300},
+					    },
+					    errorElement : 'div',
+					    errorPlacement: function(error, element) {
+							var placement = $(element).data('error');
+							if(placement)
+								$(placement).append(error)
+							else
+								error.insertAfter(element);
+						},
+						submitHandler: function (form) {
+							var _form = $(form).serializeArray();
+							if(data.value[0] == _form[0]['value']){
+								system.alert('You did not even change the value.', function(){});
+							}
+							else{
+								var ajax = system.ajax('../assets/harmony/Process.php?do-updateInfo',['business','number',business.id(),_form[0]['value']]);
+								ajax.done(function(ajax){
+									if(ajax == 1){
+										$('#modal_confirm').modal('close');
+										$(`#display_businessInfo li:nth-child(2) div._content`).html(_form[0]['value']);
+										$(_this).attr({'data-value':_form[0]['value'], 'data-name':`${_form[0]['value']}`});
+										system.alert('Contact number updated.', function(){});
+									}
+									else{
+										system.alert('Failed to update.', function(){});
+									}
+								});
+							}
+					    }
+					}); 
+				}			
+				else if(data.prop == "email"){
+					var content = `<h5>Change ${data.prop}</h5>
+									<form id='form_update' class='formValidate' method='get' action='' novalidate='novalidate'>
+								  		<label for='field_email' class='active'>Business Name: </label>
+								  		<input id='field_email' value='${data.value}' type='text' name='field_email' data-error='.error_email'>
+								  		<div class='error_email'></div>
+								  		<button type='submit' data-cmd='button_proceed' class='waves-effect waves-grey grey lighten-5 blue-text btn-flat modal-action right'>Save</button>
+								  		<a class='waves-effect waves-grey grey-text btn-flat modal-action modal-close right'>Cancel</a>
+									</form>`;
+					$("#modal_confirm .modal-content").html(content);
+					$('#modal_confirm').modal('open');
+					$("#form_update").validate({
+					    rules: {
+					        field_email: {required: true, maxlength: 300, email:true,validateEmail:true},
+					    },
+					    errorElement : 'div',
+					    errorPlacement: function(error, element) {
+							var placement = $(element).data('error');
+							if(placement)
+								$(placement).append(error)
+							else
+								error.insertAfter(element);
+						},
+						submitHandler: function (form) {
+							var _form = $(form).serializeArray();
+							if(data.value[0] == _form[0]['value']){
+								system.alert('You did not even change the value.', function(){});
+							}
+							else{
+								var ajax = system.ajax('../assets/harmony/Process.php?do-updateInfo',['business','email',business.id(),_form[0]['value']]);
+								ajax.done(function(ajax){
+									if(ajax == 1){
+										$('#modal_confirm').modal('close');
+										$(`#display_businessInfo li:nth-child(3) div._content`).html(_form[0]['value']);
+										$(_this).attr({'data-value':_form[0]['value'], 'data-name':`${_form[0]['value']}`});
+										system.alert('Email updated.', function(){});
+									}
+									else{
+										system.alert('Failed to update.', function(){});
+									}
+								});
+							}
+					    }
+					}); 
+				}
+				else if(data.prop == "description"){
+					var content = `<h4>Change ${data.prop}</h4>
+								  <form id='form_update' class='formValidate' method='get' action='' novalidate='novalidate'>
+						  				<label for='field_price'>${data.prop}: </label>
+						  				<div id='field_description'></div>
+						  				<div id='display_errorDescription'></div>
+								  		<button type='submit' data-cmd='button_proceed' class='waves-effect waves-grey grey lighten-5 blue-text btn-flat modal-action right'>Save</button>
+								  		<a class='waves-effect waves-grey grey-text btn-flat modal-action modal-close right'>Cancel</a>
+								  </form>`;
+					$("#modal_medium .modal-content").html(content);
+					$('#modal_medium').modal('open');
+
+					let editor = system.quill($('#field_description').get(0));
+					editor.clipboard.dangerouslyPasteHTML(data.value);
+
+					var limit = 1000;
+					editor.on('text-change', function(delta, old, source) {
+						if (editor.getLength() > limit) {
+							editor.deleteText(limit, editor.getLength());
+							$("#field_description").attr({"style":"box-shadow:0px 1px 1px red"});
+							$("#display_errorDescription").html("You have reached max input allowed.");
+						}
+						else{
+							$("#field_description").attr({"style":"box-shadow:0px 1px 1px green"});
+							$("#display_errorDescription").html("");
+						}
+					});
+					$("#form_update").validate({
+						submitHandler: function (form) {
+							let _form = editor.root.innerHTML;
+							if(data[2] == _form){
+								system.alert('You did not even change the product name.', function(){});
+							}
+							else{
+								var ajax = system.ajax('../assets/harmony/Process.php?do-updateInfo',['business','description',business.id(),_form]);
+								ajax.done(function(ajax){
+									if(ajax == 1){
+										$('#modal_medium').modal('close');
+										$(`#display_businessInfo li:nth-child(4) div._content`).html(`${_form}`);
+										$(_this).attr({'data-value':_form, 'data-name':`${_form}`});
+										system.alert('Description is updated.', function(){});
+									}
+									else{
+										system.alert('Failed to update.', function(){});
+									}
+								});
+							}
+					    }
+					}); 
+				}
+			});
+		},
+		updatePicture:function(){
+			window.Cropper;
+			$("a[data-cmd='updateAdminPicture']").on('click',function(){
+				var data = $(this).data();
+				console.log(data);
+				var picture = "../assets/images/profile/avatar.png";
+				var content = `<h4>Change ${data.prop}</h4>
+	  							<div class='row'>
+	  								<div class='col s12'>
+										<div id='profile_picture2' class='ibox-content no-padding border-left-right '></div>
+									</div>
+								</div>`;
+				$("#modal_confirm .modal-content").html(content);
+				$('#modal_confirm').removeClass('modal-fixed-footer');			
+				$('#modal_confirm .modal-footer').remove();			
+				$('#modal_confirm').modal('open');
+
+	    		var content =   `<div class='image-crop col s12' style='margin-bottom:5px;'>
+									<img width='100%' src='${picture}' id='change_picture'>
+								</div>
+								<div class='btn-group col s12'>
+									<label for='inputImage' class='btn blue btn-floating btn-flat tooltipped' data-tooltip='Load image' data-position='top'>
+										<input type='file' accept='image/*' name='file' id='inputImage' class='hide'>
+										<i class='material-icons right hover white-text'>portrait</i>
+									</label>
+									<button class='btn blue btn-floating btn-flat tooltipped' data-cmd='cancel' type='button' data-tooltip='Cancel' data-position='top'>
+										<i class='material-icons right hover white-text'>close</i>
+									</button>
+									<button class='btn blue btn-flat hidden right white-text' data-cmd='save' type='button'>
+										Save
+									</button>
+								</div>`;
+	    		$("#profile_picture2").html(content);
+				$('.tooltipped').tooltip({delay: 50});
+
+	            var $inputImage = $("#inputImage");
+	            var status = true;
+	            if(window.FileReader){
+	                $inputImage.change(function(e) {
+	                    var fileReader = new FileReader(),
+	                            files = this.files,
+	                            file;
+	                    file = files[0];
+
+	                    if (/^image\/\w+$/.test(file.type)) {
+	                        fileReader.readAsDataURL(file);
+	                        fileReader.onload = function (e) {
+	                            $inputImage.val("");
+						    	$("button[data-cmd='save']").html("Save").removeClass('disabled');
+								$('#change_picture').attr('src', e.target.result);
+								var image = document.getElementById('change_picture');
+								var cropper = new Cropper(image,{
+					            	aspectRatio: 1/1,
+								    autoCropArea: 0.80,
+								    ready:function(){
+								    	$("button[data-cmd='save']").removeClass('hidden');
+								    	$("button[data-cmd='rotate']").removeClass('hidden');
+								    	
+							            $("button[data-cmd='save']").click(function(){
+									    	$(this).html("Uploading...").addClass('disabled');
+									    	if(status){
+												var data = system.ajax('../assets/harmony/Process.php?do-updateImage',['admin','picture',sessionStorage.getItem('kareer'),cropper.getCroppedCanvas().toDataURL('image/png')]);
+												data.done(function(data){
+													console.log(data);
+													
+													if(data == 1){
+														$('#modal_confirm').modal('close');
+														$('.profile-image').attr('src', cropper.getCroppedCanvas().toDataURL('image/png'));
+														system.alert('Profile picture has been updated.', function(){});
+													}
+													else{
+														system.alert('Failed to upload your picture. File too large.', function(){});
+													}
+												});
+									    		status = false;
+									    	}
+							            });
+								    }
+								});
+
+	                            // image.cropper("reset", true).cropper("replace", this.result);
+
+					          //   $("button[data-cmd='rotate']").click(function(){
+					          //   	var data = $(this).data('option');
+						        	// $image.cropper('rotate', data);
+					          //   });
+
+	                        };
+	                    }
+	                    else{
+	                        showMessage("Please choose an image file.");
+	                    }
+	                });
+	            }
+	            else{
+	                $inputImage.addClass("hide");
+	            }	            
+	            $("button[data-cmd='cancel']").click(function(){
+					$('#modal_confirm').modal('close');	
+	            });
+			});
 		},
 	}
 }();

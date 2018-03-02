@@ -1,6 +1,7 @@
 body.bg {
     background: url('../images/loginbg.png') no-repeat;
     background-size: cover;
+    height:  100%;
 }
 .overlap-gradient {
     width: 100%;

@@ -9,7 +9,6 @@
   font-family: 'Material Icons';
   font-weight: normal;
   font-style: normal;
-  font-size: px;
   line-height: 1;
   letter-spacing: normal;
   text-transform: none;
@@ -417,8 +416,8 @@ li.active{
   margin-bottom:0px;
 }
 
-#modal_medium .modal-content{
-  padding: 0px 24px 24px 24px;
+#modal_medium .modal-content{ /*conflict with modal*/
+  /* padding: 0px 24px 24px 24px; */
 }
 
 #modal_medium .modal-content .col, #display_business .col{
@@ -427,6 +426,7 @@ li.active{
 
 th, td{
   vertical-align: top;
+  padding: 10px 0px 0px;
 }
 
 .carousel-item{
@@ -498,3 +498,18 @@ th, td{
   width:100%;
   text-align:  center;
 }
+
+.text-center{
+  text-align: center;
+}
+
+.side-nav li>a>i{
+  font-size: 24px;
+}
+
+#display_business a[data-cmd="view_business"]{
+vertical-align:  top;
+background:  transparent !important;
+}
+
+#display_business td:nth-child(3){/* vertical-align:  top; *//* background:  transparent !important; */padding: 5px;}

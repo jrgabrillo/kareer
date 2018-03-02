@@ -39,7 +39,7 @@
                 <div class="modal-content"></div>
                 <div class="modal-footer"></div>
             </div>
-            <div id="modal_medium" class="modal">
+            <div id="modal_medium" class="modal modal-fixed-footer">
                 <div class="modal-content"></div>
                 <div class="modal-footer"></div>
             </div>
@@ -73,13 +73,15 @@
         <script src="../assets/js/cropper.min.js"></script>
         <script src="../assets/js/plugins.js"></script>
         <script src="../assets/js/admin.js"></script>
+        <script src="../assets/js/main.js"></script>
         <script>
+            main.check();
+            system.forceLogout(function(){
+                main.kill();
+            })
             system.ini();
             App.init();
             $('.modal').modal({ dismissible: false});
-            system.forceLogout(function(){
-                login.kill();
-            })
         </script>
     </body>
 </html>

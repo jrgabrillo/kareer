@@ -140,6 +140,12 @@
 		print_r(json_encode($q));
 	}
 
+	if (isset($_GET['get-jobslist'])){/**/
+		$data = $_POST['data'];
+		$q = $Functions->PDO("SELECT * FROM tbl_vacancies WHERE business_id = '{$data}'");
+		print_r(json_encode($q));
+	}
+
 	if(isset($_GET['get-jobByID'])){
 		$data = $_POST['data'];
 		$result = [];
@@ -202,87 +208,113 @@
 	}
 
 	if(isset($_GET['do-updateInfo'])){/**/
-		if(isset($_POST['data'])){
-			$data = $_POST['data'];
-			// print_r($data);
-			if($data[0] == 'admin'){
-				if($data[1] == 'name'){
-					$field1 = $Functions->escape($data[3]);
-					$field2 = $Functions->escape($data[4]);
-					$q = $Functions->PDO("UPDATE tbl_admin SET fname = {$field1}, lname = {$field2} WHERE id = '{$data[2]}'");
-				}
-				else if($data[2] == 'username'){
-					$field1 = $Functions->escape($data[3]);
-					$q = $Functions->PDO("UPDATE tbl_admin SET username = {$field1} WHERE id = '{$data[2]}'");
-					$_SESSION['kareer7836'][0] = $field1;
-				}
-				else{
-					$field1 = $Functions->password($data[3]);
-					$q = $Functions->PDO("UPDATE tbl_admin SET password = '{$field1}' WHERE id = '{$data[2]}'");
-					$_SESSION['kareer7836'][1] = $field1;
-				}
-				if($q->execute())
-					echo 1;
-				else{
-					$Data = $q->errorInfo();
-					print_r($Data);
-				}
+		$data = $_POST['data'];
+		if($data[0] == 'admin'){
+			if($data[1] == 'name'){
+				$field1 = $Functions->escape($data[3]);
+				$field2 = $Functions->escape($data[4]);
+				$q = $Functions->PDO("UPDATE tbl_admin SET fname = {$field1}, lname = {$field2} WHERE id = '{$data[2]}'");
 			}
-			else if($data[0] == 'employer'){
-				if($data[2] == 'Company'){
-					$field = 'company_name';
-					$val = $data[3];
-				}
-				else if($data[2] == 'Description'){
-					$field = 'description';
-					$val = $data[3];
-				}
-				else if($data[2] == 'DTI'){
-					$field = 'dti';
-					$val = $data[3];
-				}
-				else if($data[2] == 'BIR'){
-					$field = 'bir';
-					$val = $data[3];
-				}
-				else if($data[2] == 'Given Name'){
-					$field = 'fname';
-					$val = $data[3];
-				}
-				else if($data[2] == 'Family Name'){
-					$field = 'lname';
-					$val = $data[3];
-				}
-				else if($data[2] == 'Address'){
-					$field = 'address';
-					$val = $data[3];
-				}
-				else if($data[2] == 'Contact number'){
-					$field = 'contactno';
-					$val = $data[3];
-				}
-				else if($data[2] == 'email'){
-					$field = 'username';
-					$val = $data[3];
-					$_SESSION['kareer7836'][0] = $val;
-				}
-				else{
-					$field = 'password';
-					$val = sha1($data[3]);
-					$_SESSION['kareer7836'][1] = $val;
-				}
-				$Query = $Functions->PDO_SQLQuery("UPDATE tbl_employer SET {$field} = '{$val}' WHERE id = '{$data[1]}'");
-				if($Query->execute()){
-					echo 1;
-				}
-				else{
-					$Data = $Query->errorInfo();
-					print_r($Data);
-				}
+			else if($data[2] == 'username'){
+				$field1 = $Functions->escape($data[3]);
+				$q = $Functions->PDO("UPDATE tbl_admin SET username = {$field1} WHERE id = '{$data[2]}'");
+				$_SESSION['kareer7836'][0] = $field1;
+			}
+			else if($data[2] == 'password'){
+				$field1 = $Functions->password($data[3]);
+				$q = $Functions->PDO("UPDATE tbl_admin SET password = '{$field1}' WHERE id = '{$data[2]}'");
+				$_SESSION['kareer7836'][1] = $field1;
+			}
+			else{
+				$q = $Functions->PDO("");
+			}
+
+			if($q->execute())
+				echo 1;
+			else{
+				$Data = $q->errorInfo();
+				print_r($Data);
 			}
 		}
-		else{
-			echo "Hacker";
+		else if($data[0] == 'employer'){
+			if($data[2] == 'Company'){
+				$field = 'company_name';
+				$val = $data[3];
+			}
+			else if($data[2] == 'Description'){
+				$field = 'description';
+				$val = $data[3];
+			}
+			else if($data[2] == 'DTI'){
+				$field = 'dti';
+				$val = $data[3];
+			}
+			else if($data[2] == 'BIR'){
+				$field = 'bir';
+				$val = $data[3];
+			}
+			else if($data[2] == 'Given Name'){
+				$field = 'fname';
+				$val = $data[3];
+			}
+			else if($data[2] == 'Family Name'){
+				$field = 'lname';
+				$val = $data[3];
+			}
+			else if($data[2] == 'Address'){
+				$field = 'address';
+				$val = $data[3];
+			}
+			else if($data[2] == 'Contact number'){
+				$field = 'contactno';
+				$val = $data[3];
+			}
+			else if($data[2] == 'email'){
+				$field = 'username';
+				$val = $data[3];
+				$_SESSION['kareer7836'][0] = $val;
+			}
+			else{
+				$field = 'password';
+				$val = sha1($data[3]);
+				$_SESSION['kareer7836'][1] = $val;
+			}
+			$Query = $Functions->PDO_SQLQuery("UPDATE tbl_employer SET {$field} = '{$val}' WHERE id = '{$data[1]}'");
+			if($Query->execute()){
+				echo 1;
+			}
+			else{
+				$Data = $Query->errorInfo();
+				print_r($Data);
+			}
+		}
+		else if($data[0] == 'business'){
+			if($data[1] == 'name'){
+				$field1 = $Functions->escape($data[3]);
+				$q = $Functions->PDO("UPDATE tbl_business SET company_name = {$field1} WHERE id = '{$data[2]}'");
+			}
+			else if($data[1] == 'number'){
+				$field1 = $Functions->escape($data[3]);
+				$q = $Functions->PDO("UPDATE tbl_business SET contact_number = {$field1} WHERE id = '{$data[2]}'");
+			}
+			else if($data[1] == 'email'){
+				$field1 = $Functions->escape($data[3]);
+				$q = $Functions->PDO("UPDATE tbl_business SET email = {$field1} WHERE id = '{$data[2]}'");
+			}
+			else if($data[1] == 'description'){
+				$field1 = $Functions->escape($data[3]);
+				$q = $Functions->PDO("UPDATE tbl_business SET description = {$field1} WHERE id = '{$data[2]}'");
+			}
+			else{
+				$q = $Functions->PDO("");
+			}
+			
+			if($q->execute())
+				echo 1;
+			else{
+				$Data = $q->errorInfo();
+				print_r($Data);
+			}
 		}
 	}
 
