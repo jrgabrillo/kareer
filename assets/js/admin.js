@@ -22,6 +22,7 @@ var admin = function () {
 		display:function(){
 			var content = "", data = admin.get();
 			data = JSON.parse(data);
+			console.log(data);
 			var profile = (data[0][3] == "")?'avatar.jpg':data[0][3];
 			admin.nav();
 			$("#user-account img.profile-image").attr({"src":"../assets/images/profile/"+profile});
