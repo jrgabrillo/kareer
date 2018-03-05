@@ -63,9 +63,9 @@
 		$data = $_POST['data']; $flag = 0;
         $access = $Functions->escape($data[0]);
         $password = $data[1];
-		$query = $Functions->PDO("SELECT * FROM tbl_employer WHERE email = {$access}");
+		$query = $Functions->PDO("SELECT * FROM tbl_businessManagers WHERE email = {$access}");
 		if(count($query)==1){
-            if($Functions->testPassword($password,$query[0][11]) && ($query[0][12] == 1)){
+            if($Functions->testPassword($password,$query[0][4]) && ($query[0][8] == 1)){
 				$_SESSION["kareer7836"] = [$query[0][0],$access,'employer'];
                 print_r(json_encode($_SESSION["kareer7836"]));
             }
