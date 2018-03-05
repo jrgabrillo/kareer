@@ -909,6 +909,10 @@ var applicant = function(){
 			var ajax = system.ajax('../assets/harmony/Process.php?get-applicantCareer',id);
 			return ajax.responseText;
 		},
+		getJobInterests:function(id){
+			var ajax = system.ajax('../assets/harmony/Process.php?get-applicantJobs',id);
+			return ajax.responseText;
+		},
 	 	list: function(){
 			let data = JSON.parse(this.get(false));
 			if(data.length>0){
@@ -943,11 +947,8 @@ var applicant = function(){
 			let data = JSON.parse(this.get(this.id()));
 			data = data[0];
 			let picture = ((new RegExp('facebook|google','i')).test(data[18]))? data[18] : ((typeof data[18] == 'object') || (data[18] == ""))? '../assets/images/profile/icon.png' : `../assets/images/logo/${data[18]}`;
-			let auth = (data[4] == "fb-oauth")?'Facebook':(data[4] == "google-auth")?'Google':'Kareer';
-			let academic = this.getAcad(this.id());
-			console.log(academic);
-
-
+			let auth = (data[4] == "fb-oauth")?'Facebook':(data[4] == "google-auth")?'Google':'Kareer Website', account_id = (data[5] == "")?data[0]:data[5];
+			
 			$("#applicantInfo").html(`
                 <div class='row'>
                     <div class='col s3'>
@@ -986,59 +987,92 @@ var applicant = function(){
                         	</thead>
                         	<tbody>
                         		<tr><td>Login Type:</td><td>${auth}</td></tr>
-                        		<tr><td>Account ID:</td><td>${data[5]}</td></tr>
+                        		<tr><td>Account ID:</td><td>${account_id}</td></tr>
                         	</tbody>
                         </table>
                     </div>
                 </div>
-                <div class='row'>
-                    <div class='col s12'>
-                    	<strong>Academic Information</strong>
-                        <table>
-                        	<thead>
-                        		<tr><td width='100px'></td><td></td></tr>
-                        	</thead>
-                        	<tbody>
-                        		<tr><td></td><td></td></tr>
-                        		<tr><td></td><td></td></tr>
-                        		<tr><td></td><td></td></tr>
-                        		<tr><td></td><td></td></tr>
-                        		<tr><td></td><td></td></tr>
-                        	</tbody>
-                        </table>
-                    </div>
-                </div>
-                <div class='row'>
-                    <div class='col s12'>
-                    	<strong>Career Information</strong>
-                        <table>
-                        	<thead>
-                        		<tr><td width='100px'></td><td></td></tr>
-                        	</thead>
-                        	<tbody>
-                        		<tr><td></td><td></td></tr>
-                        		<tr><td></td><td></td></tr>
-                        		<tr><td></td><td></td></tr>
-                        		<tr><td></td><td></td></tr>
-                        		<tr><td></td><td></td></tr>
-                        	</tbody>
-                        </table>
-                    </div>
-                </div>
+                <div class='row' id='display_acad'></div>
+                <div class='row' id='display_career'></div>
 			`);
 
 			$(`img.profile_picture`).on('error',function(){
 				$(this).attr({'src':'../assets/images/logo/icon.png'});
 			});
+
+			this.viewAcad();
+			this.viewCareer();
+			this.viewJobs();
 		},
+		viewJobs:function(){
+			let data = JSON.parse(this.getJobInterests(this.id()));
+			console.log(data);
+			$("#").html(`
+			`);
+		},
+		viewAcad:function(){
+			let data = JSON.parse(this.getAcad(this.id())), level = ["Elementary","High School","College","Vocational","Master's Degree","Doctorate Degree"];
+			if(data[0][0] == null){
+				$("#display_acad").remove();
+			}
+			else{
+				$("#display_acad").append(`
+	                <div class='col s12'>
+	                	<strong>Academic Information</strong>
+	                    <table class='striped'>
+	                    	<thead>
+	                    		<tr><td width='100px'></td><td></td><td></td></tr>
+	                    	</thead>
+	                    	<tbody></tbody>
+	                    </table>
+	                </div>
+				`);
+				$.each(data,function(i,v){
+					$.each(level,function(a,b){
+						if(v[1] == b){
+							$("#display_acad tbody").append(`
+								<tr><td>${v[1]}</td><td>${v[2]} <br/ ><small>${v[3]}</small></td><td><span class='right'>${v[6]}</span></td></tr>
+							`);
+							return false;
+						}
+					});
+				})
+			}
+		},
+		viewCareer:function(){
+			let data = JSON.parse(this.getCareer(this.id()));
+			if(data[0][0] == null){
+				$("#display_career").remove();
+			}
+			else{
+				$("#display_career").html(`
+	                <div class='col s12'>
+	                	<strong>Career Information</strong>
+	                    <table class='striped'>
+	                    	<thead>
+	                    		<tr><td width='150px'></td><td></td><td width='200px'</td></tr>
+	                    	</thead>
+	                    	<tbody></tbody>
+	                    </table>
+	                </div>
+				`);
+				$.each(data,function(i,v){
+					$("#display_career tbody").append(`
+						<tr><td>${v[3]}</td><td>${v[4]}</td><td><span class='right'>${v[1]} - ${v[2]}</span></td></tr>
+					`)
+					console.log(v);
+				});
+				// console.log(data);
+			}
+		}
 	}
 }();
 
 var jobs = function(){
 	"use strict";
 	return {
-		get:function(){
-			var ajax = system.ajax('../assets/harmony/Process.php?get-jobslist',business.id());
+		get:function(id){
+			var ajax = (!id)?system.ajax('../assets/harmony/Process.php?get-applicantList',""):system.ajax('../assets/harmony/Process.php?get-jobslist',id);
 			return ajax.responseText;
 		},
 		list:function(){

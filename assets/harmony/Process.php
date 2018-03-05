@@ -142,13 +142,19 @@
 
 	if (isset($_GET['get-applicantAcad'])){/**/
 		$data = $_POST['data'];
-		$q = $Functions->PDO("SELECT * FROM tbl_applicant LEFT JOIN tbl_personalinfo ON tbl_applicant.id = tbl_personalinfo.id WHERE tbl_applicant.id = '{$data}'");
+		$q = $Functions->PDO("SELECT tbl_acadinfo.date,tbl_acadinfo.level,tbl_acadinfo.schoolattended,tbl_acadinfo.degree,tbl_acadinfo.periodofattendance,tbl_acadinfo.highestlevel,tbl_acadinfo.yeargraduated  FROM tbl_applicant LEFT JOIN tbl_acadinfo ON tbl_applicant.id = tbl_acadinfo.applicant_id WHERE tbl_applicant.id = '{$data}' ORDER BY tbl_acadinfo.yeargraduated ASC");
 		print_r(json_encode($q));
 	}
 
 	if (isset($_GET['get-applicantCareer'])){/**/
 		$data = $_POST['data'];
-		$q = $Functions->PDO("SELECT * FROM tbl_applicant LEFT JOIN tbl_personalinfo ON tbl_applicant.id = tbl_personalinfo.id WHERE tbl_applicant.id = '{$data}'");
+		$q = $Functions->PDO("SELECT tbl_career.date,tbl_career.inclusive_fromdate,tbl_career.inclusive_todate,tbl_career.position_title,tbl_career.agency,tbl_career.monthly_salary,tbl_career.appointment_status,tbl_career.govt_service FROM tbl_applicant LEFT JOIN tbl_career ON tbl_applicant.id = tbl_career.applicant_id WHERE tbl_applicant.id = '{$data}' ORDER BY tbl_career.inclusive_fromdate DESC");
+		print_r(json_encode($q));
+	}
+
+	if (isset($_GET['get-applicantJobs'])){/**/
+		$data = $_POST['data'];
+		$q = $Functions->PDO("SELECT tbl_application.vacancy_id,tbl_application.applicant_id,tbl_application.date,tbl_application.status, FROM tbl_applicant LEFT JOIN tbl_application ON tbl_applicant.id = tbl_application.applicant_id LEFT JOIN tbl_vacancies ON tbl_vacancies.id = tbl_application.vacancy_id WHERE tbl_applicant.id = '{$data}'  ORDER BY tbl_application.date DESC");
 		print_r(json_encode($q));
 	}
 
@@ -857,5 +863,10 @@
 		else{
 			echo "Hacker";
 		}
+	}
+
+	if(isset($_GET['do-backup'])){
+		$q = $Functions->db_buckup();
+		print_r($q);
 	}
 ?>

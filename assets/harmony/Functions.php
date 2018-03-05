@@ -155,22 +155,6 @@ class DatabaseClasses{
 		$Query->execute();
 		return $Query->fetch(PDO::FETCH_NUM)[0];
 	}
-	function BackUpTable($TableName,$WhereClause = ''){
-	    $RetVal = '{"'.$TableName.'":['; $loop = 0;
-	    $Query = DatabaseClasses::PDO_SQL2("SELECT COUNT(*) FROM $TableName $WhereClause");
-	    $LoopTotal = ceil($Query[0][0] / 50000);
-	    for($x=0;$x<$Query[0][0];$x=$x+50000){
-	    	$y=$x+50000; $loop++;
-	    	if($loop == $LoopTotal){
-		    	$RetVal .= DatabaseClasses::DescribeTable($TableName,$x,$y,$WhereClause);
-	    	}
-		    else{
-		    	$RetVal .= DatabaseClasses::DescribeTable($TableName,$x,$y,$WhereClause).',';
-		    }
-	    }
-	    $RetVal .= ']}';
-	    return $RetVal;
-	}
 	function db_buckup(){
 		$sql=""; $createsql=""; $dropsql="DROP TABLE IF EXISTS "; $subcreatesql=""; $insertsql=""; $subinsertsql="";
 		$q1 = DatabaseClasses::PDO(true,"SHOW TABLES");

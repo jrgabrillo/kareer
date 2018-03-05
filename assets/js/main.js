@@ -60,5 +60,11 @@ var main = function () {
 				}
 			});
 		},
+		backup:function(){
+			var data = system.ajax('../assets/harmony/Process.php?do-backup',"");
+			data.done(function(data){
+				console.log(data);
+			});
+		}
     };
 }();
