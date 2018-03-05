@@ -456,7 +456,7 @@
 		$email = $Functions->escape($data[2]);
 		$address = $Functions->escape($data[3]);
 
-		$query = $Functions->PDO("INSERT INTO tbl_business(id,company_name,contactno,email,address,status,`date`) 
+		$query = $Functions->PDO("INSERT INTO tbl_business(id,company_name,contact_number,email,address,status,`date`) 
 			VALUES ('{$id}',{$name},{$number},{$email},{$address},'1','{$date}')");
 		if($query->execute()){
 			echo 1;
