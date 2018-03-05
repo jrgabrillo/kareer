@@ -864,12 +864,15 @@ var accountManager = function(){
 			data = data.content;
 			let picture = ((typeof data[5] == 'object') || (data[5] == ""))? 'icon.png' : data[5];
 			console.log(data);
+			let status = (data[8] == 1)?['deactivate','lock','red']:['activate','lock_open','grey'];
+
 			$("#modal_medium .modal-content").html(`
 				<button class="btn-floating btn-small btn-flat waves-effect white modal-action modal-close right"><i class="material-icons grey-text">close</i></button>
 				<div id='accountInfo'>
 					<div class='row'>
 						<div class='col s12 m4 l4 offset-m4 offset-l4'>
 						    <img src='../assets/images/profile/${picture}' width='100%' class='profile_picture'>
+				            <a class="secondary-content tooltipped ${status[2]}" data-cmd='action_account' data-value='${JSON.stringify([data[0],status[0]])}' data-position='left' data-delay='50' data-tooltip='${status[0]} account'><i class="material-icons white-text">${status[1]}</i></a>
 						</div>
 					</div>
 					<div class='row'>
@@ -883,6 +886,36 @@ var accountManager = function(){
 				$(this).attr({'src':'../assets/images/logo/icon.png'});
 			});
 			$('#modal_medium').modal('open');
+
+			this.accountAction();
+		},
+		accountAction:function(){
+			$("a[data-cmd='action_account']").on('click',function(){
+				let data = $(this).data('value'), title = (data[1] == 'deactivate')?['deactive','lock_open','unlock','red']:['activate','lock','lock','grey'];
+				console.log(data);
+				$("#modal_confirm .modal-content").html(
+					`<h5>Are you sure you want to ${title[0]} this account?</h5>
+			  		<button type='submit' data-cmd='button_proceed' class='waves-effect waves-grey grey lighten-5 blue-text btn-flat modal-action right'>Save</button>
+			  		<a class='waves-effect waves-grey grey-text btn-flat modal-action modal-close right'>Cancel</a>`
+				);
+				$('#modal_confirm').modal('open');
+				$("button[data-cmd='button_proceed']").on('click',function(){
+					var ajax = system.ajax('../assets/harmony/Process.php?do-updateInfo',['employer','status',data[0],data[1]]);
+					ajax.done(function(ajax){
+						console.log(ajax);
+						if(ajax == 1){
+							$('#modal_confirm').modal('close');
+							$("a[data-cmd='action_account']").addClass('disabled');
+							$("a[data-cmd='action_account'] i").html(title[1]).removeClass('white-text').addClass('black-text');
+							$("a[data-cmd='action_account']").attr({'data-value':JSON.stringify([data[0],title[2]])});
+							system.alert('Account updated.', function(){});
+						}
+						else{
+							system.alert('Failed to update.', function(){});
+						}
+					});				
+				});
+			});
 		}
 	}
 }();
@@ -948,11 +981,13 @@ var applicant = function(){
 			data = data[0];
 			let picture = ((new RegExp('facebook|google','i')).test(data[18]))? data[18] : ((typeof data[18] == 'object') || (data[18] == ""))? '../assets/images/profile/icon.png' : `../assets/images/logo/${data[18]}`;
 			let auth = (data[4] == "fb-oauth")?'Facebook':(data[4] == "google-auth")?'Google':'Kareer Website', account_id = (data[5] == "")?data[0]:data[5];
-			
+			let status = (data[6] == 1)?['deactivate','lock','red']:['activate','lock_open','grey'];
+
 			$("#applicantInfo").html(`
                 <div class='row'>
                     <div class='col s3'>
                         <img src='${picture}' width='100%' class='profile_picture'>
+			            <a class="secondary-content tooltipped btn-flat btn-floating ${status[2]}" data-cmd='action_account' data-value='${JSON.stringify([data[0],status[0]])}' data-position='left' data-delay='50' data-tooltip='${status[0]} account'><i class="material-icons white-text">${status[1]}</i></a>
                     </div>
                     <div class='col s9'>
                         <h6>${data[8]} ${data[9]}<br/><small>${data[2]}</small></h6>
@@ -1003,12 +1038,21 @@ var applicant = function(){
 			this.viewAcad();
 			this.viewCareer();
 			this.viewJobs();
+			this.accountAction();
 		},
 		viewJobs:function(){
 			let data = JSON.parse(this.getJobInterests(this.id()));
-			console.log(data);
-			$("#").html(`
-			`);
+			if(data.length > 0){
+				$("#").html(`
+				`);	
+			}
+			else{
+				$("#applicantJobs .row").html(`
+                    <div class="col s12 m6 offset-m3">
+                        <h6 class="text-center grey-text">No interests in applying for a job.</h6>
+                    </div>
+				`);	
+			}
 		},
 		viewAcad:function(){
 			let data = JSON.parse(this.getAcad(this.id())), level = ["Elementary","High School","College","Vocational","Master's Degree","Doctorate Degree"];
@@ -1060,10 +1104,37 @@ var applicant = function(){
 					$("#display_career tbody").append(`
 						<tr><td>${v[3]}</td><td>${v[4]}</td><td><span class='right'>${v[1]} - ${v[2]}</span></td></tr>
 					`)
-					console.log(v);
 				});
-				// console.log(data);
 			}
+		},
+		accountAction:function(){
+			$("a[data-cmd='action_account']").on('click',function(){
+				let data = $(this).data('value'), title = (data[1] == 'deactivate')?['deactive','lock_open','unlock','red']:['activate','lock','lock','grey'];
+				console.log(data);
+				$("#modal_confirm .modal-content").html(
+					`<h5>Are you sure you want to ${title[0]} this account?</h5>
+			  		<button type='submit' data-cmd='button_proceed' class='waves-effect waves-grey grey lighten-5 blue-text btn-flat modal-action right'>Save</button>
+			  		<a class='waves-effect waves-grey grey-text btn-flat modal-action modal-close right'>Cancel</a>`
+				);
+				$('#modal_confirm').modal('open');
+
+				$("button[data-cmd='button_proceed']").on('click',function(){
+					var ajax = system.ajax('../assets/harmony/Process.php?do-updateInfo',['applicant','status',applicant.id(),data[1]]);
+					ajax.done(function(ajax){
+						console.log(ajax);
+						if(ajax == 1){
+							$('#modal_confirm').modal('close');
+							$("a[data-cmd='action_account']").addClass('disabled');
+							$("a[data-cmd='action_account'] i").html(title[1]).removeClass('white-text').addClass('black-text');
+							$("a[data-cmd='action_account']").attr({'data-value':JSON.stringify([data[0],title[2]])});
+							system.alert('Account updated.', function(){});
+						}
+						else{
+							system.alert('Failed to update.', function(){});
+						}
+					});				
+				});
+			});
 		}
 	}
 }();
