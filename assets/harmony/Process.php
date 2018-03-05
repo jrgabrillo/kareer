@@ -107,7 +107,7 @@
 
 	if (isset($_GET['get-account'])){/**/
 		$session = $_SESSION['kareer7836'];
-		$query = $Functions->PDO("SELECT * FROM tbl_employer  WHERE id = '{$session[0]}'");
+		$query = $Functions->PDO("SELECT * FROM tbl_businessmanagers  WHERE id = '{$session[0]}'");
 		if(count($query)==0){
 			$query = $Functions->PDO("SELECT * FROM tbl_admin  WHERE id = '{$session[0]}'");
 			if(count($query)==0){
@@ -117,7 +117,6 @@
 				print_r(json_encode($query));
 			}
 		}
-		
 		else if(count($query)==1){
 			print_r(json_encode($query));
 		}
