@@ -134,6 +134,24 @@
 		print_r(json_encode($q));
 	}
 
+	if (isset($_GET['get-applicantInfo'])){/**/
+		$data = $_POST['data'];
+		$q = $Functions->PDO("SELECT * FROM tbl_applicant LEFT JOIN tbl_personalinfo ON tbl_applicant.id = tbl_personalinfo.id WHERE tbl_applicant.id = '{$data}'");
+		print_r(json_encode($q));
+	}
+
+	if (isset($_GET['get-applicantAcad'])){/**/
+		$data = $_POST['data'];
+		$q = $Functions->PDO("SELECT * FROM tbl_applicant LEFT JOIN tbl_personalinfo ON tbl_applicant.id = tbl_personalinfo.id WHERE tbl_applicant.id = '{$data}'");
+		print_r(json_encode($q));
+	}
+
+	if (isset($_GET['get-applicantCareer'])){/**/
+		$data = $_POST['data'];
+		$q = $Functions->PDO("SELECT * FROM tbl_applicant LEFT JOIN tbl_personalinfo ON tbl_applicant.id = tbl_personalinfo.id WHERE tbl_applicant.id = '{$data}'");
+		print_r(json_encode($q));
+	}
+
 	if (isset($_GET['get-accountslist'])){/**/
 		$data = $_POST['data'];
 		$q = $Functions->PDO("SELECT * FROM tbl_businessManagers WHERE business_id = '{$data}'");
@@ -187,13 +205,9 @@
 		}
 	}
 
-	if (isset($_GET['get-allApplicant'])){
-		$Query = $Functions->PDO("SELECT * FROM tbl_applicant");
-		foreach ($Query as $key => $value) {
-			$QueryIDs = $Functions->PDO("SELECT tbl_applicant.id, tbl_personalinfo.family_name, tbl_personalinfo.given_name, tbl_personalinfo.picture FROM tbl_applicant LEFT JOIN tbl_personalinfo ON tbl_applicant.id = tbl_personalinfo.id ORDER BY tbl_applicant.id");
-			// print_r($QueryIDs[0]);
-		}
-		print_r(json_encode($QueryIDs));
+	if (isset($_GET['get-applicantList'])){/**/
+		$q = $Functions->PDO("SELECT tbl_applicant.id, tbl_personalinfo.family_name, tbl_personalinfo.given_name, tbl_personalinfo.picture FROM tbl_applicant LEFT JOIN tbl_personalinfo ON tbl_applicant.id = tbl_personalinfo.id ORDER BY tbl_applicant.id");
+		print_r(json_encode($q));
 	}
 
 	if (isset($_GET['get-applicant'])){

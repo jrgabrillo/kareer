@@ -224,7 +224,7 @@
 	</addBusiness>
 
 	<addBusinessAccount>
-		<p>Add Account <button class="btn-floating btn-small btn-flat waves-effect white action_close right"><i class="material-icons grey-text">close</i></button></p>
+		<p>Add Account <button class="btn-floating btn-small btn-flat waves-effect white modal-action modal-close right"><i class="material-icons grey-text">close</i></button></p>
 		<div class='divider'></div><br/>
 		<form id='form_addAccount' class='formValidate' method='get' action='' novalidate='novalidate'>
 			<div class='row'>

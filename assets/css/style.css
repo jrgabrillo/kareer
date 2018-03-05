@@ -407,7 +407,7 @@ li.active{
 
 .image-crop{
   background: #ccc;
-  height: 300px;
+  /* height: 300px; */
   width:300px;
   padding: 0px !important;
 }
@@ -425,8 +425,8 @@ li.active{
 }
 
 th, td{
-  vertical-align: top;
-  padding: 10px 0px 0px;
+  vertical-align: middle;
+  padding: 5px 0px 0px;
 }
 
 .carousel-item{
@@ -507,12 +507,12 @@ th, td{
   font-size: 24px;
 }
 
-#display_business a[data-cmd="view_business"]{
-  vertical-align:  top;
+#display_business a[data-cmd="view_business"], #display_applicant a[data-cmd="view_business"]{
+  /* vertical-align:  top; */
   background:  transparent !important;
 }
 
-#display_business td:nth-child(3){
+#display_business td:nth-child(3), #display_applicant td:nth-child(3){
   padding: 5px;
 }
 
@@ -520,4 +520,15 @@ th, td{
   background: url(../images/icon.png) center/contain no-repeat;
   height: 30px;
   width: 30px;
+}
+
+#businessInfo img.businesslogo{
+  
+border: 1px solid #ccc;
+  
+border-radius:  3px;
+}
+
+#applicantInfo table tr td:nth-child(1){
+  font-weight: bold;
 }

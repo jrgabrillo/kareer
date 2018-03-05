@@ -36,7 +36,6 @@ var App = function () {
             hash = ((hash != "#!") || (hash != "#"))?hash:"#cmd=index";
             var node = localStorage.getItem('hash');
             var newhash = hash.split(';');
-            let find = new RegExp(`WAMP`);
 
             if((node == null) || (node == 'null')){
                 $(location).attr('href','../');                         
@@ -47,9 +46,9 @@ var App = function () {
 
             var content = system.html(targetUrl);
             content.done(function(data){
-                var navigation = system.ajax('../pages/'+node+'/nav.html',"");
                 $('#content').html(data);
                 $('#content').addClass('animated zoomIn');
+                var navigation = system.ajax('../pages/'+node+'/nav.html',"");
                 $("header").html(navigation.responseText);                    
                 $(".collapsible").collapsible({accordion:!1});
 
@@ -63,19 +62,19 @@ var App = function () {
 
                 var subcontent = system.html(targetUrl);
                 subcontent.done(function(data){
-                    if(find.test(data)){
-                        var data = system.xml("pages.xml");
-                        $(data.responseText).find("errorContent").each(function(i,error){
-                            $('#subcontent').html(error);
-                        });                        
-                    }
-                    else{
-                        $('#subcontent').html(data);
-                        $('.tooltipped').tooltip({delay: 50});
-                        $("a").parent('li').removeClass("active");
-                        $("a[href='"+hash+"']").parent('li').addClass("active");
-                    }
+                    $('#subcontent').html(data);
+                    $('.tooltipped').tooltip({delay: 50});
+                    $("a").parent('li').removeClass("active");
+                    $("a[href='"+hash+"']").parent('li').addClass("active");
                 });
+
+                subcontent.fail(function(data){
+                    var data = system.xml("pages.xml");
+                    $(data.responseText).find("errorContent").each(function(i,error){
+                        $('#subcontent').html(error);
+                    });
+                })
+
                 $('html, body').animate({
                     scrollTop: $("body").offset().top
                 }, 250);
