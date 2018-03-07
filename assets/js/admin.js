@@ -20,8 +20,7 @@ var admin = function () {
 			return ajax.responseText;
 		},
 		display:function(){
-			var content = "", data = admin.get();
-			data = JSON.parse(data);
+			var content = "", data = JSON.parse(admin.get());
 			console.log(data);
 			var profile = (data[0][3] == "")?'avatar.jpg':data[0][3];
 			admin.nav();
@@ -221,17 +220,6 @@ var admin = function () {
 								}
 								else{
 									system.alert('Failed to update.', function(){});
-								}
-							});
-
-							var data = system.ajax('../assets/harmony/Process.php?update-admin',_form);
-							data.done(function(data){
-								if(data == 1){
-									$('#modal_confirm').modal('close');
-									system.alert('Password updated.', function(){});
-								}
-								else{
-									system.alert('Cannot process request.', function(){});
 								}
 							});
 					    }
@@ -980,7 +968,7 @@ var applicant = function(){
 		view:function(){
 			let data = JSON.parse(this.get(this.id()));
 			data = data[0];
-			let picture = ((new RegExp('facebook|google','i')).test(data[18]))? data[18] : ((typeof data[18] == 'object') || (data[18] == ""))? '../assets/images/profile/icon.png' : `../assets/images/logo/${data[18]}`;
+			let picture = ((new RegExp('facebook|google','i')).test(data[18]))? data[18] : ((typeof data[18] == 'object') || (data[18] == ""))? '../assets/images/logo/icon.png' : `../assets/images/profile/${data[18]}`;
 			let auth = (data[4] == "fb-oauth")?'Facebook':(data[4] == "google-auth")?'Google':'Kareer Website', account_id = (data[5] == "")?data[0]:data[5];
 			let status = (data[6] == 1)?['deactivate','lock','red']:['activate','lock_open','grey'];
 
