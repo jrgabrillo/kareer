@@ -142,6 +142,48 @@
 		</form>
 	</addAccount>
 
+	<addJobPost>
+		<form id='form_addJobPost' class='formValidate' method='get' action='' novalidate='novalidate'>
+			<div class='row'>
+				<div class='col s12'>
+					<h4 class="">New Post</h4>
+						<div class='row'>
+							<div class='input-field col s12'>
+								<label for='field_description'>Description: </label>
+					            <input id='field_description' type='text' name='field_description' data-error='.error_description'>
+								<div class='error_description'></div>	
+							</div>
+							<div class='input-field col s6'>
+								<label for='field_vacancy'>Vacancy Date: </label>
+					            <input id='field_vacancy' type='text' name='field_vacancy' data-error='.error_vacancy'>
+								<div class='error_vacancy'></div>	
+							</div>
+							<div class='input-field col s6'>
+								<label for='field_title'>Job Title: </label>
+					            <input id='field_title' type='text' name='field_title' data-error='.error_title'>
+								<div class='error_title'></div>	
+							</div>
+							<div class='input-field col s6'>
+								<label for='field_skills'>Skills: </label>
+					            <input id='field_skills' type='text' name='field_skills' data-error='.error_skills'>
+								<div class='error_skills'></div>	
+							</div>
+							<div class='input-field col s6'>
+								<label for='field_salary'>Salary Range: </label>
+					            <input id='field_salary' type='text' name='field_salary' data-error='.error_salary'>
+								<div class='error_salary'></div>	
+							</div>
+							<div class='input-field col s12'>
+								<button type='submit' data-cmd='button_proceed' class='waves-effect waves-grey grey lighten-5 blue-text btn-flat modal-action right'>Save</button>
+						  		<a class='waves-effect waves-grey grey-text btn-flat modal-action modal-close right'>Cancel</a>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</form>
+	</addJobPost>
+
 	<addProduct>
 		<form id='form_addProduct' class='formValidate' method='get' action='' novalidate='novalidate'>
 			<div class='row'>

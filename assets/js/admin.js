@@ -448,6 +448,7 @@ var business = function(){
 		},
 		view:function(){
 			let data = JSON.parse(business.get(business.id()));
+			console.log(data);
 			let logo = ((typeof data[0][5] == 'object') || (data[0][5] == ""))? 'icon.png' : data[0][5];
 			$("#businessInfo").html(`
 				<div class='col s12 m4 l3'>
@@ -641,7 +642,6 @@ var business = function(){
 
 					let editor = system.quill($('#field_description').get(0));
 					editor.clipboard.dangerouslyPasteHTML(data.value);
-
 					var limit = 1000;
 					editor.on('text-change', function(delta, old, source) {
 						if (editor.getLength() > limit) {
@@ -866,7 +866,6 @@ var accountManager = function(){
 			let picture = ((typeof data[5] == 'object') || (data[5] == ""))? 'icon.png' : data[5];
 			console.log(data);
 			let status = (data[8] == 1)?['deactivate','lock','red']:['activate','lock_open','grey'];
-
 			$("#modal_medium .modal-content").html(`
 				<button class="btn-floating btn-small btn-flat waves-effect white modal-action modal-close right"><i class="material-icons grey-text">close</i></button>
 				<div id='accountInfo'>
