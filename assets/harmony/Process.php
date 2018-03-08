@@ -298,8 +298,10 @@
 		}
 		else if($data[0] == 'employer'){
 			if($data[1] == 'status'){
-				$field = ($data[3] == 'deactivate')?0:1;
-				$q = $Functions->PDO("UPDATE tbl_businessmanagers SET status = '{$field}' WHERE id = '{$data[2]}'");
+				$field = ($data[4] == 'deactivate')?0:1;
+				$remarks = $data[5];
+				$header = ($field == 'deactivate')?'Deactivated':'Activated';
+				$q = $Functions->PDO("UPDATE tbl_businessmanagers SET status = '{$field}' WHERE id = '{$data[3]}'");
 			}
 			if($data[1] == 'name'){
 				$field1 = $Functions->escape($data[3]);
@@ -318,8 +320,10 @@
 				$q = $Functions->PDO("");
 			}
 
-			if($q->execute())
+			if($q->execute()){
+				$log = $Functions->log($data[2],$data[3],$remarks,$header);
 				echo 1;
+			}
 			else{
 				$Data = $q->errorInfo();
 				print_r($Data);
@@ -327,15 +331,19 @@
 		}
 		else if($data[0] == 'applicant'){
 			if($data[1] == 'status'){
-				$field = ($data[3] == 'deactivate')?0:1;
-				$q = $Functions->PDO("UPDATE tbl_applicant SET status = '{$field}' WHERE id = '{$data[2]}'");
+				$field = ($data[4] == 'deactivate')?0:1;
+				$remarks = $data[5];
+				$header = ($field == 'deactivate')?'Deactivated':'Activated';
+				$q = $Functions->PDO("UPDATE tbl_applicant SET status = '{$field}' WHERE id = '{$data[3]}'");
 			}
 			else{
 				$q = $Functions->PDO("");
 			}
 
-			if($q->execute())
+			if($q->execute()){
+				$log = $Functions->log($data[2],$data[3],$remarks,$header);
 				echo 1;
+			}
 			else{
 				$Data = $q->errorInfo();
 				print_r($Data);

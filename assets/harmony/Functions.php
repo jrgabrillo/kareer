@@ -223,5 +223,17 @@ class DatabaseClasses{
 			return 0;
 		}
 	}
+	function log($from,$to,$_remarks,$_header){
+		$date = DatabaseClasses::PDO_DateAndTime();
+		$id = DatabaseClasses::PDO_IDGenerator('tbl_logs','id');
+		$Query = DatabaseClasses::PDO_Query("INSERT INTO tbl_logs(id,from_account_id,to_account_id,remarks,`date`,header) VALUES ('{$id}','{$from}','{$to}','{$_remarks}','{$date}','{$_header}')");
+		if($Query->execute()){
+			return 1;	
+		}
+		else{
+			$Data = $Query->errorInfo();
+			return $Data;
+		}			
+	}
 }
 ?>
