@@ -130,21 +130,19 @@ $Functions = new DatabaseClasses;
         }
     }
 
-    if (isset($_GET['do-skill'])){
-        $data = $_POST['data'];
-        
+    if (isset($_GET['do-addSkill'])){/**/
+        $data = $_POST['data'];        
         $id = $Functions->PDO_IDGenerator('tbl_skills','id');
         $date = $Functions->PDO_DateAndTime();
-        $skill = $Functions->escape($data[1][0]['value']);
-        $level = $Functions->escape($data[1][1]['value']);
+        $skill = $Functions->escape($data[3]);
+        $level =  1;
 
-        $query = $Functions->PDO("INSERT INTO tbl_skills(id,applicant_id,skill,level,date) VALUES('{$id}','{$data[0]}',{$skill},{$level},'{$date}')");
+        $query = $Functions->PDO("INSERT INTO tbl_skills(id,applicant_id,skill,level,date) VALUES('{$id}','{$data[2]}',{$skill},{$level},'{$date}')");
         if($query->execute()){
-            echo 1;
+            print_r($id);
         }
         else{
-            $Data = $query->errorInfo();
-            print_r($Data);
+            echo 0;
         }
     }
 
@@ -266,9 +264,9 @@ $Functions = new DatabaseClasses;
         }
     }
 
-    if (isset($_GET['do-deleteSkill'])){
+    if (isset($_GET['do-deleteSkill'])){/**/
         $data = $_POST['data'];
-        $query = $Functions->PDO("DELETE FROM tbl_skills WHERE id = '{$data}';");
+        $query = $Functions->PDO("DELETE FROM tbl_skills WHERE id = '{$data[2]}';");
         if($query->execute()){
             echo 1;
         }
@@ -759,9 +757,9 @@ $Functions = new DatabaseClasses;
         print_r(json_encode($query));
     }
 
-    if (isset($_GET['get-skill'])){/**/
+    if (isset($_GET['get-skills'])){/**/
         $data = $_POST['data'];
-        $query = $Functions->PDO("SELECT * FROM tbl_skills WHERE applicant_id = '{$data}' ORDER BY level ASC");
+        $query = $Functions->PDO("SELECT id,skill FROM tbl_skills WHERE applicant_id = '{$data}' ORDER BY level ASC");
         print_r(json_encode($query));
     }
 
