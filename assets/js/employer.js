@@ -314,19 +314,17 @@ var employer = function() {
 var jobPosts = function() {
 	"use strict";
 	return {
+        get:function(){
+        },
 	    add: function() {
 	        var data = system.xml("pages.xml");
-				$(data.responseText).find("addJobPost").each(function(i,content){
+				$(data.responseText).find("moveToFull").each(function(i,content){
 					$("#modal_medium .modal-content").html(content);
 					$("a[data-cmd='add_job-post']").on('click',function(){
 						$('#modal_medium').modal('open');
-						$("#form_addJobPost").validate({
+						$("#form_full").validate({
 						    rules: {
-						        field_description: {required: true, maxlength: 300},
-						        field_vacancy: {required: true, maxlength: 20},
-						        field_title: {required: true, maxlength: 100},
-						        field_skills: {required: true, maxlength: 50},
-						        field_salary: {required: true, maxlength: 50},
+
 						    },
 						    errorElement : 'div',
 						    errorPlacement: function(error, element) {
@@ -371,10 +369,28 @@ var jobPosts = function() {
 						    "	<div id='profile-account' class='card'>"+
 						    " 			<a class='btn-flat btn-sm btn-block button_success' data-cmd='add_job-post' style='background-color: gray;'><i class='material-icons right' style='color:cyan;'>add</i></a>"+
 						    "		<div class='row' style='padding-left:2%;'>";
-						
+			
 	        $.each(data,function(i,v){
+                if(Number(v[9]) == 1){
+                    status = "active";
+                    var actions = "<a href='#cmd=index;content=job;"+v[0]+"' data-cmd='activatePost' data-name='"+data[0][2]+"' data-node='"+v[0]+"' class='tooltipped btn-floating waves-effect black-text no-shadow white right' data-position='left' data-delay='50' data-tooltip='Deactivate account' data-cmd='update'>"+
+                                  " <i class='tiny material-icons' style='padding-right:0px;color:black;;'>create</i>"+
+                                  "</a>";   
+                }
+                else if(Number(v[9]) == 2){
+                    status = "Pending";
+                    var actions = "<a href='#cmd=index;content=job;"+v[0]+"' data-cmd='pendingPost' data-name='"+data[0][2]+"' data-node='"+data[0][0]+"' class='tooltipped btn-floating waves-effect black-text no-shadow white right' data-position='left' data-delay='50' data-tooltip='Activate account' data-cmd='update'>"+
+                                  " <i class='tiny material-icons' style='padding-right:0px;color:black;;'>create</i>"+
+                                  "</a>";   
+                }
+                else{
+                    status = "Full";
+                    var actions = "<a href='#cmd=index;content=job;"+v[0]+"' data-cmd='fullPost' data-name='"+data[0][2]+"' data-node='"+data[0][0]+"' class='tooltipped btn-floating waves-effect black-text no-shadow white right' data-position='left' data-delay='50' data-tooltip='Activate account' data-cmd='update'>"+
+                                  " <i class='tiny material-icons' style='padding-right:0px;color:black;;'>create</i>"+
+                                  "</a>";   
+                }
 				   	content +=	"		 	<div class='' style='margin-top:20px;'></div>"+
-				   				"        	<span style='display: inline-block;font-size:20px;' class='truncate'><i class='mdi-communication-email cyan-text text-darken-2'></i> Description: "+v[3]+"</span>"+						
+				   				"        	<span style='display: inline-block;font-size:20px;' class='truncate'><i class='mdi-communication-email cyan-text text-darken-2'></i> Description: "+v[3]+"</span>"+		
 								"		 	<div class='divider'></div>"+
 								"        	<span style='display: inline-block;font-size:20px;' class='truncate'><i class='mdi-communication-email cyan-text text-darken-2'></i> Vacancy Date: "+v[4]+"</span>"+						
 								"		 	<div class='divider'></div>"+
@@ -382,8 +398,10 @@ var jobPosts = function() {
 								"		 	<div class='divider'></div>"+
 								"        	<span style='display: inline-block;font-size:20px;' class='truncate'><i class='mdi-communication-email cyan-text text-darken-2'></i> Skills: "+v[6]+"</span>"+						
 								"		 	<div class='divider'></div>"+
-								"        	<span style='display: inline-block;font-size:20px;' class='truncate'><i class='mdi-communication-email cyan-text text-darken-2'></i> Salary Range: "+v[7]+"</span>"+						
-								"		 	<div class='divider'></div><br/><br/>"+
+                                "           <span style='display: inline-block;font-size:20px;' class='truncate'><i class='mdi-communication-email cyan-text text-darken-2'></i> Salary Range: "+v[7]+"</span>"+                        
+                                "           <div class='divider'></div>"+
+								"        	<span style='display: inline;font-size:20px;' class='truncate'><i class='mdi-communication-email cyan-text text-darken-2'></i> Status: "+status+actions+"</span>"+          
+                                "		 	<div class='divider'></div><br/><br/>"+
 								"		 	<div class='divider' style='border:1px solid grey ! important;'></div>";
 	        });	
 
@@ -392,8 +410,141 @@ var jobPosts = function() {
 			    		"</div>";
 			$("#job-post").html(content);
 			jobPosts.add();
-	    }
-	}
+            jobPosts.activate();
+            jobPosts.Pending();
+            jobPosts.Full();
+	    },
+        Full:function(){
+            $("a[data-cmd='fullPost']").on('click',function(){
+                console.log('deactivaded');
+                var data = $(this).data();
+                var id = data.node;
+                // console.log(id);
+                var data = system.xml("pages.xml");
+                $(data.responseText).find("moveToPending").each(function(i,content){
+                    $("#modal_medium .modal-content").html(content);
+                        $('#modal_medium').modal('open');
+                        $("#form_pending").validate({
+                            rules: {
+
+                            },
+                            errorElement : 'div',
+                            errorPlacement: function(error, element) {
+                                var placement = $(element).data('error');
+                                if(placement){
+                                    $(placement).append(error)
+                                } 
+                                else{
+                                    error.insertAfter(element);
+                                }
+                            },
+                            submitHandler: function (form) {
+                                var _form = $(form).serializeArray();
+                                var ajax = system.ajax('../assets/harmony/Process.php?set-pending',id);
+                                ajax.done(function(ajax){
+                                    if(ajax == 1){  
+                                        $('#modal_medium').modal('close');  
+                                        system.alert('Posted.', function(){});
+                                        location.reload();
+                                    }
+                                    else{
+                                        system.alert('Failed to post.', function(){});
+                                    }
+                                });
+                            }
+                        });
+                });
+            });
+        },
+        Pending:function(){
+            $("a[data-cmd='pendingPost']").on('click',function(){
+                console.log('pending');
+                var data = $(this).data();
+                var id = data.node;
+                // console.log(id);
+                 var data = system.xml("pages.xml");
+                $(data.responseText).find("moveToActive").each(function(i,content){
+                    $("#modal_medium .modal-content").html(content);
+                        $('#modal_medium').modal('open');
+                        $("#form_active").validate({
+                            rules: {
+
+                            },
+                            errorElement : 'div',
+                            errorPlacement: function(error, element) {
+                                var placement = $(element).data('error');
+                                if(placement){
+                                    $(placement).append(error)
+                                } 
+                                else{
+                                    error.insertAfter(element);
+                                }
+                            },
+                            submitHandler: function (form) {
+                                var _form = $(form).serializeArray();
+                                var ajax = system.ajax('../assets/harmony/Process.php?set-active',id);
+                                ajax.done(function(ajax){
+                                    console.log(ajax);
+                                    if(ajax == 1){  
+                                        $('#modal_medium').modal('close');  
+                                        system.alert('Posted.', function(){});
+                                        location.reload();
+                                    }
+                                    else{
+                                        system.alert('Failed to post.', function(){});
+                                    }
+                                });
+                            }
+                        });
+                });
+               
+            });
+        },
+        activate:function(){
+            $("a[data-cmd='activatePost']").on('click',function(){
+                console.log('activate');
+                var data = $(this).data();
+                var id = data.node;
+                // console.log(id);
+                 var data = system.xml("pages.xml");
+                $(data.responseText).find("moveToFull").each(function(i,content){
+                    $("#modal_medium .modal-content").html(content);
+                        $('#modal_medium').modal('open');
+                        $("#form_full").validate({
+                            rules: {
+
+                            },
+                            errorElement : 'div',
+                            errorPlacement: function(error, element) {
+                                var placement = $(element).data('error');
+                                if(placement){
+                                    $(placement).append(error)
+                                } 
+                                else{
+                                    error.insertAfter(element);
+                                }
+                            },
+                            submitHandler: function (form) {
+                                var _form = $(form).serializeArray();
+                                var ajax = system.ajax('../assets/harmony/Process.php?set-full',id);
+                                ajax.done(function(ajax){
+                                    console.log(ajax);
+                                    if(ajax == 1){  
+                                        $('#modal_medium').modal('close');  
+                                        system.alert('Posted.', function(){});
+                                        location.reload();
+                                    }
+                                    else{
+                                        system.alert('Failed to post.', function(){});
+                                    }
+                                });
+                            }
+                        });
+                });
+                
+            });
+        },
+	}//end
 }();
 
 var pass = {

@@ -44,8 +44,9 @@ $Functions = new DatabaseClasses;
         $data = $_POST['data'];
         $email = $Functions->escape($data[0]);
         $auth_id = $Functions->escape($data[1]);
+        $field = ($data[2] == 'kareer-oauth')?'id':'auth_id';
 
-        $query = $Functions->PDO("SELECT * FROM tbl_applicant WHERE email = {$email} AND auth_id = {$auth_id}");;
+        $query = $Functions->PDO("SELECT * FROM tbl_applicant WHERE email = {$email} AND {$field} = {$auth_id}");
         if(count($query)>0){
             $_SESSION["kareer"] = [$query[0][2],$query[0][0]];
             print_r(json_encode(["Active","applicant"]));
@@ -53,6 +54,15 @@ $Functions = new DatabaseClasses;
         else{
             print_r(json_encode(["Failed",2]));
         }
+    }
+
+    if (isset($_GET['get-account'])){/**/
+        $data = $_POST['data'];
+        $email = $Functions->escape($data[0]);
+        $auth_id = $Functions->escape($data[1]);
+        $field = ($data[2] == 'kareer-oauth')?'id':'auth_id';
+        $query = $Functions->PDO("SELECT * FROM tbl_applicant RIGHT JOIN tbl_personalinfo ON tbl_applicant.id = tbl_personalinfo.id WHERE email = {$email} AND {$field} = {$auth_id}");
+        print_r(json_encode($query));
     }
 
     if (isset($_GET['do-signUp'])){/**/
@@ -63,25 +73,23 @@ $Functions = new DatabaseClasses;
         $password = $Functions->password($data[3]);
         $auth = $Functions->escape($data[4]);
         $auth_id = $Functions->escape($data[5]);
-        $picture = ($Functions->escape($data[6]) == "")? "profile.png" : $Functions->escape($data[6]);
+        $picture = ($data[6] == "")? "profile.png" : $Functions->escape($data[6]);
 
         $date = $Functions->PDO_DateAndTime();
         $id = $Functions->PDO_IDGenerator('tbl_applicant','id');
-
-
         $validate = $Functions->PDO("SELECT count(*) FROM tbl_applicant WHERE email = {$email}");
+
         if($validate[0][0]==0){
-            $query = $Functions->PDO("INSERT INTO tbl_applicant(id,description,email,password,auth_type,auth_id,status) VALUES('{$id}','',{$email},'{$password}',{$auth},{$auth_id},'1'); INSERT INTO tbl_personalinfo(id, given_name, family_name, gender, date_of_birth, permanent_address, citizenship, height, weight, religion, picture, date) VALUES('{$id}',{$firstname},{$lastname},'','','','','','','',{$picture},'{$date}')");
+            $query = $Functions->PDO("INSERT INTO tbl_applicant(id,email,password,auth_type,auth_id,status) VALUES('{$id}',{$email},'{$password}',{$auth},{$auth_id},'1'); INSERT INTO tbl_personalinfo(id, given_name, family_name,picture, date) VALUES('{$id}',{$firstname},{$lastname},{$picture},'{$date}')");
             if($query->execute()){
-                echo 1;
+                print_r(json_encode(['id'=>$id,'last_name'=>$data[1],'first_name'=>$data[0],'email'=>$data[2],'picture'=>$picture]));
             }
             else{
-                $Data = $query->errorInfo();
-                print_r($Data);
+                echo 0;
             }
         }
         else{
-            print_r('2');
+            echo 0;
         }
     }
 
@@ -994,7 +1002,8 @@ $Functions = new DatabaseClasses;
     if (isset($_GET['get-applicant'])){
         $data = $_POST['data'];
 
-        $queryApplicant = $Functions->PDO("SELECT * FROM tbl_applicant RIGHT JOIN tbl_personalinfo ON tbl_applicant.id = tbl_personalinfo.id WHERE tbl_applicant.id = '{$data}' ");
+        print_r($data);
+        $queryApplicant = $Functions->PDO("SELECT * FROM tbl_applicant RIGHT JOIN tbl_personalinfo ON tbl_applicant.id = tbl_personalinfo.id WHERE tbl_applicant.id = '{$data}'");
             print_r(json_encode($queryApplicant[0]));
     }
 

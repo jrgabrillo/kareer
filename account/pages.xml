@@ -184,6 +184,57 @@
 		</form>
 	</addJobPost>
 
+	<moveToFull>
+		<form id='form_full' class='formValidate' method='get' action='' novalidate='novalidate'>
+			<div class='row'>
+				<div class='col s12'>
+					<h5 class="">Are you sure, you want to move to Full your post?</h5>
+						<div class='row'>
+							<div class='input-field col s12'>
+								<button type='submit' data-cmd='button_proceed' class='waves-effect waves-grey grey lighten-5 blue-text btn-flat modal-action right'>Save</button>
+						  		<a class='waves-effect waves-grey grey-text btn-flat modal-action modal-close right'>Cancel</a>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</form>
+	</moveToFull>
+
+	<moveToActive>
+		<form id='form_active' class='formValidate' method='get' action='' novalidate='novalidate'>
+			<div class='row'>
+				<div class='col s12'>
+					<h5 class="">Are you sure, you want to move Active your post?</h5>
+						<div class='row'>
+							<div class='input-field col s12'>
+								<button type='submit' data-cmd='button_proceed' class='waves-effect waves-grey grey lighten-5 blue-text btn-flat modal-action right'>Save</button>
+						  		<a class='waves-effect waves-grey grey-text btn-flat modal-action modal-close right'>Cancel</a>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</form>
+	</moveToActive>
+
+	<moveToPending>
+		<form id='form_pending' class='formValidate' method='get' action='' novalidate='novalidate'>
+			<div class='row'>
+				<div class='col s12'>
+					<h5 class="">Are you, sure you want to move to Full your post?</h5>
+						<div class='row'>
+							<div class='input-field col s12'>
+								<button type='submit' data-cmd='button_proceed' class='waves-effect waves-grey grey lighten-5 blue-text btn-flat modal-action right'>Save</button>
+						  		<a class='waves-effect waves-grey grey-text btn-flat modal-action modal-close right'>Cancel</a>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</form>
+	</moveToPending>
+
 	<addProduct>
 		<form id='form_addProduct' class='formValidate' method='get' action='' novalidate='novalidate'>
 			<div class='row'>
