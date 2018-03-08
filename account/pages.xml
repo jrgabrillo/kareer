@@ -222,7 +222,7 @@
 		<form id='form_pending' class='formValidate' method='get' action='' novalidate='novalidate'>
 			<div class='row'>
 				<div class='col s12'>
-					<h5 class="">Are you, sure you want to move to Full your post?</h5>
+					<h5 class="">Are you, sure you want to move to Pending your post?</h5>
 						<div class='row'>
 							<div class='input-field col s12'>
 								<button type='submit' data-cmd='button_proceed' class='waves-effect waves-grey grey lighten-5 blue-text btn-flat modal-action right'>Save</button>

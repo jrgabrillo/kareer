@@ -389,7 +389,7 @@
 					$filename = "../images/profile/{$_filename}";
 				}
 				$picture = $Functions->saveImage($filename,$data[3]);
-				$q = $Functions->PDO("UPDATE tbl_admin SET image = '{$_filename}' WHERE id = '{$data[2]}'");
+				$q = $Functions->PDO("UPDATE tbl_businessmanagers SET picture = '{$_filename}' WHERE id = '{$data[2]}'");
 			}
 			else{
 				$q = $Functions->PDO("");

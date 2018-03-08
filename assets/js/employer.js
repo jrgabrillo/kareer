@@ -218,76 +218,77 @@ var employer = function() {
                 }
             });
         },
-        updatePicture: function() {
+        updatePicture:function(){
             window.Cropper;
-            $("a[data-cmd='updateAdminPicture']").on('click', function() {
+            $("a[data-cmd='updateAdminPicture']").on('click',function(){
                 var data = $(this).data();
                 console.log(data);
                 var picture = "../assets/images/profile/avatar.png";
                 var content = `<h4>Change ${data.prop}</h4>
-	  							<div class='row'>
-	  								<div class='col s12'>
-										<div id='profile_picture2' class='ibox-content no-padding border-left-right '></div>
-									</div>
-								</div>`;
+                                <div class='row'>
+                                    <div class='col s12'>
+                                        <div id='profile_picture2' class='ibox-content no-padding border-left-right '></div>
+                                    </div>
+                                </div>`;
                 $("#modal_confirm .modal-content").html(content);
-                $('#modal_confirm').removeClass('modal-fixed-footer');
-                $('#modal_confirm .modal-footer').remove();
+                $('#modal_confirm').removeClass('modal-fixed-footer');          
+                $('#modal_confirm .modal-footer').remove();         
                 $('#modal_confirm').modal('open');
 
-                var content = `<div class='image-crop col s12' style='margin-bottom:5px;'>
-									<img width='100%' src='${picture}' id='change_picture'>
-								</div>
-								<div class='btn-group col s12'>
-									<label for='inputImage' class='btn blue btn-floating btn-flat tooltipped' data-tooltip='Load image' data-position='top'>
-										<input type='file' accept='image/*' name='file' id='inputImage' class='hide'>
-										<i class='material-icons right hover white-text'>portrait</i>
-									</label>
-									<button class='btn blue btn-floating btn-flat tooltipped' data-cmd='cancel' type='button' data-tooltip='Cancel' data-position='top'>
-										<i class='material-icons right hover white-text'>close</i>
-									</button>
-									<button class='btn blue btn-flat hidden right white-text' data-cmd='save' type='button'>
-										Save
-									</button>
-								</div>`;
+                var content =   `<div class='image-crop col s12' style='margin-bottom:5px;'>
+                                    <img width='100%' src='${picture}' id='change_picture'>
+                                </div>
+                                <div class='btn-group col s12'>
+                                    <label for='inputImage' class='btn blue btn-floating btn-flat tooltipped' data-tooltip='Load image' data-position='top'>
+                                        <input type='file' accept='image/*' name='file' id='inputImage' class='hide'>
+                                        <i class='material-icons right hover white-text'>portrait</i>
+                                    </label>
+                                    <button class='btn blue btn-floating btn-flat tooltipped' data-cmd='cancel' type='button' data-tooltip='Cancel' data-position='top'>
+                                        <i class='material-icons right hover white-text'>close</i>
+                                    </button>
+                                    <button class='btn blue btn-flat hidden right white-text' data-cmd='save' type='button'>
+                                        Save
+                                    </button>
+                                </div>`;
                 $("#profile_picture2").html(content);
-                $('.tooltipped').tooltip({ delay: 50 });
+                $('.tooltipped').tooltip({delay: 50});
 
                 var $inputImage = $("#inputImage");
                 var status = true;
-                if (window.FileReader) {
+                if(window.FileReader){
                     $inputImage.change(function(e) {
                         var fileReader = new FileReader(),
-                            files = this.files,
-                            file;
+                                files = this.files,
+                                file;
                         file = files[0];
 
                         if (/^image\/\w+$/.test(file.type)) {
                             fileReader.readAsDataURL(file);
-                            fileReader.onload = function(e) {
+                            fileReader.onload = function (e) {
                                 $inputImage.val("");
                                 $("button[data-cmd='save']").html("Save").removeClass('disabled');
                                 $('#change_picture').attr('src', e.target.result);
                                 var image = document.getElementById('change_picture');
-                                var cropper = new Cropper(image, {
-                                    aspectRatio: 1 / 1,
+                                var cropper = new Cropper(image,{
+                                    aspectRatio: 1/1,
                                     autoCropArea: 0.80,
-                                    ready: function() {
+                                    ready:function(){
                                         $("button[data-cmd='save']").removeClass('hidden');
                                         $("button[data-cmd='rotate']").removeClass('hidden');
-
-                                        $("button[data-cmd='save']").click(function() {
+                                        
+                                        $("button[data-cmd='save']").click(function(){
                                             $(this).html("Uploading...").addClass('disabled');
-                                            if (status) {
-                                                var data = system.ajax('../assets/harmony/Process.php?do-updateImage', ['employer', 'picture', sessionStorage.getItem('kareer'), cropper.getCroppedCanvas().toDataURL('image/png')]);
-                                                data.done(function(data) {
+                                            if(status){
+                                                var data = system.ajax('../assets/harmony/Process.php?do-updateImage',['employer','picture',sessionStorage.getItem('kareer'),cropper.getCroppedCanvas().toDataURL('image/png')]);
+                                                data.done(function(data){
                                                     console.log(data);
-                                                    if (data == 1) {
+                                                    if(data == 1){
                                                         $('#modal_confirm').modal('close');
                                                         $('.profile-image').attr('src', cropper.getCroppedCanvas().toDataURL('image/png'));
-                                                        system.alert('Profile picture has been updated.', function() {});
-                                                    } else {
-                                                        system.alert('Failed to upload your picture. File too large.', function() {});
+                                                        system.alert('Profile picture has been updated.', function(){});
+                                                    }
+                                                    else{
+                                                        system.alert('Failed to upload your picture. File too large.', function(){});
                                                     }
                                                 });
                                                 status = false;
@@ -296,15 +297,17 @@ var employer = function() {
                                     }
                                 });
                             };
-                        } else {
+                        }
+                        else{
                             showMessage("Please choose an image file.");
                         }
                     });
-                } else {
-                    $inputImage.addClass("hide");
                 }
-                $("button[data-cmd='cancel']").click(function() {
-                    $('#modal_confirm').modal('close');
+                else{
+                    $inputImage.addClass("hide");
+                }               
+                $("button[data-cmd='cancel']").click(function(){
+                    $('#modal_confirm').modal('close'); 
                 });
             });
         },
