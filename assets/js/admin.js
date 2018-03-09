@@ -350,6 +350,17 @@ var admin = function () {
             })
             return result;
         },
+        notifications:function(){
+        	var ajax = system.ajax('../assets/harmony/Process.php?get-logs','Update');
+        	let Logs = JSON.parse(ajax.responseText);
+        	$.each(Logs,function(i,v){
+				$("#display_logs table tbody").append(`
+					<tr>
+						<td>An Account Manager's ${v[3]}</td>
+					</tr>
+				`);
+			});
+        },
     };
 }();
 

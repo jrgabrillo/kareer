@@ -238,6 +238,12 @@
 		print_r(json_encode($result));
 	}
 
+	if (isset($_GET['get-logs'])){/**/
+		$data = $_POST['data'];
+		$q = $Functions->PDO("SELECT * FROM tbl_logs WHERE header = '{$data}'");
+		print_r(json_encode($q));
+	}
+
 	if(isset($_GET['do-updateInfo'])){/**/
 		$data = $_POST['data'];
 		// print_r($data);
@@ -299,20 +305,26 @@
 		else if($data[0] == 'employer'){
 			if($data[1] == 'status'){
 				$field = ($data[4] == 'deactivate')?0:1;
-				$remarks = $data[5];
+				$remarks = $data[1].' is updated';
 				$header = ($field == 'deactivate')?'Deactivated':'Activated';
 				$q = $Functions->PDO("UPDATE tbl_businessmanagers SET status = '{$field}' WHERE id = '{$data[3]}'");
 			}
 			if($data[1] == 'name'){
 				$field1 = $Functions->escape($data[3]);
+				$remarks = $data[1].' is updated';
+				$header = 'Update';
 				$q = $Functions->PDO("UPDATE tbl_businessmanagers SET name = {$field1} WHERE id = '{$data[2]}'");
 			}
 			else if($data[1] == 'username'){
 				$field1 = $Functions->escape($data[3]);
+				$remarks = $data[1].' is updated';
+				$header = 'Update';
 				$q = $Functions->PDO("UPDATE tbl_businessmanagers SET email = {$field1} WHERE id = '{$data[2]}'");	
 			}
 			else if($data[1] == 'password'){
 				$field1 = $Functions->password($data[3]);
+				$remarks = $data[1].' is updated';
+				$header = 'Update';
 				$q = $Functions->PDO("UPDATE tbl_businessmanagers SET password = '{$field1}' WHERE id = '{$data[2]}'");
 				$_SESSION['kareer7836'][1] = $field1;
 			}
