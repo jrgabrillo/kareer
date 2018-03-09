@@ -353,12 +353,43 @@ var admin = function () {
         notifications:function(){
         	var ajax = system.ajax('../assets/harmony/Process.php?get-logs','Update');
         	let Logs = JSON.parse(ajax.responseText);
-        	$.each(Logs,function(i,v){
-				$("#display_logs table tbody").append(`
-					<tr>
-						<td>An Account Manager's ${v[3]}</td>
-					</tr>
-				`);
+   //      	$.each(Logs,function(i,v){
+			// 	$("#display_logs table tbody").append(`
+			// 		<tr>
+			// 			<td>An Account Manager's ${v[3]}</td>
+			// 		</tr>
+			// 	`);
+			// });
+			let content = 	`<div class='card'><div class='card-content'><table class='table' id='table_logs'>
+								<thead>
+									<tr style='background-color:#b3d3d7'>
+										<th>REMARKS</th>
+										<th>DATE</th>
+									</tr>
+								</thead>
+							</table></div></div>`;
+			$("#display_logs").html(content);
+			$('#table_logs').DataTable({
+			    data: Logs,
+			    sort: true,
+				"columnDefs": [
+					{ className: "project-remarks", "targets": [ 0 ] },
+					{ className: "project-date", "targets": [ 1 ] },
+				],
+			    columns: [
+			        {data: "",
+			            render: function ( data, type, full ){
+			            	var details = `An Account Manager's ${full[3]}`;
+			                return details;
+			            }
+			        },
+			        {data: "",
+			            render: function ( data, type, full ){
+			            	var details = full[4];
+			                return details;
+			            }
+			        },
+			    ]
 			});
         },
     };

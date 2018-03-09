@@ -240,7 +240,7 @@
 
 	if (isset($_GET['get-logs'])){/**/
 		$data = $_POST['data'];
-		$q = $Functions->PDO("SELECT * FROM tbl_logs WHERE header = '{$data}'");
+		$q = $Functions->PDO("SELECT * FROM tbl_logs WHERE header = '{$data}' LIMIT 100");
 		print_r(json_encode($q));
 	}
 
