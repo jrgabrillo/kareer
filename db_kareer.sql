@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1:3306
--- Generation Time: Mar 08, 2018 at 02:10 PM
+-- Generation Time: Mar 10, 2018 at 12:08 PM
 -- Server version: 5.7.19
 -- PHP Version: 7.0.23
 
@@ -35,9 +35,9 @@ CREATE TABLE IF NOT EXISTS `tbl_acadinfo` (
   `level` varchar(500) DEFAULT NULL,
   `schoolattended` varchar(500) DEFAULT NULL,
   `degree` varchar(500) DEFAULT NULL COMMENT 'BASIC EDUCATION/DEGREE/COURSE',
-  `periodofattendance` varchar(50) DEFAULT NULL,
   `highestlevel` varchar(500) DEFAULT NULL COMMENT 'HIGHEST LEVEL/UNITS EARNED',
-  `yeargraduated` varchar(4) DEFAULT NULL,
+  `yearenrolled` varchar(10) DEFAULT NULL,
+  `yeargraduated` varchar(10) DEFAULT NULL,
   `date` varchar(20) DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
@@ -46,16 +46,8 @@ CREATE TABLE IF NOT EXISTS `tbl_acadinfo` (
 -- Dumping data for table `tbl_acadinfo`
 --
 
-INSERT INTO `tbl_acadinfo` (`id`, `applicant_id`, `level`, `schoolattended`, `degree`, `periodofattendance`, `highestlevel`, `yeargraduated`, `date`) VALUES
-('b6589fc6ab0dc82cf12099d1c2d40ab994e8410c', '1574bddb75c78a6fd2251d61e2993b5146201319', 'Elementary', 'Name of School', 'Degree', '0', 'Units', '2017', '2017-09-29 15:45:05'),
-('356a192b7913b04c54574d18c28d46e6395428ab', '1574bddb75c78a6fd2251d61e2993b5146201319', 'High School', 'School', 'Course', '2017-09-03 : 2017-09-28', 'Units', '2017', '2017-09-29 15:49:38'),
-('da4b9237bacccdf19c0760cab7aec4a8359010b0', '91032ad7bbcb6cf72875e8e8207dcfba80173f7c', 'College', 'PSU', 'BS Computer Science', '2013-06-06 : 2017-06-06', '300', '2017', '2017-10-24 13:12:09'),
-('1b6453892473a467d07372d45eb05abc2031647a', '91032ad7bbcb6cf72875e8e8207dcfba80173f7c', 'Masteral', 'University of the Philippines', 'Computer Science', '2018-06-06 : 2019-06-06', '120', '2019', '2017-10-23 23:56:17'),
-('77de68daecd823babbb58edb1c8e14d7106e83bb', 'ac3478d69a3c81fa62e60f5c3696165a4e5e6ac4', 'Elementary', 'Bongalon, Elementary School', 'Grade 6', '2003-06-01 : 2009-04-01', '122', '2009', '2017-11-21 00:39:07'),
-('ac3478d69a3c81fa62e60f5c3696165a4e5e6ac4', 'ac3478d69a3c81fa62e60f5c3696165a4e5e6ac4', 'High School', 'Labrador National High School', 'Fourth Year', '2009-06-06 : 2013-06-06', '360', '2013', '2017-11-27 19:13:27'),
-('fe5dbbcea5ce7e2988b8c69bcfdfde8904aabc1f', 'b6589fc6ab0dc82cf12099d1c2d40ab994e8410c', 'College', 'Pangasinan State University Lingayen Campus', 'Bachelor of Science in Computer Science', '2013-06 : 2017-06', '360', '2017', '2017-12-15 22:29:52'),
-('c1dfd96eea8cc2b62785275bca38ac261256e278', 'b6589fc6ab0dc82cf12099d1c2d40ab994e8410c', 'Elementary', 'Bongalon, Elementary, Pangasinan', '', '2003-06 : 2009-06', '', '2009', '2017-12-15 22:27:06'),
-('902ba3cda1883801594b6e1b452790cc53948fda', 'b6589fc6ab0dc82cf12099d1c2d40ab994e8410c', 'High School', 'Labrador, National, High School', '', '2009-06 : 2013-06', '', '2013', '2017-12-15 22:28:12');
+INSERT INTO `tbl_acadinfo` (`id`, `applicant_id`, `level`, `schoolattended`, `degree`, `highestlevel`, `yearenrolled`, `yeargraduated`, `date`) VALUES
+('b6589fc6ab0dc82cf12099d1c2d40ab994e8410c', 'da4b9237bacccdf19c0760cab7aec4a8359010b0', 'Elementary', 'Macabito Calasiao Pangasinan', 'null', 'null', '2000', '2006', '2018-03-10 19:23:51');
 
 -- --------------------------------------------------------
 
@@ -282,13 +274,12 @@ DROP TABLE IF EXISTS `tbl_career`;
 CREATE TABLE IF NOT EXISTS `tbl_career` (
   `id` varchar(60) NOT NULL,
   `applicant_id` varchar(60) DEFAULT NULL,
-  `inclusive_fromdate` varchar(20) DEFAULT NULL,
-  `inclusive_todate` varchar(20) DEFAULT NULL,
-  `position_title` varchar(300) DEFAULT NULL,
   `agency` varchar(300) DEFAULT NULL,
+  `position_title` varchar(300) DEFAULT NULL,
   `monthly_salary` varchar(6) DEFAULT NULL,
   `appointment_status` varchar(300) DEFAULT NULL,
-  `govt_service` varchar(50) DEFAULT NULL,
+  `inclusive_fromdate` varchar(20) DEFAULT NULL,
+  `inclusive_todate` varchar(20) DEFAULT NULL,
   `date` varchar(20) DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
@@ -297,15 +288,9 @@ CREATE TABLE IF NOT EXISTS `tbl_career` (
 -- Dumping data for table `tbl_career`
 --
 
-INSERT INTO `tbl_career` (`id`, `applicant_id`, `inclusive_fromdate`, `inclusive_todate`, `position_title`, `agency`, `monthly_salary`, `appointment_status`, `govt_service`, `date`) VALUES
-('b6589fc6ab0dc82cf12099d1c2d40ab994e8410c', '1574bddb75c78a6fd2251d61e2993b5146201319', '2017-09-19', '2017-09-22', 'Position', 'Agency', '12000', 'Appointment', '', '2017-09-29'),
-('356a192b7913b04c54574d18c28d46e6395428ab', '91032ad7bbcb6cf72875e8e8207dcfba80173f7c', '2014-06-06', '2015-06-06', 'Graphic Artist', 'Pixar', '15,000', 'Interview', '', '2017-10-24 13:47:55'),
-('da4b9237bacccdf19c0760cab7aec4a8359010b0', '91032ad7bbcb6cf72875e8e8207dcfba80173f7c', '2003-06-06', '2016-06-06', 'Graphic Designer', 'Dreamworks', '20,000', 'Initial Interview', '', '2017-10-24 13:32:38'),
-('902ba3cda1883801594b6e1b452790cc53948fda', 'ac3478d69a3c81fa62e60f5c3696165a4e5e6ac4', '2016-02-02', '2017-11-01', 'Graphic Designer', 'Dreamworks', '12000', 'Resigned', '', '2017-11-23 15:01:17'),
-('fe5dbbcea5ce7e2988b8c69bcfdfde8904aabc1f', 'ac3478d69a3c81fa62e60f5c3696165a4e5e6ac4', '2012-02-22', '2014-02-22', 'Janitor', 'PSU', '1200', 'Resigned', '', '2017-11-27 11:48:31'),
-('77de68daecd823babbb58edb1c8e14d7106e83bb', 'b6589fc6ab0dc82cf12099d1c2d40ab994e8410c', '2014-06', '2015-06', 'Cook', 'Mc Donalds', '12000', 'Resigned', 'No', '2017-12-19 14:18:37'),
-('c1dfd96eea8cc2b62785275bca38ac261256e278', 'b6589fc6ab0dc82cf12099d1c2d40ab994e8410c', '2017-08', '2015-05', 'Car wash boy', 'Car Wash', '3000', 'Resigned', 'No', '2017-12-14 17:15:59'),
-('0ade7c2cf97f75d009975f4d720d1fa6c19f4897', 'b6589fc6ab0dc82cf12099d1c2d40ab994e8410c', '2015-01', '2016-01', 'Security Guard', '7Eleven', '5000', 'Resigned', 'No', '2017-12-15 04:06:40');
+INSERT INTO `tbl_career` (`id`, `applicant_id`, `agency`, `position_title`, `monthly_salary`, `appointment_status`, `inclusive_fromdate`, `inclusive_todate`, `date`) VALUES
+('b6589fc6ab0dc82cf12099d1c2d40ab994e8410c', 'da4b9237bacccdf19c0760cab7aec4a8359010b0', 'ES Assisting', 'Web Developer', '12000', 'Job Order', '2015', '2016', '2018-03-10 19:51:28'),
+('356a192b7913b04c54574d18c28d46e6395428ab', 'da4b9237bacccdf19c0760cab7aec4a8359010b0', 'Pangasinan State University', 'IT Instructor', '21,000', 'Contractual', '2016-08-08', '2017-12-22', '2018-03-10 20:02:06');
 
 -- --------------------------------------------------------
 
@@ -392,6 +377,15 @@ CREATE TABLE IF NOT EXISTS `tbl_skills` (
   `date` varchar(20) DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `tbl_skills`
+--
+
+INSERT INTO `tbl_skills` (`id`, `applicant_id`, `skill`, `level`, `date`) VALUES
+('b6589fc6ab0dc82cf12099d1c2d40ab994e8410c', 'da4b9237bacccdf19c0760cab7aec4a8359010b0', 'Web Developer', '1', '2018-03-08 23:48:53'),
+('356a192b7913b04c54574d18c28d46e6395428ab', 'da4b9237bacccdf19c0760cab7aec4a8359010b0', 'Hello world', '1', '2018-03-09 08:32:34'),
+('77de68daecd823babbb58edb1c8e14d7106e83bb', 'da4b9237bacccdf19c0760cab7aec4a8359010b0', 'Sapnu Puas', '1', '2018-03-09 08:33:58');
 
 -- --------------------------------------------------------
 
