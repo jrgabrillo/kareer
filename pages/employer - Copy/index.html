@@ -1,0 +1,24 @@
+<section id="subcontent"></section>
+<script type="text/javascript" src="../assets/js/employer.js"></script>
+<script>
+    var count = 0;
+    login.check();
+    $("#log-out").on("click",function(){
+        login.kill();
+    });
+
+    $("#showMenu").on("click",function(){
+        count++;
+        $("#slide-out").attr({"style":"width: 240px; left: 0px;top: 64px !important;"});
+        if((count%2)==1){
+            $("#slide-out").removeClass('slideOutLeft').addClass('slideInLeft');
+        }
+        else{
+            $("#slide-out").removeClass('slideInLeft').addClass('slideOutLeft');
+        }
+    });
+
+    var documentHeight = $(window).height();
+    $("#subcontent").attr({"style":"min-height:"+documentHeight+"px;"});
+    $(".dropdown-button").dropdown();
+</script>

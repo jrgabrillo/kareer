@@ -1,0 +1,104 @@
+<div class='row animated fadeInRight'>
+    <div class="wrapper wrapper-content">
+        <div class="col s7" >
+            <div class='card' id='employer' style="border-top:3px; border-top-style: solid; border-top-color: #03ded3 ">
+                <a class="btn-flat btn-sm btn-block button_success" href='#cmd=index;content=employers'><small class ="grey-text">Back</small></a>
+                <div class='card card-header-pic'>
+                    <div class='card-header color-white no-border' style="background-image:url(../assets/img/background.jpg); background-size: 100%"><br>
+                        <img class='circle responsive-img' src='' style="width: 30%; border:2px; border-style: solid; border-color: #2b9c9b">
+                    </div>
+                    <div class='card-content'>
+                        <div class="row">
+                            <strong>COMPANY INFO</strong>
+                            <br>
+                            <small class="blue-text">Company: </small>
+                                <span id="text_company">
+                                     <span></span>
+                                            <a class = 'right' data-cmd='updateEmployer' data-value='' data-name='' data-node='' data-prop='CompanyName' data-position='left' data-delay='50' data-tooltip='Update Company'><i class='tiny material-icons'>create</i></a>
+                                </span>
+                        </div>
+                        <div class="divider"></div>
+                        <div class="row">
+                            <small class="blue-text">Description: </small>
+                                <span id="text_description">
+                                     <span></span>
+                                             <a class = 'right' data-cmd='updateEmployer' data-value='' data-name='' data-node='' data-prop='Description' data-position='left' data-delay='50' data-tooltip='Update Description'><i class='tiny material-icons'>create</i></a>
+                                </span>
+                        </div>
+                        <div class="divider"></div>
+                        <div class="row">
+                            <small class="blue-text">Address:  </small>
+                                <span id="text_address">
+                                    <span></span>
+                                    <a class = 'right' data-cmd='updateEmployer' data-value='' data-name='' data-node='' data-prop='Address' data-position='left' data-delay='50' data-tooltip='Update Address'><i class='tiny material-icons'>create</i></a>
+                                </span>
+                        </div>
+                        <div class="divider"></div>
+                        <div class="row">
+                            <small class="blue-text">DTI Number: </small>
+                                <span id="text_DTI">
+                                    <span></span>
+                                    <a class = 'right' data-cmd='updateEmployer' data-value='' data-name='' data-node='' data-prop='DTI' data-position='left' data-delay='50' data-tooltip='Update DTI'><i class='tiny material-icons'>create</i></a>
+                                </span>
+                        </div>
+                        <div class="divider"></div>
+                        <div class="row">
+                            <small class="blue-text">BIR Number: </small>
+                                <span id="text_BIR">
+                                    <span></span>
+                                    <a class = 'right' data-cmd='updateEmployer' data-value='' data-name='' data-node='' data-prop='BIR' data-position='left' data-delay='50' data-tooltip='Update BIR'><i class='tiny material-icons'>create</i></a>
+                                </span>
+                        </div>
+                        <div class="divider"></div>
+                        <div class="row">
+                            <strong>PERSONAL INFO</strong>
+                            <br>
+                            <small class="blue-text">Given Name: </small>
+                                <span id="text_givenName">
+                                    <span></span>
+                                    <a class = 'right' data-cmd='updateEmployer' data-value='' data-name='' data-node='' data-prop='FirstName' data-position='left' data-delay='50' data-tooltip='Update FirstName'><i class='tiny material-icons'>create</i></a>
+                                </span>
+                        </div>
+                        <div class="divider"></div>
+                        <div class="row">
+                            <small class="blue-text">Family Name:  </small>
+                                <span id="text_familyName">
+                                    <span></span>
+                                    <a class = 'right' data-cmd='updateEmployer' data-value='' data-name='' data-node='' data-prop='LastName' data-position='left' data-delay='50' data-tooltip='Update LastName'><i class='tiny material-icons'>create</i></a>
+                                </span>
+                        </div>
+                        <div class="divider"></div>
+                        <div class="row">
+                            <small class="blue-text">Contact Number:  </small>
+                                <span id="text_contactnumber">
+                                    <span></span>
+                                    <a class = 'right' data-cmd='updateEmployer' data-value='' data-name='' data-node='' data-prop='ContactNo' data-position='left' data-delay='50' data-tooltip='Update ContactNo'><i class='tiny material-icons'>create</i></a>
+                                </span>
+                        </div>
+                        <div class="divider"></div>
+                        <div class="row">
+                            <small class="blue-text">Email: </small>
+                                <span id="text_email">
+                                    <span></span>
+                                </span>
+                        </div>
+                        <div class="divider"></div>
+                        <div class="row">
+                            <small class="blue-text">Status:  </small>
+                                <span id="text_status">
+                                    <span></span>
+                                    <a class="right black-text" data-cmd='action' data-id=''><i class='small material-icons'></i></a>
+                                </span>
+                        </div>
+                        <div class="divider"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>    
+</div>
+<script type="text/javascript">
+    var data = window.location.hash.split(';');
+    employer.employerByID(data[2].split('='));
+    employer.update();
+</script>

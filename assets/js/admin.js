@@ -20,6 +20,8 @@ var admin = function () {
 			return ajax.responseText;
 		},
 		display:function(){
+			var content = "", data = admin.get();
+			data = JSON.parse(data);
 			var content = "", data = JSON.parse(admin.get());
 			console.log(data);
 			var profile = (data[0][3] == "")?'avatar.jpg':data[0][3];
@@ -67,6 +69,8 @@ var admin = function () {
 
 			admin.update();
 			admin.updatePicture();
+			accountManager.accountAction(data[0][0]); /*id of Action taker*/
+			// console.log(accountManager.accountAction(data[0][0]));
 		},
 		update:function(){
 			$("a[data-cmd='updateAdmin']").on('click',function(){
@@ -346,6 +350,48 @@ var admin = function () {
             })
             return result;
         },
+        notifications:function(){
+        	var ajax = system.ajax('../assets/harmony/Process.php?get-logs','Update');
+        	let Logs = JSON.parse(ajax.responseText);
+   //      	$.each(Logs,function(i,v){
+			// 	$("#display_logs table tbody").append(`
+			// 		<tr>
+			// 			<td>An Account Manager's ${v[3]}</td>
+			// 		</tr>
+			// 	`);
+			// });
+			let content = 	`<div class='card'><div class='card-content'><table class='table' id='table_logs'>
+								<thead>
+									<tr style='background-color:#b3d3d7'>
+										<th>REMARKS</th>
+										<th>DATE</th>
+									</tr>
+								</thead>
+							</table></div></div>`;
+			$("#display_logs").html(content);
+			$('#table_logs').DataTable({
+			    data: Logs,
+			    sort: true,
+				"columnDefs": [
+					{ className: "project-remarks", "targets": [ 0 ] },
+					{ className: "project-date", "targets": [ 1 ] },
+				],
+			    columns: [
+			        {data: "",
+			            render: function ( data, type, full ){
+			            	var details = `An Account Manager's ${full[3]}`;
+			                return details;
+			            }
+			        },
+			        {data: "",
+			            render: function ( data, type, full ){
+			            	var details = full[4];
+			                return details;
+			            }
+			        },
+			    ]
+			});
+        },
     };
 }();
 
@@ -436,6 +482,7 @@ var business = function(){
 		},
 		view:function(){
 			let data = JSON.parse(business.get(business.id()));
+			console.log(data);
 			let logo = ((typeof data[0][5] == 'object') || (data[0][5] == ""))? 'icon.png' : data[0][5];
 			$("#businessInfo").html(`
 				<div class='col s12 m4 l3'>
@@ -629,7 +676,6 @@ var business = function(){
 
 					let editor = system.quill($('#field_description').get(0));
 					editor.clipboard.dangerouslyPasteHTML(data.value);
-
 					var limit = 1000;
 					editor.on('text-change', function(delta, old, source) {
 						if (editor.getLength() > limit) {
@@ -854,7 +900,6 @@ var accountManager = function(){
 			let picture = ((typeof data[5] == 'object') || (data[5] == ""))? 'icon.png' : data[5];
 			console.log(data);
 			let status = (data[8] == 1)?['deactivate','lock','red']:['activate','lock_open','grey'];
-
 			$("#modal_medium .modal-content").html(`
 				<button class="btn-floating btn-small btn-flat waves-effect white modal-action modal-close right"><i class="material-icons grey-text">close</i></button>
 				<div id='accountInfo'>
@@ -884,25 +929,38 @@ var accountManager = function(){
 				console.log(data);
 				$("#modal_confirm .modal-content").html(
 					`<h5>Are you sure you want to ${title[0]} this account?</h5>
+					<textarea class='materialize-textarea' data-field='field_description' name='field_description' placeholder='Remarks'></textarea>
 			  		<button type='submit' data-cmd='button_proceed' class='waves-effect waves-grey grey lighten-5 blue-text btn-flat modal-action right'>Save</button>
 			  		<a class='waves-effect waves-grey grey-text btn-flat modal-action modal-close right'>Cancel</a>`
 				);
+
 				$('#modal_confirm').modal('open');
 				$("button[data-cmd='button_proceed']").on('click',function(){
-					var ajax = system.ajax('../assets/harmony/Process.php?do-updateInfo',['employer','status',data[0],data[1]]);
-					ajax.done(function(ajax){
-						console.log(ajax);
-						if(ajax == 1){
-							$('#modal_confirm').modal('close');
-							$("a[data-cmd='action_account']").addClass('disabled');
-							$("a[data-cmd='action_account'] i").html(title[1]).removeClass('white-text').addClass('black-text');
-							$("a[data-cmd='action_account']").attr({'data-value':JSON.stringify([data[0],title[2]])});
-							system.alert('Account updated.', function(){});
-						}
-						else{
-							system.alert('Failed to update.', function(){});
-						}
-					});				
+					let remarks = $("textarea[data-field='field_description']").val();
+					console.log(remarks);
+					if(remarks.length == 0){
+							Materialize.toast('Remarks is required.',4000);
+					}
+					else if(remarks.length > 800){
+							Materialize.toast('Statement is too long.',4000);
+					}
+					else{
+						let user = JSON.parse(admin.get());
+						var ajax = system.ajax('../assets/harmony/Process.php?do-updateInfo',['employer','status',user[0][0],data[0],data[1],remarks]);
+						ajax.done(function(ajax){
+							console.log(ajax);
+							if(ajax == 1){
+								$('#modal_confirm').modal('close');
+								$("a[data-cmd='action_account']").addClass('disabled');
+								$("a[data-cmd='action_account'] i").html(title[1]).removeClass('white-text').addClass('black-text');
+								$("a[data-cmd='action_account']").attr({'data-value':JSON.stringify([data[0],title[2]])});
+								system.alert('Account updated.', function(){});
+							}
+							else{
+								system.alert('Failed to update.', function(){});
+							}
+						});
+					}				
 				});
 			});
 		}
@@ -1102,26 +1160,38 @@ var applicant = function(){
 				console.log(data);
 				$("#modal_confirm .modal-content").html(
 					`<h5>Are you sure you want to ${title[0]} this account?</h5>
+					<textarea class='materialize-textarea' data-field='field_description' name='field_description' placeholder='Remarks'></textarea>
 			  		<button type='submit' data-cmd='button_proceed' class='waves-effect waves-grey grey lighten-5 blue-text btn-flat modal-action right'>Save</button>
 			  		<a class='waves-effect waves-grey grey-text btn-flat modal-action modal-close right'>Cancel</a>`
 				);
 				$('#modal_confirm').modal('open');
 
 				$("button[data-cmd='button_proceed']").on('click',function(){
-					var ajax = system.ajax('../assets/harmony/Process.php?do-updateInfo',['applicant','status',applicant.id(),data[1]]);
-					ajax.done(function(ajax){
-						console.log(ajax);
-						if(ajax == 1){
-							$('#modal_confirm').modal('close');
-							$("a[data-cmd='action_account']").addClass('disabled');
-							$("a[data-cmd='action_account'] i").html(title[1]).removeClass('white-text').addClass('black-text');
-							$("a[data-cmd='action_account']").attr({'data-value':JSON.stringify([data[0],title[2]])});
-							system.alert('Account updated.', function(){});
-						}
-						else{
-							system.alert('Failed to update.', function(){});
-						}
-					});				
+					let remarks = $("textarea[data-field='field_description']").val();
+					console.log(remarks);
+					if(remarks.length == 0){
+							Materialize.toast('Remarks is required.',4000);
+					}
+					else if(remarks.length > 800){
+							Materialize.toast('Statement is too long.',4000);
+					}
+					else{
+						let user = JSON.parse(admin.get());
+						var ajax = system.ajax('../assets/harmony/Process.php?do-updateInfo',['applicant','status',user[0][0],applicant.id(),data[1],remarks]);
+						ajax.done(function(ajax){
+							console.log(ajax);
+							if(ajax == 1){
+								$('#modal_confirm').modal('close');
+								$("a[data-cmd='action_account']").addClass('disabled');
+								$("a[data-cmd='action_account'] i").html(title[1]).removeClass('white-text').addClass('black-text');
+								$("a[data-cmd='action_account']").attr({'data-value':JSON.stringify([data[0],title[2]])});
+								system.alert('Account updated.', function(){});
+							}
+							else{
+								system.alert('Failed to update.', function(){});
+							}
+						});		
+					}		
 				});
 			});
 		}

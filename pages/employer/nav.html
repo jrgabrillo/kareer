@@ -1,50 +1,60 @@
-<nav>
+<nav class="grey lighten-4">
     <div class="nav-wrapper">
         <ul class="left">
             <li class="">
-                <a href="#" data-activates="side-menu" class="white-text sidebar-collapse btn-medium waves-effect waves-light hide-on-large-only cyan">
-                    <i class="material-icons">menu</i>
+                <a data-activates="side-menu" class="white-text sidebar-collapse btn-medium waves-effect waves-light hide-on-large-only">
+                    <i class="material-icons grey-text">menu</i>
                 </a>
             </li>
             <li class="">
-                <a>Employer</a>
+                <a id='display_logo' href="../account/" data-activates="side-menu" class=" waves-effect waves-light hide-on-large-only"><i></i></a>      
+            </li>
+        </ul>        
+        <ul class="right">
+            <li class="">
+                <a href="#"><i class="material-icons">notifications</i></a>  
+            </li>
+            <li class="">
+                <a href="#"><i class="material-icons">message</i></a>  
             </li>
         </ul>        
     </div>
 </nav>
-<aside id="left-sidebar-nav text-red">
-    <ul id="side-menu" class="side-nav fixed leftside-navigation ps-container ps-active-y animated" style="width: 240px;">
-        <li class="user-details red darken-1" id='user-account' style='padding-top: 10px;'>
-            <div class="row">
-                <div class="col col s4 m4 l4">
-                    <img src="../assets/images/avatar.jpg" alt="" class="circle responsive-img valign profile-image">
+<aside id="left-sidebar-nav" class="text-red">
+    <ul id="side-menu" class="side-nav fixed leftside-navigation ps-container ps-active-y animated" style="width: 240px; ">
+        <li class="" id='user-account' style='padding-top: 10px; padding-bottom: 10px;'>
+            <h6>Welcome Employer</h6>
+            <div class="row" style='margin-bottom: 0px !important;'>
+                <div class="col s12">
+                    <img src="../assets/images/profile/avatar.png" alt="" class="circle responsive-img valign profile-image"/>
                 </div>
-                <div class="col col s8 m8 l8">
-                    <a class='waves-effect waves-light white-text profile-btn'  data-activates='account'>
-                        <span>Employer</span>
-                        <i class='mdi-navigation-arrow-drop-down right'></i>
+                <div class="col s12">
+                    <a class='waves-effect waves-light white-text'  data-activates='account'>
+                        <span class="bold display_name">Administrator</span>
                     </a>
                 </div>
             </div>
+            <div class="divider"></div>
         </li>
         <li class="no-padding">
             <ul class="collapsible collapsible-accordion">
                 <li class="">
-                    <a href="#cmd=index;content=account" class="waves-effect waves-blue black-text"><i class="material-icons">account_circle</i> Account</a>
+                    <a class="waves-effect waves-blue" href="#cmd=index;content=account"><i class="material-icons">account_circle</i> Account</a>
                 </li>
                 <!-- <li class="">
-                    <a href="#cmd=index;content=list_points" class="waves-effect waves-blue black-text"><i class="icon settings"></i> Points</a>
+                    <a class="waves-effect waves-blue" href="#cmd=index;content=jobs"><i class="material-icons">assignment</i> Jobs</a>
                 </li> -->
                 <li class="">
-                    <a href="#cmd=index;content=employee" class="waves-effect waves-blue black-text"><i class="material-icons">group</i> Employee</a>
+                    <a class="waves-effect waves-blue" href="#cmd=index;content=job"><i class="material-icons">supervisor_account</i> Post</a>
                 </li>
-                <!-- <li class="">
-                    <a href="#cmd=index;content=messages" class="waves-effect waves-blue black-text"><i class="icon settings"></i> Messages</a>
-                </li> -->
-                <li class="">
-                    <a id='log-out' class="waves-effect waves-black black-text"><i class="material-icons">exit_to_app</i> Sign out</a>
+                 <li class="">
+                    <a href="http://localhost/kareer/" class="waves-effect waves-blue" id='log-out' style="line-height: 42px;"><i class="material-icons">exit_to_app</i> Logout</a>
                 </li>
-            </ul>
+            </ul>            
         </li>
     </ul>
 </aside>
+<script>
+    $(".sidebar-collapse").sideNav();
+    employer.nav();
+</script>
