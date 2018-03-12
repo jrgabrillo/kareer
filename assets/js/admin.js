@@ -360,18 +360,20 @@ var admin = function () {
         	let Logs = JSON.parse(admin.getLogs());
         	let content = "";
         	$.each(Logs,function(i,v){
+        		console.log(v);
 			content += `<tr>
-							<td width='300px'>Account Manager's ${v[3]}</td>
+							<td width='300px'>${v[3]}</td>
 							<td>${v[4]}</td>
+							<td>${v[5]}</td>
 						</tr>`;
 			});
 			content = `<table id='table_logs'>
 						<thead>
 							<tr>
-								<th>Remarks</th><th>Date</th><th></th>
+								<th>Remarks</th><th>Date</th><th>Header</th>
 							</tr>
 						</thead>
-						</tbody>${content}</tbody>
+						<tbody>${content}</tbody>
 						</table>`;
 			$("#display_logs").html(content);
 			let count = 5, min = 0, max = count;
@@ -388,10 +390,11 @@ var admin = function () {
         	$.each(list,function(i,v){
 			content += `<tr>
 							<td width='300px'>Account Manager's ${v[3]}</td>
-							<td>${v[4]}</td>
+							<td width="143px">${v[4]}</td>
+							<td>${v[5]}</td>
 						</tr>`;
 			});
-			$("#display_logs").append(content);
+			$("#display_logs").append(`<table><tbody>${content}</tbody></table>`);
         },
     };
 }();
