@@ -352,13 +352,12 @@ var admin = function () {
         },
         getLogs:function(min,max){
 			min = ((typeof min == undefined) || (min == null))?0:min;
-			max = ((typeof max == undefined) || (max == null))?3:max;
+			max = ((typeof max == undefined) || (max == null))?5:max;
 			var data = system.ajax('../assets/harmony/Process.php?get-logs',[min,max]);
 			return data.responseText;
 		},
         notifications:function(){
         	let Logs = JSON.parse(admin.getLogs());
-        	console.log(Logs);
         	let content = "";
         	$.each(Logs,function(i,v){
 			content += `<tr>
@@ -375,28 +374,13 @@ var admin = function () {
 						</tbody>${content}</tbody>
 						</table>`;
 			$("#display_logs").html(content);
-			// var table = $('#table_logs').DataTable({
-			// 	"order": [[ 0, 'asc' ]],
-			// 	"drawCallback": function ( settings ) {
-			// 		var api = this.api();
-			// 		var rows = api.rows( {page:'current'} ).nodes();
-			// 		var last=null;
-			// 	}
-			// });
-
-			let count = 4,min=1,max=count;
+			let count = 5, min = 0, max = count;
 			let logs = '';
 			$("button[data-cmd='load']").on("click",function(){
-				// logs = JSON.parse(admin.getLogs(count,count+3));
-				// admin.listLogs(logs);
-				// console.log(logs);
-				min = min+max; 
-				max = max + count;
-				console.log(min);
-				console.log(max);
-
-
-				
+				min = max;
+				max = max+count;
+				logs = JSON.parse(admin.getLogs(min,count));
+				admin.listLogs(logs);
 			});
         },
         listLogs:function(list){
