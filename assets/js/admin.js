@@ -350,47 +350,64 @@ var admin = function () {
             })
             return result;
         },
+        getLogs:function(min,max){
+			min = ((typeof min == undefined) || (min == null))?0:min;
+			max = ((typeof max == undefined) || (max == null))?3:max;
+			var data = system.ajax('../assets/harmony/Process.php?get-logs',[min,max]);
+			return data.responseText;
+		},
         notifications:function(){
-        	var ajax = system.ajax('../assets/harmony/Process.php?get-logs','Update');
-        	let Logs = JSON.parse(ajax.responseText);
-   //      	$.each(Logs,function(i,v){
-			// 	$("#display_logs table tbody").append(`
-			// 		<tr>
-			// 			<td>An Account Manager's ${v[3]}</td>
-			// 		</tr>
-			// 	`);
-			// });
-			let content = 	`<div class='card'><div class='card-content'><table class='table' id='table_logs'>
-								<thead>
-									<tr style='background-color:#b3d3d7'>
-										<th>REMARKS</th>
-										<th>DATE</th>
-									</tr>
-								</thead>
-							</table></div></div>`;
-			$("#display_logs").html(content);
-			$('#table_logs').DataTable({
-			    data: Logs,
-			    sort: true,
-				"columnDefs": [
-					{ className: "project-remarks", "targets": [ 0 ] },
-					{ className: "project-date", "targets": [ 1 ] },
-				],
-			    columns: [
-			        {data: "",
-			            render: function ( data, type, full ){
-			            	var details = `An Account Manager's ${full[3]}`;
-			                return details;
-			            }
-			        },
-			        {data: "",
-			            render: function ( data, type, full ){
-			            	var details = full[4];
-			                return details;
-			            }
-			        },
-			    ]
+        	let Logs = JSON.parse(admin.getLogs());
+        	console.log(Logs);
+        	let content = "";
+        	$.each(Logs,function(i,v){
+			content += `<tr>
+							<td width='300px'>Account Manager's ${v[3]}</td>
+							<td>${v[4]}</td>
+						</tr>`;
 			});
+			content = `<table id='table_logs'>
+						<thead>
+							<tr>
+								<th>Remarks</th><th>Date</th><th></th>
+							</tr>
+						</thead>
+						</tbody>${content}</tbody>
+						</table>`;
+			$("#display_logs").html(content);
+			// var table = $('#table_logs').DataTable({
+			// 	"order": [[ 0, 'asc' ]],
+			// 	"drawCallback": function ( settings ) {
+			// 		var api = this.api();
+			// 		var rows = api.rows( {page:'current'} ).nodes();
+			// 		var last=null;
+			// 	}
+			// });
+
+			let count = 4,min=1,max=count;
+			let logs = '';
+			$("button[data-cmd='load']").on("click",function(){
+				// logs = JSON.parse(admin.getLogs(count,count+3));
+				// admin.listLogs(logs);
+				// console.log(logs);
+				min = min+max; 
+				max = max + count;
+				console.log(min);
+				console.log(max);
+
+
+				
+			});
+        },
+        listLogs:function(list){
+        	let content = "";
+        	$.each(list,function(i,v){
+			content += `<tr>
+							<td width='300px'>Account Manager's ${v[3]}</td>
+							<td>${v[4]}</td>
+						</tr>`;
+			});
+			$("#display_logs").append(content);
         },
     };
 }();

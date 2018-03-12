@@ -238,9 +238,17 @@
 		print_r(json_encode($result));
 	}
 
-	if (isset($_GET['get-logs'])){/**/
+	// if (isset($_GET['get-logs'])){/**/
+	// 	$data = $_POST['data'];
+	// 	$q = $Functions->PDO("SELECT * FROM tbl_logs WHERE header = '{$data}' LIMIT 2");
+	// 	print_r(json_encode($q));
+	// }
+	if(isset($_GET['get-logs'])){
 		$data = $_POST['data'];
-		$q = $Functions->PDO("SELECT * FROM tbl_logs WHERE header = '{$data}' LIMIT 100");
+		$min = $data[0];
+		$max = ($data[1] == "all")?$Functions->PDO("SELECT COUNT(*) FROM tbl_logs"):$data[1];
+
+		$q = $Functions->PDO("SELECT * FROM tbl_logs WHERE header = 'Update' ORDER BY `date` LIMIT {$min},{$max}");
 		print_r(json_encode($q));
 	}
 
@@ -490,9 +498,11 @@
 		$date = $Functions->PDO_DateAndTime();
 		
 		$skills = json_encode($data[0][5]);
-
+		// $remarks = 'Posted a job';
+		// $header = 'Post';
 		$query = $Functions->PDO("INSERT INTO tbl_vacancies(id,employer_id,business_id,description,vacancy_date,job_title,skills,salary_range,date,status) VALUES('{$id}','{$data[0]}','{$data[1]}','{$data[2]}','{$data[3]}','{$data[4]}',{$skills},'{$data[6]}','{$date}',1)");
 		if($query->execute())
+			// $log = $Functions->log($data[0],$id,$remarks,$header);
 			echo 1;
 		else{
 			$Data = $query->errorInfo();
