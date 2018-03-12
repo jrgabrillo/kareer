@@ -237,18 +237,12 @@
 		}
 		print_r(json_encode($result));
 	}
-
-	// if (isset($_GET['get-logs'])){/**/
-	// 	$data = $_POST['data'];
-	// 	$q = $Functions->PDO("SELECT * FROM tbl_logs WHERE header = '{$data}' LIMIT 2");
-	// 	print_r(json_encode($q));
-	// }
 	if(isset($_GET['get-logs'])){
 		$data = $_POST['data'];
 		$min = $data[0];
 		$max = ($data[1] == "all")?$Functions->PDO("SELECT COUNT(*) FROM tbl_logs"):$data[1];
 
-		$q = $Functions->PDO("SELECT * FROM tbl_logs WHERE header = 'Update' ORDER BY `date` LIMIT {$min},{$max}");
+		$q = $Functions->PDO("SELECT * FROM tbl_logs ORDER BY `date` LIMIT {$min},{$max}");
 		print_r(json_encode($q));
 	}
 
