@@ -496,7 +496,7 @@
 		}
 	}
 
-	if (isset($_GET['set-postJob'])) {
+	if (isset($_GET['set-postJob'])) { /**/
 		$data = $_POST['data'];
 		$id = $Functions->PDO_IDGenerator('tbl_vacancies','id');
 		$date = $Functions->PDO_DateAndTime();
@@ -637,7 +637,7 @@
 					$Data = $query->errorInfo();
 					print_r($Data);
 				}
-			}      
+			}      /**/
 	}
 
 	if (isset($_GET['set-deactivateEmployer'])){

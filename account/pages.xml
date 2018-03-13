@@ -154,9 +154,11 @@
 								<div class='error_title'></div>	
 							</div>
 							<div class='input-field col s6'>
-								<label for='field_skills'>Skills: </label>
+							    <div class="chips chips-placeholder"></div>
+								<!-- <label for='field_skills'>Skills: </label>
+
 					            <input id='field_skills' type='text' name='field_skills' data-error='.error_skills'>
-								<div class='error_skills'></div>	
+								<div class='error_skills'></div>	 -->
 							</div>
 							<div class='input-field col s6'>
 								<label for='field_salary'>Salary Range: </label>
