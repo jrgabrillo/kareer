@@ -18,7 +18,7 @@ var employer = function() {
             }
         },
         get: function() {
-            var ajax = system.ajax('../assets/harmony/Process.php?get-accountBusinessManager', "");
+            let ajax = system.ajax('../assets/harmony/Process.php?get-accountBusinessManager', "");
             return ajax.responseText;
         },
         display: function() {
@@ -319,7 +319,9 @@ var employer = function() {
 var jobPosts = function() {
 	"use strict";
 	return {
-        get:function(){
+        get:function(id){
+            let ajax = system.ajax('../assets/harmony/Process.php?get-employerJobsPosts',id);
+            return ajax.responseText;
         },
 	    add: function() {
 	        var data = system.xml("pages.xml");
@@ -327,20 +329,17 @@ var jobPosts = function() {
 					$("#modal_medium .modal-content").html(content);
 					$("a[data-cmd='add_job-post']").on('click',function(){
 						$('#modal_medium').modal('open');
-                        let skills = [];
                         $('.chips-placeholder').material_chip({
                             placeholder: 'Add a skill'
                         });
-                        $('.chips').on('chip.add', function(e, chip){
-                        });
-                        console.log(skills);
 						$("#form_addJobPost").validate({
 						    rules: {
                                 field_title: { required: true},
                                 field_skills: { required: true},
-                                field_salary: { required: true, maxlength: 5, max: 70000 },
+                                field_salary: { required: true, max: 70000 },
                                 field_data: { required: true },
-                                field_description: { required: true, maxlength: 1000},
+                                field_description1: { required: true},
+                                field_description2: { required: true},
 						    },
 						    errorElement : 'div',
 						    errorPlacement: function(error, element) {
@@ -353,82 +352,60 @@ var jobPosts = function() {
 								}
 							},
 							submitHandler: function (form) {
+                                let skillsArray =[];
 								var _form = $(form).serializeArray();
-                                console.log(_form);
 								var user = JSON.parse(employer.get());
-								// var ajax = system.ajax('../assets/harmony/Process.php?set-postJob',[user[0][0],user[0][1],_form[0]['value'],_form[1]['value'],_form[2]['value'],_form[3]['value'],_form[4]['value']]);
-								// ajax.done(function(ajax){
-								// 	console.log(ajax);
-								// 	if(ajax == 1){	
-								// 		$('#modal_medium').modal('close');	
-								// 		system.alert('Posted.', function(){});
-								// 	}
-								// 	else{
-								// 		system.alert('Failed to post.', function(){});
-								// 	}
-								// });
+                                var chipdata = $('.chips').material_chip('data');
+                                for(var skills in chipdata){
+                                    skillsArray.push(chipdata[skills]['tag']);      
+                                }
+								var ajax = system.ajax('../assets/harmony/Process.php?set-postJob',[user[0][0],user[0][1],_form[0]['value'],_form[1]['value'],_form[2]['value'],_form[3]['value'],_form[4]['value'],skillsArray]);
+								ajax.done(function(ajax){
+									console.log(ajax);
+									if(ajax == 1){	
+										$('#modal_medium').modal('close');	
+										system.alert('Posted.', function(){});
+                                        jobPosts.view();
+									}
+									else{
+										system.alert('Failed to post.', function(){});
+									}
+								});
 						    }
 						});
 					});
 				});
 	    },
 	    view: function() {
-	        var data = employer.get();
-	        data = JSON.parse(data);
-	        var id = data[0][0];
-	        var ajax = system.ajax('../assets/harmony/Process.php?get-employerJobsPosts',id);
-	       	ajax.done(function(ajax){
-				data = JSON.parse(ajax);	
-			});
-	        var content = "", actions = "";
-	        content += 	"<div class='col s12 m6 l12'>"+
-						    "	<div id='profile-account' class='card'>"+
-						    " 			<a class='btn-flat btn-sm btn-block button_success' data-cmd='add_job-post' style='background-color: gray;'><i class='material-icons right' style='color:cyan;'>add</i></a>"+
-						    "		<div class='row' style='padding-left:2%;'>";
-			
-	        $.each(data,function(i,v){
-                if(Number(v[9]) == 1){
-                    status = "active";
-                    var actions = "<a href='#cmd=index;content=job;"+v[0]+"' data-cmd='activatePost' data-name='"+data[0][2]+"' data-node='"+v[0]+"' class='tooltipped btn-floating waves-effect black-text no-shadow white right' data-position='left' data-delay='50' data-tooltip='Deactivate account' data-cmd='update'>"+
-                                  " <i class='tiny material-icons' style='padding-right:0px;color:black;;'>create</i>"+
-                                  "</a>";   
-                }
-                else if(Number(v[9]) == 2){
-                    status = "Pending";
-                    var actions = "<a href='#cmd=index;content=job;"+v[0]+"' data-cmd='pendingPost' data-name='"+data[0][2]+"' data-node='"+data[0][0]+"' class='tooltipped btn-floating waves-effect black-text no-shadow white right' data-position='left' data-delay='50' data-tooltip='Activate account' data-cmd='update'>"+
-                                  " <i class='tiny material-icons' style='padding-right:0px;color:black;;'>create</i>"+
-                                  "</a>";   
-                }
-                else{
-                    status = "Full";
-                    var actions = "<a href='#cmd=index;content=job;"+v[0]+"' data-cmd='fullPost' data-name='"+data[0][2]+"' data-node='"+data[0][0]+"' class='tooltipped btn-floating waves-effect black-text no-shadow white right' data-position='left' data-delay='50' data-tooltip='Activate account' data-cmd='update'>"+
-                                  " <i class='tiny material-icons' style='padding-right:0px;color:black;;'>create</i>"+
-                                  "</a>";   
-                }
-				   	content +=	"		 	<div class='' style='margin-top:20px;'></div>"+
-				   				"        	<span style='display: inline-block;font-size:20px;' class='truncate'><i class='mdi-communication-email cyan-text text-darken-2'></i> Description: "+v[3]+"</span>"+		
-								"		 	<div class='divider'></div>"+
-								"        	<span style='display: inline-block;font-size:20px;' class='truncate'><i class='mdi-communication-email cyan-text text-darken-2'></i> Vacancy Date: "+v[4]+"</span>"+						
-								"		 	<div class='divider'></div>"+
-								"        	<span style='display: inline-block;font-size:20px;' class='truncate'><i class='mdi-communication-email cyan-text text-darken-2'></i> Job Title: "+v[5]+"</span>"+						
-								"		 	<div class='divider'></div>"+
-								"        	<span style='display: inline-block;font-size:20px;' class='truncate'><i class='mdi-communication-email cyan-text text-darken-2'></i> Skills: "+v[6]+"</span>"+						
-								"		 	<div class='divider'></div>"+
-                                "           <span style='display: inline-block;font-size:20px;' class='truncate'><i class='mdi-communication-email cyan-text text-darken-2'></i> Salary Range: "+v[7]+"</span>"+                        
-                                "           <div class='divider'></div>"+
-								"        	<span style='display: inline;font-size:20px;' class='truncate'><i class='mdi-communication-email cyan-text text-darken-2'></i> Status: "+status+actions+"</span>"+          
-                                "		 	<div class='divider'></div><br/><br/>"+
-								"		 	<div class='divider' style='border:1px solid grey ! important;'></div>";
-	        });	
-
-	        content +=	"		</div>"+
-				    	"	</div>"+
-			    		"</div>";
-			$("#job-post").html(content);
-			jobPosts.add();
-            jobPosts.activate();
-            jobPosts.Pending();
-            jobPosts.Full();
+	        let id = JSON.parse(admin.check_access())[0], content="", chip="";
+            let data = JSON.parse(jobPosts.get(id));
+            $.each(data,function(i,v){
+            let skills = JSON.parse(v[7]);
+                console.log(skills);
+                $.each(skills,function(i,s){
+                    console.log(s);
+                    chip +=`<a class="chip">${s}</a>`;
+                    // console.log(chip);
+                });
+            content += `<tr>
+                            <td widtd="50px" class="center">${v[10]}</td>
+                            <td widtd="300px" class="center">${v[6]}</td>
+                            <td widtd="150px" class="center">${v[9]}</td>
+                            <td widtd="200px" class="center">${chip}</td>
+                            <td widtd="150px" class="center">${v[8]}</td>
+                            <td></td>
+                        </tr>`;
+            });
+            content = `<table id='table_logs'>
+                        <thead>
+                            <tr>
+                                <th width="50px" class="center">Status</th><th width="300px" class="center">Job Title</th><th width="150px" class="center">Date posted</th><th width="200px" class="center">Skills</th><th width="150px" class="center">Salary Range</th><th></th>
+                            </tr>
+                        </thead>
+                        <tbody>${content}</tbody>
+                        </table>`;
+            $("#job-post").html(content);
+	        
 	    },
         Full:function(){
             $("a[data-cmd='fullPost']").on('click',function(){
