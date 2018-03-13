@@ -12,6 +12,7 @@ var employer = function() {
         },
         ini: function() {
             var data = admin.check_access();
+            console.log(JSON.parse(data));
             if (data != 0) {
                 employer.display();
             }
@@ -114,11 +115,12 @@ var employer = function() {
                             }
                         },
                         submitHandler: function(form) {
+                            var id = JSON.parse(admin.check_access());
                             var _form = $(form).serializeArray();
                             if ((data.value[0] == _form[0]['value'])) {
                                 system.alert('You did not even change the value.', function() {});
                             } else {
-                                var ajax = system.ajax('../assets/harmony/Process.php?do-updateInfo', ['employer', 'name', sessionStorage.getItem('kareer'), _form[0]['value']]);
+                                var ajax = system.ajax('../assets/harmony/Process.php?do-updateInfo', [id[0],'employer', 'name', sessionStorage.getItem('kareer'), _form[0]['value']]);
                                 ajax.done(function(ajax) {
                                     console.log(ajax);
                                     if (ajax == 1) {
@@ -321,13 +323,17 @@ var jobPosts = function() {
         },
 	    add: function() {
 	        var data = system.xml("pages.xml");
-				$(data.responseText).find("moveToFull").each(function(i,content){
+				$(data.responseText).find("addJobPost").each(function(i,content){
 					$("#modal_medium .modal-content").html(content);
 					$("a[data-cmd='add_job-post']").on('click',function(){
 						$('#modal_medium').modal('open');
-						$("#form_full").validate({
+						$("#form_addJobPost").validate({
 						    rules: {
-
+                                field_title: { required: true},
+                                field_skills: { required: true},
+                                field_salary: { required: true, maxlength: 5, max: 70000 },
+                                field_data: { required: true },
+                                field_description: { required: true, maxlength: 1000},
 						    },
 						    errorElement : 'div',
 						    errorPlacement: function(error, element) {
@@ -341,9 +347,9 @@ var jobPosts = function() {
 							},
 							submitHandler: function (form) {
 								var _form = $(form).serializeArray();
-								var data = employer.get();
-	        					data = JSON.parse(data);
-								var ajax = system.ajax('../assets/harmony/Process.php?set-postJob',[data[0][0],data[0][1],_form[0]['value'],_form[1]['value'],_form[2]['value'],_form[3]['value'],_form[4]['value']]);
+                                console.log(_form);
+								var user = JSON.parse(employer.get());
+								var ajax = system.ajax('../assets/harmony/Process.php?set-postJob',[user[0][0],user[0][1],_form[0]['value'],_form[1]['value'],_form[2]['value'],_form[3]['value'],_form[4]['value']]);
 								ajax.done(function(ajax){
 									console.log(ajax);
 									if(ajax == 1){	

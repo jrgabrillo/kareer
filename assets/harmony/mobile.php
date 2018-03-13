@@ -111,6 +111,7 @@ $Functions = new DatabaseClasses;
 
         $query = $Functions->PDO("INSERT INTO tbl_skills(id,applicant_id,skill,level,date) VALUES('{$id}','{$data[2]}',{$skill},{$level},'{$date}')");
         if($query->execute()){
+            $log = $Functions->log($data[2],$id,"Added {$data[3]}",'Add');
             print_r($id);
         }
         else{
@@ -122,6 +123,7 @@ $Functions = new DatabaseClasses;
         $data = $_POST['data'];
         $query = $Functions->PDO("DELETE FROM tbl_skills WHERE id = '{$data[2]}';");
         if($query->execute()){
+            $log = $Functions->log($data[1],$data[2],"Deleted skill",'Delete');
             echo 1;
         }
         else{
@@ -157,6 +159,7 @@ $Functions = new DatabaseClasses;
         
         $q = $Functions->PDO("INSERT INTO tbl_acadinfo(id,applicant_id,level,schoolattended,degree,yearenrolled,highestlevel,yeargraduated,date) VALUES('{$id}',{$applicant_id},{$yearLevel},{$school},{$degree},{$fromYear},{$units},{$toYear},'{$date}')");
         if($q->execute()){
+            $log = $Functions->log($data[1],$id,"Added Academic",'Add');
             print_r($id);
         }
         else{
@@ -180,6 +183,7 @@ $Functions = new DatabaseClasses;
         $q = $Functions->PDO("INSERT INTO tbl_career(id,applicant_id,agency,position_title,monthly_salary,appointment_status,inclusive_fromdate,inclusive_todate,date) VALUES('{$id}',{$applicant_id},{$agency},{$position},{$salary},{$appointment},{$fromDate},{$toDate},'$date')");
 
         if($q->execute()){
+            $log = $Functions->log($data[1],$id,"Added Career",'Add');
             print_r($id);
         }
         else{

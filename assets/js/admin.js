@@ -11,6 +11,7 @@ var admin = function () {
 		},
 		ini:function(){
 			var data = admin.check_access();
+			console.log(data);
 			if(data != 0){
 				admin.display();
 			}
@@ -360,18 +361,20 @@ var admin = function () {
         	let Logs = JSON.parse(admin.getLogs());
         	let content = "";
         	$.each(Logs,function(i,v){
+        		console.log(v);
 			content += `<tr>
-							<td width='300px'>Account Manager's ${v[3]}</td>
+							<td width='300px'>${v[3]}</td>
 							<td>${v[4]}</td>
+							<td>${v[5]}</td>
 						</tr>`;
 			});
 			content = `<table id='table_logs'>
 						<thead>
 							<tr>
-								<th>Remarks</th><th>Date</th><th></th>
+								<th>Remarks</th><th>Date</th><th>Header</th>
 							</tr>
 						</thead>
-						</tbody>${content}</tbody>
+						<tbody>${content}</tbody>
 						</table>`;
 			$("#display_logs").html(content);
 			let count = 5, min = 0, max = count;
@@ -388,10 +391,11 @@ var admin = function () {
         	$.each(list,function(i,v){
 			content += `<tr>
 							<td width='300px'>Account Manager's ${v[3]}</td>
-							<td>${v[4]}</td>
+							<td width="143px">${v[4]}</td>
+							<td>${v[5]}</td>
 						</tr>`;
 			});
-			$("#display_logs").append(content);
+			$("#display_logs").append(`<table><tbody>${content}</tbody></table>`);
         },
     };
 }();
@@ -434,8 +438,9 @@ var business = function(){
 							}
 						},
 						submitHandler: function (form) {
+							var user = JSON.parse(admin.check_access());
 							var _form = $(form).serializeArray();
-							var ajax = system.ajax('../assets/harmony/Process.php?do-addBusiness',[_form[0]['value'],_form[1]['value'],_form[2]['value'],_form[3]['value']]);
+							var ajax = system.ajax('../assets/harmony/Process.php?do-addBusiness',[user[0],_form[0]['value'],_form[1]['value'],_form[2]['value'],_form[3]['value']]);
 							ajax.done(function(ajax){
 								console.log(ajax);
 								if(ajax == 1){	
@@ -551,12 +556,13 @@ var business = function(){
 								error.insertAfter(element);
 						},
 						submitHandler: function (form) {
+							let user = JSON.parse(admin.check_access());
 							var _form = $(form).serializeArray();
 							if(data.value[0] == _form[0]['value']){
 								system.alert('You did not even change the value.', function(){});
 							}
 							else{
-								var ajax = system.ajax('../assets/harmony/Process.php?do-updateInfo',['business','name',business.id(),_form[0]['value']]);
+								var ajax = system.ajax('../assets/harmony/Process.php?do-updateInfo',[user[0],'business','name',business.id(),_form[0]['value']]);
 								ajax.done(function(ajax){
 									if(ajax == 1){
 										$('#modal_confirm').modal('close');
@@ -597,12 +603,13 @@ var business = function(){
 								error.insertAfter(element);
 						},
 						submitHandler: function (form) {
+							let user = JSON.parse(admin.check_access());
 							var _form = $(form).serializeArray();
 							if(data.value[0] == _form[0]['value']){
 								system.alert('You did not even change the value.', function(){});
 							}
 							else{
-								var ajax = system.ajax('../assets/harmony/Process.php?do-updateInfo',['business','number',business.id(),_form[0]['value']]);
+								var ajax = system.ajax('../assets/harmony/Process.php?do-updateInfo',[user[0],'business','number',business.id(),_form[0]['value']]);
 								ajax.done(function(ajax){
 									if(ajax == 1){
 										$('#modal_confirm').modal('close');
@@ -642,12 +649,13 @@ var business = function(){
 								error.insertAfter(element);
 						},
 						submitHandler: function (form) {
+							let user = JSON.parse(admin.check_access());
 							var _form = $(form).serializeArray();
 							if(data.value[0] == _form[0]['value']){
 								system.alert('You did not even change the value.', function(){});
 							}
 							else{
-								var ajax = system.ajax('../assets/harmony/Process.php?do-updateInfo',['business','email',business.id(),_form[0]['value']]);
+								var ajax = system.ajax('../assets/harmony/Process.php?do-updateInfo',[user[0],'business','email',business.id(),_form[0]['value']]);
 								ajax.done(function(ajax){
 									if(ajax == 1){
 										$('#modal_confirm').modal('close');
@@ -691,12 +699,13 @@ var business = function(){
 					});
 					$("#form_update").validate({
 						submitHandler: function (form) {
+							let user = JSON.parse(admin.check_access());
 							let _form = editor.root.innerHTML;
 							if(data[2] == _form){
 								system.alert('You did not even change the product name.', function(){});
 							}
 							else{
-								var ajax = system.ajax('../assets/harmony/Process.php?do-updateInfo',['business','description',business.id(),_form]);
+								var ajax = system.ajax('../assets/harmony/Process.php?do-updateInfo',[user[0],'business','description',business.id(),_form]);
 								ajax.done(function(ajax){
 									if(ajax == 1){
 										$('#modal_medium').modal('close');
@@ -879,8 +888,9 @@ var accountManager = function(){
 							}
 						},
 						submitHandler: function (form) {
+							var user = JSON.parse(admin.check_access());
 							var _form = $(form).serializeArray();
-							var ajax = system.ajax('../assets/harmony/Process.php?do-addBusinessAccount',[business.id(),_form[0]['value'],_form[1]['value'],_form[2]['value'],_form[3]['value']]);
+							var ajax = system.ajax('../assets/harmony/Process.php?do-addBusinessAccount',[user[0],business.id(),_form[0]['value'],_form[1]['value'],_form[2]['value'],_form[3]['value']]);
 							ajax.done(function(ajax){
 								if(ajax == 1){	
 									accountManager.list();
@@ -946,8 +956,8 @@ var accountManager = function(){
 							Materialize.toast('Statement is too long.',4000);
 					}
 					else{
-						let user = JSON.parse(admin.get());
-						var ajax = system.ajax('../assets/harmony/Process.php?do-updateInfo',['employer','status',user[0][0],data[0],data[1],remarks]);
+						let user = JSON.parse(admin.check_access());
+						var ajax = system.ajax('../assets/harmony/Process.php?do-updateInfo',[user[0],'employer','status',data[0],data[1],remarks]);
 						ajax.done(function(ajax){
 							console.log(ajax);
 							if(ajax == 1){
@@ -1177,8 +1187,8 @@ var applicant = function(){
 							Materialize.toast('Statement is too long.',4000);
 					}
 					else{
-						let user = JSON.parse(admin.get());
-						var ajax = system.ajax('../assets/harmony/Process.php?do-updateInfo',['applicant','status',user[0][0],applicant.id(),data[1],remarks]);
+						let user = JSON.parse(admin.check_access());
+						var ajax = system.ajax('../assets/harmony/Process.php?do-updateInfo',[user[0],'applicant','status',applicant.id(),data[1],remarks]);
 						ajax.done(function(ajax){
 							console.log(ajax);
 							if(ajax == 1){

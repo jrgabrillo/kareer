@@ -148,16 +148,6 @@
 				<div class='col s12'>
 					<h4 class="">New Post</h4>
 						<div class='row'>
-							<div class='input-field col s12'>
-								<label for='field_description'>Description: </label>
-					            <input id='field_description' type='text' name='field_description' data-error='.error_description'>
-								<div class='error_description'></div>	
-							</div>
-							<div class='input-field col s6'>
-								<label for='field_vacancy'>Vacancy Date: </label>
-					            <input id='field_vacancy' type='text' name='field_vacancy' data-error='.error_vacancy'>
-								<div class='error_vacancy'></div>	
-							</div>
 							<div class='input-field col s6'>
 								<label for='field_title'>Job Title: </label>
 					            <input id='field_title' type='text' name='field_title' data-error='.error_title'>
@@ -170,8 +160,18 @@
 							</div>
 							<div class='input-field col s6'>
 								<label for='field_salary'>Salary Range: </label>
-					            <input id='field_salary' type='text' name='field_salary' data-error='.error_salary'>
+					            <input id='field_salary' type='number' name='field_salary' data-error='.error_salary'>
 								<div class='error_salary'></div>	
+							</div>
+							<div class='input-field col s6'>
+								<label for='field_data' class="active">Vacancy Date: </label>
+					            <input id='field_data' type='date' name='field_data' data-error='.error_data'>
+								<div class='error_data'></div>	
+							</div>
+							<div class='input-field col s12'>
+								<label for='field_description'>Description: </label>
+					            <textarea id='field_description' type='text' name='field_description' data-error='.error_description'></textarea>
+								<div class='error_description'></div>	
 							</div>
 							<div class='input-field col s12'>
 								<button type='submit' data-cmd='button_proceed' class='waves-effect waves-grey grey lighten-5 blue-text btn-flat modal-action right'>Save</button>
