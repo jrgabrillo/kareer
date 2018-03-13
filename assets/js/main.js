@@ -21,7 +21,7 @@ var main = function () {
 					let _form = $(form).serializeArray();
 					let data = system.ajax('assets/harmony/Process.php?login',[_form[0]['value'],_form[1]['value']]);
 					data.done(function(data){
-						console.log(data);
+						// console.log(data);
 						data = (data == "")? "error" : JSON.parse(data); 
 						if(data != "error"){
 							localStorage.setItem("hash",data[2]);

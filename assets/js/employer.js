@@ -327,6 +327,13 @@ var jobPosts = function() {
 					$("#modal_medium .modal-content").html(content);
 					$("a[data-cmd='add_job-post']").on('click',function(){
 						$('#modal_medium').modal('open');
+                        let skills = [];
+                        $('.chips-placeholder').material_chip({
+                            placeholder: 'Add a skill'
+                        });
+                        $('.chips').on('chip.add', function(e, chip){
+                        });
+                        console.log(skills);
 						$("#form_addJobPost").validate({
 						    rules: {
                                 field_title: { required: true},
@@ -349,17 +356,17 @@ var jobPosts = function() {
 								var _form = $(form).serializeArray();
                                 console.log(_form);
 								var user = JSON.parse(employer.get());
-								var ajax = system.ajax('../assets/harmony/Process.php?set-postJob',[user[0][0],user[0][1],_form[0]['value'],_form[1]['value'],_form[2]['value'],_form[3]['value'],_form[4]['value']]);
-								ajax.done(function(ajax){
-									console.log(ajax);
-									if(ajax == 1){	
-										$('#modal_medium').modal('close');	
-										system.alert('Posted.', function(){});
-									}
-									else{
-										system.alert('Failed to post.', function(){});
-									}
-								});
+								// var ajax = system.ajax('../assets/harmony/Process.php?set-postJob',[user[0][0],user[0][1],_form[0]['value'],_form[1]['value'],_form[2]['value'],_form[3]['value'],_form[4]['value']]);
+								// ajax.done(function(ajax){
+								// 	console.log(ajax);
+								// 	if(ajax == 1){	
+								// 		$('#modal_medium').modal('close');	
+								// 		system.alert('Posted.', function(){});
+								// 	}
+								// 	else{
+								// 		system.alert('Failed to post.', function(){});
+								// 	}
+								// });
 						    }
 						});
 					});
