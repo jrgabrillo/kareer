@@ -242,6 +242,28 @@ $Functions = new DatabaseClasses;
         }
     }
 
+    if (isset($_GET['do-updateCareer'])){/**/
+        $data = $_POST['data'];
+        $id = $data[0];
+        $applicant_id = $Functions->escape($data[1]);
+        $agency = $Functions->escape($data[2]);
+        $position = $Functions->escape($data[3]);
+        $salary = $Functions->escape($data[4]);
+        $appointment = $Functions->escape($data[5]);
+        $fromDate = $Functions->escape($data[6]);
+        $toDate = $Functions->escape($data[7]);
+
+        $name = $data[1][0]['value'];
+        $q = $Functions->PDO("UPDATE tbl_career SET applicant_id = {$applicant_id}, agency = {$agency}, position_title = {$position}, monthly_salary = {$salary}, appointment_status = {$appointment}, inclusive_fromdate = {$fromDate}, inclusive_todate = {$toDate} WHERE id = '{$id}';");
+        if($q->execute()){
+            echo 1;
+        }
+        else{
+            $Data = $q->errorInfo();
+            print_r($Data);
+        }
+    }
+
     if (isset($_GET['do-language'])){
         $data = $_POST['data'];
         
@@ -446,84 +468,6 @@ $Functions = new DatabaseClasses;
         else{
             $Data = $q->errorInfo();
             print_r($Data);
-        }
-    }
-
-    if (isset($_GET['do-updateCareer'])){
-        $data = $_POST['data'];
-        $id = $data[0];
-        if($data[1][0]['name'] == "field_date1"){
-            $from = $data[1][0]['value'];
-            $to = $data[1][1]['value'];
-            $query = $Functions->PDO("UPDATE tbl_career SET inclusive_fromdate = '{$from}', inclusive_todate = '{$to}' WHERE id = '{$id}';");
-            // print_r($query);
-            if($query->execute()){
-                echo 1;
-            }
-            else{
-                $Data = $query->errorInfo();
-                print_r($Data);
-            }
-        }
-        else if($data[1][0]['name'] == "field_position"){
-            $name = $data[1][0]['value'];
-            $query = $Functions->PDO("UPDATE tbl_career SET position_title = '{$name}' WHERE id = '{$id}';");
-            // print_r($query);
-            if($query->execute()){
-                echo 1;
-            }
-            else{
-                $Data = $query->errorInfo();
-                print_r($Data);
-            }
-        }
-        else if($data[1][0]['name'] == "field_agency"){
-            $name = $data[1][0]['value'];
-            $query = $Functions->PDO("UPDATE tbl_career SET agency = '{$name}' WHERE id = '{$id}';");
-            // print_r($query);
-            if($query->execute()){
-                echo 1;
-            }
-            else{
-                $Data = $query->errorInfo();
-                print_r($Data);
-            }
-        }
-        else if($data[1][0]['name'] == "field_salary"){
-            $name = $data[1][0]['value'];
-            $query = $Functions->PDO("UPDATE tbl_career SET monthly_salary = '{$name}' WHERE id = '{$id}';");
-            // print_r($query);
-            if($query->execute()){
-                echo 1;
-            }
-            else{
-                $Data = $query->errorInfo();
-                print_r($Data);
-            }
-        }
-        else if($data[1][0]['name'] == "field_appointment"){
-            $name = $data[1][0]['value'];
-            $query = $Functions->PDO("UPDATE tbl_career SET appointment_status = '{$name}' WHERE id = '{$id}';");
-            // print_r($query);
-            if($query->execute()){
-                echo 1;
-            }
-            else{
-                $Data = $query->errorInfo();
-                print_r($Data);
-            }
-        }
-        else if($data[1][0]['name'] == "field_govt_service"){
-            $name = $data[1][0]['value'];
-            $query = $Functions->PDO("UPDATE tbl_career SET govt_service = '{$name}' WHERE id = '{$id}';");
-            // print_r($query);
-            if($query->execute()){
-                echo 1;
-            }
-            else{
-                $Data = $query->errorInfo();
-                print_r($Data);
-            }
         }
     }
 
