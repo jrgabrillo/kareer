@@ -323,19 +323,19 @@
 				$q = $Functions->PDO("UPDATE tbl_businessmanagers SET status = '{$field}' WHERE id = '{$data[3]}'");
 			}
 			else if($data[2] == 'name'){
-				$field1 = $Functions->escape($data[3]);
-				$remarks = "Updated {$data[1]} to {$data[3]}";
-				$q = $Functions->PDO("UPDATE tbl_businessmanagers SET name = {$field1} WHERE id = '{$data[2]}'");
+				$field1 = $Functions->escape($data[4]);
+				$remarks = "Updated {$data[2]} to {$data[4]}";
+				$q = $Functions->PDO("UPDATE tbl_businessmanagers SET name = {$field1} WHERE id = '{$data[3]}'");
 			}
 			else if($data[2] == 'username'){
-				$field1 = $Functions->escape($data[3]);
-				$remarks = "Updated {$data[1]} to {$data[3]}";
-				$q = $Functions->PDO("UPDATE tbl_businessmanagers SET email = {$field1} WHERE id = '{$data[2]}'");	
+				$field1 = $Functions->escape($data[4]);
+				$remarks = "Updated {$data[2]} to {$data[4]}";
+				$q = $Functions->PDO("UPDATE tbl_businessmanagers SET email = {$field1} WHERE id = '{$data[3]}'");	
 			}
 			else if($data[2] == 'password'){
-				$field1 = $Functions->password($data[3]);
-				$remarks = "Updated {$data[1]}";
-				$q = $Functions->PDO("UPDATE tbl_businessmanagers SET password = '{$field1}' WHERE id = '{$data[2]}'");
+				$field1 = $Functions->password($data[4]);
+				$remarks = "Updated {$data[2]}";
+				$q = $Functions->PDO("UPDATE tbl_businessmanagers SET password = '{$field1}' WHERE id = '{$data[3]}'");
 				$_SESSION['kareer7836'][1] = $field1;
 			}
 			else{
@@ -499,16 +499,15 @@
 		$id = $Functions->PDO_IDGenerator('tbl_vacancies','id');
 		$date = $Functions->PDO_DateAndTime();
 		
-		$skills = json_encode($data[0][5]);
-		// $remarks = 'Posted a job';
-		// $header = 'Post';
-		$query = $Functions->PDO("INSERT INTO tbl_vacancies(id,employer_id,business_id,description,vacancy_date,job_title,skills,salary_range,date,status) VALUES('{$id}','{$data[0]}','{$data[1]}','{$data[2]}','{$data[3]}','{$data[4]}',{$skills},'{$data[6]}','{$date}',1)");
-		if($query->execute())
-			// $log = $Functions->log($data[0],$id,$remarks,$header);
+		// $skills = json_encode($data[0][5]);
+		$query = $Functions->PDO("INSERT INTO tbl_vacancies(id,employer_id,business_id,description,vacancy_date,job_title,skills,salary_range,date,status) VALUES('{$id}','{$data[0]}','{$data[1]}','{$data[6]}','{$data[5]}','{$data[2]}','{$data[3]}','{$data[4]}','{$date}',1)");
+		if($query->execute()){
+			$log = $Functions->log($data[0],$id,'Posted a job','Add');
 			echo 1;
+		}
 		else{
 			$Data = $query->errorInfo();
-			print_r($Data[1][6]);
+			print_r($Data);
 		}
 	}    
 
