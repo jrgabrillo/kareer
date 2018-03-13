@@ -197,6 +197,51 @@ $Functions = new DatabaseClasses;
         print_r(json_encode($query));
     }
 
+    if (isset($_GET['do-deleteAcademic'])){/**/
+        $data = $_POST['data'];
+        $query = $Functions->PDO("DELETE FROM tbl_acadinfo WHERE id = '{$data}';");
+        if($query->execute()){
+            echo 1;
+        }
+        else{
+            $Data = $query->errorInfo();
+            print_r($Data);
+        }
+    }
+
+    if (isset($_GET['do-deleteCareer'])){/**/
+        $data = $_POST['data'];
+        $query = $Functions->PDO("DELETE FROM tbl_career WHERE id = '{$data}';");
+        if($query->execute()){
+            echo 1;
+        }
+        else{
+            $Data = $query->errorInfo();
+            print_r($Data);
+        }
+    }
+
+    if (isset($_GET['do-updateAcademic'])){/**/
+        $data = $_POST['data'];
+        
+        $applicant_id = $Functions->escape($data[1]);
+        $yearLevel = $Functions->escape($data[2]);
+        $school = $Functions->escape($data[3]);
+        $degree = $Functions->escape($data[4]);
+        $units = $Functions->escape($data[5]);
+        $fromYear = $Functions->escape($data[6]);
+        $toYear = $Functions->escape($data[7]);
+        $id = $data[0];
+        $q = $Functions->PDO("UPDATE  tbl_acadinfo  SET  level = {$yearLevel}, schoolattended = {$school}, degree = {$degree}, highestlevel = {$units}, yearenrolled = {$fromYear}, yeargraduated = {$toYear} WHERE id = '{$id}'");
+        if($q->execute()){
+            echo 1;
+        }
+        else{
+            $Data = $q->errorInfo();
+            print_r($Data);
+        }
+    }
+
     if (isset($_GET['do-language'])){
         $data = $_POST['data'];
         
@@ -249,30 +294,6 @@ $Functions = new DatabaseClasses;
 
         $query = $Functions->PDO("INSERT INTO tbl_seminars(id,applicant_id,event,location,date) VALUES('{$id}','{$data[0]}',{$event},{$location},{$date})");
 
-        if($query->execute()){
-            echo 1;
-        }
-        else{
-            $Data = $query->errorInfo();
-            print_r($Data);
-        }
-    }
-
-    if (isset($_GET['do-deleteAcademic'])){/**/
-        $data = $_POST['data'];
-        $query = $Functions->PDO("DELETE FROM tbl_acadinfo WHERE id = '{$data}';");
-        if($query->execute()){
-            echo 1;
-        }
-        else{
-            $Data = $query->errorInfo();
-            print_r($Data);
-        }
-    }
-
-    if (isset($_GET['do-deleteCareer'])){/**/
-        $data = $_POST['data'];
-        $query = $Functions->PDO("DELETE FROM tbl_career WHERE id = '{$data}';");
         if($query->execute()){
             echo 1;
         }
@@ -532,27 +553,6 @@ $Functions = new DatabaseClasses;
         }
         else{
             $Data = $querySkills->errorInfo();
-            print_r($Data);
-        }
-    }
-
-    if (isset($_GET['do-updateAcademic'])){/**/
-        $data = $_POST['data'];
-        
-        $applicant_id = $Functions->escape($data[1]);
-        $yearLevel = $Functions->escape($data[2]);
-        $school = $Functions->escape($data[3]);
-        $degree = $Functions->escape($data[4]);
-        $units = $Functions->escape($data[5]);
-        $fromYear = $Functions->escape($data[6]);
-        $toYear = $Functions->escape($data[7]);
-        $id = $data[0];
-        $q = $Functions->PDO("UPDATE  tbl_acadinfo  SET  level = {$yearLevel}, schoolattended = {$school}, degree = {$degree}, highestlevel = {$units}, yearenrolled = {$fromYear}, yeargraduated = {$toYear} WHERE id = '{$id}'");
-        if($q->execute()){
-            echo 1;
-        }
-        else{
-            $Data = $q->errorInfo();
             print_r($Data);
         }
     }

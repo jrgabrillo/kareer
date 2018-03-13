@@ -237,6 +237,7 @@
 		}
 		print_r(json_encode($result));
 	}
+	
 	if(isset($_GET['get-logs'])){
 		$data = $_POST['data'];
 		$min = $data[0];
