@@ -316,12 +316,13 @@
 			}
 		}
 		else if($data[1] == 'employer'){
+			// print($data);
 			if($data[2] == 'status'){
 				$field = ($data[4] == 'deactivate')?0:1;
-				$remarks = "Updated {$data[2]} to '{$field}'";
+				$remarks = "{$data[5]}. Updated {$data[2]} to {$field}";
 				$q = $Functions->PDO("UPDATE tbl_businessmanagers SET status = '{$field}' WHERE id = '{$data[3]}'");
 			}
-			if($data[2] == 'name'){
+			else if($data[2] == 'name'){
 				$field1 = $Functions->escape($data[3]);
 				$remarks = "Updated {$data[1]} to {$data[3]}";
 				$q = $Functions->PDO("UPDATE tbl_businessmanagers SET name = {$field1} WHERE id = '{$data[2]}'");
@@ -340,7 +341,6 @@
 			else{
 				$q = $Functions->PDO("");
 			}
-
 			if($q->execute()){
 				$log = $Functions->log($data[0],$data[3],$remarks,'Update');
 				echo 1;
@@ -350,9 +350,10 @@
 				print_r($Data);
 			}
 		}
-		else if($data[0] == 'applicant'){
-			if($data[1] == 'status'){
+		else if($data[1] == 'applicant'){
+			if($data[2] == 'status'){
 				$field = ($data[4] == 'deactivate')?0:1;
+				$remarks = "{$data[5]}. Updated {$data[2]} to {$field}";
 				$q = $Functions->PDO("UPDATE tbl_applicant SET status = '{$field}' WHERE id = '{$data[3]}'");
 			}
 			else{
@@ -360,7 +361,7 @@
 			}
 
 			if($q->execute()){
-				$log = $Functions->log($data[2],$data[3],"Updated {$data[1]} to {$field1}","Update");
+				$log = $Functions->log($data[0],$data[3],$remarks,"Update");
 				echo 1;
 			}
 			else{

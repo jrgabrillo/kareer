@@ -1187,8 +1187,8 @@ var applicant = function(){
 							Materialize.toast('Statement is too long.',4000);
 					}
 					else{
-						let user = JSON.parse(admin.get());
-						var ajax = system.ajax('../assets/harmony/Process.php?do-updateInfo',['applicant','status',user[0][0],applicant.id(),data[1],remarks]);
+						let user = JSON.parse(admin.check_access());
+						var ajax = system.ajax('../assets/harmony/Process.php?do-updateInfo',[user[0],'applicant','status',applicant.id(),data[1],remarks]);
 						ajax.done(function(ajax){
 							console.log(ajax);
 							if(ajax == 1){
