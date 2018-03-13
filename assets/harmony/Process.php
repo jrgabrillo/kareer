@@ -237,6 +237,7 @@
 		}
 		print_r(json_encode($result));
 	}
+	
 	if(isset($_GET['get-logs'])){
 		$data = $_POST['data'];
 		$min = $data[0];
@@ -332,10 +333,11 @@
 				$remarks = "Updated {$data[2]} to {$data[4]}";
 				$q = $Functions->PDO("UPDATE tbl_businessmanagers SET email = {$field1} WHERE id = '{$data[3]}'");	
 			}
-			else if($data[2] == 'password'){
-				$field1 = $Functions->password($data[4]);
-				$remarks = "Updated {$data[2]}";
-				$q = $Functions->PDO("UPDATE tbl_businessmanagers SET password = '{$field1}' WHERE id = '{$data[3]}'");
+			else if($data[1] == 'password'){
+				$field1 = $Functions->password($data[3]);
+				$remarks = "{$data[1]} is updated";
+				$header = 'Update';
+				$q = $Functions->PDO("UPDATE tbl_businessmanagers SET password = '{$field1}' WHERE id = '{$data[2]}'");
 				$_SESSION['kareer7836'][1] = $field1;
 			}
 			else{
