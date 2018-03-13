@@ -325,7 +325,7 @@
 			}
 			else if($data[1] == 'password'){
 				$field1 = $Functions->password($data[3]);
-				$remarks = $data[1].' is updated';
+				$remarks = "{$data[1]} is updated";
 				$header = 'Update';
 				$q = $Functions->PDO("UPDATE tbl_businessmanagers SET password = '{$field1}' WHERE id = '{$data[2]}'");
 				$_SESSION['kareer7836'][1] = $field1;

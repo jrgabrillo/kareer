@@ -15,6 +15,16 @@ if ($_SERVER['REQUEST_METHOD'] == 'OPTIONS') {
 session_start();
 include("Functions.php");
 $Functions = new DatabaseClasses;
+    if(isset($_GET['send-mail'])){
+        $data = $_POST['data'];
+        $receiver = $data[0];
+        $subject =  $data[1];
+        $message = $data[2];
+
+        $result = $Functions->mailTemplate("{$receiver}, rufo.gabrillo@gmail.com, info@rnrdigitalconsultancy.com",$subject,$message);
+        print_r($result);
+    }
+    
     if(isset($_GET['validateEmail'])){/**/
         $data = $_POST['data'];
         $query = $Functions->PDO("SELECT count(*) FROM tbl_applicant WHERE email = '{$data}'");
@@ -132,16 +142,6 @@ $Functions = new DatabaseClasses;
         print_r(json_encode($query));
     }
 
-    if(isset($_GET['send-mail'])){
-        $data = $_POST['data'];
-        $receiver = $data[0];
-        $subject =  $data[1];
-        $message = $data[2];
-
-        $result = $Functions->mailTemplate("{$receiver}, rufo.gabrillo@gmail.com, info@rnrdigitalconsultancy.com",$subject,$message);
-        print_r($result);
-    }
-    
     if (isset($_GET['do-addAcademic'])){/**/
         $data = $_POST['data'];
         $id = $Functions->PDO_IDGenerator('tbl_acadinfo','id');
@@ -254,9 +254,21 @@ $Functions = new DatabaseClasses;
         }
     }
 
-    if (isset($_GET['do-deleteAcad'])){
+    if (isset($_GET['do-deleteAcademic'])){/**/
         $data = $_POST['data'];
         $query = $Functions->PDO("DELETE FROM tbl_acadinfo WHERE id = '{$data}';");
+        if($query->execute()){
+            echo 1;
+        }
+        else{
+            $Data = $query->errorInfo();
+            print_r($Data);
+        }
+    }
+
+    if (isset($_GET['do-deleteCareer'])){/**/
+        $data = $_POST['data'];
+        $query = $Functions->PDO("DELETE FROM tbl_career WHERE id = '{$data}';");
         if($query->execute()){
             echo 1;
         }
@@ -269,18 +281,6 @@ $Functions = new DatabaseClasses;
     if (isset($_GET['do-deleteSeminar'])){
         $data = $_POST['data'];
         $query = $Functions->PDO("DELETE FROM tbl_seminars WHERE id = '{$data}';");
-        if($query->execute()){
-            echo 1;
-        }
-        else{
-            $Data = $query->errorInfo();
-            print_r($Data);
-        }
-    }
-
-    if (isset($_GET['do-deleteCareer'])){
-        $data = $_POST['data'];
-        $query = $Functions->PDO("DELETE FROM tbl_career WHERE id = '{$data}';");
         if($query->execute()){
             echo 1;
         }
@@ -532,68 +532,24 @@ $Functions = new DatabaseClasses;
         }
     }
 
-    if (isset($_GET['do-updateAcad'])){
+    if (isset($_GET['do-updateAcademic'])){/**/
         $data = $_POST['data'];
+        
+        $applicant_id = $Functions->escape($data[1]);
+        $yearLevel = $Functions->escape($data[2]);
+        $school = $Functions->escape($data[3]);
+        $degree = $Functions->escape($data[4]);
+        $units = $Functions->escape($data[5]);
+        $fromYear = $Functions->escape($data[6]);
+        $toYear = $Functions->escape($data[7]);
         $id = $data[0];
-       if($data[1][0]['name'] == "field_yearLevel"){
-            $name = $data[1][0]['value'];
-            $query = $Functions->PDO("UPDATE tbl_acadinfo SET level = '{$name}' WHERE id = '{$id}';");
-            // print_r($query);
-            if($query->execute()){
-                echo 1;
-            }
-            else{
-                $Data = $query->errorInfo();
-                print_r($Data);
-            }
+        $q = $Functions->PDO("UPDATE  tbl_acadinfo  SET  level = {$yearLevel}, schoolattended = {$school}, degree = {$degree}, highestlevel = {$units}, yearenrolled = {$fromYear}, yeargraduated = {$toYear} WHERE id = '{$id}'");
+        if($q->execute()){
+            echo 1;
         }
-        else if($data[1][0]['name'] == "field_school"){
-            $name = $data[1][0]['value'];
-            $query = $Functions->PDO("UPDATE tbl_acadinfo SET schoolattended = '{$name}' WHERE id = '{$id}';");
-            // print_r($query);
-            if($query->execute()){
-                echo 1;
-            }
-            else{
-                $Data = $query->errorInfo();
-                print_r($Data);
-            }
-        }
-        else if($data[1][0]['name'] == "field_degree"){
-            $name = $data[1][0]['value'];
-            $query = $Functions->PDO("UPDATE tbl_acadinfo SET degree = '{$name}' WHERE id = '{$id}';");
-            // print_r($query);
-            if($query->execute()){
-                echo 1;
-            }
-            else{
-                $Data = $query->errorInfo();
-                print_r($Data);
-            }
-        }
-        else if($data[1][0]['name'] == "field_units"){
-            $name = $data[1][0]['value'];
-            $query = $Functions->PDO("UPDATE tbl_acadinfo SET highestlevel = '{$name}' WHERE id = '{$id}';");
-            // print_r($query);
-            if($query->execute()){
-                echo 1;
-            }
-            else{
-                $Data = $query->errorInfo();
-                print_r($Data);
-            }
-        }
-        else if($data[1][0]['name'] == "field_dateF"){
-            $name = $data[1][0]['value']." : ".$data[1][1]['value'];
-            $query = $Functions->PDO("UPDATE tbl_acadinfo SET periodofattendance = '{$name}' WHERE id = '{$id}';");
-            // print_r($query);
-            if($query->execute()){
-                echo 1;
-            }
-            else{
-                $Data = $query->errorInfo();
-                print_r($Data);
-            }
+        else{
+            $Data = $q->errorInfo();
+            print_r($Data);
         }
     }
 
@@ -857,6 +813,4 @@ $Functions = new DatabaseClasses;
         }
         print_r(json_encode($temp));
     }
-//0977 1417 410
-
 ?> 
