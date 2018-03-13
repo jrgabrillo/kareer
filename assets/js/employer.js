@@ -12,6 +12,7 @@ var employer = function() {
         },
         ini: function() {
             var data = admin.check_access();
+            console.log(JSON.parse(data));
             if (data != 0) {
                 employer.display();
             }
@@ -114,6 +115,7 @@ var employer = function() {
                             }
                         },
                         submitHandler: function(form) {
+                            var id = JSON.parse(admin.check_access());
                             var _form = $(form).serializeArray();
                             if ((data.value[0] == _form[0]['value'])) {
                                 system.alert('You did not even change the value.', function() {});

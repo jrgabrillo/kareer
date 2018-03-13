@@ -253,18 +253,18 @@
 			if($data[1] == 'name'){
 				$field1 = $Functions->escape($data[3]);
 				$field2 = $Functions->escape($data[4]);
-				$remarks = "{$data[1]} is updated";
+				$remarks = "Updated {$data[1]} to {$data[3]} {$data[4]}";
 				$q = $Functions->PDO("UPDATE tbl_admin SET fname = {$field1}, lname = {$field2} WHERE id = '{$data[2]}'");
 			}
-			else if($data[2] == 'username'){
+			else if($data[1] == 'username'){
 				$field1 = $Functions->escape($data[3]);
-				$remarks = "{$data[1]} is updated";
+				$remarks = "Updated {$data[1]} to {$data[3]}";
 				$q = $Functions->PDO("UPDATE tbl_admin SET username = {$field1} WHERE id = '{$data[2]}'");
-				$_SESSION['kareer7836'][0] = $field1;
+				$_SESSION['kareer7836'][1] = $field1;
 			}
-			else if($data[2] == 'password'){
+			else if($data[1] == 'password'){
 				$field1 = $Functions->password($data[3]);
-				$remarks = "{$data[1]} is updated";
+				$remarks = "Updated {$data[1]}";
 				$q = $Functions->PDO("UPDATE tbl_admin SET password = '{$field1}' WHERE id = '{$data[2]}'");
 				$_SESSION['kareer7836'][1] = $field1;
 			}
@@ -273,7 +273,7 @@
 			}
 
 			if($q->execute()){
-				$log = $Functions->log($data[0],$data[1],$remarks,'Update');
+				$log = $Functions->log($data[2],$data[2],$remarks,'Update');
 				echo 1;
 			}
 			else{
@@ -281,33 +281,33 @@
 				print_r($Data);
 			}
 		}
-		else if($data[0] == 'business'){
-			if($data[1] == 'name'){
-				$field1 = $Functions->escape($data[3]);
-				$remarks = "{$data[1]} is updated";
-				$q = $Functions->PDO("UPDATE tbl_business SET company_name = {$field1} WHERE id = '{$data[2]}'");
+		else if($data[1] == 'business'){
+			if($data[2] == 'name'){
+				$field1 = $Functions->escape($data[4]);
+				$remarks = "Updated {$data[2]} to {$data[4]}";
+				$q = $Functions->PDO("UPDATE tbl_business SET company_name = {$field1} WHERE id = '{$data[3]}'");
 			}
-			else if($data[1] == 'number'){
-				$field1 = $Functions->escape($data[3]);
-				$remarks = "{$data[1]} is updated";
-				$q = $Functions->PDO("UPDATE tbl_business SET contact_number = {$field1} WHERE id = '{$data[2]}'");
+			else if($data[2] == 'number'){
+				$field1 = $Functions->escape($data[4]);
+				$remarks = "Updated {$data[2]} to {$data[4]}";
+				$q = $Functions->PDO("UPDATE tbl_business SET contact_number = {$field1} WHERE id = '{$data[3]}'");
 			}
-			else if($data[1] == 'email'){
-				$field1 = $Functions->escape($data[3]);
-				$remarks = "{$data[1]} is updated";
-				$q = $Functions->PDO("UPDATE tbl_business SET email = {$field1} WHERE id = '{$data[2]}'");
+			else if($data[2] == 'email'){
+				$field1 = $Functions->escape($data[4]);
+				$remarks = "Updated {$data[2]} to {$data[4]}";
+				$q = $Functions->PDO("UPDATE tbl_business SET email = {$field1} WHERE id = '{$data[3]}'");
 			}
-			else if($data[1] == 'description'){
-				$field1 = $Functions->escape($data[3]);
-				$remarks = "{$data[1]} is updated";
-				$q = $Functions->PDO("UPDATE tbl_business SET description = {$field1} WHERE id = '{$data[2]}'");
+			else if($data[2] == 'description'){
+				$field1 = $Functions->escape($data[4]);
+				$remarks = "Updated {$data[2]} to {$data[4]}";
+				$q = $Functions->PDO("UPDATE tbl_business SET description = {$field1} WHERE id = '{$data[3]}'");
 			}
 			else{
 				$q = $Functions->PDO("");
 			}
 			
 			if($q->execute()){
-				$log = $Functions->log($data[0],$data[1],$remarks,'Update');
+				$log = $Functions->log($data[0],$data[3],$remarks,'Update');
 				echo 1;
 			}
 			else{
@@ -315,29 +315,25 @@
 				print_r($Data);
 			}
 		}
-		else if($data[0] == 'employer'){
-			if($data[1] == 'status'){
+		else if($data[1] == 'employer'){
+			if($data[2] == 'status'){
 				$field = ($data[4] == 'deactivate')?0:1;
-				$remarks = "{$data[1]} is updated";
-				$header = ($field == 'deactivate')?'Deactivated':'Activated';
+				$remarks = "Updated {$data[2]} to '{$field}'";
 				$q = $Functions->PDO("UPDATE tbl_businessmanagers SET status = '{$field}' WHERE id = '{$data[3]}'");
 			}
-			if($data[1] == 'name'){
+			if($data[2] == 'name'){
 				$field1 = $Functions->escape($data[3]);
-				$remarks = "{$data[1]} is updated";
-				$header = 'Update';
+				$remarks = "Updated {$data[1]} to {$data[3]}";
 				$q = $Functions->PDO("UPDATE tbl_businessmanagers SET name = {$field1} WHERE id = '{$data[2]}'");
 			}
-			else if($data[1] == 'username'){
+			else if($data[2] == 'username'){
 				$field1 = $Functions->escape($data[3]);
-				$remarks = "{$data[1]} is updated";
-				$header = 'Update';
+				$remarks = "Updated {$data[1]} to {$data[3]}";
 				$q = $Functions->PDO("UPDATE tbl_businessmanagers SET email = {$field1} WHERE id = '{$data[2]}'");	
 			}
-			else if($data[1] == 'password'){
+			else if($data[2] == 'password'){
 				$field1 = $Functions->password($data[3]);
-				$remarks = "{$data[1]} is updated";
-				$header = 'Update';
+				$remarks = "Updated {$data[1]}";
 				$q = $Functions->PDO("UPDATE tbl_businessmanagers SET password = '{$field1}' WHERE id = '{$data[2]}'");
 				$_SESSION['kareer7836'][1] = $field1;
 			}
@@ -346,7 +342,7 @@
 			}
 
 			if($q->execute()){
-				$log = $Functions->log($data[2],$data[3],$remarks,$header);
+				$log = $Functions->log($data[0],$data[3],$remarks,'Update');
 				echo 1;
 			}
 			else{
@@ -357,8 +353,6 @@
 		else if($data[0] == 'applicant'){
 			if($data[1] == 'status'){
 				$field = ($data[4] == 'deactivate')?0:1;
-				$remarks = $data[5];
-				$header = ($field == 'deactivate')?'Deactivated':'Activated';
 				$q = $Functions->PDO("UPDATE tbl_applicant SET status = '{$field}' WHERE id = '{$data[3]}'");
 			}
 			else{
@@ -366,7 +360,7 @@
 			}
 
 			if($q->execute()){
-				$log = $Functions->log($data[2],$data[3],$remarks,$header);
+				$log = $Functions->log($data[2],$data[3],"Updated {$data[1]} to {$field1}","Update");
 				echo 1;
 			}
 			else{
@@ -428,7 +422,7 @@
 				$q = $Functions->PDO("");
 			}
 			if($q->execute()){
-				$log = $Functions->log($data[2],$_filename,'update picture','Update');
+				$log = $Functions->log($data[2],$data[2],'update picture','Update');
 				echo 1;
 			}
 			else{
@@ -522,15 +516,15 @@
 		$date = $Functions->PDO_DateAndTime();
 		$data = $_POST['data'];
 
-		$name = $Functions->escape($data[0]);
-		$number = $Functions->escape($data[1]);
-		$email = $Functions->escape($data[2]);
-		$address = $Functions->escape($data[3]);
+		$name = $Functions->escape($data[1]);
+		$number = $Functions->escape($data[2]);
+		$email = $Functions->escape($data[3]);
+		$address = $Functions->escape($data[4]);
 
 		$query = $Functions->PDO("INSERT INTO tbl_business(id,company_name,contact_number,email,address,status,`date`) 
 			VALUES ('{$id}',{$name},{$number},{$email},{$address},'1','{$date}')");
 		if($query->execute()){
-				$log = $Functions->log('Admin',$id,'business added','Add');
+			$log = $Functions->log($data[0],$id,"Added {$data[1]} to businesses",'Add');
 			echo 1;
 		}
 		else{
@@ -543,15 +537,15 @@
         $id = $Functions->PDO_IDGenerator('tbl_businessManagers','id');
 		$date = $Functions->PDO_DateAndTime();
 		$data = $_POST['data'];
-		$business_id = $Functions->escape($data[0]);
-		$name = $Functions->escape($data[1]);
-		$position = $Functions->escape($data[2]);
-		$email = $Functions->escape($data[3]);
-		$password = $Functions->password($data[4]);
+		$business_id = $Functions->escape($data[1]);
+		$name = $Functions->escape($data[2]);
+		$position = $Functions->escape($data[3]);
+		$email = $Functions->escape($data[4]);
+		$password = $Functions->password($data[5]);
 
 		$query = $Functions->PDO("INSERT INTO tbl_businessManagers(id,business_id,name,email,position,password,status,`date`) VALUES('{$id}',{$business_id},{$name},{$email},{$position},'{$password}','1','{$date}')");
 		if($query->execute()){
-			$log = $Functions->log('Admin',$id,'business account added','Add');
+			$log = $Functions->log($data[0],$id,"Added {$data[2]} as account manager",'Add');
 			echo 1;
 		}
 		else{
