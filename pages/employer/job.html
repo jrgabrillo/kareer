@@ -1,11 +1,18 @@
 <div class='row animated'>
     <div class="wrapper wrapper-content">
         <div class="col s12" >
+            <a data-cmd="add_job-post">Add</a>
             <div class='card' id='job-post'>
-               
                 <div class="divider"></div>
                 <div class='card-content'>
-                    <div id="job-post"></div>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th width="50px" class="center">Status</th><th width="300px" class="center">Job Title</th><th width="150px" class="center">Date posted</th><th width="200px" class="center">Skills</th><th width="150px" class="center">Salary Range</th><th></th>
+                            </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
                 </div>
             </div>
         </div>
@@ -13,5 +20,5 @@
 </div>
 <script type="text/javascript">
     jobPosts.add();
-    jobPosts.view();
+    jobPosts.list();
 </script>
