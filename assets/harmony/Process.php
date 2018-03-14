@@ -371,40 +371,49 @@
 			}
 		}
 		else if($data[1] == 'job'){
+			// print_r($data);
 			if($data[2] == 'title'){
 				$field1 = $Functions->escape($data[4]);
 				$remarks = "Updated {$data[2]} to {$data[4]}";
 				$q = $Functions->PDO("UPDATE tbl_vacancies SET job_title = {$field1} WHERE id = '{$data[3]}'");
 			}
-			if($data[2] == 'skills'){
+			else if($data[2] == 'skills'){
 				$field1 = $Functions->escape($data[4]);
 				$remarks = "Updated {$data[2]} to {$data[4]}";
 				$q = $Functions->PDO("UPDATE tbl_vacancies SET skills = {$field1} WHERE id = '{$data[3]}'");
 			}
-			if($data[2] == 'salaray'){
+			else if($data[2] == 'salary'){
 				$field1 = $Functions->escape($data[4]);
 				$remarks = "Updated {$data[2]} to {$data[4]}";
 				$q = $Functions->PDO("UPDATE tbl_vacancies SET salary_range = {$field1} WHERE id = '{$data[3]}'");
 			}
-			if($data[2] == 'date'){
+			else if($data[2] == 'date'){
 				$field1 = $Functions->escape($data[4]);
 				$remarks = "Updated {$data[2]} to {$data[4]}";
 				$q = $Functions->PDO("UPDATE tbl_vacancies SET vacancy_date = {$field1} WHERE id = '{$data[3]}'");
 			}
-			if($data[2] == 'shortDes'){
+			else if($data[2] == 'shortDes'){
 				$field1 = $Functions->escape($data[4]);
 				$remarks = "Updated {$data[2]} to {$data[4]}";
 				$q = $Functions->PDO("UPDATE tbl_vacancies SET short_description = {$field1} WHERE id = '{$data[3]}'");
 			}
-			if($data[2] == 'longDes'){
+			else if($data[2] == 'longDes'){
 				$field1 = $Functions->escape($data[4]);
 				$remarks = "Updated {$data[2]} to {$data[4]}";
 				$q = $Functions->PDO("UPDATE tbl_vacancies SET description = {$field1} WHERE id = '{$data[3]}'");
 			}
+			else if($data[2] == 'status'){
+				$field1 = $Functions->escape($data[4]);
+				$remarks = "Updated {$data[2]} to {$data[4]}. {$data[5]}";
+				$q = $Functions->PDO("UPDATE tbl_vacancies SET status = {$field1} WHERE id = '{$data[3]}'");
+			}
+			else if($data[2] == 'delete'){
+				$remarks = "Deleted. {$data[4]}";
+				$q = $Functions->PDO("DELETE FROM tbl_vacancies WHERE id = '{$data[3]}'");
+			}
 			else{
 				$q = $Functions->PDO("");
 			}
-
 			if($q->execute()){
 				$log = $Functions->log($data[0],$data[3],$remarks,"Update");
 				echo 1;
