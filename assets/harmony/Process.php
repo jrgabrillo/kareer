@@ -88,16 +88,16 @@
 			print_r(0);
 	}
 
-	if(isset($_GET['get-jobsPosts'])){
+	if(isset($_GET['get-jobPost'])){ /**/
 		$data = $_POST['data'];
-		$query = $Functions->PDO("SELECT * FROM tbl_vacancies ORDER BY date DESC");
+		$query = $Functions->PDO("SELECT * FROM tbl_vacancies WHERE id = '{$data}'");
 		print_r(json_encode($query));
 	}
 
-	if(isset($_GET['get-employerJobsPosts'])){
+	if(isset($_GET['get-employerJobsPosts'])){ /**/
 		$data = $_POST['data'];
 		$query = $Functions->PDO("SELECT * FROM tbl_vacancies WHERE employer_id = '{$data}' ORDER BY date DESC");
-		print_r(json_encode($query));/**/
+			print_r(json_encode($query));
 	}
 
 	if (isset($_GET['get-account'])){/**/
@@ -249,7 +249,6 @@
 
 	if(isset($_GET['do-updateInfo'])){/**/
 		$data = $_POST['data'];
-		// print_r($data);
 		if($data[0] == 'admin'){
 			if($data[1] == 'name'){
 				$field1 = $Functions->escape($data[3]);
@@ -357,6 +356,50 @@
 				$field = ($data[4] == 'deactivate')?0:1;
 				$remarks = "{$data[5]}. Updated {$data[2]} to {$field}";
 				$q = $Functions->PDO("UPDATE tbl_applicant SET status = '{$field}' WHERE id = '{$data[3]}'");
+			}
+			else{
+				$q = $Functions->PDO("");
+			}
+
+			if($q->execute()){
+				$log = $Functions->log($data[0],$data[3],$remarks,"Update");
+				echo 1;
+			}
+			else{
+				$Data = $q->errorInfo();
+				print_r($Data);
+			}
+		}
+		else if($data[1] == 'job'){
+			if($data[2] == 'title'){
+				$field1 = $Functions->escape($data[4]);
+				$remarks = "Updated {$data[2]} to {$data[4]}";
+				$q = $Functions->PDO("UPDATE tbl_vacancies SET job_title = {$field1} WHERE id = '{$data[3]}'");
+			}
+			if($data[2] == 'skills'){
+				$field1 = $Functions->escape($data[4]);
+				$remarks = "Updated {$data[2]} to {$data[4]}";
+				$q = $Functions->PDO("UPDATE tbl_vacancies SET skills = {$field1} WHERE id = '{$data[3]}'");
+			}
+			if($data[2] == 'salaray'){
+				$field1 = $Functions->escape($data[4]);
+				$remarks = "Updated {$data[2]} to {$data[4]}";
+				$q = $Functions->PDO("UPDATE tbl_vacancies SET salary_range = {$field1} WHERE id = '{$data[3]}'");
+			}
+			if($data[2] == 'date'){
+				$field1 = $Functions->escape($data[4]);
+				$remarks = "Updated {$data[2]} to {$data[4]}";
+				$q = $Functions->PDO("UPDATE tbl_vacancies SET vacancy_date = {$field1} WHERE id = '{$data[3]}'");
+			}
+			if($data[2] == 'shortDes'){
+				$field1 = $Functions->escape($data[4]);
+				$remarks = "Updated {$data[2]} to {$data[4]}";
+				$q = $Functions->PDO("UPDATE tbl_vacancies SET short_description = {$field1} WHERE id = '{$data[3]}'");
+			}
+			if($data[2] == 'longDes'){
+				$field1 = $Functions->escape($data[4]);
+				$remarks = "Updated {$data[2]} to {$data[4]}";
+				$q = $Functions->PDO("UPDATE tbl_vacancies SET description = {$field1} WHERE id = '{$data[3]}'");
 			}
 			else{
 				$q = $Functions->PDO("");
@@ -496,7 +539,7 @@
 		}
 	}
 
-	if (isset($_GET['set-postJob'])) { /**/
+	if (isset($_GET['do-postJob'])) { /**/
 		$data = $_POST['data'];
 		$id = $Functions->PDO_IDGenerator('tbl_vacancies','id');
 		$date = $Functions->PDO_DateAndTime();
