@@ -97,7 +97,7 @@
 	if(isset($_GET['get-employerJobsPosts'])){
 		$data = $_POST['data'];
 		$query = $Functions->PDO("SELECT * FROM tbl_vacancies WHERE employer_id = '{$data}' ORDER BY date DESC");
-		print_r(json_encode($query));
+		print_r(json_encode($query));/**/
 	}
 
 	if (isset($_GET['get-account'])){/**/
@@ -500,9 +500,8 @@
 		$data = $_POST['data'];
 		$id = $Functions->PDO_IDGenerator('tbl_vacancies','id');
 		$date = $Functions->PDO_DateAndTime();
-		
-		// $skills = json_encode($data[0][5]);
-		$query = $Functions->PDO("INSERT INTO tbl_vacancies(id,employer_id,business_id,description,vacancy_date,job_title,skills,salary_range,date,status) VALUES('{$id}','{$data[0]}','{$data[1]}','{$data[6]}','{$data[5]}','{$data[2]}','{$data[3]}','{$data[4]}','{$date}',1)");
+		$skills = json_encode($data[7]);
+		$query = $Functions->PDO("INSERT INTO tbl_vacancies(id,employer_id,business_id,short_description,description,vacancy_date,job_title,skills,salary_range,date,status) VALUES('{$id}','{$data[0]}','{$data[1]}','{$data[5]}','{$data[6]}','{$data[4]}','{$data[2]}','$skills','{$data[3]}','{$date}',1)");
 		if($query->execute()){
 			$log = $Functions->log($data[0],$id,'Posted a job','Add');
 			echo 1;
