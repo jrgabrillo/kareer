@@ -224,6 +224,7 @@ $Functions = new DatabaseClasses;
     if (isset($_GET['do-updateAcademic'])){/**/
         $data = $_POST['data'];
         
+        $id = $data[0];
         $applicant_id = $Functions->escape($data[1]);
         $yearLevel = $Functions->escape($data[2]);
         $school = $Functions->escape($data[3]);
@@ -231,7 +232,7 @@ $Functions = new DatabaseClasses;
         $units = $Functions->escape($data[5]);
         $fromYear = $Functions->escape($data[6]);
         $toYear = $Functions->escape($data[7]);
-        $id = $data[0];
+        
         $q = $Functions->PDO("UPDATE  tbl_acadinfo  SET  level = {$yearLevel}, schoolattended = {$school}, degree = {$degree}, highestlevel = {$units}, yearenrolled = {$fromYear}, yeargraduated = {$toYear} WHERE id = '{$id}'");
         if($q->execute()){
             echo 1;
