@@ -129,7 +129,7 @@ var employer = function() {
                             if ((data.value[0] == _form[0]['value'])) {
                                 system.alert('You did not even change the value.', function() {});
                             } else {
-                                var ajax = system.ajax('../assets/harmony/Process.php?do-updateInfo', [id[0], 'employer', 'name', sessionStorage.getItem('kareer'), _form[0]['value']]);
+                                var ajax = system.ajax('../assets/harmony/Process.php?do-updateInfo', [sessionStorage.getItem('kareer'),'employer', 'name',  _form[0]['value']]);
                                 ajax.done(function(ajax) {
                                     console.log(ajax);
                                     if (ajax == 1) {
@@ -149,7 +149,7 @@ var employer = function() {
                     $('#modal_confirm').modal('open');
                     $("#form_update").validate({
                         rules: {
-                            field_Username: {required: true,maxlength: 50,checkUsername:true,validateUsername:true},
+                            field_Username: {required: true,maxlength: 50,validateUsername:true},
                         },
                         errorElement: 'div',
                         errorPlacement: function(error, element) {
@@ -165,12 +165,12 @@ var employer = function() {
                             if (data.value[0] == _form[0]['value']) {
                                 system.alert('You did not even change the value.', function() {});
                             } else {
-                                var ajax = system.ajax('../assets/harmony/Process.php?do-updateInfo', ['employer', 'username', sessionStorage.getItem('kareer'), _form[0]['value']]);
+                                var ajax = system.ajax('../assets/harmony/Process.php?do-updateInfo', [sessionStorage.getItem('kareer'),'employer', 'username', _form[0]['value']]);
                                 ajax.done(function(ajax) {
                                     console.log(ajax);
                                     if (ajax == 1) {
                                         $('#modal_confirm').modal('close');
-                                        $(`.card-title[for='${data.for}']`).html(`${_form[0]['value']}`);
+                                        $(`td[for='${data.for}']`).html(`${_form[0]['value']}`);
                                         $(_this).attr({ 'data-value': JSON.stringify([_form[0]['value']]), 'data-name': `${_form[0]['value']} }` });
                                         system.alert('Username updated.', function() {});
                                     } else {
@@ -215,12 +215,12 @@ var employer = function() {
                         submitHandler: function(form) {
                             var _form = $(form).serializeArray();
 
-                            var ajax = system.ajax('../assets/harmony/Process.php?do-updateInfo', ['employer', 'password', sessionStorage.getItem('kareer'), _form[0]['value']]);
+                            var ajax = system.ajax('../assets/harmony/Process.php?do-updateInfo', [ sessionStorage.getItem('kareer'),'employer', 'password', _form[0]['value']]);
                             ajax.done(function(ajax) {
                                 console.log(ajax);
                                 if (ajax == 1) {
                                     $('#modal_confirm').modal('close');
-                                    system.alert('Name updated.', function() {});
+                                    system.alert('Password updated.', function() {});
                                 } else {
                                     system.alert('Failed to update.', function() {});
                                 }
@@ -234,7 +234,6 @@ var employer = function() {
             window.Cropper;
             $("a[data-cmd='updateAdminPicture']").on('click', function() {
                 var data = $(this).data();
-                console.log(data);
                 var picture = "../assets/images/profile/avatar.png";
                 var content = `<h4>Change ${data.prop}</h4>
                                 <div class='row'>
@@ -341,7 +340,9 @@ var jobPosts = function() {
                 $("a[data-cmd='add_job-post']").on('click', function() {
                     $('#modal_medium').modal('open');
                     $('.chips-placeholder').material_chip({
-                        placeholder: 'Add a skill'
+                        placeholder: 'Add a skill',
+                        limit: 5,
+                        maxLength: 5
                     });
                     let editor = system.quill($('#field_description2').get(0));
                     editor.clipboard.dangerouslyPasteHTML($('#field_description2').val());
@@ -401,17 +402,9 @@ var jobPosts = function() {
             });
         },
         list: function() {
-<<<<<<< HEAD
             let id = JSON.parse(employer.check_access())[0], content = "", chip = "", skills = "";
                 console.log(id);
-=======
-            let id = JSON.parse(admin.check_access())[0],
-            content = "",
-            chip = "",
-            skills = "";
->>>>>>> 070035fb8d52024e006983d90c9c2f6623a04c4c
             let data = JSON.parse(jobPosts.get(id));
-            console.log(data);
             $.each(data, function(i, v) {
                 let status = (v[10] == 1)?'Active':'Inactive';
                 skills = JSON.parse(v[7]);
@@ -434,7 +427,6 @@ var jobPosts = function() {
                     </tr>
                 `);
             });
-
         },
         view:function(){
             let id = jobPosts.id(), chip ="";
@@ -573,8 +565,8 @@ var jobPosts = function() {
                                     <button type='submit' data-cmd='button_proceed' class='waves-effect waves-grey grey lighten-5 blue-text btn-flat modal-action right'>Save</button>
                                     <a class='waves-effect waves-grey grey-text btn-flat modal-action modal-close right'>Cancel</a>
                                 </form>`;
-                $("#modal_confirm .modal-content").html(content);
-                $('#modal_confirm .modal-footer').html("");
+                $("#modal_medium .modal-content").html(content);
+                $('#modal_medium .modal-footer').html("");
 
                 if (data.prop == "title") {
                     content = `<h5>Change ${data.prop}</h5>
@@ -588,8 +580,8 @@ var jobPosts = function() {
                                         <button type='submit' data-cmd='button_proceed' class='waves-effect waves-grey grey lighten-5 blue-text btn-flat modal-action right'>Save</button>
                                         <a class='waves-effect waves-grey grey-text btn-flat modal-action modal-close right'>Cancel</a>
                                     </form>`;
-                    $("#modal_confirm .modal-content").html(content);
-                    $('#modal_confirm').modal('open');
+                    $("#modal_medium .modal-content").html(content);
+                    $('#modal_medium').modal('open');
                     $("#form_update").validate({
                         rules: {
                             field_title: { required: true },
@@ -604,10 +596,7 @@ var jobPosts = function() {
                             }
                         },
                         submitHandler: function(form) {
-<<<<<<< HEAD
                             var id = JSON.parse(employer.check_access());
-=======
->>>>>>> 070035fb8d52024e006983d90c9c2f6623a04c4c
                             var _form = $(form).serializeArray();
                             if ((data.value == _form[0]['value'])) {
                                 system.alert('You did not even change the value.', function() {});
@@ -616,9 +605,9 @@ var jobPosts = function() {
                                 ajax.done(function(ajax) {
                                     console.log(ajax);
                                     if (ajax == 1) {
-                                        $('#modal_confirm').modal('close');
+                                        $('#modal_medium').modal('close');
                                         $(`.card-title[for='${data.for}']`).html(`${_form[0]['value']}`);
-                                        // $(_this).attr({ 'data-value': _form[0]['value'], 'data-name': `${_form[0]['value']}` });
+                                        $(_this).attr({ 'data-value': _form[0]['value'], 'data-name': `${_form[0]['value']}` });
                                         system.alert('Updated.', function() {});
                                     } else {
                                         system.alert('Failed to update.', function() {});
@@ -628,60 +617,64 @@ var jobPosts = function() {
                         }
                     });
                 }
-                // else if (data.prop == "Skills") {
-                //     content = `<h5>Change ${data.prop}</h5>
-                //                     <form id='form_update' class='formValidate' method='get' action='' novalidate='novalidate'>
-                //                         <div class="input-field col s6">
-                //                             <div class="chips chips-placeholder"></div>
-                //                         </div>
-                //                         <button type='submit' data-cmd='button_proceed' class='waves-effect waves-grey grey lighten-5 blue-text btn-flat modal-action right'>Save</button>
-                //                         <a class='waves-effect waves-grey grey-text btn-flat modal-action modal-close right'>Cancel</a>
-                //                     </form>`;
-                //     $("#modal_confirm .modal-content").html(content);
-                //     $('#modal_confirm').modal('open');
-                //     $('.chips-placeholder').material_chip({
-                //         placeholder: 'Add a skill'
-                //     });
-                //     let skillObj = skills.reduce(function(o, val) { 
-                //         o['tag'] = val; 
-                //         return o; 
-                //     }, {});
-                //     console.log(skillObj);
-                //     // $("#form_update").validate({
-                //     //     rules: {
-                //     //         field_skills: { required: true },
-                //     //     },
-                //     //     errorElement: 'div',
-                //     //     errorPlacement: function(error, element) {
-                //     //         var placement = $(element).data('error');
-                //     //         if (placement) {
-                //     //             $(placement).append(error)
-                //     //         } else {
-                //     //             error.insertAfter(element);
-                //     //         }
-                //     //     },
-                //     //     submitHandler: function(form) {
-                //     //         var id = JSON.parse(employer.check_access());
-                //     //         var _form = $(form).serializeArray();
-                //     //         if ((data.value == _form[0]['value'])) {
-                //     //             system.alert('You did not even change the value.', function() {});
-                //     //         } else {
-                //     //             var ajax = system.ajax('../assets/harmony/Process.php?do-updateInfo', [sessionStorage.getItem('kareer'), 'job', 'title', data.node, _form[0]['value']]);
-                //     //             ajax.done(function(ajax) {
-                //     //                 console.log(ajax);
-                //     //                 if (ajax == 1) {
-                //     //                     $('#modal_confirm').modal('close');
-                //     //                     $(`.card-title[for='${data.for}']`).html(`${_form[0]['value']}`);
-                //     //                     // $(_this).attr({ 'data-value': _form[0]['value'], 'data-name': `${_form[0]['value']}` });
-                //     //                     system.alert('Updated.', function() {});
-                //     //                 } else {
-                //     //                     system.alert('Failed to update.', function() {});
-                //     //                 }
-                //     //             });
-                //     //         }
-                //     //     }
-                //     // });
-                // }
+                else if (data.prop == "Skills") {
+                    var skillObj = {};
+                    var skilldata = skills;
+                    for(var val in skilldata){
+                        var skill = skilldata[val];
+                        var skillsArray = $.map(skilldata, function(skill) {
+                           return {tag: skill};
+                        }); 
+                    }
+                    skillObj = skillsArray;
+                    content = `<h5>Change ${data.prop}</h5>
+                                    <form id='form_update' class='formValidate' method='get' action='' novalidate='novalidate'>
+                                        <div class="input-field col s6">
+                                            <div class="chips chips-initial"></div>
+                                        </div>
+                                        <button type='submit' class='waves-effect waves-grey grey lighten-5 blue-text btn-flat modal-action right'>Save</button>
+                                        <a class='waves-effect waves-grey grey-text btn-flat modal-action modal-close right'>Cancel</a>
+                                    </form>`;
+                    $("#modal_medium .modal-content").html(content);
+                    $('#modal_medium').modal('open');
+                    $('.chips-initial').material_chip({
+                        data: skillObj,
+                    });
+                    $("#form_update").validate({
+                        rules: {
+                            field_skills: { required: true },
+                        },
+                        errorElement: 'div',
+                        errorPlacement: function(error, element) {
+                            var placement = $(element).data('error');
+                            if (placement) {
+                                $(placement).append(error)
+                            } else {
+                                error.insertAfter(element);
+                            }
+                        },
+                        submitHandler: function(form) {
+                            let skillsArray = [];
+                            let chipdata = $('.chips').material_chip('data');
+                            for (let skills in chipdata) {
+                                skillsArray.push(chipdata[skills]['tag']);
+                            }
+                            let ajax = system.ajax('../assets/harmony/Process.php?do-updateInfo', [sessionStorage.getItem('kareer'), 'job', 'skills', data.node, skillsArray]);
+                            ajax.done(function(ajax) {
+                                console.log(ajax);
+                                if (ajax == 1) {
+                                    $('#modal_medium').modal('close');
+                                    // $(`.card-title[for='${data.for}']`).html(`${_form[0]['value']}`);
+                                    // $(_this).attr({ 'data-value': _form[0]['value'], 'data-name': `${_form[0]['value']}` });
+                                    system.alert('Updated.', function() {});
+                                    location.reload();
+                                } else {
+                                    system.alert('Failed to update.', function() {});
+                                }
+                            });
+                        }
+                    });
+                }
                 else if (data.prop == "Salary") {
                     content = `<h5>Change ${data.prop}</h5>
                                     <form id='form_update' class='formValidate' method='get' action='' novalidate='novalidate'>
@@ -694,8 +687,8 @@ var jobPosts = function() {
                                         <button type='submit' data-cmd='button_proceed' class='waves-effect waves-grey grey lighten-5 blue-text btn-flat modal-action right'>Save</button>
                                         <a class='waves-effect waves-grey grey-text btn-flat modal-action modal-close right'>Cancel</a>
                                     </form>`;
-                    $("#modal_confirm .modal-content").html(content);
-                    $('#modal_confirm').modal('open');
+                    $("#modal_medium .modal-content").html(content);
+                    $('#modal_medium').modal('open');
                     $("#form_update").validate({
                         rules: {
                             field_Salary: { required: true },
@@ -710,10 +703,7 @@ var jobPosts = function() {
                             }
                         },
                         submitHandler: function(form) {
-<<<<<<< HEAD
                             var id = JSON.parse(employer.check_access());
-=======
->>>>>>> 070035fb8d52024e006983d90c9c2f6623a04c4c
                             var _form = $(form).serializeArray();
                             if ((data.value == _form[0]['value'])) {
                                 system.alert('You did not even change the value.', function() {});
@@ -722,7 +712,7 @@ var jobPosts = function() {
                                 ajax.done(function(ajax) {
                                     console.log(ajax);
                                     if (ajax == 1) {
-                                        $('#modal_confirm').modal('close');
+                                        $('#modal_medium').modal('close');
                                         $(`td[for='${data.for}']`).html(`${_form[0]['value']}`);
                                         // $(_this).attr({ 'data-value': _form[0]['value'], 'data-name': `${_form[0]['value']}` });
                                         system.alert('Updated.', function() {});
@@ -746,8 +736,8 @@ var jobPosts = function() {
                                         <button type='submit' data-cmd='button_proceed' class='waves-effect waves-grey grey lighten-5 blue-text btn-flat modal-action right'>Save</button>
                                         <a class='waves-effect waves-grey grey-text btn-flat modal-action modal-close right'>Cancel</a>
                                     </form>`;
-                    $("#modal_confirm .modal-content").html(content);
-                    $('#modal_confirm').modal('open');
+                    $("#modal_medium .modal-content").html(content);
+                    $('#modal_medium').modal('open');
                     $("#form_update").validate({
                         rules: {
                             field_Date: { required: true },
@@ -762,10 +752,7 @@ var jobPosts = function() {
                             }
                         },
                         submitHandler: function(form) {
-<<<<<<< HEAD
                             var id = JSON.parse(employer.check_access());
-=======
->>>>>>> 070035fb8d52024e006983d90c9c2f6623a04c4c
                             var _form = $(form).serializeArray();
                             if ((data.value == _form[0]['value'])) {
                                 system.alert('You did not even change the value.', function() {});
@@ -774,7 +761,7 @@ var jobPosts = function() {
                                 ajax.done(function(ajax) {
                                     console.log(ajax);
                                     if (ajax == 1) {
-                                        $('#modal_confirm').modal('close');
+                                        $('#modal_medium').modal('close');
                                         $(`td[for='${data.for}']`).html(`${_form[0]['value']}`);
                                         // $(_this).attr({ 'data-value': _form[0]['value'], 'data-name': `${_form[0]['value']}` });
                                         system.alert('Updated.', function() {});
@@ -787,10 +774,10 @@ var jobPosts = function() {
                     });
                 }
                 else if (data.prop == "shortDes") {
-                    content = `<h5>Change ${data.prop}</h5>
+                    content = `<h5>Change Short Description</h5>
                                     <form id='form_update' class='formValidate' method='get' action='' novalidate='novalidate'>
                                         <div class="input-field col s6">
-                                            <label for='field_${data.prop}' class='active'></label>
+                                            <label for='field_${data.prop}' class='active'>Short Description</label>
                                             <textarea class="materialize-textarea" maxlength='500' id='field_${data.prop}' value='${data.value}' type='text' name='field_${data.prop}' data-error='.error_${data.prop}'></textarea>
                                             <div class='error_${data.prop}'></div>
                                             <div class='display_notes'>
@@ -802,8 +789,8 @@ var jobPosts = function() {
                                         <button type='submit' data-cmd='button_proceed' class='waves-effect waves-grey grey lighten-5 blue-text btn-flat modal-action right'>Save</button>
                                         <a class='waves-effect waves-grey grey-text btn-flat modal-action modal-close right'>Cancel</a>
                                     </form>`;
-                    $("#modal_confirm .modal-content").html(content);
-                    $('#modal_confirm').modal('open');
+                    $("#modal_medium .modal-content").html(content);
+                    $('#modal_medium').modal('open');
                     $("#form_update").validate({
                         rules: {
                             field_shortDes: { required: true },
@@ -818,10 +805,7 @@ var jobPosts = function() {
                             }
                         },
                         submitHandler: function(form) {
-<<<<<<< HEAD
                             var id = JSON.parse(employer.check_access());
-=======
->>>>>>> 070035fb8d52024e006983d90c9c2f6623a04c4c
                             var _form = $(form).serializeArray();
                             if ((data.value == _form[0]['value'])) {
                                 system.alert('You did not even change the value.', function() {});
@@ -830,7 +814,7 @@ var jobPosts = function() {
                                 ajax.done(function(ajax) {
                                     console.log(ajax);
                                     if (ajax == 1) {
-                                        $('#modal_confirm').modal('close');
+                                        $('#modal_medium').modal('close');
                                         $(`td[for='${data.for}']`).html(`${_form[0]['value']}`);
                                         // $(_this).attr({ 'data-value': _form[0]['value'], 'data-name': `${_form[0]['value']}` });
                                         system.alert('Updated.', function() {});
@@ -854,8 +838,8 @@ var jobPosts = function() {
                                         <button type='submit' class='waves-effect waves-grey grey lighten-5 blue-text btn-flat modal-action right'>Save</button>
                                         <a class='waves-effect waves-grey grey-text btn-flat modal-action modal-close right'>Cancel</a>
                                     </form>`;
-                    $("#modal_confirm .modal-content").html(content);
-                    $('#modal_confirm').modal('open');
+                    $("#modal_medium .modal-content").html(content);
+                    $('#modal_medium').modal('open');
                     let editor = system.quill($('#field_longDes').get(0));
                     editor.clipboard.dangerouslyPasteHTML(data.value);
                     var limit = 1000;
@@ -879,36 +863,35 @@ var jobPosts = function() {
                             var placement = $(element).data('error');
                             if (placement) {
                                 $(placement).append(error)
-                            } else {
+                            } 
+                            else {
                                 error.insertAfter(element);
                             }
                         },
                         submitHandler: function(form) {
-<<<<<<< HEAD
                             var id = JSON.parse(employer.check_access());
                             var _form = $(form).serializeArray();
                             if ((data.value == _form[0]['value'])) {
                                 system.alert('You did not even change the value.', function() {});
-=======
-                            let _form = editor.root.innerHTML;
-                            var ajax = system.ajax('../assets/harmony/Process.php?do-updateInfo', [sessionStorage.getItem('kareer'), 'job', 'longDes', data.node, _form]);
-                            ajax.done(function(ajax) {
-                                console.log(ajax);
-                                if (ajax == 1) {
-                                    $('#modal_confirm').modal('close');
-                                    $(`td[for='${data.for}']`).html(`${_form}`);
-                                    // $(_this).attr({ 'data-value': _form[0]['value'], 'data-name': `${_form[0]['value']}` });
-                                    system.alert('Updated.', function() {});
-                                } else {
-                                    system.alert('Failed to update.', function() {});
-                                }
-                            });
-                        }
+                                let _form = editor.root.innerHTML;
+                                var ajax = system.ajax('../assets/harmony/Process.php?do-updateInfo', [sessionStorage.getItem('kareer'), 'job', 'longDes', data.node, _form]);
+                                ajax.done(function(ajax) {
+                                    if (ajax == 1) {
+                                        $('#modal_medium').modal('close');
+                                        $(`td[for='${data.for}']`).html(`${_form}`);
+                                        // $(_this).attr({ 'data-value': _form[0]['value'], 'data-name': `${_form[0]['value']}` });
+                                        system.alert('Updated.', function() {});
+                                    } 
+                                    else {
+                                        system.alert('Failed to update.', function() {});
+                                    }
+                                });
+                            }
+                        });
                     });
                 }
                 else if (data.prop == "Status") {
                     let title = (data.value == 'Active')?0:1;
-                    console.log(title);
                     content = `<h5>Are You sure you want to change the ${data.prop} of this job?</h5>
                                     <form id='form_update' class='formValidate' method='get' action='' novalidate='novalidate'>
                                         <div class="input-field col s6">
@@ -917,8 +900,8 @@ var jobPosts = function() {
                                         <button type='submit' data-cmd='button_proceed' class='waves-effect waves-grey grey lighten-5 blue-text btn-flat modal-action right'>Save</button>
                                         <a class='waves-effect waves-grey grey-text btn-flat modal-action modal-close right'>Cancel</a>
                                     </form>`;
-                    $("#modal_confirm .modal-content").html(content);
-                    $('#modal_confirm').modal('open');
+                    $("#modal_medium .modal-content").html(content);
+                    $('#modal_medium').modal('open');
                     $("#form_update").validate({
                         rules: {
                             field_Status: { required: true },
@@ -928,7 +911,6 @@ var jobPosts = function() {
                             var placement = $(element).data('error');
                             if (placement) {
                                 $(placement).append(error)
->>>>>>> 070035fb8d52024e006983d90c9c2f6623a04c4c
                             } else {
                                 error.insertAfter(element);
                             }
@@ -945,10 +927,9 @@ var jobPosts = function() {
                             else{
                                 var ajax = system.ajax('../assets/harmony/Process.php?do-updateInfo', [sessionStorage.getItem('kareer'), 'job', 'status', data.node, title, remarks]);
                                 ajax.done(function(ajax) {
-                                    console.log(ajax);
                                     title = (title == 1)?'Active':'Inactive';
                                     if (ajax == 1) {
-                                        $('#modal_confirm').modal('close');
+                                        $('#modal_medium').modal('close');
                                         $(`td[for='${data.for}']`).html(`${title}`);
                                         // $(_this).attr({ 'data-value': _form[0]['value'], 'data-name': `${_form[0]['value']}` });
                                         system.alert('Updated.', function() {});
