@@ -243,7 +243,7 @@
 		$min = $data[0];
 		$max = ($data[1] == "all")?$Functions->PDO("SELECT COUNT(*) FROM tbl_logs"):$data[1];
 
-		$q = $Functions->PDO("SELECT * FROM tbl_logs ORDER BY `date` LIMIT {$min},{$max}");
+		$q = $Functions->PDO("SELECT * FROM tbl_logs ORDER BY `date` DESC LIMIT {$min},{$max}");
 		print_r(json_encode($q));
 	}
 
@@ -323,27 +323,27 @@
 				$q = $Functions->PDO("UPDATE tbl_businessmanagers SET status = '{$field}' WHERE id = '{$data[3]}'");
 			}
 			else if($data[2] == 'name'){
-				$field1 = $Functions->escape($data[4]);
-				$remarks = "Updated {$data[2]} to {$data[4]}";
-				$q = $Functions->PDO("UPDATE tbl_businessmanagers SET name = {$field1} WHERE id = '{$data[3]}'");
+				$field1 = $Functions->escape($data[3]);
+				$remarks = "Updated {$data[2]} to {$data[3]}";
+				$q = $Functions->PDO("UPDATE tbl_businessmanagers SET name = {$field1} WHERE id = '{$data[0]}'");
 			}
 			else if($data[2] == 'username'){
-				$field1 = $Functions->escape($data[4]);
-				$remarks = "Updated {$data[2]} to {$data[4]}";
-				$q = $Functions->PDO("UPDATE tbl_businessmanagers SET email = {$field1} WHERE id = '{$data[3]}'");	
+				$field1 = $Functions->escape($data[3]);
+				$remarks = "Updated {$data[2]} to {$data[3]}";
+				$q = $Functions->PDO("UPDATE tbl_businessmanagers SET email = {$field1} WHERE id = '{$data[0]}'");	
 			}
-			else if($data[1] == 'password'){
+			else if($data[2] == 'password'){
 				$field1 = $Functions->password($data[3]);
 				$remarks = "{$data[1]} is updated";
 				$header = 'Update';
-				$q = $Functions->PDO("UPDATE tbl_businessmanagers SET password = '{$field1}' WHERE id = '{$data[2]}'");
+				$q = $Functions->PDO("UPDATE tbl_businessmanagers SET password = '{$field1}' WHERE id = '{$data[0]}'");
 				$_SESSION['kareer7836'][1] = $field1;
 			}
 			else{
 				$q = $Functions->PDO("");
 			}
 			if($q->execute()){
-				$log = $Functions->log($data[0],$data[3],$remarks,'Update');
+				$log = $Functions->log($data[0],($data[2] == 'status')?$data[3]:$data[0],$remarks,'Update');
 				echo 1;
 			}
 			else{
@@ -378,9 +378,9 @@
 				$q = $Functions->PDO("UPDATE tbl_vacancies SET job_title = {$field1} WHERE id = '{$data[3]}'");
 			}
 			else if($data[2] == 'skills'){
-				$field1 = $Functions->escape($data[4]);
-				$remarks = "Updated {$data[2]} to {$data[4]}";
-				$q = $Functions->PDO("UPDATE tbl_vacancies SET skills = {$field1} WHERE id = '{$data[3]}'");
+				$field1 = json_encode($data[4]);
+				$remarks = "Updated {$data[2]} to {$field1}";
+				-- $q = $Functions->PDO("UPDATE tbl_vacancies SET skills = '{$field1}' WHERE id = '{$data[3]}'");
 			}
 			else if($data[2] == 'salary'){
 				$field1 = $Functions->escape($data[4]);
@@ -394,12 +394,12 @@
 			}
 			else if($data[2] == 'shortDes'){
 				$field1 = $Functions->escape($data[4]);
-				$remarks = "Updated {$data[2]} to {$data[4]}";
+				$remarks = "Updated Short Description to {$data[4]}";
 				$q = $Functions->PDO("UPDATE tbl_vacancies SET short_description = {$field1} WHERE id = '{$data[3]}'");
 			}
 			else if($data[2] == 'longDes'){
 				$field1 = $Functions->escape($data[4]);
-				$remarks = "Updated {$data[2]} to {$data[4]}";
+				$remarks = "Updated Description to {$data[4]}";
 				$q = $Functions->PDO("UPDATE tbl_vacancies SET description = {$field1} WHERE id = '{$data[3]}'");
 			}
 			else if($data[2] == 'status'){
