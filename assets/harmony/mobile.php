@@ -123,7 +123,7 @@ $Functions = new DatabaseClasses;
         $data = $_POST['data'];
         $query = $Functions->PDO("DELETE FROM tbl_skills WHERE id = '{$data[2]}';");
         if($query->execute()){
-            $log = $Functions->log($data[1],$data[2],"Deleted skill",'Delete');
+            $log = $Functions->log($data[1],$data[0],"Deleted skill",'Delete');
             echo 1;
         }
         else{
@@ -253,6 +253,7 @@ $Functions = new DatabaseClasses;
         $data = $_POST['data'];
         $query = $Functions->PDO("DELETE FROM tbl_acadinfo WHERE id = '{$data}';");
         if($query->execute()){
+            $log = $Functions->log($data,$data,"Deleted Academic",'Delete');
             echo 1;
         }
         else{
@@ -265,6 +266,7 @@ $Functions = new DatabaseClasses;
         $data = $_POST['data'];
         $query = $Functions->PDO("DELETE FROM tbl_career WHERE id = '{$data}';");
         if($query->execute()){
+            $log = $Functions->log($data,$data,"Deleted Career",'Delete');
             echo 1;
         }
         else{
@@ -287,6 +289,7 @@ $Functions = new DatabaseClasses;
 
         $q = $Functions->PDO("UPDATE  tbl_acadinfo  SET  level = {$yearLevel}, schoolattended = {$school}, degree = {$degree}, highestlevel = {$units}, yearenrolled = {$fromYear}, yeargraduated = {$toYear} WHERE id = '{$id}'");
         if($q->execute()){
+            $log = $Functions->log($data[1],$id,"Updated Academic",'Update');
             echo 1;
         }
         else{
@@ -309,6 +312,7 @@ $Functions = new DatabaseClasses;
         $name = $data[1][0]['value'];
         $q = $Functions->PDO("UPDATE tbl_career SET applicant_id = {$applicant_id}, agency = {$agency}, position_title = {$position}, monthly_salary = {$salary}, appointment_status = {$appointment}, inclusive_fromdate = {$fromDate}, inclusive_todate = {$toDate} WHERE id = '{$id}';");
         if($q->execute()){
+            $log = $Functions->log($data[1],$id,"Updated Career",'Update');
             echo 1;
         }
         else{

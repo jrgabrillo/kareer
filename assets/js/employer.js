@@ -76,7 +76,7 @@ var employer = function() {
             $(`img.profile-image`).on('error', function() {
                 $(this).attr({ 'src': '../assets/images/logo/icon.png' });
             });
-
+            $('.tooltipped').tooltip({delay: 50});
             employer.update();
             employer.updatePicture();
         },
@@ -232,6 +232,7 @@ var employer = function() {
                         }
                     });
                 }
+                $('.tooltipped').tooltip({delay: 50});
             });
         },
         updatePicture: function() {
