@@ -167,6 +167,58 @@ $Functions = new DatabaseClasses;
         }
     }
 
+    if (isset($_GET['do-updateInfo'])){/**/
+        $data = $_POST['data'];
+        $id  = $data[2];
+        // print_r($data);
+        if($data[1] == "field_fname"){
+            $field = $Functions->escape($data[3]);
+            $q = $Functions->PDO("UPDATE tbl_personalinfo SET given_name = {$field} WHERE id = '{$id}';");
+        }
+        else if($data[1] == "field_mname"){
+            $field = $Functions->escape($data[3]);
+            $q = $Functions->PDO("UPDATE tbl_personalinfo SET middle_name = {$field} WHERE id = '{$id}';");
+        }
+        else if($data[1] == "field_lname"){
+            $field = $Functions->escape($data[3]);
+            $q = $Functions->PDO("UPDATE tbl_personalinfo SET family_name = {$field} WHERE id = '{$id}';");
+        }
+        else if($data[1] == "field_dob"){
+            $field = $Functions->escape($data[3]);
+            $q = $Functions->PDO("UPDATE tbl_personalinfo SET date_of_birth = {$field} WHERE id = '{$id}';");
+        }
+        else if($data[1] == "field_address"){
+            $field = $Functions->escape($data[3]);
+            $q = $Functions->PDO("UPDATE tbl_personalinfo SET permanent_address = {$field} WHERE id = '{$id}';");
+        }
+        else if($data[1] == "field_number"){
+            $field = $Functions->escape($data[3]);
+            $q = $Functions->PDO("UPDATE tbl_personalinfo SET phone = {$field} WHERE id = '{$id}';");
+        }
+        else if($data[1] == "field_bio"){
+            $field = $Functions->escape($data[3]);
+            $q = $Functions->PDO("UPDATE tbl_applicant SET description = {$field} WHERE id = '{$id}';");
+        }
+        else if($data[1] == "field_email"){
+            $field = $Functions->escape($data[3]);
+            $q = $Functions->PDO("UPDATE tbl_applicant SET email = {$field} WHERE id = '{$id}';");
+        }
+        else if($data[1] == "field_password"){
+            $field = $Functions->password($data[3]);
+            $q = $Functions->PDO("UPDATE tbl_applicant SET password = '{$field}' WHERE id = '{$id}';");
+        }
+        else{
+            $q = $Functions->PDO("");
+        }
+        if($q->execute())
+            echo 1;
+        else{
+            $Data = $q->errorInfo();
+            print_r($Data);
+        }
+    }
+
+
     if (isset($_GET['do-addCareer'])){/**/
         $data = $_POST['data'];
         $id = $Functions->PDO_IDGenerator('tbl_career','id');
