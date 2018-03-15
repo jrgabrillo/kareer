@@ -353,7 +353,7 @@ var admin = function () {
         },
         getLogs:function(min,max){
 			min = ((typeof min == undefined) || (min == null))?0:min;
-			max = ((typeof max == undefined) || (max == null))?5:max;
+			max = ((typeof max == undefined) || (max == null))?20:max;
 			var data = system.ajax('../assets/harmony/Process.php?get-logs',[min,max]);
 			return data.responseText;
 		},
@@ -377,7 +377,7 @@ var admin = function () {
 						<tbody>${content}</tbody>
 						</table>`;
 			$("#display_logs").html(content);
-			let count = 5, min = 0, max = count;
+			let count = 20, min = 0, max = count;
 			let logs = '';
 			$("button[data-cmd='load']").on("click",function(){
 				min = max;
