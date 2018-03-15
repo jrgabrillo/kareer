@@ -7,7 +7,7 @@ var employer = function() {
                 employer.display();
             }
         },
-        check_access:function(){
+        check_access: function(){
             var result = "";
             var ajax = system.html('../assets/harmony/Process.php?get-session');
             ajax.done(function(data){
@@ -21,7 +21,7 @@ var employer = function() {
             return result;
         },
         nav: function() {
-            var content = "",data = employer.get();
+            var content = "", data = employer.get();
             data = JSON.parse(data);
             var profile = (data[0][5] == null) ? 'avatar.png' : data[0][5];
             $("#user-account img.profile-image").attr({ "src": `../assets/images/profile/${profile}`});
@@ -118,26 +118,28 @@ var employer = function() {
                         errorPlacement: function(error, element) {
                             var placement = $(element).data('error');
                             if (placement) {
-                                $(placement).append(error)
-                            } else {
+                                $(placement).append(error);
+                            } 
+                            else {
                                 error.insertAfter(element);
                             }
                         },
                         submitHandler: function(form) {
-                            var id = JSON.parse(employer.check_access());
+                            // var id = JSON.parse(employer.check_access());
                             var _form = $(form).serializeArray();
-                            if ((data.value[0] == _form[0]['value'])) {
+                            if (data.value[0] == _form[0]['value']) {
                                 system.alert('You did not even change the value.', function() {});
-                            } else {
+                            } 
+                            else {
                                 var ajax = system.ajax('../assets/harmony/Process.php?do-updateInfo', [sessionStorage.getItem('kareer'),'employer', 'name',  _form[0]['value']]);
                                 ajax.done(function(ajax) {
-                                    console.log(ajax);
                                     if (ajax == 1) {
                                         $('#modal_confirm').modal('close');
                                         $(`.card-title[for='${data.for}'], .display_name`).html(`${_form[0]['value']}`);
                                         $(_this).attr({ 'data-value': JSON.stringify([_form[0]['value']]), 'data-name': `${_form[0]['value']}` });
                                         system.alert('Name updated.', function() {});
-                                    } else {
+                                    } 
+                                    else {
                                         system.alert('Failed to update.', function() {});
                                     }
                                 });
@@ -156,7 +158,8 @@ var employer = function() {
                             var placement = $(element).data('error');
                             if (placement) {
                                 $(placement).append(error)
-                            } else {
+                            } 
+                            else {
                                 error.insertAfter(element);
                             }
                         },
@@ -164,16 +167,17 @@ var employer = function() {
                             var _form = $(form).serializeArray();
                             if (data.value[0] == _form[0]['value']) {
                                 system.alert('You did not even change the value.', function() {});
-                            } else {
+                            } 
+                            else {
                                 var ajax = system.ajax('../assets/harmony/Process.php?do-updateInfo', [sessionStorage.getItem('kareer'),'employer', 'username', _form[0]['value']]);
                                 ajax.done(function(ajax) {
-                                    console.log(ajax);
                                     if (ajax == 1) {
                                         $('#modal_confirm').modal('close');
                                         $(`td[for='${data.for}']`).html(`${_form[0]['value']}`);
                                         $(_this).attr({ 'data-value': JSON.stringify([_form[0]['value']]), 'data-name': `${_form[0]['value']} }` });
                                         system.alert('Username updated.', function() {});
-                                    } else {
+                                    }
+                                    else {
                                         system.alert('Failed to update.', function() {});
                                     }
                                 });
@@ -208,20 +212,20 @@ var employer = function() {
                             var placement = $(element).data('error');
                             if (placement) {
                                 $(placement).append(error)
-                            } else {
+                            } 
+                            else {
                                 error.insertAfter(element);
                             }
                         },
                         submitHandler: function(form) {
                             var _form = $(form).serializeArray();
-
                             var ajax = system.ajax('../assets/harmony/Process.php?do-updateInfo', [ sessionStorage.getItem('kareer'),'employer', 'password', _form[0]['value']]);
                             ajax.done(function(ajax) {
-                                console.log(ajax);
                                 if (ajax == 1) {
                                     $('#modal_confirm').modal('close');
                                     system.alert('Password updated.', function() {});
-                                } else {
+                                } 
+                                else {
                                     system.alert('Failed to update.', function() {});
                                 }
                             });
@@ -292,12 +296,12 @@ var employer = function() {
                                             if (status) {
                                                 var data = system.ajax('../assets/harmony/Process.php?do-updateImage', ['employer', 'picture', sessionStorage.getItem('kareer'), cropper.getCroppedCanvas().toDataURL('image/png')]);
                                                 data.done(function(data) {
-                                                    console.log(data);
                                                     if (data == 1) {
                                                         $('#modal_confirm').modal('close');
                                                         $('.profile-image').attr('src', cropper.getCroppedCanvas().toDataURL('image/png'));
                                                         system.alert('Profile picture has been updated.', function() {});
-                                                    } else {
+                                                    } 
+                                                    else {
                                                         system.alert('Failed to upload your picture. File too large.', function() {});
                                                     }
                                                 });
@@ -307,17 +311,57 @@ var employer = function() {
                                     }
                                 });
                             };
-                        } else {
+                        } 
+                        else {
                             showMessage("Please choose an image file.");
                         }
                     });
-                } else {
+                }
+                else {
                     $inputImage.addClass("hide");
                 }
                 $("button[data-cmd='cancel']").click(function() {
                     $('#modal_confirm').modal('close');
                 });
             });
+        },
+        getLogs:function(min,max){
+            min = ((typeof min == undefined) || (min == null))?0:min;
+            max = ((typeof max == undefined) || (max == null))?20:max;
+            var data = system.ajax('../assets/harmony/Process.php?get-logs',[min,max]);
+            return data.responseText;
+        },
+        notifications:function(){
+            let Logs = JSON.parse(employer.getLogs());
+            let content = "";
+            $.each(Logs,function(i,v){
+                console.log(v);
+            content += `<tr>
+                            <td width='300px'>${v[3]}</td>
+                            <td>${v[4]}</td>
+                            <td>${v[5]}</td>
+                        </tr>`;
+            });
+            $("#display_logs table tbody").html(content);
+            let count = 20, min = 0, max = count;
+            let logs = '';
+            $("button[data-cmd='load']").on("click",function(){
+                min = max;
+                max = max+count;
+                logs = JSON.parse(employer.getLogs(min,count));
+                employer.listLogs(logs);
+            });
+        },
+        listLogs:function(list){
+            let content = "";
+            $.each(list,function(i,v){
+            content += `<tr>
+                            <td width='300px'>Account Manager's ${v[3]}</td>
+                            <td width="143px">${v[4]}</td>
+                            <td>${v[5]}</td>
+                        </tr>`;
+            });
+            $("#display_logs table tbody").append(content);
         },
     };
 }();
@@ -334,10 +378,10 @@ var jobPosts = function() {
             return ((window.location.hash).split(';')[2]).split('=')[1];
         },
         add: function() {
-            var data = system.xml("pages.xml");
-            $(data.responseText).find("addJobPost").each(function(i, content) {
-                $("#modal_medium .modal-content").html(content);
-                $("a[data-cmd='add_job-post']").on('click', function() {
+            $("a[data-cmd='add_job-post']").on('click', function() {
+                var data = system.xml("pages.xml");
+                $(data.responseText).find("addJobPost").each(function(i, content) {
+                    $("#modal_medium .modal-content").html(content);
                     $('#modal_medium').modal('open');
                     $('.chips-placeholder').material_chip({
                         placeholder: 'Add a skill',
@@ -352,7 +396,8 @@ var jobPosts = function() {
                             editor.deleteText(limit, editor.getLength());
                             $("#field_description2").attr({ "style": "box-shadow:0px 1px 1px red" });
                             $("#display_errorDescription2").html("You have reached max input allowed.");
-                        } else {
+                        } 
+                        else {
                             $("#field_description2").attr({ "style": "box-shadow:0px 1px 1px green" });
                             $("#display_errorDescription2").html("");
                         }
@@ -372,7 +417,8 @@ var jobPosts = function() {
                             var placement = $(element).data('error');
                             if (placement) {
                                 $(placement).append(error)
-                            } else {
+                            }
+                            else {
                                 error.insertAfter(element);
                             }
                         },
@@ -380,19 +426,20 @@ var jobPosts = function() {
                             let skillsArray = [];
                             let description2 = editor.root.innerHTML;
                             var _form = $(form).serializeArray();
-                            var user = JSON.parse(employer.get());
+                            var user = JSON.parse(employer.check_access());
                             var chipdata = $('.chips').material_chip('data');
                             for (var skills in chipdata) {
                                 skillsArray.push(chipdata[skills]['tag']);
                             }
-                            var ajax = system.ajax('../assets/harmony/Process.php?do-postJob', [user[0][0], user[0][1], _form[0]['value'], _form[1]['value'], _form[2]['value'], _form[3]['value'], description2, skillsArray]);
+                            var ajax = system.ajax('../assets/harmony/Process.php?do-postJob', [user[0], user[0][1], _form[0]['value'], _form[1]['value'], _form[2]['value'], _form[3]['value'], description2, skillsArray]);
                             ajax.done(function(ajax) {
                                 console.log(ajax);
                                 if (ajax == 1) {
                                     $('#modal_medium').modal('close');
                                     system.alert('Posted.', function() {});
                                     jobPosts.view();
-                                } else {
+                                }
+                                else {
                                     system.alert('Failed to post.', function() {});
                                 }
                             });
@@ -871,7 +918,7 @@ var jobPosts = function() {
                         submitHandler: function(form) {
                             var id = JSON.parse(employer.check_access());
                             var _form = $(form).serializeArray();
-                            if ((data.value == _form[0]['value'])) {
+                            if (data.value == _form[0]['value']) {
                                 system.alert('You did not even change the value.', function() {});
                                 let _form = editor.root.innerHTML;
                                 var ajax = system.ajax('../assets/harmony/Process.php?do-updateInfo', [sessionStorage.getItem('kareer'), 'job', 'longDes', data.node, _form]);
@@ -887,7 +934,7 @@ var jobPosts = function() {
                                     }
                                 });
                             }
-                        });
+                        }
                     });
                 }
                 else if (data.prop == "Status") {
@@ -944,130 +991,130 @@ var jobPosts = function() {
 
             });
         },
-        Full: function() {
-            $("a[data-cmd='fullPost']").on('click', function() {
-                console.log('deactivaded');
-                var data = $(this).data();
-                var id = data.node;
-                // console.log(id);
-                var data = system.xml("pages.xml");
-                $(data.responseText).find("moveToPending").each(function(i, content) {
-                    $("#modal_medium .modal-content").html(content);
-                    $('#modal_medium').modal('open');
-                    $("#form_pending").validate({
-                        rules: {
+        // Full: function() {
+        //     $("a[data-cmd='fullPost']").on('click', function() {
+        //         console.log('deactivaded');
+        //         var data = $(this).data();
+        //         var id = data.node;
+        //         // console.log(id);
+        //         var data = system.xml("pages.xml");
+        //         $(data.responseText).find("moveToPending").each(function(i, content) {
+        //             $("#modal_medium .modal-content").html(content);
+        //             $('#modal_medium').modal('open');
+        //             $("#form_pending").validate({
+        //                 rules: {
 
-                        },
-                        errorElement: 'div',
-                        errorPlacement: function(error, element) {
-                            var placement = $(element).data('error');
-                            if (placement) {
-                                $(placement).append(error)
-                            } else {
-                                error.insertAfter(element);
-                            }
-                        },
-                        submitHandler: function(form) {
-                            var _form = $(form).serializeArray();
-                            var ajax = system.ajax('../assets/harmony/Process.php?set-pending', id);
-                            ajax.done(function(ajax) {
-                                if (ajax == 1) {
-                                    $('#modal_medium').modal('close');
-                                    system.alert('Posted.', function() {});
-                                    location.reload();
-                                } else {
-                                    system.alert('Failed to post.', function() {});
-                                }
-                            });
-                        }
-                    });
-                });
-            });
-        },
-        Pending: function() {
-            $("a[data-cmd='pendingPost']").on('click', function() {
-                console.log('pending');
-                var data = $(this).data();
-                var id = data.node;
-                // console.log(id);
-                var data = system.xml("pages.xml");
-                $(data.responseText).find("moveToActive").each(function(i, content) {
-                    $("#modal_medium .modal-content").html(content);
-                    $('#modal_medium').modal('open');
-                    $("#form_active").validate({
-                        rules: {
+        //                 },
+        //                 errorElement: 'div',
+        //                 errorPlacement: function(error, element) {
+        //                     var placement = $(element).data('error');
+        //                     if (placement) {
+        //                         $(placement).append(error)
+        //                     } else {
+        //                         error.insertAfter(element);
+        //                     }
+        //                 },
+        //                 submitHandler: function(form) {
+        //                     var _form = $(form).serializeArray();
+        //                     var ajax = system.ajax('../assets/harmony/Process.php?set-pending', id);
+        //                     ajax.done(function(ajax) {
+        //                         if (ajax == 1) {
+        //                             $('#modal_medium').modal('close');
+        //                             system.alert('Posted.', function() {});
+        //                             location.reload();
+        //                         } else {
+        //                             system.alert('Failed to post.', function() {});
+        //                         }
+        //                     });
+        //                 }
+        //             });
+        //         });
+        //     });
+        // },
+        // Pending: function() {
+        //     $("a[data-cmd='pendingPost']").on('click', function() {
+        //         console.log('pending');
+        //         var data = $(this).data();
+        //         var id = data.node;
+        //         // console.log(id);
+        //         var data = system.xml("pages.xml");
+        //         $(data.responseText).find("moveToActive").each(function(i, content) {
+        //             $("#modal_medium .modal-content").html(content);
+        //             $('#modal_medium').modal('open');
+        //             $("#form_active").validate({
+        //                 rules: {
 
-                        },
-                        errorElement: 'div',
-                        errorPlacement: function(error, element) {
-                            var placement = $(element).data('error');
-                            if (placement) {
-                                $(placement).append(error)
-                            } else {
-                                error.insertAfter(element);
-                            }
-                        },
-                        submitHandler: function(form) {
-                            var _form = $(form).serializeArray();
-                            var ajax = system.ajax('../assets/harmony/Process.php?set-active', id);
-                            ajax.done(function(ajax) {
-                                console.log(ajax);
-                                if (ajax == 1) {
-                                    $('#modal_medium').modal('close');
-                                    system.alert('Posted.', function() {});
-                                    location.reload();
-                                } else {
-                                    system.alert('Failed to post.', function() {});
-                                }
-                            });
-                        }
-                    });
-                });
+        //                 },
+        //                 errorElement: 'div',
+        //                 errorPlacement: function(error, element) {
+        //                     var placement = $(element).data('error');
+        //                     if (placement) {
+        //                         $(placement).append(error)
+        //                     } else {
+        //                         error.insertAfter(element);
+        //                     }
+        //                 },
+        //                 submitHandler: function(form) {
+        //                     var _form = $(form).serializeArray();
+        //                     var ajax = system.ajax('../assets/harmony/Process.php?set-active', id);
+        //                     ajax.done(function(ajax) {
+        //                         console.log(ajax);
+        //                         if (ajax == 1) {
+        //                             $('#modal_medium').modal('close');
+        //                             system.alert('Posted.', function() {});
+        //                             location.reload();
+        //                         } else {
+        //                             system.alert('Failed to post.', function() {});
+        //                         }
+        //                     });
+        //                 }
+        //             });
+        //         });
 
-            });
-        },
-        activate: function() {
-            $("a[data-cmd='activatePost']").on('click', function() {
-                console.log('activate');
-                var data = $(this).data();
-                var id = data.node;
-                // console.log(id);
-                var data = system.xml("pages.xml");
-                $(data.responseText).find("moveToFull").each(function(i, content) {
-                    $("#modal_medium .modal-content").html(content);
-                    $('#modal_medium').modal('open');
-                    $("#form_full").validate({
-                        rules: {
+        //     });
+        // },
+        // activate: function() {
+        //     $("a[data-cmd='activatePost']").on('click', function() {
+        //         console.log('activate');
+        //         var data = $(this).data();
+        //         var id = data.node;
+        //         // console.log(id);
+        //         var data = system.xml("pages.xml");
+        //         $(data.responseText).find("moveToFull").each(function(i, content) {
+        //             $("#modal_medium .modal-content").html(content);
+        //             $('#modal_medium').modal('open');
+        //             $("#form_full").validate({
+        //                 rules: {
 
-                        },
-                        errorElement: 'div',
-                        errorPlacement: function(error, element) {
-                            var placement = $(element).data('error');
-                            if (placement) {
-                                $(placement).append(error)
-                            } else {
-                                error.insertAfter(element);
-                            }
-                        },
-                        submitHandler: function(form) {
-                            var _form = $(form).serializeArray();
-                            var ajax = system.ajax('../assets/harmony/Process.php?set-full', id);
-                            ajax.done(function(ajax) {
-                                console.log(ajax);
-                                if (ajax == 1) {
-                                    $('#modal_medium').modal('close');
-                                    system.alert('Posted.', function() {});
-                                    location.reload();
-                                } else {
-                                    system.alert('Failed to post.', function() {});
-                                }
-                            });
-                        }
-                    });
-                });
+        //                 },
+        //                 errorElement: 'div',
+        //                 errorPlacement: function(error, element) {
+        //                     var placement = $(element).data('error');
+        //                     if (placement) {
+        //                         $(placement).append(error)
+        //                     } else {
+        //                         error.insertAfter(element);
+        //                     }
+        //                 },
+        //                 submitHandler: function(form) {
+        //                     var _form = $(form).serializeArray();
+        //                     var ajax = system.ajax('../assets/harmony/Process.php?set-full', id);
+        //                     ajax.done(function(ajax) {
+        //                         console.log(ajax);
+        //                         if (ajax == 1) {
+        //                             $('#modal_medium').modal('close');
+        //                             system.alert('Posted.', function() {});
+        //                             location.reload();
+        //                         } else {
+        //                             system.alert('Failed to post.', function() {});
+        //                         }
+        //                     });
+        //                 }
+        //             });
+        //         });
 
-            });
-        },
+        //     });
+        // },
     } //end
 }();
 
@@ -1085,5 +1132,4 @@ var pass = {
             }
         });
     }
-
 }

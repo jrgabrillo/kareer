@@ -352,50 +352,41 @@ var admin = function () {
             return result;
         },
         getLogs:function(min,max){
-			min = ((typeof min == undefined) || (min == null))?0:min;
-			max = ((typeof max == undefined) || (max == null))?20:max;
-			var data = system.ajax('../assets/harmony/Process.php?get-logs',[min,max]);
-			return data.responseText;
-		},
+            min = ((typeof min == undefined) || (min == null))?0:min;
+            max = ((typeof max == undefined) || (max == null))?20:max;
+            var data = system.ajax('../assets/harmony/Process.php?get-logs',[min,max]);
+            return data.responseText;
+        },
         notifications:function(){
-        	let Logs = JSON.parse(admin.getLogs());
-        	let content = "";
-        	$.each(Logs,function(i,v){
-        		console.log(v);
-			content += `<tr>
-							<td width='300px'>${v[3]}</td>
-							<td>${v[4]}</td>
-							<td>${v[5]}</td>
-						</tr>`;
-			});
-			content = `<table id='table_logs'>
-						<thead>
-							<tr>
-								<th>Remarks</th><th>Date</th><th>Header</th>
-							</tr>
-						</thead>
-						<tbody>${content}</tbody>
-						</table>`;
-			$("#display_logs").html(content);
-			let count = 20, min = 0, max = count;
-			let logs = '';
-			$("button[data-cmd='load']").on("click",function(){
-				min = max;
-				max = max+count;
-				logs = JSON.parse(admin.getLogs(min,count));
-				admin.listLogs(logs);
-			});
+            let Logs = JSON.parse(admin.getLogs());
+            let content = "";
+            $.each(Logs,function(i,v){
+            content += `<tr>
+                            <td width='300px'>${v[3]}</td>
+                            <td>${v[4]}</td>
+                            <td>${v[5]}</td>
+                        </tr>`;
+            });
+            $("#display_logs table tbody").html(content);
+            let count = 20, min = 0, max = count;
+            let logs = '';
+            $("button[data-cmd='load']").on("click",function(){
+                min = max;
+                max = max+count;
+                logs = JSON.parse(admin.getLogs(min,count));
+                admin.listLogs(logs);
+            });
         },
         listLogs:function(list){
-        	let content = "";
-        	$.each(list,function(i,v){
-			content += `<tr>
-							<td width='300px'>Account Manager's ${v[3]}</td>
-							<td width="143px">${v[4]}</td>
-							<td>${v[5]}</td>
-						</tr>`;
-			});
-			$("#display_logs").append(`<table><tbody>${content}</tbody></table>`);
+            let content = "";
+            $.each(list,function(i,v){
+            content += `<tr>
+                            <td width='300px'>Account Manager's ${v[3]}</td>
+                            <td width="143px">${v[4]}</td>
+                            <td>${v[5]}</td>
+                        </tr>`;
+            });
+            $("#display_logs table tbody").append(content);
         },
     };
 }();
@@ -446,6 +437,7 @@ var business = function(){
 								if(ajax == 1){	
 									$('#modal_medium').modal('close');	
 									system.alert('Business has been added.', function(){});
+									location.reload();
 								}
 								else{
 									system.alert('Failed to add business.', function(){});
@@ -488,7 +480,6 @@ var business = function(){
 		},
 		view:function(){
 			let data = JSON.parse(business.get(business.id()));
-			console.log(data);
 			let logo = ((typeof data[0][5] == 'object') || (data[0][5] == ""))? 'icon.png' : data[0][5];
 			$("#businessInfo").html(`
 				<div class='col s12 m4 l3'>
