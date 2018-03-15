@@ -300,7 +300,7 @@
 	</addProduct>
 
 	<addBusiness>
-		<p>Business Information <button class="btn-floating btn-small btn-flat waves-effect white action_close right"><i class="material-icons grey-text">close</i></button></p>
+		<p>Business Information <button class="btn-floating btn-small btn-flat waves-effect white modal-close right"><i class="material-icons grey-text">close</i></button></p>
 		<div class='divider'></div><br/>
 		<form id='form_addBusiness' class='formValidate' method='get' action='' novalidate='novalidate'>
 			<div class='row'>

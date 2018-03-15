@@ -325,6 +325,44 @@ var employer = function() {
                 });
             });
         },
+        getLogs:function(min,max){
+            min = ((typeof min == undefined) || (min == null))?0:min;
+            max = ((typeof max == undefined) || (max == null))?20:max;
+            var data = system.ajax('../assets/harmony/Process.php?get-logs',[min,max]);
+            return data.responseText;
+        },
+        notifications:function(){
+            let Logs = JSON.parse(employer.getLogs());
+            let content = "";
+            $.each(Logs,function(i,v){
+                console.log(v);
+            content += `<tr>
+                            <td width='300px'>${v[3]}</td>
+                            <td>${v[4]}</td>
+                            <td>${v[5]}</td>
+                        </tr>`;
+            });
+            $("#display_logs table tbody").html(content);
+            let count = 20, min = 0, max = count;
+            let logs = '';
+            $("button[data-cmd='load']").on("click",function(){
+                min = max;
+                max = max+count;
+                logs = JSON.parse(employer.getLogs(min,count));
+                employer.listLogs(logs);
+            });
+        },
+        listLogs:function(list){
+            let content = "";
+            $.each(list,function(i,v){
+            content += `<tr>
+                            <td width='300px'>Account Manager's ${v[3]}</td>
+                            <td width="143px">${v[4]}</td>
+                            <td>${v[5]}</td>
+                        </tr>`;
+            });
+            $("#display_logs table tbody").append(content);
+        },
     };
 }();
 
@@ -340,10 +378,10 @@ var jobPosts = function() {
             return ((window.location.hash).split(';')[2]).split('=')[1];
         },
         add: function() {
-            var data = system.xml("pages.xml");
-            $(data.responseText).find("addJobPost").each(function(i, content) {
-                $("#modal_medium .modal-content").html(content);
-                $("a[data-cmd='add_job-post']").on('click', function() {
+            $("a[data-cmd='add_job-post']").on('click', function() {
+                var data = system.xml("pages.xml");
+                $(data.responseText).find("addJobPost").each(function(i, content) {
+                    $("#modal_medium .modal-content").html(content);
                     $('#modal_medium').modal('open');
                     $('.chips-placeholder').material_chip({
                         placeholder: 'Add a skill',
