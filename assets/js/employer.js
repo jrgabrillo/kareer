@@ -1,29 +1,38 @@
 var employer = function() {
     "use strict";
     return {
-        nav: function() {
-            var content = "",
-                data = employer.get();
-            data = JSON.parse(data);
-            var profile = (data[0][5] == null) ? 'avatar.png' : data[0][5];
-
-            $("#user-account img.profile-image").attr({ "src": "../assets/images/profile/" + profile });
-            $("#user-account div div a span.display_name").html(data[0][2]);
-        },
         ini: function() {
-            var data = admin.check_access();
-            console.log(JSON.parse(data));
+            var data = employer.check_access();
             if (data != 0) {
                 employer.display();
             }
+        },
+        check_access:function(){
+            var result = "";
+            var ajax = system.html('../assets/harmony/Process.php?get-session');
+            ajax.done(function(data){
+                if(data == 0){
+                    $(location).attr('href','../');                     
+                }
+                else{
+                    result = data;
+                }
+            })
+            return result;
+        },
+        nav: function() {
+            var content = "",data = employer.get();
+            data = JSON.parse(data);
+            var profile = (data[0][5] == null) ? 'avatar.png' : data[0][5];
+            $("#user-account img.profile-image").attr({ "src": `../assets/images/profile/${profile}`});
+            $("#user-account div div a span.display_name").html(data[0][2]);
         },
         get: function() {
             let ajax = system.ajax('../assets/harmony/Process.php?get-accountBusinessManager', "");
             return ajax.responseText;
         },
         display: function() {
-            var content = "",
-                data = employer.get();
+            var content = "",data = employer.get();
             data = JSON.parse(data);
             var profile = (data[0][5] == null) ? 'avatar.png' : data[0][5];
             employer.nav();
@@ -115,7 +124,7 @@ var employer = function() {
                             }
                         },
                         submitHandler: function(form) {
-                            var id = JSON.parse(admin.check_access());
+                            var id = JSON.parse(employer.check_access());
                             var _form = $(form).serializeArray();
                             if ((data.value[0] == _form[0]['value'])) {
                                 system.alert('You did not even change the value.', function() {});
@@ -135,7 +144,8 @@ var employer = function() {
                             }
                         }
                     });
-                } else if (data.prop == "Username") {
+                } 
+                else if (data.prop == "Username") {
                     $('#modal_confirm').modal('open');
                     $("#form_update").validate({
                         rules: {
@@ -170,7 +180,8 @@ var employer = function() {
                             }
                         }
                     });
-                } else if (data.prop == "Password") {
+                } 
+                else if (data.prop == "Password") {
                     $('#modal_confirm').modal('open');
                     $('#modal_confirm .modal-footer').remove();
                     $("#field_Password").val("");
@@ -317,6 +328,7 @@ var jobPosts = function() {
     return {
         get: function(id) {
             let ajax = system.ajax('../assets/harmony/Process.php?get-employerJobsPosts', id);
+            console.log(ajax.responseText);
             return ajax.responseText;
         },
         id:function(){
@@ -389,11 +401,10 @@ var jobPosts = function() {
             });
         },
         list: function() {
-            let id = JSON.parse(admin.check_access())[0],
-                content = "",
-                chip = "",
-                skills = "";
+            let id = JSON.parse(employer.check_access())[0], content = "", chip = "", skills = "";
+                console.log(id);
             let data = JSON.parse(jobPosts.get(id));
+            console.log(data);
             $.each(data, function(i, v) {
                 skills = JSON.parse(v[7]);
                 chip = "";
@@ -548,7 +559,7 @@ var jobPosts = function() {
                             }
                         },
                         submitHandler: function(form) {
-                            var id = JSON.parse(admin.check_access());
+                            var id = JSON.parse(employer.check_access());
                             var _form = $(form).serializeArray();
                             if ((data.value == _form[0]['value'])) {
                                 system.alert('You did not even change the value.', function() {});
@@ -602,7 +613,7 @@ var jobPosts = function() {
                 //     //         }
                 //     //     },
                 //     //     submitHandler: function(form) {
-                //     //         var id = JSON.parse(admin.check_access());
+                //     //         var id = JSON.parse(employer.check_access());
                 //     //         var _form = $(form).serializeArray();
                 //     //         if ((data.value == _form[0]['value'])) {
                 //     //             system.alert('You did not even change the value.', function() {});
@@ -651,7 +662,7 @@ var jobPosts = function() {
                             }
                         },
                         submitHandler: function(form) {
-                            var id = JSON.parse(admin.check_access());
+                            var id = JSON.parse(employer.check_access());
                             var _form = $(form).serializeArray();
                             if ((data.value == _form[0]['value'])) {
                                 system.alert('You did not even change the value.', function() {});
@@ -700,7 +711,7 @@ var jobPosts = function() {
                             }
                         },
                         submitHandler: function(form) {
-                            var id = JSON.parse(admin.check_access());
+                            var id = JSON.parse(employer.check_access());
                             var _form = $(form).serializeArray();
                             if ((data.value == _form[0]['value'])) {
                                 system.alert('You did not even change the value.', function() {});
@@ -749,7 +760,7 @@ var jobPosts = function() {
                             }
                         },
                         submitHandler: function(form) {
-                            var id = JSON.parse(admin.check_access());
+                            var id = JSON.parse(employer.check_access());
                             var _form = $(form).serializeArray();
                             if ((data.value == _form[0]['value'])) {
                                 system.alert('You did not even change the value.', function() {});
@@ -812,7 +823,7 @@ var jobPosts = function() {
                             }
                         },
                         submitHandler: function(form) {
-                            var id = JSON.parse(admin.check_access());
+                            var id = JSON.parse(employer.check_access());
                             var _form = $(form).serializeArray();
                             if ((data.value == _form[0]['value'])) {
                                 system.alert('You did not even change the value.', function() {});

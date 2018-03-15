@@ -232,7 +232,7 @@ $Functions = new DatabaseClasses;
         $units = $Functions->escape($data[5]);
         $fromYear = $Functions->escape($data[6]);
         $toYear = $Functions->escape($data[7]);
-        
+
         $q = $Functions->PDO("UPDATE  tbl_acadinfo  SET  level = {$yearLevel}, schoolattended = {$school}, degree = {$degree}, highestlevel = {$units}, yearenrolled = {$fromYear}, yeargraduated = {$toYear} WHERE id = '{$id}'");
         if($q->execute()){
             echo 1;
@@ -715,24 +715,23 @@ $Functions = new DatabaseClasses;
             print_r(json_encode($queryApplicant[0]));
     }
 
-    if (isset($_GET['get-jobs'])){
+    if (isset($_GET['get-jobs'])){/**/
         $data = $_POST['data'];
-        $temp = [];
-        $jobs = [];
-        $queryskill = $Functions->PDO("SELECT skill FROM tbl_skills WHERE applicant_id = '{$data}'");
-        foreach ($queryskill as $key => $value) {
-            $query = $Functions->PDO("SELECT * FROM tbl_vacancies WHERE status = 1 AND id NOT IN (SELECT vacancy_id FROM tbl_application WHERE applicant_id = '{$data}') AND skills IN (SELECT skills FROM tbl_vacancies WHERE skills LIKE '%{$value[0]}%')");
-            foreach ($query as $key => $value) {
-                $jobs [] = $value;
-            }
-        }
-        $filtered = array_unique($jobs,SORT_REGULAR);
-        foreach ($filtered as $key => $value) {
-            $queryEmployer = $Functions->PDO("SELECT * FROM tbl_employer WHERE id ='{$value[1]}'");
-            $skills = (is_array(json_decode($value[5])))?$value[5]:($value[5]=="[null]")?:json_encode([$value[5]]);
-            $temp[] = [$value[0],$queryEmployer[0][5],$queryEmployer[0][3],$value[4],$value[2],$skills];
-        }
-        print_r(json_encode($temp));
+        $s  = "";
+        // print_r($data);
+        $q_skill = $Functions->PDO("SELECT skill FROM tbl_skills WHERE applicant_id = '{$data[0]}' ORDER BY `date`");
+        foreach ($q_skill as $i => $v){$s .= "{$v[0]} ";}
+
+        $q_s = $Functions->PDO("SELECT id,employer_id,business_id,short_description,description,vacancy_date,job_title,skills,salary_range,
+                                    MATCH(`skills`) AGAINST ('{$s}' IN BOOLEAN MODE) * 10 as rel_skills,
+                                    MATCH(`job_title`) AGAINST ('{$s}' IN BOOLEAN MODE) * 5 as rel_job
+                                    FROM tbl_vacancies
+                                    WHERE status = 1 AND MATCH (skills, job_title) 
+                                          AGAINST ('{$s}' IN BOOLEAN MODE)
+                                    ORDER BY (rel_skills)+(rel_job) DESC;");
+
+        print_r($q_s);
+        // print_r($q_skill);
     }
 
     if (isset($_GET['get-Bjobs'])){
