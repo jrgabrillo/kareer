@@ -1208,9 +1208,32 @@ var jobs = function(){
 			return ajax.responseText;
 		},
 		list:function(){
-			let data = JSON.parse(jobs.get());
+			let data = JSON.parse(jobs.get(business.id())), content = "", chip = "", skills = "";
 			if(data.length>0){
-
+	            $.each(data, function(i, v) {
+	            	console.log(v);
+	                let status = (v[10] == 1)?'Active':'Inactive';
+	                skills = JSON.parse(v[7]);
+	                chip = "";
+	                $.each(skills, function(i, s) {
+	                    chip += `<a class="chip">${s}</a>`;
+	                });
+	                $("#businessJobs table tbody").append(`
+	                    <tr>
+	                        <td widtd="50px" class="center">${status}</td>
+	                        <td widtd="300px" class="center">${v[6]}</td>
+	                        <td widtd="150px" class="center">${v[9]}</td>
+	                        <td widtd="200px" class="center">${chip}</td>
+	                        <td widtd="150px" class="center">${v[8]}</td>
+	                        <td>
+	                            <a href='#cmd=index;content=focusjob;id=${v[0]}' data-cmd='view-job' class='tooltipped btn-floating waves-effect black-text no-shadow white right' data-position='left' data-delay='50' data-tooltip='View Job Details'>
+	                                <i class='material-icons right hover black-text'>more_vert</i>
+	                            </a>
+	                        </td>
+	                    </tr>
+	                `);
+	            });
+	            $('h6.text-area').addClass('hidden');
 			}
 			else{
 				console.log('no jobs');
