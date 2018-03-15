@@ -97,7 +97,7 @@
 	if(isset($_GET['get-employerJobsPosts'])){ /**/
 		$data = $_POST['data'];
 		$query = $Functions->PDO("SELECT * FROM tbl_vacancies WHERE employer_id = '{$data}' ORDER BY date DESC");
-			print_r(json_encode($query));
+		print_r(json_encode($query));
 	}
 
 	if (isset($_GET['get-account'])){/**/

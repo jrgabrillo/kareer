@@ -1,28 +1,38 @@
 var employer = function() {
     "use strict";
     return {
-        nav: function() {
-            var content = "",
-                data = employer.get();
-            data = JSON.parse(data);
-            var profile = (data[0][5] == null) ? 'avatar.png' : data[0][5];
-
-            $("#user-account img.profile-image").attr({ "src": "../assets/images/profile/" + profile });
-            $("#user-account div div a span.display_name").html(data[0][2]);
-        },
         ini: function() {
-            var data = admin.check_access();
+            var data = employer.check_access();
             if (data != 0) {
                 employer.display();
             }
+        },
+        check_access:function(){
+            var result = "";
+            var ajax = system.html('../assets/harmony/Process.php?get-session');
+            ajax.done(function(data){
+                if(data == 0){
+                    $(location).attr('href','../');                     
+                }
+                else{
+                    result = data;
+                }
+            })
+            return result;
+        },
+        nav: function() {
+            var content = "",data = employer.get();
+            data = JSON.parse(data);
+            var profile = (data[0][5] == null) ? 'avatar.png' : data[0][5];
+            $("#user-account img.profile-image").attr({ "src": `../assets/images/profile/${profile}`});
+            $("#user-account div div a span.display_name").html(data[0][2]);
         },
         get: function() {
             let ajax = system.ajax('../assets/harmony/Process.php?get-accountBusinessManager', "");
             return ajax.responseText;
         },
         display: function() {
-            var content = "",
-                data = employer.get();
+            var content = "",data = employer.get();
             data = JSON.parse(data);
             var profile = (data[0][5] == null) ? 'avatar.png' : data[0][5];
             employer.nav();
@@ -114,7 +124,7 @@ var employer = function() {
                             }
                         },
                         submitHandler: function(form) {
-                            var id = JSON.parse(admin.check_access());
+                            var id = JSON.parse(employer.check_access());
                             var _form = $(form).serializeArray();
                             if ((data.value[0] == _form[0]['value'])) {
                                 system.alert('You did not even change the value.', function() {});
@@ -134,7 +144,8 @@ var employer = function() {
                             }
                         }
                     });
-                } else if (data.prop == "Username") {
+                } 
+                else if (data.prop == "Username") {
                     $('#modal_confirm').modal('open');
                     $("#form_update").validate({
                         rules: {
@@ -169,7 +180,8 @@ var employer = function() {
                             }
                         }
                     });
-                } else if (data.prop == "Password") {
+                } 
+                else if (data.prop == "Password") {
                     $('#modal_confirm').modal('open');
                     $('#modal_confirm .modal-footer').remove();
                     $("#field_Password").val("");
@@ -361,6 +373,7 @@ var jobPosts = function() {
     return {
         get: function(id) {
             let ajax = system.ajax('../assets/harmony/Process.php?get-employerJobsPosts', id);
+            console.log(ajax.responseText);
             return ajax.responseText;
         },
         id:function(){
@@ -435,10 +448,8 @@ var jobPosts = function() {
             });
         },
         list: function() {
-            let id = JSON.parse(admin.check_access())[0],
-            content = "",
-            chip = "",
-            skills = "";
+            let id = JSON.parse(employer.check_access())[0], content = "", chip = "", skills = "";
+                console.log(id);
             let data = JSON.parse(jobPosts.get(id));
             $.each(data, function(i, v) {
                 let status = (v[10] == 1)?'Active':'Inactive';
@@ -631,6 +642,7 @@ var jobPosts = function() {
                             }
                         },
                         submitHandler: function(form) {
+                            var id = JSON.parse(employer.check_access());
                             var _form = $(form).serializeArray();
                             if ((data.value == _form[0]['value'])) {
                                 system.alert('You did not even change the value.', function() {});
@@ -737,6 +749,7 @@ var jobPosts = function() {
                             }
                         },
                         submitHandler: function(form) {
+                            var id = JSON.parse(employer.check_access());
                             var _form = $(form).serializeArray();
                             if ((data.value == _form[0]['value'])) {
                                 system.alert('You did not even change the value.', function() {});
@@ -785,6 +798,7 @@ var jobPosts = function() {
                             }
                         },
                         submitHandler: function(form) {
+                            var id = JSON.parse(employer.check_access());
                             var _form = $(form).serializeArray();
                             if ((data.value == _form[0]['value'])) {
                                 system.alert('You did not even change the value.', function() {});
@@ -837,6 +851,7 @@ var jobPosts = function() {
                             }
                         },
                         submitHandler: function(form) {
+                            var id = JSON.parse(employer.check_access());
                             var _form = $(form).serializeArray();
                             if ((data.value == _form[0]['value'])) {
                                 system.alert('You did not even change the value.', function() {});
@@ -894,30 +909,35 @@ var jobPosts = function() {
                             var placement = $(element).data('error');
                             if (placement) {
                                 $(placement).append(error)
-                            } else {
+                            } 
+                            else {
                                 error.insertAfter(element);
                             }
                         },
                         submitHandler: function(form) {
-                            let _form = editor.root.innerHTML;
-                            var ajax = system.ajax('../assets/harmony/Process.php?do-updateInfo', [sessionStorage.getItem('kareer'), 'job', 'longDes', data.node, _form]);
-                            ajax.done(function(ajax) {
-                                console.log(ajax);
-                                if (ajax == 1) {
-                                    $('#modal_medium').modal('close');
-                                    $(`td[for='${data.for}']`).html(`${_form}`);
-                                    // $(_this).attr({ 'data-value': _form[0]['value'], 'data-name': `${_form[0]['value']}` });
-                                    system.alert('Updated.', function() {});
-                                } else {
-                                    system.alert('Failed to update.', function() {});
-                                }
-                            });
-                        }
+                            var id = JSON.parse(employer.check_access());
+                            var _form = $(form).serializeArray();
+                            if ((data.value == _form[0]['value'])) {
+                                system.alert('You did not even change the value.', function() {});
+                                let _form = editor.root.innerHTML;
+                                var ajax = system.ajax('../assets/harmony/Process.php?do-updateInfo', [sessionStorage.getItem('kareer'), 'job', 'longDes', data.node, _form]);
+                                ajax.done(function(ajax) {
+                                    if (ajax == 1) {
+                                        $('#modal_medium').modal('close');
+                                        $(`td[for='${data.for}']`).html(`${_form}`);
+                                        // $(_this).attr({ 'data-value': _form[0]['value'], 'data-name': `${_form[0]['value']}` });
+                                        system.alert('Updated.', function() {});
+                                    } 
+                                    else {
+                                        system.alert('Failed to update.', function() {});
+                                    }
+                                });
+                            }
+                        });
                     });
                 }
                 else if (data.prop == "Status") {
                     let title = (data.value == 'Active')?0:1;
-                    console.log(title);
                     content = `<h5>Are You sure you want to change the ${data.prop} of this job?</h5>
                                     <form id='form_update' class='formValidate' method='get' action='' novalidate='novalidate'>
                                         <div class="input-field col s6">
@@ -953,7 +973,6 @@ var jobPosts = function() {
                             else{
                                 var ajax = system.ajax('../assets/harmony/Process.php?do-updateInfo', [sessionStorage.getItem('kareer'), 'job', 'status', data.node, title, remarks]);
                                 ajax.done(function(ajax) {
-                                    console.log(ajax);
                                     title = (title == 1)?'Active':'Inactive';
                                     if (ajax == 1) {
                                         $('#modal_medium').modal('close');
