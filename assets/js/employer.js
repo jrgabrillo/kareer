@@ -2,368 +2,328 @@ var employer = function() {
     "use strict";
     return {
         ini: function() {
-            var data = employer.check_access();
-            if (data != 0) {
-                employer.display();
-            }
+            // var data = employer.check_access();
+            // if (data != 0) {
+            //     employer.display();
+            // }
         },
-        check_access:function(){
-            var result = "";
-            var ajax = system.html('../assets/harmony/Process.php?get-session');
-            ajax.done(function(data){
-                if(data == 0){
-                    $(location).attr('href','../');                     
-                }
-                else{
-                    result = data;
-                }
-            })
-            return result;
+        check_access: function(){
+            // var result = "";
+            // var ajax = system.html('../assets/harmony/Process.php?get-session');
+            // ajax.done(function(data){
+            //     if(data == 0){
+            //         $(location).attr('href','../');                     
+            //     }
+            //     else{
+            //         result = data;
+            //     }
+            // })
+            // return result;
         },
         nav: function() {
-            var content = "",data = employer.get();
-            data = JSON.parse(data);
-            var profile = (data[0][5] == null) ? 'avatar.png' : data[0][5];
-            $("#user-account img.profile-image").attr({ "src": `../assets/images/profile/${profile}`});
-            $("#user-account div div a span.display_name").html(data[0][2]);
+            // var content = "", data = employer.get();
+            // data = JSON.parse(data);
+            // var profile = (data[0][5] == null) ? 'avatar.png' : data[0][5];
+            // $("#user-account img.profile-image").attr({ "src": `../assets/images/profile/${profile}`});
+            // $("#user-account div div a span.display_name").html(data[0][2]);
         },
         get: function() {
-            let ajax = system.ajax('../assets/harmony/Process.php?get-accountBusinessManager', "");
-            return ajax.responseText;
+            // let ajax = system.ajax('../assets/harmony/Process.php?get-accountBusinessManager', "");
+            // return ajax.responseText;
         },
         display: function() {
-            var content = "",data = employer.get();
-            data = JSON.parse(data);
-            var profile = (data[0][5] == null) ? 'avatar.png' : data[0][5];
-            employer.nav();
-            $("#user-account img.profile-image").attr({ "src": "../assets/images/profile/" + profile });
-            $("#user-account div div a span.display_name").html(data[0][2]);
+            // var content = "",data = employer.get();
+            // data = JSON.parse(data);
+            // var profile = (data[0][5] == null) ? 'avatar.png' : data[0][5];
+            // employer.nav();
+            // $("#user-account img.profile-image").attr({ "src": "../assets/images/profile/" + profile });
+            // $("#user-account div div a span.display_name").html(data[0][2]);
 
-            $("#display_employer").html(`<div id='profile-card' class='card'>
-                                        <div class='card-content'>
-                                            <div class='responsive-img activator card-profile-image circle'>
-                                                <img src='../assets/images/profile/${profile}' alt='' class='circle profile-image'>
-                                                <a data-cmd='updateAdminPicture' data-value='${profile}' data-name='${data[0][1]} ${data[0][2]}' data-node='${data[0][0]}' data-prop='Picture' class='btn waves-effect white-text no-shadow black' style='font-size: 10px;z-index: 1;padding: 0 12px;top:40px;'>Change</a>
-                                            </div>
-                                            <a data-for='name' data-cmd='updateAdmin' data-value='${JSON.stringify([data[0][2]])}' data-name='${data[0][2]}' data-node='${data[0][0]}' data-prop='Name' class='tooltipped btn-floating waves-effect black-text no-shadow white right' data-position='left' data-delay='50' data-tooltip='Update name'>
-                                                <i class='material-icons right hover black-text'>mode_edit</i>
-                                            </a>
-                                            <span class='card-title activator grey-text text-darken-4' for='name'>${data[0][2]}</span>
-                                            <div class='divider'></div>
-                                            <table>
-                                                <tr>
-                                                    <td width='20px' class='bold'><span style='width:80%;display: inline-block;'><i class='mdi-action-perm-identity cyan-text text-darken-2'></i> Username: </span></td>
-                                                    <td class='grey-text truncate' for='username'>${data[0][3]}</td>
-                                                    <td width='20px'>
-                                                        <a data-for='username' data-cmd='updateAdmin' data-value='${data[0][3]}' data-name='${data[0][1]} ${data[0][2]}' data-node='${data[0][0]}' data-prop='Username' class='tooltipped btn-floating waves-effect black-text no-shadow white right' data-position='left' data-delay='50' data-tooltip='Update username'>
-                                                            <i class='material-icons right hover black-text'>mode_edit</i>
-                                                        </a>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td class='bold'><span style='width:80%;display: inline-block;' class='truncate'><i class='mdi-action-verified-user cyan-text text-darken-2'></i> Password</span></td>
-                                                    <td></td>
-                                                    <td>
-                                                        <a data-cmd='updateAdmin' data-name='${data[0][1]} ${data[0][2]}' data-node='${data[0][0]}' data-prop='Password' class='tooltipped btn-floating waves-effect black-text no-shadow white right' data-position='left' data-delay='50' data-tooltip='Update password'>
-                                                            <i class='material-icons right hover black-text'>mode_edit</i>
-                                                        </a>
-                                                    </td>
-                                                </tr>
-                                            </table>
-                                        </div>
-                                    </div>`);
+            // $("#display_employer").html(`<div id='profile-card' class='card'>
+            //                             <div class='card-content'>
+            //                                 <div class='responsive-img activator card-profile-image circle'>
+            //                                     <img src='../assets/images/profile/${profile}' alt='' class='circle profile-image'>
+            //                                     <a data-cmd='updateAdminPicture' data-value='${profile}' data-name='${data[0][1]} ${data[0][2]}' data-node='${data[0][0]}' data-prop='Picture' class='btn waves-effect white-text no-shadow black' style='font-size: 10px;z-index: 1;padding: 0 12px;top:40px;'>Change</a>
+            //                                 </div>
+            //                                 <a data-for='name' data-cmd='updateAdmin' data-value='${JSON.stringify([data[0][2]])}' data-name='${data[0][2]}' data-node='${data[0][0]}' data-prop='Name' class='tooltipped btn-floating waves-effect black-text no-shadow white right' data-position='left' data-delay='50' data-tooltip='Update name'>
+            //                                     <i class='material-icons right hover black-text'>mode_edit</i>
+            //                                 </a>
+            //                                 <span class='card-title activator grey-text text-darken-4' for='name'>${data[0][2]}</span>
+            //                                 <div class='divider'></div>
+            //                                 <table>
+            //                                     <tr>
+            //                                         <td width='20px' class='bold'><span style='width:80%;display: inline-block;'><i class='mdi-action-perm-identity cyan-text text-darken-2'></i> Username: </span></td>
+            //                                         <td class='grey-text truncate' for='username'>${data[0][3]}</td>
+            //                                         <td width='20px'>
+            //                                             <a data-for='username' data-cmd='updateAdmin' data-value='${data[0][3]}' data-name='${data[0][1]} ${data[0][2]}' data-node='${data[0][0]}' data-prop='Username' class='tooltipped btn-floating waves-effect black-text no-shadow white right' data-position='left' data-delay='50' data-tooltip='Update username'>
+            //                                                 <i class='material-icons right hover black-text'>mode_edit</i>
+            //                                             </a>
+            //                                         </td>
+            //                                     </tr>
+            //                                     <tr>
+            //                                         <td class='bold'><span style='width:80%;display: inline-block;' class='truncate'><i class='mdi-action-verified-user cyan-text text-darken-2'></i> Password</span></td>
+            //                                         <td></td>
+            //                                         <td>
+            //                                             <a data-cmd='updateAdmin' data-name='${data[0][1]} ${data[0][2]}' data-node='${data[0][0]}' data-prop='Password' class='tooltipped btn-floating waves-effect black-text no-shadow white right' data-position='left' data-delay='50' data-tooltip='Update password'>
+            //                                                 <i class='material-icons right hover black-text'>mode_edit</i>
+            //                                             </a>
+            //                                         </td>
+            //                                     </tr>
+            //                                 </table>
+            //                             </div>
+            //                         </div>`);
 
-            $(`img.profile-image`).on('error', function() {
-                $(this).attr({ 'src': '../assets/images/logo/icon.png' });
-            });
+            // $(`img.profile-image`).on('error', function() {
+            //     $(this).attr({ 'src': '../assets/images/logo/icon.png' });
+            // });
 
-            employer.update();
-            employer.updatePicture();
+            // employer.update();
+            // employer.updatePicture();
         },
         update: function() {
-            $("a[data-cmd='updateAdmin']").on('click', function() {
-                let _this = this;
-                var data = $(this).data();
-                var content = `<h5>Change ${data.prop}</h5>
-                                <form id='form_update' class='formValidate' method='get' action='' novalidate='novalidate'>
-                                    <label for='field_${data.prop}' class='active'>${data.prop}: </label>
-                                    <input id='field_${data.prop}' value='${data.value}' type='text' name='field_${data.prop}' data-error='.error_${data.prop}'>
-                                    <div class='error_${data.prop}'></div>
-                                    <button type='submit' data-cmd='button_proceed' class='waves-effect waves-grey grey lighten-5 blue-text btn-flat modal-action right'>Save</button>
-                                    <a class='waves-effect waves-grey grey-text btn-flat modal-action modal-close right'>Cancel</a>
-                                </form>`;
-                $("#modal_confirm .modal-content").html(content);
-                $('#modal_confirm .modal-footer').html("");
+            // $("a[data-cmd='updateAdmin']").on('click', function() {
+            //     let _this = this;
+            //     var data = $(this).data();
+            //     var content = `<h5>Change ${data.prop}</h5>
+            //                     <form id='form_update' class='formValidate' method='get' action='' novalidate='novalidate'>
+            //                         <label for='field_${data.prop}' class='active'>${data.prop}: </label>
+            //                         <input id='field_${data.prop}' value='${data.value}' type='text' name='field_${data.prop}' data-error='.error_${data.prop}'>
+            //                         <div class='error_${data.prop}'></div>
+            //                         <button type='submit' data-cmd='button_proceed' class='waves-effect waves-grey grey lighten-5 blue-text btn-flat modal-action right'>Save</button>
+            //                         <a class='waves-effect waves-grey grey-text btn-flat modal-action modal-close right'>Cancel</a>
+            //                     </form>`;
+            //     $("#modal_confirm .modal-content").html(content);
+            //     $('#modal_confirm .modal-footer').html("");
 
-                if (data.prop == "Name") {
-                    content = `<h5>Change ${data.prop}</h5>
-                                    <form id='form_update' class='formValidate' method='get' action='' novalidate='novalidate'>
-                                        <div class="input-field col s6">
-                                            <label for='field_${data.prop}' class='active'>First Name: </label>
-                                            <input id='field_${data.prop}' value='${data.value[0]}' type='text' name='field_1' data-error='.error_${data.prop}'>
-                                            <div class='error_${data.prop}'></div>
-                                        </div>
+            //     if (data.prop == "Name") {
+            //         content = `<h5>Change ${data.prop}</h5>
+            //                         <form id='form_update' class='formValidate' method='get' action='' novalidate='novalidate'>
+            //                             <div class="input-field col s6">
+            //                                 <label for='field_${data.prop}' class='active'>First Name: </label>
+            //                                 <input id='field_${data.prop}' value='${data.value[0]}' type='text' name='field_1' data-error='.error_${data.prop}'>
+            //                                 <div class='error_${data.prop}'></div>
+            //                             </div>
                                         
-                                        <button type='submit' data-cmd='button_proceed' class='waves-effect waves-grey grey lighten-5 blue-text btn-flat modal-action right'>Save</button>
-                                        <a class='waves-effect waves-grey grey-text btn-flat modal-action modal-close right'>Cancel</a>
-                                    </form>`;
-                    $("#modal_confirm .modal-content").html(content);
-                    $('#modal_confirm').modal('open');
-                    $("#form_update").validate({
-                        rules: {
-                            field_1: { required: true, maxlength: 20 },
-                            field_2: { required: true, maxlength: 20 },
-                        },
-                        errorElement: 'div',
-                        errorPlacement: function(error, element) {
-                            var placement = $(element).data('error');
-                            if (placement) {
-                                $(placement).append(error)
-                            } else {
-                                error.insertAfter(element);
-                            }
-                        },
-                        submitHandler: function(form) {
-                            var id = JSON.parse(employer.check_access());
-                            var _form = $(form).serializeArray();
-                            if ((data.value[0] == _form[0]['value'])) {
-                                system.alert('You did not even change the value.', function() {});
-                            } else {
-                                var ajax = system.ajax('../assets/harmony/Process.php?do-updateInfo', [sessionStorage.getItem('kareer'),'employer', 'name',  _form[0]['value']]);
-                                ajax.done(function(ajax) {
-                                    console.log(ajax);
-                                    if (ajax == 1) {
-                                        $('#modal_confirm').modal('close');
-                                        $(`.card-title[for='${data.for}'], .display_name`).html(`${_form[0]['value']}`);
-                                        $(_this).attr({ 'data-value': JSON.stringify([_form[0]['value']]), 'data-name': `${_form[0]['value']}` });
-                                        system.alert('Name updated.', function() {});
-                                    } else {
-                                        system.alert('Failed to update.', function() {});
-                                    }
-                                });
-                            }
-                        }
-                    });
-                } 
-                else if (data.prop == "Username") {
-                    $('#modal_confirm').modal('open');
-                    $("#form_update").validate({
-                        rules: {
-                            field_Username: {required: true,maxlength: 50,validateUsername:true},
-                        },
-                        errorElement: 'div',
-                        errorPlacement: function(error, element) {
-                            var placement = $(element).data('error');
-                            if (placement) {
-                                $(placement).append(error)
-                            } else {
-                                error.insertAfter(element);
-                            }
-                        },
-                        submitHandler: function(form) {
-                            var _form = $(form).serializeArray();
-                            if (data.value[0] == _form[0]['value']) {
-                                system.alert('You did not even change the value.', function() {});
-                            } else {
-                                var ajax = system.ajax('../assets/harmony/Process.php?do-updateInfo', [sessionStorage.getItem('kareer'),'employer', 'username', _form[0]['value']]);
-                                ajax.done(function(ajax) {
-                                    console.log(ajax);
-                                    if (ajax == 1) {
-                                        $('#modal_confirm').modal('close');
-                                        $(`td[for='${data.for}']`).html(`${_form[0]['value']}`);
-                                        $(_this).attr({ 'data-value': JSON.stringify([_form[0]['value']]), 'data-name': `${_form[0]['value']} }` });
-                                        system.alert('Username updated.', function() {});
-                                    } else {
-                                        system.alert('Failed to update.', function() {});
-                                    }
-                                });
-                            }
-                        }
-                    });
-                } 
-                else if (data.prop == "Password") {
-                    $('#modal_confirm').modal('open');
-                    $('#modal_confirm .modal-footer').remove();
-                    $("#field_Password").val("");
-                    $("#field_Password").attr({ "type": "password" });
-                    $("#form_update").append("<p><input type='checkbox' id='showPassword'><label for='showPassword'>Show password</label></p>");
-                    $("#form_update").append(`<div class='display_notes'>
-                                                *<strong>Password</strong> must contain atleast 1 number, 1 uppercase letter, 1 lowercare letter, 1 special character* and 6 character length. <br/>
-                                                <u>Special characters are ! @ $ % *</u>
-                                            </div>`);
+            //                             <button type='submit' data-cmd='button_proceed' class='waves-effect waves-grey grey lighten-5 blue-text btn-flat modal-action right'>Save</button>
+            //                             <a class='waves-effect waves-grey grey-text btn-flat modal-action modal-close right'>Cancel</a>
+            //                         </form>`;
+            //         $("#modal_confirm .modal-content").html(content);
+            //         $('#modal_confirm').modal('open');
+            //         $("#form_update").validate({
+            //             rules: {
+            //                 field_1: { required: true, maxlength: 20 },
+            //                 field_2: { required: true, maxlength: 20 },
+            //             },
+            //             errorElement: 'div',
+            //             errorPlacement: function(error, element) {
+            //                 var placement = $(element).data('error');
+            //                 if (placement) {
+            //                     $(placement).append(error);
+            //                 } 
+            //                 else {
+            //                     error.insertAfter(element);
+            //                 }
+            //             },
+            //             submitHandler: function(form) {
+            //                 // var id = JSON.parse(employer.check_access());
+            //                 var _form = $(form).serializeArray();
+            //                 if (data.value[0] == _form[0]['value']) {
+            //                     system.alert('You did not even change the value.', function() {});
+            //                 } 
+            //                 else {
+            //                     var ajax = system.ajax('../assets/harmony/Process.php?do-updateInfo', [sessionStorage.getItem('kareer'),'employer', 'name',  _form[0]['value']]);
+            //                     ajax.done(function(ajax) {
+            //                         if (ajax == 1) {
+            //                             $('#modal_confirm').modal('close');
+            //                             $(`.card-title[for='${data.for}'], .display_name`).html(`${_form[0]['value']}`);
+            //                             $(_this).attr({ 'data-value': JSON.stringify([_form[0]['value']]), 'data-name': `${_form[0]['value']}` });
+            //                             system.alert('Name updated.', function() {});
+            //                         } 
+            //                         else {
+            //                             system.alert('Failed to update.', function() {});
+            //                         }
+            //                     });
+            //                 }
+            //             }
+            //         });
+            //     } 
+            //     else if (data.prop == "Username") {
+            //         $('#modal_confirm').modal('open');
+            //         $("#form_update").validate({
+            //             rules: {
+            //                 field_Username: {required: true,maxlength: 50,validateUsername:true},
+            //             },
+            //             errorElement: 'div',
+            //             errorPlacement: function(error, element) {
+            //                 var placement = $(element).data('error');
+            //                 if (placement) {
+            //                     $(placement).append(error)
+            //                 } 
+            //                 else {
+            //                     error.insertAfter(element);
+            //                 }
+            //             },
+            //             submitHandler: function(form) {
+            //                 var _form = $(form).serializeArray();
+            //                 if (data.value[0] == _form[0]['value']) {
+            //                     system.alert('You did not even change the value.', function() {});
+            //                 } 
+            //                 else {
+            //                     var ajax = system.ajax('../assets/harmony/Process.php?do-updateInfo', [sessionStorage.getItem('kareer'),'employer', 'username', _form[0]['value']]);
+            //                     ajax.done(function(ajax) {
+            //                         if (ajax == 1) {
+            //                             $('#modal_confirm').modal('close');
+            //                             $(`td[for='${data.for}']`).html(`${_form[0]['value']}`);
+            //                             $(_this).attr({ 'data-value': JSON.stringify([_form[0]['value']]), 'data-name': `${_form[0]['value']} }` });
+            //                             system.alert('Username updated.', function() {});
+            //                         }
+            //                         else {
+            //                             system.alert('Failed to update.', function() {});
+            //                         }
+            //                     });
+            //                 }
+            //             }
+            //         });
+            //     } 
+            //     else if (data.prop == "Password") {
+            //         $('#modal_confirm').modal('open');
+            //         $('#modal_confirm .modal-footer').remove();
+            //         $("#field_Password").val("");
+            //         $("#field_Password").attr({ "type": "password" });
+            //         $("#form_update").append("<p><input type='checkbox' id='showPassword'><label for='showPassword'>Show password</label></p>");
+            //         $("#form_update").append(`<div class='display_notes'>
+            //                                     *<strong>Password</strong> must contain atleast 1 number, 1 uppercase letter, 1 lowercare letter, 1 special character* and 6 character length. <br/>
+            //                                     <u>Special characters are ! @ $ % *</u>
+            //                                 </div>`);
 
-                    $("#showPassword").on("click", function() {
-                        if ($(this).is(':checked'))
-                            $("#field_Password").attr({ "type": "text" });
-                        else
-                            $("#field_Password").attr({ "type": "password" });
-                    })
+            //         $("#showPassword").on("click", function() {
+            //             if ($(this).is(':checked'))
+            //                 $("#field_Password").attr({ "type": "text" });
+            //             else
+            //                 $("#field_Password").attr({ "type": "password" });
+            //         })
 
-                    $("#form_update").validate({
-                        rules: {
-                            field_Password: { required: true, maxlength: 50, checkPassword: true, validatePassword: true },
-                        },
-                        errorElement: 'div',
-                        errorPlacement: function(error, element) {
-                            var placement = $(element).data('error');
-                            if (placement) {
-                                $(placement).append(error)
-                            } else {
-                                error.insertAfter(element);
-                            }
-                        },
-                        submitHandler: function(form) {
-                            var _form = $(form).serializeArray();
-
-                            var ajax = system.ajax('../assets/harmony/Process.php?do-updateInfo', [ sessionStorage.getItem('kareer'),'employer', 'password', _form[0]['value']]);
-                            ajax.done(function(ajax) {
-                                console.log(ajax);
-                                if (ajax == 1) {
-                                    $('#modal_confirm').modal('close');
-                                    system.alert('Password updated.', function() {});
-                                } else {
-                                    system.alert('Failed to update.', function() {});
-                                }
-                            });
-                        }
-                    });
-                }
-            });
+            //         $("#form_update").validate({
+            //             rules: {
+            //                 field_Password: { required: true, maxlength: 50, checkPassword: true, validatePassword: true },
+            //             },
+            //             errorElement: 'div',
+            //             errorPlacement: function(error, element) {
+            //                 var placement = $(element).data('error');
+            //                 if (placement) {
+            //                     $(placement).append(error)
+            //                 } 
+            //                 else {
+            //                     error.insertAfter(element);
+            //                 }
+            //             },
+            //             submitHandler: function(form) {
+            //                 var _form = $(form).serializeArray();
+            //                 var ajax = system.ajax('../assets/harmony/Process.php?do-updateInfo', [ sessionStorage.getItem('kareer'),'employer', 'password', _form[0]['value']]);
+            //                 ajax.done(function(ajax) {
+            //                     if (ajax == 1) {
+            //                         $('#modal_confirm').modal('close');
+            //                         system.alert('Password updated.', function() {});
+            //                     } 
+            //                     else {
+            //                         system.alert('Failed to update.', function() {});
+            //                     }
+            //                 });
+            //             }
+            //         });
+            //     }
+            // });
         },
         updatePicture: function() {
             window.Cropper;
-            $("a[data-cmd='updateAdminPicture']").on('click', function() {
-                var data = $(this).data();
-                var picture = "../assets/images/profile/avatar.png";
-                var content = `<h4>Change ${data.prop}</h4>
-                                <div class='row'>
-                                    <div class='col s12'>
-                                        <div id='profile_picture2' class='ibox-content no-padding border-left-right '></div>
-                                    </div>
-                                </div>`;
-                $("#modal_confirm .modal-content").html(content);
-                $('#modal_confirm').removeClass('modal-fixed-footer');
-                $('#modal_confirm .modal-footer').remove();
-                $('#modal_confirm').modal('open');
+            // $("a[data-cmd='updateAdminPicture']").on('click', function() {
+            //     var data = $(this).data();
+            //     var picture = "../assets/images/profile/avatar.png";
+            //     var content = `<h4>Change ${data.prop}</h4>
+            //                     <div class='row'>
+            //                         <div class='col s12'>
+            //                             <div id='profile_picture2' class='ibox-content no-padding border-left-right '></div>
+            //                         </div>
+            //                     </div>`;
+            //     $("#modal_confirm .modal-content").html(content);
+            //     $('#modal_confirm').removeClass('modal-fixed-footer');
+            //     $('#modal_confirm .modal-footer').remove();
+            //     $('#modal_confirm').modal('open');
 
-                var content = `<div class='image-crop col s12' style='margin-bottom:5px;'>
-                                    <img width='100%' src='${picture}' id='change_picture'>
-                                </div>
-                                <div class='btn-group col s12'>
-                                    <label for='inputImage' class='btn blue btn-floating btn-flat tooltipped' data-tooltip='Load image' data-position='top'>
-                                        <input type='file' accept='image/*' name='file' id='inputImage' class='hide'>
-                                        <i class='material-icons right hover white-text'>portrait</i>
-                                    </label>
-                                    <button class='btn blue btn-floating btn-flat tooltipped' data-cmd='cancel' type='button' data-tooltip='Cancel' data-position='top'>
-                                        <i class='material-icons right hover white-text'>close</i>
-                                    </button>
-                                    <button class='btn blue btn-flat hidden right white-text' data-cmd='save' type='button'>
-                                        Save
-                                    </button>
-                                </div>`;
-                $("#profile_picture2").html(content);
-                $('.tooltipped').tooltip({ delay: 50 });
+            //     var content = `<div class='image-crop col s12' style='margin-bottom:5px;'>
+            //                         <img width='100%' src='${picture}' id='change_picture'>
+            //                     </div>
+            //                     <div class='btn-group col s12'>
+            //                         <label for='inputImage' class='btn blue btn-floating btn-flat tooltipped' data-tooltip='Load image' data-position='top'>
+            //                             <input type='file' accept='image/*' name='file' id='inputImage' class='hide'>
+            //                             <i class='material-icons right hover white-text'>portrait</i>
+            //                         </label>
+            //                         <button class='btn blue btn-floating btn-flat tooltipped' data-cmd='cancel' type='button' data-tooltip='Cancel' data-position='top'>
+            //                             <i class='material-icons right hover white-text'>close</i>
+            //                         </button>
+            //                         <button class='btn blue btn-flat hidden right white-text' data-cmd='save' type='button'>
+            //                             Save
+            //                         </button>
+            //                     </div>`;
+            //     $("#profile_picture2").html(content);
+            //     $('.tooltipped').tooltip({ delay: 50 });
 
-                var $inputImage = $("#inputImage");
-                var status = true;
-                if (window.FileReader) {
-                    $inputImage.change(function(e) {
-                        var fileReader = new FileReader(),
-                            files = this.files,
-                            file;
-                        file = files[0];
+            //     var $inputImage = $("#inputImage");
+            //     var status = true;
+            //     if (window.FileReader) {
+            //         $inputImage.change(function(e) {
+            //             var fileReader = new FileReader(),
+            //                 files = this.files,
+            //                 file;
+            //             file = files[0];
 
-                        if (/^image\/\w+$/.test(file.type)) {
-                            fileReader.readAsDataURL(file);
-                            fileReader.onload = function(e) {
-                                $inputImage.val("");
-                                $("button[data-cmd='save']").html("Save").removeClass('disabled');
-                                $('#change_picture').attr('src', e.target.result);
-                                var image = document.getElementById('change_picture');
-                                var cropper = new Cropper(image, {
-                                    aspectRatio: 1 / 1,
-                                    autoCropArea: 0.80,
-                                    ready: function() {
-                                        $("button[data-cmd='save']").removeClass('hidden');
-                                        $("button[data-cmd='rotate']").removeClass('hidden');
+            //             if (/^image\/\w+$/.test(file.type)) {
+            //                 fileReader.readAsDataURL(file);
+            //                 fileReader.onload = function(e) {
+            //                     $inputImage.val("");
+            //                     $("button[data-cmd='save']").html("Save").removeClass('disabled');
+            //                     $('#change_picture').attr('src', e.target.result);
+            //                     var image = document.getElementById('change_picture');
+            //                     var cropper = new Cropper(image, {
+            //                         aspectRatio: 1 / 1,
+            //                         autoCropArea: 0.80,
+            //                         ready: function() {
+            //                             $("button[data-cmd='save']").removeClass('hidden');
+            //                             $("button[data-cmd='rotate']").removeClass('hidden');
 
-                                        $("button[data-cmd='save']").click(function() {
-                                            $(this).html("Uploading...").addClass('disabled');
-                                            if (status) {
-                                                var data = system.ajax('../assets/harmony/Process.php?do-updateImage', ['employer', 'picture', sessionStorage.getItem('kareer'), cropper.getCroppedCanvas().toDataURL('image/png')]);
-                                                data.done(function(data) {
-                                                    console.log(data);
-                                                    if (data == 1) {
-                                                        $('#modal_confirm').modal('close');
-                                                        $('.profile-image').attr('src', cropper.getCroppedCanvas().toDataURL('image/png'));
-                                                        system.alert('Profile picture has been updated.', function() {});
-                                                    } else {
-                                                        system.alert('Failed to upload your picture. File too large.', function() {});
-                                                    }
-                                                });
-                                                status = false;
-                                            }
-                                        });
-                                    }
-                                });
-                            };
-                        } else {
-                            showMessage("Please choose an image file.");
-                        }
-                    });
-                } else {
-                    $inputImage.addClass("hide");
-                }
-                $("button[data-cmd='cancel']").click(function() {
-                    $('#modal_confirm').modal('close');
-                });
-            });
-        },
-        getLogs:function(min,max){
-            min = ((typeof min == undefined) || (min == null))?0:min;
-            max = ((typeof max == undefined) || (max == null))?20:max;
-            var data = system.ajax('../assets/harmony/Process.php?get-logs',[min,max]);
-            return data.responseText;
-        },
-        notifications:function(){
-            let Logs = JSON.parse(employer.getLogs());
-            let content = "";
-            $.each(Logs,function(i,v){
-                console.log(v);
-            content += `<tr>
-                            <td width='300px'>${v[3]}</td>
-                            <td>${v[4]}</td>
-                            <td>${v[5]}</td>
-                        </tr>`;
-            });
-            content = `<table id='table_logs'>
-                        <thead>
-                            <tr>
-                                <th>Remarks</th><th>Date</th><th>Header</th>
-                            </tr>
-                        </thead>
-                        <tbody>${content}</tbody>
-                        </table>`;
-            $("#display_logs").html(content);
-            let count = 20, min = 0, max = count;
-            let logs = '';
-            $("button[data-cmd='load']").on("click",function(){
-                min = max;
-                max = max+count;
-                logs = JSON.parse(employer.getLogs(min,count));
-                employer.listLogs(logs);
-            });
-        },
-        listLogs:function(list){
-            let content = "";
-            $.each(list,function(i,v){
-            content += `<tr>
-                            <td width='300px'>Account Manager's ${v[3]}</td>
-                            <td width="143px">${v[4]}</td>
-                            <td>${v[5]}</td>
-                        </tr>`;
-            });
-            $("#display_logs").append(`<table><tbody>${content}</tbody></table>`);
+            //                             $("button[data-cmd='save']").click(function() {
+            //                                 $(this).html("Uploading...").addClass('disabled');
+            //                                 if (status) {
+            //                                     var data = system.ajax('../assets/harmony/Process.php?do-updateImage', ['employer', 'picture', sessionStorage.getItem('kareer'), cropper.getCroppedCanvas().toDataURL('image/png')]);
+            //                                     data.done(function(data) {
+            //                                         if (data == 1) {
+            //                                             $('#modal_confirm').modal('close');
+            //                                             $('.profile-image').attr('src', cropper.getCroppedCanvas().toDataURL('image/png'));
+            //                                             system.alert('Profile picture has been updated.', function() {});
+            //                                         } 
+            //                                         else {
+            //                                             system.alert('Failed to upload your picture. File too large.', function() {});
+            //                                         }
+            //                                     });
+            //                                     status = false;
+            //                                 }
+            //                             });
+            //                         }
+            //                     });
+            //                 };
+            //             } 
+            //             else {
+            //                 showMessage("Please choose an image file.");
+            //             }
+            //         });
+            //     }
+            //     else {
+            //         $inputImage.addClass("hide");
+            //     }
+            //     $("button[data-cmd='cancel']").click(function() {
+            //         $('#modal_confirm').modal('close');
+            //     });
+            // });
         },
     };
 }();
@@ -1131,5 +1091,4 @@ var pass = {
             }
         });
     }
-
 }

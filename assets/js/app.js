@@ -46,6 +46,7 @@ var App = function () {
 
             var content = system.html(targetUrl);
             content.done(function(data){
+                    console.log(data);
                 $('#content').html(data);
                 $('#content').addClass('animated zoomIn');
                 var navigation = system.ajax('../pages/'+node+'/nav.html',"");
