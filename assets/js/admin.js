@@ -437,6 +437,7 @@ var business = function(){
 								if(ajax == 1){	
 									$('#modal_medium').modal('close');	
 									system.alert('Business has been added.', function(){});
+									location.reload();
 								}
 								else{
 									system.alert('Failed to add business.', function(){});
@@ -479,7 +480,6 @@ var business = function(){
 		},
 		view:function(){
 			let data = JSON.parse(business.get(business.id()));
-			console.log(data);
 			let logo = ((typeof data[0][5] == 'object') || (data[0][5] == ""))? 'icon.png' : data[0][5];
 			$("#businessInfo").html(`
 				<div class='col s12 m4 l3'>
