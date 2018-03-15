@@ -380,7 +380,7 @@
 			else if($data[2] == 'skills'){
 				$field1 = json_encode($data[4]);
 				$remarks = "Updated {$data[2]} to {$field1}";
-				-- $q = $Functions->PDO("UPDATE tbl_vacancies SET skills = '{$field1}' WHERE id = '{$data[3]}'");
+				$q = $Functions->PDO("UPDATE tbl_vacancies SET skills = '{$field1}' WHERE id = '{$data[3]}'");
 			}
 			else if($data[2] == 'salary'){
 				$field1 = $Functions->escape($data[4]);

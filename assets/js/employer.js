@@ -416,7 +416,6 @@ var jobPosts = function() {
                     </tr>
                 `);
             });
-
         },
         view:function(){
             let id = jobPosts.id(), chip ="";
