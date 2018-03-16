@@ -530,7 +530,7 @@
 		}
 	}
 
-	if(isset($_GET['do-getApplications'])){
+	if(isset($_GET['get-Applications'])){ /**/
 		if(isset($_POST["data"])){
 			$data = $_POST['data'];
 			$result = [];

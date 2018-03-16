@@ -1092,7 +1092,7 @@ var applicant = function(){
 		viewJobs:function(){
 			let data = JSON.parse(this.getJobInterests(this.id()));
 			if(data.length > 0){
-				$("#").html(`
+				$("#applicantJobs .row").html(`
 				`);	
 			}
 			else{
@@ -1208,14 +1208,32 @@ var jobs = function(){
 			return ajax.responseText;
 		},
 		list:function(){
-			let data = JSON.parse(jobs.get());
+			let data = JSON.parse(jobs.get(business.id())), content = "", chip = "", skills = "";
 			if(data.length>0){
-
+	            $.each(data, function(i, v) {
+	                let status = (v[10] == 1)?'Active':'Inactive';
+	                skills = JSON.parse(v[7]);
+	                chip = "";
+	                $.each(skills, function(i, s) {
+	                    chip += `<a class="chip">${s}</a>`;
+	                });
+	                $("#businessJobs table tbody").append(`
+	                    <tr>
+	                        <td widtd="50px" class="center">${status}</td>
+	                        <td widtd="300px" class="center">${v[6]}</td>
+	                        <td widtd="150px" class="center">${v[9]}</td>
+	                        <td widtd="200px" class="center">${chip}</td>
+	                        <td widtd="150px" class="center">${v[8]}</td>
+	                    </tr>
+	                `);
+	            });
+	            $('h6').addClass('hide');
 			}
 			else{
 				console.log('no jobs');
 			}
 		},
+
 	}
 }();
 
