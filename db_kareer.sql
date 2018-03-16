@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1:3306
--- Generation Time: Mar 10, 2018 at 12:08 PM
+-- Generation Time: Mar 16, 2018 at 03:26 PM
 -- Server version: 5.7.19
 -- PHP Version: 7.0.23
 
@@ -30,24 +30,25 @@ SET time_zone = "+00:00";
 
 DROP TABLE IF EXISTS `tbl_acadinfo`;
 CREATE TABLE IF NOT EXISTS `tbl_acadinfo` (
-  `id` varchar(60) NOT NULL,
-  `applicant_id` varchar(60) DEFAULT NULL,
-  `level` varchar(500) DEFAULT NULL,
-  `schoolattended` varchar(500) DEFAULT NULL,
-  `degree` varchar(500) DEFAULT NULL COMMENT 'BASIC EDUCATION/DEGREE/COURSE',
-  `highestlevel` varchar(500) DEFAULT NULL COMMENT 'HIGHEST LEVEL/UNITS EARNED',
-  `yearenrolled` varchar(10) DEFAULT NULL,
-  `yeargraduated` varchar(10) DEFAULT NULL,
-  `date` varchar(20) DEFAULT NULL,
+  `id` varchar(60) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `applicant_id` varchar(60) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `level` varchar(500) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `schoolattended` varchar(500) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `degree` varchar(500) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT 'BASIC EDUCATION/DEGREE/COURSE',
+  `highestlevel` varchar(500) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT 'HIGHEST LEVEL/UNITS EARNED',
+  `yearenrolled` varchar(10) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `yeargraduated` varchar(10) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `date` varchar(20) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Dumping data for table `tbl_acadinfo`
 --
 
 INSERT INTO `tbl_acadinfo` (`id`, `applicant_id`, `level`, `schoolattended`, `degree`, `highestlevel`, `yearenrolled`, `yeargraduated`, `date`) VALUES
-('b6589fc6ab0dc82cf12099d1c2d40ab994e8410c', 'da4b9237bacccdf19c0760cab7aec4a8359010b0', 'Elementary', 'Macabito Calasiao Pangasinan', 'null', 'null', '2000', '2006', '2018-03-10 19:23:51');
+('b6589fc6ab0dc82cf12099d1c2d40ab994e8410c', 'da4b9237bacccdf19c0760cab7aec4a8359010b0', 'High School', 'Calasiao Comprehensive National High School 1', 'null', 'null', '2007', '2011', '2018-03-12 23:34:15'),
+('356a192b7913b04c54574d18c28d46e6395428ab', 'da4b9237bacccdf19c0760cab7aec4a8359010b0', 'High School', 'Calasiao Comprehensive National High School', 'null', 'null', '2006', '2010', '2018-03-12 21:42:18');
 
 -- --------------------------------------------------------
 
@@ -57,12 +58,12 @@ INSERT INTO `tbl_acadinfo` (`id`, `applicant_id`, `level`, `schoolattended`, `de
 
 DROP TABLE IF EXISTS `tbl_accountinfo`;
 CREATE TABLE IF NOT EXISTS `tbl_accountinfo` (
-  `id` varchar(60) NOT NULL,
-  `first_name` varchar(100) DEFAULT NULL,
-  `middle_name` varchar(100) DEFAULT NULL,
-  `last_name` varchar(100) DEFAULT NULL,
+  `id` varchar(60) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `first_name` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `middle_name` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `last_name` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
 
@@ -72,16 +73,16 @@ CREATE TABLE IF NOT EXISTS `tbl_accountinfo` (
 
 DROP TABLE IF EXISTS `tbl_admin`;
 CREATE TABLE IF NOT EXISTS `tbl_admin` (
-  `id` varchar(50) CHARACTER SET latin1 COLLATE latin1_general_cs NOT NULL,
-  `fname` varchar(20) DEFAULT NULL,
-  `lname` varchar(20) DEFAULT NULL,
-  `image` varchar(60) DEFAULT NULL,
-  `username` varchar(50) DEFAULT NULL,
-  `level` varchar(1) DEFAULT NULL,
-  `password` varchar(70) CHARACTER SET latin1 COLLATE latin1_general_cs DEFAULT NULL,
+  `id` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `fname` varchar(20) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `lname` varchar(20) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `image` varchar(60) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `username` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `level` varchar(1) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `password` varchar(70) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `status` int(11) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Dumping data for table `tbl_admin`
@@ -98,15 +99,15 @@ INSERT INTO `tbl_admin` (`id`, `fname`, `lname`, `image`, `username`, `level`, `
 
 DROP TABLE IF EXISTS `tbl_applicant`;
 CREATE TABLE IF NOT EXISTS `tbl_applicant` (
-  `id` varchar(50) NOT NULL,
-  `description` varchar(1000) DEFAULT NULL,
-  `email` varchar(100) DEFAULT NULL,
-  `password` varchar(60) DEFAULT NULL,
-  `auth_type` varchar(20) DEFAULT NULL COMMENT 'fb,google,organic',
-  `auth_id` varchar(100) DEFAULT NULL COMMENT 'account id',
-  `status` varchar(1) DEFAULT NULL,
+  `id` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `description` varchar(1000) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `email` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `password` varchar(60) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `auth_type` varchar(20) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT 'fb,google,organic',
+  `auth_id` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT 'account id',
+  `status` varchar(1) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Dumping data for table `tbl_applicant`
@@ -126,13 +127,13 @@ INSERT INTO `tbl_applicant` (`id`, `description`, `email`, `password`, `auth_typ
 
 DROP TABLE IF EXISTS `tbl_application`;
 CREATE TABLE IF NOT EXISTS `tbl_application` (
-  `id` varchar(50) NOT NULL,
-  `vacancy_id` varchar(50) DEFAULT NULL,
-  `applicant_id` varchar(1000) DEFAULT NULL,
-  `date` varchar(20) DEFAULT NULL,
-  `status` varchar(1) DEFAULT NULL,
+  `id` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `vacancy_id` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `applicant_id` varchar(1000) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `date` varchar(20) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `status` varchar(1) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
 
@@ -142,13 +143,13 @@ CREATE TABLE IF NOT EXISTS `tbl_application` (
 
 DROP TABLE IF EXISTS `tbl_bookmark`;
 CREATE TABLE IF NOT EXISTS `tbl_bookmark` (
-  `id` varchar(60) NOT NULL,
-  `vacancy_id` varchar(60) DEFAULT NULL,
-  `applicant_id` varchar(60) DEFAULT NULL,
-  `date` varchar(60) DEFAULT NULL,
-  `status` varchar(60) DEFAULT NULL,
+  `id` varchar(60) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `vacancy_id` varchar(60) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `applicant_id` varchar(60) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `date` varchar(60) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `status` varchar(60) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Dumping data for table `tbl_bookmark`
@@ -196,18 +197,18 @@ INSERT INTO `tbl_bookmark` (`id`, `vacancy_id`, `applicant_id`, `date`, `status`
 
 DROP TABLE IF EXISTS `tbl_business`;
 CREATE TABLE IF NOT EXISTS `tbl_business` (
-  `id` varchar(50) CHARACTER SET latin1 COLLATE latin1_general_cs NOT NULL,
-  `address` varchar(300) DEFAULT NULL,
-  `contact_number` varchar(100) DEFAULT NULL,
-  `company_name` varchar(300) DEFAULT NULL,
-  `description` text,
-  `image` varchar(70) DEFAULT NULL,
-  `email` varchar(100) DEFAULT NULL,
-  `status` varchar(1) DEFAULT NULL,
-  `others` varchar(1000) DEFAULT NULL,
-  `date` varchar(20) DEFAULT NULL,
+  `id` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `address` varchar(300) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `contact_number` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `company_name` varchar(300) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `description` mediumtext COLLATE utf8mb4_unicode_ci,
+  `image` varchar(70) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `email` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `status` varchar(1) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `others` varchar(1000) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `date` varchar(20) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Dumping data for table `tbl_business`
@@ -216,11 +217,12 @@ CREATE TABLE IF NOT EXISTS `tbl_business` (
 INSERT INTO `tbl_business` (`id`, `address`, `contact_number`, `company_name`, `description`, `image`, `email`, `status`, `others`, `date`) VALUES
 ('0ade7c2cf97f75d009975f4d720d1fa6c19f4897', 'Business Address', 'Number', 'Name', NULL, 'business_1519974506.rnr', 'email@email.com', '1', NULL, '2018-02-26 17:03:25'),
 ('1', 'Las Vegas Street Lingayen', '090101010101', 'Rufo Cocorp Inc.', '<h2><span style=\"color: rgb(230, 0, 0);\">Description</span></h2><p><strong style=\"color: rgb(255, 153, 0);\">Hello world</strong></p><p><em style=\"color: rgb(255, 255, 0);\">Hello world</em></p><p><u style=\"color: rgb(0, 138, 0);\">Hello world</u></p><p><s style=\"color: rgb(0, 102, 204);\">Hello world</s></p><ol><li><span style=\"color: rgb(194, 133, 255);\">Hello world</span></li></ol><p><span style=\"color: rgb(153, 51, 255);\">H</span><sup style=\"color: rgb(153, 51, 255);\">ello world</sup></p><p>ha</p><h2><sup class=\"ql-font-monospace\" style=\"color: rgb(153, 51, 255);\">hello world</sup></h2><p><span style=\"color: rgb(255, 255, 255); background-color: rgb(0, 0, 0);\">0010001000101010100010</span></p><p><span style=\"color: rgb(255, 255, 255); background-color: rgb(0, 0, 0);\">0010001000101010100010</span></p><p>Hhahahah</p><p><br></p><p>check again</p><p><span style=\"color: rgb(255, 255, 255); background-color: rgb(0, 0, 0);\">check</span></p>', 'business_1519982947.rnr', 'rufo@email.com', '1', '', ''),
+('1574bddb75c78a6fd2251d61e2993b5146201319', 'Lingayen', '09123456789', 'Shakeys', NULL, NULL, 'shakeys@gmail.com', '1', NULL, '2018-03-12 23:47:53'),
 ('17ba0791499db908433b80f37c5fbc89b870084b', 'Business Address', 'Number', 'Name', NULL, NULL, 'email@email.com', '1', NULL, '2018-02-26 17:14:18'),
 ('1b6453892473a467d07372d45eb05abc2031647a', 'Lingayen', '0912334455671 ', 'Gabrillo Enterprise 1', 'Tubig kayo dyan', 'business_1519964158.rnr', 'rufongabrillojr@gmail.com', '1', '', ''),
 ('356a192b7913b04c54574d18c28d46e6395428ab', '', '', 'Gabrillo Enterprisess 1', '', 'business_1519963774.rnr', 'rufogabrillo@gmail.com', '1', '', ''),
 ('77de68daecd823babbb58edb1c8e14d7106e83bb', '', '', 'Gabrillo Enterprises', '', '77de68daecd823babbb58edb1c8e14d7106e83bb-1507300053.apr', 'rufo.gabrillo2@gmail.com', '1', '', ''),
-('7b52009b64fd0a2a49e6d8a939753077792b0554', 'Business Address', 'Number', 'Name', NULL, NULL, 'email@email.com', '1', NULL, '2018-02-26 17:14:19'),
+('7b52009b64fd0a2a49e6d8a939753077792b0554', 'Business Address', 'Number', 'Name', '<p>Business pa more</p>', NULL, 'email@email.com', '1', NULL, '2018-02-26 17:14:19'),
 ('902ba3cda1883801594b6e1b452790cc53948fda', NULL, NULL, 'Great Company', NULL, 'profile_avatar.jpg', 'gc@gmail.com', '0', '', ''),
 ('ac3478d69a3c81fa62e60f5c3696165a4e5e6ac4', 'Lingayen', '0999', 'Kopiko', 'Coffee', 'profile_avatar.jpg', 'kopiko@gmail.com', '0', '', ''),
 ('b1d5781111d84f7b3fe45a0852e59758cd7a87e5', 'Business Address', 'Number', 'Name', NULL, NULL, 'email@email.com', '1', NULL, '2018-02-26 17:03:30'),
@@ -228,6 +230,8 @@ INSERT INTO `tbl_business` (`id`, `address`, `contact_number`, `company_name`, `
 ('bd307a3ec329e10a2cff8fb87480823da114f8f4', 'Business Address', 'number', 'Company Name', NULL, NULL, 'email@email.com', '1', NULL, '2018-02-26 17:14:51'),
 ('c1dfd96eea8cc2b62785275bca38ac261256e278', NULL, NULL, 'e-Machines', NULL, 'profile_avatar.jpg', 'emach@gmail.com', '1', '', ''),
 ('da4b9237bacccdf19c0760cab7aec4a8359010b0', 'Dagupan', '09', 'Boneless Bangus', 'Walang tinik', 'da4b9237bacccdf19c0760cab7aec4a8359010b0-1507913543.apr', 'bone@gmail.com', '1', '', ''),
+('f1abd670358e036c31296e66b3b66c382ac00812', 'Lingayen', '0912345678', 'Mc Donalds', '<p>Love ko to</p>', NULL, 'mcdonald@gmail.com', '1', NULL, '2018-03-12 23:45:22'),
+('fa35e192121eabf3dabf9f5ea6abdbcbc107ac3b', 'Lingayen', '09123456789', 'Nestle', NULL, NULL, 'nestle@gmail.com', '1', NULL, '2018-03-12 23:22:57'),
 ('fe5dbbcea5ce7e2988b8c69bcfdfde8904aabc1f', 'address', 'number', 'RNR Corp.', NULL, NULL, 'email@email.com', '1', NULL, '2018-02-26 16:59:52'),
 ('pHilMont123', 'Manaoag', '09481234567', 'PhilMont', 'beauty products', 'pHilMont123-1458551347.apr', 'donaldduck@gmail.com', '1', '', ''),
 ('ToyotaCars', 'Calasiao, Pangasinan', '09129837641', 'Toyota ', 'Cars and Vehicle for you and Me. Forever.', 'toyota.jpg', 'richardMercy@gmail.com', '1', '', '');
@@ -240,17 +244,17 @@ INSERT INTO `tbl_business` (`id`, `address`, `contact_number`, `company_name`, `
 
 DROP TABLE IF EXISTS `tbl_businessmanagers`;
 CREATE TABLE IF NOT EXISTS `tbl_businessmanagers` (
-  `id` varchar(70) CHARACTER SET latin1 COLLATE latin1_general_cs NOT NULL,
-  `business_id` varchar(70) DEFAULT NULL,
-  `name` varchar(300) DEFAULT NULL,
-  `email` varchar(300) DEFAULT NULL,
-  `password` varchar(70) DEFAULT NULL,
-  `picture` varchar(70) DEFAULT NULL,
-  `position` varchar(300) DEFAULT NULL,
-  `date` varchar(20) DEFAULT NULL,
-  `status` varchar(1) DEFAULT NULL,
+  `id` varchar(70) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `business_id` varchar(70) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `name` varchar(300) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `email` varchar(300) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `password` varchar(70) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `picture` varchar(70) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `position` varchar(300) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `date` varchar(20) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `status` varchar(1) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Dumping data for table `tbl_businessmanagers`
@@ -262,7 +266,9 @@ INSERT INTO `tbl_businessmanagers` (`id`, `business_id`, `name`, `email`, `passw
 ('da4b9237bacccdf19c0760cab7aec4a8359010b0', '1b6453892473a467d07372d45eb05abc2031647a', 'Jolo D.', 'jolod@gmail.com', '$2y$11$NkIWGqyHW0Va.rnCaMi25eor6AERo.lJRLoiDsYoUC8AMW.OTX96a', NULL, 'Graphic Designer', '2018-03-01 13:35:06', '1'),
 ('77de68daecd823babbb58edb1c8e14d7106e83bb', '1b6453892473a467d07372d45eb05abc2031647a', 'Wil Son', 'wil.son@gmail.com', '$2y$11$dtt6y20DrP/OR9W7ReghvOdJtkw/0y94Fx0C/GYEI5tIlnfBP3m62', '', 'Content Writer', '2018-03-01 13:39:31', '1'),
 ('1b6453892473a467d07372d45eb05abc2031647a', '356a192b7913b04c54574d18c28d46e6395428ab', 'Rufo Gabrillo', 'rufo@deegeelab.com', '$2y$11$ihqk7eVo4R8Ox1hHzN3mi.89h.zVw7m7Q7gNXx6yRI7IYyY.oykju', NULL, 'Dish Washer', '2018-03-01 15:30:29', '1'),
-('ac3478d69a3c81fa62e60f5c3696165a4e5e6ac4', '1b6453892473a467d07372d45eb05abc2031647a', 'Mark Gallano', 'mark@gmail.com', '$2y$11$glDH89j0OpCIS9BK3S7qS.JjgYew9TD237KjfVPbcupBnkrmMy0b.', NULL, 'Nilasing si renz at ginuhitan niyaya kumain sa mcdo', '2018-03-03 08:16:36', '1');
+('ac3478d69a3c81fa62e60f5c3696165a4e5e6ac4', '1b6453892473a467d07372d45eb05abc2031647a', 'Mark Gallano', 'mark@gmail.com', '$2y$11$glDH89j0OpCIS9BK3S7qS.JjgYew9TD237KjfVPbcupBnkrmMy0b.', NULL, 'Nilasing si renz at ginuhitan niyaya kumain sa mcdo', '2018-03-03 08:16:36', '1'),
+('c1dfd96eea8cc2b62785275bca38ac261256e278', '7b52009b64fd0a2a49e6d8a939753077792b0554', 'Othan Millet', 'othanmillet@gmail.com', '$2y$11$Kg67mpfEOV.vKC77IqceQO3MwtWAB/zOKGPwr2aR5zuqynbACxTni', 'employer_1520856298.rnr', 'Position', '2018-03-08 22:04:22', '1'),
+('902ba3cda1883801594b6e1b452790cc53948fda', 'f1abd670358e036c31296e66b3b66c382ac00812', 'John', 'john.lazy@gmail.com', '$2y$11$/CZB/kKUyNhyrvGQ6nfV8uJNUxe0X0IQsFpjY91NE2R7hn7A1r02u', NULL, 'Lazy', '2018-03-12 23:58:42', '1');
 
 -- --------------------------------------------------------
 
@@ -272,25 +278,24 @@ INSERT INTO `tbl_businessmanagers` (`id`, `business_id`, `name`, `email`, `passw
 
 DROP TABLE IF EXISTS `tbl_career`;
 CREATE TABLE IF NOT EXISTS `tbl_career` (
-  `id` varchar(60) NOT NULL,
-  `applicant_id` varchar(60) DEFAULT NULL,
-  `agency` varchar(300) DEFAULT NULL,
-  `position_title` varchar(300) DEFAULT NULL,
-  `monthly_salary` varchar(6) DEFAULT NULL,
-  `appointment_status` varchar(300) DEFAULT NULL,
-  `inclusive_fromdate` varchar(20) DEFAULT NULL,
-  `inclusive_todate` varchar(20) DEFAULT NULL,
-  `date` varchar(20) DEFAULT NULL,
+  `id` varchar(60) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `applicant_id` varchar(60) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `agency` varchar(300) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `position_title` varchar(300) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `monthly_salary` varchar(6) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `appointment_status` varchar(300) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `inclusive_fromdate` varchar(20) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `inclusive_todate` varchar(20) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `date` varchar(20) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Dumping data for table `tbl_career`
 --
 
 INSERT INTO `tbl_career` (`id`, `applicant_id`, `agency`, `position_title`, `monthly_salary`, `appointment_status`, `inclusive_fromdate`, `inclusive_todate`, `date`) VALUES
-('b6589fc6ab0dc82cf12099d1c2d40ab994e8410c', 'da4b9237bacccdf19c0760cab7aec4a8359010b0', 'ES Assisting', 'Web Developer', '12000', 'Job Order', '2015', '2016', '2018-03-10 19:51:28'),
-('356a192b7913b04c54574d18c28d46e6395428ab', 'da4b9237bacccdf19c0760cab7aec4a8359010b0', 'Pangasinan State University', 'IT Instructor', '21,000', 'Contractual', '2016-08-08', '2017-12-22', '2018-03-10 20:02:06');
+('356a192b7913b04c54574d18c28d46e6395428ab', 'da4b9237bacccdf19c0760cab7aec4a8359010b0', 'Pangasinan State University', 'I.T. Instructor', '21,000', 'Contractual', '2016', '2017', '2018-03-12 16:30:17');
 
 -- --------------------------------------------------------
 
@@ -300,31 +305,38 @@ INSERT INTO `tbl_career` (`id`, `applicant_id`, `agency`, `position_title`, `mon
 
 DROP TABLE IF EXISTS `tbl_logs`;
 CREATE TABLE IF NOT EXISTS `tbl_logs` (
-  `id` varchar(70) NOT NULL,
-  `from_account_id` varchar(70) NOT NULL,
-  `to_account_id` varchar(70) DEFAULT NULL,
-  `remarks` text NOT NULL,
-  `date` varchar(20) NOT NULL,
-  `header` varchar(300) NOT NULL,
+  `id` varchar(70) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `from_account_id` varchar(70) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `to_account_id` varchar(70) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `remarks` mediumtext COLLATE utf8mb4_unicode_ci NOT NULL,
+  `date` varchar(20) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `header` varchar(300) COLLATE utf8mb4_unicode_ci NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
-
--- --------------------------------------------------------
+) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
--- Table structure for table `tbl_manager`
+-- Dumping data for table `tbl_logs`
 --
 
-DROP TABLE IF EXISTS `tbl_manager`;
-CREATE TABLE IF NOT EXISTS `tbl_manager` (
-  `id` varchar(50) NOT NULL,
-  `name` varchar(100) DEFAULT NULL,
-  `position` varchar(100) DEFAULT NULL,
-  `email` varchar(100) DEFAULT NULL,
-  `password` varchar(70) DEFAULT NULL,
-  `picture` varchar(100) DEFAULT NULL,
-  `status` varchar(1) DEFAULT NULL
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+INSERT INTO `tbl_logs` (`id`, `from_account_id`, `to_account_id`, `remarks`, `date`, `header`) VALUES
+('1574bddb75c78a6fd2251d61e2993b5146201319', 'c1dfd96eea8cc2b62785275bca38ac261256e278', '77de68daecd823babbb58edb1c8e14d7106e83bb', 'Posted a job', '2018-03-13 16:18:31', 'Add'),
+('f1abd670358e036c31296e66b3b66c382ac00812', 'c1dfd96eea8cc2b62785275bca38ac261256e278', 'da4b9237bacccdf19c0760cab7aec4a8359010b0', 'Posted a job', '2018-03-13 16:16:25', 'Add'),
+('fa35e192121eabf3dabf9f5ea6abdbcbc107ac3b', 'admin_id', 'b6589fc6ab0dc82cf12099d1c2d40ab994e8410c', 'This account is not active. Updated status to 0', '2018-03-13 09:07:32', 'Update'),
+('bd307a3ec329e10a2cff8fb87480823da114f8f4', 'admin_id', 'c1dfd96eea8cc2b62785275bca38ac261256e278', 'This account is not active. Updated status to 1', '2018-03-13 09:04:38', 'Update'),
+('7b52009b64fd0a2a49e6d8a939753077792b0554', 'admin_id', 'c1dfd96eea8cc2b62785275bca38ac261256e278', 'Updated status to 0', '2018-03-13 09:02:27', 'Update'),
+('17ba0791499db908433b80f37c5fbc89b870084b', 'admin_id', '7b52009b64fd0a2a49e6d8a939753077792b0554', 'Updated description to <p>Business pa more</p>', '2018-03-13 08:44:54', 'Update'),
+('902ba3cda1883801594b6e1b452790cc53948fda', 'admin_id', '902ba3cda1883801594b6e1b452790cc53948fda', 'Added John as account manager', '2018-03-12 23:58:42', 'Add'),
+('b1d5781111d84f7b3fe45a0852e59758cd7a87e5', 'admin_id', 'admin_id', 'Updated password', '2018-03-12 23:43:32', 'Update'),
+('0ade7c2cf97f75d009975f4d720d1fa6c19f4897', 'admin_id', 'admin_id', 'Updated username to admin2018', '2018-03-12 23:43:07', 'Update'),
+('b6589fc6ab0dc82cf12099d1c2d40ab994e8410c', 'admin_id', 'admin_id', 'update picture', '2018-03-12 23:44:29', 'Update'),
+('fe5dbbcea5ce7e2988b8c69bcfdfde8904aabc1f', 'admin_id', 'admin_id', 'Updated name to Mister Admin', '2018-03-12 23:42:18', 'Update'),
+('356a192b7913b04c54574d18c28d46e6395428ab', 'c1dfd96eea8cc2b62785275bca38ac261256e278', '356a192b7913b04c54574d18c28d46e6395428ab', 'Posted a job', '2018-03-13 16:15:08', 'Add'),
+('da4b9237bacccdf19c0760cab7aec4a8359010b0', 'admin_id', '1574bddb75c78a6fd2251d61e2993b5146201319', 'Added Shakeys to businesses', '2018-03-12 23:47:53', 'Add'),
+('77de68daecd823babbb58edb1c8e14d7106e83bb', 'admin_id', 'f1abd670358e036c31296e66b3b66c382ac00812', 'Updated name to Mc Donalds', '2018-03-12 23:54:02', 'Update'),
+('1b6453892473a467d07372d45eb05abc2031647a', 'admin_id', 'f1abd670358e036c31296e66b3b66c382ac00812', 'Updated number to 0912345678', '2018-03-12 23:56:11', 'Update'),
+('ac3478d69a3c81fa62e60f5c3696165a4e5e6ac4', 'admin_id', 'f1abd670358e036c31296e66b3b66c382ac00812', 'Updated email to mcdonald@gmail.com', '2018-03-12 23:56:25', 'Update'),
+('c1dfd96eea8cc2b62785275bca38ac261256e278', 'admin_id', 'f1abd670358e036c31296e66b3b66c382ac00812', 'Updated description to <p>Love ko to</p>', '2018-03-12 23:56:36', 'Update'),
+('0716d9708d321ffb6a00818614779e779925365c', 'da4b9237bacccdf19c0760cab7aec4a8359010b0', 'da4b9237bacccdf19c0760cab7aec4a8359010b0', '', '2018-03-16 20:42:52', 'Update');
 
 -- --------------------------------------------------------
 
@@ -334,22 +346,22 @@ CREATE TABLE IF NOT EXISTS `tbl_manager` (
 
 DROP TABLE IF EXISTS `tbl_personalinfo`;
 CREATE TABLE IF NOT EXISTS `tbl_personalinfo` (
-  `id` varchar(50) NOT NULL,
-  `given_name` varchar(50) DEFAULT NULL,
-  `family_name` varchar(50) DEFAULT NULL,
-  `middle_name` varchar(50) DEFAULT NULL,
-  `gender` varchar(10) DEFAULT NULL,
-  `date_of_birth` varchar(10) DEFAULT NULL,
-  `permanent_address` varchar(100) DEFAULT NULL,
-  `citizenship` varchar(20) DEFAULT NULL,
-  `phone` varchar(100) DEFAULT NULL,
-  `height` varchar(10) DEFAULT NULL COMMENT 'cm',
-  `weight` varchar(10) DEFAULT NULL COMMENT 'kg',
-  `religion` varchar(20) DEFAULT NULL,
-  `picture` varchar(100) DEFAULT NULL,
-  `date` varchar(20) DEFAULT NULL,
+  `id` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `given_name` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `family_name` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `middle_name` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `gender` varchar(10) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `date_of_birth` varchar(10) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `permanent_address` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `citizenship` varchar(20) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `phone` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `height` varchar(10) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT 'cm',
+  `weight` varchar(10) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT 'kg',
+  `religion` varchar(20) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `picture` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `date` varchar(20) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Dumping data for table `tbl_personalinfo`
@@ -360,7 +372,7 @@ INSERT INTO `tbl_personalinfo` (`id`, `given_name`, `family_name`, `middle_name`
 ('356a192b7913b04c54574d18c28d46e6395428ab', 'Rufo', 'Gabrillo Jr.', 'middle name', 'Male', '1/26/1993', '#117 Macabito Calasiao Pangasinan', 'Filipino', '0948-499-3058', '165', '53', 'Filipino', 'http://graph.facebook.com/1695213090568737/picture?type=large', '2018-02-20 14:33:57'),
 ('77de68daecd823babbb58edb1c8e14d7106e83bb', 'James', 'Reid', NULL, '', '', '', '', '', '', '', '', '', '2018-03-06 08:13:08'),
 ('b6589fc6ab0dc82cf12099d1c2d40ab994e8410c', 'Rufo', 'Gabrillo', NULL, '', '', '', '', '', '', '', '', '', '2018-02-20 10:05:48'),
-('da4b9237bacccdf19c0760cab7aec4a8359010b0', 'Rufo Jr', 'Gabrillo Jr.', 'N.', '', '1993-01-26', '#117 Macabito Calasiao, Pangasinan', '', '0948-499-3958 | 0948-499-3958', '', '', '', 'https://lh5.googleusercontent.com/-h-QNWKxPuNw/AAAAAAAAAAI/AAAAAAAAAAs/UEzHjTUm8Oo/s96-c/photo.jpg', '2018-02-20 15:00:59');
+('da4b9237bacccdf19c0760cab7aec4a8359010b0', 'Rufo ', 'Gabrillo Jr.', 'N.', '', '1993-01-26', '#117 Macabito Calasiao, Pangasinan', '', '0948-499-3958 | 0948-499-3958', '', '', '', 'https://lh5.googleusercontent.com/-h-QNWKxPuNw/AAAAAAAAAAI/AAAAAAAAAAs/UEzHjTUm8Oo/s96-c/photo.jpg', '2018-02-20 15:00:59');
 
 -- --------------------------------------------------------
 
@@ -370,13 +382,13 @@ INSERT INTO `tbl_personalinfo` (`id`, `given_name`, `family_name`, `middle_name`
 
 DROP TABLE IF EXISTS `tbl_skills`;
 CREATE TABLE IF NOT EXISTS `tbl_skills` (
-  `id` varchar(60) NOT NULL,
-  `applicant_id` varchar(60) DEFAULT NULL,
-  `skill` varchar(60) DEFAULT NULL,
-  `level` varchar(20) DEFAULT NULL,
-  `date` varchar(20) DEFAULT NULL,
+  `id` varchar(60) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `applicant_id` varchar(60) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `skill` varchar(60) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `level` varchar(20) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `date` varchar(20) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Dumping data for table `tbl_skills`
@@ -395,19 +407,59 @@ INSERT INTO `tbl_skills` (`id`, `applicant_id`, `skill`, `level`, `date`) VALUES
 
 DROP TABLE IF EXISTS `tbl_vacancies`;
 CREATE TABLE IF NOT EXISTS `tbl_vacancies` (
-  `id` varchar(50) NOT NULL,
-  `employer_id` varchar(50) DEFAULT NULL,
-  `business_id` varchar(70) DEFAULT NULL,
-  `short_description` text,
-  `description` text,
-  `vacancy_date` varchar(50) DEFAULT NULL,
-  `job_title` varchar(100) DEFAULT NULL,
-  `skills` varchar(1000) DEFAULT NULL,
-  `salary_range` varchar(10) DEFAULT NULL,
-  `date` varchar(20) DEFAULT NULL,
+  `id` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `employer_id` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `business_id` varchar(70) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `short_description` longtext COLLATE utf8mb4_unicode_ci,
+  `description` longtext COLLATE utf8mb4_unicode_ci,
+  `vacancy_date` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `job_title` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `skills` varchar(1000) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `salary_range` varchar(10) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `date` varchar(20) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `status` int(1) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `tbl_vacancies`
+--
+
+INSERT INTO `tbl_vacancies` (`id`, `employer_id`, `business_id`, `short_description`, `description`, `vacancy_date`, `job_title`, `skills`, `salary_range`, `date`, `status`) VALUES
+('0716d9708d321ffb6a00818614779e779925365c', 'fe5dbbcea5ce7e2988b8c69bcfdfde8904aabc1f', '0ade7c2cf97f75d009975f4d720d1fa6c19f4897', 'Job level - Associate / Supervisor, Job category - Sales and Marketing, Educational requirement - Graduated from college', '<ul><li>Support the Sales Manager in building plans to deliver against sales objectives.</li><li>Lead the development and maintenance of the on trade outlet database with a focus on hotels, restaurants and high-end bars.</li><li>Develop and follow an efficient calling cycle with the national distributor on premise team.</li><li>Maximize distribution and stock pressure in target outlets.</li><li>Establish sustainable relationship with key customers</li><li>Monitor visibility and ensure stand out with a focus on key accounts.</li><li>Coordinate with Marketing and Trade Marketing teams to develop targeted and cost effective promotional and visibility tools.</li><li>Conduct regular alignment meetings with the national distributor sales, marketing, trade marketing teams and promotional teams to effectively communicate product updates, new strategies and business development programs.</li><li>Ensure that commercial and/or brand building objectives are fully leveraged in all existing contracted/supported accounts and spend are optimized</li></ul>', '2018-03-14', 'Key Accounts Executive', '[\"Presentation \",\"Negotiation \",\"English fluency\"]', '30000', '2018-03-14 11:21:09', 1),
+('0ade7c2cf97f75d009975f4d720d1fa6c19f4897', '902ba3cda1883801594b6e1b452790cc53948fda', '1', 'Job level - Mid-Senior Level / Manager, Job category - Legal, Educational requirement - Graduated from college', '<ul><li>Manages documentary and legal compliance with Philippine government regulators such as the Securities and Exchange Commission (â€œSECâ€), Bangko Sentral ng Pilipinas (â€œBSPâ€), Bureau of Internal Revenue (â€œBIRâ€), Taguig City Mayorâ€s Office, with emphasis on licenses, permits, approvals, reportorial requirements, filings, etc.;</li><li>Research, analyzes, and interprets applicable laws and regulations, policies, procedures, and practices;</li><li>Prepares, updates, and undertakes custody of corporate records, minutes of meeting/action, board resolutions, secretaryâ€s certificates, etc. ensuring that they are maintained as required by relevant laws and regulations, and made available when needed by authorized persons;</li><li>Drafts, reviews, revises, and administers various business contracts, agreements, legal notices, responses, and other relevant documents/records/files;</li></ul>', '2018-03-14', 'Compliance Officer', '[\"Lawyer\",\"Banking\"]', '60000', '2018-03-14 10:55:29', 1),
+('12c6fc06c99a462375eeb3f43dfd832b08ca9e17', 'fe5dbbcea5ce7e2988b8c69bcfdfde8904aabc1f', '0ade7c2cf97f75d009975f4d720d1fa6c19f4897', 'Job level - Associate / Supervisor, Job category - Management and Consultancy, Educational requirement - Graduated from college', '<ul><li>Responsible for leading the team of analysts in the formation and updating of the various databases. Also, select research outputs and initiatives.</li><li>Directly involved in the tracking and gathering of relevant property data and the formation and maintenance of various databases.</li><li>Involved in the preparation of all internal and external research outputs such as regional publications, local publications, and presentations, among others.</li><li>Come up with topical research reports</li><li>In addition, perform consultancy work, which includes drafting proposals, data gathering, report writing, and other necessary tasks required to complete the project.</li></ul><p><br></p>', '2018-03-14', 'Sales Analyst', '[\"Accountancy\",\"Writing\",\"Communication\"]', '40000', '2018-03-14 11:29:10', 1),
+('1574bddb75c78a6fd2251d61e2993b5146201319', 'fe5dbbcea5ce7e2988b8c69bcfdfde8904aabc1f', '0ade7c2cf97f75d009975f4d720d1fa6c19f4897', 'Job level - Fresh Grad / Entry Level, Job category - Sales and Marketing, Educational requirement - Graduated from college', '<ul><li>Manage inside sales, transition, and delivery of companyâ€s services.</li><li>Initiate and build relationships with customers through inbound phone inquiries.</li><li>Assist Inside Sales Supervisor in deal negotiations, contract development, due diligence, and other business development projects.</li><li>Work closely with internal team to deliver business services with high level of customer satisfaction.</li><li>Facilitate online and/or VOIP demos for customer inbound inquiries.</li><li>Work closely with Inside Sales Supervisor to deliver â€œworld classâ€ business services with high level of customer satisfaction.</li><li>Contribute as an active participant in the Kalibrr company management team to help set company direction and strategy.</li></ul>', '2018-03-14', 'Inside Sales Associate', '[\"Forecasting \",\"Communication \",\"Problem-solving\"]', '30000', '2018-03-14 11:19:37', 1),
+('17ba0791499db908433b80f37c5fbc89b870084b', '902ba3cda1883801594b6e1b452790cc53948fda', '1', 'Job level - Associate / Supervisor, Job category - Sales and Marketing, Educational requirement - Graduated from college', '<ol><li>Responsible for merchandising management and marketing of the companyâ€s web store â€” the merchandising, marketing and sales of goods published online.</li><li>Develops various strategies for marketing the companyâ€s products and brand through the Internet.</li><li>Makes use of different marketing techniques including SEM, SEO, PPC, Video, Display, Social and other similar techniques to keep the company in the forefront of digital marketing results and convert sales.</li><li>Monitors the Companyâ€s web store and social media analytics, generates insight reports and delivers post-implementation reviews for the continual progression of our online campaigns and performance metrics</li><li>Remains forward-thinking and current on industry trends and market conditions to be able to give recommendations regarding best practices for improving marketing performance</li><li>Create and manage link building strategies, content marketing strategies, and social media presences.</li></ol>', '2018-03-14', 'Deputy Training Manager', '[\"Managerial \",\"Leadership \",\"Communication\",\"Business Administration\"]', '70000', '2018-03-14 11:05:18', 1),
+('1b6453892473a467d07372d45eb05abc2031647a', 'c1dfd96eea8cc2b62785275bca38ac261256e278', '7b52009b64fd0a2a49e6d8a939753077792b0554', 'Job level - Fresh Grad / Entry Level, Job category - Accounting and Finance, Educational requirement - Graduated from college', '<ul><li>Verify customer credit process</li><li>Verify collection is tally with the request credit</li><li>Ensure AR maintain high accuracy level of book</li><li>Generate collection target and sales report to keep track the outstanding</li><li>Maintain the customer database</li><li>Prepares special reports by collecting analyzing, summarizing account information and trends</li></ul>', '2018-03-14', 'Accounts Receivable Officer', '[\"Accounting\",\"MS Excel\",\"Team Player\"]', '50000', '2018-03-14 10:13:47', 1),
+('356a192b7913b04c54574d18c28d46e6395428ab', 'c1dfd96eea8cc2b62785275bca38ac261256e278', '7b52009b64fd0a2a49e6d8a939753077792b0554', 'sapien urna lectus vestibulum in mauris ante congue natoque etiam delectus interdum consectetuer facilisis ipsum sodales rutrum cursus lectus elit id ac et quis urna adipiscing nonummy ut aliquam feugiat per amet wisi dolor tristique tellus eu scelerisque sit non proin nibh neque luctus culpa maecenas ornare tincidunt id orci sodales integer etiam sed est cras ante pulvinar semper integer faucibus et maiores vestibulum sodales vestibulum accumsan amet cras accumsan risus elit phasellus vel duis ', 'sapien urna lectus vestibulum in mauris ante congue natoque etiam delectus interdum consectetuer facilisis ipsum sodales rutrum cursus lectus elit id ac et quis urna adipiscing nonummy ut aliquam feugiat per amet wisi dolor tristique tellus eu scelerisque sit non proin nibh neque luctus culpa maecenas ornare tincidunt id orci sodales integer etiam sed est cras ante pulvinar semper integer faucibus et maiores vestibulum sodales vestibulum accumsan amet cras accumsan risus elit phasellus vel duis pharetra et mus phasellus purus lacus varius pede fringilla augue sit et imperdiet tortor volutpat aliquet tincidunt cursus vestibulum scelerisque nulla massa mauris ac velit sodales molestie luctus pulvinar sit amet non proin nulla nonummy iaculis lorem aliquam tincidunt hendrerit dapibus rhoncus scelerisque condimentum et eu erat quis massa non fringilla malesuada arcu eleifend lorem enim enim non quam et tempus donec wisi ut facilisis nulla ligula at lectus aenean a tempus at vestibulum place', '2018-03-13', 'Front-End Developer', '[\"PHP\",\"Jquery\",\"HTML\",\"CSS\"]', '20000', '2018-03-13 22:04:07', 1),
+('472b07b9fcf2c2451e8781e944bf5f77cd8457c8', 'fe5dbbcea5ce7e2988b8c69bcfdfde8904aabc1f', '0ade7c2cf97f75d009975f4d720d1fa6c19f4897', 'Job level - Mid-Senior Level / Manager, Job category - Manufacturing and Production, Educational requirement - Graduated from college', '<ul><li>Design principles and governance policies that is aligned with the Company directives.</li><li>Ensures consistent implementation of long term and short term management strategies aligned with the objectives of the Company.</li><li>Develop, lead, and execute procurement strategies.</li><li>Plan attainable and realistic cost optimization efforts.</li><li>Asses, manage and mitigate possible risks that may arise from the procurement of materials.</li><li>Ensure that the supplies will always be at an optimal level through strategic procurement.</li><li>Strategize, plan and enforce the import activities.</li><li>Design negotiation strategies and closing deals in optimal terms.</li><li>Establish and maintain relationships with vendors that serves as key or essential business partners.</li><li>Mentor, coach and provide timely and effective performance feedback.</li><li>Other relevant duties that may be assigned from time to time.</li></ul>', '2018-03-14', 'Procurement Manager', '[\"Business Administration\",\"Engineering \",\"Negotiation\",\"Communication\"]', '40000', '2018-03-14 11:28:02', 1),
+('77de68daecd823babbb58edb1c8e14d7106e83bb', 'c1dfd96eea8cc2b62785275bca38ac261256e278', '7b52009b64fd0a2a49e6d8a939753077792b0554', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.', '<p class=\"ql-align-center\">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore </p>', '2018-03-14', 'Customer Support', '[\"Communication skills\",\"Fluent speaking\"]', '20000', '2018-03-14 09:38:32', 1),
+('7b52009b64fd0a2a49e6d8a939753077792b0554', '902ba3cda1883801594b6e1b452790cc53948fda', '1', 'Job level - Mid-Senior Level / Manager, Job category - Human Resources, Educational requirement - Graduated from college', '<p><strong>Staffing and Recruitment -&nbsp;</strong>Ensure that the needed manpower supply of the company is met.</p><p><strong>Training and Development -&nbsp;</strong>Ensures that companyâ€s training needs are identified and met.</p><p><strong>Employee Relations -&nbsp;</strong>Ensures that employees are highly motivated and productive.</p><p><strong>Compensation and Benefits -&nbsp;</strong>Set ups, designs, recommends and implements processes and systems of creative compensation schemes, and overall employee welfare programs and services to maintain an efficient and highly motivated and productive workforce.</p><p><strong>Performance Management -&nbsp;</strong>Ensures that the companyâ€s HR performance management is responsive to meeting companyâ€s business goals.</p><p><strong>Organizational Excellence -&nbsp;</strong>Ensures that the company adheres to high standard of organizational excellence</p><p><strong>Labor and Legal Compliance -&nbsp;</strong>Ensures that the company is compliant to government regulations and reporting.</p>', '2018-03-14', 'HR Manager', '[\"Work under-pressure\",\"Flexibility\",\"Team Player\",\"HR functions\"]', '40000', '2018-03-14 11:08:40', 1),
+('902ba3cda1883801594b6e1b452790cc53948fda', 'c1dfd96eea8cc2b62785275bca38ac261256e278', '7b52009b64fd0a2a49e6d8a939753077792b0554', 'Job level - Associate / Supervisor, Job category - Sales and Marketing, Educational requirement - Graduated from college', '<ul><li>Strategies, identifies and sources potential merchants that will be part of the company platform</li><li>Pitching, negotiating, managing relationships, and building merchant business</li><li>Forges partnerships with suppliers and distributors that can offer their goods and services and later manages merchants by creating a good relationship between the merchants and the company</li><li>Makes sure merchants extend healthy margins.</li><li>Plans and executes customer-focused product assortments in order to drive sales and category strength.</li><li>Forecasts sales based on trend, inventory availability, upcoming promotions and new client launches to minimize cancellation due to out-of-stock incidences and to maximize profitable sales.</li><li>Participates in seasonal promotions created by our marketing team.</li><li>Develops and implements processes in order to streamline processes and encourage maximum order executions.</li></ul><p><br></p>', '2018-03-14', 'Category Lead', '[\"Negotiation\",\"Business Development\",\"Merchandising\"]', '20000', '2018-03-14 10:45:10', 1),
+('91032ad7bbcb6cf72875e8e8207dcfba80173f7c', 'fe5dbbcea5ce7e2988b8c69bcfdfde8904aabc1f', '0ade7c2cf97f75d009975f4d720d1fa6c19f4897', 'Job level - Associate / Supervisor, Job category - Sales and Marketing, Educational requirement - Graduated from college', '<ul><li>Demonstrates leadership and direction by setting clear goals and expectations at each site by developing and/or revising local operating procedures and monitor performance.</li><li>Maintains strict adherence to corporate objectives in the quality standards for car park presentation.</li><li>Monitors car park daily and monthly targets and initiate remedial action if targets are not being met.</li><li>Prepares and recommends quarterly plans for cost reduction initiatives by car park.</li><li>Assists and analyzes on new business development while maintaining existing marketing tools.</li><li>Monitors adherence to all financial transaction policies and procedures (including cash handling, and monitoring of monthly parkers payment).</li><li>Responds to and implement recommendations made by internal auditor.</li><li>Provides operational support to all sites during normal business hours and after hours and weekends utilizing company mobile telephone</li></ul>', '2018-03-14', 'Operations Supervisor', '[\"Critical Thinking\",\"Active Learning\",\"Decision Making\",\"Social Perceptiveness\"]', '40000', '2018-03-14 11:26:40', 1),
+('9e6a55b6b4563e652a23be9d623ca5055c356940', 'fe5dbbcea5ce7e2988b8c69bcfdfde8904aabc1f', '0ade7c2cf97f75d009975f4d720d1fa6c19f4897', 'Job level - Associate / Supervisor, Job category - Sales and Marketing, Educational requirement - Graduated from college', '<ul><li>Merchandise direction per category per store.</li><li>Analyze slow moving and fast moving merchandise per store, per season, per category considering pricing and store condition</li><li>Provide decision-making in quantity and timing of merchandise</li></ul>', '2018-03-14', 'Merchandise Assistant Manager', '[\" Retail industry\",\"Communication\",\"Merchandising \"]', '40000', '2018-03-14 11:23:20', 1),
+('ac3478d69a3c81fa62e60f5c3696165a4e5e6ac4', 'c1dfd96eea8cc2b62785275bca38ac261256e278', '7b52009b64fd0a2a49e6d8a939753077792b0554', 'Job level - Mid-Senior Level / Manager, Job category - IT and Software, Educational requirement - Graduated from college', '<ul><li>Solve tough engineering problems, and work with other engineers to integrate cutting-edge functionality into novel prototypes</li><li>Design, develop, optimize or tune algorithms to solve interesting problems in data science.</li><li>Create state of the art, international standard research papers with top class methodologies.</li><li>Conduct lectures and training to software engineers to improve the performance of their software implementation.</li></ul>', '2018-03-14', 'Algorithm Research Engineer', '[\"Computer Engineering\",\"Machine Learning\",\"Patents\",\"Algorithms\"]', '40000', '2018-03-14 10:21:54', 1),
+('b1d5781111d84f7b3fe45a0852e59758cd7a87e5', '902ba3cda1883801594b6e1b452790cc53948fda', '1', 'Job level - Fresh Grad / Entry Level, Job category - Writing and Content, Educational requirement - Graduated from college', '<ul><li>Writing SEO-friendly articles, profiles, infographics, etc. for the Career Advice blog, as pitched by the Writer or as assigned by the Content Marketing Manager.</li><li>Write copy for press releases, email campaigns, digital marketing assets, and other similar items</li><li>Assist in proofreading and copyediting submissions by part-time Content Writers.</li><li>Work with the Content Marketing Manager in putting together an editorial calendar and forming a content marketing strategy for Kalibrr.</li><li>Coordinate with the Marketing team in implementing the content marketing strategy.</li><li>Manage the publication of content on Kalibrr social media channels.</li><li>Assist the Marketing team in projects, most especially in copywriting needs.</li><li>Represent Kalibrr as needed in events.</li></ul>', '2018-03-14', 'Content Writer', '[\"Proficiency in English\",\"Content writing\",\"SEO\"]', '20000', '2018-03-14 11:00:16', 1),
+('b3f0c7f6bb763af1be91d9e74eabfeb199dc1f1f', 'fe5dbbcea5ce7e2988b8c69bcfdfde8904aabc1f', '0ade7c2cf97f75d009975f4d720d1fa6c19f4897', 'Job level - Associate / Supervisor, Job category - Sales and Marketing, Educational requirement - Graduated from college', '<ul><li>Support the Sales Manager in building plans to deliver against sales objectives.</li><li>Lead the development and maintenance of the on trade outlet database with a focus on hotels, restaurants and high-end bars.</li><li>Develop and follow an efficient calling cycle with the national distributor on premise team.</li><li>Maximize distribution and stock pressure in target outlets.</li><li>Establish sustainable relationship with key customers</li><li>Monitor visibility and ensure stand out with a focus on key accounts.</li><li>Coordinate with Marketing and Trade Marketing teams to develop targeted and cost effective promotional and visibility tools.</li><li>Conduct regular alignment meetings with the national distributor sales, marketing, trade marketing teams and promotional teams to effectively communicate product updates, new strategies and business development programs.</li><li>Ensure that commercial and/or brand building objectives are fully leveraged in all existing contracted/supported accounts and spend are optimized</li></ul>', '2018-03-14', 'On Premise Executive', '[\"Presentation \",\"Negotiation \",\"English fluency\",\"MS office\"]', '50000', '2018-03-14 11:24:42', 1),
+('b6589fc6ab0dc82cf12099d1c2d40ab994e8410c', 'c1dfd96eea8cc2b62785275bca38ac261256e278', '7b52009b64fd0a2a49e6d8a939753077792b0554', 'Lorem ipsum dolor sit amet, amet enim sapien, quaerat ultricies. Augue non augue congue, pellentesque felis vehicula ut quam massa vitae, nec suspendisse tincidunt erat nulla aliquam nec, ligula aliquet, scelerisque ut nam. Lorem risus elit. Consequat ante suscipit morbi mauris. Gravida condimentum arcu a risus, interdum id vivamus, neque tempor morbi, et cum neque non eget neque eros. Mollis quisque tincidunt metus, sed vitae amet. Interdum scelerisque wisi lorem, accusamus per, dui laoreet orc', 'Lorem ipsum dolor sit amet, amet enim sapien, quaerat ultricies. Augue non augue congue, pellentesque felis vehicula ut quam massa vitae, nec suspendisse tincidunt erat nulla aliquam nec, ligula aliquet, scelerisque ut nam. Lorem risus elit. Consequat ante suscipit morbi mauris. Gravida condimentum arcu a risus, interdum id vivamus, neque tempor morbi, et cum neque non eget neque eros. Mollis quisque tincidunt metus, sed vitae amet. Interdum scelerisque wisi lorem, accusamus per, dui laoreet orci.\r\nLorem ipsum dolor sit amet, amet enim sapien, quaerat ultricies. Augue non augue congue, pellentesque felis vehicula ut quam massa vitae, nec suspendisse tincidunt erat nulla aliquam nec, ligula aliquet, scelerisque ut nam. Lorem risus elit. Consequat ante suscipit morbi mauris. Gravida condimentum arcu a risus, interdum id vivamus, neque tempor morbi, et cum neque non eget neque eros. Mollis quisque tincidunt metus, sed vitae amet. Interdum scelerisque wisi lorem, accusamus per, dui laoreet\r\n', '2018-03-13', 'Web Developer', '[\"PHP\",\"Jquery\",\"HTML\",\"CSS\"]', '20000', '2018-03-13 22:00:15', 1),
+('bd307a3ec329e10a2cff8fb87480823da114f8f4', 'fe5dbbcea5ce7e2988b8c69bcfdfde8904aabc1f', '0ade7c2cf97f75d009975f4d720d1fa6c19f4897', 'Job level - Associate / Supervisor, Job category - Human Resources, Educational requirement - Graduated from college', '<ul><li>Create and publish job posts via job platforms.</li><li>Coordinate with internal teams to develop and distribute recruitment campaigns.</li><li>Provide local or remote recruitment-sourcing support to recruitment partners.</li><li>On-board and calibrate recruitment partners on Kalibrr on PPH process/SOPs.</li><li>Assist in increasing talent pipelines by using multiple channels, databases, and other sources.</li><li>Pre-screen resumes and profiles and provide recruitment partners a list of shortlisted candidates.</li></ul><p><br></p>', '2018-03-14', 'IT Recruiter | Project-Based', '[\"Client management\",\"Communication\",\"Technical\"]', '50000', '2018-03-14 11:14:17', 1),
+('c1dfd96eea8cc2b62785275bca38ac261256e278', 'c1dfd96eea8cc2b62785275bca38ac261256e278', '7b52009b64fd0a2a49e6d8a939753077792b0554', 'Job level - Mid-Senior Level / Manager, Job category - Accounting and Finance, Educational requirement - Graduated from college', '<ul><li>Understand the companyâ€s need for banking services and develop plans to address them</li><li>Identify key staff and/or managers in banks to cultivate sustainable relationships</li><li>Resolve issues and complaints from banking partners quickly and effectively</li><li>Gather necessary requirements for opening corporate bank accounts</li><li>Approach potential banking partners and facilitate opening of accounts with them</li><li>Build a network of reliable key individuals or institutions both inside and outside the country for streamlining delivery of financial services of the company</li></ul>', '2018-03-14', 'Bank and Client Relationship Manager', '[\"CRM\",\"Problem-solving\",\"Leadership \",\"Communication \",\"Confidence \"]', '30000', '2018-03-14 10:34:50', 1),
+('d435a6cdd786300dff204ee7c2ef942d3e9034e2', 'fe5dbbcea5ce7e2988b8c69bcfdfde8904aabc1f', '0ade7c2cf97f75d009975f4d720d1fa6c19f4897', 'Job level - Mid-Senior Level / Manager, Job category - IT and Software, Educational requirement - Graduated from college', '<p>Engineering teams are usually Agile units with between 3 and 7 people. You are expected to do the following:</p><ul><li>Share your own projects/portfolio</li><li>Share team projects/portfolio</li><li>Start work at 9am Melbourne (Australia) time</li><li>Take responsibility for your project progress, deadlines are not guidelines</li></ul><p><br></p>', '2018-03-14', 'Senior Android Developerâ€„', '[\"Mobile development\",\"backend/web developer\",\"Web design\"]', '50000', '2018-03-14 11:30:35', 1),
+('da4b9237bacccdf19c0760cab7aec4a8359010b0', 'c1dfd96eea8cc2b62785275bca38ac261256e278', '7b52009b64fd0a2a49e6d8a939753077792b0554', 'sapien urna lectus vestibulum in mauris ante congue natoque etiam delectus interdum consectetuer facilisis ipsum sodales rutrum cursus lectus elit id ac et quis urna adipiscing nonummy ut aliquam feugiat per amet wisi dolor tristique tellus eu scelerisque sit non proin nibh neque luctus culpa maecenas ornare tincidunt id orci sodales integer etiam sed est cras ante pulvinar semper integer faucibus et maiores vestibulum sodales vestibulum accumsan amet cras accumsan risus elit phasellus vel duis ', 'sapien urna lectus vestibulum in mauris ante congue natoque etiam delectus interdum consectetuer facilisis ipsum sodales rutrum cursus lectus elit id ac et quis urna adipiscing nonummy ut aliquam feugiat per amet wisi dolor tristique tellus eu scelerisque sit non proin nibh neque luctus culpa maecenas ornare tincidunt id orci sodales integer etiam sed est cras ante pulvinar semper integer faucibus et maiores vestibulum sodales vestibulum accumsan amet cras accumsan risus elit phasellus vel duis pharetra et mus phasellus purus lacus varius pede fringilla augue sit et imperdiet tortor volutpat aliquet tincidunt cursus vestibulum scelerisque nulla massa mauris ac velit sodales molestie luctus pulvinar sit amet non proin nulla nonummy iaculis lorem aliquam tincidunt hendrerit dapibus rhoncus scelerisque condimentum et eu erat quis massa non fringilla malesuada arcu eleifend lorem enim enim non quam et tempus donec wisi ut facilisis nulla ligula at lectus aenean a tempus at vestibulum place', '2018-03-13', 'Back-End Developer', '[\"Server Management\",\"DBMS\"]', '20000', '2018-03-13 22:05:46', 1),
+('f1abd670358e036c31296e66b3b66c382ac00812', 'fe5dbbcea5ce7e2988b8c69bcfdfde8904aabc1f', '0ade7c2cf97f75d009975f4d720d1fa6c19f4897', 'Job level - Associate / Supervisor, Job category - IT and Software, Educational requirement - Graduated from college', '<ul><li>Obtains in-depth understanding of the business owners operating environment â€“ system, platform, processes, standards, policies, tools, human capital, customers, hardware, network, equipment, etc. and uses this knowledge for the audit plan.</li><li>Performs ground level audit activities for assigned engagements, such as but not limited to: field checks, in-depthinterviews, process reviews, testing, surveys, FGDs documentation reviews, physical hardware checks, asset/equipment inventory check,</li><li>Documents audit findings and provide risk assessment and business impact evaluation.</li><li>Monitors implementation of agreed action plans</li><li>Finalizes and releases internal audit reports</li></ul><p><br></p>', '2018-03-14', 'Information Systems Audit', '[\"Audit Testing\",\"Business partnering\",\"Networking\",\"Technical Expertise\"]', '20000', '2018-03-14 11:17:54', 1),
+('fa35e192121eabf3dabf9f5ea6abdbcbc107ac3b', 'fe5dbbcea5ce7e2988b8c69bcfdfde8904aabc1f', '0ade7c2cf97f75d009975f4d720d1fa6c19f4897', 'Job level - Associate / Supervisor, Job category - IT and Software, Educational requirement - Graduated from college', '<ul><li>Primarily, administration of our Atlassian toolset</li><li>Gather requirements for business processes, and determine ways to optimize/improve JIRA setup and workflows, as well as identify where functionality can/cannot meet user requests.</li><li>Develop metrics dashboards and advanced filters in JIRA to provide end-users and business leadership with meaningful operational/performance metrics and status reports.</li><li>Using Jira REST APIs, develop one-off solutions for integrations with other tools, automate manual processes, data migration routines and extract data for reporting and analytics purposes.</li><li>Implement JIRA upgrades, and partner with our IT staff to coordinate infrastructure maintenance and system migrations.</li><li>Provide User Management and support for 250 users, manage system access across groups to ensure compliance, and maintain best practices. Create and manage security schemes, custom fields and configurations.</li><li>Create and maintain detailed technical and user-facing documentation.</li></ul>', '2018-03-14', 'ICT Engineer', '[\"Administration\",\"Programming\",\"Integration\"]', '20000', '2018-03-14 11:16:06', 1),
+('fe5dbbcea5ce7e2988b8c69bcfdfde8904aabc1f', '902ba3cda1883801594b6e1b452790cc53948fda', '1', 'Job level - Associate / Supervisor,  Job category - Customer Service, \r\nEducational requirement - Graduated from college', '<p><span style=\"color: rgb(61, 70, 77);\">Supports the quality pre-turnover and turnover customer experience by:</span></p><ul><li>Ensuring effective customer communication</li><li>Timely resolution of customer requests</li><li>Proper turnover of property.</li></ul><p><br></p>', '2018-03-14', 'Client Service Associate', '[\"Communication \",\"Problem-solving\",\"Presentation \",\"Customer service\"]', '30000', '2018-03-14 10:51:50', 1);
+
+--
+-- Indexes for dumped tables
+--
+
+--
+-- Indexes for table `tbl_vacancies`
+--
+ALTER TABLE `tbl_vacancies` ADD FULLTEXT KEY `skills` (`skills`);
+ALTER TABLE `tbl_vacancies` ADD FULLTEXT KEY `job_title` (`job_title`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
