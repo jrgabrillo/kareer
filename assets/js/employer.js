@@ -336,7 +336,6 @@ var employer = function() {
             let Logs = JSON.parse(employer.getLogs());
             let content = "";
             $.each(Logs,function(i,v){
-                console.log(v);
             content += `<tr>
                             <td width='300px'>${v[3]}</td>
                             <td>${v[4]}</td>
@@ -372,7 +371,6 @@ var jobPosts = function() {
     return {
         get: function(id) {
             let ajax = system.ajax('../assets/harmony/Process.php?get-employerJobsPosts', id);
-            console.log(ajax.responseText);
             return ajax.responseText;
         },
         id:function(){
@@ -386,9 +384,16 @@ var jobPosts = function() {
                     $('#modal_medium').modal('open');
                     $('.chips-placeholder').material_chip({
                         placeholder: 'Add a skill',
-                        limit: 5,
-                        maxLength: 5
                     });
+                    $('.chips').on('chip.add', function(e, chip){
+                        if(($('.chips').material_chip('data').length) == 5){
+                            $('.input').prop('disabled',true);
+                        }
+                    });
+                    $('.chips').on('chip.delete', function(e, chip){
+                        $('.input').prop('disabled',false);
+                    });
+
                     let editor = system.quill($('#field_description2').get(0));
                     editor.clipboard.dangerouslyPasteHTML($('#field_description2').val());
                     var limit = 1000;
@@ -408,10 +413,10 @@ var jobPosts = function() {
                         rules: {
                             field_title: { required: true },
                             field_skills: { required: true },
-                            field_salary: { required: true, max: 70000 },
-                            field_data: { required: true },
-                            field_description1: { required: true },
-                            field_description2: { required: true },
+                            field_salary: { required: true, max: 5 },
+                            field_date: { required: true },
+                            field_description1: { required: true, minlength: 100,maxlength:450 },
+                            field_description2: { required: true, minlength: 100},
                         },
                         errorElement: 'div',
                         errorPlacement: function(error, element) {
@@ -451,7 +456,6 @@ var jobPosts = function() {
         },
         list: function() {
             let id = JSON.parse(employer.check_access())[0], content = "", chip = "", skills = "";
-                console.log(id);
             let data = JSON.parse(jobPosts.get(id));
             $.each(data, function(i, v) {
                 let status = (v[10] == 1)?'Active':'Inactive';
@@ -678,6 +682,7 @@ var jobPosts = function() {
                     content = `<h5>Change ${data.prop}</h5>
                                     <form id='form_update' class='formValidate' method='get' action='' novalidate='novalidate'>
                                         <div class="input-field col s6">
+                                            <label class="active">Enter maximum of 5 skills </label>
                                             <div class="chips chips-initial"></div>
                                         </div>
                                         <button type='submit' class='waves-effect waves-grey grey lighten-5 blue-text btn-flat modal-action right'>Save</button>
@@ -687,6 +692,14 @@ var jobPosts = function() {
                     $('#modal_medium').modal('open');
                     $('.chips-initial').material_chip({
                         data: skillObj,
+                    });
+                    $('.chips').on('chip.add', function(e, chip){
+                        if(($('.chips').material_chip('data').length) == 5){
+                            $('.input').prop('disabled',true);
+                        }
+                    });
+                    $('.chips').on('chip.delete', function(e, chip){
+                        $('.input').prop('disabled',false);
                     });
                     $("#form_update").validate({
                         rules: {
@@ -826,10 +839,10 @@ var jobPosts = function() {
                                     <form id='form_update' class='formValidate' method='get' action='' novalidate='novalidate'>
                                         <div class="input-field col s6">
                                             <label for='field_${data.prop}' class='active'>Short Description</label>
-                                            <textarea class="materialize-textarea" maxlength='500' id='field_${data.prop}' value='${data.value}' type='text' name='field_${data.prop}' data-error='.error_${data.prop}'></textarea>
+                                            <textarea class="materialize-textarea" maxlength='500' id='field_${data.prop}' value='' type='text' name='field_${data.prop}' data-error='.error_${data.prop}'>${data.value}</textarea>
                                             <div class='error_${data.prop}'></div>
                                             <div class='display_notes'>
-                                                *<strong>Short Description</strong> must contain atleast 100 characters and not more than 500 characters. <br/>
+                                                *<strong>Short Description</strong> must contain atleast 100 characters and not more than 450 characters. <br/>
                                                 <u>This will be the preview of your job post.</u>
                                             </div>
                                         </div>
@@ -841,7 +854,7 @@ var jobPosts = function() {
                     $('#modal_medium').modal('open');
                     $("#form_update").validate({
                         rules: {
-                            field_shortDes: { required: true },
+                            field_shortDes: { required: true, minlength: 100,maxlength:450 },
                         },
                         errorElement: 'div',
                         errorPlacement: function(error, element) {
@@ -904,7 +917,7 @@ var jobPosts = function() {
                     });
                     $("#form_update").validate({
                         rules: {
-                            field_longDes: { required: true },
+                            field_longDes: { required: true, minlength:100},
                         },
                         errorElement: 'div',
                         errorPlacement: function(error, element) {

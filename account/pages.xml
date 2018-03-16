@@ -154,6 +154,7 @@
 								<div class='error_title'></div>	
 							</div>
 							<div class='input-field col s6'>
+								<label class="active">Enter maximum of 5 skills </label>
 							    <div class="chips chips-placeholder"></div>
 								<!-- <label for='field_skills'>Skills: </label>
 
@@ -166,23 +167,20 @@
 								<div class='error_salary'></div>	
 							</div>
 							<div class='input-field col s6'>
-								<label for='field_data' class="active">Vacancy Date: </label>
-					            <input id='field_data' type='date' name='field_data' data-error='.error_data'>
-								<div class='error_data'></div>	
+								<label for='field_date' class="active">Vacancy Date: </label>
+					            <input id='field_date' type='date' name='field_date' data-error='.error_date'>
+								<div class='error_date'></div>	
 							</div>
 							<div class='input-field col s12'>
 								<label for='field_description1'>Short Description: </label>
 					            <textarea id='field_description1' class="materialize-textarea" maxlength='500' type='text' name='field_description1' data-error='.error_description1'></textarea>
 								<div class='error_description1'></div>	
 								<div class='display_notes'>
-									*<strong>Short Description</strong> must contain atleast 100 characters and not more than 500 characters. <br/>
+									*<strong>Short Description</strong> must contain atleast 100 characters and not more than 450 characters. <br/>
 									<u>This will be the preview of your job post.</u>
 								</div>
 							</div>
 							<div class='input-field col s12'>
-								<!-- label for='field_description2'>Full Description: </label>
-					            <textarea id='field_description2' maxlength='1000' type='text' name='field_description2' data-error='.error_description2'></textarea>
-								<div class='error_description2'></div>	 -->
 								<div id='field_description2'></div>
 						  		<div id='display_errorDescription2'></div>
 						  		<div class='display_notes'>
