@@ -210,9 +210,10 @@ $Functions = new DatabaseClasses;
         else{
             $q = $Functions->PDO("");
         }
-        if($q->execute())
+        if($q->execute()){
             $log = $Functions->log($id,$id,`Updated {$data[1]}`,'Update');
             echo 1;
+        }
         else{
             $Data = $q->errorInfo();
             print_r($Data);
