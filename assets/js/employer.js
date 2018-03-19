@@ -457,6 +457,7 @@ var jobPosts = function() {
         list: function() {
             let id = JSON.parse(employer.check_access())[0], content = "", chip = "", skills = "";
             let data = JSON.parse(jobPosts.get(id));
+            console.log(data);
             $.each(data, function(i, v) {
                 let status = (v[10] == 1)?'Active':'Inactive';
                 skills = JSON.parse(v[7]);

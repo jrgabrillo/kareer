@@ -358,24 +358,29 @@ var admin = function () {
             return data.responseText;
         },
         notifications:function(){
-            let Logs = JSON.parse(admin.getLogs());
-            let content = "";
-            $.each(Logs,function(i,v){
-            content += `<tr>
-                            <td width='300px'>${v[3]}</td>
-                            <td>${v[4]}</td>
-                            <td>${v[5]}</td>
-                        </tr>`;
-            });
-            $("#display_logs table tbody").html(content);
-            let count = 20, min = 0, max = count;
-            let logs = '';
-            $("button[data-cmd='load']").on("click",function(){
-                min = max;
-                max = max+count;
-                logs = JSON.parse(admin.getLogs(min,count));
-                admin.listLogs(logs);
-            });
+            let Logs = admin.getLogs();
+            let content = "", remarks = "";
+            console.log(Logs);
+            // $.each(Logs,function(i,v){
+            // 	console.log(v[1]);
+            // 	var data = system.ajax('../assets/harmony/Process.php?get-manager',v[1]);
+            // 	remarks = JSON.parse(data.responseText);
+            // 	console.log(remarks);
+            // content += `<tr>
+            //                 <td width='300px'>${v[3]}</td>
+            //                 <td>${v[4]}</td>
+            //                 <td>${v[5]}</td>
+            //             </tr>`;
+            // });
+            // $("#display_logs table tbody").html(content);
+            // let count = 20, min = 0, max = count;
+            // let logs = '';
+            // $("button[data-cmd='load']").on("click",function(){
+            //     min = max;
+            //     max = max+count;
+            //     logs = JSON.parse(admin.getLogs(min,count));
+            //     admin.listLogs(logs);
+            // });
         },
         listLogs:function(list){
             let content = "";
