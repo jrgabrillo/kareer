@@ -74,6 +74,50 @@ $Functions = new DatabaseClasses;
         print_r(json_encode($query));
     }
 
+    if (isset($_GET['get-skills'])){/**/
+        $data = $_POST['data'];
+        $query = $Functions->PDO("SELECT id,skill FROM tbl_skills WHERE applicant_id = '{$data}' ORDER BY level ASC");
+        print_r(json_encode($query));
+    }
+
+    if (isset($_GET['get-academic'])){/**/
+        $data = $_POST['data'];
+        $query = $Functions->PDO("SELECT * FROM tbl_acadinfo WHERE applicant_id = '{$data}';");
+        print_r(json_encode($query));
+    }
+
+    if (isset($_GET['get-career'])){/**/
+        $data = $_POST['data'];
+        $query = $Functions->PDO("SELECT * FROM tbl_career WHERE applicant_id = '{$data}';");
+        print_r(json_encode($query));
+    }
+
+    if (isset($_GET['get-jobs1'])){/**/
+        $data = $_POST['data'];
+        $s  = "";
+        $min = $data[1];
+        // print_r($data);
+        $count = ($data[2] == "all")?$Functions->PDO("SELECT COUNT(*) FROM tbl_logs"):$data[2];
+        $q_skill = $Functions->PDO("SELECT skill FROM tbl_skills WHERE applicant_id = '{$data[0]}' ORDER BY `date`");
+        foreach ($q_skill as $i => $v){$s .= "{$v[0]} ";}
+        $q_s = $Functions->PDO("SELECT a.id, a.employer_id, a.business_id, a.short_description, a.vacancy_date, a.job_title, a.skills, a.salary_range, b.company_name, b.image, b.address, b.email, MATCH(a.skills) AGAINST ('{$s}' IN BOOLEAN MODE) * 10 as rel_skills, MATCH(a.job_title) AGAINST ('{$s}' IN BOOLEAN MODE) * 5 as rel_job FROM tbl_vacancies a LEFT JOIN tbl_business b ON b.id = a.business_id WHERE a.status = 1 AND MATCH (a.skills, a.job_title) AGAINST ('{$s}' IN BOOLEAN MODE) ORDER BY (rel_skills)+(rel_job) DESC LIMIT {$min},{$count};");
+
+        print_r(json_encode($q_s));
+    }
+
+    if (isset($_GET['get-jobs'])){/**/
+        $data = $_POST['data'];
+        $s  = "";
+        $min = $data[1];
+        // print_r($data);
+        $count = ($data[2] == "all")?$Functions->PDO("SELECT COUNT(*) FROM tbl_logs"):$data[2];
+        $q_skill = $Functions->PDO("SELECT skill FROM tbl_skills WHERE applicant_id = '{$data[0]}' ORDER BY `date`");
+        foreach ($q_skill as $i => $v){$s .= "{$v[0]} ";}
+        $q_s = $Functions->PDO("SELECT a.id, a.employer_id, a.business_id, a.short_description, a.vacancy_date, a.job_title, a.skills, a.salary_range, b.company_name, b.image, b.address, b.email, MATCH(a.skills) AGAINST ('{$s}' IN BOOLEAN MODE) * 10 as rel_skills, MATCH(a.job_title) AGAINST ('{$s}' IN BOOLEAN MODE) * 5 as rel_job FROM tbl_vacancies a LEFT JOIN tbl_business b ON b.id = a.business_id WHERE a.status = 1 ORDER BY (rel_skills)+(rel_job) DESC LIMIT {$min},{$count};");
+
+        print_r(json_encode($q_s));
+    }
+
     if (isset($_GET['do-signUp'])){/**/
         $data = $_POST['data'];
         $firstname = $Functions->escape($data[0]);
@@ -130,18 +174,6 @@ $Functions = new DatabaseClasses;
             $Data = $query->errorInfo();
             print_r($Data);
         }
-    }
-
-    if (isset($_GET['get-skills'])){/**/
-        $data = $_POST['data'];
-        $query = $Functions->PDO("SELECT id,skill FROM tbl_skills WHERE applicant_id = '{$data}' ORDER BY level ASC");
-        print_r(json_encode($query));
-    }
-
-    if (isset($_GET['get-academic'])){/**/
-        $data = $_POST['data'];
-        $query = $Functions->PDO("SELECT * FROM tbl_acadinfo WHERE applicant_id = '{$data}';");
-        print_r(json_encode($query));
     }
 
     if (isset($_GET['do-addAcademic'])){/**/
@@ -244,12 +276,6 @@ $Functions = new DatabaseClasses;
         }
     }
 
-    if (isset($_GET['get-career'])){/**/
-        $data = $_POST['data'];
-        $query = $Functions->PDO("SELECT * FROM tbl_career WHERE applicant_id = '{$data}';");
-        print_r(json_encode($query));
-    }
-
     if (isset($_GET['do-deleteAcademic'])){/**/
         $data = $_POST['data'];
         $query = $Functions->PDO("DELETE FROM tbl_acadinfo WHERE id = '{$data}';");
@@ -320,32 +346,6 @@ $Functions = new DatabaseClasses;
             $Data = $q->errorInfo();
             print_r($Data);
         }
-    }
-
-    if (isset($_GET['get-jobs1'])){/**/
-        $data = $_POST['data'];
-        $s  = "";
-        $min = $data[1];
-        // print_r($data);
-        $count = ($data[2] == "all")?$Functions->PDO("SELECT COUNT(*) FROM tbl_logs"):$data[2];
-        $q_skill = $Functions->PDO("SELECT skill FROM tbl_skills WHERE applicant_id = '{$data[0]}' ORDER BY `date`");
-        foreach ($q_skill as $i => $v){$s .= "{$v[0]} ";}
-        $q_s = $Functions->PDO("SELECT a.id, a.employer_id, a.business_id, a.short_description, a.vacancy_date, a.job_title, a.skills, a.salary_range, b.company_name, b.image, b.address, b.email, MATCH(a.skills) AGAINST ('{$s}' IN BOOLEAN MODE) * 10 as rel_skills, MATCH(a.job_title) AGAINST ('{$s}' IN BOOLEAN MODE) * 5 as rel_job FROM tbl_vacancies a LEFT JOIN tbl_business b ON b.id = a.business_id WHERE a.status = 1 AND MATCH (a.skills, a.job_title) AGAINST ('{$s}' IN BOOLEAN MODE) ORDER BY (rel_skills)+(rel_job) DESC LIMIT {$min},{$count};");
-
-        print_r(json_encode($q_s));
-    }
-
-    if (isset($_GET['get-jobs'])){/**/
-        $data = $_POST['data'];
-        $s  = "";
-        $min = $data[1];
-        // print_r($data);
-        $count = ($data[2] == "all")?$Functions->PDO("SELECT COUNT(*) FROM tbl_logs"):$data[2];
-        $q_skill = $Functions->PDO("SELECT skill FROM tbl_skills WHERE applicant_id = '{$data[0]}' ORDER BY `date`");
-        foreach ($q_skill as $i => $v){$s .= "{$v[0]} ";}
-        $q_s = $Functions->PDO("SELECT a.id, a.employer_id, a.business_id, a.short_description, a.vacancy_date, a.job_title, a.skills, a.salary_range, b.company_name, b.image, b.address, b.email, MATCH(a.skills) AGAINST ('{$s}' IN BOOLEAN MODE) * 10 as rel_skills, MATCH(a.job_title) AGAINST ('{$s}' IN BOOLEAN MODE) * 5 as rel_job FROM tbl_vacancies a LEFT JOIN tbl_business b ON b.id = a.business_id WHERE a.status = 1 ORDER BY (rel_skills)+(rel_job) DESC LIMIT {$min},{$count};");
-
-        print_r(json_encode($q_s));
     }
 
     if (isset($_GET['get-jobsByID'])){/**/
