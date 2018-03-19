@@ -329,20 +329,20 @@ var employer = function() {
         getLogs:function(min,max){
             min = ((typeof min == undefined) || (min == null))?0:min;
             max = ((typeof max == undefined) || (max == null))?20:max;
-            var data = system.ajax('../assets/harmony/Process.php?get-logs',[min,max]);
+            var data = system.ajax('../assets/harmony/Process.php?get-logs',['employer',min,max]);
             return data.responseText;
         },
         notifications:function(){
-            let Logs = JSON.parse(employer.getLogs());
-            let content = "";
-            $.each(Logs,function(i,v){
-            content += `<tr>
-                            <td width='300px'>${v[3]}</td>
-                            <td>${v[4]}</td>
-                            <td>${v[5]}</td>
-                        </tr>`;
+            let emp = JSON.parse(employer.getLogs());
+            let appContent = "";
+            $.each(emp,function(i,a){
+                console.log(a);
+                appContent += `<tr>
+                                <td style="border:1px solid gray"></td>
+                            </tr>`;
             });
-            $("#display_logs table tbody").html(content);
+            $("#applicantNotifs table tbody").html(appContent);
+
             let count = 20, min = 0, max = count;
             let logs = '';
             $("button[data-cmd='load']").on("click",function(){
@@ -353,15 +353,13 @@ var employer = function() {
             });
         },
         listLogs:function(list){
-            let content = "";
-            $.each(list,function(i,v){
-            content += `<tr>
-                            <td width='300px'>Account Manager's ${v[3]}</td>
-                            <td width="143px">${v[4]}</td>
-                            <td>${v[5]}</td>
-                        </tr>`;
+            let appContent = "";
+            $.each(list,function(i,a){
+                appContent += `<tr>
+                                <td style="border:1px solid gray"></td>
+                            </tr>`;
             });
-            $("#display_logs table tbody").append(content);
+            $("#applicantNotifs table tbody").append(appContent);
         },
     };
 }();
@@ -459,8 +457,8 @@ var jobPosts = function() {
             let data = JSON.parse(jobPosts.get(id));
             console.log(data);
             $.each(data, function(i, v) {
-                let status = (v[10] == 1)?'Active':'Inactive';
-                skills = JSON.parse(v[7]);
+                let status = (v[1] == 1)?'Active':'Inactive';
+                skills = JSON.parse(v[4]);
                 chip = "";
                 $.each(skills, function(i, s) {
                     chip += `<a class="chip">${s}</a>`;
@@ -468,10 +466,10 @@ var jobPosts = function() {
                 $("#job-post table tbody").append(`
                     <tr>
                         <td widtd="50px" class="center">${status}</td>
-                        <td widtd="300px" class="center">${v[6]}</td>
-                        <td widtd="150px" class="center">${v[9]}</td>
+                        <td widtd="300px" class="center">${v[2]}</td>
+                        <td widtd="150px" class="center">${v[3]}</td>
                         <td widtd="200px" class="center">${chip}</td>
-                        <td widtd="150px" class="center">${v[8]}</td>
+                        <td widtd="150px" class="center">${v[5]}</td>
                         <td>
                             <a href='#cmd=index;content=focusjob;id=${v[0]}' data-cmd='view-job' class='tooltipped btn-floating waves-effect black-text no-shadow white right' data-position='left' data-delay='50' data-tooltip='View Job Details'>
                                 <i class='material-icons right hover black-text'>more_vert</i>

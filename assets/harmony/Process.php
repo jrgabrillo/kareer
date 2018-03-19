@@ -96,7 +96,7 @@
 
 	if(isset($_GET['get-employerJobsPosts'])){ /**/
 		$data = $_POST['data'];
-		$query = $Functions->PDO("SELECT * FROM tbl_vacancies WHERE employer_id = '{$data}' ORDER BY date DESC");
+		$query = $Functions->PDO("SELECT id, status, job_title, vacancy_date, skills, salary_range FROM tbl_vacancies WHERE employer_id = '{$data}' ORDER BY date DESC");
 		print_r(json_encode($query));
 	}
 
@@ -242,18 +242,17 @@
 	if(isset($_GET['get-logs'])){ /**/
 		$data = $_POST['data'];
 		$result = [];
-		$min = $data[0];
-		$max = ($data[1] == "all")?$Functions->PDO("SELECT COUNT(*) FROM tbl_logs"):$data[1];
-		// $q = $Functions->PDO("SELECT * FROM tbl_logs WHERE from_account_id  IN (SELECT id FROM tbl_businessManagers) ORDER BY `date` DESC LIMIT {$min},{$max}");
-		// $q = $Functions->PDO("SELECT * FROM tbl_logs LEFT JOIN tbl_vacancies ON tbl_logs.to_account_id = tbl_vacancies.id WHERE to_account_id IN ( SELECT id FROM tbl_vacancies ) AND from_account_id IN (SELECT id FROM tbl_businessmanagers)");
-
-		$q = $Functions->PDO("SELECT * FROM tbl_logs WHERE to_account_id IN ( SELECT id FROM tbl_vacancies ) AND from_account_id IN (SELECT id FROM tbl_businessmanagers)");
-		foreach ($q as $key => $value) {
-				$qFrom = $Functions->PDO("SELECT * FROM tbl_businessmanagers WHERE id = '{$value[1]}'");
-				$qTo = $Functions->PDO("SELECT * FROM tbl_vacancies WHERE id = '{$qFrom[0][1]}'");
-				$result[] = [$value,$qFrom[0],$qTo[0]];
-		}	
-		print_r($result);
+		$user = $data[0];
+		$min = $data[1];
+		$max = $data[2];
+		if($user == 'admin'){
+			$qEmployer = $Functions->PDO("SELECT tbl_businessmanagers.name, tbl_logs.remarks, tbl_vacancies.job_title, tbl_logs.date FROM tbl_logs LEFT JOIN tbl_vacancies ON tbl_logs.to_account_id = tbl_vacancies.id LEFT JOIN tbl_businessmanagers ON tbl_logs.from_account_id = tbl_businessmanagers.id WHERE to_account_id IN ( SELECT id FROM tbl_vacancies ) AND from_account_id IN (SELECT id FROM tbl_businessmanagers) ORDER BY `date` DESC LIMIT {$min},{$max}");
+			$qApplicant = $Functions->PDO("SELECT tbl_personalinfo.name, tbl_logs.remarks, tbl_personalinfo.name, tbl_logs.date FROM tbl_logs LEFT JOIN tbl_personalinfo ON tbl_logs.to_account_id = tbl_personalinfo.id WHERE to_account_id IN ( SELECT id FROM tbl_personalinfo ) AND from_account_id IN (SELECT id FROM tbl_personalinfo) ORDER BY `date` DESC LIMIT {$min},{$max}");
+			print_r(json_encode([$qEmployer,$qApplicant]));
+		}
+		else if($user == 'employer'){
+			print_r(json_encode(['1','2']));
+		}
 	}
 
 	if(isset($_GET['do-updateInfo'])){/**/

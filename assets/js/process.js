@@ -114,7 +114,7 @@ var system = function(){
 						_function();						
 					});
 				},
-				idle: 300000
+				idle: 3000000
 			});
 		},
 		random:function(min,max){
