@@ -251,7 +251,8 @@
 			print_r(json_encode([$qEmployer,$qApplicant]));
 		}
 		else if($user == 'employer'){
-			print_r(json_encode(['1','2']));
+			$qApplication = $Functions->PDO("SELECT tbl_personalinfo.id, tbl_personalinfo.given_name, tbl_personalinfo.middle_name, tbl_personalinfo.family_name, tbl_skills.skill, tbl_personalinfo.picture, tbl_vacancies.id, tbl_vacancies.job_title, tbl_vacancies.skills FROM `tbl_bookmark` LEFT JOIN tbl_personalinfo ON tbl_bookmark.applicant_id = tbl_personalinfo.id LEFT JOIN tbl_vacancies ON tbl_bookmark.vacancy_id = tbl_vacancies.id LEFT JOIN tbl_skills ON tbl_personalinfo.id = tbl_skills.applicant_id");
+			print_r(json_encode($qApplication));
 		}
 	}
 

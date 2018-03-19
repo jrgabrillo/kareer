@@ -334,9 +334,9 @@ var employer = function() {
         },
         notifications:function(){
             let emp = JSON.parse(employer.getLogs());
+            console.log(emp);
             let appContent = "";
             $.each(emp,function(i,a){
-                console.log(a);
                 appContent += `<tr>
                                 <td style="border:1px solid gray"></td>
                             </tr>`;
