@@ -354,20 +354,27 @@ var admin = function () {
         getLogs:function(min,max){
             min = ((typeof min == undefined) || (min == null))?0:min;
             max = ((typeof max == undefined) || (max == null))?20:max;
-            var data = system.ajax('../assets/harmony/Process.php?get-logs',[min,max]);
+            var data = system.ajax('../assets/harmony/Process.php?get-logs',['admin',min,max]);
             return data.responseText;
         },
         notifications:function(){
-            let Logs = JSON.parse(admin.getLogs());
-            let content = "";
-            $.each(Logs,function(i,v){
-            content += `<tr>
-                            <td width='300px'>${v[3]}</td>
-                            <td>${v[4]}</td>
-                            <td>${v[5]}</td>
-                        </tr>`;
+            let emp = JSON.parse(admin.getLogs());
+            let empContent = "", appContent = "";
+            $.each(emp[0],function(i,e){
+            	let to = (e[1] == 'update picture')?'':e[2];
+            	empContent += `<tr>
+	                            <td style="border:1px solid gray"><strong>${e[0]}</strong> ${e[1]} <strong>${to}</strong></td>
+	                        </tr>`;
             });
-            $("#display_logs table tbody").html(content);
+            $("#employerNotifs table tbody").html(empContent);
+            $.each(emp[1],function(i,a){
+            	console.log(a);
+            	appContent += `<tr>
+	                            <td style="border:1px solid gray">${a[0]} ${a[1]} <strong>${a[2]}</strong></td>
+	                        </tr>`;
+            });
+            $("#applicantNotifs table tbody").html(appContent);
+
             let count = 20, min = 0, max = count;
             let logs = '';
             $("button[data-cmd='load']").on("click",function(){
@@ -378,15 +385,19 @@ var admin = function () {
             });
         },
         listLogs:function(list){
-            let content = "";
-            $.each(list,function(i,v){
-            content += `<tr>
-                            <td width='300px'>Account Manager's ${v[3]}</td>
-                            <td width="143px">${v[4]}</td>
-                            <td>${v[5]}</td>
-                        </tr>`;
+            let empContent = "", appContent = "";
+            $.each(list[0],function(i,e){
+            	empContent += `<tr>
+	                            <td style="border:1px solid gray"><strong>${e[0]}</strong> ${e[1]} <strong>${e[2]}</strong></td>
+	                        </tr>`;
             });
-            $("#display_logs table tbody").append(content);
+            $("#employerNotifs table tbody").append(empContent);
+            $.each(list[1],function(i,a){
+            	appContent += `<tr>
+	                            <td style="border:1px solid gray">${a[0]} ${a[1]} <strong>${a[2]}</strong></td>
+	                        </tr>`;
+            });
+            $("#applicantNotifs table tbody").append(appContent);
         },
     };
 }();

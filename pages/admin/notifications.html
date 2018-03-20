@@ -1,19 +1,48 @@
 <div class="row margin">
-	<div class='col s12 m8 l6 offset-m2 offset-l3 '>
+	<div class='col s12 m8 l12 offset-m2 offset-l1 '>
 		<button data-cmd="load">Load more</button>
-		<div class='card' id='display_logs'>
-                <div class="divider"></div>
-                <div class='card-content'>
-                    <table>
-                        <thead>
-                            <tr>
-                                <th>Remarks</th><th width="143px">Date</th><th>Header</th>
-                            </tr>
-                        </thead>
-                        <tbody></tbody>
-                    </table>
+         <div class="col s10 offset-s0">
+                <div class="card">
+                    <ul class="tabs">
+                        <li class="tab col s6"><a class="active" href="#employerNotifs">Employer</a></li>
+                        <li class="tab col s6"><a href="#applicantNotifs">Applicants</a></li>
+                    </ul>
+                    <div class="card-content">
+                        <div class="row" id='employerNotifs'>
+                            <div class="row">
+                                <div class='card-content'>
+                                    <table>
+                                        <tbody></tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row" id='applicantNotifs'>
+                            <div class="row">
+                                <div class='card-content'>
+                                    <table>
+                                        <tbody></tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
+
+		<!-- <div class='card' id='display_logs'>
+            <div class="divider"></div>
+            <div class='card-content'>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Remarks</th><th width="143px">Date</th><th>Header</th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </div>
+        </div> -->
 	</div>
 </div>
 <script type="text/javascript">

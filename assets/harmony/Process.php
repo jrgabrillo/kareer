@@ -96,7 +96,7 @@
 
 	if(isset($_GET['get-employerJobsPosts'])){ /**/
 		$data = $_POST['data'];
-		$query = $Functions->PDO("SELECT * FROM tbl_vacancies WHERE employer_id = '{$data}' ORDER BY date DESC");
+		$query = $Functions->PDO("SELECT id, status, job_title, vacancy_date, skills, salary_range FROM tbl_vacancies WHERE employer_id = '{$data}' ORDER BY date DESC");
 		print_r(json_encode($query));
 	}
 
@@ -165,13 +165,14 @@
 
 	if (isset($_GET['get-applicantJobs'])){/**/
 		$data = $_POST['data'];
-		$q = $Functions->PDO("SELECT tbl_application.vacancy_id,tbl_application.applicant_id,tbl_application.date,tbl_application.status, FROM tbl_applicant LEFT JOIN tbl_application ON tbl_applicant.id = tbl_application.applicant_id LEFT JOIN tbl_vacancies ON tbl_vacancies.id = tbl_application.vacancy_id WHERE tbl_applicant.id = '{$data}'  ORDER BY tbl_application.date DESC");
+		$q = $Functions->PDO("SELECT * FROM tbl_personalinfo LEFT JOIN tbl_application ON tbl_personalinfo.id = tbl_application.applicant_id LEFT JOIN tbl_vacancies ON tbl_vacancies.id = tbl_application.vacancy_id WHERE tbl_personalinfo.id = '{$data}'  ORDER BY tbl_application.date DESC");
 		print_r(json_encode($q));
 	}
 
 	if (isset($_GET['get-accountslist'])){/**/
 		$data = $_POST['data'];
 		$q = $Functions->PDO("SELECT * FROM tbl_businessManagers WHERE business_id = '{$data}'");
+
 		print_r(json_encode($q));
 	}
 
@@ -184,9 +185,9 @@
 	if(isset($_GET['get-jobByID'])){
 		$data = $_POST['data'];
 		$result = [];
-		$Query = $Functions->PDO_SQL("SELECT * FROM tbl_vacancies WHERE id = '{$data}'");
-		$Query2 = $Functions->PDO_SQL("SELECT * FROM tbl_application WHERE vacancy_id = '{$Query[0][0]}'");
-		$Query3 = $Functions->PDO_SQL("SELECT * FROM tbl_employer WHERE id = '{$Query[0][1]}'");
+		$Query = $Functions->PDO("SELECT * FROM tbl_vacancies WHERE id = '{$data}'");
+		$Query2 = $Functions->PDO("SELECT * FROM tbl_application WHERE vacancy_id = '{$Query[0][0]}'");
+		$Query3 = $Functions->PDO("SELECT * FROM tbl_employer WHERE id = '{$Query[0][1]}'");
 		$result[] = [$Query[0],$Query2,$Query3[0]];
 		print_r(json_encode($result));
 	}
@@ -201,9 +202,9 @@
 		}
 	}
 
-	if (isset($_GET['get-Employer'])){
+	if (isset($_GET['get-manager'])){
 		$data = $_POST['data'];
-		$Query = $Functions->PDO_SQL("SELECT * FROM tbl_employer WHERE id = '{$data}'");
+		$Query = $Functions->PDO_SQL("SELECT * FROM tbl_businessmanagers WHERE id = '{$data}'");
 		print_r(json_encode($Query));
 	}
 
@@ -240,11 +241,19 @@
 	
 	if(isset($_GET['get-logs'])){ /**/
 		$data = $_POST['data'];
-		$min = $data[0];
-		$max = ($data[1] == "all")?$Functions->PDO("SELECT COUNT(*) FROM tbl_logs"):$data[1];
-
-		$q = $Functions->PDO("SELECT * FROM tbl_logs ORDER BY `date` DESC LIMIT {$min},{$max}");
-		print_r(json_encode($q));
+		$result = [];
+		$user = $data[0];
+		$min = $data[1];
+		$max = $data[2];
+		if($user == 'admin'){
+			$qEmployer = $Functions->PDO("SELECT tbl_businessmanagers.name, tbl_logs.remarks, tbl_vacancies.job_title, tbl_logs.date FROM tbl_logs LEFT JOIN tbl_vacancies ON tbl_logs.to_account_id = tbl_vacancies.id LEFT JOIN tbl_businessmanagers ON tbl_logs.from_account_id = tbl_businessmanagers.id WHERE to_account_id IN ( SELECT id FROM tbl_vacancies ) AND from_account_id IN (SELECT id FROM tbl_businessmanagers) ORDER BY `date` DESC LIMIT {$min},{$max}");
+			$qApplicant = $Functions->PDO("SELECT tbl_personalinfo.name, tbl_logs.remarks, tbl_personalinfo.name, tbl_logs.date FROM tbl_logs LEFT JOIN tbl_personalinfo ON tbl_logs.to_account_id = tbl_personalinfo.id WHERE to_account_id IN ( SELECT id FROM tbl_personalinfo ) AND from_account_id IN (SELECT id FROM tbl_personalinfo) ORDER BY `date` DESC LIMIT {$min},{$max}");
+			print_r(json_encode([$qEmployer,$qApplicant]));
+		}
+		else if($user == 'employer'){
+			$qApplication = $Functions->PDO("SELECT tbl_personalinfo.id, tbl_personalinfo.given_name, tbl_personalinfo.middle_name, tbl_personalinfo.family_name, tbl_skills.skill, tbl_personalinfo.picture, tbl_vacancies.id, tbl_vacancies.job_title, tbl_vacancies.skills FROM `tbl_bookmark` LEFT JOIN tbl_personalinfo ON tbl_bookmark.applicant_id = tbl_personalinfo.id LEFT JOIN tbl_vacancies ON tbl_bookmark.vacancy_id = tbl_vacancies.id LEFT JOIN tbl_skills ON tbl_personalinfo.id = tbl_skills.applicant_id");
+			print_r(json_encode($qApplication));
+		}
 	}
 
 	if(isset($_GET['do-updateInfo'])){/**/
@@ -477,7 +486,7 @@
 				$q = $Functions->PDO("");
 			}
 			if($q->execute()){
-				$log = $Functions->log($data[2],$data[2],'update picture','Update');
+				$log = $Functions->log(($data[0] =='business')?'admin_id':$data[2],$data[2],'update picture','Update');
 				echo 1;
 			}
 			else{
