@@ -92,6 +92,18 @@ $Functions = new DatabaseClasses;
         print_r(json_encode($query));
     }
 
+    if (isset($_GET['get-business'])){/**/
+        $data = $_POST['data'];
+        $query = $Functions->PDO("SELECT company_name, image, address, email, contact_number, description FROM tbl_business WHERE id = '{$data}';");
+        print_r(json_encode($query));
+    }
+
+    if (isset($_GET['get-businessManagers'])){/**/
+        $data = $_POST['data'];
+        $query = $Functions->PDO("SELECT name, email, picture, position FROM tbl_businessmanagers WHERE business_id = '{$data}'");
+        print_r(json_encode($query));
+    }
+
     if (isset($_GET['get-jobs1'])){/**/
         $data = $_POST['data'];
         $s  = "";
