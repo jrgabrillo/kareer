@@ -70,7 +70,7 @@ $Functions = new DatabaseClasses;
         $email = $Functions->escape($data[0]);
         $auth_id = $Functions->escape($data[1]);
         $field = ($data[2] == 'kareer-oauth')?'id':'auth_id';
-        $query = $Functions->PDO("SELECT * FROM tbl_applicant RIGHT JOIN tbl_personalinfo ON tbl_applicant.id = tbl_personalinfo.id WHERE email = {$email} AND {$field} = {$auth_id}");
+        $query = $Functions->PDO("SELECT * FROM tbl_applicant RIGHT JOIN tbl_personalinfo ON tbl_applicant.id = tbl_personalinfo.id WHERE email = {$email} AND tbl_applicant.{$field} = {$auth_id}");
         print_r(json_encode($query));
     }
 
@@ -92,7 +92,7 @@ $Functions = new DatabaseClasses;
         print_r(json_encode($query));
     }
 
-    if (isset($_GET['get-jobs1'])){/**/
+    if (isset($_GET['get-jobs'])){/**/
         $data = $_POST['data'];
         $s  = "";
         $min = $data[1];
@@ -105,7 +105,7 @@ $Functions = new DatabaseClasses;
         print_r(json_encode($q_s));
     }
 
-    if (isset($_GET['get-jobs'])){/**/
+    if (isset($_GET['get-jobs1'])){/**/
         $data = $_POST['data'];
         $s  = "";
         $min = $data[1];
@@ -126,7 +126,7 @@ $Functions = new DatabaseClasses;
         $password = $Functions->password($data[3]);
         $auth = $Functions->escape($data[4]);
         $auth_id = $Functions->escape($data[5]);
-        $picture = ($data[6] == "")? "profile.png" : $Functions->escape($data[6]);
+        $picture = ($data[6] == "")? $Functions->escape("profile.png") : $Functions->escape($data[6]);
 
         $date = $Functions->PDO_DateAndTime();
         $id = $Functions->PDO_IDGenerator('tbl_applicant','id');
@@ -134,7 +134,6 @@ $Functions = new DatabaseClasses;
 
         if($validate[0][0]==0){
             $query = $Functions->PDO("INSERT INTO tbl_applicant(id,email,password,auth_type,auth_id,status) VALUES('{$id}',{$email},'{$password}',{$auth},{$auth_id},'1'); INSERT INTO tbl_personalinfo(id, given_name, family_name,picture, date) VALUES('{$id}',{$firstname},{$lastname},{$picture},'{$date}')");
-            // print_r($query);
             if($query->execute()){
                 print_r(json_encode(['id'=>$id,'last_name'=>$data[1],'first_name'=>$data[0],'email'=>$data[2],'picture'=>$picture]));
             }
@@ -156,7 +155,7 @@ $Functions = new DatabaseClasses;
 
         $query = $Functions->PDO("INSERT INTO tbl_skills(id,applicant_id,skill,level,date) VALUES('{$id}','{$data[2]}',{$skill},{$level},'{$date}')");
         if($query->execute()){
-            $log = $Functions->log($data[2],$id,"Added {$data[3]}",'Add');
+            $log = $Functions->log($data[2],$id,"Added {$data[3]} skill",'Add');
             print_r($id);
         }
         else{
@@ -166,9 +165,9 @@ $Functions = new DatabaseClasses;
 
     if (isset($_GET['do-deleteSkill'])){/**/
         $data = $_POST['data'];
-        $query = $Functions->PDO("DELETE FROM tbl_skills WHERE id = '{$data[2]}';");
+        $query = $Functions->PDO("DELETE FROM tbl_skills WHERE id = '{$data[3]}';");
         if($query->execute()){
-            $log = $Functions->log($data[1],$data[0],"Deleted skill",'Delete');
+            $log = $Functions->log($data[2],$data[3],"Deleted skill",'Delete');
             echo 1;
         }
         else{
@@ -244,7 +243,7 @@ $Functions = new DatabaseClasses;
             $q = $Functions->PDO("");
         }
         if($q->execute()){
-            $log = $Functions->log($id,$id,`Updated {$data[1]}`,'Update');
+            $log = $Functions->log($id,$id,"Updated {$data[1]}",'Update');
             echo 1;
         }
         else{

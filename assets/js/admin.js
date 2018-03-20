@@ -360,6 +360,7 @@ var admin = function () {
         notifications:function(){
             let emp = JSON.parse(admin.getLogs());
             let empContent = "", appContent = "";
+            console.log(emp);
             $.each(emp[0],function(i,e){
             	let to = (e[1] == 'update picture')?'':e[2];
             	empContent += `<tr>
@@ -368,9 +369,8 @@ var admin = function () {
             });
             $("#employerNotifs table tbody").html(empContent);
             $.each(emp[1],function(i,a){
-            	console.log(a);
             	appContent += `<tr>
-	                            <td style="border:1px solid gray">${a[0]} ${a[1]} <strong>${a[2]}</strong></td>
+	                            <td style="border:1px solid gray"><strong>${a[0]}</strong> ${a[1]}</td>
 	                        </tr>`;
             });
             $("#applicantNotifs table tbody").html(appContent);
@@ -394,7 +394,7 @@ var admin = function () {
             $("#employerNotifs table tbody").append(empContent);
             $.each(list[1],function(i,a){
             	appContent += `<tr>
-	                            <td style="border:1px solid gray">${a[0]} ${a[1]} <strong>${a[2]}</strong></td>
+	                            <td style="border:1px solid gray"><strong>${a[0]}</strong> ${a[1]}</td>
 	                        </tr>`;
             });
             $("#applicantNotifs table tbody").append(appContent);
@@ -1221,6 +1221,7 @@ var jobs = function(){
 		list:function(){
 			let data = JSON.parse(jobs.get(business.id())), content = "", chip = "", skills = "";
 			if(data.length>0){
+				console.log(data);
 	            $.each(data, function(i, v) {
 	                let status = (v[10] == 1)?'Active':'Inactive';
 	                skills = JSON.parse(v[7]);
