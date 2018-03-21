@@ -411,9 +411,9 @@ var jobPosts = function() {
                         rules: {
                             field_title: { required: true },
                             field_skills: { required: true },
-                            field_salary: { required: true, max: 5 },
+                            field_salary: { required: true, maxlength: 6 },
                             field_date: { required: true },
-                            field_description1: { required: true, minlength: 100,maxlength:450 },
+                            field_description1: { required: true, minlength: 100, maxlength:450 },
                             field_description2: { required: true, minlength: 100},
                         },
                         errorElement: 'div',

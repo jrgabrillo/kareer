@@ -247,7 +247,7 @@
 		$max = $data[2];
 		if($user == 'admin'){
 			$qEmployer = $Functions->PDO("SELECT tbl_businessmanagers.name, tbl_logs.remarks, tbl_vacancies.job_title, tbl_logs.date FROM tbl_logs LEFT JOIN tbl_vacancies ON tbl_logs.to_account_id = tbl_vacancies.id LEFT JOIN tbl_businessmanagers ON tbl_logs.from_account_id = tbl_businessmanagers.id WHERE to_account_id IN ( SELECT id FROM tbl_vacancies ) AND from_account_id IN (SELECT id FROM tbl_businessmanagers) ORDER BY `date` DESC LIMIT {$min},{$max}");
-			$qApplicant = $Functions->PDO("SELECT tbl_personalinfo.name, tbl_logs.remarks, tbl_personalinfo.name, tbl_logs.date FROM tbl_logs LEFT JOIN tbl_personalinfo ON tbl_logs.to_account_id = tbl_personalinfo.id WHERE to_account_id IN ( SELECT id FROM tbl_personalinfo ) AND from_account_id IN (SELECT id FROM tbl_personalinfo) ORDER BY `date` DESC LIMIT {$min},{$max}");
+			$qApplicant = $Functions->PDO("SELECT tbl_personalinfo.given_name, tbl_logs.remarks, tbl_logs.date FROM tbl_logs LEFT JOIN tbl_personalinfo ON tbl_logs.to_account_id = tbl_personalinfo.id WHERE to_account_id IN ( SELECT id FROM tbl_personalinfo ) AND from_account_id IN (SELECT id FROM tbl_personalinfo) ORDER BY `date` DESC LIMIT {$min},{$max}");
 			print_r(json_encode([$qEmployer,$qApplicant]));
 		}
 		else if($user == 'employer'){
