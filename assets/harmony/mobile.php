@@ -117,7 +117,7 @@ $Functions = new DatabaseClasses;
         print_r(json_encode($q_s));
     }
 
-    if (isset($_GET['get-jobs1'])){/**/
+    if (isset($_GET['get-jobs'])){/**/
         $data = $_POST['data'];
         $s  = "";
         $min = $data[1];
@@ -363,6 +363,45 @@ $Functions = new DatabaseClasses;
         else{
             $Data = $q->errorInfo();
             print_r($Data);
+        }
+    }
+
+    if (isset($_GET['do-jobApply'])){
+        $data = $_POST['data'];
+        $date = $Functions->PDO_DateAndTime();
+        $id = $Functions->PDO_IDGenerator('tbl_application','id');
+        $q = $Functions->PDO("SELECT * FROM tbl_application WHERE vacancy_id = '{$data[0]}' AND applicant_id = '{$data[1]}';");
+        if(count($q)<1){
+            $query = $Functions->PDO("INSERT INTO tbl_application(id,vacancy_id,applicant_id,date,status) VALUES('{$id}','{$data[0]}','{$data[1]}','{$date}','1');");
+            if($query->execute()){
+                print_r(1);
+            }
+            else{
+                print_r(0);
+            }
+        }
+        else{
+            print_r(2);
+        }
+    }
+
+    if (isset($_GET['do-jobBookmark'])){
+        $data = $_POST['data'];
+        $id = $Functions->PDO_IDGenerator('tbl_bookmark','id');
+        $date = $Functions->PDO_DateAndTime();
+
+        $q = $Functions->PDO("SELECT * FROM tbl_bookmark WHERE vacancy_id = '{$data[0]}' AND applicant_id = '{$data[1]}';");
+        if(count($q)<1){
+            $query = $Functions->PDO("INSERT INTO tbl_bookmark(id,vacancy_id,applicant_id,date,status) VALUES('{$id}','{$data[0]}','{$data[1]}','{$date}','1');");
+            if($query->execute()){
+                print_r(1);
+            }
+            else{
+                print_r(0);
+            }
+        }
+        else{
+            print_r(2);
         }
     }
 ?> 
