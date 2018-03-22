@@ -383,6 +383,7 @@ var jobPosts = function() {
                     $('.chips-placeholder').material_chip({
                         placeholder: 'Add a skill',
                     });
+                    $('.input').prop('maxlength','50');
                     $('.chips').on('chip.add', function(e, chip){
                         if(($('.chips').material_chip('data').length) == 5){
                             $('.input').prop('disabled',true);
@@ -455,7 +456,6 @@ var jobPosts = function() {
         list: function() {
             let id = JSON.parse(employer.check_access())[0], content = "", chip = "", skills = "";
             let data = JSON.parse(jobPosts.get(id));
-            console.log(data);
             $.each(data, function(i, v) {
                 let status = (v[1] == 1)?'Active':'Inactive';
                 skills = JSON.parse(v[4]);
