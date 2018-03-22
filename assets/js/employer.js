@@ -412,7 +412,7 @@ var jobPosts = function() {
                         rules: {
                             field_title: { required: true },
                             field_skills: { required: true },
-                            field_salary: { required: true, maxlength: 6 },
+                            field_salary: { required: true, maxlength: 6},
                             field_date: { required: true },
                             field_description1: { required: true, minlength: 100, maxlength:450 },
                             field_description2: { required: true, minlength: 100},
@@ -438,7 +438,6 @@ var jobPosts = function() {
                             }
                             var ajax = system.ajax('../assets/harmony/Process.php?do-postJob', [user[0], user[0][1], _form[0]['value'], _form[1]['value'], _form[2]['value'], _form[3]['value'], description2, skillsArray]);
                             ajax.done(function(ajax) {
-                                console.log(ajax);
                                 if (ajax == 1) {
                                     $('#modal_medium').modal('close');
                                     system.alert('Posted.', function() {});
@@ -1001,134 +1000,9 @@ var jobPosts = function() {
                         }
                     });
                 }
-
             });
         },
-        // Full: function() {
-        //     $("a[data-cmd='fullPost']").on('click', function() {
-        //         console.log('deactivaded');
-        //         var data = $(this).data();
-        //         var id = data.node;
-        //         // console.log(id);
-        //         var data = system.xml("pages.xml");
-        //         $(data.responseText).find("moveToPending").each(function(i, content) {
-        //             $("#modal_medium .modal-content").html(content);
-        //             $('#modal_medium').modal('open');
-        //             $("#form_pending").validate({
-        //                 rules: {
-
-        //                 },
-        //                 errorElement: 'div',
-        //                 errorPlacement: function(error, element) {
-        //                     var placement = $(element).data('error');
-        //                     if (placement) {
-        //                         $(placement).append(error)
-        //                     } else {
-        //                         error.insertAfter(element);
-        //                     }
-        //                 },
-        //                 submitHandler: function(form) {
-        //                     var _form = $(form).serializeArray();
-        //                     var ajax = system.ajax('../assets/harmony/Process.php?set-pending', id);
-        //                     ajax.done(function(ajax) {
-        //                         if (ajax == 1) {
-        //                             $('#modal_medium').modal('close');
-        //                             system.alert('Posted.', function() {});
-        //                             location.reload();
-        //                         } else {
-        //                             system.alert('Failed to post.', function() {});
-        //                         }
-        //                     });
-        //                 }
-        //             });
-        //         });
-        //     });
-        // },
-        // Pending: function() {
-        //     $("a[data-cmd='pendingPost']").on('click', function() {
-        //         console.log('pending');
-        //         var data = $(this).data();
-        //         var id = data.node;
-        //         // console.log(id);
-        //         var data = system.xml("pages.xml");
-        //         $(data.responseText).find("moveToActive").each(function(i, content) {
-        //             $("#modal_medium .modal-content").html(content);
-        //             $('#modal_medium').modal('open');
-        //             $("#form_active").validate({
-        //                 rules: {
-
-        //                 },
-        //                 errorElement: 'div',
-        //                 errorPlacement: function(error, element) {
-        //                     var placement = $(element).data('error');
-        //                     if (placement) {
-        //                         $(placement).append(error)
-        //                     } else {
-        //                         error.insertAfter(element);
-        //                     }
-        //                 },
-        //                 submitHandler: function(form) {
-        //                     var _form = $(form).serializeArray();
-        //                     var ajax = system.ajax('../assets/harmony/Process.php?set-active', id);
-        //                     ajax.done(function(ajax) {
-        //                         console.log(ajax);
-        //                         if (ajax == 1) {
-        //                             $('#modal_medium').modal('close');
-        //                             system.alert('Posted.', function() {});
-        //                             location.reload();
-        //                         } else {
-        //                             system.alert('Failed to post.', function() {});
-        //                         }
-        //                     });
-        //                 }
-        //             });
-        //         });
-
-        //     });
-        // },
-        // activate: function() {
-        //     $("a[data-cmd='activatePost']").on('click', function() {
-        //         console.log('activate');
-        //         var data = $(this).data();
-        //         var id = data.node;
-        //         // console.log(id);
-        //         var data = system.xml("pages.xml");
-        //         $(data.responseText).find("moveToFull").each(function(i, content) {
-        //             $("#modal_medium .modal-content").html(content);
-        //             $('#modal_medium').modal('open');
-        //             $("#form_full").validate({
-        //                 rules: {
-
-        //                 },
-        //                 errorElement: 'div',
-        //                 errorPlacement: function(error, element) {
-        //                     var placement = $(element).data('error');
-        //                     if (placement) {
-        //                         $(placement).append(error)
-        //                     } else {
-        //                         error.insertAfter(element);
-        //                     }
-        //                 },
-        //                 submitHandler: function(form) {
-        //                     var _form = $(form).serializeArray();
-        //                     var ajax = system.ajax('../assets/harmony/Process.php?set-full', id);
-        //                     ajax.done(function(ajax) {
-        //                         console.log(ajax);
-        //                         if (ajax == 1) {
-        //                             $('#modal_medium').modal('close');
-        //                             system.alert('Posted.', function() {});
-        //                             location.reload();
-        //                         } else {
-        //                             system.alert('Failed to post.', function() {});
-        //                         }
-        //                     });
-        //                 }
-        //             });
-        //         });
-
-        //     });
-        // },
-    } //end
+    }
 }();
 
 var pass = {
