@@ -117,7 +117,7 @@ $Functions = new DatabaseClasses;
         print_r(json_encode($q_s));
     }
 
-    if (isset($_GET['get-jobs1'])){/**/
+    if (isset($_GET['get-jobs'])){/**/
         $data = $_POST['data'];
         $s  = "";
         $min = $data[1];
@@ -128,6 +128,12 @@ $Functions = new DatabaseClasses;
         $q_s = $Functions->PDO("SELECT a.id, a.employer_id, a.business_id, a.short_description, a.vacancy_date, a.job_title, a.skills, a.salary_range, b.company_name, b.image, b.address, b.email, MATCH(a.skills) AGAINST ('{$s}' IN BOOLEAN MODE) * 10 as rel_skills, MATCH(a.job_title) AGAINST ('{$s}' IN BOOLEAN MODE) * 5 as rel_job FROM tbl_vacancies a LEFT JOIN tbl_business b ON b.id = a.business_id WHERE a.status = 1 ORDER BY (rel_skills)+(rel_job) DESC LIMIT {$min},{$count};");
 
         print_r(json_encode($q_s));
+    }
+
+    if (isset($_GET['get-jobById'])){/**/
+        $data = $_POST['data'];
+        $query = $Functions->PDO("SELECT a.job_title, a.vacancy_date, a.skills, a.salary_range, a.description, a.date, b.company_name, b.address, b.image FROM tbl_vacancies a LEFT JOIN tbl_business b ON a.business_id = b.id WHERE a.id = '{$data}'");
+        print_r(json_encode($query));
     }
 
     if (isset($_GET['do-signUp'])){/**/
@@ -360,14 +366,42 @@ $Functions = new DatabaseClasses;
         }
     }
 
-    if (isset($_GET['get-jobsByID'])){/**/
+    if (isset($_GET['do-jobApply'])){
         $data = $_POST['data'];
-        $s  = "";
-        $min = $data[1];
-        $count = ($data[2] == "all")?$Functions->PDO("SELECT COUNT(*) FROM tbl_logs"):$data[2];
-        $q_skill = $Functions->PDO("SELECT skill FROM tbl_skills WHERE applicant_id = '{$data[0]}' ORDER BY `date`");
-        foreach ($q_skill as $i => $v){$s .= "{$v[0]} ";}
-        $q_s = $Functions->PDO("SELECT a.id, a.employer_id, a.business_id, a.short_description, a.description, a.vacancy_date, a.job_title, a.skills, a.salary_range, b.company_name, b.image, b.address, b.email, MATCH(a.skills) AGAINST ('{$s}' IN BOOLEAN MODE) * 10 as rel_skills, MATCH(a.job_title) AGAINST ('{$s}' IN BOOLEAN MODE) * 5 as rel_job FROM tbl_vacancies a LEFT JOIN tbl_business b ON b.id = a.business_id WHERE a.status = 1 AND MATCH (a.skills, a.job_title) AGAINST ('{$s}' IN BOOLEAN MODE) ORDER BY (rel_skills)+(rel_job) DESC LIMIT {$min},{$count};");
-        print_r(json_encode($q_s));
+        $date = $Functions->PDO_DateAndTime();
+        $id = $Functions->PDO_IDGenerator('tbl_application','id');
+        $q = $Functions->PDO("SELECT * FROM tbl_application WHERE vacancy_id = '{$data[0]}' AND applicant_id = '{$data[1]}';");
+        if(count($q)<1){
+            $query = $Functions->PDO("INSERT INTO tbl_application(id,vacancy_id,applicant_id,date,status) VALUES('{$id}','{$data[0]}','{$data[1]}','{$date}','1');");
+            if($query->execute()){
+                print_r(1);
+            }
+            else{
+                print_r(0);
+            }
+        }
+        else{
+            print_r(2);
+        }
+    }
+
+    if (isset($_GET['do-jobBookmark'])){
+        $data = $_POST['data'];
+        $id = $Functions->PDO_IDGenerator('tbl_bookmark','id');
+        $date = $Functions->PDO_DateAndTime();
+
+        $q = $Functions->PDO("SELECT * FROM tbl_bookmark WHERE vacancy_id = '{$data[0]}' AND applicant_id = '{$data[1]}';");
+        if(count($q)<1){
+            $query = $Functions->PDO("INSERT INTO tbl_bookmark(id,vacancy_id,applicant_id,date,status) VALUES('{$id}','{$data[0]}','{$data[1]}','{$date}','1');");
+            if($query->execute()){
+                print_r(1);
+            }
+            else{
+                print_r(0);
+            }
+        }
+        else{
+            print_r(2);
+        }
     }
 ?> 
