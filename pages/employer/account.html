@@ -1,9 +1,33 @@
 <div class="row margin">
-	<div class='col s12 m8 l6 offset-m2 offset-l3 '>
-		<div id="display_employer"></div>
-	</div>
+    <div class='col s12 m8 l8 offset-l2 offset-m2' id='display_business'>
+        <div class="card">
+            <div class="card-content">
+                <div class="row" id='businessInfo'>
+                </div>
+                <div class="row" id='businessAccounts'>
+                    <div class="divider"></div>
+                    <h5>Account Manager</h5>
+                    <div class="row">
+                        <div class="carousel">
+                            <div class="carousel-item teal lighten-2">
+                                <div class="card">
+                                    <div class="card-content">
+                                        <a data-cmd='addAccount' data-prop='Password' class='tooltipped btn-floating waves-effect black-text no-shadow grey lighten-4' data-position='bottom' data-delay='50' data-tooltip='Add account'>
+                                            <i class='material-icons black-text'>add</i>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>                            
+                </div>
+            </div>
+        </div>
+    </div>
+	<div class='col s12 m8 l8 offset-l2 offset-m2' id="display_employer"></div>
 </div>
 <script type="text/javascript">
 	employer.ini();
+	business.ini();
     $('.tooltipped').tooltip({delay: 50});
 </script>
