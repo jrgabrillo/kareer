@@ -400,8 +400,8 @@ ALTER TABLE `tbl_application`
 --
 -- Constraints for table `tbl_bookmark`
 --
-ALTER TABLE `tbl_bookmark`
-  ADD CONSTRAINT `tbl_bookmark_ibfk_1` FOREIGN KEY (`applicant_id`) REFERENCES `tbl_applicant` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+-- ALTER TABLE `tbl_bookmark`
+--   ADD CONSTRAINT `tbl_bookmark_ibfk_1` FOREIGN KEY (`applicant_id`) REFERENCES `tbl_applicant` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `tbl_businessmanagers`
