@@ -122,6 +122,7 @@
 		$query = $Functions->PDO("SELECT * FROM tbl_businessmanagers  WHERE id = '{$session[0]}'");
 		if(count($query)==0){
 			$query = $Functions->PDO("SELECT * FROM tbl_businessmanagers  WHERE id = '{$session[0]}'");
+			print_r("SELECT * FROM tbl_businessmanagers  WHERE id = '{$session[0]}'");
 			if(count($query)==0){
 				echo 0;
 			}

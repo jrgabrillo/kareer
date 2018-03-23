@@ -22,6 +22,7 @@ var employer = function() {
         },
         nav: function() {
             var content = "", data = employer.get();
+
             data = JSON.parse(data);
             var profile = (data[0][5] == null) ? 'avatar.png' : data[0][5];
             $("#user-account img.profile-image").attr({ "src": `../assets/images/profile/${profile}`});
@@ -29,6 +30,7 @@ var employer = function() {
         },
         get: function() {
             let ajax = system.ajax('../assets/harmony/Process.php?get-accountBusinessManager', "");
+            console.log(ajax.responseText);
             return ajax.responseText;
         },
         display: function() {

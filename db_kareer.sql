@@ -185,7 +185,7 @@ INSERT INTO `tbl_bookmark` (`id`, `vacancy_id`, `applicant_id`, `date`, `status`
 
 DROP TABLE IF EXISTS `tbl_business`;
 CREATE TABLE IF NOT EXISTS `tbl_business` (
-  `business_id` varchar(70) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `id` varchar(70) COLLATE utf8mb4_unicode_ci NOT NULL,
   `address` varchar(300) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `contact_number` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `company_name` varchar(300) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
