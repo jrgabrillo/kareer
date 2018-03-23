@@ -388,9 +388,9 @@ li.active{
 }
 #user-account .profile-image{
   width: 80px;
-  margin: 50px 0px 0px 0px;
+  /* margin: 50px 0px 0px 0px; */
   position:  relative;
-  border: 2px solid #fff;
+  /* border: 2px solid #fff; */
 }
 #user-account .divider{
   width:80%;
@@ -523,12 +523,14 @@ th, td{
 }
 
 #businessInfo img.businesslogo{
-  
-border: 1px solid #ccc;
-  
-border-radius:  3px;
+  border: 1px solid #ccc;    
+  border-radius:  3px;
 }
 
 #applicantInfo table tbody tr td:nth-child(1){
   font-weight: bold;
+}
+
+#job table tr td ul, #job table tr td ul li{
+  list-style-type: unset;
 }

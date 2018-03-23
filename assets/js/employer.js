@@ -364,6 +364,432 @@ var employer = function() {
     };
 }();
 
+var business = function(){
+    "use strict";
+    return {
+        ini:function(){
+            business.list();
+            business.add();
+        },
+        id:function(){
+            return ((window.location.hash).split(';')[2]).split('=')[1];
+        },
+        get:function(id){
+            var ajax = (!id)?system.ajax('../assets/harmony/Process.php?get-businessList',""):system.ajax('../assets/harmony/Process.php?get-businessInfo',id);
+            return ajax.responseText;
+        },
+        add:function(){
+            var data = system.xml("pages.xml");
+            $(data.responseText).find("addBusiness").each(function(i,content){
+                $("#modal_medium .modal-content").html(content);
+                $(".action_addBusiness").on('click',function(){
+                    $('#modal_medium').modal('open');
+                    $("#form_addBusiness").validate({
+                        rules: {
+                            field_name: {required: true, maxlength: 300},
+                            field_phone: {required: true, maxlength: 20},
+                            field_email: {required: true, maxlength: 100,email:true},
+                            field_address: {required: true, maxlength: 300},
+                        },
+                        errorElement : 'div',
+                        errorPlacement: function(error, element) {
+                            var placement = $(element).data('error');
+                            if(placement){
+                                $(placement).append(error)
+                            } 
+                            else{
+                                error.insertAfter(element);
+                            }
+                        },
+                        submitHandler: function (form) {
+                            var user = JSON.parse(admin.check_access());
+                            var _form = $(form).serializeArray();
+                            var ajax = system.ajax('../assets/harmony/Process.php?do-addBusiness',[user[0],_form[0]['value'],_form[1]['value'],_form[2]['value'],_form[3]['value']]);
+                            ajax.done(function(ajax){
+                                console.log(ajax);
+                                if(ajax == 1){  
+                                    $('#modal_medium').modal('close');  
+                                    system.alert('Business has been added.', function(){});
+                                    location.reload();
+                                }
+                                else{
+                                    system.alert('Failed to add business.', function(){});
+                                }
+                            });
+                        }
+                    });
+                });
+            });
+        },
+        list:function(){
+            let data = JSON.parse(business.get(false));
+            if(data.length>0){
+                $("#display_business").removeClass('hidden');
+                $("#display_nobusiness").addClass('hidden');
+            }
+            else{
+                $("#display_business").addClass('hidden');
+                $("#display_nobusiness").removeClass('hidden');
+            }
+
+            $.each(data,function(i,v){
+                let logo = ((typeof v[5] == 'object') || (v[5] == ""))? 'icon.png' : v[5];
+                $("#display_business table tbody").append(`
+                    <tr>
+                        <td><img src="../assets/images/logo/${logo}" width='30px' id='img-${v[0]}'></td>
+                        <td>${v[3]}</td>
+                        <td>
+                            <a href='#cmd=index;content=focusbusiness;id=${v[0]}' data-cmd='view_business' data-value='${v[0]}' class='tooltipped btn-floating waves-effect black-text no-shadow white right' data-position='left' data-delay='50' data-tooltip='View Business'>
+                                <i class='material-icons right hover black-text'>more_vert</i>
+                            </a>
+                        </td>
+                    </tr>
+                `);
+
+                $(`img#img-${v[0]}`).on('error',function(){
+                    $(this).attr({'src':'../assets/images/logo/icon.png'});
+                });
+            })
+        },
+        view:function(){
+            let data = JSON.parse(business.get(business.id()));
+            let logo = ((typeof data[0][5] == 'object') || (data[0][5] == ""))? 'icon.png' : data[0][5];
+            $("#businessInfo").html(`
+                <div class='col s12 m4 l3'>
+                    <img src='../assets/images/logo/${logo}' width='100%' class='businesslogo'>
+                    <a class="secondary-content tooltipped" data-prop='business logo' data-cmd='updateAdminPicture' data-position='left' data-delay='50' data-tooltip='Update'><i class="material-icons hover black-text">photo_camera</i></a>
+                </div>
+                <div class='col s12 m8 l9'>
+                    <ul class='collection' id='display_businessInfo'>
+                        <li class='collection-item'>
+                            <a class="secondary-content tooltipped" data-prop='business name' data-cmd='update_business' data-value='${data[0][3]}' data-position='left' data-delay='50' data-tooltip='Update'><i class="material-icons hover black-text">edit</i></a>
+                            <strong>Business Name:</strong>
+                            <div class='_content'>${data[0][3]}</div>
+                        </li>
+                        <li class='collection-item'>
+                            <a class="secondary-content tooltipped" data-prop='contact number' data-cmd='update_business' data-value='${data[0][2]}' data-position='left' data-delay='50' data-tooltip='Update'><i class="material-icons hover black-text">edit</i></a>
+                            <strong>Contact Number:</strong><br/>
+                            <div class='_content'>${data[0][2]}</div>
+                        </li>
+                        <li class='collection-item'>
+                            <a class="secondary-content tooltipped" data-prop='email' data-cmd='update_business' data-value='${data[0][6]}' data-position='left' data-delay='50' data-tooltip='Update'><i class="material-icons hover black-text">edit</i></a>
+                            <strong>Email Address:</strong>
+                            <div class='_content'>${data[0][6]}</div>
+                        </li>
+                        <li class='collection-item'>
+                            <a class="secondary-content tooltipped" data-prop='description' data-cmd='update_business' data-value='${data[0][4]}' data-position='left' data-delay='50' data-tooltip='Update'><i class="material-icons hover black-text">edit</i></a>
+                            <strong>Description:</strong>
+                            <div class='_content'>${data[0][4]}</div>
+                        </li>
+                    </ul>
+                </div>                  
+            `); 
+            $(`#businessInfo img.businesslogo`).on('error',function(){
+                $(this).attr({'src':'../assets/images/logo/icon.png'});
+            });
+            business.update();
+            business.updatePicture();
+        },
+        update:function(){
+            $("a[data-cmd='update_business']").on('click',function(){
+                let _this = this, data = $(this).data();
+                // $('#modal_confirm .modal-footer').remove();          
+                // $('#modal_confirm .modal-footer').remove();          
+                // $('#modal_confirm, #modal_medium').removeClass("modal-fixed-footer");            
+                if(data.prop == "business name"){
+                    var content = `<h5>Change ${data.prop}</h5>
+                                    <form id='form_update' class='formValidate' method='get' action='' novalidate='novalidate'>
+                                        <label for='field_name' class='active'>Business Name: </label>
+                                        <input id='field_name' value='${data.value}' type='text' name='field_name' data-error='.error_name'>
+                                        <div class='error_name'></div>
+                                        <button type='submit' data-cmd='button_proceed' class='waves-effect waves-grey grey lighten-5 blue-text btn-flat modal-action right'>Save</button>
+                                        <a class='waves-effect waves-grey grey-text btn-flat modal-action modal-close right'>Cancel</a>
+                                    </form>`;
+                    $("#modal_confirm .modal-content").html(content);
+                    $('#modal_confirm').modal('open');
+                    $("#form_update").validate({
+                        rules: {
+                            field_name: {required: true,maxlength: 300},
+                        },
+                        errorElement : 'div',
+                        errorPlacement: function(error, element) {
+                            var placement = $(element).data('error');
+                            if(placement)
+                                $(placement).append(error)
+                            else
+                                error.insertAfter(element);
+                        },
+                        submitHandler: function (form) {
+                            let user = JSON.parse(admin.check_access());
+                            var _form = $(form).serializeArray();
+                            if(data.value[0] == _form[0]['value']){
+                                system.alert('You did not even change the value.', function(){});
+                            }
+                            else{
+                                var ajax = system.ajax('../assets/harmony/Process.php?do-updateInfo',[user[0],'business','name',business.id(),_form[0]['value']]);
+                                ajax.done(function(ajax){
+                                    if(ajax == 1){
+                                        $('#modal_confirm').modal('close');
+                                        $(`#display_businessInfo li:nth-child(1) div._content`).html(_form[0]['value']);
+                                        $(_this).attr({'data-value':_form[0]['value'], 'data-name':`${_form[0]['value']}`});
+                                        system.alert('Name updated.', function(){});
+                                    }
+                                    else{
+                                        system.alert('Failed to update.', function(){});
+                                    }
+                                });
+                            }
+                        }
+                    }); 
+                }           
+                else if(data.prop == "contact number"){
+
+                    var content = `<h5>Change ${data.prop}</h5>
+                                    <form id='form_update' class='formValidate' method='get' action='' novalidate='novalidate'>
+                                        <label for='field_number' class='active'>Business Name: </label>
+                                        <input id='field_number' value='${data.value}' type='text' name='field_number' data-error='.error_number'>
+                                        <div class='error_number'></div>
+                                        <button type='submit' data-cmd='button_proceed' class='waves-effect waves-grey grey lighten-5 blue-text btn-flat modal-action right'>Save</button>
+                                        <a class='waves-effect waves-grey grey-text btn-flat modal-action modal-close right'>Cancel</a>
+                                    </form>`;
+                    $("#modal_confirm .modal-content").html(content);
+                    $('#modal_confirm').modal('open');
+                    $("#form_update").validate({
+                        rules: {
+                            field_number: {required: true, maxlength: 300},
+                        },
+                        errorElement : 'div',
+                        errorPlacement: function(error, element) {
+                            var placement = $(element).data('error');
+                            if(placement)
+                                $(placement).append(error)
+                            else
+                                error.insertAfter(element);
+                        },
+                        submitHandler: function (form) {
+                            let user = JSON.parse(admin.check_access());
+                            var _form = $(form).serializeArray();
+                            if(data.value[0] == _form[0]['value']){
+                                system.alert('You did not even change the value.', function(){});
+                            }
+                            else{
+                                var ajax = system.ajax('../assets/harmony/Process.php?do-updateInfo',[user[0],'business','number',business.id(),_form[0]['value']]);
+                                ajax.done(function(ajax){
+                                    if(ajax == 1){
+                                        $('#modal_confirm').modal('close');
+                                        $(`#display_businessInfo li:nth-child(2) div._content`).html(_form[0]['value']);
+                                        $(_this).attr({'data-value':_form[0]['value'], 'data-name':`${_form[0]['value']}`});
+                                        system.alert('Contact number updated.', function(){});
+                                    }
+                                    else{
+                                        system.alert('Failed to update.', function(){});
+                                    }
+                                });
+                            }
+                        }
+                    }); 
+                }           
+                else if(data.prop == "email"){
+                    var content = `<h5>Change ${data.prop}</h5>
+                                    <form id='form_update' class='formValidate' method='get' action='' novalidate='novalidate'>
+                                        <label for='field_email' class='active'>Business Name: </label>
+                                        <input id='field_email' value='${data.value}' type='text' name='field_email' data-error='.error_email'>
+                                        <div class='error_email'></div>
+                                        <button type='submit' data-cmd='button_proceed' class='waves-effect waves-grey grey lighten-5 blue-text btn-flat modal-action right'>Save</button>
+                                        <a class='waves-effect waves-grey grey-text btn-flat modal-action modal-close right'>Cancel</a>
+                                    </form>`;
+                    $("#modal_confirm .modal-content").html(content);
+                    $('#modal_confirm').modal('open');
+                    $("#form_update").validate({
+                        rules: {
+                            field_email: {required: true, maxlength: 300, email:true,validateEmail:true},
+                        },
+                        errorElement : 'div',
+                        errorPlacement: function(error, element) {
+                            var placement = $(element).data('error');
+                            if(placement)
+                                $(placement).append(error)
+                            else
+                                error.insertAfter(element);
+                        },
+                        submitHandler: function (form) {
+                            let user = JSON.parse(admin.check_access());
+                            var _form = $(form).serializeArray();
+                            if(data.value[0] == _form[0]['value']){
+                                system.alert('You did not even change the value.', function(){});
+                            }
+                            else{
+                                var ajax = system.ajax('../assets/harmony/Process.php?do-updateInfo',[user[0],'business','email',business.id(),_form[0]['value']]);
+                                ajax.done(function(ajax){
+                                    if(ajax == 1){
+                                        $('#modal_confirm').modal('close');
+                                        $(`#display_businessInfo li:nth-child(3) div._content`).html(_form[0]['value']);
+                                        $(_this).attr({'data-value':_form[0]['value'], 'data-name':`${_form[0]['value']}`});
+                                        system.alert('Email updated.', function(){});
+                                    }
+                                    else{
+                                        system.alert('Failed to update.', function(){});
+                                    }
+                                });
+                            }
+                        }
+                    }); 
+                }
+                else if(data.prop == "description"){
+                    var content = `<h4>Change ${data.prop}</h4>
+                                  <form id='form_update' class='formValidate' method='get' action='' novalidate='novalidate'>
+                                        <label for='field_price'>${data.prop}: </label>
+                                        <div id='field_description'></div>
+                                        <div id='display_errorDescription'></div>
+                                        <button type='submit' data-cmd='button_proceed' class='waves-effect waves-grey grey lighten-5 blue-text btn-flat modal-action right'>Save</button>
+                                        <a class='waves-effect waves-grey grey-text btn-flat modal-action modal-close right'>Cancel</a>
+                                  </form>`;
+                    $("#modal_medium .modal-content").html(content);
+                    $('#modal_medium').modal('open');
+
+                    let editor = system.quill($('#field_description').get(0));
+                    editor.clipboard.dangerouslyPasteHTML(data.value);
+                    var limit = 1000;
+                    editor.on('text-change', function(delta, old, source) {
+                        if (editor.getLength() > limit) {
+                            editor.deleteText(limit, editor.getLength());
+                            $("#field_description").attr({"style":"box-shadow:0px 1px 1px red"});
+                            $("#display_errorDescription").html("You have reached max input allowed.");
+                        }
+                        else{
+                            $("#field_description").attr({"style":"box-shadow:0px 1px 1px green"});
+                            $("#display_errorDescription").html("");
+                        }
+                    });
+                    $("#form_update").validate({
+                        submitHandler: function (form) {
+                            let user = JSON.parse(admin.check_access());
+                            let _form = editor.root.innerHTML;
+                            if(data[2] == _form){
+                                system.alert('You did not even change the product name.', function(){});
+                            }
+                            else{
+                                var ajax = system.ajax('../assets/harmony/Process.php?do-updateInfo',[user[0],'business','description',business.id(),_form]);
+                                ajax.done(function(ajax){
+                                    if(ajax == 1){
+                                        $('#modal_medium').modal('close');
+                                        $(`#display_businessInfo li:nth-child(4) div._content`).html(`${_form}`);
+                                        $(_this).attr({'data-value':_form, 'data-name':`${_form}`});
+                                        system.alert('Description is updated.', function(){});
+                                    }
+                                    else{
+                                        system.alert('Failed to update.', function(){});
+                                    }
+                                });
+                            }
+                        }
+                    }); 
+                }
+            });
+        },
+        updatePicture:function(){
+            window.Cropper;
+            $("a[data-cmd='updateAdminPicture']").on('click',function(){
+                var data = $(this).data();
+                console.log(data);
+                var picture = "../assets/images/profile/avatar.png";
+                var content = `<h4>Change ${data.prop}</h4>
+                                <div class='row'>
+                                    <div class='col s12'>
+                                        <div id='profile_picture2' class='ibox-content no-padding border-left-right '></div>
+                                    </div>
+                                </div>`;
+                $("#modal_confirm .modal-content").html(content);
+                $('#modal_confirm').removeClass('modal-fixed-footer');          
+                $('#modal_confirm .modal-footer').remove();         
+                $('#modal_confirm').modal('open');
+
+                var content =   `<div class='image-crop col s12' style='margin-bottom:5px;'>
+                                    <img width='100%' src='${picture}' id='change_picture'>
+                                </div>
+                                <div class='btn-group col s12'>
+                                    <label for='inputImage' class='btn blue btn-floating btn-flat tooltipped' data-tooltip='Load image' data-position='top'>
+                                        <input type='file' accept='image/*' name='file' id='inputImage' class='hide'>
+                                        <i class='material-icons right hover white-text'>portrait</i>
+                                    </label>
+                                    <button class='btn blue btn-floating btn-flat tooltipped' data-cmd='cancel' type='button' data-tooltip='Cancel' data-position='top'>
+                                        <i class='material-icons right hover white-text'>close</i>
+                                    </button>
+                                    <button class='btn blue btn-flat hidden right white-text' data-cmd='save' type='button'>Save</button>
+                                </div>`;
+                $("#profile_picture2").html(content);
+                $('.tooltipped').tooltip({delay: 50});
+
+                var $inputImage = $("#inputImage");
+                var status = true;
+                if(window.FileReader){
+                    $inputImage.change(function(e) {
+                        var fileReader = new FileReader(),
+                                files = this.files,
+                                file;
+                        file = files[0];
+
+                        if (/^image\/\w+$/.test(file.type)) {
+                            fileReader.readAsDataURL(file);
+                            fileReader.onload = function (e) {
+                                $inputImage.val("");
+                                $("button[data-cmd='save']").html("Save").removeClass('disabled');
+                                $('#change_picture').attr('src', e.target.result);
+                                var image = document.getElementById('change_picture');
+                                var cropper = new Cropper(image,{
+                                    aspectRatio: 1/1,
+                                    autoCropArea: 0.80,
+                                    ready:function(){
+                                        $("button[data-cmd='save']").removeClass('hidden');
+                                        $("button[data-cmd='rotate']").removeClass('hidden');
+                                        
+                                        $("button[data-cmd='save']").click(function(){
+                                            $(this).html("Uploading...").addClass('disabled');
+                                            if(status){
+                                                status = false;
+                                                var data = system.ajax('../assets/harmony/Process.php?do-updateImage',['business','picture',business.id(),cropper.getCroppedCanvas().toDataURL('image/png')]);
+                                                data.done(function(data){
+                                                    if(data == 1){
+                                                        $('#modal_confirm').modal('close');
+                                                        $(`#businessInfo img.businesslogo`).attr('src', cropper.getCroppedCanvas().toDataURL('image/png'));
+                                                        system.alert('Profile picture has been updated.', function(){});
+                                                    }
+                                                    else{
+                                                        status = true;
+                                                        $(this).html("Save").removeClass('disabled');
+                                                        system.alert('Failed to upload your picture.', function(){});
+                                                    }
+                                                });
+                                            }
+                                        });
+                                    }
+                                });
+
+                                // image.cropper("reset", true).cropper("replace", this.result);
+
+                              //   $("button[data-cmd='rotate']").click(function(){
+                              //    var data = $(this).data('option');
+                                    // $image.cropper('rotate', data);
+                              //   });
+
+                            };
+                        }
+                        else{
+                            showMessage("Please choose an image file.");
+                        }
+                    });
+                }
+                else{
+                    $inputImage.addClass("hide");
+                }               
+                $("button[data-cmd='cancel']").click(function(){
+                    $('#modal_confirm').modal('close'); 
+                });
+            });
+        },
+    }
+}();
+
 var jobPosts = function() {
     "use strict";
     return {
@@ -412,7 +838,7 @@ var jobPosts = function() {
                         rules: {
                             field_title: { required: true },
                             field_skills: { required: true },
-                            field_salary: { required: true, maxlength: 6 },
+                            field_salary: { required: true, maxlength: 6},
                             field_date: { required: true },
                             field_description1: { required: true, minlength: 100, maxlength:450 },
                             field_description2: { required: true, minlength: 100},
@@ -438,7 +864,6 @@ var jobPosts = function() {
                             }
                             var ajax = system.ajax('../assets/harmony/Process.php?do-postJob', [user[0], user[0][1], _form[0]['value'], _form[1]['value'], _form[2]['value'], _form[3]['value'], description2, skillsArray]);
                             ajax.done(function(ajax) {
-                                console.log(ajax);
                                 if (ajax == 1) {
                                     $('#modal_medium').modal('close');
                                     system.alert('Posted.', function() {});
@@ -1001,134 +1426,9 @@ var jobPosts = function() {
                         }
                     });
                 }
-
             });
         },
-        // Full: function() {
-        //     $("a[data-cmd='fullPost']").on('click', function() {
-        //         console.log('deactivaded');
-        //         var data = $(this).data();
-        //         var id = data.node;
-        //         // console.log(id);
-        //         var data = system.xml("pages.xml");
-        //         $(data.responseText).find("moveToPending").each(function(i, content) {
-        //             $("#modal_medium .modal-content").html(content);
-        //             $('#modal_medium').modal('open');
-        //             $("#form_pending").validate({
-        //                 rules: {
-
-        //                 },
-        //                 errorElement: 'div',
-        //                 errorPlacement: function(error, element) {
-        //                     var placement = $(element).data('error');
-        //                     if (placement) {
-        //                         $(placement).append(error)
-        //                     } else {
-        //                         error.insertAfter(element);
-        //                     }
-        //                 },
-        //                 submitHandler: function(form) {
-        //                     var _form = $(form).serializeArray();
-        //                     var ajax = system.ajax('../assets/harmony/Process.php?set-pending', id);
-        //                     ajax.done(function(ajax) {
-        //                         if (ajax == 1) {
-        //                             $('#modal_medium').modal('close');
-        //                             system.alert('Posted.', function() {});
-        //                             location.reload();
-        //                         } else {
-        //                             system.alert('Failed to post.', function() {});
-        //                         }
-        //                     });
-        //                 }
-        //             });
-        //         });
-        //     });
-        // },
-        // Pending: function() {
-        //     $("a[data-cmd='pendingPost']").on('click', function() {
-        //         console.log('pending');
-        //         var data = $(this).data();
-        //         var id = data.node;
-        //         // console.log(id);
-        //         var data = system.xml("pages.xml");
-        //         $(data.responseText).find("moveToActive").each(function(i, content) {
-        //             $("#modal_medium .modal-content").html(content);
-        //             $('#modal_medium').modal('open');
-        //             $("#form_active").validate({
-        //                 rules: {
-
-        //                 },
-        //                 errorElement: 'div',
-        //                 errorPlacement: function(error, element) {
-        //                     var placement = $(element).data('error');
-        //                     if (placement) {
-        //                         $(placement).append(error)
-        //                     } else {
-        //                         error.insertAfter(element);
-        //                     }
-        //                 },
-        //                 submitHandler: function(form) {
-        //                     var _form = $(form).serializeArray();
-        //                     var ajax = system.ajax('../assets/harmony/Process.php?set-active', id);
-        //                     ajax.done(function(ajax) {
-        //                         console.log(ajax);
-        //                         if (ajax == 1) {
-        //                             $('#modal_medium').modal('close');
-        //                             system.alert('Posted.', function() {});
-        //                             location.reload();
-        //                         } else {
-        //                             system.alert('Failed to post.', function() {});
-        //                         }
-        //                     });
-        //                 }
-        //             });
-        //         });
-
-        //     });
-        // },
-        // activate: function() {
-        //     $("a[data-cmd='activatePost']").on('click', function() {
-        //         console.log('activate');
-        //         var data = $(this).data();
-        //         var id = data.node;
-        //         // console.log(id);
-        //         var data = system.xml("pages.xml");
-        //         $(data.responseText).find("moveToFull").each(function(i, content) {
-        //             $("#modal_medium .modal-content").html(content);
-        //             $('#modal_medium').modal('open');
-        //             $("#form_full").validate({
-        //                 rules: {
-
-        //                 },
-        //                 errorElement: 'div',
-        //                 errorPlacement: function(error, element) {
-        //                     var placement = $(element).data('error');
-        //                     if (placement) {
-        //                         $(placement).append(error)
-        //                     } else {
-        //                         error.insertAfter(element);
-        //                     }
-        //                 },
-        //                 submitHandler: function(form) {
-        //                     var _form = $(form).serializeArray();
-        //                     var ajax = system.ajax('../assets/harmony/Process.php?set-full', id);
-        //                     ajax.done(function(ajax) {
-        //                         console.log(ajax);
-        //                         if (ajax == 1) {
-        //                             $('#modal_medium').modal('close');
-        //                             system.alert('Posted.', function() {});
-        //                             location.reload();
-        //                         } else {
-        //                             system.alert('Failed to post.', function() {});
-        //                         }
-        //                     });
-        //                 }
-        //             });
-        //         });
-
-        //     });
-        // },
-    } //end
+    }
 }();
 
 var pass = {
