@@ -856,22 +856,22 @@ var jobPosts = function() {
                             let skillsArray = [];
                             let description2 = editor.root.innerHTML;
                             var _form = $(form).serializeArray();
-                            var user = JSON.parse(employer.check_access());
+                            var user = JSON.parse(employer.get())[0];
                             var chipdata = $('.chips').material_chip('data');
                             for (var skills in chipdata) {
                                 skillsArray.push(chipdata[skills]['tag']);
                             }
-                            var ajax = system.ajax('../assets/harmony/Process.php?do-postJob', [user[0], user[0][1], _form[0]['value'], _form[1]['value'], _form[2]['value'], _form[3]['value'], description2, skillsArray]);
+                            var ajax = system.ajax('../assets/harmony/Process.php?do-postJob', [user[0], user[1], _form[0]['value'], _form[1]['value'], _form[2]['value'], _form[3]['value'], description2, skillsArray]);
                             ajax.done(function(ajax) {
                                 console.log(ajax);
-                                // if (ajax == 1) {
-                                //     $('#modal_medium').modal('close');
-                                //     system.alert('Posted.', function() {});
-                                //     jobPosts.view();
-                                // }
-                                // else {
-                                //     system.alert('Failed to post.', function() {});
-                                // }
+                                if (ajax == 1) {
+                                    $('#modal_medium').modal('close');
+                                    system.alert('Posted.', function() {});
+                                    jobPosts.view();
+                                }
+                                else {
+                                    system.alert('Failed to post.', function() {});
+                                }
                             });
                         }
                     });
