@@ -1,23 +1,25 @@
 -- phpMyAdmin SQL Dump
--- version 4.1.14
--- http://www.phpmyadmin.net
+-- version 4.7.4
+-- https://www.phpmyadmin.net/
 --
--- Host: 127.0.0.1
--- Generation Time: Mar 22, 2018 at 09:45 AM
--- Server version: 5.6.17
--- PHP Version: 5.5.12
+-- Host: 127.0.0.1:3306
+-- Generation Time: Mar 23, 2018 at 01:42 AM
+-- Server version: 5.7.19
+-- PHP Version: 7.0.23
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+SET AUTOCOMMIT = 0;
+START TRANSACTION;
 SET time_zone = "+00:00";
 
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
 /*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
-/*!40101 SET NAMES utf8 */;
+/*!40101 SET NAMES utf8mb4 */;
 
 --
--- Database: `db_kareer_revised`
+-- Database: `db_kareer`
 --
 
 -- --------------------------------------------------------
@@ -26,16 +28,17 @@ SET time_zone = "+00:00";
 -- Table structure for table `tbl_acadinfo`
 --
 
+DROP TABLE IF EXISTS `tbl_acadinfo`;
 CREATE TABLE IF NOT EXISTS `tbl_acadinfo` (
-  `id` varchar(60) NOT NULL,
-  `applicant_id` varchar(50) NOT NULL,
-  `level` varchar(500) DEFAULT NULL,
-  `schoolattended` varchar(500) DEFAULT NULL,
-  `degree` varchar(500) DEFAULT NULL COMMENT 'BASIC EDUCATION/DEGREE/COURSE',
-  `highestlevel` varchar(500) DEFAULT NULL COMMENT 'HIGHEST LEVEL/UNITS EARNED',
-  `yearenrolled` varchar(10) DEFAULT NULL,
-  `yeargraduated` varchar(10) DEFAULT NULL,
-  `date` varchar(20) DEFAULT NULL,
+  `id` varchar(60) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `applicant_id` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `level` varchar(500) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `schoolattended` varchar(500) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `degree` varchar(500) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT 'BASIC EDUCATION/DEGREE/COURSE',
+  `highestlevel` varchar(500) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT 'HIGHEST LEVEL/UNITS EARNED',
+  `yearenrolled` varchar(10) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `yeargraduated` varchar(10) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `date` varchar(20) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `applicant_id` (`applicant_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -53,13 +56,14 @@ INSERT INTO `tbl_acadinfo` (`id`, `applicant_id`, `level`, `schoolattended`, `de
 -- Table structure for table `tbl_admin`
 --
 
+DROP TABLE IF EXISTS `tbl_admin`;
 CREATE TABLE IF NOT EXISTS `tbl_admin` (
   `id` varchar(50) CHARACTER SET latin1 COLLATE latin1_general_cs NOT NULL,
-  `fname` varchar(20) DEFAULT NULL,
-  `lname` varchar(20) DEFAULT NULL,
-  `image` varchar(60) DEFAULT NULL,
-  `username` varchar(50) DEFAULT NULL,
-  `level` varchar(1) DEFAULT NULL,
+  `fname` varchar(20) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `lname` varchar(20) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `image` varchar(60) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `username` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `level` varchar(1) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `password` varchar(70) CHARACTER SET latin1 COLLATE latin1_general_cs DEFAULT NULL,
   `status` int(11) NOT NULL,
   PRIMARY KEY (`id`)
@@ -78,14 +82,15 @@ INSERT INTO `tbl_admin` (`id`, `fname`, `lname`, `image`, `username`, `level`, `
 -- Table structure for table `tbl_applicant`
 --
 
+DROP TABLE IF EXISTS `tbl_applicant`;
 CREATE TABLE IF NOT EXISTS `tbl_applicant` (
-  `id` varchar(50) NOT NULL,
-  `description` varchar(1000) DEFAULT NULL,
-  `email` varchar(100) DEFAULT NULL,
-  `password` varchar(60) DEFAULT NULL,
-  `auth_type` varchar(20) DEFAULT NULL COMMENT 'fb,google,organic',
-  `auth_id` varchar(100) DEFAULT NULL COMMENT 'account id',
-  `status` varchar(1) DEFAULT NULL,
+  `id` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `description` varchar(1000) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `email` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `password` varchar(60) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `auth_type` varchar(20) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT 'fb,google,organic',
+  `auth_id` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT 'account id',
+  `status` varchar(1) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
@@ -105,12 +110,13 @@ INSERT INTO `tbl_applicant` (`id`, `description`, `email`, `password`, `auth_typ
 -- Table structure for table `tbl_application`
 --
 
+DROP TABLE IF EXISTS `tbl_application`;
 CREATE TABLE IF NOT EXISTS `tbl_application` (
-  `id` varchar(50) NOT NULL,
-  `vacancy_id` varchar(50) DEFAULT NULL,
-  `applicant_id` varchar(50) NOT NULL,
-  `date` varchar(20) DEFAULT NULL,
-  `status` varchar(1) DEFAULT NULL,
+  `id` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `vacancy_id` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `applicant_id` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `date` varchar(20) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `status` varchar(1) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `applicant_id` (`applicant_id`),
   KEY `vacancy_id` (`vacancy_id`)
@@ -122,12 +128,13 @@ CREATE TABLE IF NOT EXISTS `tbl_application` (
 -- Table structure for table `tbl_bookmark`
 --
 
+DROP TABLE IF EXISTS `tbl_bookmark`;
 CREATE TABLE IF NOT EXISTS `tbl_bookmark` (
-  `id` varchar(60) NOT NULL,
-  `vacancy_id` varchar(60) DEFAULT NULL,
-  `applicant_id` varchar(50) NOT NULL,
-  `date` varchar(60) DEFAULT NULL,
-  `status` varchar(60) DEFAULT NULL,
+  `id` varchar(60) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `vacancy_id` varchar(60) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `applicant_id` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `date` varchar(60) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `status` varchar(60) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `applicant_id` (`applicant_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -176,17 +183,18 @@ INSERT INTO `tbl_bookmark` (`id`, `vacancy_id`, `applicant_id`, `date`, `status`
 -- Table structure for table `tbl_business`
 --
 
+DROP TABLE IF EXISTS `tbl_business`;
 CREATE TABLE IF NOT EXISTS `tbl_business` (
-  `business_id` varchar(70) NOT NULL,
-  `address` varchar(300) DEFAULT NULL,
-  `contact_number` varchar(100) DEFAULT NULL,
-  `company_name` varchar(300) DEFAULT NULL,
-  `description` text,
-  `image` varchar(70) DEFAULT NULL,
-  `email` varchar(100) DEFAULT NULL,
-  `status` varchar(1) DEFAULT NULL,
-  `others` varchar(1000) DEFAULT NULL,
-  `date` varchar(20) DEFAULT NULL,
+  `business_id` varchar(70) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `address` varchar(300) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `contact_number` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `company_name` varchar(300) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `description` text COLLATE utf8mb4_unicode_ci,
+  `image` varchar(70) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `email` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `status` varchar(1) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `others` varchar(1000) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `date` varchar(20) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   PRIMARY KEY (`business_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
@@ -196,7 +204,7 @@ CREATE TABLE IF NOT EXISTS `tbl_business` (
 
 INSERT INTO `tbl_business` (`business_id`, `address`, `contact_number`, `company_name`, `description`, `image`, `email`, `status`, `others`, `date`) VALUES
 ('0ade7c2cf97f75d009975f4d720d1fa6c19f4897', 'Business Address', 'Number', 'Name', NULL, 'business_1519974506.rnr', 'email@email.com', '1', NULL, '2018-02-26 17:03:25'),
-('1', 'Las Vegas Street Lingayen', '090101010101', 'Rufo Cocorp Inc.', '<h2><span style="color: rgb(230, 0, 0);">Description</span></h2><p><strong style="color: rgb(255, 153, 0);">Hello world</strong></p><p><em style="color: rgb(255, 255, 0);">Hello world</em></p><p><u style="color: rgb(0, 138, 0);">Hello world</u></p><p><s style="color: rgb(0, 102, 204);">Hello world</s></p><ol><li><span style="color: rgb(194, 133, 255);">Hello world</span></li></ol><p><span style="color: rgb(153, 51, 255);">H</span><sup style="color: rgb(153, 51, 255);">ello world</sup></p><p>ha</p><h2><sup class="ql-font-monospace" style="color: rgb(153, 51, 255);">hello world</sup></h2><p><span style="color: rgb(255, 255, 255); background-color: rgb(0, 0, 0);">0010001000101010100010</span></p><p><span style="color: rgb(255, 255, 255); background-color: rgb(0, 0, 0);">0010001000101010100010</span></p><p>Hhahahah</p><p><br></p><p>check again</p><p><span style="color: rgb(255, 255, 255); background-color: rgb(0, 0, 0);">check</span></p>', 'business_1519982947.rnr', 'rufo@email.com', '1', '', ''),
+('1', 'Las Vegas Street Lingayen', '090101010101', 'Rufo Cocorp Inc.', '<h2><span style=\"color: rgb(230, 0, 0);\">Description</span></h2><p><strong style=\"color: rgb(255, 153, 0);\">Hello world</strong></p><p><em style=\"color: rgb(255, 255, 0);\">Hello world</em></p><p><u style=\"color: rgb(0, 138, 0);\">Hello world</u></p><p><s style=\"color: rgb(0, 102, 204);\">Hello world</s></p><ol><li><span style=\"color: rgb(194, 133, 255);\">Hello world</span></li></ol><p><span style=\"color: rgb(153, 51, 255);\">H</span><sup style=\"color: rgb(153, 51, 255);\">ello world</sup></p><p>ha</p><h2><sup class=\"ql-font-monospace\" style=\"color: rgb(153, 51, 255);\">hello world</sup></h2><p><span style=\"color: rgb(255, 255, 255); background-color: rgb(0, 0, 0);\">0010001000101010100010</span></p><p><span style=\"color: rgb(255, 255, 255); background-color: rgb(0, 0, 0);\">0010001000101010100010</span></p><p>Hhahahah</p><p><br></p><p>check again</p><p><span style=\"color: rgb(255, 255, 255); background-color: rgb(0, 0, 0);\">check</span></p>', 'business_1519982947.rnr', 'rufo@email.com', '1', '', ''),
 ('17ba0791499db908433b80f37c5fbc89b870084b', 'Business Address', 'Number', 'Name', NULL, NULL, 'email@email.com', '1', NULL, '2018-02-26 17:14:18'),
 ('1b6453892473a467d07372d45eb05abc2031647a', 'Lingayen', '0912334455671 ', 'Gabrillo Enterprise 1', 'Tubig kayo dyan', 'business_1519964158.rnr', 'rufongabrillojr@gmail.com', '1', '', ''),
 ('356a192b7913b04c54574d18c28d46e6395428ab', '', '', 'Gabrillo Enterprisess 1', '', 'business_1519963774.rnr', 'rufogabrillo@gmail.com', '1', '', ''),
@@ -219,16 +227,17 @@ INSERT INTO `tbl_business` (`business_id`, `address`, `contact_number`, `company
 -- Table structure for table `tbl_businessmanagers`
 --
 
+DROP TABLE IF EXISTS `tbl_businessmanagers`;
 CREATE TABLE IF NOT EXISTS `tbl_businessmanagers` (
-  `id` varchar(70) NOT NULL,
-  `business_id` varchar(70) NOT NULL,
-  `name` varchar(300) DEFAULT NULL,
-  `email` varchar(300) DEFAULT NULL,
-  `password` varchar(70) DEFAULT NULL,
-  `picture` varchar(70) DEFAULT NULL,
-  `position` varchar(300) DEFAULT NULL,
-  `date` varchar(20) DEFAULT NULL,
-  `status` varchar(1) DEFAULT NULL,
+  `id` varchar(70) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `business_id` varchar(70) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `name` varchar(300) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `email` varchar(300) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `password` varchar(70) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `picture` varchar(70) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `position` varchar(300) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `date` varchar(20) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `status` varchar(1) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `business_id` (`business_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -251,16 +260,17 @@ INSERT INTO `tbl_businessmanagers` (`id`, `business_id`, `name`, `email`, `passw
 -- Table structure for table `tbl_career`
 --
 
+DROP TABLE IF EXISTS `tbl_career`;
 CREATE TABLE IF NOT EXISTS `tbl_career` (
-  `id` varchar(60) NOT NULL,
-  `applicant_id` varchar(50) NOT NULL,
-  `agency` varchar(300) DEFAULT NULL,
-  `position_title` varchar(300) DEFAULT NULL,
-  `monthly_salary` varchar(6) DEFAULT NULL,
-  `appointment_status` varchar(300) DEFAULT NULL,
-  `inclusive_fromdate` varchar(20) DEFAULT NULL,
-  `inclusive_todate` varchar(20) DEFAULT NULL,
-  `date` varchar(20) DEFAULT NULL,
+  `id` varchar(60) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `applicant_id` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `agency` varchar(300) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `position_title` varchar(300) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `monthly_salary` varchar(6) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `appointment_status` varchar(300) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `inclusive_fromdate` varchar(20) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `inclusive_todate` varchar(20) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `date` varchar(20) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `applicant_id` (`applicant_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -279,13 +289,14 @@ INSERT INTO `tbl_career` (`id`, `applicant_id`, `agency`, `position_title`, `mon
 -- Table structure for table `tbl_logs`
 --
 
+DROP TABLE IF EXISTS `tbl_logs`;
 CREATE TABLE IF NOT EXISTS `tbl_logs` (
-  `id` varchar(70) NOT NULL,
-  `from_account_id` varchar(70) NOT NULL,
-  `to_account_id` varchar(70) DEFAULT NULL,
-  `remarks` text NOT NULL,
-  `date` varchar(20) NOT NULL,
-  `header` varchar(300) NOT NULL,
+  `id` varchar(70) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `from_account_id` varchar(70) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `to_account_id` varchar(70) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `remarks` text COLLATE utf8mb4_unicode_ci NOT NULL,
+  `date` varchar(20) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `header` varchar(300) COLLATE utf8mb4_unicode_ci NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
@@ -295,21 +306,22 @@ CREATE TABLE IF NOT EXISTS `tbl_logs` (
 -- Table structure for table `tbl_personalinfo`
 --
 
+DROP TABLE IF EXISTS `tbl_personalinfo`;
 CREATE TABLE IF NOT EXISTS `tbl_personalinfo` (
-  `id` varchar(50) NOT NULL,
-  `given_name` varchar(50) DEFAULT NULL,
-  `family_name` varchar(50) DEFAULT NULL,
-  `middle_name` varchar(50) DEFAULT NULL,
-  `gender` varchar(10) DEFAULT NULL,
-  `date_of_birth` varchar(10) DEFAULT NULL,
-  `permanent_address` varchar(100) DEFAULT NULL,
-  `citizenship` varchar(20) DEFAULT NULL,
-  `phone` varchar(100) DEFAULT NULL,
-  `height` varchar(10) DEFAULT NULL COMMENT 'cm',
-  `weight` varchar(10) DEFAULT NULL COMMENT 'kg',
-  `religion` varchar(20) DEFAULT NULL,
-  `picture` varchar(100) DEFAULT NULL,
-  `date` varchar(20) DEFAULT NULL,
+  `id` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `given_name` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `family_name` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `middle_name` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `gender` varchar(10) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `date_of_birth` varchar(10) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `permanent_address` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `citizenship` varchar(20) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `phone` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `height` varchar(10) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT 'cm',
+  `weight` varchar(10) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT 'kg',
+  `religion` varchar(20) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `picture` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `date` varchar(20) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
@@ -331,12 +343,13 @@ INSERT INTO `tbl_personalinfo` (`id`, `given_name`, `family_name`, `middle_name`
 -- Table structure for table `tbl_skills`
 --
 
+DROP TABLE IF EXISTS `tbl_skills`;
 CREATE TABLE IF NOT EXISTS `tbl_skills` (
-  `id` varchar(60) NOT NULL,
-  `applicant_id` varchar(50) NOT NULL,
-  `skill` varchar(60) DEFAULT NULL,
-  `level` varchar(20) DEFAULT NULL,
-  `date` varchar(20) DEFAULT NULL,
+  `id` varchar(60) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `applicant_id` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `skill` varchar(60) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `level` varchar(20) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `date` varchar(20) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `applicant_id` (`applicant_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -356,23 +369,35 @@ INSERT INTO `tbl_skills` (`id`, `applicant_id`, `skill`, `level`, `date`) VALUES
 -- Table structure for table `tbl_vacancies`
 --
 
+DROP TABLE IF EXISTS `tbl_vacancies`;
 CREATE TABLE IF NOT EXISTS `tbl_vacancies` (
-  `id` varchar(50) NOT NULL,
-  `employer_id` varchar(50) DEFAULT NULL,
-  `business_id` varchar(70) DEFAULT NULL,
-  `short_description` text,
-  `description` text,
-  `vacancy_date` varchar(50) DEFAULT NULL,
-  `job_title` varchar(100) DEFAULT NULL,
-  `skills` varchar(1000) DEFAULT NULL,
-  `salary_range` varchar(10) DEFAULT NULL,
-  `date` varchar(20) DEFAULT NULL,
+  `id` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `employer_id` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `business_id` varchar(70) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `short_description` text COLLATE utf8mb4_unicode_ci,
+  `description` text COLLATE utf8mb4_unicode_ci,
+  `vacancy_date` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `job_title` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `skills` varchar(1000) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `salary_range` varchar(10) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `date` varchar(20) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `status` int(1) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `employer_id` (`employer_id`),
   KEY `employer_id_2` (`employer_id`),
   KEY `business_id` (`business_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Indexes for dumped tables
+--
+
+--
+-- Indexes for table `tbl_vacancies`
+--
+ALTER TABLE `tbl_vacancies` ADD FULLTEXT KEY `skills` (`skills`);
+ALTER TABLE `tbl_vacancies` ADD FULLTEXT KEY `job_title` (`job_title`);
+ALTER TABLE `tbl_vacancies` ADD FULLTEXT KEY `skills_2` (`skills`,`job_title`);
 
 --
 -- Constraints for dumped tables
@@ -394,14 +419,8 @@ ALTER TABLE `tbl_applicant`
 -- Constraints for table `tbl_application`
 --
 ALTER TABLE `tbl_application`
-  ADD CONSTRAINT `tbl_application_ibfk_2` FOREIGN KEY (`vacancy_id`) REFERENCES `tbl_vacancies` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `tbl_application_ibfk_1` FOREIGN KEY (`applicant_id`) REFERENCES `tbl_applicant` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
-
---
--- Constraints for table `tbl_bookmark`
---
--- ALTER TABLE `tbl_bookmark`
---   ADD CONSTRAINT `tbl_bookmark_ibfk_1` FOREIGN KEY (`applicant_id`) REFERENCES `tbl_applicant` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+  ADD CONSTRAINT `tbl_application_ibfk_1` FOREIGN KEY (`applicant_id`) REFERENCES `tbl_applicant` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `tbl_application_ibfk_2` FOREIGN KEY (`vacancy_id`) REFERENCES `tbl_vacancies` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `tbl_businessmanagers`
@@ -425,8 +444,9 @@ ALTER TABLE `tbl_skills`
 -- Constraints for table `tbl_vacancies`
 --
 ALTER TABLE `tbl_vacancies`
-  ADD CONSTRAINT `tbl_vacancies_ibfk_2` FOREIGN KEY (`business_id`) REFERENCES `tbl_business` (`business_id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `tbl_vacancies_ibfk_1` FOREIGN KEY (`employer_id`) REFERENCES `tbl_businessmanagers` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+  ADD CONSTRAINT `tbl_vacancies_ibfk_1` FOREIGN KEY (`employer_id`) REFERENCES `tbl_businessmanagers` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `tbl_vacancies_ibfk_2` FOREIGN KEY (`business_id`) REFERENCES `tbl_business` (`business_id`) ON DELETE CASCADE ON UPDATE CASCADE;
+COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
