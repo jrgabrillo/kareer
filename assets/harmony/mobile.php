@@ -152,6 +152,7 @@ $Functions = new DatabaseClasses;
 
         if($validate[0][0]==0){
             $query = $Functions->PDO("INSERT INTO tbl_applicant(id,email,password,auth_type,auth_id,status) VALUES('{$id}',{$email},'{$password}',{$auth},{$auth_id},'1'); INSERT INTO tbl_personalinfo(id, given_name, family_name,picture, date) VALUES('{$id}',{$firstname},{$lastname},{$picture},'{$date}')");
+            // print_r($query);
             if($query->execute()){
                 print_r(json_encode(['id'=>$id,'last_name'=>$data[1],'first_name'=>$data[0],'email'=>$data[2],'picture'=>$picture]));
             }
@@ -406,4 +407,12 @@ $Functions = new DatabaseClasses;
             print_r(2);
         }
     }
+
+    /*othan ------ purpose: get bookmarks, filtere if applicant applied to a bookmarked job */
+    if (isset($_GET['get-bookmarks'])){/**/
+        $data = $_POST['data'];
+        $query = $Functions->PDO("SELECT b.id, c.company_name, c.image, b.job_title, b.vacancy_date FROM tbl_bookmark a LEFT JOIN tbl_vacancies b ON a.vacancy_id = b.id LEFT JOIN tbl_business c ON c.id = b.business_id WHERE applicant_id = '{$data}' AND vacancy_id NOT IN (SELECT vacancy_id FROM tbl_application)");
+        print_r(json_encode($query));
+    }
+    /**/
 ?> 
