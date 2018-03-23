@@ -104,7 +104,7 @@ $Functions = new DatabaseClasses;
         print_r(json_encode($query));
     }
 
-    if (isset($_GET['get-jobs1'])){/**/
+    if (isset($_GET['get-jobs'])){/**/
         $data = $_POST['data'];
         $s  = "";
         $min = $data[1];
@@ -117,7 +117,7 @@ $Functions = new DatabaseClasses;
         print_r(json_encode($q_s));
     }
 
-    if (isset($_GET['get-jobs'])){/**/
+    if (isset($_GET['get-jobs1'])){/**/
         $data = $_POST['data'];
         $s  = "";
         $min = $data[1];
@@ -374,6 +374,7 @@ $Functions = new DatabaseClasses;
         if(count($q)<1){
             $query = $Functions->PDO("INSERT INTO tbl_application(id,vacancy_id,applicant_id,date,status) VALUES('{$id}','{$data[0]}','{$data[1]}','{$date}','1');");
             if($query->execute()){
+                $log = $Functions->log($data[1],$id,"applied",'Add');
                 print_r(1);
             }
             else{
@@ -394,6 +395,7 @@ $Functions = new DatabaseClasses;
         if(count($q)<1){
             $query = $Functions->PDO("INSERT INTO tbl_bookmark(id,vacancy_id,applicant_id,date,status) VALUES('{$id}','{$data[0]}','{$data[1]}','{$date}','1');");
             if($query->execute()){
+                $log = $Functions->log($data[1],$id,"bookmarked",'Add');
                 print_r(1);
             }
             else{
