@@ -21,16 +21,13 @@ var employer = function() {
             return result;
         },
         nav: function() {
-            var content = "", data = employer.get();
-
-            data = JSON.parse(data);
+            var content = "", data = JSON.parse(employer.get());
             var profile = (data[0][5] == null) ? 'avatar.png' : data[0][5];
             $("#user-account img.profile-image").attr({ "src": `../assets/images/profile/${profile}`});
             $("#user-account div div a span.display_name").html(data[0][2]);
         },
         get: function() {
             let ajax = system.ajax('../assets/harmony/Process.php?get-accountBusinessManager', "");
-            console.log(ajax.responseText);
             return ajax.responseText;
         },
         display: function() {
@@ -797,6 +794,7 @@ var jobPosts = function() {
     return {
         get: function(id) {
             let ajax = system.ajax('../assets/harmony/Process.php?get-employerJobsPosts', id);
+            console.log(ajax.responseText);
             return ajax.responseText;
         },
         id:function(){
@@ -866,6 +864,7 @@ var jobPosts = function() {
                             }
                             var ajax = system.ajax('../assets/harmony/Process.php?do-postJob', [user[0], user[0][1], _form[0]['value'], _form[1]['value'], _form[2]['value'], _form[3]['value'], description2, skillsArray]);
                             ajax.done(function(ajax) {
+                                console.log(ajax);
                                 if (ajax == 1) {
                                     $('#modal_medium').modal('close');
                                     system.alert('Posted.', function() {});
@@ -883,6 +882,7 @@ var jobPosts = function() {
         list: function() {
             let id = JSON.parse(employer.check_access())[0], content = "", chip = "", skills = "";
             let data = JSON.parse(jobPosts.get(id));
+            console.log(data);
             $.each(data, function(i, v) {
                 let status = (v[1] == 1)?'Active':'Inactive';
                 skills = JSON.parse(v[4]);
