@@ -794,7 +794,6 @@ var jobPosts = function() {
     return {
         get: function(id) {
             let ajax = system.ajax('../assets/harmony/Process.php?get-employerJobsPosts', id);
-            console.log(ajax.responseText);
             return ajax.responseText;
         },
         id:function(){
@@ -865,14 +864,14 @@ var jobPosts = function() {
                             var ajax = system.ajax('../assets/harmony/Process.php?do-postJob', [user[0], user[0][1], _form[0]['value'], _form[1]['value'], _form[2]['value'], _form[3]['value'], description2, skillsArray]);
                             ajax.done(function(ajax) {
                                 console.log(ajax);
-                                if (ajax == 1) {
-                                    $('#modal_medium').modal('close');
-                                    system.alert('Posted.', function() {});
-                                    jobPosts.view();
-                                }
-                                else {
-                                    system.alert('Failed to post.', function() {});
-                                }
+                                // if (ajax == 1) {
+                                //     $('#modal_medium').modal('close');
+                                //     system.alert('Posted.', function() {});
+                                //     jobPosts.view();
+                                // }
+                                // else {
+                                //     system.alert('Failed to post.', function() {});
+                                // }
                             });
                         }
                     });
@@ -880,16 +879,22 @@ var jobPosts = function() {
             });
         },
         list: function() {
-            let id = JSON.parse(employer.check_access())[0], content = "", chip = "", skills = "";
+            let id = JSON.parse(employer.check_access())[0], status = "", content = "", chip = "", skills = "";
             let data = JSON.parse(jobPosts.get(id));
+
             console.log(data);
+
+            this.content(data);
+        },
+        content:function(data){
             $.each(data, function(i, v) {
-                let status = (v[1] == 1)?'Active':'Inactive';
-                skills = JSON.parse(v[4]);
                 chip = "";
-                $.each(skills, function(i, s) {
-                    chip += `<a class="chip">${s}</a>`;
-                });
+                status = (v[1] == 1)?'Active':'Inactive';
+                if(v[4] != "null"){
+                    $.each(skills, function(i, s) {
+                        chip += `<a class="chip">${s}</a>`;
+                    });
+                }
                 $("#job-post table tbody").append(`
                     <tr>
                         <td widtd="50px" class="center">${status}</td>
@@ -1432,6 +1437,10 @@ var jobPosts = function() {
         },
     }
 }();
+
+var job = {
+
+}
 
 var pass = {
     visibility: function() {

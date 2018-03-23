@@ -37,9 +37,10 @@ $Functions = new DatabaseClasses;
         $password = $data[1];
         $query = $Functions->PDO("SELECT * FROM tbl_applicant WHERE email = {$email}");
         if(count($query)>0){
+            $q_profile = $Functions->PDO("SELECT aa.id, bb.family_name, bb.given_name, aa.email, bb.picture FROM tbl_applicant aa LEFT JOIN tbl_personalinfo bb ON aa.id = bb.id WHERE aa.email = {$email}");
             if($Functions->testPassword($password,$query[0][3]) && ($query[0][6] == 1)){
                 $_SESSION["kareer"] = [$query[0][2],$query[0][0]];
-                print_r(json_encode(["Active","applicant"]));
+                print_r(json_encode(["Active","applicant",['id'=> $q_profile[0][0], 'last_name'=> $q_profile[0][1], 'first_name'=> $q_profile[0][2], 'email'=> $q_profile[0][3], 'picture'=> $q_profile[0][4]]]));
             }
             else{
                 print_r(json_encode(["Failed",2]));
@@ -69,7 +70,8 @@ $Functions = new DatabaseClasses;
         $data = $_POST['data'];
         $email = $Functions->escape($data[0]);
         $auth_id = $Functions->escape($data[1]);
-        $field = ($data[2] == 'kareer-oauth')?'id':'auth_id';
+        $field = (($data[2] != 'kareer-oauth') || ($data[2] != 'google-oauth'))?'id':'auth_id';
+
         $query = $Functions->PDO("SELECT * FROM tbl_applicant RIGHT JOIN tbl_personalinfo ON tbl_applicant.id = tbl_personalinfo.id WHERE email = {$email} AND tbl_applicant.{$field} = {$auth_id}");
         print_r(json_encode($query));
     }
