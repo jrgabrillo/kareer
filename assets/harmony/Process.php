@@ -200,8 +200,9 @@
 			print_r(json_encode([$qEmployer,$qApplicant]));
 		}
 		else if($user == 'employer'){
-			$qApplication = $Functions->PDO("SELECT tbl_personalinfo.id, tbl_personalinfo.given_name, tbl_personalinfo.middle_name, tbl_personalinfo.family_name, tbl_skills.skill, tbl_personalinfo.picture, tbl_vacancies.id, tbl_vacancies.job_title, tbl_vacancies.skills FROM `tbl_bookmark` LEFT JOIN tbl_personalinfo ON tbl_bookmark.applicant_id = tbl_personalinfo.id LEFT JOIN tbl_vacancies ON tbl_bookmark.vacancy_id = tbl_vacancies.id LEFT JOIN tbl_skills ON tbl_personalinfo.id = tbl_skills.applicant_id");
-			print_r(json_encode($qApplication));
+			$qApplicant = $Functions->PDO("SELECT tbl_personalinfo.given_name, tbl_logs.remarks, tbl_logs.date FROM tbl_logs LEFT JOIN tbl_personalinfo ON tbl_logs.to_account_id = tbl_personalinfo.id LEFT JOIN tbl_vacancies ON tbl_logs.to_account_id = tbl_vacancies.id ORDER BY `date` DESC LIMIT {$min},{$max}");
+			// $qApplication = $Functions->PDO("SELECT tbl_personalinfo.id, tbl_personalinfo.given_name, tbl_personalinfo.middle_name, tbl_personalinfo.family_name, tbl_skills.skill, tbl_personalinfo.picture, tbl_vacancies.id, tbl_vacancies.job_title, tbl_vacancies.skills FROM `tbl_logs` LEFT JOIN tbl_personalinfo ON tbl_logs.from_account_id = tbl_personalinfo.id LEFT JOIN tbl_vacancies ON tbl_logs.to_account_id = tbl_vacancies.id LEFT JOIN tbl_skills ON tbl_personalinfo.id = tbl_skills.applicant_id");
+			print_r(json_encode($qApplicant));
 		}
 	}
 
