@@ -70,8 +70,7 @@ $Functions = new DatabaseClasses;
         $data = $_POST['data'];
         $email = $Functions->escape($data[0]);
         $auth_id = $Functions->escape($data[1]);
-        $field = (($data[2] != 'kareer-oauth') || ($data[2] != 'google-oauth'))?'id':'auth_id';
-
+        $field = (($data[2] == 'kareer-oauth') || ($data[2] == ''))?'id':'auth_id';
         $query = $Functions->PDO("SELECT * FROM tbl_applicant RIGHT JOIN tbl_personalinfo ON tbl_applicant.id = tbl_personalinfo.id WHERE email = {$email} AND tbl_applicant.{$field} = {$auth_id}");
         print_r(json_encode($query));
     }
