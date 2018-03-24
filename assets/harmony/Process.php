@@ -96,7 +96,7 @@
 
 	if(isset($_GET['get-employerJobsPosts'])){ /**/
 		$data = $_POST['data'];
-		$query = $Functions->PDO("SELECT id, status, job_title, vacancy_date, skills, salary_min, salary_max FROM tbl_vacancies WHERE employer_id = '{$data}' ORDER BY date DESC");
+		$query = $Functions->PDO("SELECT a.id, a.status, a.job_title, c.name, a.skills, a.salary_min, a.salary_max FROM tbl_vacancies a LEFT JOIN tbl_business b ON a.business_id = b.id LEFT JOIN tbl_businessmanagers c ON c.id = a.employer_id");
 		print_r(json_encode($query));
 	}
 
@@ -342,8 +342,9 @@
 			}
 			else if($data[2] == 'salary'){
 				$field1 = $Functions->escape($data[4]);
-				$remarks = "Updated {$data[2]} to {$data[4]}";
-				$q = $Functions->PDO("UPDATE tbl_vacancies SET salary_range = {$field1} WHERE id = '{$data[3]}'");
+				$field2 = $Functions->escape($data[5]);
+				$remarks = "Updated {$data[2]} to {$data[4]} - {$data[5]}";
+				$q = $Functions->PDO("UPDATE tbl_vacancies SET salary_min = {$field1}, salary_max = {$field2} WHERE id = '{$data[3]}'");
 			}
 			else if($data[2] == 'date'){
 				$field1 = $Functions->escape($data[4]);
@@ -470,9 +471,8 @@
 		$data = $_POST['data'];
 		$id = $Functions->PDO_IDGenerator('tbl_vacancies','id');
 		$date = $Functions->PDO_DateAndTime();
-		$skills = json_encode($data[7]);
-
-		$query = $Functions->PDO("INSERT INTO tbl_vacancies(id,employer_id,business_id,short_description,description,vacancy_date,job_title,skills,salary_range,date,status) VALUES('{$id}','{$data[0]}','{$data[1]}','{$data[5]}','{$data[6]}','{$data[4]}','{$data[2]}','$skills','{$data[3]}','{$date}',1)");
+		$skills = json_encode($data[8]);
+		$query = $Functions->PDO("INSERT INTO tbl_vacancies(id,employer_id,business_id,short_description,description,vacancy_date,job_title,skills,salary_min,salary_max,date,status) VALUES('{$id}','{$data[0]}','{$data[1]}','{$data[6]}','{$data[7]}','{$data[5]}','{$data[2]}','$skills','{$data[3]}','{$data[4]}','{$date}',1)");
 		if($query->execute()){
 			$log = $Functions->log($data[0],$id,'Posted a job','Add');
 			echo 1;
