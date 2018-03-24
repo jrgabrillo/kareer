@@ -36,7 +36,7 @@ CREATE TABLE `tbl_acadinfo` (
   `yearenrolled` varchar(10) DEFAULT NULL,
   `yeargraduated` varchar(10) DEFAULT NULL,
   `date` varchar(20) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Dumping data for table `tbl_acadinfo`
@@ -60,7 +60,7 @@ CREATE TABLE `tbl_admin` (
   `level` varchar(1) DEFAULT NULL,
   `password` varchar(70) CHARACTER SET latin1 COLLATE latin1_general_cs DEFAULT NULL,
   `status` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Dumping data for table `tbl_admin`
@@ -83,7 +83,7 @@ CREATE TABLE `tbl_applicant` (
   `auth_type` varchar(20) DEFAULT NULL COMMENT 'fb,google,organic',
   `auth_id` varchar(100) DEFAULT NULL COMMENT 'account id',
   `status` varchar(1) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Dumping data for table `tbl_applicant`
@@ -109,7 +109,7 @@ CREATE TABLE `tbl_application` (
   `applicant_id` varchar(50) NOT NULL,
   `date` varchar(20) DEFAULT NULL,
   `status` varchar(1) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Dumping data for table `tbl_application`
@@ -130,7 +130,7 @@ CREATE TABLE `tbl_bookmark` (
   `applicant_id` varchar(50) NOT NULL,
   `date` varchar(60) DEFAULT NULL,
   `status` varchar(60) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Dumping data for table `tbl_bookmark`
@@ -157,7 +157,7 @@ CREATE TABLE `tbl_business` (
   `status` varchar(1) DEFAULT NULL,
   `others` varchar(1000) DEFAULT NULL,
   `date` varchar(20) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Dumping data for table `tbl_business`
@@ -198,7 +198,7 @@ CREATE TABLE `tbl_businessmanagers` (
   `position` varchar(300) DEFAULT NULL,
   `date` varchar(20) DEFAULT NULL,
   `status` varchar(1) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Dumping data for table `tbl_businessmanagers`
@@ -234,7 +234,7 @@ CREATE TABLE `tbl_career` (
   `inclusive_fromdate` varchar(20) DEFAULT NULL,
   `inclusive_todate` varchar(20) DEFAULT NULL,
   `date` varchar(20) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Dumping data for table `tbl_career`
@@ -259,7 +259,7 @@ CREATE TABLE `tbl_logs` (
   `remarks` text NOT NULL,
   `date` varchar(20) NOT NULL,
   `header` varchar(300) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Dumping data for table `tbl_logs`
@@ -431,7 +431,7 @@ CREATE TABLE `tbl_personalinfo` (
   `religion` varchar(20) DEFAULT NULL,
   `picture` varchar(100) DEFAULT NULL,
   `date` varchar(20) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Dumping data for table `tbl_personalinfo`
@@ -458,7 +458,7 @@ CREATE TABLE `tbl_skills` (
   `skill` varchar(60) DEFAULT NULL,
   `level` varchar(20) DEFAULT NULL,
   `date` varchar(20) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Dumping data for table `tbl_skills`
@@ -596,9 +596,7 @@ ALTER TABLE `tbl_skills`
 ALTER TABLE `tbl_vacancies`
   ADD PRIMARY KEY (`id`),
   ADD KEY `employer_id` (`employer_id`),
-  ADD KEY `employer_id_2` (`employer_id`),
   ADD KEY `business_id` (`business_id`);
-ALTER TABLE `tbl_vacancies` ADD FULLTEXT KEY `skills` (`skills`);
 ALTER TABLE `tbl_vacancies` ADD FULLTEXT KEY `job_title` (`job_title`);
 ALTER TABLE `tbl_vacancies` ADD FULLTEXT KEY `skills_2` (`skills`,`job_title`);
 
