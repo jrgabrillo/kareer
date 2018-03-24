@@ -23,7 +23,6 @@
 	if (isset($_GET['kill-session'])){ /**/
 		if(isset($_POST["data"])){
 			print_r(session_destroy());
-			//echo "0";
 		}
 		else{
 			echo "Hacker";
@@ -121,13 +120,7 @@
 		$session = $_SESSION['kareer7836'];
 		$query = $Functions->PDO("SELECT * FROM tbl_businessmanagers  WHERE id = '{$session[0]}'");
 		if(count($query)==0){
-			$query = $Functions->PDO("SELECT * FROM tbl_businessmanagers  WHERE id = '{$session[0]}'");
-			if(count($query)==0){
-				echo 0;
-			}
-			else if(count($query)==1){
-				print_r(json_encode($query));
-			}
+			echo 0;
 		}
 		else if(count($query)==1){
 			print_r(json_encode($query));
