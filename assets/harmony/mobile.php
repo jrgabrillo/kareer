@@ -114,7 +114,7 @@ $Functions = new DatabaseClasses;
         $count = ($data[2] == "all")?$Functions->PDO("SELECT COUNT(*) FROM tbl_logs"):$data[2];
         $q_skill = $Functions->PDO("SELECT skill FROM tbl_skills WHERE applicant_id = '{$data[0]}' ORDER BY `date`");
         foreach ($q_skill as $i => $v){$s .= "{$v[0]} ";}
-        $q_s = $Functions->PDO("SELECT a.id, a.employer_id, a.business_id, a.short_description, a.vacancy_date, a.job_title, a.skills, a.salary_range, b.company_name, b.image, b.address, b.email, MATCH(a.skills) AGAINST ('{$s}' IN BOOLEAN MODE) * 10 as rel_skills, MATCH(a.job_title) AGAINST ('{$s}' IN BOOLEAN MODE) * 5 as rel_job FROM tbl_vacancies a LEFT JOIN tbl_business b ON b.id = a.business_id WHERE a.status = 1 AND MATCH (a.skills, a.job_title) AGAINST ('{$s}' IN BOOLEAN MODE) ORDER BY (rel_skills)+(rel_job) DESC LIMIT {$min},{$count};");
+        $q_s = $Functions->PDO("SELECT a.id, a.employer_id, a.business_id, a.short_description, a.vacancy_date, a.job_title, a.skills, a.salary_min, a.salary_max, b.company_name, b.image, b.address, b.email, MATCH(a.skills) AGAINST ('{$s}' IN BOOLEAN MODE) * 10 as rel_skills, MATCH(a.job_title) AGAINST ('{$s}' IN BOOLEAN MODE) * 5 as rel_job FROM tbl_vacancies a LEFT JOIN tbl_business b ON b.id = a.business_id WHERE a.status = 1 AND MATCH (a.skills, a.job_title) AGAINST ('{$s}' IN BOOLEAN MODE) ORDER BY (rel_skills)+(rel_job) DESC LIMIT {$min},{$count};");
 
         print_r(json_encode($q_s));
     }
@@ -127,14 +127,14 @@ $Functions = new DatabaseClasses;
         $count = ($data[2] == "all")?$Functions->PDO("SELECT COUNT(*) FROM tbl_logs"):$data[2];
         $q_skill = $Functions->PDO("SELECT skill FROM tbl_skills WHERE applicant_id = '{$data[0]}' ORDER BY `date`");
         foreach ($q_skill as $i => $v){$s .= "{$v[0]} ";}
-        $q_s = $Functions->PDO("SELECT a.id, a.employer_id, a.business_id, a.short_description, a.vacancy_date, a.job_title, a.skills, a.salary_range, b.company_name, b.image, b.address, b.email, MATCH(a.skills) AGAINST ('{$s}' IN BOOLEAN MODE) * 10 as rel_skills, MATCH(a.job_title) AGAINST ('{$s}' IN BOOLEAN MODE) * 5 as rel_job FROM tbl_vacancies a LEFT JOIN tbl_business b ON b.id = a.business_id WHERE a.status = 1 ORDER BY (rel_skills)+(rel_job) DESC LIMIT {$min},{$count};");
+        $q_s = $Functions->PDO("SELECT a.id, a.employer_id, a.business_id, a.short_description, a.vacancy_date, a.job_title, a.skills, a.salary_min,a.salary_max, b.company_name, b.image, b.address, b.email, MATCH(a.skills) AGAINST ('{$s}' IN BOOLEAN MODE) * 10 as rel_skills, MATCH(a.job_title) AGAINST ('{$s}' IN BOOLEAN MODE) * 5 as rel_job FROM tbl_vacancies a LEFT JOIN tbl_business b ON b.id = a.business_id WHERE a.status = 1 ORDER BY (rel_skills)+(rel_job) DESC LIMIT {$min},{$count};");
 
         print_r(json_encode($q_s));
     }
 
     if (isset($_GET['get-jobById'])){/**/
         $data = $_POST['data'];
-        $query = $Functions->PDO("SELECT a.job_title, a.vacancy_date, a.skills, a.salary_range, a.description, a.date, b.company_name, b.address, b.image FROM tbl_vacancies a LEFT JOIN tbl_business b ON a.business_id = b.id WHERE a.id = '{$data}'");
+        $query = $Functions->PDO("SELECT a.job_title, a.vacancy_date, a.skills, a.salary_min,a.salary_max, a.description, a.date, b.company_name, b.address, b.image FROM tbl_vacancies a LEFT JOIN tbl_business b ON a.business_id = b.id WHERE a.id = '{$data}'");
         print_r(json_encode($query));
     }
 

@@ -1239,7 +1239,7 @@ var jobs = function(){
 	                    </tr>
 	                `);
 	            });
-	            $('h6').addClass('hide');
+	            $('h6.text-center').addClass('hide');
 			}
 			else{
 				console.log('no jobs');

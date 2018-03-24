@@ -156,15 +156,16 @@
 							<div class='input-field col s6'>
 								<label class="active">Enter maximum of 5 skills </label>
 							    <div class="chips chips-placeholder"></div>
-								<!-- <label for='field_skills'>Skills: </label>
-
-					            <input id='field_skills' type='text' name='field_skills' data-error='.error_skills'>
-								<div class='error_skills'></div>	 -->
 							</div>
-							<div class='input-field col s6'>
-								<label for='field_salary'>Salary Range: </label>
-					            <input id='field_salary' type='number' name='field_salary' data-error='.error_salary'>
-								<div class='error_salary'></div>	
+							<div class='input-field col s3'>
+								<label for='field_salarymin'>Salary min: </label>
+					            <input id='field_salarymin' type='number' name='field_salarymin' data-error='.error_salarymin'>
+								<div class='error_salarymin'></div>	
+							</div>
+							<div class='input-field col s3'>
+								<label for='field_salarymax'>Salary max: </label>
+					            <input id='field_salarymax' type='number' name='field_salarymax' data-error='.error_salarymax'>
+								<div class='error_salarymax'></div>	
 							</div>
 							<div class='input-field col s6'>
 								<label for='field_date' class="active">Vacancy Date: </label>
