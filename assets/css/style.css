@@ -534,3 +534,7 @@ th, td{
 #job table tr td ul, #job table tr td ul li{
   list-style-type: unset;
 }
+
+#display_applicants .collection{
+  overflow: unset;
+}
