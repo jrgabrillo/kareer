@@ -711,6 +711,19 @@ var business = function(){
     }
 }();
 
+var applicant = {
+    ini:function(){
+        $( "ul.applicants" ).sortable({
+          connectWith: "ul"
+        });
+     
+        $( "#sortable1, #sortable2, #sortable3" ).disableSelection();
+    },
+    list:function(){
+
+    },
+}
+
 var jobPosts = function() {
     "use strict";
     return {
