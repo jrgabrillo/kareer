@@ -440,7 +440,7 @@ var business = function(){
                                 error.insertAfter(element);
                         },
                         submitHandler: function (form) {
-                            let user = JSON.parse(admin.check_access());
+                            let user = JSON.parse(employer.check_access());
                             var _form = $(form).serializeArray();
                             if(data.value[0] == _form[0]['value']){
                                 system.alert('You did not even change the value.', function(){});
@@ -448,15 +448,16 @@ var business = function(){
                             else{
                                 var ajax = system.ajax('../assets/harmony/Process.php?do-updateInfo',[user[0],'business','name',business.id(),_form[0]['value']]);
                                 ajax.done(function(ajax){
-                                    if(ajax == 1){
-                                        $('#modal_confirm').modal('close');
-                                        $(`#display_businessInfo li:nth-child(1) div._content`).html(_form[0]['value']);
-                                        $(_this).attr({'data-value':_form[0]['value'], 'data-name':`${_form[0]['value']}`});
-                                        system.alert('Name updated.', function(){});
-                                    }
-                                    else{
-                                        system.alert('Failed to update.', function(){});
-                                    }
+                                    console.log(ajax);
+                                    // if(ajax == 1){
+                                    //     $('#modal_confirm').modal('close');
+                                    //     $(`#display_businessInfo li:nth-child(1) div._content`).html(_form[0]['value']);
+                                    //     $(_this).attr({'data-value':_form[0]['value'], 'data-name':`${_form[0]['value']}`});
+                                    //     system.alert('Name updated.', function(){});
+                                    // }
+                                    // else{
+                                    //     system.alert('Failed to update.', function(){});
+                                    // }
                                 });
                             }
                         }
@@ -782,7 +783,6 @@ var jobPosts = function() {
                             for (var skills in chipdata) {
                                 skillsArray.push(chipdata[skills]['tag']);
                             }
-                            console.log(_form);
                             var ajax = system.ajax('../assets/harmony/Process.php?do-postJob', [user[0], user[1], _form[0]['value'], _form[1]['value'], _form[2]['value'], _form[3]['value'], _form[4]['value'], description2, skillsArray]);
                             ajax.done(function(ajax) {
                                 console.log(ajax);
@@ -804,9 +804,6 @@ var jobPosts = function() {
         list: function() {
             let id = JSON.parse(employer.check_access())[0];
             let data = JSON.parse(jobPosts.get(id));
-
-            console.log(data);
-
             this.content(data);
         },
         content:function(data){
@@ -838,7 +835,6 @@ var jobPosts = function() {
             let id = jobPosts.id(), chip ="";
             let ajax = system.ajax('../assets/harmony/Process.php?get-jobPost', id);
             let job = JSON.parse(ajax.responseText)[0];
-            console.log(job);
             let status = (job[11] == 1)?'Active':'Inactive';
             let skills = JSON.parse(job[7]);
             $.each(skills, function(i, v) {
