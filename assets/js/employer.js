@@ -407,10 +407,10 @@ var business = function(){
             $(`#businessInfo img.businesslogo`).on('error',function(){
                 $(this).attr({'src':'../assets/images/logo/icon.png'});
             });
-            business.update();
-            business.updatePicture();
+            business.update(id);
+            business.updatePicture(id);
         },
-        update:function(){
+        update:function(id){
             $("a[data-cmd='update_business']").on('click',function(){
                 let _this = this, data = $(this).data();
                 // $('#modal_confirm .modal-footer').remove();          
@@ -446,18 +446,17 @@ var business = function(){
                                 system.alert('You did not even change the value.', function(){});
                             }
                             else{
-                                var ajax = system.ajax('../assets/harmony/Process.php?do-updateInfo',[user[0],'business','name',business.id(),_form[0]['value']]);
+                                var ajax = system.ajax('../assets/harmony/Process.php?do-updateInfo',[user[0],'business','name',id,_form[0]['value']]);
                                 ajax.done(function(ajax){
-                                    console.log(ajax);
-                                    // if(ajax == 1){
-                                    //     $('#modal_confirm').modal('close');
-                                    //     $(`#display_businessInfo li:nth-child(1) div._content`).html(_form[0]['value']);
-                                    //     $(_this).attr({'data-value':_form[0]['value'], 'data-name':`${_form[0]['value']}`});
-                                    //     system.alert('Name updated.', function(){});
-                                    // }
-                                    // else{
-                                    //     system.alert('Failed to update.', function(){});
-                                    // }
+                                    if(ajax == 1){
+                                        $('#modal_confirm').modal('close');
+                                        $(`#display_businessInfo li:nth-child(1) div._content`).html(_form[0]['value']);
+                                        $(_this).attr({'data-value':_form[0]['value'], 'data-name':`${_form[0]['value']}`});
+                                        system.alert('Name updated.', function(){});
+                                    }
+                                    else{
+                                        system.alert('Failed to update.', function(){});
+                                    }
                                 });
                             }
                         }
@@ -494,7 +493,7 @@ var business = function(){
                                 system.alert('You did not even change the value.', function(){});
                             }
                             else{
-                                var ajax = system.ajax('../assets/harmony/Process.php?do-updateInfo',[user[0],'business','number',business.id(),_form[0]['value']]);
+                                var ajax = system.ajax('../assets/harmony/Process.php?do-updateInfo',[user[0],'business','number',id,_form[0]['value']]);
                                 ajax.done(function(ajax){
                                     if(ajax == 1){
                                         $('#modal_confirm').modal('close');
@@ -540,7 +539,7 @@ var business = function(){
                                 system.alert('You did not even change the value.', function(){});
                             }
                             else{
-                                var ajax = system.ajax('../assets/harmony/Process.php?do-updateInfo',[user[0],'business','email',business.id(),_form[0]['value']]);
+                                var ajax = system.ajax('../assets/harmony/Process.php?do-updateInfo',[user[0],'business','email',id,_form[0]['value']]);
                                 ajax.done(function(ajax){
                                     if(ajax == 1){
                                         $('#modal_confirm').modal('close');
@@ -590,7 +589,7 @@ var business = function(){
                                 system.alert('You did not even change the product name.', function(){});
                             }
                             else{
-                                var ajax = system.ajax('../assets/harmony/Process.php?do-updateInfo',[user[0],'business','description',business.id(),_form]);
+                                var ajax = system.ajax('../assets/harmony/Process.php?do-updateInfo',[user[0],'business','description',id,_form]);
                                 ajax.done(function(ajax){
                                     if(ajax == 1){
                                         $('#modal_medium').modal('close');
@@ -608,7 +607,7 @@ var business = function(){
                 }
             });
         },
-        updatePicture:function(){
+        updatePicture:function(id){
             window.Cropper;
             $("a[data-cmd='updateAdminPicture']").on('click',function(){
                 var data = $(this).data();
@@ -668,7 +667,7 @@ var business = function(){
                                             $(this).html("Uploading...").addClass('disabled');
                                             if(status){
                                                 status = false;
-                                                var data = system.ajax('../assets/harmony/Process.php?do-updateImage',['business','picture',business.id(),cropper.getCroppedCanvas().toDataURL('image/png')]);
+                                                var data = system.ajax('../assets/harmony/Process.php?do-updateImage',['business','picture',id,cropper.getCroppedCanvas().toDataURL('image/png')]);
                                                 data.done(function(data){
                                                     if(data == 1){
                                                         $('#modal_confirm').modal('close');
