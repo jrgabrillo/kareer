@@ -328,7 +328,6 @@
 			}
 		}
 		else if($data[1] == 'job'){
-			// print_r($data);
 			if($data[2] == 'title'){
 				$field1 = $Functions->escape($data[4]);
 				$remarks = "Updated {$data[2]} to {$data[4]}";
