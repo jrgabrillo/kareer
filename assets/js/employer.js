@@ -908,7 +908,6 @@ var applicant = {
         // let ps_applicants = new PerfectScrollbar('#display_applicants');        
     },
     content:function(data){
-        console.log(data);
         let status = "", picture = "";
         $.each(data,function(i,v){
             if(v[5] == 1){
@@ -941,7 +940,6 @@ var applicant = {
         $(`#display_applicants img.profile_picture`).on('error',function(){
             $(this).attr({'src':'../assets/images/logo/icon.png'});
         });
-        // applicant.view();
         applicant.action();
     },
     view:function(){
@@ -1029,6 +1027,7 @@ var applicant = {
         });
     },
     level:function(id,level){
+        let level0 = 'pending';
         console.log([id,level]);
         let statusLevel = (level == 'level0')?5:(level == 'level1')?1:(level == 'level2')?2:3;
         if(statusLevel == '5'){
