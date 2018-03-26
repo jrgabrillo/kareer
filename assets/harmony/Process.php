@@ -177,7 +177,7 @@
 
 	if (isset($_GET['get-applicantsByBusinessId'])){/**/
 		$data = $_POST['data'];
-		$q = $Functions->PDO("SELECT a.employer_id, a.business_id, a.job_title, b.date, b.status, c.email, d.given_name, d.family_name, d.middle_name, d.picture FROM tbl_vacancies a INNER JOIN tbl_application b ON a.id = b.vacancy_id INNER JOIN tbl_applicant c ON b.applicant_id = c.id INNER JOIN tbl_personalinfo d ON c.id = d.id"); //  WHERE a.business_id = '{$data}'
+		$q = $Functions->PDO("SELECT a.employer_id, a.business_id,b.id, a.job_title, b.date, b.status, c.email, d.given_name, d.family_name, d.middle_name, d.picture FROM tbl_vacancies a INNER JOIN tbl_application b ON a.id = b.vacancy_id INNER JOIN tbl_applicant c ON b.applicant_id = c.id INNER JOIN tbl_personalinfo d ON c.id = d.id"); //  WHERE a.business_id = '{$data}'
 		print_r(json_encode($q));
 	}
 
@@ -313,6 +313,25 @@
 				$field = ($data[4] == 'deactivate')?0:1;
 				$remarks = "{$data[5]}. Updated {$data[2]} to {$field}";
 				$q = $Functions->PDO("UPDATE tbl_applicant SET status = '{$field}' WHERE id = '{$data[3]}'");
+			}
+			else{
+				$q = $Functions->PDO("");
+			}
+
+			if($q->execute()){
+				$log = $Functions->log($data[0],$data[3],$remarks,"Update");
+				echo 1;
+			}
+			else{
+				$Data = $q->errorInfo();
+				print_r($Data);
+			}
+		}
+		else if($data[1] == 'application'){
+			if($data[2] == 'status'){
+				$data[4];
+				$remarks = "{$data[5]}. Updated {$data[2]} to {$data[4]}";
+				$q = $Functions->PDO("UPDATE tbl_application SET status = '{$data[4]}' WHERE id = '{$data[3]}'");
 			}
 			else{
 				$q = $Functions->PDO("");
