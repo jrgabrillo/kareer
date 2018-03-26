@@ -1077,6 +1077,7 @@ var jobPosts = function() {
                     `);
                 }
             });
+            $('ul.tabs').tabs();
         },
         view:function(){
             let id = jobPosts.id(), chip ="";
@@ -1559,8 +1560,11 @@ var jobPosts = function() {
                         content = `<h5>Change the ${data.prop} of this job?</h5>
                                     <form id='form_update' class='formValidate' method='get' action='' novalidate='novalidate'>
                                         <div class="input-field col s6">
-                                            <input name="pending" class="with-gap" type="radio"/><span>Move to pending</span>
-                                            <input name="full" class="with-gap" type="radio" checked/><span>Move to full</span>                                  
+                                            <select data-field ="field_Updatestatus">
+                                              <option value="" disabled selected>Choose action</option>
+                                              <option value="0">Move to full</option>
+                                              <option value="2">Move to pending</option>
+                                            </select>
                                             <textarea class="materialize-textarea" maxlength='500' data-field='field_${data.prop}' name='field_${data.prop}' placeholder='Remarks'></textarea>
                                         </div>
                                         <button type='submit' data-cmd='button_proceed' class='waves-effect waves-grey grey lighten-5 blue-text btn-flat modal-action right'>Save</button>
@@ -1570,9 +1574,14 @@ var jobPosts = function() {
                         $('#modal_medium').modal('open');
                     }
                     if(data.value == 'Full'){
-                        content = `<h5>Are You sure you want to change the ${data.prop} of this job?</h5>
+                        content = `<h5>Change the ${data.prop} of this job?</h5>
                                         <form id='form_update' class='formValidate' method='get' action='' novalidate='novalidate'>
-                                        <div class="input-field col s6">                                           
+                                        <div class="input-field col s6">          
+                                            <select data-field ="field_Updatestatus">
+                                              <option value="" disabled selected>Choose action</option>
+                                              <option value="1">Move to active</option>
+                                              <option value="2">Move to pending</option>
+                                            </select>                                 
                                             <textarea class="materialize-textarea" maxlength='500' data-field='field_${data.prop}' name='field_${data.prop}' placeholder='Remarks'></textarea>
                                         </div>
                                         <button type='submit' data-cmd='button_proceed' class='waves-effect waves-grey grey lighten-5 blue-text btn-flat modal-action right'>Save</button>
@@ -1581,6 +1590,7 @@ var jobPosts = function() {
                         $("#modal_medium .modal-content").html(content);
                         $('#modal_medium').modal('open');
                     }
+                    $('select').material_select();
                     $("#form_update").validate({
                         rules: {
                             field_Status: { required: true },
@@ -1595,28 +1605,20 @@ var jobPosts = function() {
                             }
                         },
                         submitHandler: function(form) {
-                            var _form = $(form).serializeArray();
+                            let val = $('select').val();
                             let remarks = $("textarea[data-field='field_Status']").val();
-                            if(remarks.length == 0){
-                                    Materialize.toast('Remarks is required.',4000);
-                            }
-                            else if(remarks.length > 800){
-                                    Materialize.toast('Statement is too long.',4000);
-                            }
-                            else{
-                                var ajax = system.ajax('../assets/harmony/Process.php?do-updateInfo', [sessionStorage.getItem('kareer'), 'job', 'status', data.node, title, remarks]);
-                                ajax.done(function(ajax) {
-                                    title = (title == 1)?'Active':'Inactive';
-                                    if (ajax == 1) {
-                                        $('#modal_medium').modal('close');
-                                        $(`td[for='${data.for}']`).html(`${title}`);
-                                        system.alert('Updated.', function() {});
-                                        location.reload();
-                                    } else {
-                                        system.alert('Failed to update.', function() {});
-                                    }
-                                });
-                            }
+                            var ajax = system.ajax('../assets/harmony/Process.php?do-updateInfo', [sessionStorage.getItem('kareer'), 'job', 'status', data.node, val, remarks]);
+                            ajax.done(function(ajax) {
+                                console.log(ajax);
+                                val = (val == 0)?'Full':(val == 1)?'Active':'Pending';
+                                if (ajax == 1) {
+                                    $('#modal_medium').modal('close');
+                                    $(`td[for='${data.for}']`).html(`${val}`);
+                                    system.alert('Updated.', function() {});
+                                } else {
+                                    system.alert('Failed to update.', function() {});
+                                }
+                            });
                         }
                     });
                 }

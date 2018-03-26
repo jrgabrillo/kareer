@@ -2,17 +2,21 @@
     <div class="wrapper wrapper-content">
         <a data-cmd="add_job-post" class='tooltipped btn-floating waves-effect black-text no-shadow grey' data-delay='50' data-tooltip='Post a Job'><i class="material-icons medium">add</i></a>
         <div class="col s12 rows" >
-            <div class='col s4' id='pending_post'>
-                <div class="card">
-                    <h5 class="center">Pending Job Posts</h5>
+            <ul class="card tabs">
+                <li class="tab col s4"><a href="#pending_post">Pending Job Posts</a></li>
+                <li class="tab col s4"><a class="active" href="#job_post">Active Job Posts</a></li>
+                <li class="tab col s4"><a href="#full_post">Full Job Posts</a></li>
+            </ul>
+            <div class="card">
+                <div class='card' id='pending_post'>
                     <div class="divider"></div>
                     <div class='card-content'>
                         <table>
                             <thead>
                                 <tr>
-                                    <th width="50px" class="center">Status</th>
+                                    <th width="150px" class="center">Status</th>
                                     <th width="300px" class="center">Job Title</th>
-                                    <th width="150px" class="center">Posted By</th>
+                                    <th width="300px" class="center">Posted By</th>
                                     <th></th>
                                 </tr>
                             </thead>
@@ -20,18 +24,15 @@
                         </table>
                     </div>
                 </div>
-            </div>
-            <div class='col s4' id='job_post'>
-                <div class="card">
-                    <h5 class="center">Active Job Posts</h5>
+                <div class='card' id='job_post'>
                     <div class="divider"></div>
                     <div class='card-content'>
                         <table>
                             <thead>
                                 <tr>
-                                    <th width="50px" class="center">Status</th>
+                                    <th width="150px" class="center">Status</th>
                                     <th width="300px" class="center">Job Title</th>
-                                    <th width="150px" class="center">Posted By</th>
+                                    <th width="300px" class="center">Posted By</th>
                                     <th></th>
                                 </tr>
                             </thead>
@@ -39,18 +40,15 @@
                         </table>
                     </div>
                 </div>
-            </div>
-            <div class='col s4' id='full_post'>
-                <div class="card">
-                    <h5 class="center">Full Job Posts</h5>
+                <div class='card' id='full_post'>
                     <div class="divider"></div>
                     <div class='card-content'>
                         <table>
                             <thead>
                                 <tr>
-                                    <th width="50px" class="center">Status</th>
+                                    <th width="150px" class="center">Status</th>
                                     <th width="300px" class="center">Job Title</th>
-                                    <th width="150px" class="center">Posted By</th>
+                                    <th width="300px" class="center">Posted By</th>
                                     <th></th>
                                 </tr>
                             </thead>
