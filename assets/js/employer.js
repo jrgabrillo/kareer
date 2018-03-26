@@ -1012,8 +1012,8 @@ var jobPosts = function() {
             });
         },
         list: function() {
-            let id = JSON.parse(employer.check_access())[0];
-            let data = JSON.parse(jobPosts.get(id));
+            let id = JSON.parse(employer.get())[0];
+            let data = JSON.parse(jobPosts.get(id[1]));
             this.content(data);
         },
         content:function(data){
