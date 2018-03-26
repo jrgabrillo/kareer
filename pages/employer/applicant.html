@@ -1,20 +1,37 @@
-<div class='row animated free-width'>
-    <div class="wrapper wrapper-content" id="display_applicants">
-        <div class="col s3 level0" data-level='level0'>
-            <h1>Pending Applicants</h1>
-            <ul class="applicants collection"></ul>
-        </div>
-        <div class="col s3 level1" data-level='level1'>
-            <h1>Level 1</h1>
-            <ul class="applicants collection"></ul>
-        </div>
-        <div class="col s3 level2" data-level='level2'>
-            <h1>Level 2</h1>
-            <ul class="applicants collection"></ul>
-        </div>
-        <div class="col s3 level3" data-level='level3'>
-            <h1>Level 3</h1>
-            <ul class="applicants collection"></ul>
+<div class='row' style='float: none;'>
+    <div class="wrapper wrapper-content">
+        <div class="row animated fadeInUp">
+            <div class="col s10 offset-s1" id='display_applicant'>
+                <div class="card">
+                    <ul class="tabs">
+                        <li class="tab col s4"><a class="active" href="#applicantInfo">Profile</a></li>
+                        <li class="tab col s4"><a href="#applicantAcads">Academic Background</a></li>
+                        <li class="tab col s4"><a href="#applicantCareer">Career Background</a></li>
+                    </ul>
+                    <div class="card-content">
+                        <div class="row" id='applicantInfo'></div>
+                        <div class="row" id='applicantAcads'>
+                            <div class="row">
+                                <div class='card-content'>
+                                    <table>
+                                        <tbody></tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row" id='applicantCareer'>
+                            <div class="row">
+                                <div class='card-content'>
+                                    <table>
+                                        <tbody></tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
         </div>
     </div>
 </div>

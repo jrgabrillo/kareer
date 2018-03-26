@@ -872,6 +872,21 @@ var applicant = {
         let ajax = system.ajax('../assets/harmony/Process.php?get-applicantsByBusinessId', id);
         return ajax.responseText;
     },
+    id:function(){
+        return ((window.location.hash).split(';')[2]).split('=')[1];
+    },
+    getinfo:function(id){
+        var ajax = system.ajax('../assets/harmony/Process.php?get-applicantInfo',id);
+        return ajax.responseText;
+    },
+    getAcad:function(id){
+        var ajax = system.ajax('../assets/harmony/Process.php?get-applicantAcad',id);
+        return ajax.responseText;
+    },
+    getCareer:function(id){
+        var ajax = system.ajax('../assets/harmony/Process.php?get-applicantCareer',id);
+        return ajax.responseText;
+    },
     list:function(){
         let data = JSON.parse(this.get()), id="",level="";
         applicant.content(data);
@@ -896,34 +911,122 @@ var applicant = {
         console.log(data);
         let status = "", picture = "";
         $.each(data,function(i,v){
-            if(v[5] != 0){
-                if(v[5] == 1)
-                    status = 'level1';
-                else if(v[5] == 2)
-                    status = 'level2';
-                else if(v[5] == 3)
-                    status = 'level3';
-                else if(v[5] == 5)
-                    status = 'level0';
-                else{}
-
-                picture = ((new RegExp('facebook|google','i')).test(v[10]))? v[10] : ((typeof v[10] == 'object') || (v[10] == ""))? '../assets/images/logo/icon.png' : `../assets/images/profile/${v[10]}`;
-                $(`#display_applicants .${status} .applicants`).append(`
-                    <li class="collection-item avatar ui-state-default" data-node="${v[2]}">
-                        <img src="${picture}" alt="" class="circle profile_picture">
-                        <span class="title">${v[7]} ${v[9]} ${v[8]}</span>
-                        <p>Applying for <strong>${v[3]}</strong></p>
-                        <a href="#cmd=index;content=applicant;id=${v[2]}" class="secondary-content"><i class="material-icons">more_vert</i></a>
-                        <a data-cmd='failed' data-name="${status}" data-node="${v[2]}" class='waves-effect waves-grey grey lighten-5 red-text btn-flat right'>Failed</a>
-                    </li>
-                `);
+            if(v[5] == 1){
+                status = 'level1';
             }
+            else if(v[5] == 2){
+                status = 'level2';
+            }
+            else if(v[5] == 3){
+                status = 'level3';
+            }
+            else if(v[5] == 5){
+                status = 'level0';
+            }
+            else{
+            }
+            picture = ((new RegExp('facebook|google','i')).test(v[10]))? v[10] : ((typeof v[10] == 'object') || (v[10] == ""))? '../assets/images/logo/icon.png' : `../assets/images/profile/${v[10]}`;
+            $(`#display_applicants .${status} .applicants`).append(`
+                <li class="collection-item avatar ui-state-default" data-node="${v[2]}">
+                    <img src="${picture}" alt="" class="circle profile_picture">
+                    <span class="title">${v[7]} ${v[9]} ${v[8]}</span>
+                    <p>Applying for <strong>${v[3]}</strong></p>
+                    <a data-cmd='info' data-node="${v[1]}" href="#cmd=index;content=applicant;id=${v[1]}" class="secondary-content"><i class="material-icons">more_vert</i></a>
+                    <a data-cmd='passed' data-name="${status}" data-node="${v[2]}" class='hide waves-effect waves-grey grey lighten-5 green-text btn-flat left'>Passed</a>
+                    <a data-cmd='failed' data-name="${status}" data-node="${v[2]}" class='waves-effect waves-grey grey lighten-5 red-text btn-flat right'>Failed</a>
+                </li>
+            `);
         });
 
         $(`#display_applicants img.profile_picture`).on('error',function(){
             $(this).attr({'src':'../assets/images/logo/icon.png'});
         });
+        // applicant.view();
         applicant.action();
+    },
+    view:function(){
+        let data = JSON.parse((applicant.getinfo(applicant.id())))[0];
+        console.log(data);
+        let picture = ((new RegExp('facebook|google','i')).test(data[19]))? data[19] : ((typeof data[19] == 'object') || (data[19] == ""))? '../assets/images/logo/icon.png' : `../assets/images/profile/${data[19]}`;
+        let auth = (data[4] == "fb-oauth")?'Facebook':(data[4] == "google-auth")?'Google':'Kareer Website', account_id = (data[5] == "")?data[0]:data[5];
+        let description = (data[1] == null)?'':data[1];
+        $("#applicantInfo").html(`
+            <div class='row'>
+                <div class='col s12 center'>
+                    <h5>${data[8]} ${data[10]} ${data[9]}</h5>
+                </div>
+                <div class='col s12 center'>
+                    <img src='${picture}' width='20%' class='profile_picture '>
+                    <div class='col s12 grey lighten-2'>${description}</div>
+                </div>
+            </div>
+            <div class='row'>
+                <div class='col s12' id='display_personalInformation'>
+                    <strong>Personal Information</strong>
+                    <table>
+                        <thead>
+                            <tr><td width='100px'></td><td></td></tr>
+                        </thead>
+                        <tbody>
+                            <tr><td>Email Address:</td><td>${data[2]}</td></tr>
+                            <tr><td>Number:</td><td>${data[15]}</td></tr>
+                            <tr><td>Gender:</td><td>${data[11]}</td></tr>
+                            <tr><td>Date of Birth:</td><td>${data[12]}</td></tr>
+                            <tr><td>Address:</td><td>${data[13]}</td></tr>
+                            <tr><td>Citizenship:</td><td>${data[14]}</td></tr>
+                            <tr><td>Height:</td><td>${data[16]}</td></tr>
+                            <tr><td>Weight:</td><td>${data[17]}</td></tr>
+                            <tr><td>Religion:</td><td>${data[18]}</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class='row'>
+                <div class='col s12'>
+                    <strong>Account Information</strong>
+                    <table>
+                        <thead>
+                            <tr><td width='100px'></td><td></td></tr>
+                        </thead>
+                        <tbody>
+                            <tr><td>Login Type:</td><td>${auth}</td></tr>
+                            <tr><td>Account ID:</td><td>${account_id}</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class='row' id='display_acad'></div>
+            <div class='row' id='display_career'></div>
+        `);
+
+        $(`img.profile_picture`).on('error',function(){
+            $(this).attr({'src':'../assets/images/logo/icon.png'});
+        });
+        $('ul.tabs').tabs();
+        applicant.viewAcads();
+        applicant.viewCareer();
+    },
+    viewAcads:function(){
+        let data = JSON.parse(applicant.getAcad(applicant.id()));
+        console.log(data);
+        $.each(data,function(i,v){
+            $('#applicantAcads table tbody').append(`
+                    <tr>
+                        <td><h6><strong>${v[1]}</strong><br/><div>${v[2]}</div><small>${v[4]} - ${v[5]}</small><h6></td>
+                    </tr>
+                `);
+        });
+    },
+    viewCareer:function(){
+        let data = JSON.parse(applicant.getCareer(applicant.id()));
+        console.log(data);
+        $.each(data,function(i,v){
+            $('#applicantCareer table tbody').append(`
+                    <tr>
+                        <td><h6><strong>${v[3]}</strong><br/><div>${v[4]}</div><div>${v[6]}</div><small>${v[1]} - ${v[2]}</small><h6></td>
+                    </tr>
+                `);
+        });
     },
     level:function(id,level){
         console.log([id,level]);
@@ -997,15 +1100,11 @@ var applicant = {
                 }
             });
             $("a[data-cmd='stay']").on('click',function(){
-                console.log('asd');
                 $(`#display_applicants .${level} li[data-node="${id}"]`).addClass('hidden');
-                applicant.list();
             })
         });
         $("a[data-cmd='stay']").on('click',function(){
-            console.log('asd');
             $(`#display_applicants .${level} li[data-node="${id}"]`).addClass('hidden');
-            applicant.list();
         })
     },
     action:function(level){

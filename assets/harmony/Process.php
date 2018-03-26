@@ -146,13 +146,13 @@
 
 	if (isset($_GET['get-applicantAcad'])){/**/
 		$data = $_POST['data'];
-		$q = $Functions->PDO("SELECT tbl_acadinfo.date,tbl_acadinfo.level,tbl_acadinfo.schoolattended,tbl_acadinfo.degree,tbl_acadinfo.periodofattendance,tbl_acadinfo.highestlevel,tbl_acadinfo.yeargraduated  FROM tbl_applicant LEFT JOIN tbl_acadinfo ON tbl_applicant.id = tbl_acadinfo.applicant_id WHERE tbl_applicant.id = '{$data}' ORDER BY tbl_acadinfo.yeargraduated ASC");
+		$q = $Functions->PDO("SELECT tbl_acadinfo.date,tbl_acadinfo.level,tbl_acadinfo.schoolattended,tbl_acadinfo.degree,tbl_acadinfo.yearenrolled,tbl_acadinfo.yeargraduated,tbl_acadinfo.highestlevel,tbl_acadinfo.yeargraduated  FROM tbl_applicant LEFT JOIN tbl_acadinfo ON tbl_applicant.id = tbl_acadinfo.applicant_id WHERE tbl_applicant.id = '{$data}' ORDER BY tbl_acadinfo.yeargraduated ASC");
 		print_r(json_encode($q));
 	}
 
 	if (isset($_GET['get-applicantCareer'])){/**/
 		$data = $_POST['data'];
-		$q = $Functions->PDO("SELECT tbl_career.date,tbl_career.inclusive_fromdate,tbl_career.inclusive_todate,tbl_career.position_title,tbl_career.agency,tbl_career.monthly_salary,tbl_career.appointment_status,tbl_career.govt_service FROM tbl_applicant LEFT JOIN tbl_career ON tbl_applicant.id = tbl_career.applicant_id WHERE tbl_applicant.id = '{$data}' ORDER BY tbl_career.inclusive_fromdate DESC");
+		$q = $Functions->PDO("SELECT tbl_career.date,tbl_career.inclusive_fromdate,tbl_career.inclusive_todate,tbl_career.position_title,tbl_career.agency,tbl_career.monthly_salary,tbl_career.appointment_status FROM tbl_applicant LEFT JOIN tbl_career ON tbl_applicant.id = tbl_career.applicant_id WHERE tbl_applicant.id = '{$data}' ORDER BY tbl_career.inclusive_fromdate DESC");
 		print_r(json_encode($q));
 	}
 
@@ -177,7 +177,7 @@
 
 	if (isset($_GET['get-applicantsByBusinessId'])){/**/
 		$data = $_POST['data'];
-		$q = $Functions->PDO("SELECT a.employer_id, a.business_id,b.id, a.job_title, b.date, b.status, c.email, d.given_name, d.family_name, d.middle_name, d.picture FROM tbl_vacancies a INNER JOIN tbl_application b ON a.id = b.vacancy_id INNER JOIN tbl_applicant c ON b.applicant_id = c.id INNER JOIN tbl_personalinfo d ON c.id = d.id"); //  WHERE a.business_id = '{$data}'
+		$q = $Functions->PDO("SELECT a.employer_id, c.id,b.id, a.job_title, b.date, b.status, c.email, d.given_name, d.family_name, d.middle_name, d.picture FROM tbl_vacancies a INNER JOIN tbl_application b ON a.id = b.vacancy_id INNER JOIN tbl_applicant c ON b.applicant_id = c.id INNER JOIN tbl_personalinfo d ON c.id = d.id WHERE b.status <> '0'"); //  WHERE a.business_id = '{$data}'
 		print_r(json_encode($q));
 	}
 
