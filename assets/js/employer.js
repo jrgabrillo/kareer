@@ -873,8 +873,7 @@ var applicant = {
         return ajax.responseText;
     },
     list:function(){
-        let data = JSON.parse(this.get());
-
+        let data = JSON.parse(this.get()), id="",level="";
         applicant.content(data);
         // othan. http://api.jqueryui.com/sortable/
         $( "ul.applicants" ).sortable({
@@ -884,6 +883,9 @@ var applicant = {
                 if(el.sender){
                     console.log(el.item.attr("data-node"));
                     console.log($(this).parent()[0].dataset.level);
+                    level = $(this).parent()[0].dataset.level;
+                    id = el.item.attr("data-node");
+                    applicant.level(id,level);
                 }
             }
         }).disableSelection();
@@ -915,6 +917,20 @@ var applicant = {
         $(`#display_applicants img.profile_picture`).on('error',function(){
             $(this).attr({'src':'../assets/images/logo/icon.png'});
         });            
+    },
+    level:function(id,level){
+        let level0 = 'pending';
+        console.log([id,level]);
+        var content = `<h5>Are you sure you want to move this applicat?</h5>
+                                    <form id='form_update' class='formValidate' method='get' action='' novalidate='novalidate'>
+                                        <label for='field_name' class='active'>Business Name: </label>
+                                        <input id='field_name' value='${data.value}' type='text' name='field_name' data-error='.error_name'>
+                                        <div class='error_name'></div>
+                                        <button type='submit' data-cmd='button_proceed' class='waves-effect waves-grey grey lighten-5 blue-text btn-flat modal-action right'>Save</button>
+                                        <a class='waves-effect waves-grey grey-text btn-flat modal-action modal-close right'>Cancel</a>
+                                    </form>`;
+                    $("#modal_confirm .modal-content").html(content);
+                    $('#modal_confirm').modal('open');
     }
 }
 

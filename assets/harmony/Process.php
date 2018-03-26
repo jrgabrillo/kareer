@@ -529,42 +529,42 @@
 		print_r($q);
 	}
 
-	if(isset($_GET['set-full'])){/*c*/
-		$data = $_POST['data'];
+	// if(isset($_GET['set-full'])){/*c*/
+	// 	$data = $_POST['data'];
 
-		$q = $Functions->PDO("UPDATE tbl_vacancies SET status = 0 WHERE id = '{$data}'");
-		if($q->execute()){
-			echo 1;
-		}
-		else{
-			$Data = $q->errorInfo();
-			print_r($Data);
-		}
-	}
+	// 	$q = $Functions->PDO("UPDATE tbl_vacancies SET status = 0 WHERE id = '{$data}'");
+	// 	if($q->execute()){
+	// 		echo 1;
+	// 	}
+	// 	else{
+	// 		$Data = $q->errorInfo();
+	// 		print_r($Data);
+	// 	}
+	// }
 
-	if(isset($_GET['set-active'])){/*c*/
-		$data = $_POST['data'];
+	// if(isset($_GET['set-active'])){/*c*/
+	// 	$data = $_POST['data'];
 
-		$q = $Functions->PDO("UPDATE tbl_vacancies SET status = 1 WHERE id = '{$data}'");
-		if($q->execute()){
-			echo 1;
-		}
-		else{
-			$Data = $q->errorInfo();
-			print_r($Data);
-		}
-	}
+	// 	$q = $Functions->PDO("UPDATE tbl_vacancies SET status = 1 WHERE id = '{$data}'");
+	// 	if($q->execute()){
+	// 		echo 1;
+	// 	}
+	// 	else{
+	// 		$Data = $q->errorInfo();
+	// 		print_r($Data);
+	// 	}
+	// }
 
-	if(isset($_GET['set-pending'])){/*c*/
-		$data = $_POST['data'];
+	// if(isset($_GET['set-pending'])){/*c*/
+	// 	$data = $_POST['data'];
 
-		$q = $Functions->PDO("UPDATE tbl_vacancies SET status = 2 WHERE id = '{$data}'");
-		if($q->execute()){
-			echo 1;
-		}
-		else{
-			$Data = $q->errorInfo();
-			print_r($Data);
-		}
-	}
+	// 	$q = $Functions->PDO("UPDATE tbl_vacancies SET status = 2 WHERE id = '{$data}'");
+	// 	if($q->execute()){
+	// 		echo 1;
+	// 	}
+	// 	else{
+	// 		$Data = $q->errorInfo();
+	// 		print_r($Data);
+	// 	}
+	// }
 ?>
