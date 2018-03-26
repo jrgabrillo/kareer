@@ -907,7 +907,7 @@ var applicant = {
                     <img src="${picture}" alt="" class="circle profile_picture">
                     <span class="title">${v[6]} ${v[9]} ${v[8]}</span>
                     <p>Applying for <strong>${v[2]}</strong></p>
-                    <a data-cmd="view_applicant" class="secondary-content"><i class="material-icons">more_vert</i></a>
+                    <a href="#cmd=index;content=applicant;id=${v[0]}" class="secondary-content"><i class="material-icons">more_vert</i></a>
                 </li>
             `);
         });
@@ -915,6 +915,9 @@ var applicant = {
         $(`#display_applicants img.profile_picture`).on('error',function(){
             $(this).attr({'src':'../assets/images/logo/icon.png'});
         });            
+    },
+    view:function(data){
+
     }
 }
 

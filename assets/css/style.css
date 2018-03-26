@@ -552,12 +552,13 @@ th, td{
 #subcontent .free-width{
   overflow-y: hidden;
   overflow-x: scroll;
-  padding: 0px 20px;
+  /* padding: 0px 20px; */
 }
 
 .highlight {
-            border: 1px solid red;
-            font-weight: bold;
-            font-size: 45px;
-            background-color: #333333;
-         }
+  border: 1px solid red;
+  height: 100px;
+  font-weight: bold;
+  font-size: 45px;
+  background-color: #333333;
+}
