@@ -95,7 +95,7 @@
 
 	if(isset($_GET['get-employerJobsPosts'])){ /**/
 		$data = $_POST['data'];
-		$query = $Functions->PDO("SELECT a.id, a.status, a.job_title, c.name, a.skills, a.salary_min, a.salary_max FROM tbl_vacancies a LEFT JOIN tbl_business b ON a.business_id = b.id LEFT JOIN tbl_businessmanagers c ON c.id = a.employer_id");
+		$query = $Functions->PDO("SELECT a.id, a.status, a.job_title, c.name, a.skills, a.salary_min, a.salary_max FROM tbl_vacancies a LEFT JOIN tbl_businessmanagers c ON c.id = a.employer_id WHERE a.business_id = '{$data}'");
 		print_r(json_encode($query));
 	}
 
