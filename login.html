@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=no">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="msapplication-tap-highlight" content="no">
+        <title>Kareer</title>
+
+        <link rel="icon" href="assets/images/icon.png" sizes="32x32">
+        <meta name="msapplication-TileColor" content="#00bcd4">
+        <link rel="stylesheet" href="assets/css/original.materialize.min.css">
+        <link rel="stylesheet" href="assets/css/custom.css">
+        <link rel="stylesheet" href="assets/css/style.css">
+        <link rel="stylesheet" href="assets/css/animate.css">
+    </head>
+    <body class='bg'>
+        <div id='block-control' class=''></div>
+        <div class="progress hide-on-med-and-up hide-on-med-and-down" style="margin: 0rem 0 1rem 0;">
+            <div class="indeterminate"></div>
+        </div>
+        <div id="loader-wrapper">
+            <div id="loader"></div>        
+            <div class="loader-section section-left"></div>
+            <div class="loader-section section-right"></div>
+        </div>
+        <div class="wrapper">
+            <div class="section" style='padding-top: 5%;'>
+                <div class="row">
+                    <div id='content-login' class="col offset-s1 offset-m3 offset-l4 s10 m6 l4">
+                        <div class="card animated" id="display_login">
+                            <div class="card-content center">
+                                <img src="assets/images/kareerLogoW.png" style='width: 150px;'><br/>
+                                <form id="form_login" method="get" action="" novalidate="novalidate">
+                                    <div class="row">
+                                        <div class="input-field col s12 m12 l12">
+                                            <input id="field_email" name="field_email" type="text" data-error=".error_field_email">
+                                            <label for="field_email" class="center-align">Email</label>  
+                                            <div class="error_field_email"></div>  
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="input-field col s12 m12 l12">
+                                            <input id="field_password" name="field_password" type="password" data-error=".error_field_password">
+                                            <label for="field_password" class="">Password</label>
+                                            <div class="error_field_password"></div>  
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="input-field col s12 m12 l12">
+                                            <button class="btn btn-round waves-effect waves-light col s12 white black-text" type='submit'>Login</button>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="input-field col s12 m12 l12">
+                                            <!-- <p class="margin right-align medium-small"><a href="recover.html">Forgot password?</a></p> -->
+                                        </div>          
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <script src="assets/js/jquery.js"></script>
+        <script src="assets/js/materialize.min.js"></script>
+        <script src="assets/js/validation/jquery.validate.min.js"></script>
+        <script src="assets/js/validation/additional-methods.min.js"></script>
+        <script src="assets/js/perfect-scrollbar.min.js"></script>
+        <script src="assets/js/jquery.idle.min.js"></script>
+        <script src="assets/js/process.js"></script>
+        <script src="assets/js/main.js"></script>
+        <script type="text/javascript">
+            system.ini();
+            main.login();
+        </script>
+    </body>
+</html>
