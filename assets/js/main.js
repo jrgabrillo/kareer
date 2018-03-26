@@ -44,7 +44,8 @@ var main = function () {
 			var data = system.ajax('../assets/harmony/Process.php?kill-session',"");
 			data.done(function(data){
 				if(data == 1){
-			    	$(location).attr('href','../');			
+			    	$(location).attr('href','../');		
+			    	localStorage.clear();
 				}
 				else{
 					Materialize.toast('Cannot process request.',4000);
@@ -56,7 +57,7 @@ var main = function () {
 			var data = system.ajax('../assets/harmony/Process.php?check-login',"");
 			data.done(function(data){
 				if(data == 0){
-			    	$(location).attr('href','../');							
+			    	$(location).attr('href','../');		
 				}
 			});
 		},

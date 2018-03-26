@@ -108,7 +108,7 @@ CREATE TABLE `tbl_application` (
   `vacancy_id` varchar(50) DEFAULT NULL,
   `applicant_id` varchar(50) NOT NULL,
   `date` varchar(20) DEFAULT NULL,
-  `status` varchar(1) DEFAULT NULL
+  `status` varchar(1) DEFAULT NULL COMMENT '0=declined;1=level 1; 2=level 2; 3=level 3; 4=hired; 5=pending',
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --

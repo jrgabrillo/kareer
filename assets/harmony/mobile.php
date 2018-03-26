@@ -374,7 +374,7 @@ $Functions = new DatabaseClasses;
         $id = $Functions->PDO_IDGenerator('tbl_application','id');
         $q = $Functions->PDO("SELECT * FROM tbl_application WHERE vacancy_id = '{$data[0]}' AND applicant_id = '{$data[1]}';");
         if(count($q)<1){
-            $query = $Functions->PDO("INSERT INTO tbl_application(id,vacancy_id,applicant_id,date,status) VALUES('{$id}','{$data[0]}','{$data[1]}','{$date}','1');");
+            $query = $Functions->PDO("INSERT INTO tbl_application(id,vacancy_id,applicant_id,date,status) VALUES('{$id}','{$data[0]}','{$data[1]}','{$date}','5');");
             if($query->execute()){
                 $log = $Functions->log($data[1],$id,"applied",'Add');
                 print_r(1);

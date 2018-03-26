@@ -31,9 +31,11 @@ var employer = function() {
             return ajax.responseText;
         },
         display: function() {
-            var content = "",data = JSON.parse(employer.get())[0];
-
+            var content = "",data = JSON.parse(employer.get())[0]
             var profile = (data[5] == null) ? 'avatar.png' : data[5];
+            localStorage.setItem('business_id',data[1]);
+            localStorage.setItem('account_id',data[0]);
+
             $("#user-account img.profile-image").attr({ "src": "../assets/images/profile/" + profile });
             $("#user-account div div a span.display_name").html(data[2]);
 
@@ -711,19 +713,55 @@ var business = function(){
 }();
 
 var applicant = {
-    ini:function(){
-        $( "ul.applicants" ).sortable({
-          connectWith: "ul"
-        });
-     
-        $( "#sortable1, #sortable2, #sortable3" ).disableSelection();
-    },
-    get:function(business_id){
-
+    get:function(){
+        let id = localStorage.getItem('business_id');
+        let ajax = system.ajax('../assets/harmony/Process.php?get-applicantsByBusinessId', id);
+        return ajax.responseText;
     },
     list:function(){
+        let data = JSON.parse(this.get());
 
+        applicant.content(data);
+        // othan. http://api.jqueryui.com/sortable/
+        $( "ul.applicants" ).sortable({
+            connectWith: "ul",
+            placeholder: "highlight",
+            update:function(event, el){
+                if(el.sender){
+                    console.log(el.item.attr("data-node"));
+                    console.log($(this).parent()[0].dataset.level);
+                }
+            }
+        }).disableSelection();
     },
+    content:function(data){
+        let status = "", picture = "";
+        $.each(data,function(i,v){
+            if(v[4] == 1)
+                status = 'level1';
+            else if(v[4] == 2)
+                status = 'level2';
+            else if(v[4] == 3)
+                status = 'level3';
+            else if(v[4] == 5)
+                status = 'level0';
+            else{}
+
+            picture = ((new RegExp('facebook|google','i')).test(v[9]))? v[9] : ((typeof v[9] == 'object') || (v[9] == ""))? '../assets/images/logo/icon.png' : `../assets/images/profile/${v[9]}`;
+            $(`#display_applicants .${status} .applicants`).append(`
+                <li class="collection-item avatar ui-state-default" data-node="${v[0]}">
+                    <img src="${picture}" alt="" class="circle profile_picture">
+                    <span class="title">${v[6]} ${v[9]} ${v[8]}</span>
+                    <p>Applying for <strong>${v[2]}</strong></p>
+                    <a data-cmd="view_applicant" class="secondary-content"><i class="material-icons">more_vert</i></a>
+                </li>
+            `);
+        });
+
+        $(`#display_applicants img.profile_picture`).on('error',function(){
+            $(this).attr({'src':'../assets/images/logo/icon.png'});
+        });            
+    }
 }
 
 var jobPosts = function() {
@@ -820,9 +858,6 @@ var jobPosts = function() {
         list: function() {
             let id = JSON.parse(employer.check_access())[0];
             let data = JSON.parse(jobPosts.get(id));
-
-            console.log(data);
-
             this.content(data);
         },
         content:function(data){

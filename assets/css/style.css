@@ -554,3 +554,10 @@ th, td{
   overflow-x: scroll;
   padding: 0px 20px;
 }
+
+.highlight {
+            border: 1px solid red;
+            font-weight: bold;
+            font-size: 45px;
+            background-color: #333333;
+         }
