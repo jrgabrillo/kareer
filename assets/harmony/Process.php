@@ -36,7 +36,7 @@
 	if(isset($_GET['validateEmail'])){/**/
 		$data = $_POST['data'];
         $access = $Functions->escape($data);
-		$query = $Functions->PDO("SELECT count(*) FROM tbl_businessManagers INNER JOIN tbl_applicant ON tbl_applicant.email = tbl_businessManagers.email WHERE tbl_businessManagers.email = {$access}");
+		$query = $Functions->PDO("SELECT count(*) FROM tbl_businessmanagers INNER JOIN tbl_applicant ON tbl_applicant.email = tbl_businessmanagers.email WHERE tbl_businessmanagers.email = {$access}");
 		print_r($query[0][0]);
 	}
 
@@ -62,7 +62,7 @@
 		$data = $_POST['data']; $flag = 0;
         $access = $Functions->escape($data[0]);
         $password = $data[1];
-		$query = $Functions->PDO("SELECT * FROM tbl_businessManagers WHERE email = {$access}");
+		$query = $Functions->PDO("SELECT * FROM tbl_businessmanagers WHERE email = {$access}");
 		if(count($query)==1){
             if($Functions->testPassword($password,$query[0][4]) && ($query[0][8] == 1)){
 				$_SESSION["kareer7836"] = [$query[0][0],$access,'employer'];
@@ -164,7 +164,7 @@
 
 	if (isset($_GET['get-accountslist'])){/**/
 		$data = $_POST['data'];
-		$q = $Functions->PDO("SELECT * FROM tbl_businessManagers WHERE business_id = '{$data}'");
+		$q = $Functions->PDO("SELECT * FROM tbl_businessmanagers WHERE business_id = '{$data}'");
 
 		print_r(json_encode($q));
 	}
@@ -504,7 +504,7 @@
 	}
 
 	if(isset($_GET['do-addBusinessAccount'])){/**/
-        $id = $Functions->PDO_IDGenerator('tbl_businessManagers','id');
+        $id = $Functions->PDO_IDGenerator('tbl_businessmanagers','id');
 		$date = $Functions->PDO_DateAndTime();
 		$data = $_POST['data'];
 		$business_id = $Functions->escape($data[1]);
@@ -513,7 +513,7 @@
 		$email = $Functions->escape($data[4]);
 		$password = $Functions->password($data[5]);
 
-		$query = $Functions->PDO("INSERT INTO tbl_businessManagers(id,business_id,name,email,position,password,status,`date`) VALUES('{$id}',{$business_id},{$name},{$email},{$position},'{$password}','1','{$date}')");
+		$query = $Functions->PDO("INSERT INTO tbl_businessmanagers(id,business_id,name,email,position,password,status,`date`) VALUES('{$id}',{$business_id},{$name},{$email},{$position},'{$password}','1','{$date}')");
 		if($query->execute()){
 			$log = $Functions->log($data[0],$id,"Added {$data[2]} as account manager",'Add');
 			echo 1;
