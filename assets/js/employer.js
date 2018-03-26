@@ -887,6 +887,8 @@ var applicant = {
                 }
             }
         }).disableSelection();
+
+        // let ps_applicants = new PerfectScrollbar('#display_applicants');        
     },
     content:function(data){
         let status = "", picture = "";

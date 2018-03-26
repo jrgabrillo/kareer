@@ -535,7 +535,8 @@ th, td{
   list-style-type: unset;
 }
 #display_applicants{
-  width:200%;
+  width: 1500px;
+  overflow:  hidden;
 }
 #display_applicants .card-content{
   /* overflow:hidden; */
@@ -552,6 +553,8 @@ th, td{
 #subcontent .free-width{
   overflow-y: hidden;
   overflow-x: scroll;
+  width: 95%;
+  /* padding: 10px; */
   /* padding: 0px 20px; */
 }
 
