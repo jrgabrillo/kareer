@@ -973,35 +973,75 @@ var jobPosts = function() {
             this.content(data);
         },
         content:function(data){
-            let chip = "", skills = "";
+            let chip = "", skills = "", status ="";
             $.each(data, function(i, v) {
-                let status = (v[1] == 1)?'Active':'Inactive';
-                skills = JSON.parse(v[4]);
-                chip = "";
-                $.each(skills, function(i, s) {
-                    chip += `<a class="chip">${s}</a>`;
-                });
-                $("#job_post table tbody").append(`
-                    <tr>
-                        <td widtd="50px" class="center">${status}</td>
-                        <td widtd="300px" class="center">${v[2]}</td>
-                        <td widtd="150px" class="center">${v[3]}</td>
-                        <td widtd="200px" class="center">${chip}</td>
-                        <td widtd="150px" class="center">${v[5]} - ${v[6]}</td>
-                        <td>
-                            <a href='#cmd=index;content=focusjob;id=${v[0]}' data-cmd='view-job' class='tooltipped btn-floating waves-effect black-text no-shadow white right' data-position='left' data-delay='50' data-tooltip='View Job Details'>
-                                <i class='material-icons right hover black-text'>more_vert</i>
-                            </a>
-                        </td>
-                    </tr>
-                `);
+                if( v[1] == 1){
+                    status = 'Active';
+                    skills = JSON.parse(v[4]);
+                    chip = "";
+                    $.each(skills, function(i, s) {
+                        chip += `<a class="chip">${s}</a>`;
+                    });
+                    $("#job_post table tbody").append(`
+                        <tr>
+                            <td widtd="50px" class="center">${status}</td>
+                            <td widtd="300px" class="center">${v[2]}</td>
+                            <td widtd="150px" class="center">${v[3]}</td>
+                            <td>
+                                <a href='#cmd=index;content=focusjob;id=${v[0]}' data-cmd='view-job' class='tooltipped btn-floating waves-effect black-text no-shadow white right' data-position='left' data-delay='50' data-tooltip='View Job Details'>
+                                    <i class='material-icons right hover black-text'>more_vert</i>
+                                </a>
+                            </td>
+                        </tr>
+                    `);
+                }
+                else if( v[1] == 0){
+                    status = 'Full';
+                    skills = JSON.parse(v[4]);
+                    chip = "";
+                    $.each(skills, function(i, s) {
+                        chip += `<a class="chip">${s}</a>`;
+                    });
+                    $("#full_post table tbody").append(`
+                        <tr>
+                            <td widtd="50px" class="center">${status}</td>
+                            <td widtd="300px" class="center">${v[2]}</td>
+                            <td widtd="150px" class="center">${v[3]}</td>
+                            <td>
+                                <a href='#cmd=index;content=focusjob;id=${v[0]}' data-cmd='view-job' class='tooltipped btn-floating waves-effect black-text no-shadow white right' data-position='left' data-delay='50' data-tooltip='View Job Details'>
+                                    <i class='material-icons right hover black-text'>more_vert</i>
+                                </a>
+                            </td>
+                        </tr>
+                    `);
+                }
+                else if( v[1] == 2){
+                    status = 'Pending';
+                    skills = JSON.parse(v[4]);
+                    chip = "";
+                    $.each(skills, function(i, s) {
+                        chip += `<a class="chip">${s}</a>`;
+                    });
+                    $("#pending_post table tbody").append(`
+                        <tr>
+                            <td widtd="50px" class="center">${status}</td>
+                            <td widtd="300px" class="center">${v[2]}</td>
+                            <td widtd="150px" class="center">${v[3]}</td>
+                            <td>
+                                <a href='#cmd=index;content=focusjob;id=${v[0]}' data-cmd='view-job' class='tooltipped btn-floating waves-effect black-text no-shadow white right' data-position='left' data-delay='50' data-tooltip='View Job Details'>
+                                    <i class='material-icons right hover black-text'>more_vert</i>
+                                </a>
+                            </td>
+                        </tr>
+                    `);
+                }
             });
         },
         view:function(){
             let id = jobPosts.id(), chip ="";
             let ajax = system.ajax('../assets/harmony/Process.php?get-jobPost', id);
             let job = JSON.parse(ajax.responseText)[0];
-            let status = (job[11] == 1)?'Active':'Inactive';
+            let status = (job[11] == 1)?'Active':(job[11] == 0)?'Full':'Pending';
             let skills = JSON.parse(job[7]);
             $.each(skills, function(i, v) {
                 chip += `<a class="chip">${v}</a>`;
@@ -1071,6 +1111,9 @@ var jobPosts = function() {
                                             </table>
                                         </div>
                                     </div>`);
+            if(status == 'Pending'){ /*admin can update status of pending job post into active*/
+                $('#job a[data-for="status"]').addClass('disabled');
+            }
             jobPosts.update(skills);
             $("a[data-cmd='delete']").on('click', function() {
                 var content = `<h5>Are You sure you delete this job post?</h5>
@@ -1471,16 +1514,32 @@ var jobPosts = function() {
                 }
                 else if (data.prop == "Status") {
                     let title = (data.value == 'Active')?0:1;
-                    content = `<h5>Are You sure you want to change the ${data.prop} of this job?</h5>
+                    if(data.value == 'Active'){
+                        content = `<h5>Change the ${data.prop} of this job?</h5>
                                     <form id='form_update' class='formValidate' method='get' action='' novalidate='novalidate'>
                                         <div class="input-field col s6">
+                                            <input name="pending" class="with-gap" type="radio"/><span>Move to pending</span>
+                                            <input name="full" class="with-gap" type="radio" checked/><span>Move to full</span>                                  
                                             <textarea class="materialize-textarea" maxlength='500' data-field='field_${data.prop}' name='field_${data.prop}' placeholder='Remarks'></textarea>
                                         </div>
                                         <button type='submit' data-cmd='button_proceed' class='waves-effect waves-grey grey lighten-5 blue-text btn-flat modal-action right'>Save</button>
                                         <a class='waves-effect waves-grey grey-text btn-flat modal-action modal-close right'>Cancel</a>
                                     </form>`;
-                    $("#modal_medium .modal-content").html(content);
-                    $('#modal_medium').modal('open');
+                        $("#modal_medium .modal-content").html(content);
+                        $('#modal_medium').modal('open');
+                    }
+                    if(data.value == 'Full'){
+                        content = `<h5>Are You sure you want to change the ${data.prop} of this job?</h5>
+                                        <form id='form_update' class='formValidate' method='get' action='' novalidate='novalidate'>
+                                        <div class="input-field col s6">                                           
+                                            <textarea class="materialize-textarea" maxlength='500' data-field='field_${data.prop}' name='field_${data.prop}' placeholder='Remarks'></textarea>
+                                        </div>
+                                        <button type='submit' data-cmd='button_proceed' class='waves-effect waves-grey grey lighten-5 blue-text btn-flat modal-action right'>Save</button>
+                                        <a class='waves-effect waves-grey grey-text btn-flat modal-action modal-close right'>Cancel</a>
+                                    </form>`;
+                        $("#modal_medium .modal-content").html(content);
+                        $('#modal_medium').modal('open');
+                    }
                     $("#form_update").validate({
                         rules: {
                             field_Status: { required: true },
