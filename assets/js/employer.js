@@ -76,6 +76,8 @@ var employer = function() {
             });
             $('.tooltipped').tooltip({delay: 50});
             business.view(data[1]);
+            accountManager.list(data[1]);
+            accountManager.add(data[1]);
             this.nav();
             this.update();
             this.updatePicture();
@@ -707,6 +709,158 @@ var business = function(){
                 });
             });
         },
+    }
+}();
+
+var accountManager = function(){
+    "use strict";
+    return {
+        get:function(id){
+            var ajax = (!id)?"all":system.ajax('../assets/harmony/Process.php?get-accountslist',id);
+            return ajax.responseText;
+        },
+        list:function(id){
+            let data = JSON.parse(accountManager.get(id));
+
+            $.each(data,function(i,v){
+                let logo = ((typeof v[5] == 'object') || (v[5] == ""))? '../assets/images/logo/icon.png' : `../assets/images/profile/${v[5]}`;
+                $("#businessAccounts .carousel").append(`
+                    <div class="carousel-item">
+                        <div class="card waves-effect profile" data-content='${JSON.stringify(v)}'>
+                            <div class="card-image" style='background:url("${logo}") center/cover no-repeat' id='img-${v[0]}'></div>
+                            <div class="card-content grey lighten-4">
+                                <h6>${v[2]}<br/><small>${v[6]}</small></h6>
+                            </div>
+                        </div>
+                    </div>
+                `);
+            });
+            $('.carousel').carousel({dist:0,shift:10,padding:20,noWrap:true});
+            accountManager.add();
+
+            $(".card.profile").on('click',function(){
+                let data = $(this).data();
+                accountManager.view(data);
+            });
+        },
+        add:function(id){
+            var data = system.xml("pages.xml");
+            $(data.responseText).find("addBusinessAccount").each(function(i,content){
+                $("#modal_medium .modal-content").html(content);
+                $("#modal_medium .modal-footer").remove();
+
+                pass.visibility();
+                $("#businessAccounts a[data-cmd='addAccount']").on('click',function(){
+                    $('#modal_medium').modal('open');
+                    $('.action_close').on('click',function(){
+                        $('#modal_medium').modal('close');
+                    });
+
+                    $("#form_addAccount").validate({
+                        rules: {
+                            field_name: {required: true, maxlength: 300},
+                            field_position: {required: true, maxlength: 200},
+                            field_email: {required: true, maxlength: 300,email:true,validateEmail:true},
+                            field_password: {required: true,maxlength: 50, checkPassword:true},
+                        },
+                        errorElement : 'div',
+                        errorPlacement: function(error, element) {
+                            var placement = $(element).data('error');
+                            if(placement){
+                                $(placement).append(error)
+                            } 
+                            else{
+                                error.insertAfter(element);
+                            }
+                        },
+                        submitHandler: function (form) {
+                            var user = JSON.parse(admin.check_access());
+                            var _form = $(form).serializeArray();
+                            var ajax = system.ajax('../assets/harmony/Process.php?do-addBusinessAccount',[user[0],id,_form[0]['value'],_form[1]['value'],_form[2]['value'],_form[3]['value']]);
+                            ajax.done(function(ajax){
+                                if(ajax == 1){  
+                                    accountManager.list();
+                                    $('#modal_medium').modal('close');  
+                                    system.alert('Business account has been added.', function(){});
+                                }
+                                else{
+                                    system.alert('Failed to add business account.', function(){});
+                                }
+                            });
+                        }
+                    });
+                });
+            });
+        },
+        view:function(data){
+            data = data.content;
+            let picture = ((typeof data[5] == 'object') || (data[5] == ""))? 'icon.png' : data[5];
+            console.log(data);
+            let status = (data[8] == 1)?['deactivate','lock','red']:['activate','lock_open','grey'];
+            $("#modal_medium .modal-content").html(`
+                <button class="btn-floating btn-small btn-flat waves-effect white modal-action modal-close right"><i class="material-icons grey-text">close</i></button>
+                <div id='accountInfo'>
+                    <div class='row'>
+                        <div class='col s12 m4 l4 offset-m4 offset-l4'>
+                            <img src='../assets/images/profile/${picture}' width='100%' class='profile_picture'>
+                            <a class="secondary-content tooltipped ${status[2]}" data-cmd='action_account' data-value='${JSON.stringify([data[0],status[0]])}' data-position='left' data-delay='50' data-tooltip='${status[0]} account'><i class="material-icons white-text">${status[1]}</i></a>
+                        </div>
+                    </div>
+                    <div class='row'>
+                        <div class='col s12 text-center'>
+                            <h5>${data[2]}<br/><small>${data[6]}<br/>${data[3]}</small></h5>
+                        </div>
+                    </div>
+                </div>
+            `);
+            $(`#accountInfo img.profile_picture`).on('error',function(){
+                $(this).attr({'src':'../assets/images/logo/icon.png'});
+            });
+            $('#modal_medium').modal('open');
+
+            this.accountAction();
+        },
+        accountAction:function(){
+            $("a[data-cmd='action_account']").on('click',function(){
+                let data = $(this).data('value'), title = (data[1] == 'deactivate')?['deactive','lock_open','unlock','red']:['activate','lock','lock','grey'];
+                console.log(data);
+                $("#modal_confirm .modal-content").html(
+                    `<h5>Are you sure you want to ${title[0]} this account?</h5>
+                    <textarea class='materialize-textarea' data-field='field_description' name='field_description' placeholder='Remarks'></textarea>
+                    <button type='submit' data-cmd='button_proceed' class='waves-effect waves-grey grey lighten-5 blue-text btn-flat modal-action right'>Save</button>
+                    <a class='waves-effect waves-grey grey-text btn-flat modal-action modal-close right'>Cancel</a>`
+                );
+
+                $('#modal_confirm').modal('open');
+                $("button[data-cmd='button_proceed']").on('click',function(){
+                    let remarks = $("textarea[data-field='field_description']").val();
+                    console.log(remarks);
+                    if(remarks.length == 0){
+                            Materialize.toast('Remarks is required.',4000);
+                    }
+                    else if(remarks.length > 800){
+                            Materialize.toast('Statement is too long.',4000);
+                    }
+                    else{
+                        let user = JSON.parse(admin.check_access());
+                        var ajax = system.ajax('../assets/harmony/Process.php?do-updateInfo',[user[0],'employer','status',data[0],data[1],remarks]);
+                        ajax.done(function(ajax){
+                            console.log(ajax);
+                            if(ajax == 1){
+                                $('#modal_confirm').modal('close');
+                                $("a[data-cmd='action_account']").addClass('disabled');
+                                $("a[data-cmd='action_account'] i").html(title[1]).removeClass('white-text').addClass('black-text');
+                                $("a[data-cmd='action_account']").attr({'data-value':JSON.stringify([data[0],title[2]])});
+                                system.alert('Account updated.', function(){});
+                            }
+                            else{
+                                system.alert('Failed to update.', function(){});
+                            }
+                        });
+                    }               
+                });
+            });
+        }
     }
 }();
 
