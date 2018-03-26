@@ -534,7 +534,23 @@ th, td{
 #job table tr td ul, #job table tr td ul li{
   list-style-type: unset;
 }
-
+#display_applicants{
+  width:200%;
+}
+#display_applicants .card-content{
+  /* overflow:hidden; */
+  /* z-index: 1; */
+}
 #display_applicants .collection{
   overflow: unset;
+  height: 500px !important;
+  z-index: 1;
+}
+#display_applicants li{
+  z-index: 10000;
+}
+#subcontent .free-width{
+  overflow-y: hidden;
+  overflow-x: scroll;
+  padding: 0px 20px;
 }

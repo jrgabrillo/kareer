@@ -718,6 +718,9 @@ var applicant = {
      
         $( "#sortable1, #sortable2, #sortable3" ).disableSelection();
     },
+    get:function(business_id){
+
+    },
     list:function(){
 
     },

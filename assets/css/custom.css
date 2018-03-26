@@ -76,6 +76,7 @@ i.icon:before {
 #subcontent {
     min-height: 600px;
     margin: 0;
+    overflow:  hidden;
 }
 #modal_confirm {
     width: 40%;
