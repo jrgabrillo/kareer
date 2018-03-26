@@ -889,6 +889,8 @@ var applicant = {
                 }
             }
         }).disableSelection();
+
+        // let ps_applicants = new PerfectScrollbar('#display_applicants');        
     },
     content:function(data){
         let status = "", picture = "";
@@ -909,7 +911,7 @@ var applicant = {
                     <img src="${picture}" alt="" class="circle profile_picture">
                     <span class="title">${v[6]} ${v[9]} ${v[8]}</span>
                     <p>Applying for <strong>${v[2]}</strong></p>
-                    <a data-cmd="view_applicant" class="secondary-content"><i class="material-icons">more_vert</i></a>
+                    <a href="#cmd=index;content=applicant;id=${v[0]}" class="secondary-content"><i class="material-icons">more_vert</i></a>
                 </li>
             `);
         });
