@@ -78,6 +78,8 @@ var employer = function() {
             });
             $('.tooltipped').tooltip({delay: 50});
             business.view(data[1]);
+            accountManager.list(data[1]);
+            accountManager.add(data[1]);
             this.nav();
             this.update();
             this.updatePicture();
@@ -409,10 +411,10 @@ var business = function(){
             $(`#businessInfo img.businesslogo`).on('error',function(){
                 $(this).attr({'src':'../assets/images/logo/icon.png'});
             });
-            business.update();
-            business.updatePicture();
+            business.update(id);
+            business.updatePicture(id);
         },
-        update:function(){
+        update:function(id){
             $("a[data-cmd='update_business']").on('click',function(){
                 let _this = this, data = $(this).data();
                 // $('#modal_confirm .modal-footer').remove();          
@@ -442,13 +444,13 @@ var business = function(){
                                 error.insertAfter(element);
                         },
                         submitHandler: function (form) {
-                            let user = JSON.parse(admin.check_access());
+                            let user = JSON.parse(employer.check_access());
                             var _form = $(form).serializeArray();
                             if(data.value[0] == _form[0]['value']){
                                 system.alert('You did not even change the value.', function(){});
                             }
                             else{
-                                var ajax = system.ajax('../assets/harmony/Process.php?do-updateInfo',[user[0],'business','name',business.id(),_form[0]['value']]);
+                                var ajax = system.ajax('../assets/harmony/Process.php?do-updateInfo',[user[0],'business','name',id,_form[0]['value']]);
                                 ajax.done(function(ajax){
                                     if(ajax == 1){
                                         $('#modal_confirm').modal('close');
@@ -495,7 +497,7 @@ var business = function(){
                                 system.alert('You did not even change the value.', function(){});
                             }
                             else{
-                                var ajax = system.ajax('../assets/harmony/Process.php?do-updateInfo',[user[0],'business','number',business.id(),_form[0]['value']]);
+                                var ajax = system.ajax('../assets/harmony/Process.php?do-updateInfo',[user[0],'business','number',id,_form[0]['value']]);
                                 ajax.done(function(ajax){
                                     if(ajax == 1){
                                         $('#modal_confirm').modal('close');
@@ -541,7 +543,7 @@ var business = function(){
                                 system.alert('You did not even change the value.', function(){});
                             }
                             else{
-                                var ajax = system.ajax('../assets/harmony/Process.php?do-updateInfo',[user[0],'business','email',business.id(),_form[0]['value']]);
+                                var ajax = system.ajax('../assets/harmony/Process.php?do-updateInfo',[user[0],'business','email',id,_form[0]['value']]);
                                 ajax.done(function(ajax){
                                     if(ajax == 1){
                                         $('#modal_confirm').modal('close');
@@ -591,7 +593,7 @@ var business = function(){
                                 system.alert('You did not even change the product name.', function(){});
                             }
                             else{
-                                var ajax = system.ajax('../assets/harmony/Process.php?do-updateInfo',[user[0],'business','description',business.id(),_form]);
+                                var ajax = system.ajax('../assets/harmony/Process.php?do-updateInfo',[user[0],'business','description',id,_form]);
                                 ajax.done(function(ajax){
                                     if(ajax == 1){
                                         $('#modal_medium').modal('close');
@@ -609,7 +611,7 @@ var business = function(){
                 }
             });
         },
-        updatePicture:function(){
+        updatePicture:function(id){
             window.Cropper;
             $("a[data-cmd='updateAdminPicture']").on('click',function(){
                 var data = $(this).data();
@@ -669,7 +671,7 @@ var business = function(){
                                             $(this).html("Uploading...").addClass('disabled');
                                             if(status){
                                                 status = false;
-                                                var data = system.ajax('../assets/harmony/Process.php?do-updateImage',['business','picture',business.id(),cropper.getCroppedCanvas().toDataURL('image/png')]);
+                                                var data = system.ajax('../assets/harmony/Process.php?do-updateImage',['business','picture',id,cropper.getCroppedCanvas().toDataURL('image/png')]);
                                                 data.done(function(data){
                                                     if(data == 1){
                                                         $('#modal_confirm').modal('close');
@@ -709,6 +711,158 @@ var business = function(){
                 });
             });
         },
+    }
+}();
+
+var accountManager = function(){
+    "use strict";
+    return {
+        get:function(id){
+            var ajax = (!id)?"all":system.ajax('../assets/harmony/Process.php?get-accountslist',id);
+            return ajax.responseText;
+        },
+        list:function(id){
+            let data = JSON.parse(accountManager.get(id));
+
+            $.each(data,function(i,v){
+                let logo = ((typeof v[5] == 'object') || (v[5] == ""))? '../assets/images/logo/icon.png' : `../assets/images/profile/${v[5]}`;
+                $("#businessAccounts .carousel").append(`
+                    <div class="carousel-item">
+                        <div class="card waves-effect profile" data-content='${JSON.stringify(v)}'>
+                            <div class="card-image" style='background:url("${logo}") center/cover no-repeat' id='img-${v[0]}'></div>
+                            <div class="card-content grey lighten-4">
+                                <h6>${v[2]}<br/><small>${v[6]}</small></h6>
+                            </div>
+                        </div>
+                    </div>
+                `);
+            });
+            $('.carousel').carousel({dist:0,shift:10,padding:20,noWrap:true});
+            accountManager.add();
+
+            $(".card.profile").on('click',function(){
+                let data = $(this).data();
+                accountManager.view(data);
+            });
+        },
+        add:function(id){
+            var data = system.xml("pages.xml");
+            $(data.responseText).find("addBusinessAccount").each(function(i,content){
+                $("#modal_medium .modal-content").html(content);
+                $("#modal_medium .modal-footer").remove();
+
+                pass.visibility();
+                $("#businessAccounts a[data-cmd='addAccount']").on('click',function(){
+                    $('#modal_medium').modal('open');
+                    $('.action_close').on('click',function(){
+                        $('#modal_medium').modal('close');
+                    });
+
+                    $("#form_addAccount").validate({
+                        rules: {
+                            field_name: {required: true, maxlength: 300},
+                            field_position: {required: true, maxlength: 200},
+                            field_email: {required: true, maxlength: 300,email:true,validateEmail:true},
+                            field_password: {required: true,maxlength: 50, checkPassword:true},
+                        },
+                        errorElement : 'div',
+                        errorPlacement: function(error, element) {
+                            var placement = $(element).data('error');
+                            if(placement){
+                                $(placement).append(error)
+                            } 
+                            else{
+                                error.insertAfter(element);
+                            }
+                        },
+                        submitHandler: function (form) {
+                            var user = JSON.parse(admin.check_access());
+                            var _form = $(form).serializeArray();
+                            var ajax = system.ajax('../assets/harmony/Process.php?do-addBusinessAccount',[user[0],id,_form[0]['value'],_form[1]['value'],_form[2]['value'],_form[3]['value']]);
+                            ajax.done(function(ajax){
+                                if(ajax == 1){  
+                                    accountManager.list();
+                                    $('#modal_medium').modal('close');  
+                                    system.alert('Business account has been added.', function(){});
+                                }
+                                else{
+                                    system.alert('Failed to add business account.', function(){});
+                                }
+                            });
+                        }
+                    });
+                });
+            });
+        },
+        view:function(data){
+            data = data.content;
+            let picture = ((typeof data[5] == 'object') || (data[5] == ""))? 'icon.png' : data[5];
+            console.log(data);
+            let status = (data[8] == 1)?['deactivate','lock','red']:['activate','lock_open','grey'];
+            $("#modal_medium .modal-content").html(`
+                <button class="btn-floating btn-small btn-flat waves-effect white modal-action modal-close right"><i class="material-icons grey-text">close</i></button>
+                <div id='accountInfo'>
+                    <div class='row'>
+                        <div class='col s12 m4 l4 offset-m4 offset-l4'>
+                            <img src='../assets/images/profile/${picture}' width='100%' class='profile_picture'>
+                            <a class="secondary-content tooltipped ${status[2]}" data-cmd='action_account' data-value='${JSON.stringify([data[0],status[0]])}' data-position='left' data-delay='50' data-tooltip='${status[0]} account'><i class="material-icons white-text">${status[1]}</i></a>
+                        </div>
+                    </div>
+                    <div class='row'>
+                        <div class='col s12 text-center'>
+                            <h5>${data[2]}<br/><small>${data[6]}<br/>${data[3]}</small></h5>
+                        </div>
+                    </div>
+                </div>
+            `);
+            $(`#accountInfo img.profile_picture`).on('error',function(){
+                $(this).attr({'src':'../assets/images/logo/icon.png'});
+            });
+            $('#modal_medium').modal('open');
+
+            this.accountAction();
+        },
+        accountAction:function(){
+            $("a[data-cmd='action_account']").on('click',function(){
+                let data = $(this).data('value'), title = (data[1] == 'deactivate')?['deactive','lock_open','unlock','red']:['activate','lock','lock','grey'];
+                console.log(data);
+                $("#modal_confirm .modal-content").html(
+                    `<h5>Are you sure you want to ${title[0]} this account?</h5>
+                    <textarea class='materialize-textarea' data-field='field_description' name='field_description' placeholder='Remarks'></textarea>
+                    <button type='submit' data-cmd='button_proceed' class='waves-effect waves-grey grey lighten-5 blue-text btn-flat modal-action right'>Save</button>
+                    <a class='waves-effect waves-grey grey-text btn-flat modal-action modal-close right'>Cancel</a>`
+                );
+
+                $('#modal_confirm').modal('open');
+                $("button[data-cmd='button_proceed']").on('click',function(){
+                    let remarks = $("textarea[data-field='field_description']").val();
+                    console.log(remarks);
+                    if(remarks.length == 0){
+                            Materialize.toast('Remarks is required.',4000);
+                    }
+                    else if(remarks.length > 800){
+                            Materialize.toast('Statement is too long.',4000);
+                    }
+                    else{
+                        let user = JSON.parse(admin.check_access());
+                        var ajax = system.ajax('../assets/harmony/Process.php?do-updateInfo',[user[0],'employer','status',data[0],data[1],remarks]);
+                        ajax.done(function(ajax){
+                            console.log(ajax);
+                            if(ajax == 1){
+                                $('#modal_confirm').modal('close');
+                                $("a[data-cmd='action_account']").addClass('disabled');
+                                $("a[data-cmd='action_account'] i").html(title[1]).removeClass('white-text').addClass('black-text');
+                                $("a[data-cmd='action_account']").attr({'data-value':JSON.stringify([data[0],title[2]])});
+                                system.alert('Account updated.', function(){});
+                            }
+                            else{
+                                system.alert('Failed to update.', function(){});
+                            }
+                        });
+                    }               
+                });
+            });
+        }
     }
 }();
 
@@ -836,7 +990,6 @@ var jobPosts = function() {
                             for (var skills in chipdata) {
                                 skillsArray.push(chipdata[skills]['tag']);
                             }
-                            console.log(_form);
                             var ajax = system.ajax('../assets/harmony/Process.php?do-postJob', [user[0], user[1], _form[0]['value'], _form[1]['value'], _form[2]['value'], _form[3]['value'], _form[4]['value'], description2, skillsArray]);
                             ajax.done(function(ajax) {
                                 console.log(ajax);
@@ -861,36 +1014,75 @@ var jobPosts = function() {
             this.content(data);
         },
         content:function(data){
-            let chip = "", skills = "";
+            let chip = "", skills = "", status ="";
             $.each(data, function(i, v) {
-                let status = (v[1] == 1)?'Active':'Inactive';
-                skills = JSON.parse(v[4]);
-                chip = "";
-                $.each(skills, function(i, s) {
-                    chip += `<a class="chip">${s}</a>`;
-                });
-                $("#job_post table tbody").append(`
-                    <tr>
-                        <td widtd="50px" class="center">${status}</td>
-                        <td widtd="300px" class="center">${v[2]}</td>
-                        <td widtd="150px" class="center">${v[3]}</td>
-                        <td widtd="200px" class="center">${chip}</td>
-                        <td widtd="150px" class="center">${v[5]} - ${v[6]}</td>
-                        <td>
-                            <a href='#cmd=index;content=focusjob;id=${v[0]}' data-cmd='view-job' class='tooltipped btn-floating waves-effect black-text no-shadow white right' data-position='left' data-delay='50' data-tooltip='View Job Details'>
-                                <i class='material-icons right hover black-text'>more_vert</i>
-                            </a>
-                        </td>
-                    </tr>
-                `);
+                if( v[1] == 1){
+                    status = 'Active';
+                    skills = JSON.parse(v[4]);
+                    chip = "";
+                    $.each(skills, function(i, s) {
+                        chip += `<a class="chip">${s}</a>`;
+                    });
+                    $("#job_post table tbody").append(`
+                        <tr>
+                            <td widtd="50px" class="center">${status}</td>
+                            <td widtd="300px" class="center">${v[2]}</td>
+                            <td widtd="150px" class="center">${v[3]}</td>
+                            <td>
+                                <a href='#cmd=index;content=focusjob;id=${v[0]}' data-cmd='view-job' class='tooltipped btn-floating waves-effect black-text no-shadow white right' data-position='left' data-delay='50' data-tooltip='View Job Details'>
+                                    <i class='material-icons right hover black-text'>more_vert</i>
+                                </a>
+                            </td>
+                        </tr>
+                    `);
+                }
+                else if( v[1] == 0){
+                    status = 'Full';
+                    skills = JSON.parse(v[4]);
+                    chip = "";
+                    $.each(skills, function(i, s) {
+                        chip += `<a class="chip">${s}</a>`;
+                    });
+                    $("#full_post table tbody").append(`
+                        <tr>
+                            <td widtd="50px" class="center">${status}</td>
+                            <td widtd="300px" class="center">${v[2]}</td>
+                            <td widtd="150px" class="center">${v[3]}</td>
+                            <td>
+                                <a href='#cmd=index;content=focusjob;id=${v[0]}' data-cmd='view-job' class='tooltipped btn-floating waves-effect black-text no-shadow white right' data-position='left' data-delay='50' data-tooltip='View Job Details'>
+                                    <i class='material-icons right hover black-text'>more_vert</i>
+                                </a>
+                            </td>
+                        </tr>
+                    `);
+                }
+                else if( v[1] == 2){
+                    status = 'Pending';
+                    skills = JSON.parse(v[4]);
+                    chip = "";
+                    $.each(skills, function(i, s) {
+                        chip += `<a class="chip">${s}</a>`;
+                    });
+                    $("#pending_post table tbody").append(`
+                        <tr>
+                            <td widtd="50px" class="center">${status}</td>
+                            <td widtd="300px" class="center">${v[2]}</td>
+                            <td widtd="150px" class="center">${v[3]}</td>
+                            <td>
+                                <a href='#cmd=index;content=focusjob;id=${v[0]}' data-cmd='view-job' class='tooltipped btn-floating waves-effect black-text no-shadow white right' data-position='left' data-delay='50' data-tooltip='View Job Details'>
+                                    <i class='material-icons right hover black-text'>more_vert</i>
+                                </a>
+                            </td>
+                        </tr>
+                    `);
+                }
             });
         },
         view:function(){
             let id = jobPosts.id(), chip ="";
             let ajax = system.ajax('../assets/harmony/Process.php?get-jobPost', id);
             let job = JSON.parse(ajax.responseText)[0];
-            console.log(job);
-            let status = (job[11] == 1)?'Active':'Inactive';
+            let status = (job[11] == 1)?'Active':(job[11] == 0)?'Full':'Pending';
             let skills = JSON.parse(job[7]);
             $.each(skills, function(i, v) {
                 chip += `<a class="chip">${v}</a>`;
@@ -960,6 +1152,9 @@ var jobPosts = function() {
                                             </table>
                                         </div>
                                     </div>`);
+            if(status == 'Pending'){ /*admin can update status of pending job post into active*/
+                $('#job a[data-for="status"]').addClass('disabled');
+            }
             jobPosts.update(skills);
             $("a[data-cmd='delete']").on('click', function() {
                 var content = `<h5>Are You sure you delete this job post?</h5>
@@ -1360,16 +1555,32 @@ var jobPosts = function() {
                 }
                 else if (data.prop == "Status") {
                     let title = (data.value == 'Active')?0:1;
-                    content = `<h5>Are You sure you want to change the ${data.prop} of this job?</h5>
+                    if(data.value == 'Active'){
+                        content = `<h5>Change the ${data.prop} of this job?</h5>
                                     <form id='form_update' class='formValidate' method='get' action='' novalidate='novalidate'>
                                         <div class="input-field col s6">
+                                            <input name="pending" class="with-gap" type="radio"/><span>Move to pending</span>
+                                            <input name="full" class="with-gap" type="radio" checked/><span>Move to full</span>                                  
                                             <textarea class="materialize-textarea" maxlength='500' data-field='field_${data.prop}' name='field_${data.prop}' placeholder='Remarks'></textarea>
                                         </div>
                                         <button type='submit' data-cmd='button_proceed' class='waves-effect waves-grey grey lighten-5 blue-text btn-flat modal-action right'>Save</button>
                                         <a class='waves-effect waves-grey grey-text btn-flat modal-action modal-close right'>Cancel</a>
                                     </form>`;
-                    $("#modal_medium .modal-content").html(content);
-                    $('#modal_medium').modal('open');
+                        $("#modal_medium .modal-content").html(content);
+                        $('#modal_medium').modal('open');
+                    }
+                    if(data.value == 'Full'){
+                        content = `<h5>Are You sure you want to change the ${data.prop} of this job?</h5>
+                                        <form id='form_update' class='formValidate' method='get' action='' novalidate='novalidate'>
+                                        <div class="input-field col s6">                                           
+                                            <textarea class="materialize-textarea" maxlength='500' data-field='field_${data.prop}' name='field_${data.prop}' placeholder='Remarks'></textarea>
+                                        </div>
+                                        <button type='submit' data-cmd='button_proceed' class='waves-effect waves-grey grey lighten-5 blue-text btn-flat modal-action right'>Save</button>
+                                        <a class='waves-effect waves-grey grey-text btn-flat modal-action modal-close right'>Cancel</a>
+                                    </form>`;
+                        $("#modal_medium .modal-content").html(content);
+                        $('#modal_medium').modal('open');
+                    }
                     $("#form_update").validate({
                         rules: {
                             field_Status: { required: true },
