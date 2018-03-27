@@ -541,7 +541,7 @@ th, td{
 #display_applicants .collection{
   overflow: unset;
   height: 500px !important;
-  z-index: 1;
+  z-index: 0;
 }
 #display_applicants li{
   z-index: 10001;

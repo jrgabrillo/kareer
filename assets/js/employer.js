@@ -897,6 +897,7 @@ var applicant = function(){
             $( "ul.applicants" ).sortable({
                 connectWith: "ul",
                 placeholder: "highlight",
+                zIndex: 10001,
                 update:function(event, el){
                     if(el.sender){
                         console.log(el.item.attr("data-node"));
@@ -1103,12 +1104,12 @@ var applicant = function(){
                     }
                 });
                 $("a[data-cmd='stay']").on('click',function(){
-                    $(`#display_applicants .${level} li[data-node="${id}"]`).addClass('hidden');
-                })
+                    $( "ul.applicants" ).sortable("cancel");
+                });
             });
             $("a[data-cmd='stay']").on('click',function(){
-                $(`#display_applicants .${level} li[data-node="${id}"]`).addClass('hidden');
-            })
+                $( "ul.applicants" ).sortable("cancel");
+            });
         },
         action:function(level){
             $("a[data-cmd='failed']").on('click',function(){
