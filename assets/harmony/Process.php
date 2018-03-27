@@ -327,6 +327,25 @@
 				print_r($Data);
 			}
 		}
+		else if($data[1] == 'application'){
+			if($data[2] == 'status'){
+				$data[4];
+				$remarks = "{$data[5]}. Updated {$data[2]} to {$data[4]}";
+				$q = $Functions->PDO("UPDATE tbl_application SET status = '{$data[4]}' WHERE id = '{$data[3]}'");
+			}
+			else{
+				$q = $Functions->PDO("");
+			}
+
+			if($q->execute()){
+				$log = $Functions->log($data[0],$data[3],$remarks,"Update");
+				echo 1;
+			}
+			else{
+				$Data = $q->errorInfo();
+				print_r($Data);
+			}
+		}
 		else if($data[1] == 'job'){
 			if($data[2] == 'title'){
 				$field1 = $Functions->escape($data[4]);
