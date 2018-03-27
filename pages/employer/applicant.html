@@ -4,9 +4,10 @@
             <div class="col s10 offset-s1" id='display_applicant'>
                 <div class="card">
                     <ul class="tabs">
-                        <li class="tab col s4"><a class="active" href="#applicantInfo">Profile</a></li>
+                        <li class="tab col s4"><a href="#applicantInfo">Profile</a></li>
                         <li class="tab col s4"><a href="#applicantAcads">Academic Background</a></li>
                         <li class="tab col s4"><a href="#applicantCareer">Career Background</a></li>
+                        <li class="tab col s4"><a class="active" href="#messages">Messages</a></li>
                     </ul>
                     <div class="card-content">
                         <div class="row" id='applicantInfo'></div>
@@ -25,6 +26,42 @@
                                     <table>
                                         <tbody></tbody>
                                     </table>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row" id='messages'>
+                            <div class="row">
+                                <div class='card-content page-content'>
+                                    <ul class="collection message">
+                                        <li class="collection-item avatar message">
+                                            <i class="material-icons circle red">play_arrow</i>
+                                            <div class="collection-item">
+                                                <p>doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo.</p>
+                                            </div>
+                                        </li>
+                                        <li class="collection-item avatar message">
+                                            <i class="material-icons circle green">insert_chart</i>
+                                            <div class="collection-item">
+                                                <p>architecto beatae vitae dicta sunt explicabo.</p>
+                                            </div>
+                                        </li>
+                                        <li class="collection-item avatar message">
+                                            <i class="material-icons circle red">play_arrow</i>
+                                            <div class="collection-item">
+                                                <p>eaque ipsa quae ab illo inventore veritatis et quasi</p>
+                                            </div>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="toolbar">
+                                <div class="toolbar-inner row">
+                                    <div class="col s10">
+                                        <textarea class="materialize-textarea message" placeholder="Message"></textarea>
+                                    </div>
+                                    <a class="link col s1">
+                                        <i class="material-icons small">send</i>
+                                    </a>
                                 </div>
                             </div>
                         </div>

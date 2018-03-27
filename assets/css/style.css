@@ -565,3 +565,21 @@ th, td{
   font-size: 45px;
   background-color: #333333;
 }
+ul.collection.message {
+    background: linear-gradient(to top, #69bb9b, #6abc9c);
+}
+li.collection-item.avatar.message {
+    width: 49%;
+    border: 0 !important;
+    margin: 10px;
+    background: transparent !important;
+}
+div.collection-item {
+    border-radius: 5px;
+}
+
+textarea.message{
+    min-height: 0px !important;
+    margin: 0px !important;
+    max-height: 30px !important;
+}

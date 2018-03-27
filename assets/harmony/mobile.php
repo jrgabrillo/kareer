@@ -415,5 +415,30 @@ $Functions = new DatabaseClasses;
         $query = $Functions->PDO("SELECT b.id, c.company_name, c.image, b.job_title, b.vacancy_date FROM tbl_bookmark a LEFT JOIN tbl_vacancies b ON a.vacancy_id = b.id LEFT JOIN tbl_business c ON c.id = b.business_id WHERE applicant_id = '{$data}' AND vacancy_id NOT IN (SELECT vacancy_id FROM tbl_application)");
         print_r(json_encode($query));
     }
+    if(isset($_GET['do-updateImage'])){/**/
+        $data = $_POST['data'];
+        // print_r($data);
+        $date = new DateTime();
+        $time = $date->getTimestamp();
+        $q = $Functions->PDO("SELECT * FROM tbl_personalinfo WHERE id = '{$data[0]}'");
+        $_filename = ($q[0][12] == "")?"icon.png":$q[0][12];
+        if(file_exists("../images/logo/{$_filename}")){
+            $filename = "../images/logo/{$_filename}";
+        }
+        else{
+            $_filename = "applicant_{$time}.rnr";
+            $filename = "../images/logo/{$_filename}";
+        }           
+        $picture = $Functions->saveImage($filename,$data[2]);
+        $q = $Functions->PDO("UPDATE tbl_personalinfo SET picture = '{$_filename}' WHERE id = '{$data[0]}'");
+        if($q->execute()){
+            $log = $Functions->log($data[0],$data[0],'update picture','Update');
+            echo 1;
+        }
+        else{
+            $Data = $q->errorInfo();
+            print_r($Data);
+        }
+    }
     /**/
 ?> 

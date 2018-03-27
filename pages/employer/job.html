@@ -1,15 +1,14 @@
 <div class='row animated'>
     <div class="wrapper wrapper-content">
         <a data-cmd="add_job-post" class='tooltipped btn-floating waves-effect black-text no-shadow grey' data-delay='50' data-tooltip='Post a Job'><i class="material-icons medium">add</i></a>
-        <div class="col s12 rows" >
-            <ul class="card tabs">
+        <div class="card col s12 rows" >
+            <ul class="tabs">
                 <li class="tab col s4"><a href="#pending_post">Pending Job Posts</a></li>
                 <li class="tab col s4"><a class="active" href="#job_post">Active Job Posts</a></li>
                 <li class="tab col s4"><a href="#full_post">Full Job Posts</a></li>
             </ul>
-            <div class="card">
-                <div class='card' id='pending_post'>
-                    <div class="divider"></div>
+            <div class="card-content">
+                <div class='row' id='pending_post'>
                     <div class='card-content'>
                         <table>
                             <thead>
@@ -24,8 +23,7 @@
                         </table>
                     </div>
                 </div>
-                <div class='card' id='job_post'>
-                    <div class="divider"></div>
+                <div class='row' id='job_post'>
                     <div class='card-content'>
                         <table>
                             <thead>
@@ -40,8 +38,7 @@
                         </table>
                     </div>
                 </div>
-                <div class='card' id='full_post'>
-                    <div class="divider"></div>
+                <div class='row' id='full_post'>
                     <div class='card-content'>
                         <table>
                             <thead>
