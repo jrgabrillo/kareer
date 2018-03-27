@@ -538,33 +538,28 @@ th, td{
   width: 1500px;
   overflow:  hidden;
 }
-#display_applicants .card-content{
-  /* overflow:hidden; */
-  /* z-index: 1; */
-}
 #display_applicants .collection{
   overflow: unset;
   height: 500px !important;
   z-index: 1;
 }
 #display_applicants li{
-  z-index: 10000;
+  z-index: 10001;
 }
 #subcontent .free-width{
   overflow-y: hidden;
   overflow-x: scroll;
   width: 95%;
-  /* padding: 10px; */
-  /* padding: 0px 20px; */
 }
 
 .highlight {
   border: 1px solid red;
-  height: 100px;
-  font-weight: bold;
-  font-size: 45px;
-  background-color: #333333;
 }
+
+.ui-sortable-helper{
+  background: #ccc;
+}
+
 ul.collection.message {
     background: linear-gradient(to top, #69bb9b, #6abc9c);
 }
@@ -583,3 +578,8 @@ textarea.message{
     margin: 0px !important;
     max-height: 30px !important;
 }
+
+#display_applicants ul.applicants li .row{
+  display: inline-block;
+  margin-bottom:  0px;
+} 

@@ -866,267 +866,220 @@ var accountManager = function(){
     }
 }();
 
-var applicant = {
-    get:function(){
-        let id = localStorage.getItem('business_id');
-        let ajax = system.ajax('../assets/harmony/Process.php?get-applicantsByBusinessId', id);
-        return ajax.responseText;
-    },
-    id:function(){
-        return ((window.location.hash).split(';')[2]).split('=')[1];
-    },
-    getinfo:function(id){
-        var ajax = system.ajax('../assets/harmony/Process.php?get-applicantInfo',id);
-        return ajax.responseText;
-    },
-    getAcad:function(id){
-        var ajax = system.ajax('../assets/harmony/Process.php?get-applicantAcad',id);
-        return ajax.responseText;
-    },
-    getCareer:function(id){
-        var ajax = system.ajax('../assets/harmony/Process.php?get-applicantCareer',id);
-        return ajax.responseText;
-    },
-    list:function(){
-        let data = JSON.parse(this.get()), id="",level="";
-        applicant.content(data);
-        // othan. http://api.jqueryui.com/sortable/
-        $( "ul.applicants" ).sortable({
-            connectWith: "ul",
-            placeholder: "highlight",
-            update:function(event, el){
-                if(el.sender){
-                    console.log(el.item.attr("data-node"));
-                    console.log($(this).parent()[0].dataset.level);
-                    level = $(this).parent()[0].dataset.level;
-                    id = el.item.attr("data-node");
-                    applicant.level(id,level);
+var applicant = function(){
+    "use strict";
+    return {
+        get:function(){
+            let id = localStorage.getItem('business_id');
+            let ajax = system.ajax('../assets/harmony/Process.php?get-applicantsByBusinessId', id);
+            return ajax.responseText;
+        },
+        id:function(){
+            return ((window.location.hash).split(';')[2]).split('=')[1];
+        },
+        getinfo:function(id){
+            var ajax = system.ajax('../assets/harmony/Process.php?get-applicantInfo',id);
+            return ajax.responseText;
+        },
+        getAcad:function(id){
+            var ajax = system.ajax('../assets/harmony/Process.php?get-applicantAcad',id);
+            return ajax.responseText;
+        },
+        getCareer:function(id){
+            var ajax = system.ajax('../assets/harmony/Process.php?get-applicantCareer',id);
+            return ajax.responseText;
+        },
+        list:function(){
+            let data = JSON.parse(this.get()), id="",level="";
+            applicant.content(data);
+            $('.tooltipped').tooltip({delay: 50});
+
+            $( "ul.applicants" ).sortable({
+                connectWith: "ul",
+                placeholder: "highlight",
+                update:function(event, el){
+                    if(el.sender){
+                        console.log(el.item.attr("data-node"));
+                        console.log($(this).parent()[0].dataset.level);
+                        level = $(this).parent()[0].dataset.level;
+                        id = el.item.attr("data-node");
+                        applicant.level(id,level);
+                    }
                 }
-            }
-        }).disableSelection();
-
-        // let ps_applicants = new PerfectScrollbar('#display_applicants');        
-    },
-    content:function(data){
-        let status = "", picture = "";
-        $.each(data,function(i,v){
-            if(v[5] == 1){
-                status = 'level1';
-            }
-            else if(v[5] == 2){
-                status = 'level2';
-            }
-            else if(v[5] == 3){
-                status = 'level3';
-            }
-            else if(v[5] == 5){
-                status = 'level0';
-            }
-            else{
-            }
-            picture = ((new RegExp('facebook|google','i')).test(v[10]))? v[10] : ((typeof v[10] == 'object') || (v[10] == ""))? '../assets/images/logo/icon.png' : `../assets/images/profile/${v[10]}`;
-            $(`#display_applicants .${status} .applicants`).append(`
-                <li class="collection-item avatar ui-state-default" data-node="${v[2]}">
-                    <img src="${picture}" alt="" class="circle profile_picture">
-                    <span class="title">${v[7]} ${v[9]} ${v[8]}</span>
-                    <p>Applying for <strong>${v[3]}</strong></p>
-                    <a data-cmd='info' data-node="${v[1]}" href="#cmd=index;content=applicant;id=${v[1]}" class="secondary-content"><i class="material-icons">more_vert</i></a>
-                    <a data-cmd='passed' data-name="${status}" data-node="${v[2]}" class='hide waves-effect waves-grey grey lighten-5 green-text btn-flat left'>Passed</a>
-                    <a data-cmd='failed' data-name="${status}" data-node="${v[2]}" class='waves-effect waves-grey grey lighten-5 red-text btn-flat right'>Failed</a>
-                </li>
-            `);
-        });
-
-        $(`#display_applicants img.profile_picture`).on('error',function(){
-            $(this).attr({'src':'../assets/images/logo/icon.png'});
-        });
-        applicant.action();
-    },
-    view:function(){
-        let data = JSON.parse((applicant.getinfo(applicant.id())))[0];
-        console.log(data);
-        let picture = ((new RegExp('facebook|google','i')).test(data[19]))? data[19] : ((typeof data[19] == 'object') || (data[19] == ""))? '../assets/images/logo/icon.png' : `../assets/images/profile/${data[19]}`;
-        let auth = (data[4] == "fb-oauth")?'Facebook':(data[4] == "google-auth")?'Google':'Kareer Website', account_id = (data[5] == "")?data[0]:data[5];
-        let description = (data[1] == null)?'':data[1];
-        $("#applicantInfo").html(`
-            <div class='row'>
-                <div class='col s12 center'>
-                    <h5>${data[8]} ${data[10]} ${data[9]}</h5>
-                </div>
-                <div class='col s12 center'>
-                    <img src='${picture}' width='20%' class='profile_picture '>
-                    <div class='col s12 grey lighten-2'>${description}</div>
-                </div>
-            </div>
-            <div class='row'>
-                <div class='col s12' id='display_personalInformation'>
-                    <strong>Personal Information</strong>
-                    <table>
-                        <thead>
-                            <tr><td width='100px'></td><td></td></tr>
-                        </thead>
-                        <tbody>
-                            <tr><td>Email Address:</td><td>${data[2]}</td></tr>
-                            <tr><td>Number:</td><td>${data[15]}</td></tr>
-                            <tr><td>Gender:</td><td>${data[11]}</td></tr>
-                            <tr><td>Date of Birth:</td><td>${data[12]}</td></tr>
-                            <tr><td>Address:</td><td>${data[13]}</td></tr>
-                            <tr><td>Citizenship:</td><td>${data[14]}</td></tr>
-                            <tr><td>Height:</td><td>${data[16]}</td></tr>
-                            <tr><td>Weight:</td><td>${data[17]}</td></tr>
-                            <tr><td>Religion:</td><td>${data[18]}</td></tr>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-            <div class='row'>
-                <div class='col s12'>
-                    <strong>Account Information</strong>
-                    <table>
-                        <thead>
-                            <tr><td width='100px'></td><td></td></tr>
-                        </thead>
-                        <tbody>
-                            <tr><td>Login Type:</td><td>${auth}</td></tr>
-                            <tr><td>Account ID:</td><td>${account_id}</td></tr>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-            <div class='row' id='display_acad'></div>
-            <div class='row' id='display_career'></div>
-        `);
-
-        $(`img.profile_picture`).on('error',function(){
-            $(this).attr({'src':'../assets/images/logo/icon.png'});
-        });
-        $('ul.tabs').tabs();
-        applicant.viewAcads();
-        applicant.viewCareer();
-    },
-    viewAcads:function(){
-        let data = JSON.parse(applicant.getAcad(applicant.id()));
-        console.log(data);
-        $.each(data,function(i,v){
-            $('#applicantAcads table tbody').append(`
-                    <tr>
-                        <td><h6><strong>${v[1]}</strong><br/><div>${v[2]}</div><small>${v[4]} - ${v[5]}</small><h6></td>
-                    </tr>
-                `);
-        });
-    },
-    viewCareer:function(){
-        let data = JSON.parse(applicant.getCareer(applicant.id()));
-        console.log(data);
-        $.each(data,function(i,v){
-            $('#applicantCareer table tbody').append(`
-                    <tr>
-                        <td><h6><strong>${v[3]}</strong><br/><div>${v[4]}</div><div>${v[6]}</div><small>${v[1]} - ${v[2]}</small><h6></td>
-                    </tr>
-                `);
-        });
-    },
-    level:function(id,level){
-        let level0 = 'pending';
-        console.log([id,level]);
-        let statusLevel = (level == 'level0')?5:(level == 'level1')?1:(level == 'level2')?2:3;
-        if(statusLevel == '5'){
-            var content = `<h5>Are you sure you want to move this applicant?</h5>
-                            <form id='form_update' class='formValidate' method='get' action='' novalidate='novalidate'>
-                                <a data-cmd='remark' class='waves-effect waves-grey grey lighten-5 blue-text btn-flat modal-close right'>Yes</a>
-                                <a data-cmd="stay" class='waves-effect waves-grey grey-text btn-flat modal-close right'>No</a>
-                            </form>`;
-            $("#modal_confirm .modal-content").html(content);
-            $('#modal_confirm').modal('open');
-        }
-        if(statusLevel == '1'){
-            var content = `<h5>Are you sure you want to move this applicant?</h5>
-                            <form id='form_update' class='formValidate' method='get' action='' novalidate='novalidate'>
-                                <a data-cmd='remark' class='waves-effect waves-grey grey lighten-5 blue-text btn-flat modal-close right'>Yes</a>
-                                <a data-cmd="stay" class='waves-effect waves-grey grey-text btn-flat modal-close right'>No</a>
-                            </form>`;
-            $("#modal_confirm .modal-content").html(content);
-            $('#modal_confirm').modal('open');
-        }
-        if(statusLevel == '2'){
-            var content = `<h5>Are you sure you want to move this applicant?</h5>
-                            <form id='form_update' class='formValidate' method='get' action='' novalidate='novalidate'>
-                                <a data-cmd='remark' class='waves-effect waves-grey grey lighten-5 blue-text btn-flat modal-close right'>Yes</a>
-                                <a  data-cmd="stay" class='waves-effect waves-grey grey-text btn-flat modal-close right'>No</a>
-                            </form>`;
-            $("#modal_confirm .modal-content").html(content);
-            $('#modal_confirm').modal('open');
-        }
-        if(statusLevel == '3'){
-            var content = `<h5>Are you sure you want to move this applicant?</h5>
-                            <form id='form_update' class='formValidate' method='get' action='' novalidate='novalidate'>
-                                <a data-cmd='remark' class='waves-effect waves-grey grey lighten-5 blue-text btn-flat modal-close right'>Yes</a>
-                                <a data-cmd="stay" class='waves-effect waves-grey grey-text btn-flat modal-close right'>No</a>
-                            </form>`;
-            $("#modal_confirm .modal-content").html(content);
-            $('#modal_confirm').modal('open');
-        }
-        $("a[data-cmd='remark']").on('click',function(){
-            $("#modal_medium .modal-content").html(
-                    `<h5>Why do you want to move this applicant?</h5>
-                    <textarea class='materialize-textarea' data-field='field_description' name='field_description' placeholder='Remarks'></textarea>
-                    <button data-cmd='button_proceed' class='waves-effect waves-grey grey lighten-5 blue-text btn-flat modal-action right'>Proceed</button>
-                    <a data-cmd="stay" class='waves-effect waves-grey grey-text btn-flat modal-close right'>Cancel</a>`
-                );
-            $('#modal_medium').modal('open');
-
-            $("button[data-cmd='button_proceed']").on('click',function(){
-                let remarks = $("textarea[data-field='field_description']").val();
-                if(remarks.length == 0){
-                        Materialize.toast('Remarks is required.',4000);
+            }).disableSelection();
+            // let ps_applicants = new PerfectScrollbar('#display_applicants');        
+        },
+        content:function(data){
+            let status = "", picture = "";
+            $.each(data,function(i,v){
+                if(v[5] == 1){
+                    status = 'level1';
                 }
-                else if(remarks.length > 800){
-                        Materialize.toast('Statement is too long.',4000);
+                else if(v[5] == 2){
+                    status = 'level2';
+                }
+                else if(v[5] == 3){
+                    status = 'level3';
+                }
+                else if(v[5] == 5){
+                    status = 'level0';
                 }
                 else{
-                    let user = JSON.parse(employer.get())[0];
-                    var ajax = system.ajax('../assets/harmony/Process.php?do-updateInfo',[user[0],'application','status',id,statusLevel,remarks]);
-                    ajax.done(function(ajax){
-                        console.log(ajax);
-                        if(ajax == 1){
-                            $('#modal_medium').modal('close');
-                            system.alert('Account updated.', function(){});
-                        }
-                        else{
-                            system.alert('Failed to update.', function(){});
-                        }
-                    });
                 }
+                picture = ((new RegExp('facebook|google','i')).test(v[10]))? v[10] : ((typeof v[10] == 'object') || (v[10] == ""))? '../assets/images/logo/icon.png' : `../assets/images/profile/${v[10]}`;
+                $(`#display_applicants .${status} .applicants`).append(`
+                    <li class="collection-item avatar ui-state-default" data-node="${v[2]}">
+                        <img src="${picture}" alt="" class="circle profile_picture">
+                        <span class="title">${v[7]} ${v[9]} ${v[8]}</span>
+                        <p>Applying for <strong>${v[3]}</strong></p>
+                        <a data-cmd='info' data-node="${v[1]}" href="#cmd=index;content=applicant;id=${v[1]}" class="tooltipped secondary-content" data-tooltip="Review Applicant"><i class="material-icons">more_vert</i></a>
+                        <div class='row'>
+                            <a data-cmd='passed' data-name="${status}" data-node="${v[2]}" class='tooltipped btn-floating btn-flat hide waves-effect waves-grey green lighten-5'data-position="top" data-tooltip="Passed"><i class="material-icons">check</i></a>
+                            <a data-cmd='failed' data-name="${status}" data-node="${v[2]}" class='tooltipped btn-floating btn-flat waves-effect waves-grey red lighten-5'data-position="top" data-tooltip="Failed"><i class="material-icons">close</i></a>
+                        </div>
+                    </li>
+                `);
             });
-            $("a[data-cmd='stay']").on('click',function(){
-                $(`#display_applicants .${level} li[data-node="${id}"]`).addClass('hidden');
-            })
-        });
-        $("a[data-cmd='stay']").on('click',function(){
-            $(`#display_applicants .${level} li[data-node="${id}"]`).addClass('hidden');
-        })
-    },
-    action:function(level){
-        $("a[data-cmd='failed']").on('click',function(){
-            let id = $(this).data('node');
-            console.log($(this).data('name'));
-            $("#modal_confirm .modal-content").html(
-                    `<h5>Are you sure you want to fail this applicant?</h5>
-                    <button data-cmd='button_proceed' class='waves-effect waves-grey grey lighten-5 blue-text btn-flat modal-action modal-close right'>Yes</button>
-                    <a data-cmd="stay" class='waves-effect waves-grey grey-text btn-flat modal-close right'>Cancel</a>`
-                );
-            $('#modal_confirm').modal('open');
 
-            $("button[data-cmd='button_proceed']").on('click',function(){
+            $(`#display_applicants img.profile_picture`).on('error',function(){
+                $(this).attr({'src':'../assets/images/logo/icon.png'});
+            });
+            applicant.action();
+        },
+        view:function(){
+            let data = JSON.parse((applicant.getinfo(applicant.id())))[0];
+            console.log(data);
+            let picture = ((new RegExp('facebook|google','i')).test(data[19]))? data[19] : ((typeof data[19] == 'object') || (data[19] == ""))? '../assets/images/logo/icon.png' : `../assets/images/profile/${data[19]}`;
+            let auth = (data[4] == "fb-oauth")?'Facebook':(data[4] == "google-auth")?'Google':'Kareer Website', account_id = (data[5] == "")?data[0]:data[5];
+            let description = (data[1] == null)?'':data[1];
+            $("#applicantInfo").html(`
+                <div class='row'>
+                    <div class='col s12 center'>
+                        <h5>${data[8]} ${data[10]} ${data[9]}</h5>
+                    </div>
+                    <div class='col s12 center'>
+                        <img src='${picture}' width='20%' class='profile_picture '>
+                        <div class='col s12 grey lighten-2'>${description}</div>
+                    </div>
+                </div>
+                <div class='row'>
+                    <div class='col s12' id='display_personalInformation'>
+                        <strong>Personal Information</strong>
+                        <table>
+                            <thead>
+                                <tr><td width='100px'></td><td></td></tr>
+                            </thead>
+                            <tbody>
+                                <tr><td>Email Address:</td><td>${data[2]}</td></tr>
+                                <tr><td>Number:</td><td>${data[15]}</td></tr>
+                                <tr><td>Gender:</td><td>${data[11]}</td></tr>
+                                <tr><td>Date of Birth:</td><td>${data[12]}</td></tr>
+                                <tr><td>Address:</td><td>${data[13]}</td></tr>
+                                <tr><td>Citizenship:</td><td>${data[14]}</td></tr>
+                                <tr><td>Height:</td><td>${data[16]}</td></tr>
+                                <tr><td>Weight:</td><td>${data[17]}</td></tr>
+                                <tr><td>Religion:</td><td>${data[18]}</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class='row'>
+                    <div class='col s12'>
+                        <strong>Account Information</strong>
+                        <table>
+                            <thead>
+                                <tr><td width='100px'></td><td></td></tr>
+                            </thead>
+                            <tbody>
+                                <tr><td>Login Type:</td><td>${auth}</td></tr>
+                                <tr><td>Account ID:</td><td>${account_id}</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class='row' id='display_acad'></div>
+                <div class='row' id='display_career'></div>
+            `);
+
+            $(`img.profile_picture`).on('error',function(){
+                $(this).attr({'src':'../assets/images/logo/icon.png'});
+            });
+            $('ul.tabs').tabs();
+            applicant.viewAcads();
+            applicant.viewCareer();
+        },
+        viewAcads:function(){
+            let data = JSON.parse(applicant.getAcad(applicant.id()));
+            console.log(data);
+            $.each(data,function(i,v){
+                $('#applicantAcads table tbody').append(`
+                        <tr>
+                            <td><h6><strong>${v[1]}</strong><br/><div>${v[2]}</div><small>${v[4]} - ${v[5]}</small><h6></td>
+                        </tr>
+                    `);
+            });
+        },
+        viewCareer:function(){
+            let data = JSON.parse(applicant.getCareer(applicant.id()));
+            console.log(data);
+            $.each(data,function(i,v){
+                $('#applicantCareer table tbody').append(`
+                        <tr>
+                            <td><h6><strong>${v[3]}</strong><br/><div>${v[4]}</div><div>${v[6]}</div><small>${v[1]} - ${v[2]}</small><h6></td>
+                        </tr>
+                    `);
+            });
+        },
+        level:function(id,level){
+            let level0 = 'pending';
+            console.log([id,level]);
+            let statusLevel = (level == 'level0')?5:(level == 'level1')?1:(level == 'level2')?2:3;
+            if(statusLevel == '5'){
+                var content = `<h5>Are you sure you want to move this applicant?</h5>
+                                <form id='form_update' class='formValidate' method='get' action='' novalidate='novalidate'>
+                                    <a data-cmd='remark' class='waves-effect waves-grey grey lighten-5 blue-text btn-flat modal-close right'>Yes</a>
+                                    <a data-cmd="stay" class='waves-effect waves-grey grey-text btn-flat modal-close right'>No</a>
+                                </form>`;
+                $("#modal_confirm .modal-content").html(content);
+                $('#modal_confirm').modal('open');
+            }
+            if(statusLevel == '1'){
+                var content = `<h5>Are you sure you want to move this applicant?</h5>
+                                <form id='form_update' class='formValidate' method='get' action='' novalidate='novalidate'>
+                                    <a data-cmd='remark' class='waves-effect waves-grey grey lighten-5 blue-text btn-flat modal-close right'>Yes</a>
+                                    <a data-cmd="stay" class='waves-effect waves-grey grey-text btn-flat modal-close right'>No</a>
+                                </form>`;
+                $("#modal_confirm .modal-content").html(content);
+                $('#modal_confirm').modal('open');
+            }
+            if(statusLevel == '2'){
+                var content = `<h5>Are you sure you want to move this applicant?</h5>
+                                <form id='form_update' class='formValidate' method='get' action='' novalidate='novalidate'>
+                                    <a data-cmd='remark' class='waves-effect waves-grey grey lighten-5 blue-text btn-flat modal-close right'>Yes</a>
+                                    <a  data-cmd="stay" class='waves-effect waves-grey grey-text btn-flat modal-close right'>No</a>
+                                </form>`;
+                $("#modal_confirm .modal-content").html(content);
+                $('#modal_confirm').modal('open');
+            }
+            if(statusLevel == '3'){
+                var content = `<h5>Are you sure you want to move this applicant?</h5>
+                                <form id='form_update' class='formValidate' method='get' action='' novalidate='novalidate'>
+                                    <a data-cmd='remark' class='waves-effect waves-grey grey lighten-5 blue-text btn-flat modal-close right'>Yes</a>
+                                    <a data-cmd="stay" class='waves-effect waves-grey grey-text btn-flat modal-close right'>No</a>
+                                </form>`;
+                $("#modal_confirm .modal-content").html(content);
+                $('#modal_confirm').modal('open');
+            }
+            $("a[data-cmd='remark']").on('click',function(){
                 $("#modal_medium .modal-content").html(
-                    `<h5>Why do you want to fail this applicant?</h5>
-                    <textarea class='materialize-textarea' data-field='field_description' name='field_description' placeholder='Remarks'></textarea>                    
-                    <button data-cmd='proceed' class='waves-effect waves-grey grey lighten-5 blue-text btn-flat modal-action right'>Yes</button>
-                    <a data-cmd="stay" class='waves-effect waves-grey grey-text btn-flat modal-close right'>Cancel</a>`
-                );
+                        `<h5>Why do you want to move this applicant?</h5>
+                        <textarea class='materialize-textarea' data-field='field_description' name='field_description' placeholder='Remarks'></textarea>
+                        <button data-cmd='button_proceed' class='waves-effect waves-grey grey lighten-5 blue-text btn-flat modal-action right'>Proceed</button>
+                        <a data-cmd="stay" class='waves-effect waves-grey grey-text btn-flat modal-close right'>Cancel</a>`
+                    );
                 $('#modal_medium').modal('open');
 
-                $("button[data-cmd='proceed']").on('click',function(){
+                $("button[data-cmd='button_proceed']").on('click',function(){
                     let remarks = $("textarea[data-field='field_description']").val();
                     if(remarks.length == 0){
                             Materialize.toast('Remarks is required.',4000);
@@ -1136,15 +1089,12 @@ var applicant = {
                     }
                     else{
                         let user = JSON.parse(employer.get())[0];
-                        var ajax = system.ajax('../assets/harmony/Process.php?do-updateInfo',[user[0],'application','status',id,0,remarks]);
+                        var ajax = system.ajax('../assets/harmony/Process.php?do-updateInfo',[user[0],'application','status',id,statusLevel,remarks]);
                         ajax.done(function(ajax){
                             console.log(ajax);
                             if(ajax == 1){
                                 $('#modal_medium').modal('close');
                                 system.alert('Account updated.', function(){});
-                                // applicant.list();
-                                $(`li[data-node="${id}"]`).addClass('hidden');
-
                             }
                             else{
                                 system.alert('Failed to update.', function(){});
@@ -1152,10 +1102,65 @@ var applicant = {
                         });
                     }
                 });
+                $("a[data-cmd='stay']").on('click',function(){
+                    $(`#display_applicants .${level} li[data-node="${id}"]`).addClass('hidden');
+                })
             });
-        });
+            $("a[data-cmd='stay']").on('click',function(){
+                $(`#display_applicants .${level} li[data-node="${id}"]`).addClass('hidden');
+            })
+        },
+        action:function(level){
+            $("a[data-cmd='failed']").on('click',function(){
+                let id = $(this).data('node');
+                console.log($(this).data('name'));
+                $("#modal_confirm .modal-content").html(
+                        `<h5>Are you sure you want to fail this applicant?</h5>
+                        <button data-cmd='button_proceed' class='waves-effect waves-grey grey lighten-5 blue-text btn-flat modal-action modal-close right'>Yes</button>
+                        <a data-cmd="stay" class='waves-effect waves-grey grey-text btn-flat modal-close right'>Cancel</a>`
+                    );
+                $('#modal_confirm').modal('open');
+
+                $("button[data-cmd='button_proceed']").on('click',function(){
+                    $("#modal_medium .modal-content").html(
+                        `<h5>Why do you want to fail this applicant?</h5>
+                        <textarea class='materialize-textarea' data-field='field_description' name='field_description' placeholder='Remarks'></textarea>                    
+                        <button data-cmd='proceed' class='waves-effect waves-grey grey lighten-5 blue-text btn-flat modal-action right'>Yes</button>
+                        <a data-cmd="stay" class='waves-effect waves-grey grey-text btn-flat modal-close right'>Cancel</a>`
+                    );
+                    $('#modal_medium').modal('open');
+
+                    $("button[data-cmd='proceed']").on('click',function(){
+                        let remarks = $("textarea[data-field='field_description']").val();
+                        if(remarks.length == 0){
+                                Materialize.toast('Remarks is required.',4000);
+                        }
+                        else if(remarks.length > 800){
+                                Materialize.toast('Statement is too long.',4000);
+                        }
+                        else{
+                            let user = JSON.parse(employer.get())[0];
+                            var ajax = system.ajax('../assets/harmony/Process.php?do-updateInfo',[user[0],'application','status',id,0,remarks]);
+                            ajax.done(function(ajax){
+                                console.log(ajax);
+                                if(ajax == 1){
+                                    $('#modal_medium').modal('close');
+                                    system.alert('Account updated.', function(){});
+                                    // applicant.list();
+                                    $(`li[data-node="${id}"]`).addClass('hidden');
+
+                                }
+                                else{
+                                    system.alert('Failed to update.', function(){});
+                                }
+                            });
+                        }
+                    });
+                });
+            });
+        }
     }
-}
+}();
 
 var jobPosts = function() {
     "use strict";
@@ -1866,22 +1871,21 @@ var jobPosts = function() {
     }
 }();
 
-var job = {
-
-}
-
-var pass = {
-    visibility: function() {
-        let c = 0;
-        $(".item-input-password-preview").on('click', function() {
-            c++;
-            if ((c % 2) == 0) {
-                $(this).children('i').html('visibility_off');
-                $("input[name='field_password']").attr({ 'type': 'password' });
-            } else {
-                $(this).children('i').html('visibility');
-                $("input[name='field_password']").attr({ 'type': 'text' });
-            }
-        });
-    }
-}
+var pass = function() {
+    "use strict";
+    return {
+        visibility: function() {
+            let c = 0;
+            $(".item-input-password-preview").on('click', function() {
+                c++;
+                if ((c % 2) == 0) {
+                    $(this).children('i').html('visibility_off');
+                    $("input[name='field_password']").attr({ 'type': 'password' });
+                } else {
+                    $(this).children('i').html('visibility');
+                    $("input[name='field_password']").attr({ 'type': 'text' });
+                }
+            });
+        }
+    }       
+}();
