@@ -539,7 +539,7 @@ th, td{
   overflow:  hidden;
 }
 #display_applicants .collection{
-  overflow: unset;
+  overflow-y: scroll;
   height: 500px !important;
   z-index: 0;
 }

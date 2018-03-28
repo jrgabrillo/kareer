@@ -177,7 +177,7 @@
 
 	if (isset($_GET['get-applicantsByBusinessId'])){/**/
 		$data = $_POST['data'];
-		$q = $Functions->PDO("SELECT a.employer_id, c.id,b.id, a.job_title, b.date, b.status, c.email, d.given_name, d.family_name, d.middle_name, d.picture, a.id FROM tbl_vacancies a INNER JOIN tbl_application b ON a.id = b.vacancy_id INNER JOIN tbl_applicant c ON b.applicant_id = c.id INNER JOIN tbl_personalinfo d ON c.id = d.id WHERE b.status <> '0'"); //  WHERE a.business_id = '{$data}'
+		$q = $Functions->PDO("SELECT a.employer_id, c.id,b.id, a.job_title, b.date, b.status, c.email, d.given_name, d.family_name, d.middle_name, d.picture, a.id FROM tbl_vacancies a INNER JOIN tbl_application b ON a.id = b.vacancy_id INNER JOIN tbl_applicant c ON b.applicant_id = c.id INNER JOIN tbl_personalinfo d ON c.id = d.id WHERE b.status <> '0' AND a.business_id = '{$data}'"); //  WHERE a.business_id = '{$data}'
 		print_r(json_encode($q));
 	}
 
@@ -563,10 +563,10 @@
 	}
 	if(isset($_GET['get-messages'])){ /**/
 		$data = $_POST['data'];
-		$min = $data[2];
-		$max = $data[3];
+		$min = $data[3];
+		$max = $data[4];
 		if($data[0] == 'employer'){
-			$q = $Functions->PDO("SELECT c.image, b.name, a.message, a.date FROM tbl_messages a LEFT JOIN tbl_businessmanagers b ON a.from_account_id = b.id LEFT JOIN tbl_business c ON c.id = b.business_id LEFT JOIN tbl_personalinfo d ON d.id = a.to_account_id WHERE a.to_account_id = '{$data[1]}' AND a.header = 'application' ORDER BY date DESC");
+			$q = $Functions->PDO("SELECT c.image, b.name, a.message, a.date FROM tbl_messages a INNER JOIN tbl_businessmanagers b ON a.from_account_id = b.id INNER JOIN tbl_business c ON c.id = b.business_id INNER JOIN tbl_personalinfo d ON d.id = a.to_account_id WHERE a.to_account_id = '{$data[2]}' AND c.id = '{$data[1]}' AND a.header = 'application' ORDER BY date DESC");
 		}
 		else{
 			$q = $Functions->PDO("");

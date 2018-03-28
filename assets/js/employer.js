@@ -893,9 +893,10 @@ var applicant = function(){
             return ajax.responseText;
         },
         getMessages:function(id,min,max){
+            let business = localStorage.getItem('business_id');
             min = ((typeof min == undefined) || (min == null))?0:min;
             max = ((typeof max == undefined) || (max == null))?2:max;
-            var data = system.ajax('../assets/harmony/Process.php?get-messages',['employer',id,min,max]);
+            var data = system.ajax('../assets/harmony/Process.php?get-messages',['employer',business,id,min,max]);
             return data.responseText;
         },
         list:function(){
