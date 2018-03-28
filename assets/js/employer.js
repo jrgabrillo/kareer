@@ -877,6 +877,9 @@ var applicant = function(){
         id:function(){
             return ((window.location.hash).split(';')[2]).split('=')[1];
         },
+        jobId:function(){
+            return (window.location.hash).split(';')[3];
+        },
         getinfo:function(id){
             var ajax = system.ajax('../assets/harmony/Process.php?get-applicantInfo',id);
             return ajax.responseText;
@@ -939,7 +942,7 @@ var applicant = function(){
                         <img src="${picture}" alt="" class="circle profile_picture">
                         <span class="title">${v[7]} ${v[9]} ${v[8]}</span>
                         <p>Applying for <strong>${v[3]}</strong></p>
-                        <a data-cmd='info' data-node="${v[1]}" href="#cmd=index;content=applicant;id=${v[1]}" class="tooltipped secondary-content" data-tooltip="Review Applicant"><i class="material-icons">more_vert</i></a>
+                        <a data-cmd='info' href="#cmd=index;content=applicant;id=${v[1]};${v[11]}" class="tooltipped secondary-content" data-tooltip="Review Applicant"><i class="material-icons">more_vert</i></a>
                         <div class='row'>
                             <a data-cmd='passed' data-name="${status}" data-node="${v[2]}" class='tooltipped btn-floating btn-flat hide waves-effect waves-grey green lighten-5'data-position="top" data-tooltip="Passed"><i class="material-icons">check</i></a>
                             <a data-cmd='failed' data-name="${status}" data-node="${v[2]}" class='tooltipped btn-floating btn-flat waves-effect waves-grey red lighten-5'data-position="top" data-tooltip="Failed"><i class="material-icons">close</i></a>
@@ -1185,9 +1188,8 @@ var applicant = function(){
             applicant.sendMessage(applicant.id());
             $('#messages ul').scrollTop($('#messages ul').prop("scrollHeight")); /*this will stick the scroll to bottom*/
         },
-        sendMessage:function(id){
-            let user = JSON.parse(employer.get())[0];
-            let data = JSON.parse(business.get(user[1]));
+        sendMessage:function(){
+            let user = JSON.parse(employer.get())[0], data = JSON.parse(business.get(user[1])), id = applicant.id(), jobId =applicant.jobId();
             let logo = ((typeof data[0][5] == 'object') || (data[0][5] == ""))? 'icon.png' : data[0][5];
             $('a[data-cmd="send"]').on('click', function(){
                 let message = $("textarea[data-field='message']").val();
@@ -1195,7 +1197,7 @@ var applicant = function(){
                         Materialize.toast('Empty message.',2000);
                 }
                 else {
-                    var ajax = system.ajax('../assets/harmony/Process.php?do-message',[user[0],id,message,'application']);
+                    var ajax = system.ajax('../assets/harmony/Process.php?do-message',[user[0],jobId,id,message,'application']);
                     ajax.done(function(ajax){
                         $("textarea[data-field='message']").val("")
                         if(ajax == 1){

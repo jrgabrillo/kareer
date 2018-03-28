@@ -177,7 +177,7 @@
 
 	if (isset($_GET['get-applicantsByBusinessId'])){/**/
 		$data = $_POST['data'];
-		$q = $Functions->PDO("SELECT a.employer_id, c.id,b.id, a.job_title, b.date, b.status, c.email, d.given_name, d.family_name, d.middle_name, d.picture FROM tbl_vacancies a INNER JOIN tbl_application b ON a.id = b.vacancy_id INNER JOIN tbl_applicant c ON b.applicant_id = c.id INNER JOIN tbl_personalinfo d ON c.id = d.id WHERE b.status <> '0'"); //  WHERE a.business_id = '{$data}'
+		$q = $Functions->PDO("SELECT a.employer_id, c.id,b.id, a.job_title, b.date, b.status, c.email, d.given_name, d.family_name, d.middle_name, d.picture, a.id FROM tbl_vacancies a INNER JOIN tbl_application b ON a.id = b.vacancy_id INNER JOIN tbl_applicant c ON b.applicant_id = c.id INNER JOIN tbl_personalinfo d ON c.id = d.id WHERE b.status <> '0'"); //  WHERE a.business_id = '{$data}'
 		print_r(json_encode($q));
 	}
 
@@ -552,7 +552,7 @@
 		$data = $_POST['data'];
 		$id = $Functions->PDO_IDGenerator('tbl_messages','id');
 		$date = $Functions->PDO_DateAndTime();
-		$message = $Functions->PDO("INSERT INTO tbl_messages(id,from_account_id,to_account_id,message,`date`,header) VALUES ('{$id}','{$data[0]}','{$data[1]}','{$data[2]}','{$date}','{$data[3]}')");
+		$message = $Functions->PDO("INSERT INTO tbl_messages(id,from_account_id,to_account_id,subject_id,message,`date`,header) VALUES ('{$id}','{$data[0]}','{$data[2]}','{$data[1]}','{$data[3]}','{$date}','{$data[4]}')");
 		if($message->execute()){
 			echo 1;
 		}

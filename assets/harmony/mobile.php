@@ -440,5 +440,10 @@ $Functions = new DatabaseClasses;
             print_r($Data);
         }
     }
+    if (isset($_GET['get-messages'])){/**/
+        $data = $_POST['data'];
+        $query = $Functions->PDO("SELECT c.image, b.name, a.message, a.date FROM tbl_messages a LEFT JOIN tbl_businessmanagers b ON a.from_account_id = b.id LEFT JOIN tbl_business c ON c.id = b.business_id LEFT JOIN tbl_personalinfo d ON d.id = a.to_account_id WHERE a.to_account_id = '{$data}' AND a.header = 'application' ORDER BY date DESC");
+        print_r(json_encode($query));
+    }
     /**/
 ?> 
