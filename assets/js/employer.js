@@ -889,6 +889,12 @@ var applicant = function(){
             var ajax = system.ajax('../assets/harmony/Process.php?get-applicantCareer',id);
             return ajax.responseText;
         },
+        getMessages:function(id,min,max){
+            min = ((typeof min == undefined) || (min == null))?0:min;
+            max = ((typeof max == undefined) || (max == null))?2:max;
+            var data = system.ajax('../assets/harmony/Process.php?get-messages',['employer',id,min,max]);
+            return data.responseText;
+        },
         list:function(){
             let data = JSON.parse(this.get()), id="",level="";
             applicant.content(data);
@@ -949,7 +955,7 @@ var applicant = function(){
         },
         view:function(){
             let data = JSON.parse((applicant.getinfo(applicant.id())))[0];
-            console.log(data);
+            // console.log(data);
             let picture = ((new RegExp('facebook|google','i')).test(data[19]))? data[19] : ((typeof data[19] == 'object') || (data[19] == ""))? '../assets/images/logo/icon.png' : `../assets/images/profile/${data[19]}`;
             let auth = (data[4] == "fb-oauth")?'Facebook':(data[4] == "google-auth")?'Google':'Kareer Website', account_id = (data[5] == "")?data[0]:data[5];
             let description = (data[1] == null)?'':data[1];
@@ -1008,10 +1014,11 @@ var applicant = function(){
             $('ul.tabs').tabs();
             applicant.viewAcads();
             applicant.viewCareer();
+            applicant.messages();
         },
         viewAcads:function(){
             let data = JSON.parse(applicant.getAcad(applicant.id()));
-            console.log(data);
+            // console.log(data);
             $.each(data,function(i,v){
                 $('#applicantAcads table tbody').append(`
                         <tr>
@@ -1022,7 +1029,7 @@ var applicant = function(){
         },
         viewCareer:function(){
             let data = JSON.parse(applicant.getCareer(applicant.id()));
-            console.log(data);
+            // console.log(data);
             $.each(data,function(i,v){
                 $('#applicantCareer table tbody').append(`
                         <tr>
@@ -1159,7 +1166,64 @@ var applicant = function(){
                     });
                 });
             });
+        },
+        /*sending messages function*/
+        messages:function(){
+            let convo = JSON.parse(applicant.getMessages(applicant.id())), business ="";
+            $.each(convo,function(i,v){
+                business = ((typeof v[0] == 'object') || v[0] == "") ? 'icon.png' : v[0];
+                $('#messages ul').prepend(`
+                    <li class="collection-item avatar message">
+                        <img src="../assets/images/logo/${v[0]}" alt="" class="circle white">
+                        <div class="collection-item">
+                            <strong>${v[1]}</strong><br/>
+                            <p>${v[2]}</p>
+                        </div>
+                    </li>
+                `);
+            });
+            applicant.sendMessage(applicant.id());
+            $('#messages ul').scrollTop($('#messages ul').prop("scrollHeight")); /*this will stick the scroll to bottom*/
+        },
+        sendMessage:function(id){
+            let user = JSON.parse(employer.get())[0];
+            let data = JSON.parse(business.get(user[1]));
+            let logo = ((typeof data[0][5] == 'object') || (data[0][5] == ""))? 'icon.png' : data[0][5];
+            $('a[data-cmd="send"]').on('click', function(){
+                let message = $("textarea[data-field='message']").val();
+                if(message.length == 0){
+                        Materialize.toast('Empty message.',2000);
+                }
+                else {
+                    var ajax = system.ajax('../assets/harmony/Process.php?do-message',[user[0],id,message,'application']);
+                    ajax.done(function(ajax){
+                        $("textarea[data-field='message']").val("")
+                        if(ajax == 1){
+                            system.alert('Message sent.', function(){});
+                            /*sent message will display after the last message*/
+                            $('#messages ul').append(`
+                                <li class="collection-item avatar message">
+                                    <img src="../assets/images/logo/${logo}" alt="" class="circle white">
+                                    <div class="collection-item">
+                                        <strong>${user[2]}</strong><br/>
+                                        <p>${message}</p>
+                                    </div>
+                                </li>
+                            `);
+                            $('#messages ul').scrollTop($('#messages ul').prop("scrollHeight"));/*this will stick the scroll to bottom*/
+                            /*-----*/
+                        }
+                        else{
+                            system.alert('Message not sent.', function(){});
+                        }
+                    });
+                }
+            });
+            $(`#messages .avatar img`).on('error',function(){
+                $(this).attr({'src':'../assets/images/logo/icon.png'});
+            });
         }
+        /*------*/
     }
 }();
 

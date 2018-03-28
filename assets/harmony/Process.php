@@ -276,7 +276,7 @@
 			// print($data);
 			if($data[2] == 'status'){
 				$field = ($data[4] == 'deactivate')?0:1;
-				$remarks = "{$data[5]}. Updated {$data[2]} to {$field}";
+				$remarks = "{$data[5]}";
 				$q = $Functions->PDO("UPDATE tbl_businessmanagers SET status = '{$field}' WHERE id = '{$data[3]}'");
 			}
 			else if($data[2] == 'name'){
@@ -330,7 +330,7 @@
 		else if($data[1] == 'application'){
 			if($data[2] == 'status'){
 				$data[4];
-				$remarks = "{$data[5]}. Updated {$data[2]} to {$data[4]}";
+				$remarks = "{$data[5]}.";
 				$q = $Functions->PDO("UPDATE tbl_application SET status = '{$data[4]}' WHERE id = '{$data[3]}'");
 			}
 			else{
@@ -547,4 +547,32 @@
 		$q = $Functions->db_buckup();
 		print_r($q);
 	}
+	/*message*/
+	if (isset($_GET['do-message'])) {
+		$data = $_POST['data'];
+		$id = $Functions->PDO_IDGenerator('tbl_messages','id');
+		$date = $Functions->PDO_DateAndTime();
+		$message = $Functions->PDO("INSERT INTO tbl_messages(id,from_account_id,to_account_id,message,`date`,header) VALUES ('{$id}','{$data[0]}','{$data[1]}','{$data[2]}','{$date}','{$data[3]}')");
+		if($message->execute()){
+			echo 1;
+		}
+		else{
+			$Data = $message->errorInfo();
+			print_r($Data);
+		}
+	}
+	if(isset($_GET['get-messages'])){ /**/
+		$data = $_POST['data'];
+		$min = $data[2];
+		$max = $data[3];
+		if($data[0] == 'employer'){
+			$q = $Functions->PDO("SELECT c.image, b.name, a.message, a.date FROM tbl_messages a LEFT JOIN tbl_businessmanagers b ON a.from_account_id = b.id LEFT JOIN tbl_business c ON c.id = b.business_id LEFT JOIN tbl_personalinfo d ON d.id = a.to_account_id WHERE a.to_account_id = '{$data[1]}' AND a.header = 'application' ORDER BY date DESC");
+		}
+		else{
+			$q = $Functions->PDO("");
+		}
+		print_r(json_encode($q));
+	}
+	/**/
+
 ?>

@@ -559,11 +559,15 @@ th, td{
 .ui-sortable-helper{
   background: #ccc;
 }
-
+/*messaging style*/
 ul.collection.message {
     background: linear-gradient(to top, #69bb9b, #6abc9c);
+    height: 400px !important;
+    overflow-y: scroll;
 }
 li.collection-item.avatar.message {
+    animation: send linear .2s; 
+    animation-iteration-count: 1;
     width: 49%;
     border: 0 !important;
     margin: 10px;
@@ -571,8 +575,8 @@ li.collection-item.avatar.message {
 }
 div.collection-item {
     border-radius: 5px;
+    padding: 5px !important;
 }
-
 textarea.message{
     min-height: 0px !important;
     margin: 0px !important;
@@ -583,3 +587,16 @@ textarea.message{
   display: inline-block;
   margin-bottom:  0px;
 } 
+/**/
+/*sending animation*/
+@keyframes send{
+  0% {
+    opacity:0;
+    transform:  translate(0px,10px);
+  }
+  100% {
+    opacity:1;
+    transform:  translate(0px,0px);
+  }
+}
+/**/
