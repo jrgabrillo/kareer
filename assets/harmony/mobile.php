@@ -105,7 +105,7 @@ $Functions = new DatabaseClasses;
         print_r(json_encode($query));
     }
 
-    if (isset($_GET['get-jobs1'])){/**/
+    if (isset($_GET['get-jobs'])){/**/
         $data = $_POST['data'];
         $s  = "";
         $min = $data[1];
@@ -118,7 +118,7 @@ $Functions = new DatabaseClasses;
         print_r(json_encode($q_s));
     }
 
-    if (isset($_GET['get-jobs'])){/**/
+    if (isset($_GET['get-jobs1'])){/**/
         $data = $_POST['data'];
         $s  = "";
         $min = $data[1];
@@ -441,6 +441,22 @@ $Functions = new DatabaseClasses;
             $Data = $q->errorInfo();
             print_r($Data);
         }
+    }
+    if (isset($_GET['get-messages'])){/**/
+        $data = $_POST['data'];
+        $result = [];
+        $query = $Functions->PDO("SELECT DISTINCT from_account_id, to_account_id, subject_id FROM tbl_messages WHERE to_account_id = '{$data}'");
+        foreach ($query as $key => $value) {
+            $queryVacancies = $Functions->PDO("SELECT business_id, job_title FROM tbl_vacancies WHERE id = '{$value[2]}'");
+            $queryBusiness = $Functions->PDO("SELECT DISTINCT id,company_name,image FROM tbl_business WHERE id = '{$queryVacancies[0][0]}'");
+            $result[] = [$queryBusiness[0],$queryVacancies[0][1]];
+        }
+        print_r(json_encode($result));
+    }
+    if (isset($_GET['get-messageConvo'])){/**/
+        $data = $_POST['data'];
+        $query = $Functions->PDO("SELECT c.image, b.name, a.message, a.date FROM tbl_messages a INNER JOIN tbl_businessmanagers b ON a.from_account_id = b.id INNER JOIN tbl_business c ON c.id = b.business_id INNER JOIN tbl_personalinfo d ON d.id = a.to_account_id WHERE c.id = '{$data}' AND a.header = 'application' ORDER BY date DESC");
+        print_r(json_encode($query));
     }
     /**/
 ?> 

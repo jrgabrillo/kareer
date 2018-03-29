@@ -21,6 +21,17 @@
   cursor:  pointer;
 }
 
+@keyframes send{
+  0% {
+    opacity:0;
+    transform:  translate(0px,10px);
+  }
+  100% {
+    opacity:1;
+    transform:  translate(0px,0px);
+  }
+}
+
 nav ul a,
 nav .brand-logo {
   color: #444;
@@ -536,20 +547,21 @@ th, td{
 }
 #display_applicants{
   width: 1500px;
-  overflow:  hidden;
+  /* overflow:  hidden; */
 }
 #display_applicants .collection{
-  overflow: unset;
-  height: 500px !important;
-  z-index: 0;
+  /* overflow-x: hidden; */
+  /* min-height: 300px !important; */
+  height: 550px !important;
+  z-index: 1;
 }
 #display_applicants li{
-  z-index: 10001;
+  z-index: 1 !important;
 }
 #subcontent .free-width{
   overflow-y: hidden;
   overflow-x: scroll;
-  width: 95%;
+  width: 900px;
 }
 
 .highlight {
@@ -559,11 +571,15 @@ th, td{
 .ui-sortable-helper{
   background: #ccc;
 }
-
+/*messaging style*/
 ul.collection.message {
-    background: linear-gradient(to top, #69bb9b, #6abc9c);
+    background: #f1f1f1;
+    height: 400px !important;
+    overflow: hidden;
 }
 li.collection-item.avatar.message {
+    animation: send linear .2s; 
+    animation-iteration-count: 1;
     width: 49%;
     border: 0 !important;
     margin: 10px;
@@ -571,15 +587,24 @@ li.collection-item.avatar.message {
 }
 div.collection-item {
     border-radius: 5px;
+    padding: 5px !important;
 }
-
 textarea.message{
     min-height: 0px !important;
     margin: 0px !important;
     max-height: 30px !important;
+    width: calc(100% - 50px) !important;
 }
 
 #display_applicants ul.applicants li .row{
   display: inline-block;
   margin-bottom:  0px;
 } 
+
+
+#display_messages .toolbar-inner a[data-cmd="send"] {
+  /* left: 100%; */
+  /* transform: translate(-50px); */
+  background:  #fff;
+  top: -50px;
+}

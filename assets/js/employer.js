@@ -874,29 +874,23 @@ var applicants = function(){
             let ajax = system.ajax('../assets/harmony/Process.php?get-applicantsByBusinessId', id);
             return ajax.responseText;
         },
-        id:function(){
-            return ((window.location.hash).split(';')[2]).split('=')[1];
-        },
         list:function(){
             let data = JSON.parse(this.get()), id="",level="";
             applicants.content(data);
             $('.tooltipped').tooltip({delay: 50});
 
-            $( "ul.applicants" ).sortable({
+            $("ul.applicants").sortable({
                 connectWith: "ul",
                 placeholder: "highlight",
                 zIndex: 10001,
                 update:function(event, el){
                     if(el.sender){
-                        console.log(el.item.attr("data-node"));
-                        console.log($(this).parent()[0].dataset.level);
                         level = $(this).parent()[0].dataset.level;
                         id = el.item.attr("data-node");
                         applicants.level(id,level);
                     }
                 }
             }).disableSelection();
-            // let ps_applicants = new PerfectScrollbar('#display_applicants');        
         },
         content:function(data){
             let status = "", picture = "";
@@ -919,7 +913,7 @@ var applicants = function(){
                         <img src="${picture}" alt="" class="circle profile_picture">
                         <span class="title">${v[7]} ${v[9]} ${v[8]}</span>
                         <p>Applying for <strong>${v[3]}</strong></p>
-                        <a data-cmd='info' data-node="${v[1]}" href="#cmd=index;content=applicant;id=${v[1]}" class="secondary-content"><i class="material-icons">more_vert</i></a>
+                        <a data-cmd='info' href="#cmd=index;content=applicant;id=${v[1]};${v[11]}" class="tooltipped secondary-content" data-tooltip="Review Applicant"><i class="material-icons">more_vert</i></a>
                         <div class='row'>
                             <a data-cmd='passed' data-name="${status}" data-node="${v[2]}" class='tooltipped btn-floating btn-flat waves-effect waves-grey green lighten-5'data-position="top" data-tooltip="Passed"><i class="material-icons">check</i></a>
                             <a data-cmd='failed' data-name="${status}" data-node="${v[2]}" class='tooltipped btn-floating btn-flat waves-effect waves-grey red lighten-5'data-position="top" data-tooltip="Failed"><i class="material-icons">close</i></a>
@@ -931,155 +925,12 @@ var applicants = function(){
             $(`#display_applicants img.profile_picture`).on('error',function(){
                 $(this).attr({'src':'../assets/images/logo/icon.png'});
             });
-            applicants.action();
-        },
-        level:function(id,level){
-            let level0 = 'pending';
-            console.log([id,level]);
-            let statusLevel = (level == 'level0')?5:(level == 'level1')?1:(level == 'level2')?2:3;
-            if(statusLevel == '5'){
-                var content = `<h5>Are you sure you want to move this applicant?</h5>
-                                <form id='form_update' class='formValidate' method='get' action='' novalidate='novalidate'>
-                                    <a data-cmd='remark' class='waves-effect waves-grey grey lighten-5 blue-text btn-flat modal-close right'>Yes</a>
-                                    <a data-cmd="stay" class='waves-effect waves-grey grey-text btn-flat modal-close right'>No</a>
-                                </form>`;
-                $("#modal_confirm .modal-content").html(content);
-                $('#modal_confirm').modal('open');
-            }
-            if(statusLevel == '1'){
-                var content = `<h5>Are you sure you want to move this applicant?</h5>
-                                <form id='form_update' class='formValidate' method='get' action='' novalidate='novalidate'>
-                                    <a data-cmd='remark' class='waves-effect waves-grey grey lighten-5 blue-text btn-flat modal-close right'>Yes</a>
-                                    <a data-cmd="stay" class='waves-effect waves-grey grey-text btn-flat modal-close right'>No</a>
-                                </form>`;
-                $("#modal_confirm .modal-content").html(content);
-                $('#modal_confirm').modal('open');
-            }
-            if(statusLevel == '2'){
-                var content = `<h5>Are you sure you want to move this applicant?</h5>
-                                <form id='form_update' class='formValidate' method='get' action='' novalidate='novalidate'>
-                                    <a data-cmd='remark' class='waves-effect waves-grey grey lighten-5 blue-text btn-flat modal-close right'>Yes</a>
-                                    <a  data-cmd="stay" class='waves-effect waves-grey grey-text btn-flat modal-close right'>No</a>
-                                </form>`;
-                $("#modal_confirm .modal-content").html(content);
-                $('#modal_confirm').modal('open');
-            }
-            if(statusLevel == '3'){
-                var content = `<h5>Are you sure you want to move this applicant?</h5>
-                                <form id='form_update' class='formValidate' method='get' action='' novalidate='novalidate'>
-                                    <a data-cmd='remark' class='waves-effect waves-grey grey lighten-5 blue-text btn-flat modal-close right'>Yes</a>
-                                    <a data-cmd="stay" class='waves-effect waves-grey grey-text btn-flat modal-close right'>No</a>
-                                </form>`;
-                $("#modal_confirm .modal-content").html(content);
-                $('#modal_confirm').modal('open');
-            }
-            $("a[data-cmd='remark']").on('click',function(){
-                $("#modal_medium .modal-content").html(
-                        `<h5>Why do you want to move this applicant?</h5>
-                        <textarea class='materialize-textarea' data-field='field_description' name='field_description' placeholder='Remarks'></textarea>
-                        <button data-cmd='button_proceed' class='waves-effect waves-grey grey lighten-5 blue-text btn-flat modal-action right'>Proceed</button>
-                        <a data-cmd="stay" class='waves-effect waves-grey grey-text btn-flat modal-close right'>Cancel</a>`
-                    );
-                $('#modal_medium').modal('open');
+            this.action();
 
-                $("button[data-cmd='button_proceed']").on('click',function(){
-                    let remarks = $("textarea[data-field='field_description']").val();
-                    if(remarks.length == 0){
-                            Materialize.toast('Remarks is required.',4000);
-                    }
-                    else if(remarks.length > 800){
-                            Materialize.toast('Statement is too long.',4000);
-                    }
-                    else{
-                        let user = JSON.parse(employer.get())[0];
-                        var ajax = system.ajax('../assets/harmony/Process.php?do-updateInfo',[user[0],'application','status',id,statusLevel,remarks]);
-                        ajax.done(function(ajax){
-                            console.log(ajax);
-                            if(ajax == 1){
-                                $('#modal_medium').modal('close');
-                                system.alert('Account updated.', function(){});
-                            }
-                            else{
-                                system.alert('Failed to update.', function(){});
-                            }
-                        });
-                    }
-                });
-                $("a[data-cmd='stay']").on('click',function(){
-                    $( "ul.applicants" ).sortable("cancel");
-                });
-            });
-            $("a[data-cmd='stay']").on('click',function(){
-                $( "ul.applicants" ).sortable("cancel");
-            });
-        },
-        action:function(level){
-            $("a[data-cmd='failed']").on('click',function(){
-                let id = $(this).data('node');
-                console.log($(this).data('name'));
-                $("#modal_confirm .modal-content").html(
-                        `<h5>Are you sure you want to fail this applicant?</h5>
-                        <button data-cmd='button_proceed' class='waves-effect waves-grey grey lighten-5 blue-text btn-flat modal-action modal-close right'>Yes</button>
-                        <a data-cmd="stay" class='waves-effect waves-grey grey-text btn-flat modal-close right'>Cancel</a>`
-                    );
-                $('#modal_confirm').modal('open');
-
-                $("button[data-cmd='button_proceed']").on('click',function(){
-                    $("#modal_medium .modal-content").html(
-                        `<h5>Why do you want to fail this applicant?</h5>
-                        <textarea class='materialize-textarea' data-field='field_description' name='field_description' placeholder='Remarks'></textarea>                    
-                        <button data-cmd='proceed' class='waves-effect waves-grey grey lighten-5 blue-text btn-flat modal-action right'>Yes</button>
-                        <a data-cmd="stay" class='waves-effect waves-grey grey-text btn-flat modal-close right'>Cancel</a>`
-                    );
-                    $('#modal_medium').modal('open');
-
-                    $("button[data-cmd='proceed']").on('click',function(){
-                        let remarks = $("textarea[data-field='field_description']").val();
-                        if(remarks.length == 0){
-                                Materialize.toast('Remarks is required.',4000);
-                        }
-                        else if(remarks.length > 800){
-                                Materialize.toast('Statement is too long.',4000);
-                        }
-                        else{
-                            let user = JSON.parse(employer.get())[0];
-                            var ajax = system.ajax('../assets/harmony/Process.php?do-updateInfo',[user[0],'application','status',id,0,remarks]);
-                            ajax.done(function(ajax){
-                                if(ajax == 1){
-                                    $('#modal_medium').modal('close');
-                                    system.alert('Account updated.', function(){});
-                                    $(`li[data-node="${id}"]`).addClass('hidden');
-
-                                }
-                                else{
-                                    system.alert('Failed to update.', function(){});
-                                }
-                            });
-                        }
-                    });
-                });
-            });
-        }
-    }
-}();
-
-var applicant = function(){
-    "use strict";
-    return {
-        get:function(id){
-            var ajax = system.ajax('../assets/harmony/Process.php?get-applicantInfo',id);
-            return ajax.responseText;
-        },
-        acad:function(id){
-            var ajax = system.ajax('../assets/harmony/Process.php?get-applicantAcad',id);
-            return ajax.responseText;
-        },
-        career:function(id){
-            var ajax = system.ajax('../assets/harmony/Process.php?get-applicantCareer',id);
-            return ajax.responseText;
+            new PerfectScrollbar('#display_applicants_pending');        
         },
         view:function(){
-            let data = JSON.parse(applicant.get(applicants.id()))[0];
+            let data = JSON.parse((applicant.getinfo(applicant.id())))[0];
             let picture = ((new RegExp('facebook|google','i')).test(data[19]))? data[19] : ((typeof data[19] == 'object') || (data[19] == ""))? '../assets/images/logo/icon.png' : `../assets/images/profile/${data[19]}`;
             let auth = (data[4] == "fb-oauth")?'Facebook':(data[4] == "google-auth")?'Google':'Kareer Website', account_id = (data[5] == "")?data[0]:data[5];
             let description = (data[1] == null)?'':data[1];
@@ -1138,6 +989,222 @@ var applicant = function(){
             $('ul.tabs').tabs();
             applicant.viewAcads();
             applicant.viewCareer();
+            messages.conversation();
+        },
+        level:function(id,level){
+            let level0 = 'pending';
+
+            let statusLevel = (level == 'level0')?5:(level == 'level1')?1:(level == 'level2')?2:3;
+            if(statusLevel == '5'){
+                var content = `<h5>Are you sure you want to move this applicant?</h5>
+                                <form id='form_update' class='formValidate' method='get' action='' novalidate='novalidate'>
+                                    <a data-cmd='remark' class='waves-effect waves-grey grey lighten-5 blue-text btn-flat modal-close right'>Yes</a>
+                                    <a data-cmd="stay" class='waves-effect waves-grey grey-text btn-flat modal-close right'>No</a>
+                                </form>`;
+                $("#modal_confirm .modal-content").html(content);
+                $('#modal_confirm').modal('open');
+            }
+            else if(statusLevel == '1'){
+                var content = `<h5>Are you sure you want to move this applicant?</h5>
+                                <form id='form_update' class='formValidate' method='get' action='' novalidate='novalidate'>
+                                    <a data-cmd='remark' class='waves-effect waves-grey grey lighten-5 blue-text btn-flat modal-close right'>Yes</a>
+                                    <a data-cmd="stay" class='waves-effect waves-grey grey-text btn-flat modal-close right'>No</a>
+                                </form>`;
+                $("#modal_confirm .modal-content").html(content);
+                $('#modal_confirm').modal('open');
+            }
+            else if(statusLevel == '2'){
+                var content = `<h5>Are you sure you want to move this applicant?</h5>
+                                <form id='form_update' class='formValidate' method='get' action='' novalidate='novalidate'>
+                                    <a data-cmd='remark' class='waves-effect waves-grey grey lighten-5 blue-text btn-flat modal-close right'>Yes</a>
+                                    <a  data-cmd="stay" class='waves-effect waves-grey grey-text btn-flat modal-close right'>No</a>
+                                </form>`;
+                $("#modal_confirm .modal-content").html(content);
+                $('#modal_confirm').modal('open');
+            }
+            else if(statusLevel == '3'){
+                var content = `<h5>Are you sure you want to move this applicant?</h5>
+                                <form id='form_update' class='formValidate' method='get' action='' novalidate='novalidate'>
+                                    <a data-cmd='remark' class='waves-effect waves-grey grey lighten-5 blue-text btn-flat modal-close right'>Yes</a>
+                                    <a data-cmd="stay" class='waves-effect waves-grey grey-text btn-flat modal-close right'>No</a>
+                                </form>`;
+                $("#modal_confirm .modal-content").html(content);
+                $('#modal_confirm').modal('open');
+            }
+
+            $("a[data-cmd='remark']").on('click',function(){
+                $("#modal_medium .modal-content").html(
+                        `<h5>Why do you want to move this applicant?</h5>
+                        <textarea class='materialize-textarea' data-field='field_description' name='field_description' placeholder='Remarks'></textarea>
+                        <button data-cmd='button_proceed' class='waves-effect waves-grey grey lighten-5 blue-text btn-flat modal-action right'>Proceed</button>
+                        <a data-cmd="stay" class='waves-effect waves-grey grey-text btn-flat modal-close right'>Cancel</a>`
+                    );
+                $('#modal_medium').modal('open');
+
+                $("button[data-cmd='button_proceed']").on('click',function(){
+                    let remarks = $("textarea[data-field='field_description']").val();
+                    if(remarks.length == 0){
+                            Materialize.toast('Remarks is required.',4000);
+                    }
+                    else if(remarks.length > 800){
+                            Materialize.toast('Statement is too long.',4000);
+                    }
+                    else{
+                        let user = JSON.parse(employer.get())[0];
+                        var ajax = system.ajax('../assets/harmony/Process.php?do-updateInfo',[user[0],'application','status',id,statusLevel,remarks]);
+                        ajax.done(function(ajax){
+                            console.log(ajax);
+                            if(ajax == 1){
+                                $('#modal_medium').modal('close');
+                                system.alert('Account updated.', function(){});
+                            }
+                            else{
+                                system.alert('Failed to update.', function(){});
+                            }
+                        });
+                    }
+                });
+                $("a[data-cmd='stay']").on('click',function(){
+                    $( "ul.applicants" ).sortable("cancel");
+                });
+            });
+
+            $("a[data-cmd='stay']").on('click',function(){
+                $( "ul.applicants" ).sortable("cancel");
+            });
+        },
+        action:function(level){
+            $("a[data-cmd='failed']").on('click',function(){
+                let id = $(this).data('node');
+                console.log($(this).data('name'));
+                $("#modal_confirm .modal-content").html(
+                        `<h5>Are you sure you want to fail this applicant?</h5>
+                        <button data-cmd='button_proceed' class='waves-effect waves-grey grey lighten-5 blue-text btn-flat modal-action modal-close right'>Yes</button>
+                        <a data-cmd="stay" class='waves-effect waves-grey grey-text btn-flat modal-close right'>Cancel</a>`
+                    );
+                $('#modal_confirm').modal('open');
+
+                $("button[data-cmd='button_proceed']").on('click',function(){
+                    $("#modal_medium .modal-content").html(
+                        `<h5>Why do you want to fail this applicant?</h5>
+                        <textarea class='materialize-textarea' data-field='field_description' name='field_description' placeholder='Remarks'></textarea>                    
+                        <button data-cmd='proceed' class='waves-effect waves-grey grey lighten-5 blue-text btn-flat modal-action right'>Yes</button>
+                        <a data-cmd="stay" class='waves-effect waves-grey grey-text btn-flat modal-close right'>Cancel</a>`
+                    );
+                    $('#modal_medium').modal('open');
+
+                    $("button[data-cmd='proceed']").on('click',function(){
+                        let remarks = $("textarea[data-field='field_description']").val();
+                        if(remarks.length == 0){
+                                Materialize.toast('Remarks is required.',4000);
+                        }
+                        else if(remarks.length > 800){
+                                Materialize.toast('Statement is too long.',4000);
+                        }
+                        else{
+                            let user = JSON.parse(employer.get())[0];
+                            var ajax = system.ajax('../assets/harmony/Process.php?do-updateInfo',[user[0],'application','status',id,0,remarks]);
+                            ajax.done(function(ajax){
+                                if(ajax == 1){
+                                    $('#modal_medium').modal('close');
+                                    system.alert('Account updated.', function(){});
+                                    $(`li[data-node="${id}"]`).addClass('hidden');
+
+                                }
+                                else{
+                                    system.alert('Failed to update.', function(){});
+                                }
+                            });
+                        }
+                    });
+                });
+            });
+        },
+    }
+}();
+
+var applicant = function(){
+    "use strict";
+    return {
+        ini:function(){
+            this.view();
+            this.viewAcads();
+            this.viewCareer();
+            messages.conversation();
+            $('ul.tabs').tabs();
+        },
+        id:function(){
+            return ((window.location.hash).split(';')[2]).split('=')[1];
+        },
+        get:function(id){
+            var ajax = system.ajax('../assets/harmony/Process.php?get-applicantInfo',id);
+            return ajax.responseText;
+        },
+        acad:function(id){
+            var ajax = system.ajax('../assets/harmony/Process.php?get-applicantAcad',id);
+            return ajax.responseText;
+        },
+        career:function(id){
+            var ajax = system.ajax('../assets/harmony/Process.php?get-applicantCareer',id);
+            return ajax.responseText;
+        },
+        view:function(){
+            let data = JSON.parse(applicant.get(applicant.id()))[0];
+            let picture = ((new RegExp('facebook|google','i')).test(data[19]))? data[19] : ((typeof data[19] == 'object') || (data[19] == ""))? '../assets/images/logo/icon.png' : `../assets/images/profile/${data[19]}`;
+            let auth = (data[4] == "fb-oauth")?'Facebook':(data[4] == "google-auth")?'Google':'Kareer Website', account_id = (data[5] == "")?data[0]:data[5];
+            let description = (data[1] == null)?'':data[1];
+            $("#applicantInfo").html(`
+                <div class='row'>
+                    <div class='col s12 center'>
+                        <h5>${data[8]} ${data[10]} ${data[9]}</h5>
+                    </div>
+                    <div class='col s12 center'>
+                        <img src='${picture}' width='20%' class='profile_picture '>
+                        <div class='col s12 grey lighten-2'>${description}</div>
+                    </div>
+                </div>
+                <div class='row'>
+                    <div class='col s12' id='display_personalInformation'>
+                        <strong>Personal Information</strong>
+                        <table>
+                            <thead>
+                                <tr><td width='100px'></td><td></td></tr>
+                            </thead>
+                            <tbody>
+                                <tr><td>Email Address:</td><td>${data[2]}</td></tr>
+                                <tr><td>Number:</td><td>${data[15]}</td></tr>
+                                <tr><td>Gender:</td><td>${data[11]}</td></tr>
+                                <tr><td>Date of Birth:</td><td>${data[12]}</td></tr>
+                                <tr><td>Address:</td><td>${data[13]}</td></tr>
+                                <tr><td>Citizenship:</td><td>${data[14]}</td></tr>
+                                <tr><td>Height:</td><td>${data[16]}</td></tr>
+                                <tr><td>Weight:</td><td>${data[17]}</td></tr>
+                                <tr><td>Religion:</td><td>${data[18]}</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class='row'>
+                    <div class='col s12'>
+                        <strong>Account Information</strong>
+                        <table>
+                            <thead>
+                                <tr><td width='100px'></td><td></td></tr>
+                            </thead>
+                            <tbody>
+                                <tr><td>Login Type:</td><td>${auth}</td></tr>
+                                <tr><td>Account ID:</td><td>${account_id}</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class='row' id='display_acad'></div>
+                <div class='row' id='display_career'></div>
+            `);
+
+            $(`img.profile_picture`).on('error',function(){
+                $(this).attr({'src':'../assets/images/logo/icon.png'});
+            });
         },
         viewAcads:function(){
             let data = JSON.parse(applicant.acad(applicant.id()));
@@ -1159,10 +1226,75 @@ var applicant = function(){
                 `);
             });
         },
-
     }
 }();
 
+var messages = function(){
+    "use strict";
+    return {
+        get:function(id,min,max){
+            let business = localStorage.getItem('business_id');
+            min = ((typeof min == undefined) || (min == null))?0:min;
+            max = ((typeof max == undefined) || (max == null))?2:max;
+            var data = system.ajax('../assets/harmony/Process.php?get-messages',['employer',business,id,min,max]);
+            return data.responseText;
+        },
+        conversation:function(){
+            let convo = JSON.parse(messages.get(applicant.id())), business ="";
+            $.each(convo,function(i,v){
+                business = ((typeof v[0] == 'object') || v[0] == "") ? 'icon.png' : v[0];
+                $('#display_messages ul').prepend(`
+                    <li class="collection-item avatar message">
+                        <img src="../assets/images/logo/${v[0]}" alt="" class="circle white">
+                        <div class="collection-item">
+                            <strong>${v[1]}</strong><br/>
+                            <p>${v[2]}</p>
+                        </div>
+                    </li>
+                `);
+            });
+            messages.send(applicant.id());
+            $('#display_messages ul').scrollTop($('#display_messages ul').prop("scrollHeight")); /*this will stick the scroll to bottom*/
+            new PerfectScrollbar('#display_messages .message');
+        },
+        send:function(){
+            let user = JSON.parse(employer.get())[0], data = JSON.parse(business.get(user[1])), id = applicant.id(), jobId = jobPosts.id();
+            let logo = ((typeof data[0][5] == 'object') || (data[0][5] == ""))? '../assets/images/logo/icon.png' : `../assets/images/logo/${data[0][5]}`;
+            $('a[data-cmd="send"]').on('click', function(){
+                let message = $("textarea[data-field='message']").val();
+                if(message.length == 0){
+                        Materialize.toast('Empty message.',2000);
+                }
+                else {
+                    var ajax = system.ajax('../assets/harmony/Process.php?do-message',[user[0],jobId,id,message,'application']);
+                    ajax.done(function(ajax){
+                        if(ajax == 1){
+                            system.alert('Message sent.', function(){
+                                $("textarea[data-field='message']").val("")
+                                $('#display_messages ul').append(`
+                                    <li class="collection-item avatar message">
+                                        <img src="${logo}" alt="" class="circle white">
+                                        <div class="collection-item">
+                                            <strong>${user[2]}</strong><br/>
+                                            <p>${message}</p>
+                                        </div>
+                                    </li>
+                                `);
+                                $('#display_messages ul').scrollTop($('#display_messages ul').prop("scrollHeight"));/*this will stick the scroll to bottom*/
+                            });
+                        }
+                        else{
+                            system.alert('Message not sent.', function(){});
+                        }
+                    });
+                }
+            });
+            $(`#display_messages .avatar img`).on('error',function(){
+                $(this).attr({'src':'../assets/images/logo/icon.png'});
+            });
+        }
+    }
+}();
 
 var jobPosts = function() {
     "use strict";
