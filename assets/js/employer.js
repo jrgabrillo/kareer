@@ -371,6 +371,9 @@ var employer = function() {
 var business = function(){
     "use strict";
     return {
+        id:function(){
+            return localStorage.getItem('business_id');
+        },
         get:function(id){
             var ajax = (!id)?system.ajax('../assets/harmony/Process.php?get-businessList',""):system.ajax('../assets/harmony/Process.php?get-businessInfo',id);
             return ajax.responseText;
@@ -877,20 +880,20 @@ var applicants = function(){
         list:function(){
             let data = JSON.parse(this.get()), id="",level="";
             applicants.content(data);
-            $('.tooltipped').tooltip({delay: 50});
+            // $('.tooltipped').tooltip({delay: 50});
 
-            $("ul.applicants").sortable({
-                connectWith: "ul",
-                placeholder: "highlight",
-                zIndex: 10001,
-                update:function(event, el){
-                    if(el.sender){
-                        level = $(this).parent()[0].dataset.level;
-                        id = el.item.attr("data-node");
-                        applicants.level(id,level);
-                    }
-                }
-            }).disableSelection();
+            // $("ul.applicants").sortable({
+            //     connectWith: "ul",
+            //     placeholder: "highlight",
+            //     zIndex: 10001,
+            //     update:function(event, el){
+            //         if(el.sender){
+            //             level = $(this).parent()[0].dataset.level;
+            //             id = el.item.attr("data-node");
+            //             applicants.level(id,level);
+            //         }
+            //     }
+            // }).disableSelection();
         },
         content:function(data){
             let status = "", picture = "";
@@ -987,9 +990,6 @@ var applicants = function(){
                 $(this).attr({'src':'../assets/images/logo/icon.png'});
             });
             $('ul.tabs').tabs();
-            applicant.viewAcads();
-            applicant.viewCareer();
-            messages.conversation();
         },
         level:function(id,level){
             let level0 = 'pending';
@@ -1232,14 +1232,15 @@ var applicant = function(){
 var messages = function(){
     "use strict";
     return {
-        get:function(id,min,max){
-            let business = localStorage.getItem('business_id');
+        get:function(min,max){
             min = ((typeof min == undefined) || (min == null))?0:min;
             max = ((typeof max == undefined) || (max == null))?2:max;
-            var data = system.ajax('../assets/harmony/Process.php?get-messages',['employer',business,id,min,max]);
+
+            let vacancy_id = ((window.location.hash).split(';')[3]);
+            var data = system.ajax('../assets/harmony/Process.php?get-messages',[business.id(),applicant.id(),vacancy_id,min,max]);
             return data.responseText;
         },
-        conversation:function(){
+        conversation:function(){            
             let convo = JSON.parse(messages.get(applicant.id())), business ="";
             $.each(convo,function(i,v){
                 business = ((typeof v[0] == 'object') || v[0] == "") ? 'icon.png' : v[0];

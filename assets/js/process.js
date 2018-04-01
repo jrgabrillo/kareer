@@ -1,6 +1,5 @@
 var system = function(){
 	"use strict";
-
 	return {
 		ini:function(){
 			$("body").append("<script>console.log('%cDeveloped By: RNR Digital Consultancy (2017) http://rnrdigitalconsultancy.com ,,|,_', 'background:#f74356;color:#64c2ec;font-size:20px;')</script>");
