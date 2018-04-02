@@ -1131,6 +1131,10 @@ var applicant = function(){
             var ajax = system.ajax('../assets/harmony/Process.php?get-applicantInfo',id);
             return ajax.responseText;
         },
+        schedule:function(id,jobId){
+            var ajax = system.ajax('../assets/harmony/Process.php?get-scheduleByapplicant',[id,jobId]);
+            return ajax.responseText;
+        },
         acad:function(id){
             var ajax = system.ajax('../assets/harmony/Process.php?get-applicantAcad',id);
             return ajax.responseText;
@@ -1140,18 +1144,21 @@ var applicant = function(){
             return ajax.responseText;
         },
         view:function(){
-            let data = JSON.parse(applicant.get(applicant.id()))[0];
+            let data = JSON.parse(applicant.get(applicant.id()))[0], jobId = ((window.location.hash).split(';')[3]);
+            let schedule = JSON.parse(applicant.schedule(applicant.id(),jobId))[0], date = "", place ="";
+            console.log(schedule);
             let picture = ((new RegExp('facebook|google','i')).test(data[19]))? data[19] : ((typeof data[19] == 'object') || (data[19] == ""))? '../assets/images/logo/icon.png' : `../assets/images/profile/${data[19]}`;
             let auth = (data[4] == "fb-oauth")?'Facebook':(data[4] == "google-auth")?'Google':'Kareer Website', account_id = (data[5] == "")?data[0]:data[5];
             let description = (data[1] == null)?'':data[1];
+            date = ((schedule[1] && schedule[2]) == "")?'No date':`${schedule[1]} ${schedule[2]}`;
+            place = (schedule[3] == "")?'No place':`${schedule[3]}`;
             $("#applicantInfo").html(`
                 <div class='row'>
-                    <div class='col s12 right'>
-                        <a data-cmd="schedule" class= "btn btn-flat waves-effect waves-grey right teal-text">Schedule</a>
-                        <div class="right">
-                            <p id="date"></p>
-                            <p id="time"></p>
-                            <p id="place"></p>
+                    <div class='right'>
+                        <a data-cmd="schedule" class= "btn btn-flat waves-effect waves-grey teal-text">Schedule</a>
+                        <div>
+                            <p>Date:${date}</p>
+                            <p>Place:${place}</p>
                         </div>
                     </div>
                     <div class='col s12 center'>
@@ -2085,10 +2092,6 @@ var schedule = function() {
                             console.log(data);
                             if (data == 1) {
                                 system.alert('Schedule sucess.', function(){
-                                   $('#modal_medium').modal('close');
-                                   $('#date').html(`${_form[0]['value']}`);
-                                   $('#time').html(`${_form[1]['value']}`);
-                                   $('#place').html(`${_form[2]['value']}`);
                                 });
                             } 
                             else {
@@ -2111,7 +2114,7 @@ var schedule = function() {
             $.each(result,function(i,v){
                 data.push({title:` ${v[1]} ${v[2]} ${v[3]} -Call: ${v[7]}, Place: ${v[6]} `, start:`${v[4]}T${v[5]}`, data:v});
             });
-            console.log(result);
+            console.log(this.get(businessId));
             this.calendar(data);
         },
         calendar: function(data) {
