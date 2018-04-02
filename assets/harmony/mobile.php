@@ -145,20 +145,19 @@ $Functions = new DatabaseClasses;
         $auth = $Functions->escape($data[4]);
         $auth_id = $Functions->escape($data[5]);
         $picture = ($data[6] == "")? $Functions->escape("profile.png") : $Functions->escape($data[6]);
-
+        $message = "<div><b><font size='6'>Welcome to Kareer</font></b><br/><br/><br/>Thank you for registering to Kareer. </div> ";
         $date = $Functions->PDO_DateAndTime();
         $id = $Functions->PDO_IDGenerator('tbl_applicant','id');
         $validate = $Functions->PDO("SELECT count(*) FROM tbl_applicant WHERE email = {$email}");
 
         if($validate[0][0]==0){
             $query = $Functions->PDO("INSERT INTO tbl_applicant(id,email,password,auth_type,auth_id,status) VALUES('{$id}',{$email},'{$password}',{$auth},{$auth_id},'1'); INSERT INTO tbl_personalinfo(id, given_name, family_name,picture, date) VALUES('{$id}',{$firstname},{$lastname},{$picture},'{$date}')");
-            // print_r($query);
             if($query->execute()){
+                $result = $Functions->mail($email,$subject,$message);
                 print_r(json_encode(['id'=>$id,'last_name'=>$data[1],'first_name'=>$data[0],'email'=>$data[2],'picture'=>$picture]));
             }
-            else{
+            else
                 echo 0;
-            }
         }
         else{
             echo 0;
