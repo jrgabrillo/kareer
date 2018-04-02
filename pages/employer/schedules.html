@@ -1,0 +1,20 @@
+<div class='row' style='float: none;'>
+    <div class="wrapper wrapper-content">
+        <div class="row animated fadeInUp">
+            <div class="col s12">
+                <!-- <h5>Booking
+                    <a href="#cmd=index;content=_add_client" class="btn btn-floating orange right waves-effect waves-light z-depth-0"><i class="material-icons">event_note</i>Book a client</a>
+                </h5> -->
+                <div class="chart-container">
+                    <div id="calendar" class="fc fc-ltr fc-unthemed"></div>
+                </div>
+                <!-- <div class="divider" style="margin-top: 20px;"></div> -->
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+    schedule.list();
+    // schedule.getTodaysAppointment();
+    $('.tooltipped').tooltip({delay: 50});
+</script>

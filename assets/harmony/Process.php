@@ -565,4 +565,63 @@
 	
 		print_r(json_encode($q));
 	}
+	/**/
+	/*booking*/
+	if (isset($_GET['do-schedule'])) {
+		$data = $_POST['data'];
+		$id = $Functions->PDO_IDGenerator('tbl_schedule','id');
+		$date = $Functions->PDO_DateAndTime();
+		// $query = $Functions->PDO("SELECT count(*) FROM tbl_schedule WHERE subject_id = '{$data[2]}' AND to_account_id = '{$data[1]}'");
+
+		$business =$Functions->PDO("SELECT  a.company_name FROM tbl_business a WHERE id IN (SELECT business_id FROM tbl_businessmanagers b WHERE b.id = '{$data[0]}')");
+		// if($query[0][0] == 0){
+		$remarks = "{$business[0][0]} scheduled your {$data[6]} on {$data[3]} {$data[4]} at {$data[5]}";
+		$q = $Functions->PDO("INSERT INTO tbl_schedule(id,from_account_id,to_account_id,subject_id,schedule_date,schedule_time,schedule_place,`date`,status,header,remarks) VALUES ('{$id}','{$data[0]}','{$data[2]}','{$data[1]}','{$data[3]}','{$data[4]}','{$data[5]}','{$date}','1','{$data[6]}','{$remarks}')");
+		
+		// 		// print_r($q);
+		// }
+		// else{
+		// 	// $id = $Functions->PDO("SELECT id,schedule_date,schedule_time,schedule_place,date,header FROM tbl_schedule WHERE subject_id = '{$data[2]}' AND to_account_id = '{$data[1]}'");
+		// 	// $remarks = "{$business[0][0]} updated your scheduled {$data[6]} on {$data[3]} {$data[4]} at {$data[5]}";
+		// 	// $q = $Functions->PDO("UPDATE tbl_schedule SET schedule_date = '{$data[3]}', schedule_time = '{$data[4]}', schedule_place = '{$data[5]}', `date` = '{$date}', header = '{$data[6]}', remarks = '{remarks}' WHERE id = '{$id[0][0]}' ");
+
+		// 		// print_r($id);
+		// }
+		// print_r($query);
+		// print_r($data);
+
+		if($q->execute()){
+			// $log = $Functions->log($data[0],$id,'schedule','Add');
+			echo 1;
+		}
+		else{
+			$Data = $q->errorInfo();
+			print_r($Data);
+		}
+	}
+	if(isset($_GET['get-schedule'])){ /**/
+		$data = $_POST['data'];
+		$result = [];
+		$q = $Functions->PDO("SELECT b.id,b.given_name,b.middle_name,b.family_name, a.schedule_date, a.schedule_time, a.schedule_place,b.phone,a.header,a.status, c.job_title, a.date FROM tbl_schedule a INNER JOIN tbl_personalinfo b ON b.id = a.to_account_id INNER JOIN tbl_vacancies c ON c.id = a.subject_id INNER JOIN tbl_business e ON e.id = c.business_id INNER JOIN tbl_businessmanagers d ON d.id = a.from_account_id WHERE e.id = '{$data}' ");
+		// $q = $Functions->PDO("SELECT * FROM tbl_schedule ORDER BY date DESC ");
+		// foreach ($q as $key => $value) {
+		// 	// $result[] = $value;
+		// 		print_r(json_encode($value));
+		// }		
+	
+		print_r(json_encode($q));
+	}
+	if(isset($_GET['get-scheduleByapplicant'])){ /**/
+		$data = $_POST['data'];
+		$q = $Functions->PDO("SELECT a.subject_id, a.schedule_date, a.schedule_time, a.schedule_place, a.date FROM tbl_schedule a WHERE a.date = (SELECT max(a.date) FROM tbl_schedule a WHERE a.subject_id = '{$data[1]}' GROUP BY a.subject_id) AND a.to_account_id = '{$data[0]}'");
+			
+		print_r(json_encode($q));
+	}
+	// if(isset($_GET['get-scheduleToday'])){ /**/
+	// 	$data = $_POST['data'];
+	// 	$q = $Functions->PDO("SELECT b.id,b.given_name,b.middle_name,b.family_name, a.schedule_date, a.schedule_time, a.schedule_place,b.phone,a.header,a.status, c.job_title, a.date FROM tbl_schedule a INNER JOIN tbl_personalinfo b ON b.id = a.to_account_id INNER JOIN tbl_vacancies c ON c.id = a.subject_id INNER JOIN tbl_business e ON e.id = '{$data[0]}' INNER JOIN tbl_businessmanagers d ON d.id = a.from_account_id WHERE e.id = '{$data[0]}' AND a.schedule_date = '{$data[1]}' ");
+	
+	// 	print_r(json_encode($q));
+	// }
+	/**/
 ?>
