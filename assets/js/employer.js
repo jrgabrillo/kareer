@@ -1240,7 +1240,9 @@ var messages = function(){
             var data = system.ajax('../assets/harmony/Process.php?get-messages',[business.id(),applicant.id(),vacancy_id,min,max]);
             return data.responseText;
         },
-        conversation:function(){            
+        conversation:function(){       
+            messages.send(applicant.id());
+
             let convo = JSON.parse(messages.get(applicant.id())), business ="";
             $.each(convo,function(i,v){
                 business = ((typeof v[0] == 'object') || v[0] == "") ? 'icon.png' : v[0];
@@ -1254,17 +1256,16 @@ var messages = function(){
                     </li>
                 `);
             });
-            messages.send(applicant.id());
             $('#display_messages ul').scrollTop($('#display_messages ul').prop("scrollHeight")); /*this will stick the scroll to bottom*/
             new PerfectScrollbar('#display_messages .message');
         },
         send:function(){
-            let user = JSON.parse(employer.get())[0], data = JSON.parse(business.get(user[1])), id = applicant.id(), jobId = jobPosts.id();
+            let user = JSON.parse(employer.get())[0], data = JSON.parse(business.get(user[1])), id = applicant.id(), jobId = ((window.location.hash).split(';')[3]);
             let logo = ((typeof data[0][5] == 'object') || (data[0][5] == ""))? '../assets/images/logo/icon.png' : `../assets/images/logo/${data[0][5]}`;
             $('a[data-cmd="send"]').on('click', function(){
                 let message = $("textarea[data-field='message']").val();
                 if(message.length == 0){
-                        Materialize.toast('Empty message.',2000);
+                        Materialize.toast('Empty message.',2000); 
                 }
                 else {
                     var ajax = system.ajax('../assets/harmony/Process.php?do-message',[user[0],jobId,id,message,'application']);

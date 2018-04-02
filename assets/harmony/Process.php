@@ -552,6 +552,7 @@
 		$data = $_POST['data'];
 		$id = $Functions->PDO_IDGenerator('tbl_messages','id');
 		$date = $Functions->PDO_DateAndTime();
+
 		$message = $Functions->PDO("INSERT INTO tbl_messages(id,from_account_id,to_account_id,subject_id,message,`date`,header) VALUES ('{$id}','{$data[0]}','{$data[2]}','{$data[1]}','{$data[3]}','{$date}','{$data[4]}')");
 		if($message->execute()){
 			echo 1;
@@ -569,8 +570,8 @@
 			INNER JOIN tbl_personalinfo b ON b.id = a.to_account_id
 			INNER JOIN tbl_vacancies c ON c.id = '{$data[2]}'
 			INNER JOIN tbl_business e ON e.id = '{$data[0]}'
-			INNER JOIN tbl_businessmanagers d ON d.id = c.employer_id
-			WHERE a.to_account_id = '{$data[1]}' AND c.id = '{$data[2]}' AND e.id = '{$data[0]}' ORDER BY a.date DESC");
+			INNER JOIN tbl_businessmanagers d ON d.id = a.from_account_id
+			WHERE a.to_account_id = '{$data[1]}' AND a.subject_id = '{$data[2]}' AND e.id = '{$data[0]}' ORDER BY a.date DESC");
 	
 		print_r(json_encode($q));
 	}
