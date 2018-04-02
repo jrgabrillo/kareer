@@ -384,7 +384,7 @@ var business = function(){
             $("#businessInfo").html(`
                 <div class='col s12 m4 l3'>
                     <img src='../assets/images/logo/${logo}' width='100%' class='businesslogo'>
-                    <a class="secondary-content tooltipped" data-prop='business logo' data-cmd='updateAdminPicture' data-position='left' data-delay='50' data-tooltip='Update'><i class="material-icons hover black-text">photo_camera</i></a>
+                    <a class="secondary-content tooltipped" data-prop='business logo' data-cmd='updateBusinessPicture' data-position='left' data-delay='50' data-tooltip='Update'><i class="material-icons hover black-text">photo_camera</i></a>
                 </div>
                 <div class='col s12 m8 l9'>
                     <ul class='collection' id='display_businessInfo'>
@@ -616,9 +616,8 @@ var business = function(){
         },
         updatePicture:function(id){
             window.Cropper;
-            $("a[data-cmd='updateAdminPicture']").on('click',function(){
+            $("a[data-cmd='updateBusinessPicture']").on('click',function(){
                 var data = $(this).data();
-                console.log(data);
                 var picture = "../assets/images/profile/avatar.png";
                 var content = `<h4>Change ${data.prop}</h4>
                                 <div class='row'>
@@ -691,14 +690,6 @@ var business = function(){
                                         });
                                     }
                                 });
-
-                                // image.cropper("reset", true).cropper("replace", this.result);
-
-                              //   $("button[data-cmd='rotate']").click(function(){
-                              //    var data = $(this).data('option');
-                                    // $image.cropper('rotate', data);
-                              //   });
-
                             };
                         }
                         else{
@@ -880,20 +871,20 @@ var applicants = function(){
         list:function(){
             let data = JSON.parse(this.get()), id="",level="";
             applicants.content(data);
-            // $('.tooltipped').tooltip({delay: 50});
+            $('.tooltipped').tooltip({delay: 50});
 
-            // $("ul.applicants").sortable({
-            //     connectWith: "ul",
-            //     placeholder: "highlight",
-            //     zIndex: 10001,
-            //     update:function(event, el){
-            //         if(el.sender){
-            //             level = $(this).parent()[0].dataset.level;
-            //             id = el.item.attr("data-node");
-            //             applicants.level(id,level);
-            //         }
-            //     }
-            // }).disableSelection();
+            $("ul.applicants").sortable({
+                connectWith: "ul",
+                placeholder: "highlight",
+                zIndex: 10001,
+                update:function(event, el){
+                    if(el.sender){
+                        level = $(this).parent()[0].dataset.level;
+                        id = el.item.attr("data-node");
+                        applicants.level(id,level);
+                    }
+                }
+            }).disableSelection();
         },
         content:function(data){
             let status = "", picture = "";

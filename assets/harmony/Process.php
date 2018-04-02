@@ -405,64 +405,59 @@
 	}
 
 	if(isset($_GET['do-updateImage'])){/**/
-		if(isset($_POST['data'])){
-			$data = $_POST['data'];
-			// print_r($data);
-			$date = new DateTime();
-			$time = $date->getTimestamp();
-			if($data[0] == 'business'){
-				$q = $Functions->PDO("SELECT * FROM tbl_business WHERE id = '{$data[2]}'");
-				$_filename = ($q[0][5] == "")?"business.png":$q[0][5];
-				if(file_exists("../images/logo/{$_filename}")){
-					$filename = "../images/logo/{$_filename}";
-				}
-				else{
-					$_filename = "{$data[0]}_{$time}.rnr";
-					$filename = "../images/logo/{$_filename}";
-				}			
-				$picture = $Functions->saveImage($filename,$data[3]);
-				$q = $Functions->PDO("UPDATE tbl_business SET image = '{$_filename}' WHERE id = '{$data[2]}'");
-			}
-			else if($data[0] == 'admin'){
-				$q = $Functions->PDO("SELECT * FROM tbl_admin WHERE id = '{$data[2]}'");
-				$_filename = ($q[0][3] == "")?"admin.png":$q[0][3];
-				if(file_exists("../images/profile/{$_filename}")){
-					$filename = "../images/profile/{$_filename}";
-				}
-				else{
-					$_filename = "{$data[0]}_{$time}.rnr";
-					$filename = "../images/profile/{$_filename}";
-				}
-				$picture = $Functions->saveImage($filename,$data[3]);
-				$q = $Functions->PDO("UPDATE tbl_admin SET image = '{$_filename}' WHERE id = '{$data[2]}'");
-			}
-			else if($data[0] == 'employer'){
-				$q = $Functions->PDO("SELECT * FROM tbl_businessmanagers WHERE id = '{$data[2]}'");
-				$_filename = ($q[0][3] == "")?"admin.png":$q[0][3];
-				if(file_exists("../images/profile/{$_filename}")){
-					$filename = "../images/profile/{$_filename}";
-				}
-				else{
-					$_filename = "{$data[0]}_{$time}.rnr";
-					$filename = "../images/profile/{$_filename}";
-				}
-				$picture = $Functions->saveImage($filename,$data[3]);
-				$q = $Functions->PDO("UPDATE tbl_businessmanagers SET picture = '{$_filename}' WHERE id = '{$data[2]}'");
+		$data = $_POST['data'];
+		$date = new DateTime();
+		$time = $date->getTimestamp();
+		if($data[0] == 'business'){
+			$q = $Functions->PDO("SELECT * FROM tbl_business WHERE id = '{$data[2]}'");
+
+			$_filename = ($q[0][5] == "")?"business.png":$q[0][5];
+			if(file_exists("../images/logo/{$_filename}")){
+				$filename = "../images/logo/{$_filename}";
 			}
 			else{
-				$q = $Functions->PDO("");
+				$_filename = "{$data[0]}_{$time}.rnr";
+				$filename = "../images/logo/{$_filename}";
 			}
-			if($q->execute()){
-				$log = $Functions->log(($data[0] =='business')?'admin_id':$data[2],$data[2],'update picture','Update');
-				echo 1;
+			$picture = $Functions->saveImage($filename,$data[3]);
+			$q = $Functions->PDO("UPDATE tbl_business SET image = '{$_filename}' WHERE id = '{$data[2]}'");
+		}
+		else if($data[0] == 'admin'){
+			$q = $Functions->PDO("SELECT * FROM tbl_admin WHERE id = '{$data[2]}'");
+			$_filename = ($q[0][3] == "")?"admin.png":$q[0][3];
+			if(file_exists("../images/profile/{$_filename}")){
+				$filename = "../images/profile/{$_filename}";
 			}
 			else{
-				$Data = $q->errorInfo();
-				print_r($Data);
+				$_filename = "{$data[0]}_{$time}.rnr";
+				$filename = "../images/profile/{$_filename}";
 			}
+			$picture = $Functions->saveImage($filename,$data[3]);
+			$q = $Functions->PDO("UPDATE tbl_admin SET image = '{$_filename}' WHERE id = '{$data[2]}'");
+		}
+		else if($data[0] == 'employer'){
+			$q = $Functions->PDO("SELECT * FROM tbl_businessmanagers WHERE id = '{$data[2]}'");
+			$_filename = ($q[0][3] == "")?"admin.png":$q[0][3];
+			if(file_exists("../images/profile/{$_filename}")){
+				$filename = "../images/profile/{$_filename}";
+			}
+			else{
+				$_filename = "{$data[0]}_{$time}.rnr";
+				$filename = "../images/profile/{$_filename}";
+			}
+			$picture = $Functions->saveImage($filename,$data[3]);
+			$q = $Functions->PDO("UPDATE tbl_businessmanagers SET picture = '{$_filename}' WHERE id = '{$data[2]}'");
 		}
 		else{
-			echo "Hacker";
+			$q = $Functions->PDO("");
+		}
+		if($q->execute()){
+			$log = $Functions->log(($data[0] =='business')?'admin_id':$data[2],$data[2],'update picture','Update');
+			echo 1;
+		}
+		else{
+			$Data = $q->errorInfo();
+			print_r($Data);
 		}
 	}
 
@@ -566,12 +561,7 @@
 		$data = $_POST['data'];
 		$min = $data[2];
 		$max = $data[3];
-		$q = $Functions->PDO("SELECT e.image, d.name, a.message, a.date FROM tbl_messages a 
-			INNER JOIN tbl_personalinfo b ON b.id = a.to_account_id
-			INNER JOIN tbl_vacancies c ON c.id = '{$data[2]}'
-			INNER JOIN tbl_business e ON e.id = '{$data[0]}'
-			INNER JOIN tbl_businessmanagers d ON d.id = a.from_account_id
-			WHERE a.to_account_id = '{$data[1]}' AND a.subject_id = '{$data[2]}' AND e.id = '{$data[0]}' ORDER BY a.date DESC");
+		$q = $Functions->PDO("SELECT e.image, d.name, a.message, a.date FROM tbl_messages a INNER JOIN tbl_personalinfo b ON b.id = a.to_account_id INNER JOIN tbl_vacancies c ON c.id = '{$data[2]}' INNER JOIN tbl_business e ON e.id = '{$data[0]}' INNER JOIN tbl_businessmanagers d ON d.id = a.from_account_id WHERE a.to_account_id = '{$data[1]}' AND a.subject_id = '{$data[2]}' AND e.id = '{$data[0]}' ORDER BY a.date DESC");
 	
 		print_r(json_encode($q));
 	}
