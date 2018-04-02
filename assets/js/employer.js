@@ -371,6 +371,9 @@ var employer = function() {
 var business = function(){
     "use strict";
     return {
+        id:function(){
+            return localStorage.getItem('business_id');
+        },
         get:function(id){
             var ajax = (!id)?system.ajax('../assets/harmony/Process.php?get-businessList',""):system.ajax('../assets/harmony/Process.php?get-businessInfo',id);
             return ajax.responseText;
@@ -381,7 +384,7 @@ var business = function(){
             $("#businessInfo").html(`
                 <div class='col s12 m4 l3'>
                     <img src='../assets/images/logo/${logo}' width='100%' class='businesslogo'>
-                    <a class="secondary-content tooltipped" data-prop='business logo' data-cmd='updateAdminPicture' data-position='left' data-delay='50' data-tooltip='Update'><i class="material-icons hover black-text">photo_camera</i></a>
+                    <a class="secondary-content tooltipped" data-prop='business logo' data-cmd='updateBusinessPicture' data-position='left' data-delay='50' data-tooltip='Update'><i class="material-icons hover black-text">photo_camera</i></a>
                 </div>
                 <div class='col s12 m8 l9'>
                     <ul class='collection' id='display_businessInfo'>
@@ -613,9 +616,8 @@ var business = function(){
         },
         updatePicture:function(id){
             window.Cropper;
-            $("a[data-cmd='updateAdminPicture']").on('click',function(){
+            $("a[data-cmd='updateBusinessPicture']").on('click',function(){
                 var data = $(this).data();
-                console.log(data);
                 var picture = "../assets/images/profile/avatar.png";
                 var content = `<h4>Change ${data.prop}</h4>
                                 <div class='row'>
@@ -688,14 +690,6 @@ var business = function(){
                                         });
                                     }
                                 });
-
-                                // image.cropper("reset", true).cropper("replace", this.result);
-
-                              //   $("button[data-cmd='rotate']").click(function(){
-                              //    var data = $(this).data('option');
-                                    // $image.cropper('rotate', data);
-                              //   });
-
                             };
                         }
                         else{
@@ -987,9 +981,6 @@ var applicants = function(){
                 $(this).attr({'src':'../assets/images/logo/icon.png'});
             });
             $('ul.tabs').tabs();
-            applicant.viewAcads();
-            applicant.viewCareer();
-            messages.conversation();
         },
         level:function(id,level){
             let level0 = 'pending';
@@ -1236,14 +1227,17 @@ var applicant = function(){
 var messages = function(){
     "use strict";
     return {
-        get:function(id,min,max){
-            let business = localStorage.getItem('business_id');
+        get:function(min,max){
             min = ((typeof min == undefined) || (min == null))?0:min;
             max = ((typeof max == undefined) || (max == null))?2:max;
-            var data = system.ajax('../assets/harmony/Process.php?get-messages',['employer',business,id,min,max]);
+
+            let vacancy_id = ((window.location.hash).split(';')[3]);
+            var data = system.ajax('../assets/harmony/Process.php?get-messages',[business.id(),applicant.id(),vacancy_id,min,max]);
             return data.responseText;
         },
-        conversation:function(){
+        conversation:function(){       
+            messages.send(applicant.id());
+
             let convo = JSON.parse(messages.get(applicant.id())), business ="";
             $.each(convo,function(i,v){
                 business = ((typeof v[0] == 'object') || v[0] == "") ? 'icon.png' : v[0];
@@ -1257,17 +1251,16 @@ var messages = function(){
                     </li>
                 `);
             });
-            messages.send(applicant.id());
             $('#display_messages ul').scrollTop($('#display_messages ul').prop("scrollHeight")); /*this will stick the scroll to bottom*/
             new PerfectScrollbar('#display_messages .message');
         },
         send:function(){
-            let user = JSON.parse(employer.get())[0], data = JSON.parse(business.get(user[1])), id = applicant.id(), jobId = jobPosts.id();
+            let user = JSON.parse(employer.get())[0], data = JSON.parse(business.get(user[1])), id = applicant.id(), jobId = ((window.location.hash).split(';')[3]);
             let logo = ((typeof data[0][5] == 'object') || (data[0][5] == ""))? '../assets/images/logo/icon.png' : `../assets/images/logo/${data[0][5]}`;
             $('a[data-cmd="send"]').on('click', function(){
                 let message = $("textarea[data-field='message']").val();
                 if(message.length == 0){
-                        Materialize.toast('Empty message.',2000);
+                        Materialize.toast('Empty message.',2000); 
                 }
                 else {
                     var ajax = system.ajax('../assets/harmony/Process.php?do-message',[user[0],jobId,id,message,'application']);
