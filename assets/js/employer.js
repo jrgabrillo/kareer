@@ -1155,6 +1155,9 @@ var applicant = function(){
             let description = (data[1] == null)?'':data[1];
             $("#applicantInfo").html(`
                 <div class='row'>
+                    <div class='col s12 right'>
+                        <a data-cmd="schedule" class= "btn btn-flat waves-effect waves-grey right teal-text">Schedule</a>
+                    </div>
                     <div class='col s12 center'>
                         <h5>${data[8]} ${data[10]} ${data[9]}</h5>
                     </div>
@@ -1205,6 +1208,7 @@ var applicant = function(){
             $(`img.profile_picture`).on('error',function(){
                 $(this).attr({'src':'../assets/images/logo/icon.png'});
             });
+            schedule.add();
         },
         viewAcads:function(){
             let data = JSON.parse(applicant.acad(applicant.id()));
@@ -2004,7 +2008,100 @@ var jobPosts = function() {
         },
     }
 }();
-
+/*scheduling*/
+var schedule = function() {
+    "use strict";
+    return {
+        add: function(){
+            let employer = localStorage.getItem('account_id');
+            $("a[data-cmd='schedule']").on('click', function() {
+                $("#modal_medium .modal-content").html(`
+                    <form id='form_schedule' class='formValidate row' method='get' action='' novalidate='novalidate'>
+                            <h5>Schedule</h5>
+                            <div class="input-field col s4">
+                                <select id='field_option'>
+                                    <option value="meeting">Meeting</option>
+                                    <option value="initial interview">Initial interview</option>
+                                    <option value="final interview">Final interview</option>
+                                </select>
+                                <label for='field_option'>Select an option</label>
+                            </div>
+                            <div class='input-field col s4'>
+                                <label for='field_date' class="active">Date: </label>
+                                <input id='field_date' type='date' name='field_date' data-error='.error_date'>
+                                <div class='display_error error_date'></div>    
+                            </div>
+                            <div class='input-field col s4'>
+                                <label for='field_time' class="active">Time: </label>
+                                <input id='field_time' type='time' name='field_time' data-error='.error_time'>
+                                <div class='display_error error_time'></div>    
+                            </div>
+                            <div class='input-field col s12'>
+                                <label for='field_meetingPlace'>Place: </label>
+                                <input id='field_meetingPlace' type='text' name='field_meetingPlace' data-error='.error_meetingPlace'>
+                                <div class='display_error error_meetingPlace'></div>    
+                            </div>
+                            <div class='input-field col s12'>
+                                <a class='waves-effect waves-grey grey-text btn-flat modal-action modal-close right'>Cancel</a>
+                                <button class='btn waves-effect waves-light right round-button z-depth-0' type='submit'>Save</button>
+                            </div>
+                    </form>`);
+                $('#modal_medium').modal('open');
+                // let now_date = moment(moment().format("YYYY-MM-DD")).add(1, 'day').format("YYYY-MM-DD");
+                // $("#field_date").attr({"min": now_date});
+                
+                $('select').material_select(); 
+                $("#form_schedule").validate({
+                    rules: {
+                        field_option: {
+                            required: true,
+                        },
+                        field_date: {
+                            required: true,
+                            maxlength: 50
+                        },
+                        field_time: {
+                            required: true,
+                            maxlength: 50
+                        },
+                        field_meetingPlace: {
+                            required: true,
+                            maxlength: 1000
+                        },
+                    },
+                    errorElement: 'div',
+                    errorPlacement: function(error, element) {
+                        var placement = $(element).data('error');
+                        if (placement) {
+                            $(placement).append(error)
+                        } 
+                        else {
+                            error.insertAfter(element);
+                        }
+                    },
+                    submitHandler: function(form) {
+                        let _form = $(form).serializeArray();
+                        let option = $('select').val();
+                        console.log(_form);
+                        console.log(option);
+                        var data = system.ajax('../assets/harmony/Process.php?do-schedule', [employer, applicant.id(), option, _form[0]['value'], _form[1]['value'], _form[2]['value']]);
+                        data.done(function(data) {
+                            console.log(data);
+                            // if (data == 1) {
+                            //     Materialize.toast('Saved.', 4000);
+                            //     App.handleLoadPage("#cmd=index;content=_add_client");
+                            // } 
+                            // else {
+                            //     Materialize.toast('Cannot process request.', 4000);
+                            // }
+                        });
+                    }
+                });
+            });
+        }
+    }
+}();
+/**/
 var pass = function() {
     "use strict";
     return {

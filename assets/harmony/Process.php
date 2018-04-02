@@ -574,5 +574,21 @@
 		print_r(json_encode($q));
 	}
 	/**/
+	/*booking*/
+	if (isset($_GET['do-schedule'])) {
+		$data = $_POST['data'];
+		// $id = $Functions->PDO_IDGenerator('tbl_schedule','id');
+		// $date = $Functions->PDO_DateAndTime();
+		// $q = $Functions->PDO("INSERT INTO tbl_messages(id,from_account_id,to_account_id,subject_id,message,`date`,header) VALUES ('{$id}','{$data[0]}','{$data[2]}','{$data[1]}','{$data[3]}','{$date}','{$data[4]}')");
+		print_r($data);
+		// if($q->execute()){
+		// 	echo 1;
+		// }
+		// else{
+		// 	$Data = $q->errorInfo();
+		// 	print_r($Data);
+		// }
+	}
+	/**/
 
 ?>
