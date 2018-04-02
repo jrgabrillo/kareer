@@ -569,17 +569,29 @@
 	/*booking*/
 	if (isset($_GET['do-schedule'])) {
 		$data = $_POST['data'];
-		// $id = $Functions->PDO_IDGenerator('tbl_schedule','id');
-		// $date = $Functions->PDO_DateAndTime();
-		// $q = $Functions->PDO("INSERT INTO tbl_messages(id,from_account_id,to_account_id,subject_id,message,`date`,header) VALUES ('{$id}','{$data[0]}','{$data[2]}','{$data[1]}','{$data[3]}','{$date}','{$data[4]}')");
-		print_r($data);
-		// if($q->execute()){
-		// 	echo 1;
-		// }
-		// else{
-		// 	$Data = $q->errorInfo();
-		// 	print_r($Data);
-		// }
+		$id = $Functions->PDO_IDGenerator('tbl_schedule','id');
+		$date = $Functions->PDO_DateAndTime();
+		$q = $Functions->PDO("INSERT INTO tbl_schedule(id,from_account_id,to_account_id,subject_id,schedule_date,schedule_time,schedule_place,`date`,status,header) VALUES ('{$id}','{$data[0]}','{$data[2]}','{$data[1]}','{$data[3]}','{$data[4]}','{$data[5]}','{$date}','1','{$data[6]}')");
+		// print_r($data);
+		if($q->execute()){
+			echo 1;
+		}
+		else{
+			$Data = $q->errorInfo();
+			print_r($Data);
+		}
 	}
+	if(isset($_GET['get-schedule'])){ /**/
+		$data = $_POST['data'];
+		$q = $Functions->PDO("SELECT b.id,b.given_name,b.middle_name,b.family_name, a.schedule_date, a.schedule_time, a.schedule_place,b.phone,a.header,a.status, c.job_title, a.date FROM tbl_schedule a INNER JOIN tbl_personalinfo b ON b.id = a.to_account_id INNER JOIN tbl_vacancies c ON c.id = a.subject_id INNER JOIN tbl_business e ON e.id = c.business_id INNER JOIN tbl_businessmanagers d ON d.id = a.from_account_id WHERE e.id = '{$data}' ORDER BY a.date DESC");
+	
+		print_r(json_encode($q));
+	}
+	// if(isset($_GET['get-scheduleToday'])){ /**/
+	// 	$data = $_POST['data'];
+	// 	$q = $Functions->PDO("SELECT b.id,b.given_name,b.middle_name,b.family_name, a.schedule_date, a.schedule_time, a.schedule_place,b.phone,a.header,a.status, c.job_title, a.date FROM tbl_schedule a INNER JOIN tbl_personalinfo b ON b.id = a.to_account_id INNER JOIN tbl_vacancies c ON c.id = a.subject_id INNER JOIN tbl_business e ON e.id = '{$data[0]}' INNER JOIN tbl_businessmanagers d ON d.id = a.from_account_id WHERE e.id = '{$data[0]}' AND a.schedule_date = '{$data[1]}' ");
+	
+	// 	print_r(json_encode($q));
+	// }
 	/**/
 ?>

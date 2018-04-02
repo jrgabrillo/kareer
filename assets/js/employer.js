@@ -1148,6 +1148,11 @@ var applicant = function(){
                 <div class='row'>
                     <div class='col s12 right'>
                         <a data-cmd="schedule" class= "btn btn-flat waves-effect waves-grey right teal-text">Schedule</a>
+                        <div class="right">
+                            <p id="date"></p>
+                            <p id="time"></p>
+                            <p id="place"></p>
+                        </div>
                     </div>
                     <div class='col s12 center'>
                         <h5>${data[8]} ${data[10]} ${data[9]}</h5>
@@ -2006,7 +2011,7 @@ var schedule = function() {
     "use strict";
     return {
         add: function(){
-            let employer = localStorage.getItem('account_id');
+            let employer = localStorage.getItem('account_id'), jobId = ((window.location.hash).split(';')[3]);
             $("a[data-cmd='schedule']").on('click', function() {
                 $("#modal_medium .modal-content").html(`
                     <form id='form_schedule' class='formValidate row' method='get' action='' novalidate='novalidate'>
@@ -2040,8 +2045,8 @@ var schedule = function() {
                             </div>
                     </form>`);
                 $('#modal_medium').modal('open');
-                // let now_date = moment(moment().format("YYYY-MM-DD")).add(1, 'day').format("YYYY-MM-DD");
-                // $("#field_date").attr({"min": now_date});
+                let now_date = moment(moment().format("YYYY-MM-DD")).add(1, 'day').format("YYYY-MM-DD");
+                $("#field_date").attr({"min": now_date});
                 
                 $('select').material_select(); 
                 $("#form_schedule").validate({
@@ -2075,23 +2080,122 @@ var schedule = function() {
                     submitHandler: function(form) {
                         let _form = $(form).serializeArray();
                         let option = $('select').val();
-                        console.log(_form);
-                        console.log(option);
-                        var data = system.ajax('../assets/harmony/Process.php?do-schedule', [employer, applicant.id(), option, _form[0]['value'], _form[1]['value'], _form[2]['value']]);
+                        var data = system.ajax('../assets/harmony/Process.php?do-schedule', [employer, jobId, applicant.id(), _form[0]['value'], _form[1]['value'], _form[2]['value'], option]);
                         data.done(function(data) {
                             console.log(data);
-                            // if (data == 1) {
-                            //     Materialize.toast('Saved.', 4000);
-                            //     App.handleLoadPage("#cmd=index;content=_add_client");
-                            // } 
-                            // else {
-                            //     Materialize.toast('Cannot process request.', 4000);
-                            // }
+                            if (data == 1) {
+                                system.alert('Schedule sucess.', function(){
+                                   $('#modal_medium').modal('close');
+                                   $('#date').html(`${_form[0]['value']}`);
+                                   $('#time').html(`${_form[1]['value']}`);
+                                   $('#place').html(`${_form[2]['value']}`);
+                                });
+                            } 
+                            else {
+                                system.alert('Schedule error.', function(){});
+                            }
                         });
                     }
                 });
             });
-        }
+        },
+        get: function(data) {
+        var data = system.ajax('../assets/harmony/Process.php?get-schedule', data);
+        return data.responseText;
+        },
+        list: function() {
+            let businessId = business.id();
+            let result = JSON.parse(this.get(businessId));
+            let data = [];
+
+            $.each(result,function(i,v){
+                data.push({title:` ${v[1]} ${v[2]} ${v[3]} -Call: ${v[7]}, Place: ${v[6]} `, start:`${v[4]}T${v[5]}`, data:v});
+            });
+            console.log(result);
+            this.calendar(data);
+        },
+        calendar: function(data) {
+            $('#calendar').fullCalendar({
+                header: {
+                    left: 'prev, next today',
+                    center: 'title',
+                    right: 'month,agendaWeek,agendaDay,listMonth'
+                },
+                navLinks: true,
+                editable: false,
+                eventSources: [{
+                    events: data,
+                    color: '#1a237e',
+                    textColor: '#fff',
+                }],
+                eventClick: function(calEvent, jsEvent, view) {
+                    let now = moment().format('YYYY-MM-DD');
+                    let control = (now ==  calEvent.data[4])?'':'disabled';
+                    let content = `
+                        <a href='#'class='modal-close btn btn-flat btn-floating waves-effect right'><i class="material-icons tiny">close</i></a>
+                        <h6>Schedule information for ${calEvent.data[8]}</h6>
+                        <table>
+                            <tr>
+                                <td class='bold'>Name: </td>
+                                <td>${calEvent.data[1]} ${calEvent.data[2]} ${calEvent.data[2]}</td>
+                            </tr>
+                            <tr>
+                                <td class='bold'>Date and Time: </td>
+                                <td>${calEvent.data[4]} ${calEvent.data[5]}</td>
+                            </tr>
+                            <tr>
+                                <td class='bold'>Place: </td>
+                                <td>${calEvent.data[6]}</td>
+                            </tr>
+                            <tr>
+                                <td class='bold'>Contact: </td>
+                                <td>${calEvent.data[7]}</td>
+                            </tr>
+                            <tr>
+                                <td class='bold'>Applying for: </td>
+                                <td>${calEvent.data[10]}</td>
+                            </tr>
+                        </table>
+                    `;
+
+                    $("#modal_confirm .modal-content").html(content);
+                    $('#modal_confirm .modal-footer').remove();         
+
+                    $('#modal_confirm').modal('open');
+                    // alert('Meeting with: ' + calEvent.title);
+                    // console.log(calEvent.id);
+                }
+            })
+        },
+        // getTodaysAppointment:function(){
+        //     let businessId = business.id();
+        //     var data = system.ajax('../assets/harmony/Process.php?get-bookingByRMToday',[businessId,moment().format('YYYY-MM-DD')]);
+        //     data.done(function(data){
+        //         let result = JSON.parse(data);
+        //         if(result.length>0){
+        //             let content = '';
+        //             $.each(result,function(i,v){
+        //                 content += `<tr>
+        //                     <td width='20%' style='vertical-align: top;'>
+        //                         <img src="../assets/images/profile/avatar.png" class="circle left" width="35px">
+        //                     </td>   
+        //                     <td width='80%'>
+        //                         <span class="bold"> ${v[4]} ${v[5]}</span>
+        //                         <div> Call: ${v[6]}</div>
+        //                         <div> Time: ${v[2]}</div>
+        //                         <div> Meet at: ${v[3]}</div>
+        //                             <a href='' class='btn indigo darken-5 z-depth-0 waves-effect waves-light round-button'>Set a plan</a>
+        //                             <a href='#cmd=index;content=_account_client;${v[0]}' class=''>View account</a>                          
+        //                     </td>
+        //                 </tr>`;
+        //             });
+        //             $("#display_rm_appointment table").html(content);                   
+        //         }
+        //         else{
+        //             $("#display_rm_appointment").html('<h6>You have no appointment today.</h6>');
+        //         }
+        //     });
+        // }
     }
 }();
 /**/
