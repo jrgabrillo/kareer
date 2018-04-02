@@ -301,13 +301,14 @@ INSERT INTO `tbl_logs` (`id`, `from_account_id`, `to_account_id`, `remarks`, `da
 -- Table structure for table `tbl_messages`
 --
 
-CREATE TABLE `tbl_messages` (
+CREATE TABLE IF NOT EXISTS `tbl_messages` (
   `id` varchar(70) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `from_account_id` varchar(70) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `from_account_id` varchar(70) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `to_account_id` varchar(70) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `message` text COLLATE utf8mb4_unicode_ci NOT NULL,
-  `date` varchar(20) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `header` varchar(300) COLLATE utf8mb4_unicode_ci NOT NULL
+  `subject_id` varchar(70) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `message` text COLLATE utf8mb4_unicode_ci,
+  `date` varchar(20) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `header` varchar(300) COLLATE utf8mb4_unicode_ci DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
