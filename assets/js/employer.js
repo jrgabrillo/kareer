@@ -1132,8 +1132,6 @@ var applicant = function(){
             return ajax.responseText;
         },
         schedule:function(id,jobId){
-            var ajax = system.ajax('../assets/harmony/Process.php?get-scheduleByapplicant',[id,jobId]);
-            return ajax.responseText;
         },
         acad:function(id){
             var ajax = system.ajax('../assets/harmony/Process.php?get-applicantAcad',id);
@@ -1145,13 +1143,13 @@ var applicant = function(){
         },
         view:function(){
             let data = JSON.parse(applicant.get(applicant.id()))[0], jobId = ((window.location.hash).split(';')[3]);
-            let schedule = JSON.parse(applicant.schedule(applicant.id(),jobId))[0], date = "", place ="";
-            console.log(schedule);
+            let _schedule = JSON.parse(schedule.getById(applicant.id(),jobId))[0], date = "", place ="";
+
             let picture = ((new RegExp('facebook|google','i')).test(data[19]))? data[19] : ((typeof data[19] == 'object') || (data[19] == ""))? '../assets/images/logo/icon.png' : `../assets/images/profile/${data[19]}`;
             let auth = (data[4] == "fb-oauth")?'Facebook':(data[4] == "google-auth")?'Google':'Kareer Website', account_id = (data[5] == "")?data[0]:data[5];
             let description = (data[1] == null)?'':data[1];
-            date = ((schedule[1] && schedule[2]) == "")?'No date':`${schedule[1]} ${schedule[2]}`;
-            place = (schedule[3] == "")?'No place':`${schedule[3]}`;
+            date = ((typeof _schedule == 'undefined'))?'No date':`${_schedule[1]} ${_schedule[2]}`;
+            place = ((typeof _schedule == 'undefined'))?'No place':`${_schedule[3]}`;
             $("#applicantInfo").html(`
                 <div class='row'>
                     <div class='right'>
@@ -1211,7 +1209,10 @@ var applicant = function(){
             $(`img.profile_picture`).on('error',function(){
                 $(this).attr({'src':'../assets/images/logo/icon.png'});
             });
-            schedule.add();
+
+            $("a[data-cmd='schedule']").on('click', function() {
+                schedule.add();
+            });
         },
         viewAcads:function(){
             let data = JSON.parse(applicant.acad(applicant.id()));
@@ -2013,98 +2014,89 @@ var jobPosts = function() {
         },
     }
 }();
-/*scheduling*/
+
 var schedule = function() {
     "use strict";
     return {
         add: function(){
             let employer = localStorage.getItem('account_id'), jobId = ((window.location.hash).split(';')[3]);
-            $("a[data-cmd='schedule']").on('click', function() {
-                $("#modal_medium .modal-content").html(`
-                    <form id='form_schedule' class='formValidate row' method='get' action='' novalidate='novalidate'>
-                            <h5>Schedule</h5>
-                            <div class="input-field col s4">
-                                <select id='field_option'>
-                                    <option value="meeting">Meeting</option>
-                                    <option value="initial interview">Initial interview</option>
-                                    <option value="final interview">Final interview</option>
-                                </select>
-                                <label for='field_option'>Select an option</label>
-                            </div>
-                            <div class='input-field col s4'>
-                                <label for='field_date' class="active">Date: </label>
-                                <input id='field_date' type='date' name='field_date' data-error='.error_date'>
-                                <div class='display_error error_date'></div>    
-                            </div>
-                            <div class='input-field col s4'>
-                                <label for='field_time' class="active">Time: </label>
-                                <input id='field_time' type='time' name='field_time' data-error='.error_time'>
-                                <div class='display_error error_time'></div>    
-                            </div>
-                            <div class='input-field col s12'>
-                                <label for='field_meetingPlace'>Place: </label>
-                                <input id='field_meetingPlace' type='text' name='field_meetingPlace' data-error='.error_meetingPlace'>
-                                <div class='display_error error_meetingPlace'></div>    
-                            </div>
-                            <div class='input-field col s12'>
-                                <a class='waves-effect waves-grey grey-text btn-flat modal-action modal-close right'>Cancel</a>
-                                <button class='btn waves-effect waves-light right round-button z-depth-0' type='submit'>Save</button>
-                            </div>
-                    </form>`);
-                $('#modal_medium').modal('open');
-                let now_date = moment(moment().format("YYYY-MM-DD")).add(1, 'day').format("YYYY-MM-DD");
-                $("#field_date").attr({"min": now_date});
-                
-                $('select').material_select(); 
-                $("#form_schedule").validate({
-                    rules: {
-                        field_option: {
-                            required: true,
-                        },
-                        field_date: {
-                            required: true,
-                            maxlength: 50
-                        },
-                        field_time: {
-                            required: true,
-                            maxlength: 50
-                        },
-                        field_meetingPlace: {
-                            required: true,
-                            maxlength: 1000
-                        },
-                    },
-                    errorElement: 'div',
-                    errorPlacement: function(error, element) {
-                        var placement = $(element).data('error');
-                        if (placement) {
-                            $(placement).append(error)
+            $("#modal_medium .modal-content").html(`
+                <form id='form_schedule' class='formValidate row' method='get' action='' novalidate='novalidate'>
+                        <h5>Schedule</h5>
+                        <div class="input-field col s4">
+                            <select id='field_option'>
+                                <option value="meeting">Meeting</option>
+                                <option value="initial interview">Initial interview</option>
+                                <option value="final interview">Final interview</option>
+                            </select>
+                            <label for='field_option'>Select an option</label>
+                        </div>
+                        <div class='input-field col s4'>
+                            <label for='field_date' class="active">Date: </label>
+                            <input id='field_date' type='date' name='field_date' data-error='.error_date'>
+                            <div class='display_error error_date'></div>    
+                        </div>
+                        <div class='input-field col s4'>
+                            <label for='field_time' class="active">Time: </label>
+                            <input id='field_time' type='time' name='field_time' data-error='.error_time'>
+                            <div class='display_error error_time'></div>    
+                        </div>
+                        <div class='input-field col s12'>
+                            <label for='field_meetingPlace'>Place: </label>
+                            <input id='field_meetingPlace' type='text' name='field_meetingPlace' data-error='.error_meetingPlace'>
+                            <div class='display_error error_meetingPlace'></div>    
+                        </div>
+                        <div class='input-field col s12'>
+                            <a class='waves-effect waves-grey grey-text btn-flat modal-action modal-close right'>Cancel</a>
+                            <button class='btn waves-effect waves-light right round-button z-depth-0' type='submit'>Save</button>
+                        </div>
+                </form>`);
+            $('#modal_medium').modal('open');
+            let now_date = moment(moment().format("YYYY-MM-DD")).add(1, 'day').format("YYYY-MM-DD");
+            $("#field_date").attr({"min": now_date});
+            
+            $('select').material_select(); 
+            $("#form_schedule").validate({
+                rules: {
+                    field_option: {required: true},
+                    field_date: {required: true,maxlength: 50},
+                    field_time: {required: true,maxlength: 50},
+                    field_meetingPlace: {required: true,maxlength: 1000},
+                },
+                errorElement: 'div',
+                errorPlacement: function(error, element) {
+                    var placement = $(element).data('error');
+                    if (placement) {
+                        $(placement).append(error)
+                    } 
+                    else {
+                        error.insertAfter(element);
+                    }
+                },
+                submitHandler: function(form) {
+                    let _form = $(form).serializeArray();
+                    let option = $('select').val();
+                    var data = system.ajax('../assets/harmony/Process.php?do-schedule', [employer, jobId, applicant.id(), _form[0]['value'], _form[1]['value'], _form[2]['value'], option]);
+                    data.done(function(data) {
+                        console.log(data);
+                        if (data == 1) {
+                            system.alert('Schedule sucess.', function(){
+                            });
                         } 
                         else {
-                            error.insertAfter(element);
+                            system.alert('Schedule error.', function(){});
                         }
-                    },
-                    submitHandler: function(form) {
-                        let _form = $(form).serializeArray();
-                        let option = $('select').val();
-                        var data = system.ajax('../assets/harmony/Process.php?do-schedule', [employer, jobId, applicant.id(), _form[0]['value'], _form[1]['value'], _form[2]['value'], option]);
-                        data.done(function(data) {
-                            console.log(data);
-                            if (data == 1) {
-                                system.alert('Schedule sucess.', function(){
-                                });
-                            } 
-                            else {
-                                system.alert('Schedule error.', function(){});
-                            }
-                        });
-                    }
-                });
+                    });
+                }
             });
         },
         get: function(data) {
-        var data = system.ajax('../assets/harmony/Process.php?get-schedule', data);
-        return data.responseText;
+            var data = system.ajax('../assets/harmony/Process.php?get-schedule', data);
+            return data.responseText;
+        },
+        getById:function(id,jobId){
+            var ajax = system.ajax('../assets/harmony/Process.php?get-scheduleByApplicant',[id,jobId]);
+            return ajax.responseText;
         },
         list: function() {
             let businessId = business.id();
@@ -2170,38 +2162,38 @@ var schedule = function() {
                 }
             })
         },
-        // getTodaysAppointment:function(){
-        //     let businessId = business.id();
-        //     var data = system.ajax('../assets/harmony/Process.php?get-bookingByRMToday',[businessId,moment().format('YYYY-MM-DD')]);
-        //     data.done(function(data){
-        //         let result = JSON.parse(data);
-        //         if(result.length>0){
-        //             let content = '';
-        //             $.each(result,function(i,v){
-        //                 content += `<tr>
-        //                     <td width='20%' style='vertical-align: top;'>
-        //                         <img src="../assets/images/profile/avatar.png" class="circle left" width="35px">
-        //                     </td>   
-        //                     <td width='80%'>
-        //                         <span class="bold"> ${v[4]} ${v[5]}</span>
-        //                         <div> Call: ${v[6]}</div>
-        //                         <div> Time: ${v[2]}</div>
-        //                         <div> Meet at: ${v[3]}</div>
-        //                             <a href='' class='btn indigo darken-5 z-depth-0 waves-effect waves-light round-button'>Set a plan</a>
-        //                             <a href='#cmd=index;content=_account_client;${v[0]}' class=''>View account</a>                          
-        //                     </td>
-        //                 </tr>`;
-        //             });
-        //             $("#display_rm_appointment table").html(content);                   
-        //         }
-        //         else{
-        //             $("#display_rm_appointment").html('<h6>You have no appointment today.</h6>');
-        //         }
-        //     });
-        // }
+        getTodaysAppointment:function(){
+            let businessId = business.id();
+            var data = system.ajax('../assets/harmony/Process.php?get-bookingByRMToday',[businessId,moment().format('YYYY-MM-DD')]);
+            data.done(function(data){
+                let result = JSON.parse(data);
+                if(result.length>0){
+                    let content = '';
+                    $.each(result,function(i,v){
+                        content += `<tr>
+                            <td width='20%' style='vertical-align: top;'>
+                                <img src="../assets/images/profile/avatar.png" class="circle left" width="35px">
+                            </td>   
+                            <td width='80%'>
+                                <span class="bold"> ${v[4]} ${v[5]}</span>
+                                <div> Call: ${v[6]}</div>
+                                <div> Time: ${v[2]}</div>
+                                <div> Meet at: ${v[3]}</div>
+                                    <a href='' class='btn indigo darken-5 z-depth-0 waves-effect waves-light round-button'>Set a plan</a>
+                                    <a href='#cmd=index;content=_account_client;${v[0]}' class=''>View account</a>                          
+                            </td>
+                        </tr>`;
+                    });
+                    $("#display_rm_appointment table").html(content);                   
+                }
+                else{
+                    $("#display_rm_appointment").html('<h6>You have no appointment today.</h6>');
+                }
+            });
+        }
     }
 }();
-/**/
+
 var pass = function() {
     "use strict";
     return {

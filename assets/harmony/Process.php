@@ -611,7 +611,7 @@
 	
 		print_r(json_encode($q));
 	}
-	if(isset($_GET['get-scheduleByapplicant'])){ /**/
+	if(isset($_GET['get-scheduleByApplicant'])){ /**/
 		$data = $_POST['data'];
 		$q = $Functions->PDO("SELECT a.subject_id, a.schedule_date, a.schedule_time, a.schedule_place, a.date FROM tbl_schedule a WHERE a.date = (SELECT max(a.date) FROM tbl_schedule a WHERE a.subject_id = '{$data[1]}' GROUP BY a.subject_id) AND a.to_account_id = '{$data[0]}'");
 			
