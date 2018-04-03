@@ -1143,20 +1143,23 @@ var applicant = function(){
         },
         view:function(){
             let data = JSON.parse(applicant.get(applicant.id()))[0], jobId = ((window.location.hash).split(';')[3]);
-            let _schedule = JSON.parse(schedule.getById(applicant.id(),jobId))[0], date = "", place ="";
-
+            let _schedule = JSON.parse(schedule.getById(applicant.id(),jobId))[0], date = "", place ="",time="",button="";
             let picture = ((new RegExp('facebook|google','i')).test(data[19]))? data[19] : ((typeof data[19] == 'object') || (data[19] == ""))? '../assets/images/logo/icon.png' : `../assets/images/profile/${data[19]}`;
             let auth = (data[4] == "fb-oauth")?'Facebook':(data[4] == "google-auth")?'Google':'Kareer Website', account_id = (data[5] == "")?data[0]:data[5];
             let description = (data[1] == null)?'':data[1];
-            date = ((typeof _schedule == 'undefined'))?'No date':`${_schedule[1]} ${_schedule[2]}`;
-            place = ((typeof _schedule == 'undefined'))?'No place':`${_schedule[3]}`;
+            button = ((typeof _schedule == 'undefined'))?`show`:`hidden`; /*show/hide schedule button if there's an schedule or none*/
+            date = ((typeof _schedule == 'undefined'))?'None':`${_schedule[1]}`;
+            time = ((typeof _schedule == 'undefined'))?'None':`${_schedule[2]}`;
+            place = ((typeof _schedule == 'undefined'))?'None':`${_schedule[3]}`;
+
             $("#applicantInfo").html(`
                 <div class='row'>
                     <div class='right'>
-                        <a data-cmd="schedule" class= "btn btn-flat waves-effect waves-grey teal-text">Schedule</a>
+                        <a data-cmd="schedule" class= "btn btn-flat ${button} waves-effect waves-grey teal-text">Schedule</a>
                         <div>
-                            <p>Date:${date}</p>
-                            <p>Place:${place}</p>
+                            <p id="date">Date: <strong>${date}</strong></p>
+                            <p id="date">Time: <strong>${time}</strong></p>
+                            <p id="place">Place: <strong>${place}</strong></p>
                         </div>
                     </div>
                     <div class='col s12 center'>
@@ -2081,6 +2084,9 @@ var schedule = function() {
                         console.log(data);
                         if (data == 1) {
                             system.alert('Schedule sucess.', function(){
+                                $('#modal_medium').modal('close');
+                                applicant.view();
+
                             });
                         } 
                         else {
@@ -2104,9 +2110,9 @@ var schedule = function() {
             let data = [];
 
             $.each(result,function(i,v){
-                data.push({title:` ${v[1]} ${v[2]} ${v[3]} -Call: ${v[7]}, Place: ${v[6]} `, start:`${v[4]}T${v[5]}`, data:v});
+                data.push({title:`${v[5]} \n${v[1]} ${v[2]} ${v[3]} \n Applying for ${v[10]}`, start:`${v[4]}T${v[5]}`, data:v});
             });
-            console.log(this.get(businessId));
+            console.log(result);
             this.calendar(data);
         },
         calendar: function(data) {
@@ -2117,6 +2123,7 @@ var schedule = function() {
                     right: 'month,agendaWeek,agendaDay,listMonth'
                 },
                 navLinks: true,
+                displayEventTime: false,
                 editable: false,
                 eventSources: [{
                     events: data,
@@ -2127,8 +2134,8 @@ var schedule = function() {
                     let now = moment().format('YYYY-MM-DD');
                     let control = (now ==  calEvent.data[4])?'':'disabled';
                     let content = `
-                        <a href='#'class='modal-close btn btn-flat btn-floating waves-effect right'><i class="material-icons tiny">close</i></a>
-                        <h6>Schedule information for ${calEvent.data[8]}</h6>
+                        <a class='modal-close btn btn-flat btn-floating waves-effect right'><i class="material-icons tiny">close</i></a>
+                        <h6>Schedule information</h6>
                         <table>
                             <tr>
                                 <td class='bold'>Name: </td>
@@ -2150,17 +2157,133 @@ var schedule = function() {
                                 <td class='bold'>Applying for: </td>
                                 <td>${calEvent.data[10]}</td>
                             </tr>
+                            <tr>
+                                <td class='bold'>Schedule for: </td>
+                                <td>${calEvent.data[8]}</td>
+                            </tr>
                         </table>
+                        <div>
+                            <a data-cmd='failed' data-node="${calEvent.data[0]}" class='modal-close tooltipped btn-floating btn-flat waves-effect waves-grey red lighten-5 left' data-position="top" data-tooltip="Failed"><i class="material-icons">close</i></a>
+                            <a data-cmd='success' data-node="${calEvent.data[0]}" class='modal-close tooltipped btn-floating btn-flat waves-effect waves-grey green lighten-5 left' data-position="top" data-tooltip="Sucess"><i class="material-icons">check</i></a>
+                            <a data-cmd="reschedule" data-node="${calEvent.data}" class= "modal-close btn btn-flat waves-effect waves-grey teal-text right">Reschedule</a>
+                        </div>
                     `;
-
                     $("#modal_confirm .modal-content").html(content);
                     $('#modal_confirm .modal-footer').remove();         
 
                     $('#modal_confirm').modal('open');
-                    // alert('Meeting with: ' + calEvent.title);
-                    // console.log(calEvent.id);
+                    $('.tooltipped').tooltip({delay: 50});
+                    schedule.action(calEvent.data);
                 }
             })
+        },
+        action:function(data){
+            $("a[data-cmd='failed']").on('click', function() {
+                let id = $(this).data('node');
+                console.log($(this).data('node'));
+                console.log('failed');
+
+                $("#modal_medium .modal-content").html(
+                        `<h5>What happen to this schedule?</h5>
+                        <textarea class='materialize-textarea' data-field='field_description' name='field_description' placeholder='Remarks'></textarea>
+                        <button data-cmd='button_proceed' class='waves-effect waves-grey grey lighten-5 blue-text btn-flat modal-action right'>Proceed</button>
+                        <a data-cmd="stay" class='waves-effect waves-grey grey-text btn-flat modal-close right'>Cancel</a>`
+                    );
+                $('#modal_medium').modal('open');
+                $("button[data-cmd='button_proceed']").on('click',function(){
+                    let remarks = $("textarea[data-field='field_description']").val();
+                    if(remarks.length == 0){
+                            Materialize.toast('Remarks is required.',4000);
+                    }
+                    else if(remarks.length > 800){
+                            Materialize.toast('Statement is too long.',4000);
+                    }
+                    else{
+                        var data = system.ajax('../assets/harmony/Process.php?do-updateSchedule', ['failed',id,localStorage.getItem('account_id'),remarks]);
+                        data.done(function(data){
+                            // console.log(data);
+                            if(data == 1){
+                                $('#modal_medium').modal('close');
+                                system.alert('Schedule removed.', function(){});
+                            }
+                            else{
+                                system.alert('Error.', function(){});
+                            }
+                        });
+                    }
+                });
+            });
+            $("a[data-cmd='success']").on('click', function() {
+                let id = $(this).data('node');
+                console.log('success');
+                $("#modal_medium .modal-content").html(
+                        `<h5>What happen to this schedule?</h5>
+                        <textarea class='materialize-textarea' data-field='field_description' name='field_description' placeholder='Remarks'></textarea>
+                        <button data-cmd='button_proceed' class='waves-effect waves-grey grey lighten-5 blue-text btn-flat modal-action right'>Proceed</button>
+                        <a data-cmd="stay" class='waves-effect waves-grey grey-text btn-flat modal-close right'>Cancel</a>`
+                    );
+                $('#modal_medium').modal('open');
+                $("button[data-cmd='button_proceed']").on('click',function(){
+                    let remarks = $("textarea[data-field='field_description']").val();
+                    if(remarks.length == 0){
+                            Materialize.toast('Remarks is required.',4000);
+                    }
+                    else if(remarks.length > 800){
+                            Materialize.toast('Statement is too long.',4000);
+                    }
+                    else{
+                        var data = system.ajax('../assets/harmony/Process.php?do-updateSchedule', ['success',id,localStorage.getItem('account_id'),remarks]);
+                        data.done(function(data){
+                            // console.log(data);
+                            if(data == 1){
+                                $('#modal_medium').modal('close');
+                                system.alert('Schedule completed.', function(){});
+                            }
+                            else{
+                                system.alert('Error.', function(){});
+                            }
+                        });
+                    }
+                });
+            });
+            $("a[data-cmd='reschedule']").on('click', function() {
+                console.log(data);
+                console.log('reschedule');
+                $("#modal_medium .modal-content").html(`
+                    <form id='form_schedule' class='formValidate row' method='get' action='' novalidate='novalidate'>
+                            <h5>Reschedule</h5>
+                            <div class="input-field col s4">
+                                <select id='field_option'>
+                                    <option value="${data[8]}">${data[8]}</option
+                                </select>
+                                <label for='field_option'>Select an option</label>
+                            </div>
+                            <div class='input-field col s4'>
+                                <label for='field_date' class="active">Date: </label>
+                                <input id='field_date' type='date' name='field_date' data-error='.error_date' value='${data[4]}'>
+                                <div class='display_error error_date'></div>    
+                            </div>
+                            <div class='input-field col s4'>
+                                <label for='field_time' class="active">Time: </label>
+                                <input id='field_time' type='time' name='field_time' data-error='.error_time' value='${data[5]}'>
+                                <div class='display_error error_time'></div>    
+                            </div>
+                            <div class='input-field col s12'>
+                                <label for='field_meetingPlace' class='active'>Place: </label>
+                                <input id='field_meetingPlace' type='text' name='field_meetingPlace' data-error='.error_meetingPlace' value='${data[6]}'>
+                                <div class='display_error error_meetingPlace'></div>    
+                            </div>
+                            <div class='input-field col s12'>
+                                <a class='waves-effect waves-grey grey-text btn-flat modal-action modal-close right'>Cancel</a>
+                                <button class='btn waves-effect waves-light right round-button z-depth-0' type='submit'>Save</button>
+                            </div>
+                    </form>`);
+                $('#modal_medium').modal('open');
+                // let now_date = moment(moment().format("YYYY-MM-DD")).add(1, 'day').format("YYYY-MM-DD");
+                // $("#field_date").attr({"min": now_date});
+                
+                $('select').material_select(); 
+            });
         },
         getTodaysAppointment:function(){
             let businessId = business.id();

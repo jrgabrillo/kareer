@@ -270,6 +270,26 @@ $Functions = new DatabaseClasses;
         }
     }
 
+    if (isset($_GET['do-action'])){/* updating to read*/
+        $data = $_POST['data'];
+        if($data[1] == 'notification'){
+            $q = $Functions->PDO("UPDATE tbl_logs SET status = '0' WHERE to_account_id = '{$data[0]}' AND header = 'application'");
+        }
+        else if($data[1] == 'message'){
+            $q = $Functions->PDO("");
+        }
+        else{
+            $q = $Functions->PDO("");
+        }
+        if($q->execute()){
+            echo 1;
+        }
+        else{
+            $Data = $q->errorInfo();
+            print_r($Data);
+        }
+    }
+
     if (isset($_GET['do-addCareer'])){/**/
         $data = $_POST['data'];
         $id = $Functions->PDO_IDGenerator('tbl_career','id');
@@ -453,6 +473,20 @@ $Functions = new DatabaseClasses;
         $data = $_POST['data'];
         $query = $Functions->PDO("SELECT c.image, b.name, a.message, a.date FROM tbl_messages a INNER JOIN tbl_businessmanagers b ON a.from_account_id = b.id INNER JOIN tbl_business c ON c.id = b.business_id INNER JOIN tbl_personalinfo d ON d.id = a.to_account_id WHERE c.id = '{$data}' AND a.header = 'application' ORDER BY date DESC");
         print_r(json_encode($query));
+    }
+    /*unread and read notification query*/
+    if (isset($_GET['get-notifications'])){/**/
+        $data = $_POST['data'];
+        $q = $Functions->PDO("SELECT b.id, d.company_name, d.image, a.status, a.date, a.header FROM tbl_logs a INNER JOIN tbl_application b ON a.to_account_id = b.id INNER JOIN tbl_vacancies c ON b.vacancy_id = c.id INNER JOIN tbl_business d ON c.business_id = d.id WHERE b.applicant_id = '{$data}'");
+        // $q = $Functions->PDO("SELECT d.id, d.company_name, d.image, a.status, a.date FROM tbl_logs a INNER JOIN tbl_schedule b ON a.to_account_id = b.id INNER JOIN tbl_vacancies c ON b.subject_id = c.id INNER JOIN tbl_business d ON c.business_id = d.id WHERE b.to_account_id = '{$data}' AND a.remarks = 'schedule'");
+        print_r(json_encode($q));        
+
+    }
+    if (isset($_GET['get-notificationInfo'])){/**/
+        $data = $_POST['data'];
+        $q = $Functions->PDO("SELECT d.id, d.company_name, d.image, a.remarks, c.job_title FROM tbl_logs a INNER JOIN tbl_application b ON a.to_account_id = b.id INNER JOIN tbl_vacancies c ON b.vacancy_id = c.id INNER JOIN tbl_business d ON c.business_id = d.id WHERE b.id = '{$data}';");
+        print_r(json_encode($q));        
+
     }
     /**/
 ?> 
