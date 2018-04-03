@@ -577,7 +577,6 @@
 		$data = $_POST['data'];
 		$id = $Functions->PDO_IDGenerator('tbl_schedule','id');
 		$date = $Functions->PDO_DateAndTime();
-		$query = $Functions->PDO("SELECT count(*) FROM tbl_schedule WHERE subject_id = '{$data[2]}' AND to_account_id = '{$data[1]}'");
 		$business =$Functions->PDO("SELECT  a.company_name FROM tbl_business a WHERE id IN (SELECT business_id FROM tbl_businessmanagers b WHERE b.id = '{$data[0]}')");
 		$remarks = "{$business[0][0]} scheduled your {$data[6]} on {$data[3]} {$data[4]} at {$data[5]}";
 		$q = $Functions->PDO("INSERT INTO tbl_schedule(id,from_account_id,to_account_id,subject_id,schedule_date,schedule_time,schedule_place,`date`,status,header,remarks) VALUES ('{$id}','{$data[0]}','{$data[2]}','{$data[1]}','{$data[3]}','{$data[4]}','{$data[5]}','{$date}','1','{$data[6]}','{$remarks}')");
@@ -593,20 +592,35 @@
 	}
 	if (isset($_GET['do-updateSchedule'])) { /**/
 		$data = $_POST['data'];
+		$id = $Functions->PDO_IDGenerator('tbl_schedule','id');
+		$date = $Functions->PDO_DateAndTime();
+		$to = ($data[0] == 'reschedule')?$id:$data[1];
+		$business =$Functions->PDO("SELECT  a.company_name FROM tbl_business a WHERE id IN (SELECT business_id FROM tbl_businessmanagers b WHERE b.id = '{$data[2]}')");
+		$query = $Functions->PDO("SELECT * FROM tbl_schedule WHERE id = '{$data[1]}'");
+
 		if($data[0] == 'failed'){
+			$remarks = "{$business[0][0]} cancelled your schedule for {$data[4]}";
 			$q = $Functions->PDO("UPDATE tbl_schedule SET status = '0' WHERE id = '{$data[1]}'");
 		}
 		else if($data[0] == 'success'){
+			$remarks = "{$business[0][0]} completed your schedule for {$data[4]}";
 			$q = $Functions->PDO("UPDATE tbl_schedule SET status = '2' WHERE id = '{$data[1]}'");
 		}
 		else if($data[0] == 'reschedule'){
-			$q = $Functions->PDO("");
+			$remarks = "{$business[0][0]} rescheduled your {$data[8]} \nfrom {$query[0][4]} {$query[0][5]} {$query[0][6]} \nto {$data[5]} {$data[6]} {$data[7]}";
+			$q_sched = $Functions->PDO("UPDATE tbl_schedule SET status = '0' WHERE id = '{$data[1]}'");
+			if($q_sched->execute()){
+				$q = $Functions->PDO("INSERT INTO tbl_schedule(id,from_account_id,to_account_id,subject_id,schedule_date,schedule_time,schedule_place,`date`,status,header,remarks) VALUES ('{$id}','{$data[2]}','{$data[4]}','{$data[3]}','{$data[5]}','{$data[6]}','{$data[7]}','{$date}','1','{$data[8]}','{$remarks}')");
+			}
+			else{
+				$q = $Functions->PDO("");
+			}
 		}
 		else{
 			$q = $Functions->PDO("");
 		}
 		if($q->execute()){
-			$log = $Functions->log($data[2],$data[1],$remarks,'application');
+			$log = $Functions->log($data[2],$to,$remarks,'application');
 			echo 1;
 		}
 		else{
@@ -617,7 +631,7 @@
 	if (isset($_GET['get-schedule'])){ /**/
 		$data = $_POST['data'];
 		$result = [];
-		$q = $Functions->PDO("SELECT a.id,b.given_name,b.middle_name,b.family_name, a.schedule_date, a.schedule_time, a.schedule_place,b.phone,a.header,a.status, c.job_title, a.date FROM tbl_schedule a INNER JOIN tbl_personalinfo b ON b.id = a.to_account_id INNER JOIN tbl_vacancies c ON c.id = a.subject_id INNER JOIN tbl_business e ON e.id = c.business_id INNER JOIN tbl_businessmanagers d ON d.id = a.from_account_id WHERE e.id = '{$data}' AND a.status = '1' ");
+		$q = $Functions->PDO("SELECT a.id,a.subject_id,a.to_account_id,b.given_name,b.middle_name,b.family_name, a.schedule_date, a.schedule_time, a.schedule_place,b.phone,a.header,a.status, c.job_title, a.date FROM tbl_schedule a INNER JOIN tbl_personalinfo b ON b.id = a.to_account_id INNER JOIN tbl_vacancies c ON c.id = a.subject_id INNER JOIN tbl_business e ON e.id = c.business_id INNER JOIN tbl_businessmanagers d ON d.id = a.from_account_id WHERE e.id = '{$data}' AND a.status = '1' ");
 	
 		print_r(json_encode($q));
 	}

@@ -1159,7 +1159,7 @@ var applicant = function(){
             $("#applicantInfo").html(`
                 <div class='row'>
                     <div class='right'>
-                        <a data-cmd="schedule" class= "btn btn-flat ${button} waves-effect waves-grey teal-text">Schedule</a>
+                        <a data-cmd="schedule" class= "btn btn-flat ${button} waves-effect waves-grey teal-text">New Schedule</a>
                         <div>
                             <p id="date">Date: <strong>${date}</strong></p>
                             <p id="date">Time: <strong>${time}</strong></p>
@@ -2090,7 +2090,6 @@ var schedule = function() {
                             system.alert('Schedule sucess.', function(){
                                 $('#modal_medium').modal('close');
                                 applicant.view();
-
                             });
                         } 
                         else {
@@ -2114,9 +2113,8 @@ var schedule = function() {
             let data = [];
 
             $.each(result,function(i,v){
-                data.push({title:`${v[5]} \n${v[1]} ${v[2]} ${v[3]} \n Applying for ${v[10]}`, start:`${v[4]}T${v[5]}`, data:v});
+                data.push({title:`${v[7]} \n${v[3]} ${v[4]} ${v[5]} \n Applying for ${v[12]}`, start:`${v[6]}T${v[7]}`, data:v});
             });
-            console.log(result);
             this.calendar(data);
         },
         calendar: function(data) {
@@ -2136,39 +2134,39 @@ var schedule = function() {
                 }],
                 eventClick: function(calEvent, jsEvent, view) {
                     let now = moment().format('YYYY-MM-DD');
-                    let control = (now ==  calEvent.data[4])?'':'disabled';
+                    let control = (now ==  calEvent.data[6])?'':'disabled';
                     let content = `
                         <a class='modal-close btn btn-flat btn-floating waves-effect right'><i class="material-icons tiny">close</i></a>
                         <h6>Schedule information</h6>
                         <table>
                             <tr>
                                 <td class='bold'>Name: </td>
-                                <td>${calEvent.data[1]} ${calEvent.data[2]} ${calEvent.data[2]}</td>
+                                <td>${calEvent.data[3]} ${calEvent.data[4]} ${calEvent.data[5]}</td>
                             </tr>
                             <tr>
                                 <td class='bold'>Date and Time: </td>
-                                <td>${calEvent.data[4]} ${calEvent.data[5]}</td>
+                                <td>${calEvent.data[6]} ${calEvent.data[7]}</td>
                             </tr>
                             <tr>
                                 <td class='bold'>Place: </td>
-                                <td>${calEvent.data[6]}</td>
+                                <td>${calEvent.data[8]}</td>
                             </tr>
                             <tr>
                                 <td class='bold'>Contact: </td>
-                                <td>${calEvent.data[7]}</td>
+                                <td>${calEvent.data[9]}</td>
                             </tr>
                             <tr>
                                 <td class='bold'>Applying for: </td>
-                                <td>${calEvent.data[10]}</td>
+                                <td>${calEvent.data[12]}</td>
                             </tr>
                             <tr>
                                 <td class='bold'>Schedule for: </td>
-                                <td>${calEvent.data[8]}</td>
+                                <td>${calEvent.data[10]}</td>
                             </tr>
                         </table>
                         <div>
                             <a data-cmd='failed' data-node="${calEvent.data[0]}" class='modal-close tooltipped btn-floating btn-flat waves-effect waves-grey red lighten-5 left' data-position="top" data-tooltip="Failed"><i class="material-icons">close</i></a>
-                            <a data-cmd='success' data-node="${calEvent.data[0]}" class='modal-close tooltipped btn-floating btn-flat waves-effect waves-grey green lighten-5 left' data-position="top" data-tooltip="Sucess"><i class="material-icons">check</i></a>
+                            <a data-cmd='success' data-node="${calEvent.data[0]}" class='modal-close tooltipped btn-floating btn-flat waves-effect waves-grey green lighten-5 left' data-position="top" data-tooltip="Success"><i class="material-icons">check</i></a>
                             <a data-cmd="reschedule" data-node="${calEvent.data}" class= "modal-close btn btn-flat waves-effect waves-grey teal-text right">Reschedule</a>
                         </div>
                     `;
@@ -2183,8 +2181,8 @@ var schedule = function() {
         },
         action:function(data){
             $("a[data-cmd='failed']").on('click', function() {
-                let id = $(this).data('node');
-                console.log($(this).data('node'));
+                let id = $(this).data('node'), option = data[10];
+                console.log(data[10]);
                 console.log('failed');
 
                 $("#modal_medium .modal-content").html(
@@ -2203,22 +2201,24 @@ var schedule = function() {
                             Materialize.toast('Statement is too long.',4000);
                     }
                     else{
-                        var data = system.ajax('../assets/harmony/Process.php?do-updateSchedule', ['failed',id,localStorage.getItem('account_id'),remarks]);
+                        var data = system.ajax('../assets/harmony/Process.php?do-updateSchedule', ['failed',id,localStorage.getItem('account_id'),remarks,option]);
                         data.done(function(data){
-                            // console.log(data);
-                            if(data == 1){
-                                $('#modal_medium').modal('close');
-                                system.alert('Schedule removed.', function(){});
-                            }
-                            else{
-                                system.alert('Error.', function(){});
-                            }
+                            console.log(data);
+                            // if(data == 1){
+                            //     $('#modal_medium').modal('close');
+                            //     system.alert('Schedule removed.', function(){
+                            //         schedule.list();
+                            //     });
+                            // }
+                            // else{
+                            //     system.alert('Error.', function(){});
+                            // }
                         });
                     }
                 });
             });
             $("a[data-cmd='success']").on('click', function() {
-                let id = $(this).data('node');
+                let id = $(this).data('node'), option = data[10];
                 console.log('success');
                 $("#modal_medium .modal-content").html(
                         `<h5>What happen to this schedule?</h5>
@@ -2236,12 +2236,14 @@ var schedule = function() {
                             Materialize.toast('Statement is too long.',4000);
                     }
                     else{
-                        var data = system.ajax('../assets/harmony/Process.php?do-updateSchedule', ['success',id,localStorage.getItem('account_id'),remarks]);
+                        var data = system.ajax('../assets/harmony/Process.php?do-updateSchedule', ['success',id,localStorage.getItem('account_id'),remarks,option]);
                         data.done(function(data){
                             // console.log(data);
                             if(data == 1){
                                 $('#modal_medium').modal('close');
-                                system.alert('Schedule completed.', function(){});
+                                system.alert('Schedule completed.', function(){
+                                    schedule.list();
+                                });
                             }
                             else{
                                 system.alert('Error.', function(){});
@@ -2251,30 +2253,30 @@ var schedule = function() {
                 });
             });
             $("a[data-cmd='reschedule']").on('click', function() {
-                console.log(data);
+                console.log(data[0]);
                 console.log('reschedule');
                 $("#modal_medium .modal-content").html(`
                     <form id='form_schedule' class='formValidate row' method='get' action='' novalidate='novalidate'>
                             <h5>Reschedule</h5>
                             <div class="input-field col s4">
                                 <select id='field_option'>
-                                    <option value="${data[8]}">${data[8]}</option
+                                    <option value="${data[10]}">${data[10]}</option
                                 </select>
                                 <label for='field_option'>Select an option</label>
                             </div>
                             <div class='input-field col s4'>
                                 <label for='field_date' class="active">Date: </label>
-                                <input id='field_date' type='date' name='field_date' data-error='.error_date' value='${data[4]}'>
+                                <input id='field_date' type='date' name='field_date' data-error='.error_date' value='${data[6]}'>
                                 <div class='display_error error_date'></div>    
                             </div>
                             <div class='input-field col s4'>
                                 <label for='field_time' class="active">Time: </label>
-                                <input id='field_time' type='time' name='field_time' data-error='.error_time' value='${data[5]}'>
+                                <input id='field_time' type='time' name='field_time' data-error='.error_time' value='${data[7]}'>
                                 <div class='display_error error_time'></div>    
                             </div>
                             <div class='input-field col s12'>
                                 <label for='field_meetingPlace' class='active'>Place: </label>
-                                <input id='field_meetingPlace' type='text' name='field_meetingPlace' data-error='.error_meetingPlace' value='${data[6]}'>
+                                <input id='field_meetingPlace' type='text' name='field_meetingPlace' data-error='.error_meetingPlace' value='${data[8]}'>
                                 <div class='display_error error_meetingPlace'></div>    
                             </div>
                             <div class='input-field col s12'>
@@ -2283,10 +2285,45 @@ var schedule = function() {
                             </div>
                     </form>`);
                 $('#modal_medium').modal('open');
-                // let now_date = moment(moment().format("YYYY-MM-DD")).add(1, 'day').format("YYYY-MM-DD");
-                // $("#field_date").attr({"min": now_date});
-                
+                let now_date = moment(moment().format("YYYY-MM-DD")).add(1, 'day').format("YYYY-MM-DD");
+                $("#field_date").attr({"min": now_date});
                 $('select').material_select(); 
+                $("#form_schedule").validate({
+                rules: {
+                    field_option: {required: true},
+                    field_date: {required: true,maxlength: 50},
+                    field_time: {required: true,maxlength: 50},
+                    field_meetingPlace: {required: true,maxlength: 1000},
+                },
+                errorElement: 'div',
+                errorPlacement: function(error, element) {
+                    var placement = $(element).data('error');
+                    if (placement) {
+                        $(placement).append(error)
+                    } 
+                    else {  
+                        error.insertAfter(element);
+                    }
+                },
+                submitHandler: function(form) {
+                    let _form = $(form).serializeArray();
+                    let option = $('select').val();
+                    var ajax = system.ajax('../assets/harmony/Process.php?do-updateSchedule', ['reschedule',data[0], localStorage.getItem('account_id'), data[1], data[2], _form[0]['value'], _form[1]['value'], _form[2]['value'], option]);
+                    ajax.done(function(ajax) {
+                        console.log(ajax);
+                        if (ajax == 1) {
+                            system.alert('Reschedule success.', function(){
+                                $('#modal_medium').modal('close');
+                                location.reload();
+                                schedule.list();
+                            });
+                        } 
+                        else {
+                            system.alert('Schedule error.', function(){});
+                        }
+                    });
+                }
+            });
             });
         },
         getTodaysAppointment:function(){

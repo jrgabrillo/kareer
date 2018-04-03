@@ -477,7 +477,7 @@ $Functions = new DatabaseClasses;
     /*unread and read notification query*/
     if (isset($_GET['get-notifications'])){/**/
         $data = $_POST['data'];
-        $q = $Functions->PDO("SELECT b.id, d.company_name, d.image, a.status, a.date, a.header FROM tbl_logs a INNER JOIN tbl_application b ON a.to_account_id = b.id INNER JOIN tbl_vacancies c ON b.vacancy_id = c.id INNER JOIN tbl_business d ON c.business_id = d.id WHERE b.applicant_id = '{$data}'");
+        $q = $Functions->PDO("SELECT b.id, d.company_name, d.image, a.status, a.date, a.header FROM tbl_logs a INNER JOIN tbl_application b ON a.to_account_id = b.id INNER JOIN tbl_vacancies c ON b.vacancy_id = c.id INNER JOIN tbl_business d ON c.business_id = d.id WHERE b.applicant_id = '{$data}' AND a.header ='application' ORDER by a.date ASC");
         // $q = $Functions->PDO("SELECT d.id, d.company_name, d.image, a.status, a.date FROM tbl_logs a INNER JOIN tbl_schedule b ON a.to_account_id = b.id INNER JOIN tbl_vacancies c ON b.subject_id = c.id INNER JOIN tbl_business d ON c.business_id = d.id WHERE b.to_account_id = '{$data}' AND a.remarks = 'schedule'");
         print_r(json_encode($q));        
 
