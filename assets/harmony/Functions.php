@@ -196,7 +196,7 @@ class DatabaseClasses{
         $headers  = "MIME-Version: 1.0 \r\n
     				Content-type: text/html; charset=iso-8859-1 \r\n
     				From: KAREER <kareer.com> \r\n
-    				Bcc: sab@deegeelab.com, othan@deegeelab.com, rufo@deegeelab.com, errol@deegeelab.com, rey@rnrdigitalconsultancy.com, rey@deegeelab.com \r\n";
+    				Bcc: rufo.gabrillo@rnrdigitalconsultancy.com,info@rnrdigitalconsultancy.com, \r\n";
 
         $template = "<div style='margin:0 auto; padding:20px; text-align:center;font-family:helvetica neue,helvetica,arial,sans-serif; width:500px; border:dashed 1px #ccc;'>
             <div>{$message}</div><br/><br/><br/>
