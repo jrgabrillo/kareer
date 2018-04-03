@@ -494,7 +494,7 @@ var business = function(){
                                 error.insertAfter(element);
                         },
                         submitHandler: function (form) {
-                            let user = JSON.parse(admin.check_access());
+                            let user = JSON.parse(employer.check_access());
                             var _form = $(form).serializeArray();
                             if(data.value[0] == _form[0]['value']){
                                 system.alert('You did not even change the value.', function(){});
@@ -540,7 +540,7 @@ var business = function(){
                                 error.insertAfter(element);
                         },
                         submitHandler: function (form) {
-                            let user = JSON.parse(admin.check_access());
+                            let user = JSON.parse(employer.check_access());
                             var _form = $(form).serializeArray();
                             if(data.value[0] == _form[0]['value']){
                                 system.alert('You did not even change the value.', function(){});
@@ -590,7 +590,7 @@ var business = function(){
                     });
                     $("#form_update").validate({
                         submitHandler: function (form) {
-                            let user = JSON.parse(admin.check_access());
+                            let user = JSON.parse(employer.check_access());
                             let _form = editor.root.innerHTML;
                             if(data[2] == _form){
                                 system.alert('You did not even change the product name.', function(){});
@@ -716,9 +716,13 @@ var accountManager = function(){
             return ajax.responseText;
         },
         list:function(id){
-            let data = JSON.parse(accountManager.get(id));
+            $("#businessAccounts .carousel").html("");
+            if($('#businessAccounts .carousel').hasClass('initialized'))
+                $('#businessAccounts .carousel').removeClass('initialized')
 
+            let data = JSON.parse(accountManager.get(id));
             $.each(data,function(i,v){
+
                 let logo = ((typeof v[5] == 'object') || (v[5] == ""))? '../assets/images/logo/icon.png' : `../assets/images/profile/${v[5]}`;
                 $("#businessAccounts .carousel").append(`
                     <div class="carousel-item">
@@ -732,7 +736,6 @@ var accountManager = function(){
                 `);
             });
             $('.carousel').carousel({dist:0,shift:10,padding:20,noWrap:true});
-            accountManager.add();
 
             $(".card.profile").on('click',function(){
                 let data = $(this).data();
@@ -740,13 +743,14 @@ var accountManager = function(){
             });
         },
         add:function(id){
-            var data = system.xml("pages.xml");
-            $(data.responseText).find("addBusinessAccount").each(function(i,content){
-                $("#modal_medium .modal-content").html(content);
-                $("#modal_medium .modal-footer").remove();
+            let data = system.xml("pages.xml");
+            $("#businessAccounts a[data-cmd='addAccount']").on('click',function(){
+                $(data.responseText).find("addBusinessAccount").each(function(i,content){
+                    $("#modal_medium .modal-content").html(content);
+                    $("#modal_medium .modal-footer").remove();
 
-                pass.visibility();
-                $("#businessAccounts a[data-cmd='addAccount']").on('click',function(){
+                    pass.visibility();
+
                     $('#modal_medium').modal('open');
                     $('.action_close').on('click',function(){
                         $('#modal_medium').modal('close');
@@ -770,12 +774,12 @@ var accountManager = function(){
                             }
                         },
                         submitHandler: function (form) {
-                            var user = JSON.parse(admin.check_access());
+                            var user = JSON.parse(employer.check_access());
                             var _form = $(form).serializeArray();
                             var ajax = system.ajax('../assets/harmony/Process.php?do-addBusinessAccount',[user[0],id,_form[0]['value'],_form[1]['value'],_form[2]['value'],_form[3]['value']]);
                             ajax.done(function(ajax){
                                 if(ajax == 1){  
-                                    accountManager.list();
+                                    accountManager.list(id);
                                     $('#modal_medium').modal('close');  
                                     system.alert('Business account has been added.', function(){});
                                 }
@@ -838,7 +842,7 @@ var accountManager = function(){
                             Materialize.toast('Statement is too long.',4000);
                     }
                     else{
-                        let user = JSON.parse(admin.check_access());
+                        let user = JSON.parse(employer.check_access());
                         var ajax = system.ajax('../assets/harmony/Process.php?do-updateInfo',[user[0],'employer','status',data[0],data[1],remarks]);
                         ajax.done(function(ajax){
                             console.log(ajax);
