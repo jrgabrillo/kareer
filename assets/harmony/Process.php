@@ -489,8 +489,15 @@
 		$data = $_POST['data'];
 		$id = $Functions->PDO_IDGenerator('tbl_vacancies','id');
 		$date = $Functions->PDO_DateAndTime();
+		$descShort = $Functions->escape($data[6]);
+		$descLong = $Functions->escape($data[7]);
+		$v_date = $Functions->escape($data[5]);
+		$title = $Functions->escape($data[2]);
+		$sMax = $Functions->escape($data[3]);
+		$sMin = $Functions->escape($data[4]);
 		$skills = json_encode($data[8]);
-		$query = $Functions->PDO("INSERT INTO tbl_vacancies(id,employer_id,business_id,short_description,description,vacancy_date,job_title,skills,salary_min,salary_max,date,status) VALUES('{$id}','{$data[0]}','{$data[1]}','{$data[6]}','{$data[7]}','{$data[5]}','{$data[2]}','$skills','{$data[3]}','{$data[4]}','{$date}',2)");
+		$query = $Functions->PDO("INSERT INTO tbl_vacancies(id,employer_id,business_id,short_description,description,vacancy_date,job_title,skills,salary_min,salary_max,date,status) 
+			VALUES('{$id}','{$data[0]}','{$data[1]}',{$descShort},{$descLong},{$v_date},{$title},'{$skills}',{$sMax},{$sMin},'{$date}',2)");
 		if($query->execute()){
 			$log = $Functions->log($data[0],$id,'Posted a job','Add');
 			echo 1;
@@ -553,8 +560,9 @@
 		$data = $_POST['data'];
 		$id = $Functions->PDO_IDGenerator('tbl_messages','id');
 		$date = $Functions->PDO_DateAndTime();
-
-		$message = $Functions->PDO("INSERT INTO tbl_messages(id,from_account_id,to_account_id,subject_id,message,`date`,header) VALUES ('{$id}','{$data[0]}','{$data[2]}','{$data[1]}','{$data[3]}','{$date}','{$data[4]}')");
+		$text = $Functions->escape($data[3]);
+		$header = $Functions->escape($data[4]);
+		$message = $Functions->PDO("INSERT INTO tbl_messages(id,from_account_id,to_account_id,subject_id,message,`date`,header) VALUES ('{$id}','{$data[0]}','{$data[2]}','{$data[1]}',{$text},'{$date}',{$header})");
 		if($message->execute()){
 			echo 1;
 		}
@@ -567,9 +575,10 @@
 		$data = $_POST['data'];
 		$min = $data[2];
 		$max = $data[3];
-		$q = $Functions->PDO("SELECT e.image, d.name, a.message, a.date FROM tbl_messages a INNER JOIN tbl_personalinfo b ON b.id = a.to_account_id INNER JOIN tbl_vacancies c ON c.id = '{$data[2]}' INNER JOIN tbl_business e ON e.id = '{$data[0]}' INNER JOIN tbl_businessmanagers d ON d.id = a.from_account_id WHERE a.to_account_id = '{$data[1]}' AND a.subject_id = '{$data[2]}' AND e.id = '{$data[0]}' ORDER BY a.date DESC");
+		// $q = $Functions->PDO("SELECT e.image, d.name, a.message, a.date FROM tbl_messages a INNER JOIN tbl_personalinfo b ON b.id = a.to_account_id INNER JOIN tbl_vacancies c ON c.id = '{$data[2]}' INNER JOIN tbl_business e ON e.id = '{$data[0]}' INNER JOIN tbl_businessmanagers d ON d.id = a.from_account_id WHERE a.to_account_id = '{$data[1]}' AND a.subject_id = '{$data[2]}' AND e.id = '{$data[0]}' ORDER BY a.date DESC");
+        $query1 = $Functions->PDO("SELECT d.picture, d.given_name, a.message, a.date, a.from_account_id, a.subject_id  FROM tbl_messages a INNER JOIN tbl_businessmanagers b ON a.to_account_id = b.id INNER JOIN tbl_business c ON c.id = b.business_id INNER JOIN tbl_personalinfo d ON d.id = a.from_account_id WHERE a.subject_id = '{$data[2]}' ANd c.id = '{$data[0]}' AND a.header = 'application' UNION SELECT c.image, b.name, a.message, a.date, a.from_account_id, a.subject_id  FROM tbl_messages a INNER JOIN tbl_businessmanagers b ON a.from_account_id = b.id INNER JOIN tbl_business c ON c.id = b.business_id INNER JOIN tbl_personalinfo d ON d.id = a.to_account_id WHERE a.subject_id = '{$data[2]}'  ANd c.id = '{$data[0]}'AND a.header = 'application' ORDER by date DESC");
 	
-		print_r(json_encode($q));
+		print_r(json_encode($query1));
 	}
 	/**/
 	/*booking*/

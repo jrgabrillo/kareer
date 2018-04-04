@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Apr 02, 2018 at 01:03 PM
+-- Generation Time: Apr 03, 2018 at 03:10 PM
 -- Server version: 5.7.14
 -- PHP Version: 7.0.10
 
@@ -119,10 +119,10 @@ CREATE TABLE `tbl_application` (
 --
 
 INSERT INTO `tbl_application` (`id`, `vacancy_id`, `applicant_id`, `date`, `status`) VALUES
-('ac3478d69a3c81fa62e60f5c3696165a4e5e6ac4', 'fe5dbbcea5ce7e2988b8c69bcfdfde8904aabc1f', 'ac3478d69a3c81fa62e60f5c3696165a4e5e6ac4', '2018-03-26 19:18:23', '5'),
-('b6589fc6ab0dc82cf12099d1c2d40ab994e8410c', '77de68daecd823babbb58edb1c8e14d7106e83bb', '1b6453892473a467d07372d45eb05abc2031647a', '2018-03-26 16:29:16', '5'),
-('c1dfd96eea8cc2b62785275bca38ac261256e278', '356a192b7913b04c54574d18c28d46e6395428ab', 'ac3478d69a3c81fa62e60f5c3696165a4e5e6ac4', '2018-03-26 19:18:30', '5'),
-('da4b9237bacccdf19c0760cab7aec4a8359010b0', '902ba3cda1883801594b6e1b452790cc53948fda', '1b6453892473a467d07372d45eb05abc2031647a', '2018-03-26 16:29:24', '3');
+('356a192b7913b04c54574d18c28d46e6395428ab', '4d134bc072212ace2df385dae143139da74ec0ef', '1b6453892473a467d07372d45eb05abc2031647a', '2018-04-03 21:29:06', '5'),
+('77de68daecd823babbb58edb1c8e14d7106e83bb', '77de68daecd823babbb58edb1c8e14d7106e83bb', '1b6453892473a467d07372d45eb05abc2031647a', '2018-04-03 21:29:18', '1'),
+('b6589fc6ab0dc82cf12099d1c2d40ab994e8410c', '0ade7c2cf97f75d009975f4d720d1fa6c19f4897', '1b6453892473a467d07372d45eb05abc2031647a', '2018-04-03 21:29:01', '5'),
+('da4b9237bacccdf19c0760cab7aec4a8359010b0', 'ac3478d69a3c81fa62e60f5c3696165a4e5e6ac4', '1b6453892473a467d07372d45eb05abc2031647a', '2018-04-03 21:29:09', '5');
 
 -- --------------------------------------------------------
 
@@ -137,15 +137,6 @@ CREATE TABLE `tbl_bookmark` (
   `date` varchar(60) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `status` varchar(60) COLLATE utf8mb4_unicode_ci DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
---
--- Dumping data for table `tbl_bookmark`
---
-
-INSERT INTO `tbl_bookmark` (`id`, `vacancy_id`, `applicant_id`, `date`, `status`) VALUES
-('356a192b7913b04c54574d18c28d46e6395428ab', 'c1dfd96eea8cc2b62785275bca38ac261256e278', '1b6453892473a467d07372d45eb05abc2031647a', '2018-03-24 12:02:20', '1'),
-('b6589fc6ab0dc82cf12099d1c2d40ab994e8410c', 'ac3478d69a3c81fa62e60f5c3696165a4e5e6ac4', '1b6453892473a467d07372d45eb05abc2031647a', '2018-03-24 12:02:04', '1'),
-('da4b9237bacccdf19c0760cab7aec4a8359010b0', '356a192b7913b04c54574d18c28d46e6395428ab', '1b6453892473a467d07372d45eb05abc2031647a', '2018-03-24 13:40:58', '1');
 
 -- --------------------------------------------------------
 
@@ -172,7 +163,7 @@ CREATE TABLE `tbl_business` (
 
 INSERT INTO `tbl_business` (`id`, `address`, `contact_number`, `company_name`, `description`, `image`, `email`, `status`, `others`, `date`) VALUES
 ('0716d9708d321ffb6a00818614779e779925365c', 'Philippines - National Capital Reg - Pasig City - San Miguel Avenue   ', '02-3100780', 'GOETU Infotech Solutions Inc.', '<p><span style="color: rgb(34, 34, 34);">, formerly known as GO3 Infotech Solutions Inc., is a Local Based technology company that provides services to customers requiring solutions of website development and payment gateway such as POS terminals, and applications.&nbsp; The company also support the technology being developed to clients here and abroad, and has been iin the industry of Information Technology for a period of Four (4) years and is now growing and expanding its operations.</span></p>', NULL, 'goetu@gmail.com', '1', NULL, '2018-03-26 13:19:00'),
-('0ade7c2cf97f75d009975f4d720d1fa6c19f4897', 'Business Address', '09123456789', 'Tech Corps', '<h4><span style="color: rgb(230, 0, 0);">Descriptionï»¿</span></h4>', 'business_1519974506.rnr', 'info@techcorp.com', '1', NULL, '2018-02-26 17:03:25'),
+('0ade7c2cf97f75d009975f4d720d1fa6c19f4897', 'Business Address', '09123456789', 'Tech Corps', '<h4><span style="color: rgb(230, 0, 0);">Descriptionï»¿</span></h4>', 'business_1522686417.rnr', 'info@techcorp.com', '1', NULL, '2018-02-26 17:03:25'),
 ('1', 'Las Vegas Street Lingayen', '090101010101', 'Rufo Cocorp Inc.', '<h2><span style="color: rgb(230, 0, 0);">Description</span></h2><p><strong style="color: rgb(255, 153, 0);">Hello world</strong></p><p><em style="color: rgb(255, 255, 0);">Hello world</em></p><p><u style="color: rgb(0, 138, 0);">Hello world</u></p><p><s style="color: rgb(0, 102, 204);">Hello world</s></p><ol><li><span style="color: rgb(194, 133, 255);">Hello world</span></li></ol><p><span style="color: rgb(153, 51, 255);">H</span><sup style="color: rgb(153, 51, 255);">ello world</sup></p><p>ha</p><h2><sup class="ql-font-monospace" style="color: rgb(153, 51, 255);">hello world</sup></h2><p><span style="color: rgb(255, 255, 255); background-color: rgb(0, 0, 0);">0010001000101010100010</span></p><p><span style="color: rgb(255, 255, 255); background-color: rgb(0, 0, 0);">0010001000101010100010</span></p><p>Hhahahah</p><p><br></p><p>check again</p><p><span style="color: rgb(255, 255, 255); background-color: rgb(0, 0, 0);">check</span></p>', 'business_1519982947.rnr', 'rufo@email.com', '1', '', ''),
 ('1574bddb75c78a6fd2251d61e2993b5146201319', '#11 San Antonio St. Brgy Kaptiolyo Pasig City', '3506885', 'Halcyon Digital Media Design Inc.', '<p><span style="color: rgb(34, 34, 34);">We\'re a Philippines based web design, mobile app devlopement, software development, and graphics design company. Our clients range from small businesses to large corporations, both in the Philippines and internationally. We have a number of Government projects at the moment.</span></p>', NULL, 'halcyon@gmail.com', '1', NULL, '2018-03-26 12:23:43'),
 ('17ba0791499db908433b80f37c5fbc89b870084b', 'Business Address', 'Number', 'Name', NULL, NULL, 'email@email.com', '1', NULL, '2018-02-26 17:14:18'),
@@ -222,7 +213,7 @@ INSERT INTO `tbl_businessmanagers` (`id`, `business_id`, `name`, `email`, `passw
 ('0a57cb53ba59c46fc4b692527a38a87c78d84028', '9e6a55b6b4563e652a23be9d623ca5055c356940', 'jay quinto', 'jayquinto@gmail.com', '$2y$11$1bcBf//vsuzhVKZqJnFTI.9.tKUv73mU3LqOtgebewape65YKOeee', NULL, 'Sales Assistant', '2018-03-26 13:59:01', '1'),
 ('0ade7c2cf97f75d009975f4d720d1fa6c19f4897', '1', 'Matthew West', 'matt@gmail.com', '$2y$11$8s2FPM2DZAJtxCF.8YPDjOOX7Zxh8bQS5eG15vJmBKnfohLOp7vPW', NULL, 'Position', '2018-03-24 01:32:46', '1'),
 ('12c6fc06c99a462375eeb3f43dfd832b08ca9e17', 'f1abd670358e036c31296e66b3b66c382ac00812', 'Johnny Bravo', 'johnnybravo@gmail.com', '$2y$11$A3rspJKqvVu0IPD3BNSKw.hn7Ejp7dlIq2Z5EqaOZtvixlq7l3sa.', NULL, 'Sales Assistant', '2018-03-26 09:46:53', '1'),
-('17ba0791499db908433b80f37c5fbc89b870084b', '0ade7c2cf97f75d009975f4d720d1fa6c19f4897', 'Matthew West', 'matthew@gmail.com', '$2y$11$I8FlPI7.3qfCPaYpHrXu2ubDRa9UJxQJEWEtfQ1JC8stOf5nGwu9S', 'employer_1521988254.rnr', 'Position', '2018-03-24 11:04:10', '1'),
+('17ba0791499db908433b80f37c5fbc89b870084b', '0ade7c2cf97f75d009975f4d720d1fa6c19f4897', 'Matthew West', 'matthew@gmail.com', '$2y$11$I8FlPI7.3qfCPaYpHrXu2ubDRa9UJxQJEWEtfQ1JC8stOf5nGwu9S', 'employer_1522686614.rnr', 'Position', '2018-03-24 11:04:10', '1'),
 ('1b6453892473a467d07372d45eb05abc2031647a', '356a192b7913b04c54574d18c28d46e6395428ab', 'Rufo Gabrillo', 'rufo@deegeelab.com', '$2y$11$ihqk7eVo4R8Ox1hHzN3mi.89h.zVw7m7Q7gNXx6yRI7IYyY.oykju', NULL, 'Dish Washer', '2018-03-01 15:30:29', '1'),
 ('22d200f8670dbdb3e253a90eee5098477c95c23d', 'b3f0c7f6bb763af1be91d9e74eabfeb199dc1f1f', 'alfred de vera', 'alfred@gmail.com', '$2y$11$SND4NQa/Hme2U8oFoDMFVueYTSZ6qgbUVzpv.AGENlK3E5edL8qQ2', NULL, 'head finance', '2018-03-26 15:00:39', '1'),
 ('356a192b7913b04c54574d18c28d46e6395428ab', '1b6453892473a467d07372d45eb05abc2031647a', 'James Reid', 'rufo.gabrillo@rnrdigitalconsultancy.com', '$2y$11$eZnkAbcbvLLkspcRI4roK.zY7IeplxAvCk278JhH8aNkND25NIjMm', NULL, 'Technical Lead', '2018-03-01 10:22:57', '1'),
@@ -235,14 +226,13 @@ INSERT INTO `tbl_businessmanagers` (`id`, `business_id`, `name`, `email`, `passw
 ('902ba3cda1883801594b6e1b452790cc53948fda', 'f1abd670358e036c31296e66b3b66c382ac00812', 'John', 'john.lazy@gmail.com', '$2y$11$/CZB/kKUyNhyrvGQ6nfV8uJNUxe0X0IQsFpjY91NE2R7hn7A1r02u', NULL, 'Lazy', '2018-03-12 23:58:42', '1'),
 ('91032ad7bbcb6cf72875e8e8207dcfba80173f7c', 'fa35e192121eabf3dabf9f5ea6abdbcbc107ac3b', 'Alvin Chip', 'Rgp@gmail.com', '$2y$11$vp9BJg2zsrnegdJmlNGCLOHV73DJlxfG4V/0/kRHAMHU4rriiUDDK', NULL, 'Manager', '2018-03-26 09:11:30', '1'),
 ('ac3478d69a3c81fa62e60f5c3696165a4e5e6ac4', '1b6453892473a467d07372d45eb05abc2031647a', 'Mark Gallano', 'mark@gmail.com', '$2y$11$glDH89j0OpCIS9BK3S7qS.JjgYew9TD237KjfVPbcupBnkrmMy0b.', NULL, 'Nilasing si renz at ginuhitan niyaya kumain sa mcdo', '2018-03-03 08:16:36', '1'),
-('b1d5781111d84f7b3fe45a0852e59758cd7a87e5', '0ade7c2cf97f75d009975f4d720d1fa6c19f4897', 'Mark Lopez', 'mark@gmail.com', '$2y$11$He7c6Ih3lHbJUOXMCT9cXeesZxV/c0ZnNBnJVXa/ehP5xvIP.9ndq', NULL, 'Position', '2018-03-24 11:00:53', '1'),
 ('b6589fc6ab0dc82cf12099d1c2d40ab994e8410c', '1b6453892473a467d07372d45eb05abc2031647a', 'Rufo N. Gabrillo', 'rufo.gabrillo@gmail.com', '$2y$11$BV1OJ74oQHnuG541kSj65ufdB449X.aVobXmofu9MnkvRhqQsjhpa', 'avatar.png', 'Technical Lead', '2018-03-01 13:12:32', '1'),
 ('bc33ea4e26e5e1af1408321416956113a4658763', '0716d9708d321ffb6a00818614779e779925365c', 'bryan ford', 'bryanford@gmail.com', '$2y$11$.XUOxN0QZ2Jh.JN1jVBJuOzs70Mf77aazqZzVcapCMWsokcgSGmnq', NULL, 'marketing', '2018-03-26 13:38:58', '1'),
 ('c1dfd96eea8cc2b62785275bca38ac261256e278', '7b52009b64fd0a2a49e6d8a939753077792b0554', 'Othan Millet', 'othanmillet@gmail.com', '$2y$11$Kg67mpfEOV.vKC77IqceQO3MwtWAB/zOKGPwr2aR5zuqynbACxTni', 'employer_1520856298.rnr', 'Position', '2018-03-08 22:04:22', '1'),
 ('d435a6cdd786300dff204ee7c2ef942d3e9034e2', 'f1abd670358e036c31296e66b3b66c382ac00812', 'Jun Kim', 'junkim@gmail.com', '$2y$11$hz9dvjFtARTxOqraghkvG.MXuEiHxK8hxEoFgrUZC5CporolSBcly', NULL, 'Head Officer', '2018-03-26 10:40:50', '1'),
 ('da4b9237bacccdf19c0760cab7aec4a8359010b0', '1b6453892473a467d07372d45eb05abc2031647a', 'Jolo D.', 'jolod@gmail.com', '$2y$11$NkIWGqyHW0Va.rnCaMi25eor6AERo.lJRLoiDsYoUC8AMW.OTX96a', NULL, 'Graphic Designer', '2018-03-01 13:35:06', '1'),
 ('f6e1126cedebf23e1463aee73f9df08783640400', '1574bddb75c78a6fd2251d61e2993b5146201319', 'vanesse whu', 'vanessewhu@gmail.com', '$2y$11$5c2eIRpmh0/6j4qHCo44L.Xwnci8SqOaU/tmIc54.AnDX4Wy2Bdh6', NULL, 'whu', '2018-03-26 12:50:40', '1'),
-('fe5dbbcea5ce7e2988b8c69bcfdfde8904aabc1f', '0ade7c2cf97f75d009975f4d720d1fa6c19f4897', 'Juan Tamad', 'juan@gmail.com', '$2y$11$9S//hJ0LBi15kYJoiZbEFOZWYNxjOE0EGcNGDBwZitu358LRs6ReS', 'employer_1522071882.rnr', 'Position', '2018-03-24 00:52:35', '1');
+('fe5dbbcea5ce7e2988b8c69bcfdfde8904aabc1f', '0ade7c2cf97f75d009975f4d720d1fa6c19f4897', 'Juan Tamad', 'juan@gmail.com', '$2y$11$9S//hJ0LBi15kYJoiZbEFOZWYNxjOE0EGcNGDBwZitu358LRs6ReS', 'employer_1522686381.rnr', 'Position', '2018-03-24 00:52:35', '1');
 
 -- --------------------------------------------------------
 
@@ -284,16 +274,19 @@ CREATE TABLE `tbl_logs` (
   `to_account_id` varchar(70) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `remarks` text COLLATE utf8mb4_unicode_ci NOT NULL,
   `date` varchar(20) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `header` varchar(300) COLLATE utf8mb4_unicode_ci NOT NULL
+  `header` varchar(300) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `status` int(1) NOT NULL COMMENT '1 = unread, 0 = read'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Dumping data for table `tbl_logs`
 --
 
-INSERT INTO `tbl_logs` (`id`, `from_account_id`, `to_account_id`, `remarks`, `date`, `header`) VALUES
-('356a192b7913b04c54574d18c28d46e6395428ab', 'fe5dbbcea5ce7e2988b8c69bcfdfde8904aabc1f', 'b6589fc6ab0dc82cf12099d1c2d40ab994e8410c', 'schedule', '2018-04-02 20:29:59', 'Add'),
-('b6589fc6ab0dc82cf12099d1c2d40ab994e8410c', 'fe5dbbcea5ce7e2988b8c69bcfdfde8904aabc1f', 'b6589fc6ab0dc82cf12099d1c2d40ab994e8410c', 'schedule', '2018-04-02 20:09:54', 'Add');
+INSERT INTO `tbl_logs` (`id`, `from_account_id`, `to_account_id`, `remarks`, `date`, `header`, `status`) VALUES
+('356a192b7913b04c54574d18c28d46e6395428ab', 'fe5dbbcea5ce7e2988b8c69bcfdfde8904aabc1f', 'b6589fc6ab0dc82cf12099d1c2d40ab994e8410c', 'Tech Corps scheduled your meeting on 2018-04-05 09:00 at Lingayen', '2018-04-03 22:10:18', 'application', 0),
+('77de68daecd823babbb58edb1c8e14d7106e83bb', 'fe5dbbcea5ce7e2988b8c69bcfdfde8904aabc1f', 'da4b9237bacccdf19c0760cab7aec4a8359010b0', 'Tech Corps rescheduled your meeting \nfrom 2018-04-06 13:00 Lingayen \nto 2018-04-11 23:00 Dagupan', '2018-04-03 22:12:14', 'application', 0),
+('b6589fc6ab0dc82cf12099d1c2d40ab994e8410c', 'fe5dbbcea5ce7e2988b8c69bcfdfde8904aabc1f', '77de68daecd823babbb58edb1c8e14d7106e83bb', 'Tech Corps updated your application status into level 1', '2018-04-03 22:09:41', 'application', 0),
+('da4b9237bacccdf19c0760cab7aec4a8359010b0', 'fe5dbbcea5ce7e2988b8c69bcfdfde8904aabc1f', '356a192b7913b04c54574d18c28d46e6395428ab', 'Tech Corps rescheduled your meeting \nfrom 2018-04-05 09:00 Lingayen \nto 2018-04-06 13:00 Lingayen', '2018-04-03 22:10:45', 'application', 0);
 
 -- --------------------------------------------------------
 
@@ -301,15 +294,23 @@ INSERT INTO `tbl_logs` (`id`, `from_account_id`, `to_account_id`, `remarks`, `da
 -- Table structure for table `tbl_messages`
 --
 
-CREATE TABLE IF NOT EXISTS `tbl_messages` (
+CREATE TABLE `tbl_messages` (
   `id` varchar(70) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `from_account_id` varchar(70) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `from_account_id` varchar(70) COLLATE utf8mb4_unicode_ci NOT NULL,
   `to_account_id` varchar(70) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `subject_id` varchar(70) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `message` text COLLATE utf8mb4_unicode_ci,
-  `date` varchar(20) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `header` varchar(300) COLLATE utf8mb4_unicode_ci DEFAULT NULL
+  `subject_id` varchar(70) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `message` text COLLATE utf8mb4_unicode_ci NOT NULL,
+  `date` varchar(20) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `header` varchar(300) COLLATE utf8mb4_unicode_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `tbl_messages`
+--
+
+INSERT INTO `tbl_messages` (`id`, `from_account_id`, `to_account_id`, `subject_id`, `message`, `date`, `header`) VALUES
+('356a192b7913b04c54574d18c28d46e6395428ab', 'fe5dbbcea5ce7e2988b8c69bcfdfde8904aabc1f', '1b6453892473a467d07372d45eb05abc2031647a', '77de68daecd823babbb58edb1c8e14d7106e83bb', 'How are you?', '2018-04-03 22:31:56', 'application'),
+('b6589fc6ab0dc82cf12099d1c2d40ab994e8410c', 'fe5dbbcea5ce7e2988b8c69bcfdfde8904aabc1f', '1b6453892473a467d07372d45eb05abc2031647a', '77de68daecd823babbb58edb1c8e14d7106e83bb', 'Good day', '2018-04-02 22:42:01', 'application');
 
 -- --------------------------------------------------------
 
@@ -372,7 +373,9 @@ CREATE TABLE `tbl_schedule` (
 --
 
 INSERT INTO `tbl_schedule` (`id`, `from_account_id`, `to_account_id`, `subject_id`, `schedule_date`, `schedule_time`, `schedule_place`, `date`, `status`, `header`, `remarks`) VALUES
-('b6589fc6ab0dc82cf12099d1c2d40ab994e8410c', 'fe5dbbcea5ce7e2988b8c69bcfdfde8904aabc1f', '1b6453892473a467d07372d45eb05abc2031647a', '77de68daecd823babbb58edb1c8e14d7106e83bb', '2018-04-03', '08:00', 'Lingayen', '2018-04-02 20:30:43', 1, 'meeting', 'Tech Corps scheduled your meeting on 2018-04-03 08:00 at Lingayen');
+('356a192b7913b04c54574d18c28d46e6395428ab', 'fe5dbbcea5ce7e2988b8c69bcfdfde8904aabc1f', '1b6453892473a467d07372d45eb05abc2031647a', '77de68daecd823babbb58edb1c8e14d7106e83bb', '2018-04-06', '13:00', 'Lingayen', '2018-04-03 22:10:45', 0, 'meeting', 'Tech Corps rescheduled your meeting \nfrom 2018-04-05 09:00 Lingayen \nto 2018-04-06 13:00 Lingayen'),
+('b6589fc6ab0dc82cf12099d1c2d40ab994e8410c', 'fe5dbbcea5ce7e2988b8c69bcfdfde8904aabc1f', '1b6453892473a467d07372d45eb05abc2031647a', '77de68daecd823babbb58edb1c8e14d7106e83bb', '2018-04-05', '09:00', 'Lingayen', '2018-04-03 22:10:17', 0, 'meeting', 'Tech Corps scheduled your meeting on 2018-04-05 09:00 at Lingayen'),
+('da4b9237bacccdf19c0760cab7aec4a8359010b0', 'fe5dbbcea5ce7e2988b8c69bcfdfde8904aabc1f', '1b6453892473a467d07372d45eb05abc2031647a', '77de68daecd823babbb58edb1c8e14d7106e83bb', '2018-04-11', '23:00', 'Dagupan', '2018-04-03 22:12:14', 1, 'meeting', 'Tech Corps rescheduled your meeting \nfrom 2018-04-06 13:00 Lingayen \nto 2018-04-11 23:00 Dagupan');
 
 -- --------------------------------------------------------
 
@@ -555,6 +558,12 @@ ALTER TABLE `tbl_career`
 -- Indexes for table `tbl_logs`
 --
 ALTER TABLE `tbl_logs`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `tbl_messages`
+--
+ALTER TABLE `tbl_messages`
   ADD PRIMARY KEY (`id`);
 
 --

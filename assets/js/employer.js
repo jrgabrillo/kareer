@@ -1255,9 +1255,8 @@ var messages = function(){
             var data = system.ajax('../assets/harmony/Process.php?get-messages',[business.id(),applicant.id(),vacancy_id,min,max]);
             return data.responseText;
         },
-        conversation:function(){       
+        conversation:function(){
             messages.send(applicant.id());
-
             let convo = JSON.parse(messages.get(applicant.id())), business ="";
             $.each(convo,function(i,v){
                 business = ((typeof v[0] == 'object') || v[0] == "") ? 'icon.png' : v[0];
@@ -1272,7 +1271,7 @@ var messages = function(){
                 `);
             });
             $('#display_messages ul').scrollTop($('#display_messages ul').prop("scrollHeight")); /*this will stick the scroll to bottom*/
-            new PerfectScrollbar('#display_messages .message');
+            // messages.conversation();
         },
         send:function(){
             let user = JSON.parse(employer.get())[0], data = JSON.parse(business.get(user[1])), id = applicant.id(), jobId = ((window.location.hash).split(';')[3]);
@@ -1318,6 +1317,10 @@ var jobPosts = function() {
     return {
         get: function(id) {
             let ajax = system.ajax('../assets/harmony/Process.php?get-employerJobsPosts', id);
+            return ajax.responseText;
+        },
+        getjob:function(id){
+            let ajax = system.ajax('../assets/harmony/Process.php?get-jobPost', id);
             return ajax.responseText;
         },
         id:function(){
@@ -1476,8 +1479,7 @@ var jobPosts = function() {
         },
         view:function(){
             let id = jobPosts.id(), chip ="";
-            let ajax = system.ajax('../assets/harmony/Process.php?get-jobPost', id);
-            let job = JSON.parse(ajax.responseText)[0];
+            let job = JSON.parse(jobPosts.getjob(id))[0];
             let status = (job[11] == 1)?'Active':(job[11] == 0)?'Full':'Pending';
             let skills = JSON.parse(job[7]);
             $.each(skills, function(i, v) {
@@ -1522,7 +1524,7 @@ var jobPosts = function() {
                                                     <td width='50px' class='bold'><span style='width:80%;display: inline-block;'><i class='mdi-action-perm-identity cyan-text text-darken-2'></i> Short Description: </span></td>
                                                     <td width='150px'class='grey-text' for='short'>${job[3]}</td>
                                                     <td width='20px'>
-                                                        <a data-for='short' data-cmd='updatejob' data-value='${job[3]}' data-name='${job[3]}' data-node='${job[0]}' data-prop='shortDes' class='tooltipped btn-floating waves-effect black-text no-shadow white right' data-position='left' data-delay='50' data-tooltip='Update short description'>
+                                                        <a data-for='short' data-cmd='updatejob' data-value='' data-name='' data-node='${job[0]}' data-prop='shortDes' class='tooltipped btn-floating waves-effect black-text no-shadow white right' data-position='left' data-delay='50' data-tooltip='Update short description'>
                                                             <i class='material-icons right hover black-text'>mode_edit</i>
                                                         </a>
                                                     </td>
@@ -1531,7 +1533,7 @@ var jobPosts = function() {
                                                     <td width='50px' class='bold'><span style='width:80%;display: inline-block;'><i class='mdi-action-perm-identity cyan-text text-darken-2'></i> Full Description: </span></td>
                                                     <td width='150px' class='_content ' for='full'>${job[4]}</td>
                                                     <td width='20px'>
-                                                        <a data-for='full' data-cmd='updatejob' data-value='${job[4]}' data-name='${job[4]}' data-node='${job[0]}' data-prop='longDes' class='tooltipped btn-floating waves-effect black-text no-shadow white right' data-position='left' data-delay='50' data-tooltip='Update full description'>
+                                                        <a data-for='full' data-cmd='updatejob' data-value='' data-name='' data-node='${job[0]}' data-prop='longDes' class='tooltipped btn-floating waves-effect black-text no-shadow white right' data-position='left' data-delay='50' data-tooltip='Update full description'>
                                                             <i class='material-icons right hover black-text'>mode_edit</i>
                                                         </a>
                                                     </td>
@@ -1604,7 +1606,7 @@ var jobPosts = function() {
         },
         update:function(skills){
             $("a[data-cmd='updatejob']").on('click', function() {
-                let _this = this;
+                let job = JSON.parse(jobPosts.getjob($(this).data('node')))[0];
                 var data = $(this).data();
                 var content = `<h5>Change ${data.prop}</h5>
                                 <form id='form_update' class='formValidate' method='get' action='' novalidate='novalidate'>
@@ -1622,7 +1624,7 @@ var jobPosts = function() {
                                     <form id='form_update' class='formValidate' method='get' action='' novalidate='novalidate'>
                                         <div class="input-field col s6">
                                             <label for='field_${data.prop}' class='active'></label>
-                                            <input id='field_${data.prop}' value='${data.value}' type='text' name='field_${data.prop}' data-error='.error_${data.prop}'>
+                                            <input id='field_${data.prop}' value='${job[6]}' type='text' name='field_${data.prop}' data-error='.error_${data.prop}'>
                                             <div class='error_${data.prop}'></div>
                                         </div>
                                         
@@ -1738,12 +1740,12 @@ var jobPosts = function() {
                                     <form id='form_update' class='formValidate row' method='get' action='' novalidate='novalidate' >
                                         <div class="input-field col s6">
                                             <label for='field_${data.prop}min' class='active'>Salary min</label>
-                                            <input id='field_${data.prop}min' value='${data.value}' type='number' name='field_${data.prop}min' data-error='.error_${data.prop}min'>
+                                            <input id='field_${data.prop}min' value='${job[8]}' type='number' name='field_${data.prop}min' data-error='.error_${data.prop}min'>
                                             <div class='error_${data.prop}min'></div>
                                         </div>
                                         <div class="input-field col s6">
                                             <label for='field_${data.prop}max' class='active'>Salary max</label>
-                                            <input id='field_${data.prop}max' value='${data.value}' type='number' name='field_${data.prop}max' data-error='.error_${data.prop}max'>
+                                            <input id='field_${data.prop}max' value='${job[9]}' type='number' name='field_${data.prop}max' data-error='.error_${data.prop}max'>
                                             <div class='error_${data.prop}max'></div>
                                         </div>
                                         
@@ -1791,7 +1793,7 @@ var jobPosts = function() {
                                     <form id='form_update' class='formValidate' method='get' action='' novalidate='novalidate'>
                                         <div class="input-field col s6">
                                             <label for='field_${data.prop}' class='active'></label>
-                                            <input id='field_${data.prop}' value='${data.value}' type='date' name='field_${data.prop}' data-error='.error_${data.prop}'>
+                                            <input id='field_${data.prop}' value='${job[10]}' type='date' name='field_${data.prop}' data-error='.error_${data.prop}'>
                                             <div class='error_${data.prop}'></div>
                                         </div>
                                         
@@ -1840,7 +1842,7 @@ var jobPosts = function() {
                                     <form id='form_update' class='formValidate' method='get' action='' novalidate='novalidate'>
                                         <div class="input-field col s6">
                                             <label for='field_${data.prop}' class='active'>Short Description</label>
-                                            <textarea class="materialize-textarea" maxlength='500' id='field_${data.prop}' value='' type='text' name='field_${data.prop}' data-error='.error_${data.prop}'>${data.value}</textarea>
+                                            <textarea class="materialize-textarea" maxlength='500' id='field_${data.prop}' value='' type='text' name='field_${data.prop}' data-error='.error_${data.prop}'>${job[3]}</textarea>
                                             <div class='error_${data.prop}'></div>
                                             <div class='display_notes'>
                                                 *<strong>Short Description</strong> must contain atleast 100 characters and not more than 450 characters. <br/>
@@ -1903,7 +1905,7 @@ var jobPosts = function() {
                     $("#modal_medium .modal-content").html(content);
                     $('#modal_medium').modal('open');
                     let editor = system.quill($('#field_longDes').get(0));
-                    editor.clipboard.dangerouslyPasteHTML(data.value);
+                    editor.clipboard.dangerouslyPasteHTML(job[4]);
                     var limit = 1000;
                     editor.on('text-change', function(delta, old, source) {
                         if (editor.getLength() > limit) {
@@ -1950,7 +1952,7 @@ var jobPosts = function() {
                     });
                 }
                 else if (data.prop == "Status") {
-                    let title = (data.value == 'Active')?0:1;
+                    let title = (job[11] == 'Active')?0:1;
                     if(data.value == 'Active'){
                         content = `<h5>Change the ${data.prop} of this job?</h5>
                                     <form id='form_update' class='formValidate' method='get' action='' novalidate='novalidate'>

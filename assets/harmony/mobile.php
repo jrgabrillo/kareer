@@ -464,16 +464,32 @@ $Functions = new DatabaseClasses;
         $result = [];
         $query = $Functions->PDO("SELECT DISTINCT from_account_id, to_account_id, subject_id FROM tbl_messages WHERE to_account_id = '{$data}'");
         foreach ($query as $key => $value) {
-            $queryVacancies = $Functions->PDO("SELECT business_id, job_title FROM tbl_vacancies WHERE id = '{$value[2]}'");
+            $queryVacancies = $Functions->PDO("SELECT business_id, id, job_title FROM tbl_vacancies WHERE id = '{$value[2]}'");
             $queryBusiness = $Functions->PDO("SELECT DISTINCT id,company_name,image FROM tbl_business WHERE id = '{$queryVacancies[0][0]}'");
-            $result[] = [$queryBusiness[0],$queryVacancies[0][1]];
+            $result[] = [$queryBusiness[0],$queryVacancies[0][2],$queryVacancies[0][1]];
         }
         print_r(json_encode($result));
     }
     if (isset($_GET['get-messageConvo'])){/**/
         $data = $_POST['data'];
-        $query = $Functions->PDO("SELECT c.image, b.name, a.message, a.date FROM tbl_messages a INNER JOIN tbl_businessmanagers b ON a.from_account_id = b.id INNER JOIN tbl_business c ON c.id = b.business_id INNER JOIN tbl_personalinfo d ON d.id = a.to_account_id WHERE c.id = '{$data}' AND a.header = 'application' ORDER BY date DESC");
-        print_r(json_encode($query));
+        $query1 = $Functions->PDO("SELECT d.picture, d.given_name, a.message, a.date, a.from_account_id, a.subject_id, e.job_title FROM tbl_messages a INNER JOIN tbl_businessmanagers b ON a.to_account_id = b.id INNER JOIN tbl_business c ON c.id = b.business_id INNER JOIN tbl_personalinfo d ON d.id = a.from_account_id INNER JOIN tbl_vacancies e ON a.subject_id = e.id WHERE a.subject_id = '{$data}' AND a.header = 'application' UNION SELECT c.image, b.name, a.message, a.date, a.from_account_id, a.subject_id, e.job_title FROM tbl_messages a INNER JOIN tbl_businessmanagers b ON a.from_account_id = b.id INNER JOIN tbl_business c ON c.id = b.business_id INNER JOIN tbl_personalinfo d ON d.id = a.to_account_id INNER JOIN tbl_vacancies e ON a.subject_id = e.id WHERE a.subject_id = '{$data}' AND a.header = 'application' ORDER by date DESC");
+        print_r(json_encode($query1));
+    }
+    if (isset($_GET['do-message'])) {/**/
+        $data = $_POST['data'];
+        $id = $Functions->PDO_IDGenerator('tbl_messages','id');
+        $date = $Functions->PDO_DateAndTime();
+        $text = $Functions->escape($data[3]);
+        $header = $Functions->escape($data[4]);
+        $message = $Functions->PDO("INSERT INTO tbl_messages(id,from_account_id,to_account_id,subject_id,message,`date`,header) VALUES ('{$id}','{$data[0]}','{$data[2]}','{$data[1]}',{$text},'{$date}',{$header})");
+        // print_r($message);
+        if($message->execute()){
+            echo 1;
+        }
+        else{
+            $Data = $message->errorInfo();
+            print_r($Data);
+        }
     }
     /*unread and read notification query*/
     if (isset($_GET['get-notifications'])){/**/
