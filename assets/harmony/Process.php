@@ -334,6 +334,7 @@
 		        else if($data[4] == 3) $status = 'level 3';
 		        else if($data[4] == 4) $status = 'hired';
 		        else if($data[4] == 0) $status = 'decline';
+		        else if($data[4] == 5) $status = 'pending';
 				$business =$Functions->PDO("SELECT  a.company_name FROM tbl_business a WHERE id IN (SELECT business_id FROM tbl_businessmanagers b WHERE b.id = '{$data[0]}')");
 				$remarks = "{$business[0][0]} updated your application status into {$status}";
 

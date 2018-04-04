@@ -34,7 +34,7 @@ var employer = function() {
             var content = "",data = JSON.parse(employer.get())[0]
             var profile = (data[5] == null) ? 'avatar.png' : data[5];
             localStorage.setItem('business_id',data[1]);
-            localStorage.setItem('account_id',data[0]);
+            // localStorage.setItem('account_id',data[0]);
 
             $("#user-account img.profile-image").attr({ "src": "../assets/images/profile/" + profile });
             $("#user-account div div a span.display_name").html(data[2]);
@@ -447,13 +447,13 @@ var business = function(){
                                 error.insertAfter(element);
                         },
                         submitHandler: function (form) {
-                            let user = JSON.parse(employer.check_access());
+                            // let user = JSON.parse(employer.check_access());
                             var _form = $(form).serializeArray();
                             if(data.value[0] == _form[0]['value']){
                                 system.alert('You did not even change the value.', function(){});
                             }
                             else{
-                                var ajax = system.ajax('../assets/harmony/Process.php?do-updateInfo',[user[0],'business','name',id,_form[0]['value']]);
+                                var ajax = system.ajax('../assets/harmony/Process.php?do-updateInfo',[sessionStorage.getItem('kareer'),'business','name',id,_form[0]['value']]);
                                 ajax.done(function(ajax){
                                     if(ajax == 1){
                                         $('#modal_confirm').modal('close');
@@ -494,13 +494,13 @@ var business = function(){
                                 error.insertAfter(element);
                         },
                         submitHandler: function (form) {
-                            let user = JSON.parse(employer.check_access());
+                            // let user = JSON.parse(employer.check_access());
                             var _form = $(form).serializeArray();
                             if(data.value[0] == _form[0]['value']){
                                 system.alert('You did not even change the value.', function(){});
                             }
                             else{
-                                var ajax = system.ajax('../assets/harmony/Process.php?do-updateInfo',[user[0],'business','number',id,_form[0]['value']]);
+                                var ajax = system.ajax('../assets/harmony/Process.php?do-updateInfo',[sessionStorage.getItem('kareer'),'business','number',id,_form[0]['value']]);
                                 ajax.done(function(ajax){
                                     if(ajax == 1){
                                         $('#modal_confirm').modal('close');
@@ -540,13 +540,13 @@ var business = function(){
                                 error.insertAfter(element);
                         },
                         submitHandler: function (form) {
-                            let user = JSON.parse(employer.check_access());
+                            // let user = JSON.parse(employer.check_access());
                             var _form = $(form).serializeArray();
                             if(data.value[0] == _form[0]['value']){
                                 system.alert('You did not even change the value.', function(){});
                             }
                             else{
-                                var ajax = system.ajax('../assets/harmony/Process.php?do-updateInfo',[user[0],'business','email',id,_form[0]['value']]);
+                                var ajax = system.ajax('../assets/harmony/Process.php?do-updateInfo',[sessionStorage.getItem('kareer'),'business','email',id,_form[0]['value']]);
                                 ajax.done(function(ajax){
                                     if(ajax == 1){
                                         $('#modal_confirm').modal('close');
@@ -590,13 +590,13 @@ var business = function(){
                     });
                     $("#form_update").validate({
                         submitHandler: function (form) {
-                            let user = JSON.parse(employer.check_access());
+                            // let user = JSON.parse(employer.check_access());
                             let _form = editor.root.innerHTML;
                             if(data[2] == _form){
                                 system.alert('You did not even change the product name.', function(){});
                             }
                             else{
-                                var ajax = system.ajax('../assets/harmony/Process.php?do-updateInfo',[user[0],'business','description',id,_form]);
+                                var ajax = system.ajax('../assets/harmony/Process.php?do-updateInfo',[sessionStorage.getItem('kareer'),'business','description',id,_form]);
                                 ajax.done(function(ajax){
                                     if(ajax == 1){
                                         $('#modal_medium').modal('close');
@@ -774,9 +774,9 @@ var accountManager = function(){
                             }
                         },
                         submitHandler: function (form) {
-                            var user = JSON.parse(employer.check_access());
+                            // var user = JSON.parse(employer.check_access());
                             var _form = $(form).serializeArray();
-                            var ajax = system.ajax('../assets/harmony/Process.php?do-addBusinessAccount',[user[0],id,_form[0]['value'],_form[1]['value'],_form[2]['value'],_form[3]['value']]);
+                            var ajax = system.ajax('../assets/harmony/Process.php?do-addBusinessAccount',[sessionStorage.getItem('kareer'),id,_form[0]['value'],_form[1]['value'],_form[2]['value'],_form[3]['value']]);
                             ajax.done(function(ajax){
                                 if(ajax == 1){  
                                     accountManager.list(id);
@@ -842,8 +842,8 @@ var accountManager = function(){
                             Materialize.toast('Statement is too long.',4000);
                     }
                     else{
-                        let user = JSON.parse(employer.check_access());
-                        var ajax = system.ajax('../assets/harmony/Process.php?do-updateInfo',[user[0],'employer','status',data[0],data[1],remarks]);
+                        // let user = JSON.parse(employer.check_access());
+                        var ajax = system.ajax('../assets/harmony/Process.php?do-updateInfo',[sessionStorage.getItem('kareer'),'employer','status',data[0],data[1],remarks]);
                         ajax.done(function(ajax){
                             console.log(ajax);
                             if(ajax == 1){
@@ -1647,7 +1647,7 @@ var jobPosts = function() {
                             }
                         },
                         submitHandler: function(form) {
-                            var id = JSON.parse(employer.check_access());
+                            // var id = JSON.parse(employer.check_access());
                             var _form = $(form).serializeArray();
                             if ((data.value == _form[0]['value'])) {
                                 system.alert('You did not even change the value.', function() {});
@@ -1769,7 +1769,7 @@ var jobPosts = function() {
                             }
                         },
                         submitHandler: function(form) {
-                            var id = JSON.parse(employer.check_access());
+                            // var id = JSON.parse(employer.check_access());
                             var _form = $(form).serializeArray();
                             var ajax = system.ajax('../assets/harmony/Process.php?do-updateInfo', [sessionStorage.getItem('kareer'), 'job', 'salary', data.node, _form[0]['value'],_form[1]['value']]);
                             ajax.done(function(ajax) {
@@ -1816,7 +1816,7 @@ var jobPosts = function() {
                             }
                         },
                         submitHandler: function(form) {
-                            var id = JSON.parse(employer.check_access());
+                            // var id = JSON.parse(employer.check_access());
                             var _form = $(form).serializeArray();
                             if ((data.value == _form[0]['value'])) {
                                 system.alert('You did not even change the value.', function() {});
@@ -1869,7 +1869,7 @@ var jobPosts = function() {
                             }
                         },
                         submitHandler: function(form) {
-                            var id = JSON.parse(employer.check_access());
+                            // var id = JSON.parse(employer.check_access());
                             var _form = $(form).serializeArray();
                             if ((data.value == _form[0]['value'])) {
                                 system.alert('You did not even change the value.', function() {});
@@ -1933,7 +1933,7 @@ var jobPosts = function() {
                             }
                         },
                         submitHandler: function(form) {
-                            var id = JSON.parse(employer.check_access());
+                            // var id = JSON.parse(employer.check_access());
                             let _form = editor.root.innerHTML;
                             var ajax = system.ajax('../assets/harmony/Process.php?do-updateInfo', [sessionStorage.getItem('kareer'), 'job', 'longDes', data.node, _form]);
                             ajax.done(function(ajax) {
@@ -2028,7 +2028,8 @@ var schedule = function() {
     "use strict";
     return {
         add: function(){
-            let employer = localStorage.getItem('account_id'), jobId = ((window.location.hash).split(';')[3]);
+            let place = JSON.parse(business.get(business.id()))[0][1];/*default meeting place*/
+            let employer = sessionStorage.getItem('kareer'), jobId = ((window.location.hash).split(';')[3]);
             $("#modal_medium .modal-content").html(`
                 <form id='form_schedule' class='formValidate row' method='get' action='' novalidate='novalidate'>
                         <h5>Schedule</h5>
@@ -2051,8 +2052,8 @@ var schedule = function() {
                             <div class='display_error error_time'></div>    
                         </div>
                         <div class='input-field col s12'>
-                            <label for='field_meetingPlace'>Place: </label>
-                            <input id='field_meetingPlace' type='text' name='field_meetingPlace' data-error='.error_meetingPlace'>
+                            <label for='field_meetingPlace' class='active'>Place: </label>
+                            <input id='field_meetingPlace' type='text' value = '${place}' name='field_meetingPlace' data-error='.error_meetingPlace'>
                             <div class='display_error error_meetingPlace'></div>    
                         </div>
                         <div class='input-field col s12'>
@@ -2183,8 +2184,7 @@ var schedule = function() {
         },
         action:function(data){
             $("a[data-cmd='failed']").on('click', function() {
-                let id = $(this).data('node'), option = data[10];
-                console.log(data[10]);
+                let id = $(this).data('node');
                 console.log('failed');
 
                 $("#modal_medium .modal-content").html(
@@ -2203,18 +2203,18 @@ var schedule = function() {
                             Materialize.toast('Statement is too long.',4000);
                     }
                     else{
-                        var data = system.ajax('../assets/harmony/Process.php?do-updateSchedule', ['failed',id,localStorage.getItem('account_id'),remarks,option]);
+                        var data = system.ajax('../assets/harmony/Process.php?do-updateSchedule', ['failed',id,sessionStorage.getItem('kareer'),remarks,option]);
                         data.done(function(data){
                             console.log(data);
-                            // if(data == 1){
-                            //     $('#modal_medium').modal('close');
-                            //     system.alert('Schedule removed.', function(){
-                            //         schedule.list();
-                            //     });
-                            // }
-                            // else{
-                            //     system.alert('Error.', function(){});
-                            // }
+                            if(data == 1){
+                                $('#modal_medium').modal('close');
+                                system.alert('Schedule removed.', function(){
+                                    schedule.list();
+                                });
+                            }
+                            else{
+                                system.alert('Error.', function(){});
+                            }
                         });
                     }
                 });
@@ -2238,7 +2238,7 @@ var schedule = function() {
                             Materialize.toast('Statement is too long.',4000);
                     }
                     else{
-                        var data = system.ajax('../assets/harmony/Process.php?do-updateSchedule', ['success',id,localStorage.getItem('account_id'),remarks,option]);
+                        var data = system.ajax('../assets/harmony/Process.php?do-updateSchedule', ['success',id,sessionStorage.getItem('kareer'),remarks,option]);
                         data.done(function(data){
                             // console.log(data);
                             if(data == 1){
@@ -2255,7 +2255,6 @@ var schedule = function() {
                 });
             });
             $("a[data-cmd='reschedule']").on('click', function() {
-                console.log(data[0]);
                 console.log('reschedule');
                 $("#modal_medium .modal-content").html(`
                     <form id='form_schedule' class='formValidate row' method='get' action='' novalidate='novalidate'>
@@ -2278,7 +2277,7 @@ var schedule = function() {
                             </div>
                             <div class='input-field col s12'>
                                 <label for='field_meetingPlace' class='active'>Place: </label>
-                                <input id='field_meetingPlace' type='text' name='field_meetingPlace' data-error='.error_meetingPlace' value='${data[8]}'>
+                                <input id='field_meetingPlace' type='text' value = '${data[8]}' name='field_meetingPlace' data-error='.error_meetingPlace'>
                                 <div class='display_error error_meetingPlace'></div>    
                             </div>
                             <div class='input-field col s12'>
@@ -2310,7 +2309,7 @@ var schedule = function() {
                 submitHandler: function(form) {
                     let _form = $(form).serializeArray();
                     let option = $('select').val();
-                    var ajax = system.ajax('../assets/harmony/Process.php?do-updateSchedule', ['reschedule',data[0], localStorage.getItem('account_id'), data[1], data[2], _form[0]['value'], _form[1]['value'], _form[2]['value'], option]);
+                    var ajax = system.ajax('../assets/harmony/Process.php?do-updateSchedule', ['reschedule',data[0], sessionStorage.getItem('kareer'), data[1], data[2], _form[0]['value'], _form[1]['value'], _form[2]['value'], option]);
                     ajax.done(function(ajax) {
                         console.log(ajax);
                         if (ajax == 1) {
