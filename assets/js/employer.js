@@ -1258,7 +1258,7 @@ var messages = function(){
         },
         conversation:function(){
             let convo = JSON.parse(messages.get(applicant.id())), business ="";
-            // let realtime = setTimeout(function(){
+            // let realtime = setTimeout(function(){            /*recursive function temporarily disabled, not yet sure where to put clearTimeout function*/
             //     $('#display_messages ul').html('');
             //     console.log('asda');
             //     messages.conversation();
