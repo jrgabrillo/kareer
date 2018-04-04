@@ -1126,6 +1126,7 @@ var applicant = function(){
             this.viewAcads();
             this.viewCareer();
             messages.conversation();
+            messages.send();
             $('ul.tabs').tabs();
         },
         id:function(){
@@ -1256,8 +1257,12 @@ var messages = function(){
             return data.responseText;
         },
         conversation:function(){
-            messages.send(applicant.id());
             let convo = JSON.parse(messages.get(applicant.id())), business ="";
+            // let realtime = setTimeout(function(){
+            //     $('#display_messages ul').html('');
+            //     console.log('asda');
+            //     messages.conversation();
+            // },5000);
             $.each(convo,function(i,v){
                 business = ((typeof v[0] == 'object') || v[0] == "") ? 'icon.png' : v[0];
                 $('#display_messages ul').prepend(`
@@ -1270,8 +1275,8 @@ var messages = function(){
                     </li>
                 `);
             });
+
             $('#display_messages ul').scrollTop($('#display_messages ul').prop("scrollHeight")); /*this will stick the scroll to bottom*/
-            // messages.conversation();
         },
         send:function(){
             let user = JSON.parse(employer.get())[0], data = JSON.parse(business.get(user[1])), id = applicant.id(), jobId = ((window.location.hash).split(';')[3]);
@@ -2173,10 +2178,10 @@ var schedule = function() {
                             <a data-cmd="reschedule" data-node="${calEvent.data}" class= "modal-close btn btn-flat waves-effect waves-grey teal-text right">Reschedule</a>
                         </div>
                     `;
-                    $("#modal_confirm .modal-content").html(content);
-                    $('#modal_confirm .modal-footer').remove();         
+                    $("#modal_medium .modal-content").html(content);
+                    $('#modal_medium .modal-footer').remove();         
 
-                    $('#modal_confirm').modal('open');
+                    $('#modal_medium').modal('open');
                     $('.tooltipped').tooltip({delay: 50});
                     schedule.action(calEvent.data);
                 }
@@ -2184,16 +2189,16 @@ var schedule = function() {
         },
         action:function(data){
             $("a[data-cmd='failed']").on('click', function() {
-                let id = $(this).data('node');
+                let id = $(this).data('node'), option = data[10];
                 console.log('failed');
 
-                $("#modal_medium .modal-content").html(
+                $("#modal_confirm .modal-content").html(
                         `<h5>What happen to this schedule?</h5>
                         <textarea class='materialize-textarea' data-field='field_description' name='field_description' placeholder='Remarks'></textarea>
                         <button data-cmd='button_proceed' class='waves-effect waves-grey grey lighten-5 blue-text btn-flat modal-action right'>Proceed</button>
                         <a data-cmd="stay" class='waves-effect waves-grey grey-text btn-flat modal-close right'>Cancel</a>`
                     );
-                $('#modal_medium').modal('open');
+                $('#modal_confirm').modal('open');
                 $("button[data-cmd='button_proceed']").on('click',function(){
                     let remarks = $("textarea[data-field='field_description']").val();
                     if(remarks.length == 0){
@@ -2207,7 +2212,7 @@ var schedule = function() {
                         data.done(function(data){
                             console.log(data);
                             if(data == 1){
-                                $('#modal_medium').modal('close');
+                                $('#modal_confirm').modal('close');
                                 system.alert('Schedule removed.', function(){
                                     schedule.list();
                                 });
@@ -2222,13 +2227,13 @@ var schedule = function() {
             $("a[data-cmd='success']").on('click', function() {
                 let id = $(this).data('node'), option = data[10];
                 console.log('success');
-                $("#modal_medium .modal-content").html(
+                $("#modal_confirm .modal-content").html(
                         `<h5>What happen to this schedule?</h5>
                         <textarea class='materialize-textarea' data-field='field_description' name='field_description' placeholder='Remarks'></textarea>
                         <button data-cmd='button_proceed' class='waves-effect waves-grey grey lighten-5 blue-text btn-flat modal-action right'>Proceed</button>
                         <a data-cmd="stay" class='waves-effect waves-grey grey-text btn-flat modal-close right'>Cancel</a>`
                     );
-                $('#modal_medium').modal('open');
+                $('#modal_confirm').modal('open');
                 $("button[data-cmd='button_proceed']").on('click',function(){
                     let remarks = $("textarea[data-field='field_description']").val();
                     if(remarks.length == 0){
@@ -2242,7 +2247,7 @@ var schedule = function() {
                         data.done(function(data){
                             // console.log(data);
                             if(data == 1){
-                                $('#modal_medium').modal('close');
+                                $('#modal_confirm').modal('close');
                                 system.alert('Schedule completed.', function(){
                                     schedule.list();
                                 });
@@ -2256,21 +2261,22 @@ var schedule = function() {
             });
             $("a[data-cmd='reschedule']").on('click', function() {
                 console.log('reschedule');
-                $("#modal_medium .modal-content").html(`
+                console.log(data);
+                $("#modal_confirm .modal-content").html(`
                     <form id='form_schedule' class='formValidate row' method='get' action='' novalidate='novalidate'>
                             <h5>Reschedule</h5>
-                            <div class="input-field col s4">
+                            <div class="input-field col s12">
                                 <select id='field_option'>
                                     <option value="${data[10]}">${data[10]}</option
                                 </select>
                                 <label for='field_option'>Select an option</label>
                             </div>
-                            <div class='input-field col s4'>
+                            <div class='input-field col s12'>
                                 <label for='field_date' class="active">Date: </label>
                                 <input id='field_date' type='date' name='field_date' data-error='.error_date' value='${data[6]}'>
                                 <div class='display_error error_date'></div>    
                             </div>
-                            <div class='input-field col s4'>
+                            <div class='input-field col s12'>
                                 <label for='field_time' class="active">Time: </label>
                                 <input id='field_time' type='time' name='field_time' data-error='.error_time' value='${data[7]}'>
                                 <div class='display_error error_time'></div>    
@@ -2285,7 +2291,7 @@ var schedule = function() {
                                 <button class='btn waves-effect waves-light right round-button z-depth-0' type='submit'>Save</button>
                             </div>
                     </form>`);
-                $('#modal_medium').modal('open');
+                $('#modal_confirm').modal('open');
                 let now_date = moment(moment().format("YYYY-MM-DD")).add(1, 'day').format("YYYY-MM-DD");
                 $("#field_date").attr({"min": now_date});
                 $('select').material_select(); 
@@ -2314,7 +2320,7 @@ var schedule = function() {
                         console.log(ajax);
                         if (ajax == 1) {
                             system.alert('Reschedule success.', function(){
-                                $('#modal_medium').modal('close');
+                                $('#modal_confirm').modal('close');
                                 location.reload();
                                 schedule.list();
                             });

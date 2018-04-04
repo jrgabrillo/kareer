@@ -274,7 +274,7 @@ $Functions = new DatabaseClasses;
     if (isset($_GET['do-action'])){/* updating to read*/
         $data = $_POST['data'];
         if($data[1] == 'notification'){
-            $q = $Functions->PDO("UPDATE tbl_logs SET status = '0' WHERE to_account_id = '{$data[0]}' AND header = 'application'");
+            $q = $Functions->PDO("UPDATE tbl_logs SET status = '0' WHERE id = '{$data[0]}' AND header = 'application' || header = 'schedule'");
         }
         else if($data[1] == 'message'){
             $q = $Functions->PDO("");
@@ -494,14 +494,14 @@ $Functions = new DatabaseClasses;
     /*unread and read notification query*/
     if (isset($_GET['get-notifications'])){/**/
         $data = $_POST['data'];
-        $q = $Functions->PDO("SELECT c.id, d.company_name, d.image, a.status, a.date, a.header FROM tbl_logs a INNER JOIN tbl_application b ON a.to_account_id = b.id INNER JOIN tbl_vacancies c ON b.vacancy_id = c.id INNER JOIN tbl_business d ON c.business_id = d.id WHERE b.applicant_id = '{$data}' AND a.header ='application' ORDER by a.date ASC");
+        $q = $Functions->PDO("SELECT a.id, b.id, a.date, a.header, d.company_name,d.image, a.status, b.vacancy_id FROM tbl_logs a INNER JOIN tbl_application b ON a.to_account_id = b.id INNER JOIN tbl_businessmanagers c ON a.from_account_id = c.id INNER JOIN tbl_business d ON c.business_id = d.id WHERE a.header = 'application' AND b.applicant_id = '{$data}' UNION SELECT a.id, b.id, a.date, a.header, d.company_name,d.image, a.status,b.subject_id FROM tbl_logs a INNER JOIN tbl_schedule b ON a.to_account_id = b.id INNER JOIN tbl_businessmanagers c ON a.from_account_id = c.id INNER JOIN tbl_business d ON c.business_id = d.id WHERE a.header = 'schedule' AND b.to_account_id = '{$data}'  ORDER BY date ASC");
         // $q = $Functions->PDO("SELECT d.id, d.company_name, d.image, a.status, a.date, a.header FROM tbl_logs a INNER JOIN tbl_schedule b ON a.to_account_id = b.id INNER JOIN tbl_vacancies c ON b.subject_id = c.id INNER JOIN tbl_business d ON c.business_id = d.id WHERE b.to_account_id = '{$data}' AND a.remarks = 'schedule'");
         print_r(json_encode($q));        
 
     }
     if (isset($_GET['get-notificationInfo'])){/**/
         $data = $_POST['data'];
-        $q = $Functions->PDO("SELECT d.id, d.company_name, d.image, a.remarks, c.job_title FROM tbl_logs a INNER JOIN tbl_application b ON a.to_account_id = b.id INNER JOIN tbl_vacancies c ON b.vacancy_id = c.id INNER JOIN tbl_business d ON c.business_id = d.id WHERE b.id = '{$data}' AND  a.header = 'application';");
+        $q = $Functions->PDO("SELECT a.id,a.to_account_id, a.remarks, c.company_name,c.image,d.job_title, a.date FROM tbl_logs a INNER JOIN tbl_businessmanagers b ON a.from_account_id = b.id INNER JOIN tbl_business c ON b.business_id = c.id INNER JOIN tbl_vacancies d ON c.id = d.business_id WHERE a.id = '{$data[0]}' AND a.to_account_id = '{$data[1]}' AND d.id ='{$data[2]}'");
         print_r(json_encode($q));        
 
     }

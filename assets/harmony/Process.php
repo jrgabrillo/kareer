@@ -592,7 +592,7 @@
 		$q = $Functions->PDO("INSERT INTO tbl_schedule(id,from_account_id,to_account_id,subject_id,schedule_date,schedule_time,schedule_place,`date`,status,header,remarks) VALUES ('{$id}','{$data[0]}','{$data[2]}','{$data[1]}','{$data[3]}','{$data[4]}','{$data[5]}','{$date}','1','{$data[6]}','{$remarks}')");
 
 		if($q->execute()){
-			$log = $Functions->log($data[0],$id,$remarks,'application');
+			$log = $Functions->log($data[0],$id,$remarks,'schedule');
 			echo 1;
 		}
 		else{
@@ -630,7 +630,7 @@
 			$q = $Functions->PDO("");
 		}
 		if($q->execute()){
-			$log = $Functions->log($data[2],$to,$remarks,'application');
+			$log = $Functions->log($data[2],$to,$remarks,'schedule');
 			echo 1;
 		}
 		else{
