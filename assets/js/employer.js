@@ -1125,9 +1125,10 @@ var applicant = function(){
             this.view();
             this.viewAcads();
             this.viewCareer();
-            messages.conversation();
             messages.send();
             $('ul.tabs').tabs();
+            $("a[ data-cmd='messages']").on('click',function(){messages.conversation();}); /*event rtrigger*/
+
         },
         id:function(){
             return ((window.location.hash).split(';')[2]).split('=')[1];
@@ -1258,11 +1259,12 @@ var messages = function(){
         },
         conversation:function(){
             let convo = JSON.parse(messages.get(applicant.id())), business ="";
-            // let realtime = setTimeout(function(){            /*recursive function temporarily disabled, not yet sure where to put clearTimeout function*/
-            //     $('#display_messages ul').html('');
-            //     console.log('asda');
-            //     messages.conversation();
-            // },5000);
+            console.log(convo.length);
+            let realtime = setTimeout(function(){         /*recursive function*/
+                $('#display_messages ul').html('');
+                console.log('asda');
+                messages.conversation();
+            },3000);
             $.each(convo,function(i,v){
                 business = ((typeof v[0] == 'object') || v[0] == "") ? 'icon.png' : v[0];
                 $('#display_messages ul').prepend(`
@@ -1275,8 +1277,12 @@ var messages = function(){
                     </li>
                 `);
             });
-
             $('#display_messages ul').scrollTop($('#display_messages ul').prop("scrollHeight")); /*this will stick the scroll to bottom*/
+            $("*[ data-cmd='click']").on('click',function(){ /*recursive function off*/
+                console.log('aaa');
+                clearTimeout(realtime);
+                $('#display_messages ul').html('');
+            });
         },
         send:function(){
             let user = JSON.parse(employer.get())[0], data = JSON.parse(business.get(user[1])), id = applicant.id(), jobId = ((window.location.hash).split(';')[3]);
@@ -1291,16 +1297,7 @@ var messages = function(){
                     ajax.done(function(ajax){
                         if(ajax == 1){
                             system.alert('Message sent.', function(){
-                                $("textarea[data-field='message']").val("")
-                                $('#display_messages ul').append(`
-                                    <li class="collection-item avatar message">
-                                        <img src="${logo}" alt="" class="circle white">
-                                        <div class="collection-item">
-                                            <strong>${user[2]}</strong><br/>
-                                            <p>${message}</p>
-                                        </div>
-                                    </li>
-                                `);
+                                $("textarea[data-field='message']").val("");
                                 $('#display_messages ul').scrollTop($('#display_messages ul').prop("scrollHeight"));/*this will stick the scroll to bottom*/
                             });
                         }
