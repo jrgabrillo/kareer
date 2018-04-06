@@ -171,13 +171,15 @@
 
 	if (isset($_GET['get-jobslist'])){/**/
 		$data = $_POST['data'];
-		$q = $Functions->PDO("SELECT * FROM tbl_vacancies WHERE business_id = '{$data}'");
+		$result = [];
+		// $q = $Functions->PDO("SELECT DISTINCT a.id,a.status,a.job_title,c.name, a.date FROM tbl_vacancies a INNER JOIN tbl_application b ON a.id = b.vacancy_id INNER JOIN tbl_businessmanagers c ON a.employer_id = c.id WHERE a.business_id = '{$data}' ORDER by a.date DESC");
+		$q = $Functions->PDO("SELECT a.id, a.status, a.job_title, b.name, a.date FROM tbl_vacancies a INNER JOIN tbl_businessmanagers b On a.employer_id = b.id WHERE a.business_id = '{$data}' ORDER by date DESC");
 		print_r(json_encode($q));
 	}
 
 	if (isset($_GET['get-applicantsByBusinessId'])){/**/
 		$data = $_POST['data'];
-		$q = $Functions->PDO("SELECT a.employer_id, c.id,b.id, a.job_title, b.date, b.status, c.email, d.given_name, d.family_name, d.middle_name, d.picture, a.id FROM tbl_vacancies a INNER JOIN tbl_application b ON a.id = b.vacancy_id INNER JOIN tbl_applicant c ON b.applicant_id = c.id INNER JOIN tbl_personalinfo d ON c.id = d.id WHERE b.status <> '0' AND a.business_id = '{$data}'");
+		$q = $Functions->PDO("SELECT a.employer_id, c.id,b.id, a.job_title, b.date, b.status, c.email, d.given_name, d.family_name, d.middle_name, d.picture, a.id FROM tbl_vacancies a INNER JOIN tbl_application b ON a.id = b.vacancy_id INNER JOIN tbl_applicant c ON b.applicant_id = c.id INNER JOIN tbl_personalinfo d ON c.id = d.id WHERE b.status <> '0' AND b.status <> '4' AND a.business_id = '{$data}'");
 		print_r(json_encode($q));
 	}
 
@@ -641,7 +643,7 @@
 	if (isset($_GET['get-schedule'])){ /**/
 		$data = $_POST['data'];
 		$result = [];
-		$q = $Functions->PDO("SELECT a.id,a.subject_id,a.to_account_id,b.given_name,b.middle_name,b.family_name, a.schedule_date, a.schedule_time, a.schedule_place,b.phone,a.header,a.status, c.job_title, a.date FROM tbl_schedule a INNER JOIN tbl_personalinfo b ON b.id = a.to_account_id INNER JOIN tbl_vacancies c ON c.id = a.subject_id INNER JOIN tbl_business e ON e.id = c.business_id INNER JOIN tbl_businessmanagers d ON d.id = a.from_account_id WHERE e.id = '{$data}' AND a.status = '1' ");
+		$q = $Functions->PDO("SELECT a.id,a.subject_id,a.to_account_id,b.given_name,b.middle_name,b.family_name, a.schedule_date, a.schedule_time, a.schedule_place,b.phone,a.header,a.status, c.job_title, a.date FROM tbl_schedule a INNER JOIN tbl_personalinfo b ON b.id = a.to_account_id INNER JOIN tbl_vacancies c ON c.id = a.subject_id INNER JOIN tbl_business e ON e.id = c.business_id INNER JOIN tbl_businessmanagers d ON d.id = a.from_account_id INNER JOIN tbl_application f ON c.id = f.vacancy_id WHERE e.id = '{$data}' AND a.status = '1' AND f.status <> '4' AND f.status <> '0'");
 	
 		print_r(json_encode($q));
 	}
