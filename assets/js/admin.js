@@ -21,10 +21,7 @@ var admin = function () {
 			return ajax.responseText;
 		},
 		display:function(){
-			var content = "", data = admin.get();
-			data = JSON.parse(data);
 			var content = "", data = JSON.parse(admin.get());
-			console.log(data);
 			var profile = (data[0][3] == "")?'avatar.jpg':data[0][3];
 			admin.nav();
 			$("#user-account img.profile-image").attr({"src":"../assets/images/profile/"+profile});
