@@ -132,7 +132,7 @@ $Functions = new DatabaseClasses;
 
     if (isset($_GET['get-jobById'])){/**/
         $data = $_POST['data'];
-        $query = $Functions->PDO("SELECT a.job_title, a.vacancy_date, a.skills, a.salary_min,a.salary_max, a.description, a.date, b.company_name, b.address, b.image FROM tbl_vacancies a LEFT JOIN tbl_business b ON a.business_id = b.id WHERE a.id = '{$data}'");
+        $query = $Functions->PDO("SELECT a.job_title, a.vacancy_date, a.skills, a.salary_min,a.salary_max, a.description, a.date, b.company_name, b.address, b.image,a.business_id FROM tbl_vacancies a LEFT JOIN tbl_business b ON a.business_id = b.id WHERE a.id = '{$data}'");
         print_r(json_encode($query));
     }
 
@@ -500,7 +500,7 @@ $Functions = new DatabaseClasses;
     }
     if (isset($_GET['get-notificationInfo'])){/**/
         $data = $_POST['data'];
-        $q = $Functions->PDO("SELECT a.id,a.to_account_id, a.remarks, c.company_name,c.image,d.job_title, a.date FROM tbl_logs a INNER JOIN tbl_businessmanagers b ON a.from_account_id = b.id INNER JOIN tbl_business c ON b.business_id = c.id INNER JOIN tbl_vacancies d ON c.id = d.business_id WHERE a.id = '{$data[0]}' AND a.to_account_id = '{$data[1]}' AND d.id ='{$data[2]}'");
+        $q = $Functions->PDO("SELECT a.id,a.to_account_id, a.remarks, c.company_name,c.image,d.job_title, a.date,c.id FROM tbl_logs a INNER JOIN tbl_businessmanagers b ON a.from_account_id = b.id INNER JOIN tbl_business c ON b.business_id = c.id INNER JOIN tbl_vacancies d ON c.id = d.business_id WHERE a.id = '{$data[0]}' AND a.to_account_id = '{$data[1]}' AND d.id ='{$data[2]}'");
         print_r(json_encode($q));        
 
     }
