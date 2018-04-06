@@ -31,6 +31,19 @@ $Functions = new DatabaseClasses;
         print_r($query[0][0]);
     }
 
+    if(isset($_GET['validatePassword'])){/**/
+        $data = $_POST['data'];
+        $query = $Functions->PDO("SELECT * FROM tbl_applicant WHERE id = '{$data[0]}'");
+        if(count($query)>0){
+            if($Functions->testPassword($data[1],$query[0][3]) && ($query[0][6] == 1))
+                echo 1;
+            else
+                echo 0;
+        }
+        else
+            echo 0;
+    }
+
     if (isset($_GET['do-logIn'])){/**/
         $data = $_POST["data"];
         $email = $Functions->escape($data[0]);
@@ -221,48 +234,35 @@ $Functions = new DatabaseClasses;
     if (isset($_GET['do-updateInfo'])){/**/
         $data = $_POST['data'];
         $id  = $data[2];
-        // print_r($data);
-        if($data[1] == "field_fname"){
-            $field = $Functions->escape($data[3]);
-            $q = $Functions->PDO("UPDATE tbl_personalinfo SET given_name = {$field} WHERE id = '{$id}';");
-        }
-        else if($data[1] == "field_mname"){
-            $field = $Functions->escape($data[3]);
-            $q = $Functions->PDO("UPDATE tbl_personalinfo SET middle_name = {$field} WHERE id = '{$id}';");
-        }
-        else if($data[1] == "field_lname"){
-            $field = $Functions->escape($data[3]);
-            $q = $Functions->PDO("UPDATE tbl_personalinfo SET family_name = {$field} WHERE id = '{$id}';");
-        }
-        else if($data[1] == "field_dob"){
-            $field = $Functions->escape($data[3]);
-            $q = $Functions->PDO("UPDATE tbl_personalinfo SET date_of_birth = {$field} WHERE id = '{$id}';");
-        }
-        else if($data[1] == "field_address"){
-            $field = $Functions->escape($data[3]);
-            $q = $Functions->PDO("UPDATE tbl_personalinfo SET permanent_address = {$field} WHERE id = '{$id}';");
-        }
-        else if($data[1] == "field_number"){
-            $field = $Functions->escape($data[3]);
-            $q = $Functions->PDO("UPDATE tbl_personalinfo SET phone = {$field} WHERE id = '{$id}';");
-        }
-        else if($data[1] == "field_bio"){
-            $field = $Functions->escape($data[3]);
-            $q = $Functions->PDO("UPDATE tbl_applicant SET description = {$field} WHERE id = '{$id}';");
-        }
-        else if($data[1] == "field_email"){
-            $field = $Functions->escape($data[3]);
-            $q = $Functions->PDO("UPDATE tbl_applicant SET email = {$field} WHERE id = '{$id}';");
-        }
-        else if($data[1] == "field_password"){
-            $field = $Functions->password($data[3]);
-            $q = $Functions->PDO("UPDATE tbl_applicant SET password = '{$field}' WHERE id = '{$id}';");
+        $given_name = $Functions->escape($data[1]);
+        $middle_name = $Functions->escape($data[2]);
+        $family_name = $Functions->escape($data[3]);
+        $date_of_birth = date_format(date_create($data[4]),"Y-m-d");
+        $permanent_address = $Functions->escape($data[5]);
+        $gender = $Functions->escape($data[6]);
+        $phone = $Functions->escape($data[7]);
+        $email = $Functions->escape($data[8]);
+        $description = $Functions->escape($data[9]);
+
+        $q = $Functions->PDO("UPDATE tbl_personalinfo SET given_name = {$given_name}, middle_name = {$middle_name}, family_name = {$family_name}, date_of_birth = '{$date_of_birth}', gender = {$gender}, permanent_address = {$permanent_address}, phone = {$phone} WHERE id = '{$data[0]}'; UPDATE tbl_applicant SET description = {$description}, email = {$email} WHERE id = '{$data[0]}';");
+        
+        if($q->execute()){
+            $log = $Functions->log($id,$id,"Updated applicant information",'Update');
+            echo 1;
         }
         else{
-            $q = $Functions->PDO("");
+            $Data = $q->errorInfo();
+            print_r($Data);
         }
+    }
+
+    if (isset($_GET['do-updatePassword'])){/**/
+        $data = $_POST['data'];
+        $id  = $data[0];
+        $password = $Functions->password($data[2]);
+        $q = $Functions->PDO("UPDATE tbl_applicant SET password = '{$password}' WHERE id = '{$id}'");
         if($q->execute()){
-            $log = $Functions->log($id,$id,"Updated {$data[1]}",'Update');
+            $log = $Functions->log($id,$id,"Applicant updated password",'Update');
             echo 1;
         }
         else{
