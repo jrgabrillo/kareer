@@ -623,8 +623,8 @@ ul.collection.message {
 }
 
 li.collection-item.avatar.message {
-	animation: send linear .2s;
-	animation-iteration-count: 1;
+	/* animation: send linear .2s; */
+	/* animation-iteration-count: 1; */
 	width: 49%;
 	border: 0 !important;
 	margin: 10px;

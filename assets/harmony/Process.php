@@ -334,6 +334,7 @@
 		        else if($data[4] == 3) $status = 'level 3';
 		        else if($data[4] == 4) $status = 'hired';
 		        else if($data[4] == 0) $status = 'decline';
+		        else if($data[4] == 5) $status = 'pending';
 				$business =$Functions->PDO("SELECT  a.company_name FROM tbl_business a WHERE id IN (SELECT business_id FROM tbl_businessmanagers b WHERE b.id = '{$data[0]}')");
 				$remarks = "{$business[0][0]} updated your application status into {$status}";
 
@@ -591,7 +592,7 @@
 		$q = $Functions->PDO("INSERT INTO tbl_schedule(id,from_account_id,to_account_id,subject_id,schedule_date,schedule_time,schedule_place,`date`,status,header,remarks) VALUES ('{$id}','{$data[0]}','{$data[2]}','{$data[1]}','{$data[3]}','{$data[4]}','{$data[5]}','{$date}','1','{$data[6]}','{$remarks}')");
 
 		if($q->execute()){
-			$log = $Functions->log($data[0],$id,$remarks,'application');
+			$log = $Functions->log($data[0],$id,$remarks,'schedule');
 			echo 1;
 		}
 		else{
@@ -629,7 +630,7 @@
 			$q = $Functions->PDO("");
 		}
 		if($q->execute()){
-			$log = $Functions->log($data[2],$to,$remarks,'application');
+			$log = $Functions->log($data[2],$to,$remarks,'schedule');
 			echo 1;
 		}
 		else{
