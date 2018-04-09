@@ -428,25 +428,24 @@ $Functions = new DatabaseClasses;
         }
     }
 
-    /*othan ------ purpose: get bookmarks, filter if applicant applied to a bookmarked job */
     if(isset($_GET['get-bookmarks'])){/**/
         $data = $_POST['data'];
         $query = $Functions->PDO("SELECT b.id, c.company_name, c.image, b.job_title, b.vacancy_date FROM tbl_bookmark a LEFT JOIN tbl_vacancies b ON a.vacancy_id = b.id LEFT JOIN tbl_business c ON c.id = b.business_id WHERE applicant_id = '{$data}' AND vacancy_id NOT IN (SELECT vacancy_id FROM tbl_application)");
         print_r(json_encode($query));
     }
+
     if(isset($_GET['do-updateImage'])){/**/
         $data = $_POST['data'];
-        // print_r($data);
         $date = new DateTime();
         $time = $date->getTimestamp();
         $q = $Functions->PDO("SELECT * FROM tbl_personalinfo WHERE id = '{$data[0]}'");
-        $_filename = ($q[0][12] == "")?"icon.png":$q[0][12];
-        if(file_exists("../images/logo/{$_filename}")){
-            $filename = "../images/logo/{$_filename}";
+        $_filename = ($q[0][12] == "" || $q[0][12] == "icon.png")?"applicant_{$time}.rnr":$q[0][12];
+        if(file_exists("../images/profile/{$_filename}")){
+            $filename = "../images/profile/{$_filename}";
         }
         else{
             $_filename = "applicant_{$time}.rnr";
-            $filename = "../images/logo/{$_filename}";
+            $filename = "../images/profile/{$_filename}";
         }           
         $picture = $Functions->saveImage($filename,$data[2]);
         $q = $Functions->PDO("UPDATE tbl_personalinfo SET picture = '{$_filename}' WHERE id = '{$data[0]}'");
@@ -459,6 +458,7 @@ $Functions = new DatabaseClasses;
             print_r($Data);
         }
     }
+
     if (isset($_GET['get-messages'])){/**/
         $data = $_POST['data'];
         $result = [];
@@ -470,11 +470,13 @@ $Functions = new DatabaseClasses;
         }
         print_r(json_encode($result));
     }
+
     if (isset($_GET['get-messageConvo'])){/**/
         $data = $_POST['data'];
         $query1 = $Functions->PDO("SELECT d.picture, d.given_name, a.message, a.date, a.from_account_id, a.subject_id, e.job_title FROM tbl_messages a INNER JOIN tbl_businessmanagers b ON a.to_account_id = b.id INNER JOIN tbl_business c ON c.id = b.business_id INNER JOIN tbl_personalinfo d ON d.id = a.from_account_id INNER JOIN tbl_vacancies e ON a.subject_id = e.id WHERE a.subject_id = '{$data}' AND a.header = 'application' UNION SELECT c.image, b.name, a.message, a.date, a.from_account_id, a.subject_id, e.job_title FROM tbl_messages a INNER JOIN tbl_businessmanagers b ON a.from_account_id = b.id INNER JOIN tbl_business c ON c.id = b.business_id INNER JOIN tbl_personalinfo d ON d.id = a.to_account_id INNER JOIN tbl_vacancies e ON a.subject_id = e.id WHERE a.subject_id = '{$data}' AND a.header = 'application' ORDER by date DESC");
         print_r(json_encode($query1));
     }
+
     if (isset($_GET['do-message'])) {/**/
         $data = $_POST['data'];
         $id = $Functions->PDO_IDGenerator('tbl_messages','id');
@@ -491,18 +493,18 @@ $Functions = new DatabaseClasses;
             print_r($Data);
         }
     }
-    /*unread and read notification query*/
+
     if (isset($_GET['get-notifications'])){/**/
         $data = $_POST['data'];
-        $q = $Functions->PDO("SELECT a.id, b.id, a.date, a.header, d.company_name,d.image, a.status, b.vacancy_id FROM tbl_logs a INNER JOIN tbl_application b ON a.to_account_id = b.id INNER JOIN tbl_businessmanagers c ON a.from_account_id = c.id INNER JOIN tbl_business d ON c.business_id = d.id WHERE a.header = 'application' AND b.applicant_id = '{$data}' UNION SELECT a.id, b.id, a.date, a.header, d.company_name,d.image, a.status,b.subject_id FROM tbl_logs a INNER JOIN tbl_schedule b ON a.to_account_id = b.id INNER JOIN tbl_businessmanagers c ON a.from_account_id = c.id INNER JOIN tbl_business d ON c.business_id = d.id WHERE a.header = 'schedule' AND b.to_account_id = '{$data}'  ORDER BY date ASC");
+        $q = $Functions->PDO("SELECT a.id, b.id, a.date, a.header, d.company_name,d.image, a.status, b.vacancy_id FROM tbl_logs a INNER JOIN tbl_application b ON a.to_account_id = b.id INNER JOIN tbl_businessmanagers c ON a.from_account_id = c.id INNER JOIN tbl_business d ON c.business_id = d.id WHERE a.header = 'application' AND b.applicant_id = '{$data}' UNION SELECT a.id, b.id, a.date, a.header, d.company_name,d.image, a.status,b.subject_id FROM tbl_logs a INNER JOIN tbl_schedule b ON a.to_account_id = b.id INNER JOIN tbl_businessmanagers c ON a.from_account_id = c.id INNER JOIN tbl_business d ON c.business_id = d.id WHERE a.header = 'schedule' AND b.to_account_id = '{$data}' ORDER BY date ASC");
         print_r(json_encode($q));        
 
     }
+
     if (isset($_GET['get-notificationInfo'])){/**/
         $data = $_POST['data'];
         $q = $Functions->PDO("SELECT a.id,a.to_account_id, a.remarks, c.company_name,c.image,d.job_title, a.date,c.id FROM tbl_logs a INNER JOIN tbl_businessmanagers b ON a.from_account_id = b.id INNER JOIN tbl_business c ON b.business_id = c.id INNER JOIN tbl_vacancies d ON c.id = d.business_id WHERE a.id = '{$data[0]}' AND a.to_account_id = '{$data[1]}' AND d.id ='{$data[2]}'");
         print_r(json_encode($q));        
 
     }
-    /**/
 ?> 
