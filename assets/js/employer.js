@@ -1372,7 +1372,7 @@ var messages = function(){
         }
     }
 }();
-
+http://localhost/kareer/account/#cmd=index;content=job
 var jobPosts = function() {
     "use strict";
     return {
