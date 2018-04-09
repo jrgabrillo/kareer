@@ -590,12 +590,12 @@ td {
 	/* overflow-x: hidden; */
 	/* min-height: 300px !important; */
 	height: 550px !important;
-	z-index: 1;
+	z-index: 0;
 }
 
 #display_applicants li {
-	z-index: 10000;
-	transition: 0.2s;
+	/* z-index: 10000; */
+	/* transition: 0.2s; */
 }
 
 #subcontent .free-width {

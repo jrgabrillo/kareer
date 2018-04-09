@@ -982,7 +982,6 @@ var applicant = function(){
 	return {
 		ini:function(){
 			this.list();
-			console.log(0);
 		},
 		id:function(){
 			return ((window.location.hash).split(';')[2]).split('=')[1];
@@ -1215,24 +1214,28 @@ var jobs = function(){
 			var ajax = (!id)?system.ajax('../assets/harmony/Process.php?get-applicantList',""):system.ajax('../assets/harmony/Process.php?get-jobslist',id);
 			return ajax.responseText;
 		},
+		getjob:function(id){
+            let ajax = system.ajax('../assets/harmony/Process.php?get-jobPost', id);
+            return ajax.responseText;
+        },
+		id:function(){
+			return ((window.location.hash).split(';')[2]).split('=')[1];
+		},
 		list:function(){
-			let data = JSON.parse(jobs.get(business.id())), content = "", chip = "", skills = "";
+			let data = JSON.parse(jobs.get(business.id())), content = "", status;
+			// console.log(data);
 			if(data.length>0){
-				console.log(data);
 	            $.each(data, function(i, v) {
-	                let status = (v[10] == 1)?'Active':'Inactive';
-	                skills = JSON.parse(v[7]);
-	                chip = "";
-	                $.each(skills, function(i, s) {
-	                    chip += `<a class="chip">${s}</a>`;
-	                });
+	                let status = (v[1] == '1')?'Active':(v[1] == '0')?'Full':'Pending';
 	                $("#businessJobs table tbody").append(`
 	                    <tr>
 	                        <td widtd="50px" class="center">${status}</td>
-	                        <td widtd="300px" class="center">${v[6]}</td>
-	                        <td widtd="150px" class="center">${v[9]}</td>
-	                        <td widtd="200px" class="center">${chip}</td>
-	                        <td widtd="150px" class="center">${v[8]}</td>
+	                        <td widtd="300px" class="center">${v[2]}</td>
+	                        <td widtd="150px" class="center">${v[3]}</td>
+	                        <td widtd="200px" class="center">${v[4]}</td>
+	                        <td widtd="50px" class="center"><a href='#cmd=index;content=focusjob;id=${v[0]}' data-cmd='view_job' data-value='${v[0]}' class='tooltipped btn-floating waves-effect black-text no-shadow white right' data-position='left' data-delay='50' data-tooltip='View Details'>
+								<i class='material-icons right hover black-text'>more_vert</i>
+							</a></td>
 	                    </tr>
 	                `);
 	            });
@@ -1242,6 +1245,107 @@ var jobs = function(){
 				console.log('no jobs');
 			}
 		},
+		view:function(){
+            let id = jobs.id(), chip ="";
+            let job = JSON.parse(jobs.getjob(id))[0];
+            let status = (job[11] == '1')?'Active':(job[11] == '0')?'Full':'Pending';
+            let skills = JSON.parse(job[7]);
+            $.each(skills, function(i, v) {
+                chip += `<a class="chip">${v}</a>`;
+            });
+            $("#job").html(`<div class='card'>
+                                        <div class='card-content'>
+                                            <span class='card-title activator grey-text text-darken-4' for='title'>${job[6]}</span>
+                                            <div class='divider'></div>
+                                            <table>
+                                                <tr>
+                                                    <td width='50px' class='bold'><span style='width:80%;display: inline-block;'><i class='mdi-action-perm-identity cyan-text text-darken-2'></i> Skills Required: </span></td>
+                                                    <td width='150px' class='grey-text' for='skills'>${chip}</td>
+                                                </tr>
+                                                <tr>
+                                                    <td width='50px' class='bold'><span style='width:80%;display: inline-block;'><i class='mdi-action-perm-identity cyan-text text-darken-2'></i> Salary: </span></td>
+                                                    <td width='150px' class='grey-text' for='salary'>${job[8]} - ${job[9]}</td>
+                                                </tr>
+                                                <tr>
+                                                    <td width='50px' class='bold'><span style='width:80%;display: inline-block;'><i class='mdi-action-perm-identity cyan-text text-darken-2'></i> Date Posted: </span></td>
+                                                    <td width='150px' class='grey-text' for='date'>${job[5]}</td>
+                                                </tr>
+                                                <tr>
+                                                    <td width='50px' class='bold'><span style='width:80%;display: inline-block;'><i class='mdi-action-perm-identity cyan-text text-darken-2'></i> Short Description: </span></td>
+                                                    <td width='150px'class='grey-text' for='short'>${job[3]}</td>
+                                                </tr>
+                                                <tr>
+                                                    <td width='50px' class='bold'><span style='width:80%;display: inline-block;'><i class='mdi-action-perm-identity cyan-text text-darken-2'></i> Full Description: </span></td>
+                                                    <td width='150px' class='_content ' for='full'>${job[4]}</td>
+                                                </tr>
+                                                <tr>
+                                                    <td width='50px' class='bold'><span style='width:80%;display: inline-block;'><i class='mdi-action-perm-identity cyan-text text-darken-2'></i> Status: </span></td>
+                                                    <td width='150px' class='grey-text' for='status'>${status}</td>
+                                                    <td width='20px'>
+                                                        <a data-for='status' data-cmd='updatejob' data-value='${status}' data-name='${status}' data-node='${job[0]}' data-prop='Status' class='tooltipped btn-floating waves-effect black-text no-shadow white right' data-position='left' data-delay='50' data-tooltip='Update status'>
+                                                            <i class='material-icons right hover black-text'>mode_edit</i>
+                                                        </a>
+                                                    </td>
+                                                </tr>
+                                            </table>
+                                        </div>
+                                    </div>`);
+            if(status != 'Pending'){ /*admin can update status of pending job post into active*/
+                $('#job a[data-for="status"]').addClass('disabled');
+            }
+            // jobPosts.update(skills);
+            $("a[data-cmd='updatejob']").on('click', function() {
+                var content = `<h5>Are You sure you want activate this job post?</h5>
+                                <form id='form_update' class='formValidate' method='get' action='' novalidate='novalidate'>
+                                    <div class="input-field col s6">
+                                        <textarea class="materialize-textarea" maxlength='500' data-field='field_description' placeholder='Remarks'></textarea>
+                                    </div>
+                                    <button type='submit' data-cmd='button_proceed' class='waves-effect waves-grey grey lighten-5 blue-text btn-flat modal-action right'>Save</button>
+                                    <a class='waves-effect waves-grey grey-text btn-flat modal-action modal-close right'>Cancel</a>
+                                </form>`;
+                $("#modal_confirm .modal-content").html(content);
+                $('#modal_confirm').modal('open');
+                $("#form_update").validate({
+                    rules: {
+                        field_description: { required: true },
+                    },
+                    errorElement: 'div',
+                    errorPlacement: function(error, element) {
+                        var placement = $(element).data('error');
+                        if (placement) {
+                            $(placement).append(error)
+                        } else {
+                            error.insertAfter(element);
+                        }
+                    },
+                    submitHandler: function(form) {
+                        var _form = $(form).serializeArray();
+                        let remarks = $("textarea[data-field='field_description']").val(), admin_id = JSON.parse(admin.check_access())[0];
+                        if(remarks.length == 0){
+                                Materialize.toast('Remarks is required.',4000);
+                        }
+                        else if(remarks.length > 800){
+                                Materialize.toast('Statement is too long.',4000);
+                        }
+                        else{
+                            var ajax = system.ajax('../assets/harmony/Process.php?do-updateInfo', [admin_id, 'job', 'status', job[0],'1', remarks]);
+                            ajax.done(function(ajax) {
+                                console.log(ajax);
+                                if (ajax == 1) {
+                                    $('#modal_confirm').modal('close');
+                                    system.alert('Job Post activated.', function() {
+                						$('#job a[data-for="status"]').addClass('disabled');
+                						$(`td[for='status']`).html(`Active`);
+                                    });
+                                } else {
+                                    system.alert('Failed to activate.', function() {});
+                                }
+                            });
+                        }
+                    }
+                });
+            });
+        }
 
 	}
 }();
