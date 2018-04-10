@@ -457,11 +457,13 @@ li.active {
 #modal_medium .modal-content {
 	/*conflict with modal*/
 	/* padding: 0px 24px 24px 24px; */
+	height:  100%;
 }
 
 #modal_medium .modal-content .col,
 #display_business .col {
-	/* padding: 0px; */
+	margin: 0px 0px 20px;
+	padding: 0px;
 }
 
 th,
@@ -500,11 +502,11 @@ td {
 
 #businessAccounts .card .card-image {
 	height: 100px;
-	background-size: 110% !important;
+	/* background-size: 110% !important; */
 }
 
-#businessAccounts .card .card-content {
-	padding: 5px;
+#businessAccounts .user .card .card-content {
+	padding: 5px !important;
 }
 
 #businessAccounts .card a[data-cmd='addAccount'] {
@@ -563,13 +565,16 @@ td {
 
 #display_logo i {
 	background: url(../images/icon.png) center/contain no-repeat;
-	height: 30px;
+	height: 64px;
 	width: 30px;
 }
 
-#businessInfo img.businesslogo {
-	border: 1px solid #ccc;
-	border-radius: 3px;
+#businessInfo div.businesslogo {
+	border-radius: 5px;
+	max-width:  150px;
+	min-width:  100px;
+	z-index:  100;
+	margin: 20px 10px 0px 20px;
 }
 
 #applicantInfo table tbody tr td:nth-child(1) {
@@ -583,19 +588,11 @@ td {
 
 #display_applicants {
 	width: 1500px;
-	/* overflow:  hidden; */
 }
 
 #display_applicants .collection {
-	/* overflow-x: hidden; */
-	/* min-height: 300px !important; */
 	height: 550px !important;
 	z-index: 0;
-}
-
-#display_applicants li {
-	/* z-index: 10000; */
-	/* transition: 0.2s; */
 }
 
 #subcontent .free-width {
@@ -613,9 +610,6 @@ td {
 	background: #ccc;
 }
 
-
-/*messaging style*/
-
 ul.collection.message {
 	background: #f1f1f1;
 	height: 400px !important;
@@ -623,8 +617,6 @@ ul.collection.message {
 }
 
 li.collection-item.avatar.message {
-	/* animation: send linear .2s; */
-	/* animation-iteration-count: 1; */
 	width: 49%;
 	border: 0 !important;
 	margin: 10px;
@@ -648,11 +640,86 @@ textarea.message {
 	margin-bottom: 0px;
 }
 
-
 #display_messages .toolbar-inner a[data-cmd="send"] {
-	/* left: 100%; */
-	/* transform: translate(-50px); */
 	background: #fff;
-
 	top: -30px;
+}
+
+#display_business .card .card-content{
+	padding:0px;
+}
+
+#businessInfo .profile{
+	padding:  0px;
+	background: linear-gradient(to top left, #56B4D3, #348F50) !important;
+	height: 150px;
+	margin-bottom: 40px;
+}
+
+.card{
+	border-radius: 5px !important;
+	overflow:  hidden;
+}
+
+a[data-cmd='updateBusinessPicture']{
+	font-size: 12px;
+	display: block;
+	margin: 0px 0px;
+	text-align:  center;
+}
+
+#businessInfo .details h1{
+	font-size: 20px;
+	line-height:  20px;
+	margin: 0px;
+}
+
+#businessInfo .details{
+	position:  absolute;
+	margin: 50px 0px 0px 180px;
+	color: #fff;
+}
+
+#businessAccounts{
+	
+padding: 24px;
+}
+
+.ellipsis {
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
+
+#businessInfo .profile .address{
+	line-height: 20px;
+	margin: 10px 0px 0px 0px;
+}
+
+#businessInfo .description{
+	/* line-height: 20px; */
+	margin: 0px;
+	padding:  0px 24px;
+}
+
+.user{
+	margin: 5px !important;
+	background#ccc:;
+	background: #ccc;
+}
+
+a[data-cmd="updateBusiness"]{
+	top: 0;
+	right: 10px !important;		
+	margin: 10px;
+}
+
+#display_employer .card-profile-image{
+	width: 60px;
+	display: inline-block;
+}
+
+#display_employer .profile-name{
+	vertical-align: top;
+	font-size: 20px;
 }

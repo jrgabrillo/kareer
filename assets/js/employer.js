@@ -7,80 +7,53 @@ var employer = function() {
                 employer.display();
             }
         },
+        id:function(){
+            return sessionStorage.getItem('kareer');
+        },
         check_access: function(){
-            var result = "";
-            var ajax = system.html('../assets/harmony/Process.php?get-session');
-            ajax.done(function(data){
-                if(data == 0){
-                    $(location).attr('href','../');                     
-                }
-                else{
-                    result = data;
-                }
-            })
+            let result = "", id = employer.id();
+            if((id != "") || (typeof id != undefined)){
+                let ajax = system.html('../assets/harmony/Process.php?get-session');
+                ajax.done(function(data){
+                    result = (data == 0)?$(location).attr('href','../'):data;
+                })
+            }
+            else{
+                $(location).attr('href','../');
+            }
             return result;
         },
         nav: function() {
             var content = "", data = JSON.parse(employer.get());
             var profile = (data[0][5] == null) ? 'avatar.png' : data[0][5];
             $("#user-account img.profile-image").attr({ "src": `../assets/images/profile/${profile}`});
-            $("#user-account div div a span.display_name").html(data[0][2]);
+            $("#user-account div div a span.profile-name").html(data[0][2]);
         },
         get: function() {
-            let ajax = system.ajax('../assets/harmony/Process.php?get-accountBusinessManager', "");
+            let ajax = system.ajax('../assets/harmony/Process.php?get-accountBusinessManager', employer.id());
             return ajax.responseText;
         },
         display: function() {
             var content = "",data = JSON.parse(employer.get())[0]
             var profile = (data[5] == null) ? 'avatar.png' : data[5];
             localStorage.setItem('business_id',data[1]);
-            // localStorage.setItem('account_id',data[0]);
 
-            $("#user-account img.profile-image").attr({ "src": "../assets/images/profile/" + profile });
-            $("#user-account div div a span.display_name").html(data[2]);
+            console.log(data);
 
-            $("#display_employer").html(`<div id='profile-card' class='card'>
-                                        <div class='card-content'>
-                                            <div class='responsive-img activator card-profile-image circle'>
-                                                <img src='../assets/images/profile/${profile}' alt='' class='circle profile-image'>
-                                                <a data-cmd='updateAdminPicture' data-value='${profile}' data-name='${data[1]} ${data[2]}' data-node='${data[0]}' data-prop='Picture' class='btn waves-effect white-text no-shadow black' style='font-size: 10px;z-index: 1;padding: 0 12px;top:40px;'>Change</a>
-                                            </div>
-                                            <a data-for='name' data-cmd='updateAdmin' data-value='${JSON.stringify([data[2]])}' data-name='${data[2]}' data-node='${data[0]}' data-prop='Name' class='tooltipped btn-floating waves-effect black-text no-shadow white right' data-position='left' data-delay='50' data-tooltip='Update name'>
-                                                <i class='material-icons right hover black-text'>mode_edit</i>
-                                            </a>
-                                            <span class='card-title activator grey-text text-darken-4' for='name'>${data[2]}</span>
-                                            <div class='divider'></div>
-                                            <table>
-                                                <tr>
-                                                    <td width='20px' class='bold'><span style='width:80%;display: inline-block;'><i class='mdi-action-perm-identity cyan-text text-darken-2'></i> Username: </span></td>
-                                                    <td class='grey-text truncate' for='username'>${data[3]}</td>
-                                                    <td width='20px'>
-                                                        <a data-for='username' data-cmd='updateAdmin' data-value='${data[3]}' data-name='${data[1]} ${data[2]}' data-node='${data[0]}' data-prop='Username' class='tooltipped btn-floating waves-effect black-text no-shadow white right' data-position='left' data-delay='50' data-tooltip='Update username'>
-                                                            <i class='material-icons right hover black-text'>mode_edit</i>
-                                                        </a>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td class='bold'><span style='width:80%;display: inline-block;' class='truncate'><i class='mdi-action-verified-user cyan-text text-darken-2'></i> Password</span></td>
-                                                    <td></td>
-                                                    <td>
-                                                        <a data-cmd='updateAdmin' data-name='${data[1]} ${data[2]}' data-node='${data[0]}' data-prop='Password' class='tooltipped btn-floating waves-effect black-text no-shadow white right' data-position='left' data-delay='50' data-tooltip='Update password'>
-                                                            <i class='material-icons right hover black-text'>mode_edit</i>
-                                                        </a>
-                                                    </td>
-                                                </tr>
-                                            </table>
-                                        </div>
-                                    </div>`);
+            $("#display_employer .profile-image").attr({ "src": `../assets/images/profile/${profile}`});
+            $("#display_employer .email").html(data[3]);
+            $("#display_employer .position").html(data[6]);
+            $(".profile-name").html(data[2]);
 
             $(`img.profile-image`).on('error', function() {
                 $(this).attr({ 'src': '../assets/images/logo/icon.png' });
             });
+
             $('.tooltipped').tooltip({delay: 50});
             business.view(data[1]);
             accountManager.list(data[1]);
             accountManager.add(data[1]);
-            this.nav();
+
             this.update();
             this.updatePicture();
         },
@@ -381,41 +354,18 @@ var business = function(){
         view:function(id){
             let data = JSON.parse(business.get(id));
             let logo = ((typeof data[0][5] == 'object') || (data[0][5] == ""))? 'icon.png' : data[0][5];
-            $("#businessInfo").html(`
-                <div class='col s12 m4 l3'>
-                    <img src='../assets/images/logo/${logo}' width='100%' class='businesslogo'>
-                    <a class="secondary-content tooltipped" data-prop='business logo' data-cmd='updateBusinessPicture' data-position='left' data-delay='50' data-tooltip='Update'><i class="material-icons hover black-text">photo_camera</i></a>
-                </div>
-                <div class='col s12 m8 l9'>
-                    <ul class='collection' id='display_businessInfo'>
-                        <li class='collection-item'>
-                            <a class="secondary-content tooltipped" data-prop='business name' data-cmd='update_business' data-value='${data[0][3]}' data-position='left' data-delay='50' data-tooltip='Update'><i class="material-icons hover black-text">edit</i></a>
-                            <strong>Business Name:</strong>
-                            <div class='_content'>${data[0][3]}</div>
-                        </li>
-                        <li class='collection-item'>
-                            <a class="secondary-content tooltipped" data-prop='contact number' data-cmd='update_business' data-value='${data[0][2]}' data-position='left' data-delay='50' data-tooltip='Update'><i class="material-icons hover black-text">edit</i></a>
-                            <strong>Contact Number:</strong><br/>
-                            <div class='_content'>${data[0][2]}</div>
-                        </li>
-                        <li class='collection-item'>
-                            <a class="secondary-content tooltipped" data-prop='email' data-cmd='update_business' data-value='${data[0][6]}' data-position='left' data-delay='50' data-tooltip='Update'><i class="material-icons hover black-text">edit</i></a>
-                            <strong>Email Address:</strong>
-                            <div class='_content'>${data[0][6]}</div>
-                        </li>
-                        <li class='collection-item'>
-                            <a class="secondary-content tooltipped" data-prop='description' data-cmd='update_business' data-value='${data[0][4]}' data-position='left' data-delay='50' data-tooltip='Update'><i class="material-icons hover black-text">edit</i></a>
-                            <strong>Description:</strong>
-                            <div class='_content'>${data[0][4]}</div>
-                        </li>
-                    </ul>
-                </div>                  
-            `); 
+            
+            $("#businessInfo img.businesslogo").attr('src',logo);
+            $("#businessInfo .profile .details h1").html(data[0][3]);
+            $("#businessInfo .profile .details p").html(`${data[0][6]} | ${data[0][2]}`);
+            $("#businessInfo .description").html(data[0][4]);
+            $("#businessInfo .address").html(`${data[0][1]}`);
+
             $(`#businessInfo img.businesslogo`).on('error',function(){
                 $(this).attr({'src':'../assets/images/logo/icon.png'});
             });
-            business.update(id);
-            business.updatePicture(id);
+            // business.update(id);
+            // business.updatePicture(id);
         },
         update:function(id){
             $("a[data-cmd='update_business']").on('click',function(){
@@ -717,25 +667,24 @@ var accountManager = function(){
         },
         list:function(id){
             $("#businessAccounts .carousel").html("");
-            if($('#businessAccounts .carousel').hasClass('initialized'))
-                $('#businessAccounts .carousel').removeClass('initialized')
-
             let data = JSON.parse(accountManager.get(id));
             $.each(data,function(i,v){
 
-                let logo = ((typeof v[5] == 'object') || (v[5] == ""))? '../assets/images/logo/icon.png' : `../assets/images/profile/${v[5]}`;
-                $("#businessAccounts .carousel").append(`
-                    <div class="carousel-item">
-                        <div class="card waves-effect profile" data-content='${JSON.stringify(v)}'>
-                            <div class="card-image" style='background:url("${logo}") center/cover no-repeat' id='img-${v[0]}'></div>
-                            <div class="card-content grey lighten-4">
-                                <h6>${v[2]}<br/><small>${v[6]}</small></h6>
+                if(!(v[0] == employer.id())){
+                     let logo = ((typeof v[5] == 'object') || (v[5] == ""))? '../assets/images/logo/icon.png' : `../assets/images/profile/${v[5]}`;
+                    $("#businessAccounts .list").append(`
+                        <div class='col s6 m3 l3 user z-depth-0'>
+                            <div class="card waves-effect profile" data-content='${JSON.stringify(v)}'>
+                                <div class="card-image" style='background:url("${logo}") center/cover no-repeat' id='img-${v[0]}'></div>
+                                <div class="card-content grey lighten-4">
+                                    <p class='ellipsis'>${v[2]}</p>
+                                    <small><p>${v[6]}</p></small>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                `);
+                    `);                   
+                }
             });
-            $('.carousel').carousel({dist:0,shift:10,padding:20,noWrap:true});
 
             $(".card.profile").on('click',function(){
                 let data = $(this).data();
