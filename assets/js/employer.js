@@ -1424,16 +1424,16 @@ var jobPosts = function() {
         content:function(data){
             let chip = "", skills = "", status ="";
             $.each(data, function(i, v) {
-                if( v[1] == 1){
-                    status = 'Active';
+                console.log(v[1]);
+                    status = (v[1] == 1)?['Active','job_post']:(v[1] == 2)?['Pending','pending_post']:['Full','full_post'];
                     skills = JSON.parse(v[4]);
                     chip = "";
                     $.each(skills, function(i, s) {
                         chip += `<a class="chip">${s}</a>`;
                     });
-                    $("#job_post table tbody").append(`
+                    $(`#${status[1]} table tbody`).append(`
                         <tr>
-                            <td widtd="50px" class="center">${status}</td>
+                            <td widtd="50px" class="center">${status[0]}</td>
                             <td widtd="300px" class="center">${v[2]}</td>
                             <td widtd="150px" class="center">${v[3]}</td>
                             <td>
@@ -1443,47 +1443,6 @@ var jobPosts = function() {
                             </td>
                         </tr>
                     `);
-                }
-                else if( v[1] == 0){
-                    status = 'Full';
-                    skills = JSON.parse(v[4]);
-                    chip = "";
-                    $.each(skills, function(i, s) {
-                        chip += `<a class="chip">${s}</a>`;
-                    });
-                    $("#full_post table tbody").append(`
-                        <tr>
-                            <td widtd="50px" class="center">${status}</td>
-                            <td widtd="300px" class="center">${v[2]}</td>
-                            <td widtd="150px" class="center">${v[3]}</td>
-                            <td>
-                                <a href='#cmd=index;content=focusjob;id=${v[0]}' data-cmd='view-job' class='tooltipped btn-floating waves-effect black-text no-shadow white right' data-position='left' data-delay='50' data-tooltip='View Job Details'>
-                                    <i class='material-icons right hover black-text'>more_vert</i>
-                                </a>
-                            </td>
-                        </tr>
-                    `);
-                }
-                else if( v[1] == 2){
-                    status = 'Pending';
-                    skills = JSON.parse(v[4]);
-                    chip = "";
-                    $.each(skills, function(i, s) {
-                        chip += `<a class="chip">${s}</a>`;
-                    });
-                    $("#pending_post table tbody").append(`
-                        <tr>
-                            <td widtd="50px" class="center">${status}</td>
-                            <td widtd="300px" class="center">${v[2]}</td>
-                            <td widtd="150px" class="center">${v[3]}</td>
-                            <td>
-                                <a href='#cmd=index;content=focusjob;id=${v[0]}' data-cmd='view-job' class='tooltipped btn-floating waves-effect black-text no-shadow white right' data-position='left' data-delay='50' data-tooltip='View Job Details'>
-                                    <i class='material-icons right hover black-text'>more_vert</i>
-                                </a>
-                            </td>
-                        </tr>
-                    `);
-                }
             });
             $('ul.tabs').tabs();
         },
