@@ -507,4 +507,29 @@ $Functions = new DatabaseClasses;
         print_r(json_encode($q));        
 
     }
+    /*Registration completion*/
+    if (isset($_GET['do-addSpecialties'])){/**/
+        $data = $_POST['data']; 
+        $date = $Functions->PDO_DateAndTime();
+        $insert = "INSERT INTO tbl_specialties (id,applicant_id,specialties,date)";
+        $insert .= " VALUES ";
+        $id = $Functions->PDO_IDGenerator('tbl_specialties','id');
+        foreach ($data[0] as $key => $value) {
+            $id++;
+            $insert .= "('{$id}','{$data[1]}','{$value}','{$date}'),";
+            // $log = $Functions->log($data[1],$id,"Added {$value} as specialty",'Add');
+        }
+        $insert = preg_replace("/\,$/", ";", $insert);
+        $q = $Functions->PDO($insert);
+        // print_r($insert);
+        if($q->execute()){
+            // $log = $Functions->log($data[1],$data,"Added {$data[3]} skill",'Add');
+            echo 1;
+        }
+        else{
+            $Data = $q->errorInfo();
+            print_r($Data);
+        }
+    }
+    /**/
 ?> 
