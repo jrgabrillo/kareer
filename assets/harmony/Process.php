@@ -117,13 +117,13 @@
 	}
 
 	if (isset($_GET['get-accountBusinessManager'])){/**/
-		$session = $_SESSION['kareer7836'];
-		$query = $Functions->PDO("SELECT * FROM tbl_businessmanagers  WHERE id = '{$session[0]}'");
-		if(count($query)==0){
-			echo 0;
-		}
-		else if(count($query)==1){
+		$data = $_POST['data'];
+		$query = $Functions->PDO("SELECT * FROM tbl_businessmanagers  WHERE id = '{$data}'");		
+		if(count($query)==1){
 			print_r(json_encode($query));
+		}
+		else{
+			echo 0;
 		}
 	}
 
