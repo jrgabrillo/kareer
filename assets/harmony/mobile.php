@@ -90,7 +90,7 @@ $Functions = new DatabaseClasses;
 
     if (isset($_GET['get-skills'])){/**/
         $data = $_POST['data'];
-        $query = $Functions->PDO("SELECT id,skill FROM tbl_skills WHERE applicant_id = '{$data}' ORDER BY level ASC");
+        $query = $Functions->PDO("SELECT id,skill,level FROM tbl_skills WHERE applicant_id = '{$data}' ORDER BY level ASC");
         print_r(json_encode($query));
     }
 
@@ -183,11 +183,11 @@ $Functions = new DatabaseClasses;
         $id = $Functions->PDO_IDGenerator('tbl_skills','id');
         $date = $Functions->PDO_DateAndTime();
         $skill = $Functions->escape($data[3]);
-        $level =  1;
+        $level = $Functions->escape($data[4]);
 
         $query = $Functions->PDO("INSERT INTO tbl_skills(id,applicant_id,skill,level,date) VALUES('{$id}','{$data[2]}',{$skill},{$level},'{$date}')");
         if($query->execute()){
-            $log = $Functions->log($data[2],$id,"Added {$data[3]} skill",'Add');
+            $log = $Functions->log($data[2],$id,"Added {$data[3]} skill at {$data[4]}% level",'Add');
             print_r($id);
         }
         else{
@@ -523,7 +523,19 @@ $Functions = new DatabaseClasses;
         $q = $Functions->PDO($insert);
         // print_r($insert);
         if($q->execute()){
-            // $log = $Functions->log($data[1],$data,"Added {$data[3]} skill",'Add');
+            echo 1;
+        }
+        else{
+            $Data = $q->errorInfo();
+            print_r($Data);
+        }
+    }
+    if (isset($_GET['do-bio'])){/**/
+        $data = $_POST['data'];
+        $q = $Functions->PDO("UPDATE tbl_applicant SET description = '{$data[0]}' WHERE id = '{$data[1]}'");
+         // print_r($q);
+        if($q->execute()){
+            // $log = $Functions->log($data[1],$data[1],"Update applicant description",'Add');
             echo 1;
         }
         else{
