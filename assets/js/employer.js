@@ -311,7 +311,7 @@ var employer = function() {
         },
         notifications:function(){
             let emp = JSON.parse(employer.getLogs());
-            console.log(emp);
+
             let appContent = "";
             $.each(emp,function(i,a){
                 appContent += `<tr>
@@ -666,7 +666,7 @@ var accountManager = function(){
             return ajax.responseText;
         },
         list:function(id){
-            $("#businessAccounts .carousel").html("");
+            $("#businessAccounts .list").html("");
             let data = JSON.parse(accountManager.get(id));
             $.each(data,function(i,v){
 
@@ -697,14 +697,12 @@ var accountManager = function(){
                 $(data.responseText).find("addBusinessAccount").each(function(i,content){
                     $("#modal_medium .modal-content").html(content);
                     $("#modal_medium .modal-footer").remove();
-
-                    pass.visibility();
-
                     $('#modal_medium').modal('open');
                     $('.action_close').on('click',function(){
                         $('#modal_medium').modal('close');
                     });
 
+                    pass.visibility();
                     $("#form_addAccount").validate({
                         rules: {
                             field_name: {required: true, maxlength: 300},
@@ -2333,15 +2331,14 @@ var pass = function() {
     "use strict";
     return {
         visibility: function() {
-            let c = 0;
-            $(".item-input-password-preview").on('click', function() {
-                c++;
-                if ((c % 2) == 0) {
-                    $(this).children('i').html('visibility_off');
-                    $("input[name='field_password']").attr({ 'type': 'password' });
-                } else {
+            $(".item-input-password-preview").on('click',function(){
+                if($(`input[name='field_password']`)[0].type=="text"){
                     $(this).children('i').html('visibility');
-                    $("input[name='field_password']").attr({ 'type': 'text' });
+                    $(`input[name='field_password']`).attr({'type':'password'});
+                }
+                else{
+                    $(this).children('i').html('visibility');
+                    $(`input[name='field_password']`).attr({'type':'text'});
                 }
             });
         }
