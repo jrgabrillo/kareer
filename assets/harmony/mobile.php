@@ -93,6 +93,11 @@ $Functions = new DatabaseClasses;
         $query = $Functions->PDO("SELECT id,skill,level FROM tbl_skills WHERE applicant_id = '{$data}' ORDER BY level ASC");
         print_r(json_encode($query));
     }
+    if (isset($_GET['get-specialties'])){/**/
+        $data = $_POST['data'];
+        $query = $Functions->PDO("SELECT id,specialties FROM tbl_specialties WHERE applicant_id = '{$data}' ORDER BY date ASC");
+        print_r(json_encode($query));
+    }
 
     if (isset($_GET['get-academic'])){/**/
         $data = $_POST['data'];
@@ -163,16 +168,14 @@ $Functions = new DatabaseClasses;
         $date = $Functions->PDO_DateAndTime();
         $id = $Functions->PDO_IDGenerator('tbl_applicant','id');
         $validate = $Functions->PDO("SELECT count(*) FROM tbl_applicant WHERE email = {$email}");
-
         if($validate[0][0]==0){
             $query = $Functions->PDO("INSERT INTO tbl_applicant(id,email,password,auth_type,auth_id,status) VALUES('{$id}',{$email},'{$password}',{$auth},{$auth_id},'1'); INSERT INTO tbl_personalinfo(id, given_name, family_name, date_of_birth, picture, date) VALUES('{$id}',{$firstname},{$lastname},'{$dob}',{$picture},'{$date}')");
-
             if($query->execute()){
                 $result = $Functions->mail($email,"Welcome new Kareer user.",$message);
                 print_r(json_encode(['id'=>$id,'last_name'=>$data[1],'first_name'=>$data[0],'email'=>$data[2],'picture'=>$picture]));
             }
             else
-                echo 0;
+                echo 1;
         }
         else
             echo 0;
@@ -513,15 +516,14 @@ $Functions = new DatabaseClasses;
         $date = $Functions->PDO_DateAndTime();
         $insert = "INSERT INTO tbl_specialties (id,applicant_id,specialties,date)";
         $insert .= " VALUES ";
-        $id = $Functions->PDO_IDGenerator('tbl_specialties','id');
-        foreach ($data[0] as $key => $value) {
-            $id++;
+        foreach ($data[0] as $key => $value) { 
+            $id = sha1($Functions->PDO_TableCounter('tbl_specialties')+$key); /*generates id by counting table*/
             $insert .= "('{$id}','{$data[1]}','{$value}','{$date}'),";
-            // $log = $Functions->log($data[1],$id,"Added {$value} as specialty",'Add');
+            $log = $Functions->log($data[1],$id,"Added {$value} as specialty",'Add');
         }
         $insert = preg_replace("/\,$/", ";", $insert);
         $q = $Functions->PDO($insert);
-        // print_r($insert);
+        // print_r($q);
         if($q->execute()){
             echo 1;
         }
@@ -535,7 +537,7 @@ $Functions = new DatabaseClasses;
         $q = $Functions->PDO("UPDATE tbl_applicant SET description = '{$data[0]}' WHERE id = '{$data[1]}'");
          // print_r($q);
         if($q->execute()){
-            // $log = $Functions->log($data[1],$data[1],"Update applicant description",'Add');
+            $log = $Functions->log($data[1],$data[1],"Update applicant description",'Add');
             echo 1;
         }
         else{
