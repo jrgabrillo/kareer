@@ -463,7 +463,7 @@ li.active {
 #modal_medium .modal-content .col,
 #display_business .col {
 	margin: 0px 0px 20px;
-	padding: 0px;
+	padding: 3px;
 }
 
 th,
@@ -706,6 +706,7 @@ padding: 24px;
 	margin: 5px !important;
 	background#ccc:;
 	background: #ccc;
+	padding: 0px !important;
 }
 
 a[data-cmd="updateBusiness"]{
@@ -722,4 +723,9 @@ a[data-cmd="updateBusiness"]{
 #display_employer .profile-name{
 	vertical-align: top;
 	font-size: 20px;
+}
+
+.btn-full-width{
+	/* padding: 3px; */
+	width: 100%;
 }
