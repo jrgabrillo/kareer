@@ -7,53 +7,84 @@ var employer = function() {
                 employer.display();
             }
         },
-        id:function(){
-            return sessionStorage.getItem('kareer');
-        },
         check_access: function(){
-            let result = "", id = employer.id();
-            if((id != "") || (typeof id != undefined)){
-                let ajax = system.html('../assets/harmony/Process.php?get-session');
-                ajax.done(function(data){
-                    result = (data == 0)?$(location).attr('href','../'):data;
-                })
-            }
-            else{
-                $(location).attr('href','../');
-            }
+            var result = "";
+            var ajax = system.html('../assets/harmony/Process.php?get-session');
+            ajax.done(function(data){
+                if(data == 0){
+                    $(location).attr('href','../');                     
+                }
+                else{
+                    result = data;
+                }
+            })
             return result;
         },
         nav: function() {
             var content = "", data = JSON.parse(employer.get());
             var profile = (data[0][5] == null) ? 'avatar.png' : data[0][5];
             $("#user-account img.profile-image").attr({ "src": `../assets/images/profile/${profile}`});
-            $("#user-account div div a span.profile-name").html(data[0][2]);
+            $("#user-account span.profile-name").html(data[0][2]);
+            $(`#user-account img.profile-image`).on('error', function() {
+                $(this).attr({ 'src': '../assets/images/logo/icon.png' });
+            });
         },
         get: function() {
-            let ajax = system.ajax('../assets/harmony/Process.php?get-accountBusinessManager', employer.id());
+            let ajax = system.ajax('../assets/harmony/Process.php?get-accountBusinessManager', "");
             return ajax.responseText;
         },
         display: function() {
             var content = "",data = JSON.parse(employer.get())[0]
             var profile = (data[5] == null) ? 'avatar.png' : data[5];
             localStorage.setItem('business_id',data[1]);
+            // localStorage.setItem('account_id',data[0]);
 
-            console.log(data);
+            $("#user-account img.profile-image").attr({ "src": "../assets/images/profile/" + profile });
+            $("#user-account div div a span.display_name").html(data[2]);
 
-            $("#display_employer .profile-image").attr({ "src": `../assets/images/profile/${profile}`});
-            $("#display_employer .email").html(data[3]);
-            $("#display_employer .position").html(data[6]);
-            $(".profile-name").html(data[2]);
+            $("#display_employer").html(`<div id='profile-card' class='card'>
+                                        <div class='card-content'>
+                                            <div class='responsive-img activator card-profile-image circle'>
+                                                <img src='../assets/images/profile/${profile}' alt='' class='circle profile-image'>
+                                                <a data-cmd='updateAdminPicture' data-value='${profile}' data-name='${data[1]} ${data[2]}' data-node='${data[0]}' data-prop='Picture' class='btn waves-effect white-text no-shadow black' style='font-size: 10px;z-index: 1;top: 45px; width: 100%; padding: 0;'>Change</a>
+                                            </div>
+                                            <table style=" position:  relative; float: right;">
+                                                <tr>
+                                                    <td width='20px' class='bold'><span style='width:80%;display: inline-block;'><i class='mdi-action-perm-identity cyan-text text-darken-2'></i> Username: </span></td>
+                                                    <td class='grey-text truncate' for='username'>${data[3]}</td>
+                                                    <td width='20px'>
+                                                        <a data-for='username' data-cmd='updateAdmin' data-value='${data[3]}' data-name='${data[1]} ${data[2]}' data-node='${data[0]}' data-prop='Username' class='tooltipped btn-floating waves-effect black-text no-shadow white right' data-position='left' data-delay='50' data-tooltip='Update username'>
+                                                            <i class='material-icons right hover black-text'>mode_edit</i>
+                                                        </a>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td class='bold'><span style='width:80%;display: inline-block;' class='truncate'><i class='mdi-action-verified-user cyan-text text-darken-2'></i> Password</span></td>
+                                                    <td></td>
+                                                    <td>
+                                                        <a data-cmd='updateAdmin' data-name='${data[1]} ${data[2]}' data-node='${data[0]}' data-prop='Password' class='tooltipped btn-floating waves-effect black-text no-shadow white right' data-position='left' data-delay='50' data-tooltip='Update password'>
+                                                            <i class='material-icons right hover black-text'>mode_edit</i>
+                                                        </a>
+                                                    </td>
+                                                </tr>
+                                            </table>
+                                            <div>
+                                                <span class='bold card-title activator grey-text text-darken-4' for='name' style='position:relative; left: 15px; top: 12px;'>${data[2]}</span>
+                                                <a data-for='name' data-cmd='updateAdmin' data-value='${JSON.stringify([data[2]])}' data-name='${data[2]}' data-node='${data[0]}' data-prop='Name' class='tooltipped btn-floating waves-effect black-text no-shadow white right' data-position='left' data-delay='50' data-tooltip='Update name'>
+                                                    <i class='material-icons right hover black-text'>mode_edit</i>
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </div>`);
 
             $(`img.profile-image`).on('error', function() {
                 $(this).attr({ 'src': '../assets/images/logo/icon.png' });
             });
-
             $('.tooltipped').tooltip({delay: 50});
-            business.view(data[1]);
+            business.view();
             accountManager.list(data[1]);
             accountManager.add(data[1]);
-
+            this.nav();
             this.update();
             this.updatePicture();
         },
@@ -63,20 +94,18 @@ var employer = function() {
                 var data = $(this).data();
                 var content = `<h5>Change ${data.prop}</h5>
                                 <form id='form_update' class='formValidate' method='get' action='' novalidate='novalidate'>
-                                    <label for='field_${data.prop}' class='active'>${data.prop}: </label>
                                     <input id='field_${data.prop}' value='${data.value}' type='text' name='field_${data.prop}' data-error='.error_${data.prop}'>
                                     <div class='error_${data.prop}'></div>
                                     <button type='submit' data-cmd='button_proceed' class='waves-effect waves-grey grey lighten-5 blue-text btn-flat modal-action right'>Save</button>
                                     <a class='waves-effect waves-grey grey-text btn-flat modal-action modal-close right'>Cancel</a>
                                 </form>`;
                 $("#modal_confirm .modal-content").html(content);
-                $('#modal_confirm .modal-footer').html("");
+                $('#modal_confirm .modal-footer').remove();
 
                 if (data.prop == "Name") {
                     content = `<h5>Change ${data.prop}</h5>
                                     <form id='form_update' class='formValidate' method='get' action='' novalidate='novalidate'>
                                         <div class="input-field col s6">
-                                            <label for='field_${data.prop}' class='active'>First Name: </label>
                                             <input id='field_${data.prop}' value='${data.value[0]}' type='text' name='field_1' data-error='.error_${data.prop}'>
                                             <div class='error_${data.prop}'></div>
                                         </div>
@@ -112,8 +141,10 @@ var employer = function() {
                                 ajax.done(function(ajax) {
                                     if (ajax == 1) {
                                         $('#modal_confirm').modal('close');
-                                        $(`.card-title[for='${data.for}'], .display_name`).html(`${_form[0]['value']}`);
-                                        $(_this).attr({ 'data-value': JSON.stringify([_form[0]['value']]), 'data-name': `${_form[0]['value']}` });
+                                        employer.display();
+                                        // $(`.card-title[for='${data.for}']`).html(`${_form[0]['value']}`);
+                                        // $(`#user-account div div a span.display_name`).html(`${_form[0]['value']}`);
+                                        // $(_this).attr({ 'data-value': JSON.stringify([_form[0]['value']]), 'data-name': `${_form[0]['value']}` });
                                         system.alert('Name updated.', function() {});
                                     } 
                                     else {
@@ -150,8 +181,9 @@ var employer = function() {
                                 ajax.done(function(ajax) {
                                     if (ajax == 1) {
                                         $('#modal_confirm').modal('close');
-                                        $(`td[for='${data.for}']`).html(`${_form[0]['value']}`);
-                                        $(_this).attr({ 'data-value': JSON.stringify([_form[0]['value']]), 'data-name': `${_form[0]['value']} }` });
+                                        employer.view();
+                                        // $(`td[for='${data.for}']`).html(`${_form[0]['value']}`);
+                                        // $(_this).attr({ 'data-value': JSON.stringify([_form[0]['value']]), 'data-name': `${_form[0]['value']} }` });
                                         system.alert('Username updated.', function() {});
                                     }
                                     else {
@@ -200,6 +232,7 @@ var employer = function() {
                             ajax.done(function(ajax) {
                                 if (ajax == 1) {
                                     $('#modal_confirm').modal('close');
+                                    employer.view();
                                     system.alert('Password updated.', function() {});
                                 } 
                                 else {
@@ -274,9 +307,11 @@ var employer = function() {
                                             if (status) {
                                                 var data = system.ajax('../assets/harmony/Process.php?do-updateImage', ['employer', 'picture', sessionStorage.getItem('kareer'), cropper.getCroppedCanvas().toDataURL('image/png')]);
                                                 data.done(function(data) {
+                                                    var img = cropper.getCroppedCanvas().toDataURL('image/png');
                                                     if (data == 1) {
                                                         $('#modal_confirm').modal('close');
-                                                        $('.profile-image').attr('src', cropper.getCroppedCanvas().toDataURL('image/png'));
+                                                        employer.display();
+                                                        // $('.profile-image').attr('src', `${img}`);
                                                         system.alert('Profile picture has been updated.', function() {});
                                                     } 
                                                     else {
@@ -311,7 +346,7 @@ var employer = function() {
         },
         notifications:function(){
             let emp = JSON.parse(employer.getLogs());
-
+            console.log(emp);
             let appContent = "";
             $.each(emp,function(i,a){
                 appContent += `<tr>
@@ -351,28 +386,54 @@ var business = function(){
             var ajax = (!id)?system.ajax('../assets/harmony/Process.php?get-businessList',""):system.ajax('../assets/harmony/Process.php?get-businessInfo',id);
             return ajax.responseText;
         },
-        view:function(id){
-            let data = JSON.parse(business.get(id));
+        view:function(){
+            let data = JSON.parse(business.get(business.id()));
             let logo = ((typeof data[0][5] == 'object') || (data[0][5] == ""))? 'icon.png' : data[0][5];
-            
-            $("#businessInfo img.businesslogo").attr('src',logo);
-            $("#businessInfo .profile .details h1").html(data[0][3]);
-            $("#businessInfo .profile .details p").html(`${data[0][6]} | ${data[0][2]}`);
-            $("#businessInfo .description").html(data[0][4]);
-            $("#businessInfo .address").html(`${data[0][1]}`);
-
+            $("#businessInfo").html(`
+                <div id='profile-card''>
+                    <div class='col s12 m4 l3'>
+                        <div class='responsive-img activator card-profile-image circle' style='width: 135px !important;height: 135px !important;'>
+                            <img src='../assets/images/logo/${logo}' alt='' class='circle businesslogo' style='width: 135px !important;'>
+                            <a data-cmd='updateBusinessPicture' data-value='${logo}' data-prop='business logo' class='btn waves-effect white-text no-shadow black' style='font-size: 10px;z-index: 1;top: 100px; width: 100%; padding: 0;'>Change</a>
+                        </div>
+                    </div>
+                    <div class='col s12 m8 l9'>
+                        <ul class='collection' id='display_businessInfo'>
+                            <li class='collection-item'>
+                                <a class="secondary-content tooltipped" data-prop='business name' data-cmd='update_business' data-value='${data[0][3]}' data-position='left' data-delay='50' data-tooltip='Update'><i class="material-icons hover black-text">edit</i></a>
+                                <strong>Business Name:</strong>
+                                <div class='_content'>${data[0][3]}</div>
+                            </li>
+                            <li class='collection-item'>
+                                <a class="secondary-content tooltipped" data-prop='contact number' data-cmd='update_business' data-value='${data[0][2]}' data-position='left' data-delay='50' data-tooltip='Update'><i class="material-icons hover black-text">edit</i></a>
+                                <strong>Contact Number:</strong><br/>
+                                <div class='_content'>${data[0][2]}</div>
+                            </li>
+                            <li class='collection-item'>
+                                <a class="secondary-content tooltipped" data-prop='email' data-cmd='update_business' data-value='${data[0][6]}' data-position='left' data-delay='50' data-tooltip='Update'><i class="material-icons hover black-text">edit</i></a>
+                                <strong>Email Address:</strong>
+                                <div class='_content'>${data[0][6]}</div>
+                            </li>
+                            <li class='collection-item'>
+                                <a class="secondary-content tooltipped" data-prop='description' data-cmd='update_business' data-value='${data[0][4]}' data-position='left' data-delay='50' data-tooltip='Update'><i class="material-icons hover black-text">edit</i></a>
+                                <strong>Description:</strong>
+                                <div class='_content'>${data[0][4]}</div>
+                            </li>
+                        </ul>
+                    </div> 
+                </div>                 
+            `); 
             $(`#businessInfo img.businesslogo`).on('error',function(){
                 $(this).attr({'src':'../assets/images/logo/icon.png'});
             });
-            // business.update(id);
-            // business.updatePicture(id);
+            business.update(business.id());
+            business.updatePicture(business.id());
         },
         update:function(id){
             $("a[data-cmd='update_business']").on('click',function(){
                 let _this = this, data = $(this).data();
-                // $('#modal_confirm .modal-footer').remove();          
-                // $('#modal_confirm .modal-footer').remove();          
-                // $('#modal_confirm, #modal_medium').removeClass("modal-fixed-footer");            
+                $('#modal_medium .modal-footer').remove();          
+                $('#modal_confirm .modal-footer').remove();                
                 if(data.prop == "business name"){
                     var content = `<h5>Change ${data.prop}</h5>
                                     <form id='form_update' class='formValidate' method='get' action='' novalidate='novalidate'>
@@ -407,8 +468,9 @@ var business = function(){
                                 ajax.done(function(ajax){
                                     if(ajax == 1){
                                         $('#modal_confirm').modal('close');
-                                        $(`#display_businessInfo li:nth-child(1) div._content`).html(_form[0]['value']);
-                                        $(_this).attr({'data-value':_form[0]['value'], 'data-name':`${_form[0]['value']}`});
+                                        business.view();
+                                        // $(`#display_businessInfo li:nth-child(1) div._content`).html(_form[0]['value']);
+                                        // $(_this).attr({'data-value':_form[0]['value'], 'data-name':`${_form[0]['value']}`});
                                         system.alert('Name updated.', function(){});
                                     }
                                     else{
@@ -454,8 +516,9 @@ var business = function(){
                                 ajax.done(function(ajax){
                                     if(ajax == 1){
                                         $('#modal_confirm').modal('close');
-                                        $(`#display_businessInfo li:nth-child(2) div._content`).html(_form[0]['value']);
-                                        $(_this).attr({'data-value':_form[0]['value'], 'data-name':`${_form[0]['value']}`});
+                                        business.view();
+                                        // $(`#display_businessInfo li:nth-child(2) div._content`).html(_form[0]['value']);
+                                        // $(_this).attr({'data-value':_form[0]['value'], 'data-name':`${_form[0]['value']}`});
                                         system.alert('Contact number updated.', function(){});
                                     }
                                     else{
@@ -500,8 +563,9 @@ var business = function(){
                                 ajax.done(function(ajax){
                                     if(ajax == 1){
                                         $('#modal_confirm').modal('close');
-                                        $(`#display_businessInfo li:nth-child(3) div._content`).html(_form[0]['value']);
-                                        $(_this).attr({'data-value':_form[0]['value'], 'data-name':`${_form[0]['value']}`});
+                                        business.view();
+                                        // $(`#display_businessInfo li:nth-child(3) div._content`).html(_form[0]['value']);
+                                        // $(_this).attr({'data-value':_form[0]['value'], 'data-name':`${_form[0]['value']}`});
                                         system.alert('Email updated.', function(){});
                                     }
                                     else{
@@ -515,7 +579,6 @@ var business = function(){
                 else if(data.prop == "description"){
                     var content = `<h4>Change ${data.prop}</h4>
                                   <form id='form_update' class='formValidate' method='get' action='' novalidate='novalidate'>
-                                        <label for='field_price'>${data.prop}: </label>
                                         <div id='field_description'></div>
                                         <div id='display_errorDescription'></div>
                                         <button type='submit' data-cmd='button_proceed' class='waves-effect waves-grey grey lighten-5 blue-text btn-flat modal-action right'>Save</button>
@@ -550,8 +613,9 @@ var business = function(){
                                 ajax.done(function(ajax){
                                     if(ajax == 1){
                                         $('#modal_medium').modal('close');
-                                        $(`#display_businessInfo li:nth-child(4) div._content`).html(`${_form}`);
-                                        $(_this).attr({'data-value':_form, 'data-name':`${_form}`});
+                                        business.view();
+                                        // $(`#display_businessInfo li:nth-child(4) div._content`).html(`${_form}`);
+                                        // $(_this).attr({'data-value':_form, 'data-name':`${_form}`});
                                         system.alert('Description is updated.', function(){});
                                     }
                                     else{
@@ -666,29 +730,33 @@ var accountManager = function(){
             return ajax.responseText;
         },
         list:function(id){
-            $("#businessAccounts .list").html("");
-            let data = JSON.parse(accountManager.get(id));
+            $("#businessAccounts .carousel").html("");
+            if($('#businessAccounts .carousel').hasClass('initialized'))
+                $('#businessAccounts .carousel').removeClass('initialized')
+
+            let data = JSON.parse(accountManager.get(id)), pic = '../assets/images/logo/icon.png';
             $.each(data,function(i,v){
 
-                if(!(v[0] == employer.id())){
-                     let logo = ((typeof v[5] == 'object') || (v[5] == ""))? '../assets/images/logo/icon.png' : `../assets/images/profile/${v[5]}`;
-                    $("#businessAccounts .list").append(`
-                        <div class='col s6 m3 l3 user z-depth-0'>
-                            <div class="card waves-effect profile" data-content='${JSON.stringify(v)}'>
-                                <div class="card-image" style='background:url("${logo}") center/cover no-repeat' id='img-${v[0]}'></div>
-                                <div class="card-content grey lighten-4">
-                                    <p class='ellipsis'>${v[2]}</p>
-                                    <small><p>${v[6]}</p></small>
-                                </div>
+                let logo = ((typeof v[5] == 'object') || (v[5] == ""))? '../assets/images/logo/icon.png' : `../assets/images/profile/${v[5]}`;
+                $("#businessAccounts .carousel").append(`
+                    <div class="carousel-item">
+                        <div class="card waves-effect profile" data-content='${JSON.stringify(v)}'>
+                            <div class="card-image" style='background:url("${logo}") center/cover no-repeat' id='img-${v[0]}'></div>
+                            <div class="card-content grey lighten-4">
+                                <h6 class="bold" style="text-align: center">${v[2]}<br/><small>${v[6]}</small></h6>
                             </div>
                         </div>
-                    `);                   
-                }
+                    </div>
+                `);
             });
+            $('.carousel').carousel({dist:0,shift:10,padding:20,noWrap:true});
 
             $(".card.profile").on('click',function(){
                 let data = $(this).data();
                 accountManager.view(data);
+            });
+            $(`#businessAccounts .carousel .card-image`).on('error',function(){
+                $(this).attr('style',`background:url(${pic})`);
             });
         },
         add:function(id){
@@ -697,12 +765,14 @@ var accountManager = function(){
                 $(data.responseText).find("addBusinessAccount").each(function(i,content){
                     $("#modal_medium .modal-content").html(content);
                     $("#modal_medium .modal-footer").remove();
+
+                    pass.visibility();
+
                     $('#modal_medium').modal('open');
                     $('.action_close').on('click',function(){
                         $('#modal_medium').modal('close');
                     });
 
-                    pass.visibility();
                     $("#form_addAccount").validate({
                         rules: {
                             field_name: {required: true, maxlength: 300},
@@ -749,17 +819,16 @@ var accountManager = function(){
                 <div id='accountInfo'>
                     <div class='row'>
                         <div class='col s12 m4 l4 offset-m4 offset-l4'>
-                            <img src='../assets/images/profile/${picture}' width='100%' class='profile_picture'>
+                            <img src='../assets/images/profile/${picture}' width='100%' class='profile_picture circle'>
                             <a class="secondary-content tooltipped ${status[2]}" data-cmd='action_account' data-value='${JSON.stringify([data[0],status[0]])}' data-position='left' data-delay='50' data-tooltip='${status[0]} account'><i class="material-icons white-text">${status[1]}</i></a>
                         </div>
-                    </div>
-                    <div class='row'>
-                        <div class='col s12 text-center'>
-                            <h5>${data[2]}<br/><small>${data[6]}<br/>${data[3]}</small></h5>
+                        <div class='col s4 text-left'>
+                            <h5 class="bold">${data[2]}<br/><small>${data[6]}<br/>${data[3]}</small></h5>
                         </div>
                     </div>
                 </div>
             `);
+            $('#modal_medium .modal-footer').remove();
             $(`#accountInfo img.profile_picture`).on('error',function(){
                 $(this).attr({'src':'../assets/images/logo/icon.png'});
             });
@@ -826,7 +895,7 @@ var applicants = function(){
 
             $("ul.applicants").sortable({
                 connectWith: "ul",
-                placeholder: "highlight",
+                // placeholder: "highlight",
                 zIndex:1000,
                 update:function(event, el){
                     if(el.sender){
@@ -921,7 +990,6 @@ var applicants = function(){
                             </thead>
                             <tbody>
                                 <tr><td>Login Type:</td><td>${auth}</td></tr>
-                                <tr><td>Account ID:</td><td>${account_id}</td></tr>
                             </tbody>
                         </table>
                     </div>
@@ -1129,8 +1197,6 @@ var applicant = function(){
     return {
         ini:function(){
             this.view();
-            this.viewAcads();
-            this.viewCareer();
             messages.send();
             $('ul.tabs').tabs();
             $("a[ data-cmd='messages']").on('click',function(){messages.conversation();}); /*event rtrigger*/
@@ -1165,7 +1231,7 @@ var applicant = function(){
             place = ((typeof _schedule == 'undefined'))?'None':`${_schedule[3]}`;
 
             $("#applicantInfo").html(`
-                <div class='row'>
+                <div class='row col s12'>
                     <div class='right'>
                         <a data-cmd="schedule" class= "btn btn-flat ${button} waves-effect waves-grey teal-text">New Schedule</a>
                         <div>
@@ -1174,51 +1240,66 @@ var applicant = function(){
                             <p id="place">Place: <strong>${place}</strong></p>
                         </div>
                     </div>
-                    <div class='col s12 center'>
-                        <h5>${data[8]} ${data[10]} ${data[9]}</h5>
+                    <div class='left'>
+                        <img src='${picture}' width='75%' class='profile_picture circle'>
                     </div>
-                    <div class='col s12 center'>
-                        <img src='${picture}' width='20%' class='profile_picture '>
+                    <div class='col s3 left'>
+                        <h5 class='bold'>${data[8]} ${data[10]} ${data[9]}</h5>
                         <div class='col s12 grey lighten-2'>${description}</div>
                     </div>
                 </div>
-                <div class='row'>
-                    <div class='col s12' id='display_personalInformation'>
-                        <strong>Personal Information</strong>
-                        <table>
-                            <thead>
-                                <tr><td width='100px'></td><td></td></tr>
-                            </thead>
-                            <tbody>
-                                <tr><td>Email Address:</td><td>${data[2]}</td></tr>
-                                <tr><td>Number:</td><td>${data[15]}</td></tr>
-                                <tr><td>Gender:</td><td>${data[11]}</td></tr>
-                                <tr><td>Date of Birth:</td><td>${data[12]}</td></tr>
-                                <tr><td>Address:</td><td>${data[13]}</td></tr>
-                                <tr><td>Citizenship:</td><td>${data[14]}</td></tr>
-                                <tr><td>Height:</td><td>${data[16]}</td></tr>
-                                <tr><td>Weight:</td><td>${data[17]}</td></tr>
-                                <tr><td>Religion:</td><td>${data[18]}</td></tr>
-                            </tbody>
-                        </table>
+                <div class='row col s12'>
+                    <br/><div class='divider'></div><br/>
+                    <div class='row col s6'>
+                        <div class='col s12' id='display_personalInformation'>
+                            <h5 class='bold'>Personal Information</h5>
+                            <table>
+                                <thead>
+                                    <tr><td width='100px'></td><td></td></tr>
+                                </thead>
+                                <tbody>
+                                    <tr><td>Number:</td><td>${data[15]}</td></tr>
+                                    <tr><td>Gender:</td><td>${data[11]}</td></tr>
+                                    <tr><td>Date of Birth:</td><td>${data[12]}</td></tr>
+                                    <tr><td>Address:</td><td>${data[13]}</td></tr>
+                                    <tr><td>Citizenship:</td><td>${data[14]}</td></tr>
+                                    <tr><td>Height:</td><td>${data[16]}</td></tr>
+                                    <tr><td>Weight:</td><td>${data[17]}</td></tr>
+                                    <tr><td>Religion:</td><td>${data[18]}</td></tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class='row col s6'>
+                        <div class='col s12'>
+                            <h5 class='bold'>Account Information</h5>
+                            <table>
+                                <thead>
+                                    <tr><td width='100px'></td><td></td></tr>
+                                </thead>
+                                <tbody>
+                                    <tr><td>Login Type:</td><td>${auth}</td></tr>
+                                    <tr><td>Email Address:</td><td>${data[2]}</td></tr>
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
                 </div>
-                <div class='row'>
-                    <div class='col s12'>
-                        <strong>Account Information</strong>
-                        <table>
-                            <thead>
-                                <tr><td width='100px'></td><td></td></tr>
-                            </thead>
-                            <tbody>
-                                <tr><td>Login Type:</td><td>${auth}</td></tr>
-                                <tr><td>Account ID:</td><td>${account_id}</td></tr>
-                            </tbody>
-                        </table>
+                <div class="row col s12">
+                    <br/><div class='divider'></div><br/>
+                    <div class='row col s6' id='display_acad'>
+                        <div class='col s12'>
+                            <h5 class='bold'>Academic Information</h5>
+                            <table><tbody></tbody></table>
+                        </div>
+                    </div>
+                    <div class='row col s6' id='display_career'>
+                        <div class='col s12'>
+                            <h5 class='bold'>Career Information</h5>
+                            <table><tbody></tbody></table>
+                        </div>
                     </div>
                 </div>
-                <div class='row' id='display_acad'></div>
-                <div class='row' id='display_career'></div>
             `);
 
             $(`img.profile_picture`).on('error',function(){
@@ -1228,11 +1309,13 @@ var applicant = function(){
             $("a[data-cmd='schedule']").on('click', function() {
                 schedule.add();
             });
+            applicant.viewAcads();
+            applicant.viewCareer();
         },
         viewAcads:function(){
             let data = JSON.parse(applicant.acad(applicant.id()));
             $.each(data,function(i,v){
-                $('#applicantAcads table tbody').append(`
+                $('#display_acad table tbody').append(`
                     <tr>
                         <td><h6><strong>${v[1]}</strong><br/><div>${v[2]}</div><small>${v[4]} - ${v[5]}</small><h6></td>
                     </tr>
@@ -1242,7 +1325,7 @@ var applicant = function(){
         viewCareer:function(){
             let data = JSON.parse(applicant.career(applicant.id()));
             $.each(data,function(i,v){
-                $('#applicantCareer table tbody').append(`
+                $('#display_career table tbody').append(`
                     <tr>
                         <td><h6><strong>${v[3]}</strong><br/><div>${v[4]}</div><div>${v[6]}</div><small>${v[1]} - ${v[2]}</small><h6></td>
                     </tr>
@@ -1319,7 +1402,6 @@ var messages = function(){
         }
     }
 }();
-http://localhost/kareer/account/#cmd=index;content=job
 var jobPosts = function() {
     "use strict";
     return {
@@ -1339,6 +1421,7 @@ var jobPosts = function() {
                 var data = system.xml("pages.xml");
                 $(data.responseText).find("addJobPost").each(function(i, content) {
                     $("#modal_medium .modal-content").html(content);
+                    $("#modal_medium .modal-footer").remove();
                     $('#modal_medium').modal('open');
                     $('.chips-placeholder').material_chip({
                         placeholder: 'Add a skill',
@@ -1402,7 +1485,6 @@ var jobPosts = function() {
                                 if (ajax == 1) {
                                     $('#modal_medium').modal('close');
                                     system.alert('Posted.', function() {});
-                                    location.reload();
                                     jobPosts.view();
                                 }
                                 else {
@@ -1431,9 +1513,9 @@ var jobPosts = function() {
                     });
                     $(`#${status[1]} table tbody`).append(`
                         <tr>
-                            <td widtd="50px" class="center">${status[0]}</td>
-                            <td widtd="300px" class="center">${v[2]}</td>
-                            <td widtd="150px" class="center">${v[3]}</td>
+                            <td widtd="30%" class="text-left">${status[0]}</td>
+                            <td widtd="45%" class="text-left">${v[2]}</td>
+                            <td widtd="15%" class="text-left">${v[3]}</td>
                             <td>
                                 <a href='#cmd=index;content=focusjob;id=${v[0]}' data-cmd='view-job' class='tooltipped btn-floating waves-effect black-text no-shadow white right' data-position='left' data-delay='50' data-tooltip='View Job Details'>
                                     <i class='material-icons right hover black-text'>more_vert</i>
@@ -1452,71 +1534,71 @@ var jobPosts = function() {
             $.each(skills, function(i, v) {
                 chip += `<a class="chip">${v}</a>`;
             });
-            $("#job").html(`<div class='card'>
-                                        <div class='card-content'>
-                                            <a data-for='title' data-cmd='updatejob' data-value='${job[6]}' data-name='${job[6]}' data-node='${job[0]}' data-prop='title' class='tooltipped btn-floating waves-effect black-text no-shadow white right' data-position='left' data-delay='50' data-tooltip='Update title'>
-                                                <i class='material-icons right hover black-text'>mode_edit</i>
-                                            </a>
-                                            <span class='card-title activator grey-text text-darken-4' for='title'>${job[6]}</span>
-                                            <div class='divider'></div>
-                                            <table>
-                                                <tr>
-                                                    <td width='50px' class='bold'><span style='width:80%;display: inline-block;'><i class='mdi-action-perm-identity cyan-text text-darken-2'></i> Skills Required: </span></td>
-                                                    <td width='150px' class='grey-text' for='skills'>${chip}</td>
-                                                    <td width='20px'>
-                                                        <a data-for='skills' data-cmd='updatejob' data-value='${chip}' data-name='${chip}' data-node='${job[0]}' data-prop='Skills' class='tooltipped btn-floating waves-effect black-text no-shadow white right' data-position='left' data-delay='50' data-tooltip='Update skills'>
-                                                            <i class='material-icons right hover black-text'>mode_edit</i>
-                                                        </a>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td width='50px' class='bold'><span style='width:80%;display: inline-block;'><i class='mdi-action-perm-identity cyan-text text-darken-2'></i> Salary: </span></td>
-                                                    <td width='150px' class='grey-text' for='salary'>${job[8]} - ${job[9]}</td>
-                                                    <td width='20px'>
-                                                        <a data-for='salary' data-cmd='updatejob' data-name='salary' data-node='${job[0]}' data-prop='Salary' class='tooltipped btn-floating waves-effect black-text no-shadow white right' data-position='left' data-delay='50' data-tooltip='Update salary'>
-                                                            <i class='material-icons right hover black-text'>mode_edit</i>
-                                                        </a>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td width='50px' class='bold'><span style='width:80%;display: inline-block;'><i class='mdi-action-perm-identity cyan-text text-darken-2'></i> Date Posted: </span></td>
-                                                    <td width='150px' class='grey-text' for='date'>${job[5]}</td>
-                                                    <td width='20px'>
-                                                        <a data-for='date' data-cmd='updatejob' data-value='${job[5]}' data-name='${job[5]}' data-node='${job[0]}' data-prop='Date' class='tooltipped btn-floating waves-effect black-text no-shadow white right' data-position='left' data-delay='50' data-tooltip='Update date'>
-                                                            <i class='material-icons right hover black-text'>mode_edit</i>
-                                                        </a>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td width='50px' class='bold'><span style='width:80%;display: inline-block;'><i class='mdi-action-perm-identity cyan-text text-darken-2'></i> Short Description: </span></td>
-                                                    <td width='150px'class='grey-text' for='short'>${job[3]}</td>
-                                                    <td width='20px'>
-                                                        <a data-for='short' data-cmd='updatejob' data-value='' data-name='' data-node='${job[0]}' data-prop='shortDes' class='tooltipped btn-floating waves-effect black-text no-shadow white right' data-position='left' data-delay='50' data-tooltip='Update short description'>
-                                                            <i class='material-icons right hover black-text'>mode_edit</i>
-                                                        </a>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td width='50px' class='bold'><span style='width:80%;display: inline-block;'><i class='mdi-action-perm-identity cyan-text text-darken-2'></i> Full Description: </span></td>
-                                                    <td width='150px' class='_content ' for='full'>${job[4]}</td>
-                                                    <td width='20px'>
-                                                        <a data-for='full' data-cmd='updatejob' data-value='' data-name='' data-node='${job[0]}' data-prop='longDes' class='tooltipped btn-floating waves-effect black-text no-shadow white right' data-position='left' data-delay='50' data-tooltip='Update full description'>
-                                                            <i class='material-icons right hover black-text'>mode_edit</i>
-                                                        </a>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td width='50px' class='bold'><span style='width:80%;display: inline-block;'><i class='mdi-action-perm-identity cyan-text text-darken-2'></i> Status: </span></td>
-                                                    <td width='150px' class='grey-text' for='status'>${status}</td>
-                                                    <td width='20px'>
-                                                        <a data-for='status' data-cmd='updatejob' data-value='${status}' data-name='${status}' data-node='${job[0]}' data-prop='Status' class='tooltipped btn-floating waves-effect black-text no-shadow white right' data-position='left' data-delay='50' data-tooltip='Update status'>
-                                                            <i class='material-icons right hover black-text'>mode_edit</i>
-                                                        </a>
-                                                    </td>
-                                                </tr>
-                                            </table>
-                                        </div>
-                                    </div>`);
+            $("#job").html(`<a href='#cmd=index;content=job'class='tooltipped btn-floating waves-effect no-shadow white' data-delay='50' data-tooltip='Go back'><i class="material-icons grey-text large">arrow_back</i></a>
+                            <div class='card-content'>
+                            <a data-for='title' data-cmd='updatejob' data-value='${job[6]}' data-name='${job[6]}' data-node='${job[0]}' data-prop='title' class='tooltipped btn-floating waves-effect black-text no-shadow white right' data-position='left' data-delay='50' data-tooltip='Update title'>
+                                <i class='material-icons right hover black-text'>mode_edit</i>
+                            </a>
+                            <h5 class='activator text-darken-4' for='title'>${job[6]}</h5>
+                            <div class='divider'></div>
+                            <table>
+                                <tr>
+                                    <td width='50px' class='bold'><span style='width:80%;display: inline-block;'><i class='mdi-action-perm-identity cyan-text text-darken-2'></i> Skills Required: </span></td>
+                                    <td width='150px' class='grey-text' for='skills'>${chip}</td>
+                                    <td width='20px'>
+                                        <a data-for='skills' data-cmd='updatejob' data-value='${chip}' data-name='${chip}' data-node='${job[0]}' data-prop='Skills' class='tooltipped btn-floating waves-effect black-text no-shadow white right' data-position='left' data-delay='50' data-tooltip='Update skills'>
+                                            <i class='material-icons right hover black-text'>mode_edit</i>
+                                        </a>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td width='50px' class='bold'><span style='width:80%;display: inline-block;'><i class='mdi-action-perm-identity cyan-text text-darken-2'></i> Salary: </span></td>
+                                    <td width='150px' class='grey-text' for='salary'>${job[8]} - ${job[9]}</td>
+                                    <td width='20px'>
+                                        <a data-for='salary' data-cmd='updatejob' data-name='salary' data-node='${job[0]}' data-prop='Salary' class='tooltipped btn-floating waves-effect black-text no-shadow white right' data-position='left' data-delay='50' data-tooltip='Update salary'>
+                                            <i class='material-icons right hover black-text'>mode_edit</i>
+                                        </a>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td width='50px' class='bold'><span style='width:80%;display: inline-block;'><i class='mdi-action-perm-identity cyan-text text-darken-2'></i> Date Posted: </span></td>
+                                    <td width='150px' class='grey-text' for='date'>${job[5]}</td>
+                                    <td width='20px'>
+                                        <a data-for='date' data-cmd='updatejob' data-value='${job[5]}' data-name='${job[5]}' data-node='${job[0]}' data-prop='Date' class='tooltipped btn-floating waves-effect black-text no-shadow white right' data-position='left' data-delay='50' data-tooltip='Update date'>
+                                            <i class='material-icons right hover black-text'>mode_edit</i>
+                                        </a>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td width='50px' class='bold'><span style='width:80%;display: inline-block;'><i class='mdi-action-perm-identity cyan-text text-darken-2'></i> Short Description: </span></td>
+                                    <td width='150px'class='grey-text' for='short'>${job[3]}</td>
+                                    <td width='20px'>
+                                        <a data-for='short' data-cmd='updatejob' data-value='' data-name='' data-node='${job[0]}' data-prop='shortDes' class='tooltipped btn-floating waves-effect black-text no-shadow white right' data-position='left' data-delay='50' data-tooltip='Update short description'>
+                                            <i class='material-icons right hover black-text'>mode_edit</i>
+                                        </a>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td width='50px' class='bold'><span style='width:80%;display: inline-block;'><i class='mdi-action-perm-identity cyan-text text-darken-2'></i> Full Description: </span></td>
+                                    <td width='150px' class='_content ' for='full'>${job[4]}</td>
+                                    <td width='20px'>
+                                        <a data-for='full' data-cmd='updatejob' data-value='' data-name='' data-node='${job[0]}' data-prop='longDes' class='tooltipped btn-floating waves-effect black-text no-shadow white right' data-position='left' data-delay='50' data-tooltip='Update full description'>
+                                            <i class='material-icons right hover black-text'>mode_edit</i>
+                                        </a>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td width='50px' class='bold'><span style='width:80%;display: inline-block;'><i class='mdi-action-perm-identity cyan-text text-darken-2'></i> Status: </span></td>
+                                    <td width='150px' class='grey-text' for='status'>${status}</td>
+                                    <td width='20px'>
+                                        <a data-for='status' data-cmd='updatejob' data-value='${status}' data-name='${status}' data-node='${job[0]}' data-prop='Status' class='tooltipped btn-floating waves-effect black-text no-shadow white right' data-position='left' data-delay='50' data-tooltip='Update status'>
+                                            <i class='material-icons right hover black-text'>mode_edit</i>
+                                        </a>
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+                        `);
             if(status == 'Pending'){ /*admin can update status of pending job post into active*/
                 $('#job a[data-for="status"]').addClass('disabled');
             }
@@ -1527,10 +1609,11 @@ var jobPosts = function() {
                                     <div class="input-field col s6">
                                         <textarea class="materialize-textarea" maxlength='500' data-field='field_description' placeholder='Remarks'></textarea>
                                     </div>
-                                    <button type='submit' data-cmd='button_proceed' class='waves-effect waves-grey grey lighten-5 blue-text btn-flat modal-action right'>Save</button>
+                                    <button type='submit' data-cmd='button_proceed' class='waves-effect waves-grey grey lighten-5 blue-text btn-flat modal-action right'>Proceed</button>
                                     <a class='waves-effect waves-grey grey-text btn-flat modal-action modal-close right'>Cancel</a>
                                 </form>`;
                 $("#modal_confirm .modal-content").html(content);
+                $("#modal_confirm .modal-footer").remove();
                 $('#modal_confirm').modal('open');
                 $("#form_update").validate({
                     rules: {
@@ -1575,7 +1658,7 @@ var jobPosts = function() {
             $("a[data-cmd='updatejob']").on('click', function() {
                 let job = JSON.parse(jobPosts.getjob($(this).data('node')))[0];
                 var data = $(this).data();
-                var content = `<h5>Change ${data.prop}</h5>
+                var content = `<h5>Update ${data.prop}</h5>
                                 <form id='form_update' class='formValidate' method='get' action='' novalidate='novalidate'>
                                     <label for='field_${data.prop}' class='active'>${data.prop}: </label>
                                     <input id='field_${data.prop}' value='${data.value}' type='text' name='field_${data.prop}' data-error='.error_${data.prop}'>
@@ -1583,11 +1666,12 @@ var jobPosts = function() {
                                     <button type='submit' data-cmd='button_proceed' class='waves-effect waves-grey grey lighten-5 blue-text btn-flat modal-action right'>Save</button>
                                     <a class='waves-effect waves-grey grey-text btn-flat modal-action modal-close right'>Cancel</a>
                                 </form>`;
-                $("#modal_medium .modal-content").html(content);
-                $('#modal_medium .modal-footer').html("");
+                $("#modal_confirm .modal-content").html(content);
+                $('#modal_medium .modal-footer').remove();
+                $('#modal_confirm .modal-footer').remove();
 
                 if (data.prop == "title") {
-                    content = `<h5>Change ${data.prop}</h5>
+                    content = `<h5>Update Job Title</h5>
                                     <form id='form_update' class='formValidate' method='get' action='' novalidate='novalidate'>
                                         <div class="input-field col s6">
                                             <label for='field_${data.prop}' class='active'></label>
@@ -1598,8 +1682,8 @@ var jobPosts = function() {
                                         <button type='submit' data-cmd='button_proceed' class='waves-effect waves-grey grey lighten-5 blue-text btn-flat modal-action right'>Save</button>
                                         <a class='waves-effect waves-grey grey-text btn-flat modal-action modal-close right'>Cancel</a>
                                     </form>`;
-                    $("#modal_medium .modal-content").html(content);
-                    $('#modal_medium').modal('open');
+                    $("#modal_confirm .modal-content").html(content);
+                    $('#modal_confirm').modal('open');
                     $("#form_update").validate({
                         rules: {
                             field_title: { required: true },
@@ -1623,10 +1707,11 @@ var jobPosts = function() {
                                 ajax.done(function(ajax) {
                                     console.log(ajax);
                                     if (ajax == 1) {
-                                        $('#modal_medium').modal('close');
-                                        $(`.card-title[for='${data.for}']`).html(`${_form[0]['value']}`);
-                                        $(_this).attr({ 'data-value':`${_form[1]['value']}`, 'data-name': `${_form[1]['value']}` });
+                                        $('#modal_confirm').modal('close');
+                                        // $(`.card-title[for='${data.for}']`).html(`${_form[0]['value']}`);
+                                        // $(_this).attr({ 'data-value':`${_form[1]['value']}`, 'data-name': `${_form[1]['value']}` });
                                         system.alert('Updated.', function() {});
+                                        jobPosts.view();
                                     } else {
                                         system.alert('Failed to update.', function() {});
                                     }
@@ -1645,17 +1730,16 @@ var jobPosts = function() {
                         }); 
                     }
                     skillObj = skillsArray;
-                    content = `<h5>Change ${data.prop}</h5>
+                    content = `<h5>Update Job Skills</h5>
                                     <form id='form_update' class='formValidate' method='get' action='' novalidate='novalidate'>
                                         <div class="input-field col s6">
-                                            <label class="active">Enter maximum of 5 skills </label>
                                             <div class="chips chips-initial"></div>
                                         </div>
                                         <button type='submit' class='waves-effect waves-grey grey lighten-5 blue-text btn-flat modal-action right'>Save</button>
                                         <a class='waves-effect waves-grey grey-text btn-flat modal-action modal-close right'>Cancel</a>
                                     </form>`;
-                    $("#modal_medium .modal-content").html(content);
-                    $('#modal_medium').modal('open');
+                    $("#modal_confirm .modal-content").html(content);
+                    $('#modal_confirm').modal('open');
                     $('.chips-initial').material_chip({
                         data: skillObj,
                     });
@@ -1690,11 +1774,12 @@ var jobPosts = function() {
                             ajax.done(function(ajax) {
                                 console.log(ajax);
                                 if (ajax == 1) {
-                                    $('#modal_medium').modal('close');
+                                    $('#modal_confirm').modal('close');
                                     // $(`td[for='${data.for}']`).html(`${skillsArray}`);
                                     // $(_this).attr({ 'data-value': _form[1]['value'], 'data-name': `${_form[0]['value']}` });
                                     system.alert('Updated.', function() {});
-                                    location.reload();
+                                    jobPosts.view();
+                                    // location.reload();
                                 } else {
                                     system.alert('Failed to update.', function() {});
                                 }
@@ -1703,7 +1788,7 @@ var jobPosts = function() {
                     });
                 }
                 else if (data.prop == "Salary") {
-                    content = `<h5>Change ${data.prop}</h5>
+                    content = `<h5>Update Job Salary</h5>
                                     <form id='form_update' class='formValidate row' method='get' action='' novalidate='novalidate' >
                                         <div class="input-field col s6">
                                             <label for='field_${data.prop}min' class='active'>Salary min</label>
@@ -1719,8 +1804,8 @@ var jobPosts = function() {
                                         <button type='submit' data-cmd='button_proceed' class='waves-effect waves-grey grey lighten-5 blue-text btn-flat modal-action right'>Save</button>
                                         <a class='waves-effect waves-grey grey-text btn-flat modal-action modal-close right'>Cancel</a>
                                     </form>`;
-                    $("#modal_medium .modal-content").html(content);
-                    $('#modal_medium').modal('open');
+                    $("#modal_confirm .modal-content").html(content);
+                    $('#modal_confirm').modal('open');
                     $("#form_update").validate({
                         rules: {
                             field_Salarymin: { required: true, maxlength: 10, lessThan: '#field_Salarymax'},
@@ -1742,12 +1827,12 @@ var jobPosts = function() {
                             ajax.done(function(ajax) {
                                 console.log(ajax);
                                 if (ajax == 1) {
-                                    $('#modal_medium').modal('close');
-                                    $(`td[for='${data.for}']`).html(`${_form[0]['value']} - ${_form[1]['value']}`);
-                                    $(field_Salarymin).attr({ 'data-value': _form[0]['value'], 'data-name': `${_form[0]['value']}` });
-                                    $(field_Salarymin).attr({ 'data-value': _form[1]['value'], 'data-name': `${_form[1]['value']}` });
+                                    $('#modal_confirm').modal('close');
+                                    // $(`td[for='${data.for}']`).html(`${_form[0]['value']} - ${_form[1]['value']}`);
+                                    // $(field_Salarymin).attr({ 'data-value': _form[0]['value'], 'data-name': `${_form[0]['value']}` });
+                                    // $(field_Salarymin).attr({ 'data-value': _form[1]['value'], 'data-name': `${_form[1]['value']}` });
                                     system.alert('Updated.', function() {});
-                                    location.reload();
+                                    jobPosts.view();
                                 } else {
                                     system.alert('Failed to update.', function() {});
                                 }
@@ -1756,10 +1841,9 @@ var jobPosts = function() {
                     });
                 } 
                 else if (data.prop == "Date") {
-                    content = `<h5>Change ${data.prop}</h5>
+                    content = `<h5>Update Job Date</h5>
                                     <form id='form_update' class='formValidate' method='get' action='' novalidate='novalidate'>
                                         <div class="input-field col s6">
-                                            <label for='field_${data.prop}' class='active'></label>
                                             <input id='field_${data.prop}' value='${job[10]}' type='date' name='field_${data.prop}' data-error='.error_${data.prop}'>
                                             <div class='error_${data.prop}'></div>
                                         </div>
@@ -1767,8 +1851,8 @@ var jobPosts = function() {
                                         <button type='submit' data-cmd='button_proceed' class='waves-effect waves-grey grey lighten-5 blue-text btn-flat modal-action right'>Save</button>
                                         <a class='waves-effect waves-grey grey-text btn-flat modal-action modal-close right'>Cancel</a>
                                     </form>`;
-                    $("#modal_medium .modal-content").html(content);
-                    $('#modal_medium').modal('open');
+                    $("#modal_confirm .modal-content").html(content);
+                    $('#modal_confirm').modal('open');
                     $("#form_update").validate({
                         rules: {
                             field_Date: { required: true },
@@ -1792,10 +1876,11 @@ var jobPosts = function() {
                                 ajax.done(function(ajax) {
                                     console.log(ajax);
                                     if (ajax == 1) {
-                                        $('#modal_medium').modal('close');
-                                        $(`td[for='${data.for}']`).html(`${_form[0]['value']}`);
-                                        $(_this).attr({ 'data-value': _form[1]['value'], 'data-name': `${_form[1]['value']}` });
+                                        $('#modal_confirm').modal('close');
+                                        // $(`td[for='${data.for}']`).html(`${_form[0]['value']}`);
+                                        // $(_this).attr({ 'data-value': _form[1]['value'], 'data-name': `${_form[1]['value']}` });
                                         system.alert('Updated.', function() {});
+                                        jobPosts.view();
                                     } else {
                                         system.alert('Failed to update.', function() {});
                                     }
@@ -1805,10 +1890,9 @@ var jobPosts = function() {
                     });
                 }
                 else if (data.prop == "shortDes") {
-                    content = `<h5>Change Short Description</h5>
+                    content = `<h5>Update Job Short Description</h5>
                                     <form id='form_update' class='formValidate' method='get' action='' novalidate='novalidate'>
                                         <div class="input-field col s6">
-                                            <label for='field_${data.prop}' class='active'>Short Description</label>
                                             <textarea class="materialize-textarea" maxlength='500' id='field_${data.prop}' value='' type='text' name='field_${data.prop}' data-error='.error_${data.prop}'>${job[3]}</textarea>
                                             <div class='error_${data.prop}'></div>
                                             <div class='display_notes'>
@@ -1846,9 +1930,10 @@ var jobPosts = function() {
                                     console.log(ajax);
                                     if (ajax == 1) {
                                         $('#modal_medium').modal('close');
-                                        $(`td[for='${data.for}']`).html(`${_form[0]['value']}`);
-                                        $(_this).attr({ 'data-value': _form[1]['value'], 'data-name': `${_form[0]['value']}` });
+                                        // $(`td[for='${data.for}']`).html(`${_form[0]['value']}`);
+                                        // $(_this).attr({ 'data-value': _form[1]['value'], 'data-name': `${_form[0]['value']}` });
                                         system.alert('Updated.', function() {});
+                                        jobPosts.view();
                                     } else {
                                         system.alert('Failed to update.', function() {});
                                     }
@@ -1858,7 +1943,7 @@ var jobPosts = function() {
                     });
                 }
                 else if (data.prop == "longDes") {
-                    content = `<h5>Change ${data.prop}</h5>
+                    content = `<h5>Update Job Long Description</h5>
                                     <form id='form_update' class='formValidate' method='get' action='' novalidate='novalidate'>
                                         <div class="input-field col s6">
                                             <label for='field_${data.prop}' class='active'></label>
@@ -1906,10 +1991,10 @@ var jobPosts = function() {
                             ajax.done(function(ajax) {
                                 if (ajax == 1) {
                                     $('#modal_medium').modal('close');
-                                    $(`#job tr:nth-child(5) td._content`).html(`${_form}`);
-                                    $('#field_longDes').attr({'data-value':_form, 'data-name':`${_form}`});
+                                    // $(`#job tr:nth-child(5) td._content`).html(`${_form}`);
+                                    // $('#field_longDes').attr({'data-value':_form, 'data-name':`${_form}`});
                                     system.alert('Updated.', function() {});
-                                    location.reload();
+                                    jobPosts.view();
                                 } 
                                 else {
                                     system.alert('Failed to update.', function() {});
@@ -1921,7 +2006,7 @@ var jobPosts = function() {
                 else if (data.prop == "Status") {
                     let title = (job[11] == 'Active')?0:1;
                     if(data.value == 'Active'){
-                        content = `<h5>Change the ${data.prop} of this job?</h5>
+                        content = `<h5>Update the status of this job?</h5>
                                     <form id='form_update' class='formValidate' method='get' action='' novalidate='novalidate'>
                                         <div class="input-field col s6">
                                             <select data-field ="field_Updatestatus">
@@ -1934,8 +2019,8 @@ var jobPosts = function() {
                                         <button type='submit' data-cmd='button_proceed' class='waves-effect waves-grey grey lighten-5 blue-text btn-flat modal-action right'>Save</button>
                                         <a class='waves-effect waves-grey grey-text btn-flat modal-action modal-close right'>Cancel</a>
                                     </form>`;
-                        $("#modal_medium .modal-content").html(content);
-                        $('#modal_medium').modal('open');
+                        $("#modal_confirm .modal-content").html(content);
+                        $('#modal_confirm').modal('open');
                     }
                     if(data.value == 'Full'){
                         content = `<h5>Change the ${data.prop} of this job?</h5>
@@ -1976,9 +2061,10 @@ var jobPosts = function() {
                                 console.log(ajax);
                                 val = (val == 0)?'Full':(val == 1)?'Active':'Pending';
                                 if (ajax == 1) {
-                                    $('#modal_medium').modal('close');
-                                    $(`td[for='${data.for}']`).html(`${val}`);
+                                    $('#modal_confirm').modal('close');
+                                    // $(`td[for='${data.for}']`).html(`${val}`);
                                     system.alert('Updated.', function() {});
+                                    jobPosts.view();
                                 } else {
                                     system.alert('Failed to update.', function() {});
                                 }
@@ -2106,8 +2192,8 @@ var schedule = function() {
                     let now = moment().format('YYYY-MM-DD');
                     let control = (now ==  calEvent.data[6])?'':'disabled';
                     let content = `
-                        <a class='modal-close btn btn-flat btn-floating waves-effect right'><i class="material-icons tiny">close</i></a>
-                        <h6>Schedule information</h6>
+                        <button class="btn-floating btn-small btn-flat waves-effect white modal-action modal-close right"><i class="material-icons grey-text">close</i></button>
+                        <h5 class='bold'>Schedule information</h5>
                         <table>
                             <tr>
                                 <td class='bold'>Name: </td>
@@ -2137,7 +2223,7 @@ var schedule = function() {
                         <div>
                             <a data-cmd='failed' data-node="${calEvent.data[0]}" class='modal-close tooltipped btn-floating btn-flat waves-effect waves-grey red lighten-5 left' data-position="top" data-tooltip="Failed"><i class="material-icons">close</i></a>
                             <a data-cmd='success' data-node="${calEvent.data[0]}" class='modal-close tooltipped btn-floating btn-flat waves-effect waves-grey green lighten-5 left' data-position="top" data-tooltip="Success"><i class="material-icons">check</i></a>
-                            <a data-cmd="reschedule" data-node="${calEvent.data}" class= "modal-close btn btn-flat waves-effect waves-grey teal-text right">Reschedule</a>
+                            <a data-cmd="reschedule" data-node="${calEvent.data}" class= "btn btn-flat waves-effect waves-grey teal-text right">Reschedule</a>
                         </div>
                     `;
                     $("#modal_medium .modal-content").html(content);
@@ -2160,6 +2246,7 @@ var schedule = function() {
                         <button data-cmd='button_proceed' class='waves-effect waves-grey grey lighten-5 blue-text btn-flat modal-action right'>Proceed</button>
                         <a data-cmd="stay" class='waves-effect waves-grey grey-text btn-flat modal-close right'>Cancel</a>`
                     );
+                $('#modal_confirm .modal-footer').remove();  
                 $('#modal_confirm').modal('open');
                 $("button[data-cmd='button_proceed']").on('click',function(){
                     let remarks = $("textarea[data-field='field_description']").val();
@@ -2196,6 +2283,7 @@ var schedule = function() {
                         <a data-cmd="stay" class='waves-effect waves-grey grey-text btn-flat modal-close right'>Cancel</a>`
                     );
                 $('#modal_confirm').modal('open');
+                $('#modal_confirm .modal-footer').remove();
                 $("button[data-cmd='button_proceed']").on('click',function(){
                     let remarks = $("textarea[data-field='field_description']").val();
                     if(remarks.length == 0){
@@ -2224,7 +2312,8 @@ var schedule = function() {
             $("a[data-cmd='reschedule']").on('click', function() {
                 console.log('reschedule');
                 console.log(data);
-                $("#modal_confirm .modal-content").html(`
+                $("#modal_medium .modal-content").html(`
+                    <button class="btn-floating btn-small btn-flat waves-effect white modal-action modal-close right"><i class="material-icons grey-text">close</i></button>
                     <form id='form_schedule' class='formValidate row' method='get' action='' novalidate='novalidate'>
                             <h5>Reschedule</h5>
                             <div class="input-field col s12">
@@ -2249,11 +2338,11 @@ var schedule = function() {
                                 <div class='display_error error_meetingPlace'></div>    
                             </div>
                             <div class='input-field col s12'>
-                                <a class='waves-effect waves-grey grey-text btn-flat modal-action modal-close right'>Cancel</a>
-                                <button class='btn waves-effect waves-light right round-button z-depth-0' type='submit'>Save</button>
+                                <button class='btn waves-effect waves-light right modal-action' type='submit'>Save</button>
                             </div>
                     </form>`);
-                $('#modal_confirm').modal('open');
+                $('#modal_medium').modal('open');
+                $('#modal_medium .modal-footer').remove();
                 let now_date = moment(moment().format("YYYY-MM-DD")).add(1, 'day').format("YYYY-MM-DD");
                 $("#field_date").attr({"min": now_date});
                 $('select').material_select(); 
@@ -2331,14 +2420,15 @@ var pass = function() {
     "use strict";
     return {
         visibility: function() {
-            $(".item-input-password-preview").on('click',function(){
-                if($(`input[name='field_password']`)[0].type=="text"){
+            let c = 0;
+            $(".item-input-password-preview").on('click', function() {
+                c++;
+                if ((c % 2) == 0) {
+                    $(this).children('i').html('visibility_off');
+                    $("input[name='field_password']").attr({ 'type': 'password' });
+                } else {
                     $(this).children('i').html('visibility');
-                    $(`input[name='field_password']`).attr({'type':'password'});
-                }
-                else{
-                    $(this).children('i').html('visibility');
-                    $(`input[name='field_password']`).attr({'type':'text'});
+                    $("input[name='field_password']").attr({ 'type': 'text' });
                 }
             });
         }

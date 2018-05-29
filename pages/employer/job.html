@@ -1,56 +1,62 @@
-<div class='row animated'>
-    <div class="wrapper wrapper-content">
-        <a data-cmd="add_job-post" class='tooltipped btn-floating waves-effect black-text no-shadow grey' data-delay='50' data-tooltip='Post a Job'><i class="material-icons medium">add</i></a>
-        <div class="card col s12 rows" >
-            <ul class="tabs">
-                <li class="tab col s4"><a href="#pending_post">Pending Job Posts</a></li>
-                <li class="tab col s4"><a class="active" href="#job_post">Active Job Posts</a></li>
-                <li class="tab col s4"><a href="#full_post">Archived Posts</a></li>
-            </ul>
-            <div class="card-content">
-                <div class='row' id='pending_post'>
-                    <div class='card-content'>
-                        <table>
-                            <thead>
-                                <tr>
-                                    <th width="150px" class="center">Status</th>
-                                    <th width="300px" class="center">Job Title</th>
-                                    <th width="300px" class="center">Posted By</th>
-                                    <th></th>
-                                </tr>
-                            </thead>
-                            <tbody></tbody>
-                        </table>
-                    </div>
+<div class='animated'>
+    <div class="row wrapper wrapper-content">
+        <div class='input-field col s12'>
+            <a data-cmd="add_job-post" class='btn waves-effect waves-light white black-text right bold'>Post a Job</a>
+        </div>
+        <div class="col s12" >
+            <div class="card">
+                <div style="box-shadow: 0 4px 15px 0 rgba(0,0,0,0.14);">
+                    <ul class="tabs">
+                        <li class="tab col s4"><a href="#pending_post">Pending Job Posts</a></li>
+                        <li class="tab col s4"><a class="active" href="#job_post">Active Job Posts</a></li>
+                        <li class="tab col s4"><a href="#full_post">Archived Posts</a></li>
+                    </ul>
                 </div>
-                <div class='row' id='job_post'>
-                    <div class='card-content'>
-                        <table>
-                            <thead>
-                                <tr>
-                                    <th width="150px" class="center">Status</th>
-                                    <th width="300px" class="center">Job Title</th>
-                                    <th width="300px" class="center">Posted By</th>
-                                    <th></th>
-                                </tr>
-                            </thead>
-                            <tbody></tbody>
-                        </table>
+                <div class="card-content" id='job'>
+                    <div class='row' id='pending_post'>
+                        <div class='card-content'>
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th width="30%" class="text-left">Status</th>
+                                        <th width="45%" class="text-left">Job Title</th>
+                                        <th width="15%" class="text-left">Posted By</th>
+                                        <th></th>
+                                    </tr>
+                                </thead>
+                                <tbody></tbody>
+                            </table>
+                        </div>
                     </div>
-                </div>
-                <div class='row' id='full_post'>
-                    <div class='card-content'>
-                        <table>
-                            <thead>
-                                <tr>
-                                    <th width="150px" class="center">Status</th>
-                                    <th width="300px" class="center">Job Title</th>
-                                    <th width="300px" class="center">Posted By</th>
-                                    <th></th>
-                                </tr>
-                            </thead>
-                            <tbody></tbody>
-                        </table>
+                    <div class='row' id='job_post'>
+                        <div class='card-content'>
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th width="30%" class="text-left">Status</th>
+                                        <th width="45%" class="text-left">Job Title</th>
+                                        <th width="15%" class="text-left">Posted By</th>
+                                        <th></th>
+                                    </tr>
+                                </thead>
+                                <tbody></tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class='row' id='full_post'>
+                        <div class='card-content'>
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th width="30%" class="text-left">Status</th>
+                                        <th width="45%" class="text-left">Job Title</th>
+                                        <th width="15%" class="text-left">Posted By</th>
+                                        <th></th>
+                                    </tr>
+                                </thead>
+                                <tbody></tbody>
+                            </table>
+                        </div>
                     </div>
                 </div>
             </div>

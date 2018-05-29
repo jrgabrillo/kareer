@@ -1,22 +1,18 @@
 <div class='row' style='float: none;'>
     <div class="wrapper wrapper-content">
         <div class="row animated fadeInUp">
-            <div class="col s10 offset-s1" id='display_applicant'>
+            <div class="col s12" id='display_applicant'>
                 <div class="card">
-                    <ul class="tabs">
-                        <li class="tab col s3"><a data-cmd='click' class="active" href="#applicantInfo">Profile</a></li>
-                        <li class="tab col s3"><a data-cmd='click' href="#applicantAcads">Academic Background</a></li>
-                        <li class="tab col s3"><a data-cmd='click' href="#applicantCareer">Career Background</a></li>
-                        <li class="tab col s3"><a data-cmd='messages' href="#display_messages">Messages</a></li>
-                    </ul>
+                    <div style="box-shadow: 0 4px 15px 0 rgba(0,0,0,0.14);">
+                        <ul class="tabs">
+                            <li class="tab col s6"><a data-cmd='click' class="active" href="#applicantInfo">Profile</a></li>
+                            <!-- <li class="tab col s3"><a data-cmd='click' href="#applicantAcads">Academic Background</a></li> -->
+                            <!-- <li class="tab col s3"><a data-cmd='click' href="#applicantCareer">Career Background</a></li> -->
+                            <li class="tab col s6"><a data-cmd='messages' href="#display_messages">Messages</a></li>
+                        </ul>
+                    </div>
                     <div class="card-content">
                         <div class="row" id='applicantInfo'></div>
-                        <div class="row" id='applicantAcads'>
-                            <table><tbody></tbody></table>
-                        </div>
-                        <div class="row" id='applicantCareer'>
-                            <table><tbody></tbody></table>
-                        </div>
                         <div class="row" id='display_messages'>
                             <ul class="collection message"></ul>
                             <div class="toolbar-inner row">

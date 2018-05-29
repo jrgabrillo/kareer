@@ -45,13 +45,33 @@ $Functions = new DatabaseClasses;
     }
 
     if (isset($_GET['do-logIn'])){/**/
-        $data = $_POST["data"];
+        $data = $_POST['data'];
         $email = $Functions->escape($data[0]);
         $password = $data[1];
         $query = $Functions->PDO("SELECT * FROM tbl_applicant WHERE email = {$email}");
         if(count($query)>0){
             $q_profile = $Functions->PDO("SELECT aa.id, bb.family_name, bb.given_name, aa.email, bb.picture FROM tbl_applicant aa LEFT JOIN tbl_personalinfo bb ON aa.id = bb.id WHERE aa.email = {$email}");
             if($Functions->testPassword($password,$query[0][3]) && ($query[0][6] == 1)){
+                $_SESSION["kareer"] = [$query[0][ 2],$query[0][0]];
+                print_r(json_encode(["Active","applicant",['id'=> $q_profile[0][0], 'last_name'=> $q_profile[0][1], 'first_name'=> $q_profile[0][2], 'email'=> $q_profile[0][3], 'picture'=> $q_profile[0][4]]]));
+            }
+            else{
+                print_r(json_encode(["Failed",2]));
+            }
+        }
+        else{
+            print_r(json_encode(["Failed",2]));
+        }
+    }
+
+    if (isset($_GET['do-logInFB'])){/**/
+        $data = $_POST["data"];
+        $email = $Functions->escape($data[1]);
+        $auth = $data[0];
+        $query = $Functions->PDO("SELECT * FROM tbl_applicant WHERE email = {$email}");
+        if(count($query)>0){
+            $q_profile = $Functions->PDO("SELECT aa.id, bb.family_name, bb.given_name, aa.email, bb.picture FROM tbl_applicant aa LEFT JOIN tbl_personalinfo bb ON aa.id = bb.id WHERE aa.email = {$email}");
+            if(($query[0][5] == $auth) && ($query[0][6] == 1)){
                 $_SESSION["kareer"] = [$query[0][2],$query[0][0]];
                 print_r(json_encode(["Active","applicant",['id'=> $q_profile[0][0], 'last_name'=> $q_profile[0][1], 'first_name'=> $q_profile[0][2], 'email'=> $q_profile[0][3], 'picture'=> $q_profile[0][4]]]));
             }
@@ -93,6 +113,7 @@ $Functions = new DatabaseClasses;
         $query = $Functions->PDO("SELECT id,skill,level FROM tbl_skills WHERE applicant_id = '{$data}' ORDER BY level ASC");
         print_r(json_encode($query));
     }
+
     if (isset($_GET['get-specialties'])){/**/
         $data = $_POST['data'];
         $query = $Functions->PDO("SELECT id,specialties FROM tbl_specialties WHERE applicant_id = '{$data}' ORDER BY date ASC");
@@ -163,7 +184,7 @@ $Functions = new DatabaseClasses;
         $password = $Functions->password($data[3]);
         $auth = $Functions->escape($data[5]);
         $auth_id = $Functions->escape($data[6]);
-        $picture = ($data[7] == "")? $Functions->escape("profile.png") : $Functions->escape($data[7]);
+        $picture = ($data[7] == "")? $Functions->escape("avatar.png") : $Functions->escape($data[7]);
         $message = "<div><b><font size='6'>Welcome to Kareer</font></b><br/><br/><br/>Thank you for registering to Kareer. </div> ";
         $date = $Functions->PDO_DateAndTime();
         $id = $Functions->PDO_IDGenerator('tbl_applicant','id');
@@ -171,8 +192,33 @@ $Functions = new DatabaseClasses;
         if($validate[0][0]==0){
             $query = $Functions->PDO("INSERT INTO tbl_applicant(id,email,password,auth_type,auth_id,status) VALUES('{$id}',{$email},'{$password}',{$auth},{$auth_id},'1'); INSERT INTO tbl_personalinfo(id, given_name, family_name, date_of_birth, picture, date) VALUES('{$id}',{$firstname},{$lastname},'{$dob}',{$picture},'{$date}')");
             if($query->execute()){
-                $result = $Functions->mail($email,"Welcome new Kareer user.",$message);
+                // $result = $Functions->mail($email,"Welcome new Kareer user.",$message);
                 print_r(json_encode(['id'=>$id,'last_name'=>$data[1],'first_name'=>$data[0],'email'=>$data[2],'picture'=>$picture]));
+            }
+            else
+                echo 1;
+        }
+        else
+            echo 0;
+    }
+
+    if (isset($_GET['do-signUpFB'])){/**/
+        $data = $_POST['data'];
+        $firstname = $Functions->escape($data[1]);
+        $lastname = $Functions->escape($data[2]);
+        $email = $Functions->escape($data[3]);
+        $dob = $Functions->escape($data[4]);
+        $auth = $Functions->escape($data[5]);
+        $auth_id = $Functions->escape($data[0]);
+        $picture = ($data[6] == "")? $Functions->escape("avatar.png") : $Functions->escape($data[6]);
+        $message = "<div><b><font size='6'>Welcome to Kareer</font></b><br/><br/><br/>Thank you for registering to Kareer. </div> ";
+        $date = $Functions->PDO_DateAndTime();
+        $id = $Functions->PDO_IDGenerator('tbl_applicant','id');
+        $validate = $Functions->PDO("SELECT count(*) FROM tbl_applicant WHERE email = {$email}");
+        if($validate[0][0]==0){
+            $query = $Functions->PDO("INSERT INTO tbl_applicant(id,email,password,auth_type,auth_id,status) VALUES('{$id}',{$email},'',{$auth},{$auth_id},'1'); INSERT INTO tbl_personalinfo(id, given_name, family_name, date_of_birth, picture, date) VALUES('{$id}',{$firstname},{$lastname},'{$dob}',{$picture},'{$date}')");
+            if($query->execute()){
+                print_r(json_encode(['id'=>$id,'last_name'=>$data[2],'first_name'=>$data[1],'email'=>$data[3],'picture'=>$picture]));
             }
             else
                 echo 1;
@@ -439,10 +485,11 @@ $Functions = new DatabaseClasses;
 
     if(isset($_GET['do-updateImage'])){/**/
         $data = $_POST['data'];
+        // print_r($data);
         $date = new DateTime();
         $time = $date->getTimestamp();
         $q = $Functions->PDO("SELECT * FROM tbl_personalinfo WHERE id = '{$data[0]}'");
-        $_filename = ($q[0][12] == "" || $q[0][12] == "icon.png")?"applicant_{$time}.rnr":$q[0][12];
+        $_filename = ($q[0][12] == "")?"icon.png":$q[0][12];
         if(file_exists("../images/profile/{$_filename}")){
             $filename = "../images/profile/{$_filename}";
         }
@@ -454,6 +501,7 @@ $Functions = new DatabaseClasses;
         $q = $Functions->PDO("UPDATE tbl_personalinfo SET picture = '{$_filename}' WHERE id = '{$data[0]}'");
         if($q->execute()){
             $log = $Functions->log($data[0],$data[0],'update picture','Update');
+            // print_r(json_encode($_filename));
             echo 1;
         }
         else{
@@ -514,17 +562,20 @@ $Functions = new DatabaseClasses;
     if (isset($_GET['do-addSpecialties'])){/**/
         $data = $_POST['data']; 
         $date = $Functions->PDO_DateAndTime();
-        $insert = "INSERT INTO tbl_specialties (id,applicant_id,specialties,date)";
-        $insert .= " VALUES ";
-        foreach ($data[0] as $key => $value) { 
-            $id = sha1($Functions->PDO_TableCounter('tbl_specialties')+$key); /*generates id by counting table*/
-            $insert .= "('{$id}','{$data[1]}','{$value}','{$date}'),";
-            $log = $Functions->log($data[1],$id,"Added {$value} as specialty",'Add');
-        }
-        $insert = preg_replace("/\,$/", ";", $insert);
-        $q = $Functions->PDO($insert);
+        $id = $Functions->PDO_IDGenerator('tbl_specialties','id');
+        // $insert = "INSERT INTO tbl_specialties (id,applicant_id,specialties,date)";
+        // $insert .= " VALUES ";
+        // foreach ($data[0] as $key => $value) { 
+        //     $id = sha1($Functions->PDO_TableCounter('tbl_specialties')); generates id by counting table
+        //     $insert .= "('{$id}','{$data[1]}','{$value}','{$date}'),";
+        //     $log = $Functions->log($data[1],$id,"Added {$value} as specialty",'Add');
+        // }
+        // $insert = preg_replace("/\,$/", ";", $insert);
+        // $q = $Functions->PDO($insert);
+        $q = $Functions->PDO("INSERT INTO tbl_specialties (id,applicant_id,specialties,date) VALUES ('{$id}','{$data[1]}','{$data[0]}','{$date}')");
         // print_r($q);
         if($q->execute()){
+            $log = $Functions->log($data[1],$id,"Added {$data[0]} as specialty",'Add');
             echo 1;
         }
         else{

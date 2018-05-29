@@ -1,3 +1,7 @@
+html{
+	font-family: 'Gibson';
+	/*font-weight: 700;*/
+}
 @font-face {
 	font-family: 'Material Icons';
 	font-style: normal;
@@ -32,6 +36,12 @@
 	}
 }
 
+@font-face {
+	font-family: 'Gibson';
+	font-style: normal;
+	src: url(../fonts/Gibson-Light.woff2) format('woff2');
+}
+
 nav ul a,
 nav .brand-logo {
 	color: #444;
@@ -39,7 +49,7 @@ nav .brand-logo {
 
 nav {
 	overflow: hidden;
-	background-color: #fff !important;
+	background-color: #354052 !important;
 	z-index: 1000 !important;
 }
 
@@ -92,6 +102,7 @@ p {
 
 footer.page-footer {
 	margin: 0;
+	background-color: #354052 !important;
 }
 
 .slider .slides li .caption {
@@ -403,35 +414,43 @@ li.active {
 
 #form_login input {
 	color: #fff !important;
+	border: 1px solid !important;
+	border-radius:  5px !important;
+	padding-left: 3% !important;
+	width: 92% !important;
 }
 
 #form_login .input-field label {
 	top: 0px !important;
 	color: #fff !important;
+	left: 52px;
 }
 
 #display_login {
-	background: #0000001a;
+	background: #fffefe73;
+	border-radius: 20px !important;
 }
 
 #side-menu {
-	background-image: url(../images/sidenav.png);
+	/* background-image: url(../images/sidenav.png); */
+	background-color: #354052;
 }
 
 #user-account {
 	text-align: center;
 	color: #fff;
+	background-color: #1A9992;
 }
 
 #user-account .profile-image {
-	width: 80px;
-	margin: 50px 0px 0px 0px;
-	position: relative;
-	/* border: 2px solid #fff; */
+	width: 70%;
+	position:  relative;
+	z-index: 1;
+	top: 45px;
 }
 
 #user-account .divider {
-	width: 80%;
+	width: 0;
 	margin: 0 auto;
 }
 
@@ -463,7 +482,7 @@ li.active {
 #modal_medium .modal-content .col,
 #display_business .col {
 	margin: 0px 0px 20px;
-	padding: 3px;
+	padding: 20px;
 }
 
 th,
@@ -473,17 +492,17 @@ td {
 }
 
 .carousel-item {
-	/* height: 250px; */
+	height: 250px;
 	/* perspective: 10px; */
-	border: 1px solid #ccc;
+	/* border: 1px solid #ccc; */
 	opacity: 1 !important;
 	overflow: hidden;
-	border-radius: 3px;
+	/* border-radius: 3px; */
 	top: 0px !important;
 }
 
 .carousel {
-	height: 200px;
+	height: 225px;
 	perspective: 10px;
 }
 
@@ -501,8 +520,11 @@ td {
 }
 
 #businessAccounts .card .card-image {
-	height: 100px;
+	height: 70%;
+	width: 70%;
 	/* background-size: 110% !important; */
+	border-radius: 50%;
+	margin:  0 auto;
 }
 
 #businessAccounts .user .card .card-content {
@@ -519,16 +541,15 @@ td {
 }
 
 .item-input-password-preview {
-	width: 40px;
-	/* height: 40px; */
+	width: 20px;
+	height: 20px;
 	position: absolute;
-	left: 100%;
-	top: 0px;
+	left: 94%;
 	background: #ffffff;
 	transform: translate(-40px);
 	color: #7b7b7b;
 	text-align: center;
-	top: 5px;
+	top: 33px;
 }
 
 .input-field input {
@@ -549,7 +570,7 @@ td {
 }
 
 .side-nav li>a>i {
-	font-size: 24px;
+	font-size: 25px;
 }
 
 #display_business a[data-cmd="view_business"],
@@ -592,13 +613,16 @@ td {
 
 #display_applicants .collection {
 	height: 550px !important;
-	z-index: 0;
+	/* z-index: 0; */
+	background-color: #ffffff78;
+	position: inherit !important;
 }
 
 #subcontent .free-width {
 	overflow-y: hidden;
 	overflow-x: scroll;
-	width: 900px;
+	width: 95%;
+	margin:  0 auto;
 }
 
 .highlight {
@@ -646,7 +670,7 @@ textarea.message {
 }
 
 #display_business .card .card-content{
-	padding:0px;
+	padding: 0px;
 }
 
 #businessInfo .profile{
@@ -657,7 +681,7 @@ textarea.message {
 }
 
 .card{
-	border-radius: 5px !important;
+	border-radius: 10px !important;
 	overflow:  hidden;
 }
 
@@ -716,8 +740,9 @@ a[data-cmd="updateBusiness"]{
 }
 
 #display_employer .card-profile-image{
-	width: 60px;
+	width: 90px;
 	display: inline-block;
+	/* float:  left; */
 }
 
 #display_employer .profile-name{
@@ -728,4 +753,79 @@ a[data-cmd="updateBusiness"]{
 .btn-full-width{
 	/* padding: 3px; */
 	width: 100%;
+}
+#form_addAccount input {
+    color: #000 !important;
+    border: 1px solid !important;
+    border-radius: 5px !important;
+    padding-left: 3% !important;
+    width: 92% !important;
+}
+
+#form_addAccount .input-field label {
+    top: 20px !important;
+    color: #000 !important;
+    left: 30px;
+}
+
+#job table {
+    width:  100%;
+    font-size:  18px;
+    font-weight: bolder;
+}
+
+#form_addJobPost input {
+    color: #000 !important;
+    border: 1px solid !important;
+    border-radius: 5px !important;
+    padding-left: 3% !important;
+    width: 96% !important;
+}
+
+#form_addJobPost label {
+    top: 20px !important;
+    color: #000 !important;
+    left: 30px;
+}
+
+#form_addJobPost textarea {
+    color: rgb(0, 0, 0) !important;
+    border: 1px solid !important;
+    border-radius: 5px !important;
+    padding-left: 3% !important;
+    width: 96% !important;
+    height: 45px;
+}
+
+#form_update input {
+    color: #000 !important;
+    border: 1px solid !important;
+    border-radius: 5px !important;
+    padding-left: 3% !important;
+    width: 96% !important;
+}
+
+#form_update label.active {
+    /* top: 20px !important; */
+    color: #000 !important;
+    /* left: 30px; */
+}
+
+#form_update textarea {
+    color: rgb(0, 0, 0) !important;
+    border: 1px solid !important;
+    border-radius: 5px !important;
+    padding-left: 3% !important;
+    width: 96% !important;
+    height: 45px;
+}
+
+#modal_medium {
+    border-radius: 5px;
+}
+
+#display_thead {}
+
+#applicantInfo thead {
+    border:  none !important;
 }

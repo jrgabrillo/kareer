@@ -22,37 +22,37 @@
 </nav>
 <aside id="left-sidebar-nav" class="text-red">
     <ul id="side-menu" class="side-nav fixed leftside-navigation ps-container ps-active-y animated" style="width: 240px; ">
-        <li class="" id='user-account' style='padding-top: 10px; padding-bottom: 10px;'>
+        <li class="no-padding" id='user-account'>
             <div class="row" style='margin-bottom: 0px !important;'>
-                <div class="col s12">
+                <div class="col s12 no-padding">
                     <img src="../assets/images/profile/avatar.png" alt="" class="circle responsive-img valign profile-image"/>
-                </div>
-                <div class="col s12">
-                    <a class='waves-effect waves-light white-text'  data-activates='account'>
-                        <span class="bold profile-name">Administrator</span>
-                    </a>
+                    <div class="col s12" style="height: 80px;background-color: #348F51;z-index: 0;width: 100%;bottom: 0;">
+                        <a class='waves-effect waves-light white-text' style="top: 20px;font-size: 18px;"  data-activates='account'>
+                            <span class="bold profile-name">Administrator</span>
+                        </a>
+                    </div>
                 </div>
             </div>
-            <div class="divider"></div>
         </li>
         <li class="no-padding">
             <ul class="collapsible collapsible-accordion">
-                <li class="">
+                <li class="" style="padding: 15px;">
                     <a class="waves-effect waves-blue" href="#cmd=index;content=account"><i class="material-icons">account_circle</i> Account</a>
                 </li>
-                <li class="">
+                <li class="" style="padding: 15px;">
                     <a class="waves-effect waves-blue" href="#cmd=index;content=job"><i class="material-icons">supervisor_account</i> Post</a>
                 </li>
-                <li class="">
+                <li class="" style="padding: 15px;">
                     <a class="waves-effect waves-blue" href="#cmd=index;content=applicants"><i class="material-icons">supervisor_account</i> Applicants</a>
                 </li>
-                <li class="">
+                <li class="" style="padding: 15px;">
                     <a class="waves-effect waves-blue" href="#cmd=index;content=schedules"><i class="material-icons">perm_contact_calendar</i> Schedules</a>
                 </li>
-                 <li class="">
-                    <a href="../" class="waves-effect waves-blue" id='log-out' style="line-height: 42px;"><i class="material-icons">exit_to_app</i> Logout</a>
-                </li>
+                 
             </ul>            
+        </li>
+        <li class=""  style="padding: 15px; position: absolute; bottom: 60px;">
+            <a href="../" class="waves-effect waves-blue" id='log-out'><i class="material-icons" style="transform: rotate(180deg); opacity: 1 !important;">exit_to_app</i> Logout</a>
         </li>
     </ul>
 </aside>

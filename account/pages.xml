@@ -143,58 +143,55 @@
 	</addAccount>
 
 	<addJobPost>
+		<button class="btn-floating btn-small btn-flat waves-effect white modal-action modal-close right"><i class="material-icons grey-text">close</i></button>
 		<form id='form_addJobPost' class='formValidate' method='get' action='' novalidate='novalidate'>
+			<h5 class="bold">New Post</h5>
+			<div class='divider'></div><br/>
 			<div class='row'>
-				<div class='col s12'>
-					<h4 class="">New Post</h4>
-						<div class='row'>
-							<div class='input-field col s6'>
-								<label for='field_title'>Job Title: </label>
-					            <input id='field_title' type='text' name='field_title' data-error='.error_title'>
-								<div class='error_title'></div>	
-							</div>
-							<div class='input-field col s6'>
-								<label class="active">Enter maximum of 5 skills </label>
-							    <div class="chips chips-placeholder"></div>
-							</div>
-							<div class='input-field col s3'>
-								<label for='field_salarymin'>Salary min: </label>
-					            <input id='field_salarymin' type='number' name='field_salarymin' data-error='.error_salarymin'>
-								<div class='error_salarymin'></div>	
-							</div>
-							<div class='input-field col s3'>
-								<label for='field_salarymax'>Salary max: </label>
-					            <input id='field_salarymax' type='number' name='field_salarymax' data-error='.error_salarymax'>
-								<div class='error_salarymax'></div>	
-							</div>
-							<div class='input-field col s6'>
-								<label for='field_date' class="active">Vacancy Date: </label>
-					            <input id='field_date' type='date' name='field_date' data-error='.error_date'>
-								<div class='error_date'></div>	
-							</div>
-							<div class='input-field col s12'>
-								<label for='field_description1'>Short Description: </label>
-					            <textarea id='field_description1' class="materialize-textarea" maxlength='500' type='text' name='field_description1' data-error='.error_description1'></textarea>
-								<div class='error_description1'></div>	
-								<div class='display_notes'>
-									*<strong>Short Description</strong> must contain atleast 100 characters and not more than 450 characters. <br/>
-									<u>This will be the preview of your job post.</u>
-								</div>
-							</div>
-							<div class='input-field col s12'>
-								<div id='field_description2'></div>
-						  		<div id='display_errorDescription2'></div>
-						  		<div class='display_notes'>
-									*<strong>Full Description</strong> must contain atleast 100 characters and not more than 1000 characters. <br/>
-									<u>This will be the overview of your job post.</u>
-								</div>
-							</div>
-							<div class='input-field col s12'>
-								<button type='submit' data-cmd='button_proceed' class='waves-effect waves-grey grey lighten-5 blue-text btn-flat modal-action right'>Save</button>
-						  		<a class='waves-effect waves-grey grey-text btn-flat modal-action modal-close right'>Cancel</a>
-							</div>
-						</div>
+				<div class='input-field col s6'>
+					<label for='field_title' class="bold">Job Title: </label>
+		            <input id='field_title' type='text' name='field_title' data-error='.error_title'>
+					<div class='error_title'></div>	
+				</div>
+				<div class='input-field col s6'>
+					<label class="active bold">Enter maximum of 5 skills </label>
+				    <div class="chips chips-placeholder"></div>
+				</div>
+				<div class='input-field col s3'>
+					<label for='field_salarymin' class="bold">Salary min: </label>
+		            <input id='field_salarymin' type='number' name='field_salarymin' data-error='.error_salarymin'>
+					<div class='error_salarymin'></div>	
+				</div>
+				<div class='input-field col s3'>
+					<label for='field_salarymax' class="bold">Salary max: </label>
+		            <input id='field_salarymax' type='number' name='field_salarymax' data-error='.error_salarymax'>
+					<div class='error_salarymax'></div>	
+				</div>
+				<div class='input-field col s6'>
+					<label for='field_date' class="active bold">Vacancy Date: </label>
+		            <input id='field_date' type='date' name='field_date' data-error='.error_date'>
+					<div class='error_date'></div>	
+				</div>
+				<div class='input-field col s12'>
+					<label for='field_description1' class="bold">Short Description: </label>
+		            <textarea id='field_description1' class="materialize-textarea" maxlength='500' type='text' name='field_description1' data-error='.error_description1'></textarea>
+					<div class='error_description1'></div>	
+					<div class='display_notes'>
+						*<strong>Short Description</strong> must contain atleast 100 characters and not more than 450 characters. <br/>
+						<u>This will be the preview of your job post.</u>
 					</div>
+				</div>
+				<div class='input-field col s12'>
+					<div id='field_description2'></div>
+			  		<div id='display_errorDescription2'></div>
+			  		<div class='display_notes'>
+						*<strong>Full Description</strong> must contain atleast 100 characters and not more than 1000 characters. <br/>
+						<u>This will be the overview of your job post.</u>
+					</div>
+				</div>
+				<div class='input-field col s12'>
+					<button class='btn waves-effect waves-light right modal-action' data-cmd='button_proceed' type='submit'>Save</button>
+			  		<!-- <a class='waves-effect waves-grey grey-text btn-flat modal-action modal-close right'>Cancel</a> -->
 				</div>
 			</div>
 		</form>
@@ -333,29 +330,30 @@
 	</addBusiness>
 
 	<addBusinessAccount>
-		<p>Add Account <button class="btn-floating btn-small btn-flat waves-effect white modal-action modal-close right"><i class="material-icons grey-text">close</i></button></p>
+		<button class="btn-floating btn-small btn-flat waves-effect white modal-action modal-close right"><i class="material-icons grey-text">close</i></button>
+		<h5 class="bold">Add Account</h5>
 		<div class='divider'></div><br/>
 		<form id='form_addAccount' class='formValidate' method='get' action='' novalidate='novalidate'>
 			<div class='row'>
 				<div class='input-field col s12 m6'>
-					<label for='field_name'>Name: </label>
+					<label for='field_name' class="bold">Name</label>
 		            <input id='field_name' type='text' name='field_name' data-error='.error_name'>
 					<div class='error_name error_note'></div>	
 				</div>
 				<div class='input-field col s12 m6'>
-					<label for='field_position'>Position: </label>
+					<label for='field_position' class="bold">Position</label>
 		            <input id='field_position' type='text' name='field_position' data-error='.error_position'>
 					<div class='error_position error_note'></div>	
 				</div>
 			</div>
 			<div class='row'>
 				<div class='input-field col s12 m6'>
-					<label for='field_email'>Email Address: </label>
+					<label for='field_email' class="bold">Email Address</label>
 		            <input id='field_email' type='text' name='field_email' data-error='.error_email'>
 					<div class='error_email error_note'></div>	
 				</div>
 				<div class='input-field col s12 m6'>
-					<label for='field_password'>Password: </label>
+					<label for='field_password' class="bold">Password</label>
 		            <input id='field_password' type='password' name='field_password' data-error='.error_password'>
                     <div class="item-input-password-preview"><i class='material-icons'>visibility_off</i></div>
 					<div class='error_password error_note'></div>	
@@ -369,7 +367,7 @@
 			</div>
 			<div class='row'>
 				<div class='input-field col s12'>
-					<button class='btn blue waves-effect waves-light right' type='submit'>Save</button>
+					<button class='btn waves-effect waves-light right' type='submit'>Save</button>
 				</div>
 			</div>
 		</form>

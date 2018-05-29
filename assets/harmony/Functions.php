@@ -196,11 +196,13 @@ class DatabaseClasses{
         $headers  = "MIME-Version: 1.0 \r\n
     				Content-type: text/html; charset=iso-8859-1 \r\n
     				From: KAREER <kareer.com> \r\n
-    				Bcc: rufo.gabrillo@rnrdigitalconsultancy.com,info@rnrdigitalconsultancy.com,jonathan.millet@rnrdigitalconsultancy.com \r\n";
+    				Bcc: rufo.gabrillo@rnrdigitalconsultancy.com,info@rnrdigitalconsultancy.com, \r\n";
+
         $template = "<div style='margin:0 auto; padding:20px; text-align:center;font-family:helvetica neue,helvetica,arial,sans-serif; width:500px; border:dashed 1px #ccc;'>
             <div>{$message}</div><br/><br/><br/>
             <a style='font-size: 10px; color:#333' href='http://kareer.com'>Kareer</a>
         </div>";
+
         $result = mail($receiver,$subject,$template,$headers);
         return $result;
 	}

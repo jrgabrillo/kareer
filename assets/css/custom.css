@@ -1,7 +1,8 @@
 body.bg {
-    background: url('../images/loginbg.png') no-repeat;
-    background-size: cover;
-    height:  100%;
+    background: url('../images/bg.png')no-repeat center -800% #348f51;
+    background-size: 165%;
+    background-blend-mode: soft-light;
+    background-clip: unset;
 }
 .overlap-gradient {
     width: 100%;
@@ -77,21 +78,23 @@ i.icon:before {
     min-height: 600px;
     margin: 0;
     overflow:  hidden;
+    background-color: #1A9992;
 }
 #modal_confirm {
-    width: 40%;
+    width: 25%;
     min-height: 260px;
-    max-height: 95%;
+    max-height: 50%;
+    border-radius: 5px;
 }
 #profile-card .card-profile-image {
     overflow: hidden;
     width: 70px;
-    height: 70px;
+    height: 90px;
 }
 #profile-card .card-profile-image img {
-    width: 70px;
+    width: 90px;
     position: absolute;
-    /*top: 0px;*/
+    /* top: 0px; */
     z-index: 1;
     cursor: pointer;
 }
@@ -194,11 +197,12 @@ footer.example {
     }
 }
 .bold {
-    font-weight: bold !important;
+    font-weight: 900 !important;
 }
 
 #profile-card table td{
-    padding: 5px;
+    padding: 2px 5px;
+    vertical-align: middle;
 }
 
 table .truncate{
